@@ -14,10 +14,28 @@ const RATES_PYME: Record<string, number> = { t1: 100, t2: 115, t3: 130, t4: 150 
 const REPORTING: Record<string, number> = { si: 30, no: 0, nose: 0 };
 const IVA_RATE = 0.21;
 
+// Validación deliberadamente laxa (longitud + forma "algo@algo.algo"): basta
+// para descartar entradas rotas, no pretende validar el correo al 100% —
+// para eso ya está la confirmación por email cuando el equipo responda.
+const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const QUOTE_CODE_PATTERN = /^CC-\d{2}-\d{5}$/;
+
 interface Body {
   regimen: string;
   facturas: string;
   reporting: string;
+  email?: string;
+  privacyAccepted?: boolean;
+}
+
+function isValidEmailPair(b: Record<string, unknown>): boolean {
+  // El email es opcional (el visitante puede omitir ese paso), pero si viene
+  // relleno, exigimos que también venga el consentimiento explícito: nunca
+  // guardamos un correo sin constancia de que se aceptó la política de
+  // privacidad para recogerlo.
+  if (b.email === undefined) return true;
+  if (typeof b.email !== 'string' || !EMAIL_PATTERN.test(b.email) || b.email.length > 254) return false;
+  return b.privacyAccepted === true;
 }
 
 function isValid(body: unknown): body is Body {
@@ -25,9 +43,24 @@ function isValid(body: unknown): body is Body {
   const b = body as Record<string, unknown>;
   if (typeof b.regimen !== 'string' || typeof b.facturas !== 'string' || typeof b.reporting !== 'string') return false;
   if (!(b.reporting in REPORTING)) return false;
+  if (!isValidEmailPair(b)) return false;
   if (b.regimen === 'autonomo') return b.facturas in RATES_AUTONOMO;
   if (b.regimen === 'pyme') return b.facturas in RATES_PYME;
   return false;
+}
+
+interface EmailBody {
+  quote: string;
+  email: string;
+  privacyAccepted: boolean;
+}
+
+function isValidEmailBody(body: unknown): body is EmailBody {
+  if (typeof body !== 'object' || body === null) return false;
+  const b = body as Record<string, unknown>;
+  if (typeof b.quote !== 'string' || !QUOTE_CODE_PATTERN.test(b.quote)) return false;
+  if (typeof b.email !== 'string' || !EMAIL_PATTERN.test(b.email) || b.email.length > 254) return false;
+  return b.privacyAccepted === true;
 }
 
 function round2(n: number): number {
@@ -71,16 +104,58 @@ export const POST: APIRoute = async ({ request }) => {
 
   const quote = `CC-${yy}-${String(seq).padStart(5, '0')}`;
 
+  const hasEmail = typeof body.email === 'string';
   const { error: insertError } = await supabase.from('presupuestos').insert({
     quote_code: quote,
     regimen: body.regimen,
     facturas: body.facturas,
     reporting: body.reporting,
     total,
+    email: hasEmail ? body.email : null,
+    privacy_accepted_at: hasEmail ? new Date().toISOString() : null,
   });
   if (insertError) {
     return json({ error: 'No se ha podido guardar el presupuesto' }, 500);
   }
 
   return json({ quote, total, persisted: true });
+};
+
+// Cuando el visitante omite el paso de email en el simulador pero luego
+// cambia de opinión ya viendo el resultado, este endpoint le añade el
+// correo (con su consentimiento) al presupuesto que ya se generó, en vez
+// de crear uno nuevo.
+export const PATCH: APIRoute = async ({ request }) => {
+  let body: unknown;
+  try {
+    body = await request.json();
+  } catch {
+    return json({ error: 'JSON inválido' }, 400);
+  }
+
+  if (!isValidEmailBody(body)) {
+    return json({ error: 'Datos no válidos' }, 400);
+  }
+
+  const supabase = getSupabaseAdmin();
+  if (!supabase) {
+    // Sin Supabase configurado no hay nada que actualizar (el presupuesto
+    // original tampoco se persistió) — respondemos igualmente en éxito para
+    // no romper la experiencia mientras se termina de montar el proyecto.
+    return json({ persisted: false });
+  }
+
+  const { error: updateError, count } = await supabase
+    .from('presupuestos')
+    .update({ email: body.email, privacy_accepted_at: new Date().toISOString() }, { count: 'exact' })
+    .eq('quote_code', body.quote);
+
+  if (updateError) {
+    return json({ error: 'No se ha podido guardar el correo' }, 500);
+  }
+  if (!count) {
+    return json({ error: 'No existe ese número de presupuesto' }, 404);
+  }
+
+  return json({ persisted: true });
 };

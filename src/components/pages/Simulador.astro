@@ -16,13 +16,9 @@ const s = t.sim;
     <p class="section-sub" style="margin-left:auto;margin-right:auto;">{s.sub}</p>
 
     <div class="wizard" id="wizard" data-lang={lang}>
-      <div class="wizard-progress">
-        <span class="step-dot active" data-dot="0"></span>
-        <span class="step-dot" data-dot="1"></span>
-        <span class="step-dot" data-dot="2"></span>
-      </div>
+      <div class="wizard-progress" id="wizardProgress"></div>
 
-      <div class="wizard-step" data-step="0">
+      <div class="wizard-step" data-step="regimen">
         <h3>{s.stepRegimen.q}</h3>
         <div class="card-options">
           {s.stepRegimen.options.map((opt) => (
@@ -31,7 +27,16 @@ const s = t.sim;
         </div>
       </div>
 
-      <div class="wizard-step" data-step="1" hidden>
+      <div class="wizard-step" data-step="altaEstado" hidden>
+        <h3>{s.stepAlta.q}</h3>
+        <div class="card-options">
+          {s.stepAlta.options.map((opt) => (
+            <button type="button" class="option-card" data-field="alta" data-value={opt.value}>{opt.label}</button>
+          ))}
+        </div>
+      </div>
+
+      <div class="wizard-step" data-step="facturas" hidden>
         <h3>{s.stepFacturas.q}</h3>
         <div class="card-options" data-facturas-options="autonomo" hidden>
           {s.stepFacturas.optionsAutonomo.map((opt) => (
@@ -45,7 +50,7 @@ const s = t.sim;
         </div>
       </div>
 
-      <div class="wizard-step" data-step="2" hidden>
+      <div class="wizard-step" data-step="reporting" hidden>
         <h3>{s.stepReporting.q}</h3>
         <div class="card-options">
           {s.stepReporting.options.map((opt) => (
@@ -54,23 +59,87 @@ const s = t.sim;
         </div>
       </div>
 
+      <div class="wizard-step" data-step="certificado" hidden>
+        <h3>{s.stepCertificado.q}</h3>
+        <div class="card-options">
+          {s.stepCertificado.options.map((opt) => (
+            <button type="button" class="option-card" data-field="certificado" data-value={opt.value}>{opt.label}</button>
+          ))}
+        </div>
+      </div>
+
+      <div class="wizard-step" data-step="actividad" hidden>
+        <h3>{s.stepActividad.q}</h3>
+        <p class="sim-field-hint">{s.stepActividad.hint}</p>
+        <input type="text" id="simActividadInput" class="sim-input" maxlength="100" placeholder={s.stepActividad.placeholder} />
+        <button type="button" class="btn btn-primary sim-continue" id="simActividadContinue" disabled>{s.continue}</button>
+      </div>
+
+      <div class="wizard-step" data-step="fechaInicio" hidden>
+        <h3>{s.stepFecha.q}</h3>
+        <p class="sim-field-hint">{s.stepFecha.hint}</p>
+        <input type="date" id="simFechaInput" class="sim-input" />
+        <button type="button" class="btn btn-primary sim-continue" id="simFechaContinue" disabled>{s.continue}</button>
+      </div>
+
+      <div class="wizard-step" data-step="email" hidden>
+        <h3>{s.email.qBefore}</h3>
+        <p class="sim-field-hint">{s.email.hint}</p>
+        <input type="email" id="simEmailInput" class="sim-input" placeholder={s.email.placeholder} autocomplete="email" />
+        <label class="sim-consent">
+          <input type="checkbox" id="simEmailConsent" />
+          <span>{s.email.consentPrefix} <a href="/privacidad" target="_blank" rel="noopener">{s.email.consentLink}</a></span>
+        </label>
+        <p class="sim-field-error" id="simEmailError" hidden>{s.email.error}</p>
+        <div class="sim-email-actions">
+          <button type="button" class="btn btn-primary sim-continue" id="simEmailSend" disabled>{s.email.send}</button>
+          <button type="button" class="btn btn-outline sim-continue" id="simEmailSkip">{s.email.skip}</button>
+        </div>
+      </div>
+
       <div class="wizard-result" hidden>
         <p class="eyebrow">{s.resultEyebrow}</p>
-        <p class="sim-price"><span id="simPrice">0</span> €<small>{s.priceUnit}</small></p>
-        <ul
-          class="sim-breakdown"
-          id="simBreakdown"
-          data-base-autonomo={s.breakdownBaseAutonomo}
-          data-base-sl={s.breakdownBaseSl}
-          data-reporting={s.breakdownReporting}
-          data-reporting-nose={s.breakdownReportingNose}
-          data-iva={s.breakdownIva}
-          data-total={s.breakdownTotal}
-        ></ul>
-        <p class="sim-reporting-explain" id="simReportingExplain" hidden>{s.reportingExplain}</p>
-        <p class="sim-monthly-note">{s.monthlyNote}</p>
+
+        <div id="simResultNormal">
+          <p class="sim-price"><span id="simPrice">0</span> €<small>{s.priceUnit}</small></p>
+          <ul
+            class="sim-breakdown"
+            id="simBreakdown"
+            data-base-autonomo={s.breakdownBaseAutonomo}
+            data-base-sl={s.breakdownBaseSl}
+            data-reporting={s.breakdownReporting}
+            data-reporting-nose={s.breakdownReportingNose}
+            data-iva={s.breakdownIva}
+            data-total={s.breakdownTotal}
+          ></ul>
+          <p class="sim-reporting-explain" id="simReportingExplain" hidden>{s.reportingExplain}</p>
+          <p class="sim-monthly-note">{s.monthlyNote}</p>
+        </div>
+
+        <div id="simResultAlta" hidden>
+          <p class="sim-alta-fee">{s.altaResult.feeLabel} <strong>{s.altaResult.feeAmount}</strong></p>
+          <p class="sim-alta-note">{s.altaResult.feeNote} · {s.altaResult.firstMonthNote}</p>
+          <p class="sim-price"><span id="simPriceAlta">0</span> €<small>{s.priceUnit}</small></p>
+          <p class="sim-monthly-note">{s.altaResult.fromLabel}</p>
+        </div>
+
         <p class="quote-number">{s.quoteLabel} <span id="quoteNumber">…</span></p>
         <p class="wizard-error" id="wizardError" hidden>{s.error}</p>
+
+        <div class="sim-email-after" id="simEmailAfter" hidden>
+          <div id="simEmailAfterForm">
+            <p class="sim-field-hint">{s.email.qAfter}</p>
+            <input type="email" id="simEmailAfterInput" class="sim-input" placeholder={s.email.placeholder} autocomplete="email" />
+            <label class="sim-consent">
+              <input type="checkbox" id="simEmailAfterConsent" />
+              <span>{s.email.consentPrefix} <a href="/privacidad" target="_blank" rel="noopener">{s.email.consentLink}</a></span>
+            </label>
+            <p class="sim-field-error" id="simEmailAfterError" hidden>{s.email.error}</p>
+            <button type="button" class="btn btn-outline sim-continue" id="simEmailAfterSend" disabled>{s.email.send}</button>
+          </div>
+          <p class="sim-email-success" id="simEmailAfterSuccess" hidden>{s.email.success}</p>
+        </div>
+
         <ContactSwitch lang={lang} />
         <button type="button" class="wizard-restart" id="wizardRestart">{s.restart}</button>
       </div>
@@ -87,15 +156,33 @@ const s = t.sim;
 
     const steps = Array.from(wizard.querySelectorAll<HTMLElement>('.wizard-step'));
     const result = wizard.querySelector<HTMLElement>('.wizard-result') as HTMLElement;
-    const dots = Array.from(wizard.querySelectorAll<HTMLElement>('.step-dot'));
+    const dotsContainer = document.getElementById('wizardProgress') as HTMLElement | null;
     const backBtn = document.getElementById('wizardBack') as HTMLButtonElement;
     const restartBtn = document.getElementById('wizardRestart') as HTMLButtonElement;
     const priceEl = document.getElementById('simPrice') as HTMLElement;
+    const altaPriceEl = document.getElementById('simPriceAlta') as HTMLElement;
     const quoteEl = document.getElementById('quoteNumber') as HTMLElement;
     const breakdownList = document.getElementById('simBreakdown') as HTMLElement | null;
     const explainEl = document.getElementById('simReportingExplain') as HTMLElement | null;
     const errorEl = document.getElementById('wizardError') as HTMLElement;
     const facturasGroups = Array.from(wizard.querySelectorAll<HTMLElement>('[data-facturas-options]'));
+    const resultNormal = document.getElementById('simResultNormal') as HTMLElement | null;
+    const resultAlta = document.getElementById('simResultAlta') as HTMLElement | null;
+    const actividadInput = document.getElementById('simActividadInput') as HTMLInputElement | null;
+    const actividadContinueBtn = document.getElementById('simActividadContinue') as HTMLButtonElement | null;
+    const fechaInput = document.getElementById('simFechaInput') as HTMLInputElement | null;
+    const fechaContinueBtn = document.getElementById('simFechaContinue') as HTMLButtonElement | null;
+    const emailInput = document.getElementById('simEmailInput') as HTMLInputElement | null;
+    const emailConsent = document.getElementById('simEmailConsent') as HTMLInputElement | null;
+    const emailSendBtn = document.getElementById('simEmailSend') as HTMLButtonElement | null;
+    const emailSkipBtn = document.getElementById('simEmailSkip') as HTMLButtonElement | null;
+    const emailErrorEl = document.getElementById('simEmailError') as HTMLElement | null;
+    const emailAfterContainer = document.getElementById('simEmailAfter') as HTMLElement | null;
+    const emailAfterInput = document.getElementById('simEmailAfterInput') as HTMLInputElement | null;
+    const emailAfterConsent = document.getElementById('simEmailAfterConsent') as HTMLInputElement | null;
+    const emailAfterSendBtn = document.getElementById('simEmailAfterSend') as HTMLButtonElement | null;
+    const emailAfterErrorEl = document.getElementById('simEmailAfterError') as HTMLElement | null;
+    const emailAfterSuccessEl = document.getElementById('simEmailAfterSuccess') as HTMLElement | null;
 
     // Duplicado deliberadamente del cálculo en src/pages/api/presupuesto.ts:
     // así el precio aparece al instante aunque la llamada a la API tarde o falle,
@@ -119,27 +206,91 @@ const s = t.sim;
       return Number.isInteger(r) ? String(r) : r.toFixed(2).replace('.', ',');
     }
 
+    const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    function isValidEmail(value: string): boolean {
+      return EMAIL_PATTERN.test(value.trim());
+    }
+
+    // El email nunca viaja en la URL de /solicitud (a diferencia del resto
+    // de respuestas): pasa por sessionStorage, que no se guarda en el
+    // historial del navegador ni en logs de servidor, y se borra en cuanto
+    // se lee al llegar a esa página.
+    const EMAIL_STORAGE_KEY = 'sim_email';
+    const CONSENT_STORAGE_KEY = 'sim_privacy_accepted';
+
     let answers: Record<string, string> = {};
     let facturaLabels: Record<string, string> = {};
-    let path: number[] = [];
-    let current = 0;
+    let path: string[] = [];
+    let currentStep = 'regimen';
+    let lastQuoteCode = '';
 
-    function showStep(i: number) {
-      current = i;
+    // Quien no ha respondido "alta" todavía cuenta como la rama normal
+    // (facturas + reporting) a efectos de los puntos de progreso: solo se
+    // recalcula a la rama de "gestión del alta" cuando responde que no está
+    // dado de alta.
+    function branchSteps(): string[] {
+      const seq = ['regimen'];
+      if (answers.regimen === 'pyme') {
+        seq.push('facturas', 'reporting', 'email');
+        return seq;
+      }
+      seq.push('altaEstado');
+      if (answers.alta === 'no') {
+        seq.push('certificado', 'actividad', 'fechaInicio', 'email');
+      } else {
+        seq.push('facturas', 'reporting', 'email');
+      }
+      return seq;
+    }
+
+    function nextStepId(step: string): string {
+      switch (step) {
+        case 'regimen': return answers.regimen === 'pyme' ? 'facturas' : 'altaEstado';
+        case 'altaEstado': return answers.alta === 'no' ? 'certificado' : 'facturas';
+        case 'facturas': return 'reporting';
+        case 'reporting': return 'email';
+        case 'certificado': return 'actividad';
+        case 'actividad': return 'fechaInicio';
+        case 'fechaInicio': return 'email';
+        case 'email': return 'result';
+        default: return 'result';
+      }
+    }
+
+    function renderDots(total: number, activeIdx: number) {
+      if (!dotsContainer) return;
+      dotsContainer.innerHTML = '';
+      for (let i = 0; i < total; i++) {
+        const dot = document.createElement('span');
+        dot.className = 'step-dot' + (i === activeIdx ? ' active' : '') + (i < activeIdx ? ' done' : '');
+        dotsContainer.appendChild(dot);
+      }
+    }
+
+    function showStep(stepId: string) {
+      currentStep = stepId;
       result.hidden = true;
-      steps.forEach(function (el: HTMLElement, idx: number) { el.hidden = idx !== i; });
-      dots.forEach(function (d: HTMLElement, idx: number) {
-        d.classList.toggle('active', idx === i);
-        d.classList.toggle('done', idx < i);
-      });
+      steps.forEach(function (el: HTMLElement) { el.hidden = el.getAttribute('data-step') !== stepId; });
+      const seq = branchSteps();
+      renderDots(seq.length, seq.indexOf(stepId));
       backBtn.hidden = path.length === 0;
 
-      if (i === 1) {
+      if (stepId === 'facturas') {
         const wanted = answers.regimen === 'pyme' ? 'pyme' : 'autonomo';
         facturasGroups.forEach(function (group) {
           group.hidden = group.getAttribute('data-facturas-options') !== wanted;
         });
       }
+      if (stepId === 'fechaInicio' && fechaInput) {
+        fechaInput.min = new Date().toISOString().slice(0, 10);
+      }
+    }
+
+    function advance() {
+      path.push(currentStep);
+      const next = nextStepId(currentStep);
+      if (next === 'result') redirectToSolicitud();
+      else showStep(next);
     }
 
     function renderBreakdown(baseAmount: number, reportingAmount: number, iva: number, total: number) {
@@ -178,19 +329,52 @@ const s = t.sim;
 
     async function showResult() {
       steps.forEach(function (el: HTMLElement) { el.hidden = true; });
-      dots.forEach(function (d: HTMLElement) { d.classList.add('done'); d.classList.remove('active'); });
+      const seq = branchSteps();
+      renderDots(seq.length, seq.length);
       backBtn.hidden = true;
       errorEl.hidden = true;
+      if (emailAfterContainer) emailAfterContainer.hidden = true;
 
-      const rates = answers.regimen === 'pyme' ? RATES_PYME : RATES_AUTONOMO;
-      const base = rates[answers.facturas] || 0;
-      const reportingAmount = REPORTING[answers.reporting] || 0;
-      const subtotal = base + reportingAmount;
-      const iva = round2(subtotal * IVA_RATE);
-      const total = round2(subtotal + iva);
+      // El email (si se dio) llega por sessionStorage, nunca por la URL de
+      // /solicitud — se consume una sola vez aquí y se borra al momento.
+      const storedEmail = sessionStorage.getItem(EMAIL_STORAGE_KEY);
+      const storedConsent = sessionStorage.getItem(CONSENT_STORAGE_KEY) === '1';
+      sessionStorage.removeItem(EMAIL_STORAGE_KEY);
+      sessionStorage.removeItem(CONSENT_STORAGE_KEY);
+      const hasStoredEmail = !!storedEmail && storedConsent;
 
-      priceEl.textContent = formatEUR(total);
-      renderBreakdown(base, reportingAmount, iva, total);
+      const isAltaFlow = answers.alta === 'no';
+      if (resultNormal) resultNormal.hidden = isAltaFlow;
+      if (resultAlta) resultAlta.hidden = !isAltaFlow;
+
+      let apiBody: { regimen: string; facturas: string; reporting: string; email?: string; privacyAccepted?: boolean };
+
+      if (isAltaFlow) {
+        // La rama de "gestión del alta" reutiliza el tramo más bajo de autónomo
+        // (40 €/mes) como cuota recurrente a partir del segundo mes: es el
+        // mismo importe que ya mostramos como "Alta desde 59,29 €" en el resto
+        // de la web, solo que aquí calculado dinámicamente con IVA.
+        apiBody = { regimen: 'autonomo', facturas: 'bajo', reporting: 'no' };
+        const base = RATES_AUTONOMO.bajo;
+        const iva = round2(base * IVA_RATE);
+        const total = round2(base + iva);
+        if (altaPriceEl) altaPriceEl.textContent = formatEUR(total);
+      } else {
+        apiBody = { regimen: answers.regimen, facturas: answers.facturas, reporting: answers.reporting };
+        const rates = answers.regimen === 'pyme' ? RATES_PYME : RATES_AUTONOMO;
+        const base = rates[answers.facturas] || 0;
+        const reportingAmount = REPORTING[answers.reporting] || 0;
+        const subtotal = base + reportingAmount;
+        const iva = round2(subtotal * IVA_RATE);
+        const total = round2(subtotal + iva);
+        priceEl.textContent = formatEUR(total);
+        renderBreakdown(base, reportingAmount, iva, total);
+      }
+
+      if (hasStoredEmail && storedEmail) {
+        apiBody.email = storedEmail;
+        apiBody.privacyAccepted = true;
+      }
 
       quoteEl.textContent = '…';
       result.hidden = false;
@@ -199,11 +383,16 @@ const s = t.sim;
         const res = await fetch('/api/presupuesto', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ regimen: answers.regimen, facturas: answers.facturas, reporting: answers.reporting }),
+          body: JSON.stringify(apiBody),
         });
         if (!res.ok) throw new Error('bad response');
         const data = await res.json();
         quoteEl.textContent = data.quote;
+        lastQuoteCode = data.quote;
+        // Si ya dio su email antes de ver el precio, no le volvemos a pedir.
+        // Si el presupuesto no se ha persistido (Supabase sin configurar,
+        // modo demo) tampoco hay fila a la que añadir el email después.
+        if (emailAfterContainer) emailAfterContainer.hidden = hasStoredEmail || !data.persisted;
       } catch (e) {
         quoteEl.textContent = '—';
         errorEl.hidden = false;
@@ -213,10 +402,9 @@ const s = t.sim;
     function redirectToSolicitud() {
       const lang = wizard?.dataset.lang || 'es';
       const prefix = lang === 'es' ? '' : `/${lang}`;
-      const params = new URLSearchParams({
-        regimen: answers.regimen,
-        facturas: answers.facturas,
-        reporting: answers.reporting,
+      const params = new URLSearchParams();
+      Object.keys(answers).forEach(function (key) {
+        if (answers[key]) params.set(key, answers[key]);
       });
       window.location.href = `${prefix}/solicitud?${params.toString()}`;
     }
@@ -230,21 +418,103 @@ const s = t.sim;
       if (!field || !value) return;
       answers[field] = value;
       if (field === 'facturas') facturaLabels[value] = card.textContent || '';
-      path.push(current);
-      if (current + 1 < steps.length) showStep(current + 1);
-      else redirectToSolicitud();
+      advance();
+    });
+
+    actividadInput?.addEventListener('input', function () {
+      if (actividadContinueBtn) actividadContinueBtn.disabled = actividadInput.value.trim().length === 0;
+    });
+    actividadContinueBtn?.addEventListener('click', function () {
+      if (!actividadInput || !actividadInput.value.trim()) return;
+      answers.actividad = actividadInput.value.trim().slice(0, 100);
+      advance();
+    });
+
+    function isValidFecha(): boolean {
+      if (!fechaInput || !fechaInput.value) return false;
+      if (fechaInput.min && fechaInput.value < fechaInput.min) return false;
+      return true;
+    }
+    fechaInput?.addEventListener('input', function () {
+      if (fechaContinueBtn) fechaContinueBtn.disabled = !isValidFecha();
+    });
+    fechaContinueBtn?.addEventListener('click', function () {
+      if (!isValidFecha() || !fechaInput) return;
+      answers.fechaInicio = fechaInput.value;
+      advance();
+    });
+
+    function updateEmailSendState() {
+      if (!emailSendBtn) return;
+      emailSendBtn.disabled = !(emailInput && isValidEmail(emailInput.value) && emailConsent?.checked);
+    }
+    emailInput?.addEventListener('input', updateEmailSendState);
+    emailConsent?.addEventListener('change', updateEmailSendState);
+    emailSendBtn?.addEventListener('click', function () {
+      if (!emailInput || !isValidEmail(emailInput.value) || !emailConsent?.checked) return;
+      if (emailErrorEl) emailErrorEl.hidden = true;
+      sessionStorage.setItem(EMAIL_STORAGE_KEY, emailInput.value.trim());
+      sessionStorage.setItem(CONSENT_STORAGE_KEY, '1');
+      advance();
+    });
+    emailSkipBtn?.addEventListener('click', function () {
+      sessionStorage.removeItem(EMAIL_STORAGE_KEY);
+      sessionStorage.removeItem(CONSENT_STORAGE_KEY);
+      advance();
+    });
+
+    emailAfterInput?.addEventListener('input', updateEmailAfterSendState);
+    emailAfterConsent?.addEventListener('change', updateEmailAfterSendState);
+    function updateEmailAfterSendState() {
+      if (!emailAfterSendBtn) return;
+      emailAfterSendBtn.disabled = !(emailAfterInput && isValidEmail(emailAfterInput.value) && emailAfterConsent?.checked && lastQuoteCode);
+    }
+    emailAfterSendBtn?.addEventListener('click', async function () {
+      if (!emailAfterInput || !isValidEmail(emailAfterInput.value) || !emailAfterConsent?.checked || !lastQuoteCode) return;
+      if (emailAfterErrorEl) emailAfterErrorEl.hidden = true;
+      emailAfterSendBtn.disabled = true;
+      try {
+        const res = await fetch('/api/presupuesto', {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ quote: lastQuoteCode, email: emailAfterInput.value.trim(), privacyAccepted: true }),
+        });
+        if (!res.ok) throw new Error('bad response');
+        const formEl = document.getElementById('simEmailAfterForm');
+        if (formEl) formEl.hidden = true;
+        if (emailAfterSuccessEl) emailAfterSuccessEl.hidden = false;
+      } catch (e) {
+        if (emailAfterErrorEl) emailAfterErrorEl.hidden = false;
+        emailAfterSendBtn.disabled = false;
+      }
     });
 
     backBtn.addEventListener('click', function () {
       if (!path.length) return;
-      showStep(path.pop() as number);
+      showStep(path.pop() as string);
     });
 
     restartBtn.addEventListener('click', function () {
       answers = {};
       facturaLabels = {};
       path = [];
-      showStep(0);
+      lastQuoteCode = '';
+      sessionStorage.removeItem(EMAIL_STORAGE_KEY);
+      sessionStorage.removeItem(CONSENT_STORAGE_KEY);
+      if (actividadInput) actividadInput.value = '';
+      if (fechaInput) fechaInput.value = '';
+      if (emailInput) emailInput.value = '';
+      if (emailConsent) emailConsent.checked = false;
+      if (actividadContinueBtn) actividadContinueBtn.disabled = true;
+      if (fechaContinueBtn) fechaContinueBtn.disabled = true;
+      if (emailSendBtn) emailSendBtn.disabled = true;
+      if (emailAfterInput) emailAfterInput.value = '';
+      if (emailAfterConsent) emailAfterConsent.checked = false;
+      if (emailAfterSendBtn) emailAfterSendBtn.disabled = true;
+      if (emailAfterSuccessEl) emailAfterSuccessEl.hidden = true;
+      const emailAfterFormEl = document.getElementById('simEmailAfterForm');
+      if (emailAfterFormEl) emailAfterFormEl.hidden = false;
+      showStep('regimen');
     });
 
     // Página /solicitud: llega con las respuestas ya en la URL (redirigida
@@ -252,21 +522,35 @@ const s = t.sim;
     // Sirve también de página de "éxito" para marcar la conversión en Google Ads.
     const queryParams = new URLSearchParams(window.location.search);
     const qRegimen = queryParams.get('regimen');
+    const qAlta = queryParams.get('alta');
     const qFacturas = queryParams.get('facturas');
     const qReporting = queryParams.get('reporting');
-    const rates = qRegimen === 'pyme' ? RATES_PYME : RATES_AUTONOMO;
-    const validAnswers =
-      (qRegimen === 'autonomo' || qRegimen === 'pyme') &&
-      !!qFacturas && Object.prototype.hasOwnProperty.call(rates, qFacturas) &&
-      !!qReporting && Object.prototype.hasOwnProperty.call(REPORTING, qReporting);
+    const qCertificado = queryParams.get('certificado');
+    const qActividad = queryParams.get('actividad');
+    const qFecha = queryParams.get('fechaInicio');
 
-    if (validAnswers && qRegimen && qFacturas && qReporting) {
-      answers = { regimen: qRegimen, facturas: qFacturas, reporting: qReporting };
-      const facturaBtn = wizard.querySelector<HTMLElement>(`[data-field="facturas"][data-value="${qFacturas}"]`);
-      facturaLabels[qFacturas] = facturaBtn?.textContent || '';
+    let validAnswers = false;
+
+    if (qRegimen === 'autonomo' && qAlta === 'no' && qCertificado && qActividad && qFecha) {
+      answers = { regimen: qRegimen, alta: qAlta, certificado: qCertificado, actividad: qActividad, fechaInicio: qFecha };
+      validAnswers = true;
+    } else {
+      const rates = qRegimen === 'pyme' ? RATES_PYME : RATES_AUTONOMO;
+      const facturasOk = !!qFacturas && Object.prototype.hasOwnProperty.call(rates, qFacturas);
+      const reportingOk = !!qReporting && Object.prototype.hasOwnProperty.call(REPORTING, qReporting);
+      if ((qRegimen === 'autonomo' || qRegimen === 'pyme') && facturasOk && reportingOk && qFacturas && qReporting) {
+        answers = { regimen: qRegimen, facturas: qFacturas, reporting: qReporting };
+        if (qAlta) answers.alta = qAlta;
+        const facturaBtn = wizard.querySelector<HTMLElement>(`[data-field="facturas"][data-value="${qFacturas}"]`);
+        facturaLabels[qFacturas] = facturaBtn?.textContent || '';
+        validAnswers = true;
+      }
+    }
+
+    if (validAnswers) {
       showResult();
     } else {
-      showStep(0);
+      showStep('regimen');
     }
   })();
 </script>

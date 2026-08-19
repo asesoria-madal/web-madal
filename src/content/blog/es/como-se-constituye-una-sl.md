@@ -15,7 +15,7 @@ Desde la reforma de la Ley de creación y crecimiento de empresas, una SL se pue
 
 ## Los pasos del trámite
 
-1. **Certificación negativa de denominación social**, en el Registro Mercantil Central — confirma que el nombre que quieres para tu SL no lo tiene ya otra empresa.
+1. **Certificación de denominación social**, en el Registro Mercantil Central — confirma que el nombre que quieres para tu SL no lo tiene ya otra empresa.
 2. **Apertura de una cuenta bancaria** a nombre de la sociedad en constitución, para ingresar el capital social (con capitales bajos, algunos notarios admiten una declaración de responsabilidad en vez del certificado bancario).
 3. **Escritura pública ante notario**, donde se aprueban los estatutos de la sociedad.
 4. **Obtención del NIF provisional** y alta censal en Hacienda (modelo 036).

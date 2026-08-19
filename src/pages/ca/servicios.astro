@@ -1,0 +1,10 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Servicios from '../../components/pages/Servicios.astro';
+
+export const prerender = true;
+---
+
+<Layout lang="ca" path="/ca/servicios" active="servicios" title="Els nostres serveis · Asesoría Madal" description="Tot el que oferim, en una sola pàgina. Molt aviat.">
+  <Servicios lang="ca" />
+</Layout>

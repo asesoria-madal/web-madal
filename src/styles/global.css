@@ -165,7 +165,32 @@ nav.primary a.navlink:hover { color: var(--ink); }
 nav.primary a.navlink.active { color: var(--ink); font-weight: 600; }
 @media (max-width: 900px) {
   nav.primary a.navlink { display: none; }
+  nav.primary .nav-dropdown { display: none; }
 }
+
+.nav-dropdown { position: relative; }
+.nav-dropdown-menu { display: none; position: absolute; left: 0; top: 100%; padding-top: 0.6rem; z-index: 30; }
+.nav-dropdown:hover .nav-dropdown-menu, .nav-dropdown:focus-within .nav-dropdown-menu { display: block; }
+.nav-dropdown-menu-inner {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  padding: 0.35rem;
+  display: flex;
+  flex-direction: column;
+  min-width: 170px;
+}
+.nav-dropdown-menu-inner a {
+  text-decoration: none;
+  color: var(--ink-soft);
+  font-size: 0.88rem;
+  padding: 0.5rem 0.6rem;
+  border-radius: 6px;
+  white-space: nowrap;
+}
+.nav-dropdown-menu-inner a:hover { background: var(--paper-raised); color: var(--ink); }
+.nav-dropdown-menu-inner a.active { color: var(--ink); font-weight: 600; }
 
 .header-right { display: flex; align-items: center; gap: 1rem; }
 
@@ -423,6 +448,7 @@ section.hero { border-top: none; padding: 3.6rem 0 3.2rem; display: block; }
 }
 
 h2.section-title { font-size: clamp(1.5rem, 2.6vw, 2rem); }
+.view-intro h1.section-title { font-size: clamp(1.9rem, 3.6vw, 2.6rem); max-width: 22ch; }
 .section-sub { color: var(--ink-soft); max-width: 56ch; margin-top: 0.6rem; font-size: 1rem; }
 
 /* ---------- Roadmap ---------- */
@@ -465,7 +491,7 @@ h2.section-title { font-size: clamp(1.5rem, 2.6vw, 2rem); }
 }
 @media (max-width: 760px) { .price-row .iva-badge { grid-column: 1; grid-row: auto; margin-top: 0; } }
 .price-row .incl { font-size: 0.88rem; color: var(--ink-soft); }
-.price-note { padding: 1.1rem 0; font-size: 0.85rem; color: var(--ink-soft); }
+.price-note { padding: 1.1rem 0; font-size: 0.88rem; font-weight: 600; color: var(--warm); }
 
 /* ---------- Alta de autónomos (promo) ---------- */
 .alta-box {
@@ -548,8 +574,11 @@ h2.section-title { font-size: clamp(1.5rem, 2.6vw, 2rem); }
 }
 .faq-search input[type="search"]:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
 .faq-empty { margin-top: 1rem; font-size: 0.9rem; color: var(--ink-soft); }
-.faq-columns { display: grid; grid-template-columns: 1fr 1fr; gap: 0 3rem; max-width: 960px; }
-@media (max-width: 720px) {
+.faq-columns { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0 2.4rem; max-width: 1180px; }
+@media (max-width: 900px) {
+  .faq-columns { grid-template-columns: 1fr 1fr; gap: 0 2rem; }
+}
+@media (max-width: 640px) {
   .faq-columns { grid-template-columns: 1fr; gap: 0; }
 }
 .faq-group { margin-top: 1.8rem; }
@@ -620,10 +649,15 @@ h2.section-title { font-size: clamp(1.5rem, 2.6vw, 2rem); }
 .faq-show-more:hover { text-decoration: underline; }
 
 /* ---------- Founders / equipo ---------- */
-.founders { max-width: 720px; }
-.founders p { font-size: 1.02rem; color: var(--ink); max-width: 62ch; }
-.founders p + p { margin-top: 0.9rem; color: var(--ink-soft); font-size: 0.98rem; }
-.equipo-tags { display: flex; gap: 0.6rem; flex-wrap: wrap; margin-bottom: 1.6rem; }
+.founders-hero .section-sub { margin-top: 0.9rem; }
+.equipo-tags { display: flex; gap: 0.6rem; flex-wrap: wrap; margin-top: 1.4rem; }
+
+.feature-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; margin-top: 1.6rem; }
+.feature-grid.cols-3 { grid-template-columns: repeat(3, 1fr); }
+@media (max-width: 760px) { .feature-grid, .feature-grid.cols-3 { grid-template-columns: 1fr; } }
+.feature-card { background: var(--paper); padding: 1.4rem 1.5rem; }
+.feature-card h3 { font-family: var(--font-display); font-size: 1.02rem; font-weight: 600; line-height: 1.35; }
+.feature-card p { font-size: 0.9rem; color: var(--ink-soft); margin-top: 0.5rem; }
 
 /* ---------- Legal / privacidad ---------- */
 .legal-doc { max-width: 720px; }
@@ -707,6 +741,46 @@ h2.section-title { font-size: clamp(1.5rem, 2.6vw, 2rem); }
 .wizard-result .contact-alt a:hover { text-decoration: underline; }
 .wizard-restart { display: block; margin: 1rem auto 0; background: none; border: none; color: var(--ink-soft); font-size: 0.85rem; text-decoration: underline; cursor: pointer; }
 .wizard-error { margin-top: 1rem; font-size: 0.85rem; color: var(--warm); }
+
+.sim-field-hint { font-size: 0.85rem; color: var(--ink-soft); max-width: 400px; margin: 0 auto 1.2rem; }
+.sim-input {
+  display: block;
+  width: 100%;
+  max-width: 360px;
+  margin: 0 auto;
+  font-family: var(--font-body);
+  font-size: 0.98rem;
+  padding: 0.85rem 1rem;
+  border: 1.5px solid var(--line);
+  border-radius: 10px;
+  background: var(--paper-raised);
+  color: var(--ink);
+}
+.sim-input:focus { outline: none; border-color: var(--accent); }
+.sim-continue { display: block; margin: 1.2rem auto 0; }
+.sim-continue:disabled { opacity: 0.5; cursor: not-allowed; }
+.sim-alta-fee { font-size: 1.05rem; }
+.sim-alta-fee strong { color: var(--accent); }
+.sim-alta-note { margin-top: 0.4rem; font-size: 0.85rem; color: var(--ink-soft); }
+
+.sim-consent {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.55rem;
+  max-width: 360px;
+  margin: 0.9rem auto 0;
+  text-align: left;
+  font-size: 0.83rem;
+  color: var(--ink-soft);
+  cursor: pointer;
+}
+.sim-consent input[type="checkbox"] { margin-top: 0.2rem; flex-shrink: 0; }
+.sim-consent a { color: var(--accent); text-decoration: underline; }
+.sim-field-error { margin-top: 0.6rem; font-size: 0.82rem; color: var(--warm); }
+.sim-email-actions { display: flex; gap: 0.8rem; justify-content: center; flex-wrap: wrap; margin-top: 1.2rem; }
+.sim-email-actions .sim-continue { margin-top: 0; }
+.sim-email-after { margin-top: 1.6rem; padding-top: 1.4rem; border-top: 1px solid var(--line); }
+.sim-email-success { margin-top: 0.4rem; font-size: 0.9rem; font-weight: 600; color: var(--accent); }
 
 /* ---------- Portal de clientes ---------- */
 .portal-page { max-width: 480px; margin: 0 auto; padding: 3rem var(--side-pad) 4.5rem; }

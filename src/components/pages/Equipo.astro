@@ -8,17 +8,75 @@ const t = useTranslations(lang);
 ---
 
 <div id="view-equipo">
-  <div class="page view-intro">
+  <div class="page view-intro founders-hero">
     <p class="eyebrow">{t.equipo.eyebrow}</p>
-    <h2 class="section-title">{t.equipo.title}</h2>
-  </div>
-  <div class="page view-block founders">
+    <h1 class="section-title">{t.equipo.title}</h1>
+    <p class="section-sub">{t.equipo.dek}</p>
     <div class="equipo-tags">
       {t.equipo.tags.map((tag) => <span class="tag info">{tag}</span>)}
     </div>
-    <p>{t.equipo.p1}</p>
-    <p>{t.equipo.p2}</p>
-    <p>{t.equipo.p3}</p>
-    <p>{t.equipo.p4}</p>
   </div>
+
+  <section class="section" id="formacion">
+    <div class="label-col"><p class="eyebrow">{t.equipo.formacion.eyebrow}</p></div>
+    <div>
+      <h2 class="section-title">{t.equipo.formacion.title}</h2>
+      <p class="section-sub">{t.equipo.formacion.sub}</p>
+      <div class="feature-grid">
+        {t.equipo.formacion.items.map((item) => (
+          <div class="feature-card">
+            <h3>{item.title}</h3>
+            <p>{item.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="experiencia">
+    <div class="label-col"><p class="eyebrow">{t.equipo.experiencia.eyebrow}</p></div>
+    <div>
+      <h2 class="section-title">{t.equipo.experiencia.title}</h2>
+      <p class="section-sub">{t.equipo.experiencia.sub}</p>
+      <div class="feature-grid">
+        {t.equipo.experiencia.items.map((item) => (
+          <div class="feature-card">
+            <h3>{item.title}</h3>
+            <p>{item.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="metodo">
+    <div class="label-col"><p class="eyebrow">{t.equipo.metodo.eyebrow}</p></div>
+    <div>
+      <h2 class="section-title">{t.equipo.metodo.title}</h2>
+      <div class="process">
+        {t.equipo.metodo.steps.map((step, i) => (
+          <div class="step">
+            <span class="num">{i + 1}</span>
+            <div><h3>{step.title}</h3><p>{step.desc}</p></div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="confianza">
+    <div class="label-col"><p class="eyebrow">{t.equipo.confianza.eyebrow}</p></div>
+    <div>
+      <h2 class="section-title">{t.equipo.confianza.title}</h2>
+      <p class="section-sub">{t.equipo.confianza.sub}</p>
+      <div class="feature-grid cols-3">
+        {t.equipo.confianza.items.map((item) => (
+          <div class="feature-card">
+            <h3>{item.title}</h3>
+            <p>{item.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
 </div>

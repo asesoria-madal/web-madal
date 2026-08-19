@@ -6,7 +6,7 @@ import ContactSwitch from './ContactSwitch.astro';
 interface Props {
   lang: Locale;
   path: string; // pathname sin prefijo de idioma, p.ej. "/simulador"
-  active: 'home' | 'simulador' | 'blog' | 'equipo' | 'alta' | 'none';
+  active: 'home' | 'simulador' | 'blog' | 'equipo' | 'servicios' | 'alta' | 'none';
 }
 
 const { lang, path, active } = Astro.props;
@@ -17,8 +17,9 @@ const nav = [
   { key: 'simulador', href: localizedPath('/simulador', lang), label: t.nav.simulador },
   { key: 'alta', href: localizedPath('/alta', lang), label: t.nav.alta },
   { key: 'blog', href: localizedPath('/blog', lang), label: t.nav.blog },
-  { key: 'equipo', href: localizedPath('/equipo', lang), label: t.nav.equipo },
 ];
+const equipoHref = localizedPath('/equipo', lang);
+const serviciosHref = localizedPath('/servicios', lang);
 
 // Emoji de bandera por idioma. El catalán no tiene bandera de país propia
 // (no es un estado) y la secuencia de bandera regional de Cataluña se ve mal
@@ -34,6 +35,15 @@ const flagEmoji: Partial<Record<Locale, string>> = { es: '🇪🇸', en: '🇬�
       {nav.map((item) => (
         <a class={`navlink${active === item.key ? ' active' : ''}`} href={item.href}>{item.label}</a>
       ))}
+      <div class="nav-dropdown">
+        <a class={`navlink${active === 'equipo' || active === 'servicios' ? ' active' : ''}`} href={equipoHref}>{t.nav.equipo}</a>
+        <div class="nav-dropdown-menu">
+          <div class="nav-dropdown-menu-inner">
+            <a href={equipoHref} class={active === 'equipo' ? 'active' : ''}>{t.nav.conocenos}</a>
+            <a href={serviciosHref} class={active === 'servicios' ? 'active' : ''}>{t.nav.servicios}</a>
+          </div>
+        </div>
+      </div>
     </nav>
     <div class="header-right">
       <button type="button" id="themeToggle" class="theme-toggle" aria-label="Cambiar entre tema claro y oscuro">

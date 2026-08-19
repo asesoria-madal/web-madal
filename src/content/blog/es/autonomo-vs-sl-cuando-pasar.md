@@ -7,11 +7,11 @@ cat: Fiscalidad
 date: 2026-08-19
 ---
 
-No existe una norma que diga "a partir de tal facturación, pásate a SL". La decisión depende de tres cosas: cuánto facturas, cuánto riesgo asumes, y cuánto pagas de impuestos en cada forma. Aquí van las tres, por separado.
+No existe una norma que diga "a partir de tal facturación, pásate a SL". La decisión depende de varias cosas: cuánto beneficio tienes, cuánto riesgo asumes, cuánto pagas de impuestos en cada forma y tu comunidad autónoma.
 
-## La cifra orientativa que se suele citar
+## Una cifra orientativa
 
-Varias fuentes del sector coinciden en que suele empezar a compensar entre 60.000 € y 80.000 € de facturación anual, aunque no es una cifra fijada por Hacienda ni por ley — es una referencia práctica, no un umbral oficial. Por debajo de esa cifra, el ahorro fiscal de pasar a SL rara vez compensa el coste añadido de mantenerla (contabilidad obligatoria, cuentas anuales en el Registro Mercantil, gestoría más cara).
+Suele empezar a compensar entre 40.000 € y 60.000 € de beneficio anual, aunque no es una cifra fijada por Hacienda ni por ley — es una referencia práctica, no un umbral oficial. Por debajo de esa cifra, el ahorro fiscal de pasar a SL rara vez compensa el coste añadido de mantenerla (contabilidad obligatoria, cuentas anuales en el Registro Mercantil, gestoría más cara).
 
 ## La razón que no es fiscal: la responsabilidad
 

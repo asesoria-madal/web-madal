@@ -1,7 +1,13 @@
 -- Ejecutar una vez en el SQL editor de Supabase (proyecto nuevo).
 -- Guarda las respuestas del simulador de precio y genera un número de
 -- presupuesto único y secuencial por año (CC-26-00001, CC-26-00002, ...).
--- No guarda nombre, correo ni ningún dato personal del visitante.
+--
+-- Desde la incorporación del paso de email en el simulador, "email" y
+-- "privacy_accepted_at" son opcionales: el visitante puede omitir ese paso
+-- y ver su precio igualmente. Solo se guarda el correo si ha marcado la
+-- casilla de aceptación de la Política de Privacidad — en ese caso,
+-- privacy_accepted_at deja constancia de cuándo (principio de
+-- responsabilidad proactiva del RGPD, art. 5.2).
 
 create table if not exists quote_counters (
   year integer primary key,
@@ -15,8 +21,15 @@ create table if not exists presupuestos (
   facturas text not null,
   reporting text not null,
   total numeric(10, 2) not null,
+  email text,
+  privacy_accepted_at timestamptz,
   created_at timestamptz not null default now()
 );
+
+-- Si la tabla ya existía de antes (proyecto ya en marcha), añade las
+-- columnas nuevas sin tocar las filas existentes:
+-- alter table presupuestos add column if not exists email text;
+-- alter table presupuestos add column if not exists privacy_accepted_at timestamptz;
 
 -- Incremento atómico: aunque lleguen dos peticiones a la vez, cada una
 -- recibe un número distinto (evita el problema de contar filas "a mano").

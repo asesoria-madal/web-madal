@@ -22,6 +22,7 @@ Un gasto es deducible si es necesario para tu actividad, está vinculado a ella 
 - Publicidad, tu web y las herramientas de software que uses para trabajar.
 - Formación relacionada directamente con tu actividad.
 - El vehículo, pero solo si está "exclusivamente afecto" a la actividad — transporte, comerciales, taxi. Es uno de los gastos con más matices, conviene revisarlo caso a caso.
+- Si tienes un local: reparaciones, servicio de limpieza... cualquier gasto asociado al mantenimiento del local.
 
 ## Lo que suele generar dudas
 

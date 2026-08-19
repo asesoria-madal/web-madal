@@ -21,6 +21,12 @@ function pageHref(n: number): string {
 const paginationLabel = pagination
   ? t.blog.paginationPageOf.replace('{current}', String(pagination.current)).replace('{total}', String(pagination.total))
   : '';
+
+const faqGroups = [
+  { key: 'generales', label: t.blog.faqGenerales, items: t.blog.faqGeneralesItems },
+  { key: 'autonomos', label: t.blog.faqAutonomos, items: t.blog.faqAutonomosItems },
+  { key: 'sl', label: t.blog.faqSl, items: t.blog.faqSlItems },
+];
 ---
 
 <div id="view-blog">
@@ -35,7 +41,7 @@ const paginationLabel = pagination
       <script type="application/ld+json" is:inline set:html={JSON.stringify({
         '@context': 'https://schema.org',
         '@type': 'FAQPage',
-        mainEntity: [...t.blog.faqAutonomosItems, ...t.blog.faqSlItems].map((item) => ({
+        mainEntity: faqGroups.flatMap((group) => group.items).map((item) => ({
           '@type': 'Question',
           name: item.q,
           acceptedAnswer: { '@type': 'Answer', text: item.a },
@@ -46,35 +52,22 @@ const paginationLabel = pagination
       </div>
 
       <div class="faq-columns">
-        <div class="faq-group" data-faq-group>
-          <h3>{t.blog.faqAutonomos}</h3>
-          {t.blog.faqAutonomosItems.map((item, i) => (
-            <details class="faq-item" data-extra={i >= FAQ_VISIBLE_LIMIT ? 'true' : undefined} hidden={i >= FAQ_VISIBLE_LIMIT}>
-              <summary>{item.q}</summary>
-              <p>{item.a}</p>
-            </details>
-          ))}
-          {t.blog.faqAutonomosItems.length > FAQ_VISIBLE_LIMIT && (
-            <button type="button" class="faq-show-more" data-faq-show-more>
-              {t.blog.faqShowMore.replace('{count}', String(t.blog.faqAutonomosItems.length - FAQ_VISIBLE_LIMIT))}
-            </button>
-          )}
-        </div>
-
-        <div class="faq-group" data-faq-group>
-          <h3>{t.blog.faqSl}</h3>
-          {t.blog.faqSlItems.map((item, i) => (
-            <details class="faq-item" data-extra={i >= FAQ_VISIBLE_LIMIT ? 'true' : undefined} hidden={i >= FAQ_VISIBLE_LIMIT}>
-              <summary>{item.q}</summary>
-              <p>{item.a}</p>
-            </details>
-          ))}
-          {t.blog.faqSlItems.length > FAQ_VISIBLE_LIMIT && (
-            <button type="button" class="faq-show-more" data-faq-show-more>
-              {t.blog.faqShowMore.replace('{count}', String(t.blog.faqSlItems.length - FAQ_VISIBLE_LIMIT))}
-            </button>
-          )}
-        </div>
+        {faqGroups.map((group) => (
+          <div class="faq-group" data-faq-group>
+            <h3>{group.label}</h3>
+            {group.items.map((item, i) => (
+              <details class="faq-item" data-extra={i >= FAQ_VISIBLE_LIMIT ? 'true' : undefined} hidden={i >= FAQ_VISIBLE_LIMIT}>
+                <summary>{item.q}</summary>
+                <p>{item.a}</p>
+              </details>
+            ))}
+            {group.items.length > FAQ_VISIBLE_LIMIT && (
+              <button type="button" class="faq-show-more" data-faq-show-more>
+                {t.blog.faqShowMore.replace('{count}', String(group.items.length - FAQ_VISIBLE_LIMIT))}
+              </button>
+            )}
+          </div>
+        ))}
       </div>
 
       <p class="faq-empty" id="faqEmpty" hidden>{t.blog.searchEmpty}</p>
@@ -116,7 +109,7 @@ const paginationLabel = pagination
   <aside class="ask-float" id="askFloat">
     <button type="button" class="ask-float-close" id="askFloatClose" aria-label={t.blog.close}>✕</button>
     <h3>{t.blog.askTitle}</h3>
-    <p>{t.blog.askDesc} <a href="mailto:contacto@asesoriamadal.es">contacto@asesoriamadal.es</a></p>
+    <p>{t.blog.askDesc} <a href="mailto:contacto@asesoriamadal.es" id="askMailLink" data-subject-prefix={t.blog.askSubjectPrefix}>contacto@asesoriamadal.es</a></p>
   </aside>
 
   <script>
@@ -125,9 +118,18 @@ const paginationLabel = pagination
     const searchInput = document.getElementById('faqSearch') as HTMLInputElement | null;
     const emptyMsg = document.getElementById('faqEmpty') as HTMLElement | null;
     const groups = Array.from(document.querySelectorAll<HTMLElement>('[data-faq-group]'));
+    const askMailLink = document.getElementById('askMailLink') as HTMLAnchorElement | null;
 
     function normalize(text: string): string {
       return text.toLowerCase().normalize('NFD').replace(DIACRITICS_PATTERN, '');
+    }
+
+    function updateMailSubject(query: string): void {
+      if (!askMailLink) return;
+      const prefix = askMailLink.dataset.subjectPrefix ?? '';
+      const q = query.trim();
+      const subject = q ? `${prefix} - ${q}` : prefix;
+      askMailLink.href = `mailto:contacto@asesoriamadal.es?subject=${encodeURIComponent(subject)}`;
     }
 
     groups.forEach((group) => {
@@ -165,6 +167,7 @@ const paginationLabel = pagination
         });
 
         if (emptyMsg) emptyMsg.hidden = anyVisible || !searching;
+        updateMailSubject(searchInput.value);
       });
     }
 

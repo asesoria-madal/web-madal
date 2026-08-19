@@ -7,7 +7,7 @@ cat: Contabilidad
 date: 2026-08-18
 ---
 
-Muchos autónomos solo ven su contabilidad cuando toca presentar un impuesto. El balance de situación es la herramienta que cambia eso: una foto de tu negocio en un momento concreto, no solo de lo que has facturado.
+Muchas empresas solo ven su contabilidad cuando toca presentar un impuesto. El balance de situación es la herramienta que cambia eso: una foto de tu negocio en un momento concreto, no solo de lo que has facturado.
 
 ## Qué muestra
 
