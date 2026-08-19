@@ -8,7 +8,10 @@ export const prerender = false;
 // muestra en el simulador y en la web.
 const RATES_AUTONOMO: Record<string, number> = { bajo: 40, medio: 50, alto: 60 };
 const RATES_PYME: Record<string, number> = { t1: 100, t2: 115, t3: 130, t4: 150 };
-const REPORTING: Record<string, number> = { si: 30, no: 0, nose: 15 };
+// "nose" (no lo tiene claro) no suma nada al total: el reporting solo se
+// cobra si el cliente lo confirma con "si". Ver Simulador.astro (duplicado
+// deliberado del cálculo, para que coincidan front y back).
+const REPORTING: Record<string, number> = { si: 30, no: 0, nose: 0 };
 const IVA_RATE = 0.21;
 
 interface Body {

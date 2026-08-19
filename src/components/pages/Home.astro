@@ -58,15 +58,17 @@ const t = useTranslations(lang);
     <div>
       <h2 class="section-title">{t.diferencia.title}</h2>
       <p class="section-sub">{t.diferencia.sub}</p>
-      <div class="compare-grid">
-        <div class="compare-col">
-          <h3>{t.diferencia.oldTitle}</h3>
-          <ul>{t.diferencia.oldItems.map((item) => <li>{item}</li>)}</ul>
-        </div>
-        <div class="compare-col featured">
-          <h3>{t.diferencia.newTitle}</h3>
-          <ul>{t.diferencia.newItems.map((item) => <li>{item}</li>)}</ul>
-        </div>
+      <div class="compare-table">
+        <div class="cell cell-head col-trad">{t.diferencia.colTraditional}</div>
+        <div class="cell cell-head col-online">{t.diferencia.colOnline}</div>
+        <div class="cell cell-head col-madal">{t.diferencia.colMadal}</div>
+        {t.diferencia.rows.map((row) => (
+          <>
+            <div class="cell col-trad">{row.trad}</div>
+            <div class="cell col-online">{row.online}</div>
+            <div class="cell col-madal">{row.madal}</div>
+          </>
+        ))}
       </div>
     </div>
   </section>

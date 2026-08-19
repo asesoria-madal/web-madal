@@ -1,8 +1,15 @@
 ---
+import ContactSwitch from '../ContactSwitch.astro';
+
 // Portal de clientes: solo en castellano, como el resto de páginas
 // funcionales (no de marketing). Login por enlace mágico (Supabase Auth),
 // sin contraseña. Toda la lógica corre en el navegador: el acceso a los
 // datos lo protege RLS en la base de datos, no este código.
+//
+// La ficha del cliente en la tabla `clientes` se vincula por email (no por
+// el id interno de Supabase Auth): así se puede dar de alta a un cliente
+// con solo su email, antes incluso de que haya iniciado sesión por primera
+// vez. Ver el SQL de configuración en la memoria del proyecto.
 ---
 
 <div class="portal-page">
@@ -33,11 +40,48 @@
     </div>
 
     <div id="portal-dash" class="portal-dash" hidden>
-      <h3>Hola, <span id="portal-nombre"></span></h3>
-      <div class="portal-empty">
-        Todavía no hay datos cargados. En cuanto tengamos tus números, aparecerán aquí como gráficas.
+      <div class="app-shell">
+        <aside class="app-sidebar">
+          <a href="/" class="wordmark">Asesoría<span>Madal</span></a>
+          <nav class="app-nav">
+            <button type="button" class="app-nav-link active" data-panel="dashboards">📊 Dashboards y reporting</button>
+            <button type="button" class="app-nav-link" data-panel="facturas">📄 Subir facturas</button>
+          </nav>
+          <div class="app-sidebar-foot">
+            <span>Hola, <span id="portal-nombre"></span></span>
+            <button type="button" id="portal-logout-2" class="portal-logout">Cerrar sesión</button>
+          </div>
+        </aside>
+
+        <main class="app-main">
+          <section class="app-panel" data-panel="dashboards">
+            <h2>Dashboards y reporting</h2>
+            <div id="panel-reporting-off" hidden>
+              <div class="portal-empty">
+                Todavía no tienes el reporting activo. Con reporting, te ayudamos con dashboards y datos de tu negocio para que tomes mejores decisiones — por 30 €/mes, sin permanencia.
+              </div>
+              <ContactSwitch lang="es" triggerClass="btn btn-primary" />
+            </div>
+            <div id="panel-reporting-on" hidden>
+              <div class="portal-empty">
+                Todavía no hay datos cargados. En cuanto tengamos tus números, aparecerán aquí como gráficas.
+              </div>
+            </div>
+          </section>
+
+          <section class="app-panel" data-panel="facturas" hidden>
+            <h2>Subir facturas</h2>
+            <p>Sube tus facturas en PDF. Las revisamos y las incorporamos a tu contabilidad.</p>
+            <form id="facturaForm" class="factura-upload">
+              <input type="file" id="facturaFile" accept="application/pdf" required />
+              <button type="submit" class="btn btn-primary">Subir factura</button>
+            </form>
+            <p id="facturaMsg" class="portal-msg" hidden></p>
+            <p id="facturaEmpty" class="factura-empty" hidden>Todavía no has subido ninguna factura.</p>
+            <ul id="facturaList" class="factura-list"></ul>
+          </section>
+        </main>
       </div>
-      <button type="button" id="portal-logout-2" class="portal-logout">Cerrar sesión</button>
     </div>
   </div>
 </div>
@@ -56,11 +100,40 @@
   const logoutBtn1 = document.getElementById('portal-logout-1') as HTMLButtonElement;
   const logoutBtn2 = document.getElementById('portal-logout-2') as HTMLButtonElement;
 
+  const reportingOffEl = document.getElementById('panel-reporting-off') as HTMLElement;
+  const reportingOnEl = document.getElementById('panel-reporting-on') as HTMLElement;
+
+  const navLinks = Array.from(document.querySelectorAll<HTMLButtonElement>('.app-nav-link'));
+  const panels = Array.from(document.querySelectorAll<HTMLElement>('.app-panel'));
+
+  const facturaForm = document.getElementById('facturaForm') as HTMLFormElement;
+  const facturaFile = document.getElementById('facturaFile') as HTMLInputElement;
+  const facturaMsg = document.getElementById('facturaMsg') as HTMLElement;
+  const facturaEmpty = document.getElementById('facturaEmpty') as HTMLElement;
+  const facturaList = document.getElementById('facturaList') as HTMLElement;
+
   function showOnly(el: HTMLElement) {
     for (const section of [unconfiguredEl, loginForm, unlinkedEl, dashEl]) {
       section.hidden = section !== el;
     }
     loadingEl.hidden = true;
+    // El área de cliente logueada sustituye la cabecera y el pie de la web
+    // de marketing por su propia barra lateral: una vez dentro, no tiene
+    // sentido volver a "Inicio" o "Altas" desde la barra horizontal.
+    document.body.classList.toggle('portal-app', el === dashEl);
+  }
+
+  navLinks.forEach((link) => {
+    link.addEventListener('click', () => {
+      const target = link.dataset.panel;
+      navLinks.forEach((l) => l.classList.toggle('active', l === link));
+      panels.forEach((p) => { p.hidden = p.dataset.panel !== target; });
+    });
+  });
+
+  function renderReportingPanel(hasReporting: boolean) {
+    reportingOffEl.hidden = hasReporting;
+    reportingOnEl.hidden = !hasReporting;
   }
 
   const supabase = getSupabaseBrowser();
@@ -68,6 +141,22 @@
   if (!supabase) {
     showOnly(unconfiguredEl);
   } else {
+    async function renderFacturaList(userId: string) {
+      const { data, error } = await supabase!.storage.from('facturas').list(userId, {
+        sortBy: { column: 'created_at', order: 'desc' },
+      });
+
+      facturaList.innerHTML = '';
+      const files = !error && data ? data.filter((f) => f.name !== '.emptyFolderPlaceholder') : [];
+      facturaEmpty.hidden = files.length > 0;
+
+      files.forEach((file) => {
+        const li = document.createElement('li');
+        li.textContent = file.name.replace(/^\d+-/, '');
+        facturaList.appendChild(li);
+      });
+    }
+
     async function renderForSession() {
       const {
         data: { session },
@@ -80,8 +169,8 @@
 
       const { data: cliente } = await supabase!
         .from('clientes')
-        .select('nombre')
-        .eq('id', session.user.id)
+        .select('nombre, reporting')
+        .eq('email', session.user.email)
         .maybeSingle();
 
       if (!cliente) {
@@ -90,6 +179,8 @@
       }
 
       nombreEl.textContent = cliente.nombre as string;
+      renderReportingPanel(Boolean(cliente.reporting));
+      renderFacturaList(session.user.id);
       showOnly(dashEl);
     }
 
@@ -114,6 +205,44 @@
         loginMsg.className = 'portal-msg is-ok';
         loginMsg.textContent = 'Enlace enviado. Revisa tu bandeja de entrada.';
       }
+    });
+
+    facturaForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const file = facturaFile.files?.[0];
+      if (!file) return;
+
+      if (file.type !== 'application/pdf') {
+        facturaMsg.hidden = false;
+        facturaMsg.className = 'portal-msg is-error';
+        facturaMsg.textContent = 'Solo se admiten archivos en PDF.';
+        return;
+      }
+
+      const {
+        data: { session },
+      } = await supabase!.auth.getSession();
+      if (!session) return;
+
+      facturaMsg.hidden = false;
+      facturaMsg.className = 'portal-msg';
+      facturaMsg.textContent = 'Subiendo…';
+
+      const path = `${session.user.id}/${Date.now()}-${file.name}`;
+      const { error } = await supabase!.storage.from('facturas').upload(path, file, {
+        contentType: 'application/pdf',
+      });
+
+      if (error) {
+        facturaMsg.className = 'portal-msg is-error';
+        facturaMsg.textContent = 'No se ha podido subir la factura. Inténtalo de nuevo.';
+        return;
+      }
+
+      facturaMsg.className = 'portal-msg is-ok';
+      facturaMsg.textContent = 'Factura subida correctamente.';
+      facturaForm.reset();
+      renderFacturaList(session.user.id);
     });
 
     async function logout() {

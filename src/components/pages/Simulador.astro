@@ -67,6 +67,7 @@ const s = t.sim;
           data-iva={s.breakdownIva}
           data-total={s.breakdownTotal}
         ></ul>
+        <p class="sim-reporting-explain" id="simReportingExplain" hidden>{s.reportingExplain}</p>
         <p class="sim-monthly-note">{s.monthlyNote}</p>
         <p class="quote-number">{s.quoteLabel} <span id="quoteNumber">…</span></p>
         <p class="wizard-error" id="wizardError" hidden>{s.error}</p>
@@ -92,6 +93,7 @@ const s = t.sim;
     const priceEl = document.getElementById('simPrice') as HTMLElement;
     const quoteEl = document.getElementById('quoteNumber') as HTMLElement;
     const breakdownList = document.getElementById('simBreakdown') as HTMLElement | null;
+    const explainEl = document.getElementById('simReportingExplain') as HTMLElement | null;
     const errorEl = document.getElementById('wizardError') as HTMLElement;
     const facturasGroups = Array.from(wizard.querySelectorAll<HTMLElement>('[data-facturas-options]'));
 
@@ -102,7 +104,11 @@ const s = t.sim;
     const IVA_RATE = 0.21;
     const RATES_AUTONOMO: Record<string, number> = { bajo: 40, medio: 50, alto: 60 };
     const RATES_PYME: Record<string, number> = { t1: 100, t2: 115, t3: 130, t4: 150 };
-    const REPORTING: Record<string, number> = { si: 30, no: 0, nose: 15 };
+    // "nose" (no lo tengo claro) no suma nada al total: el reporting solo se
+    // cobra si el cliente lo confirma. REPORTING_OPTIONAL_PRICE es el precio
+    // que se muestra como nota informativa (no incluida en el total) en ese caso.
+    const REPORTING: Record<string, number> = { si: 30, no: 0, nose: 0 };
+    const REPORTING_OPTIONAL_PRICE = 30;
 
     function round2(n: number): number {
       return Math.round(n * 100) / 100;
@@ -148,8 +154,10 @@ const s = t.sim;
       if (answers.reporting === 'si') {
         lines.push({ label: d.reporting ?? '', amount: `+${formatEUR(reportingAmount)} €` });
       } else if (answers.reporting === 'nose') {
-        lines.push({ label: d.reportingNose ?? '', amount: `+${formatEUR(reportingAmount)} €`, tentative: true });
+        lines.push({ label: d.reportingNose ?? '', amount: `+${formatEUR(REPORTING_OPTIONAL_PRICE)} €`, tentative: true });
       }
+
+      if (explainEl) explainEl.hidden = answers.reporting === 'no';
 
       lines.push({ label: d.iva ?? '', amount: `+${formatEUR(iva)} €` });
       lines.push({ label: d.total ?? '', amount: `${formatEUR(total)} €` });

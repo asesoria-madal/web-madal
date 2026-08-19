@@ -36,6 +36,10 @@ const flagEmoji: Partial<Record<Locale, string>> = { es: '🇪🇸', en: '🇬�
       ))}
     </nav>
     <div class="header-right">
+      <button type="button" id="themeToggle" class="theme-toggle" aria-label="Cambiar entre tema claro y oscuro">
+        <span class="theme-icon-dark" aria-hidden="true">🌙</span>
+        <span class="theme-icon-light" aria-hidden="true">☀️</span>
+      </button>
       <a href="/portal" class="portal-link"><span aria-hidden="true">👤</span> <span class="portal-link-label">{t.header.portal}</span></a>
       <details class="lang-switch">
         <summary><span aria-hidden="true">🌐</span> {localeNames[lang]}</summary>
@@ -54,3 +58,19 @@ const flagEmoji: Partial<Record<Locale, string>> = { es: '🇪🇸', en: '🇬�
     </div>
   </div>
 </header>
+
+<script>
+  const themeBtn = document.getElementById('themeToggle');
+
+  function currentTheme(): 'dark' | 'light' {
+    const attr = document.documentElement.getAttribute('data-theme');
+    if (attr === 'dark' || attr === 'light') return attr;
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  }
+
+  themeBtn?.addEventListener('click', () => {
+    const next = currentTheme() === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+  });
+</script>

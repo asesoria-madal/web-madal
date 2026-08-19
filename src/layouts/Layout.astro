@@ -31,6 +31,16 @@ const t = useTranslations(lang);
     {description && <meta name="description" content={description} />}
     {noindex && <meta name="robots" content="noindex" />}
     <link rel="icon" href="/favicon.svg" />
+    <script is:inline>
+      // Aplicamos el tema guardado antes de pintar, para evitar el parpadeo
+      // de cambiar de claro a oscuro (o viceversa) justo después de cargar.
+      (function () {
+        var stored = localStorage.getItem('theme');
+        if (stored === 'dark' || stored === 'light') {
+          document.documentElement.setAttribute('data-theme', stored);
+        }
+      })();
+    </script>
   </head>
   <body>
     <Header lang={lang} path={path} active={active} />
