@@ -32,6 +32,15 @@ const paginationLabel = pagination
 
   {showFaq ? (
     <div class="page view-block">
+      <script type="application/ld+json" is:inline set:html={JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: [...t.blog.faqAutonomosItems, ...t.blog.faqSlItems].map((item) => ({
+          '@type': 'Question',
+          name: item.q,
+          acceptedAnswer: { '@type': 'Answer', text: item.a },
+        })),
+      })} />
       <div class="faq-search">
         <input type="search" id="faqSearch" placeholder={t.blog.searchPlaceholder} aria-label={t.blog.searchPlaceholder} />
       </div>
