@@ -11,7 +11,7 @@ Si eres autónomo en estimación directa, cada trimestre presentas el modelo 130
 
 ## Qué calcula el modelo 130
 
-Se paga el 20% del rendimiento neto acumulado del año — es decir, todos tus ingresos desde el 1 de enero hasta el final del trimestre, menos todos los gastos deducibles del mismo periodo — restando lo que ya hayas pagado en trimestres anteriores de ese mismo año y, si procede, las retenciones que ya te hayan practicado otros clientes.
+Se paga el 20% del rendimiento neto acumulado del año, es decir, todos tus ingresos desde el 1 de enero hasta el final del trimestre, menos todos los gastos deducibles del mismo periodo, restando lo que ya hayas pagado en trimestres anteriores de ese mismo año y, si procede, las retenciones que ya te hayan practicado otros clientes.
 
 ## Un ejemplo sencillo
 
@@ -21,7 +21,7 @@ En el segundo trimestre, el cálculo no arranca de cero: se acumula. Si para jun
 
 ## Cuándo no hace falta presentarlo
 
-Este pago fraccionado solo aplica a quienes tributan en estimación directa. Además, si el año anterior más del 70% de tus ingresos de actividad ya llevaron retención de IRPF (típico si facturas casi todo a otras empresas o profesionales), quedas exento de presentar el modelo 130 — Hacienda ya ha ido cobrando por adelantado vía esas retenciones. De todas formas es recomendable presentarlo para evitar sorpresas en la renta.
+Este pago fraccionado solo aplica a quienes tributan en estimación directa. Además, si el año anterior más del 70% de tus ingresos de actividad ya llevaron retención de IRPF (típico si facturas casi todo a otras empresas o profesionales), quedas exento de presentar el modelo 130. Hacienda ya ha ido cobrando por adelantado vía esas retenciones. De todas formas es recomendable presentarlo para evitar sorpresas en la renta.
 
 ## Por qué no coincide con "lo que crees que vas a deber"
 
@@ -29,4 +29,4 @@ El modelo 130 es un pago a cuenta, no el cálculo definitivo de tu IRPF. El ajus
 
 ## Cómo estimarlo tú mismo
 
-Si llevas al día tu registro de ingresos y gastos, puedes aplicar el 20% al acumulado del año y restar lo ya pagado en trimestres anteriores para tener una cifra orientativa antes de que llegue la fecha de presentación. De todas formas, nosotros lo calculamos y presentamos por ti cada trimestre — si quieres verlo venir con antelación, lo revisamos juntos antes de la fecha límite.
+Si llevas al día tu registro de ingresos y gastos, puedes aplicar el 20% al acumulado del año y restar lo ya pagado en trimestres anteriores para tener una cifra orientativa antes de que llegue la fecha de presentación. De todas formas, nosotros lo calculamos y presentamos por ti cada trimestre, si quieres verlo venir con antelación, lo revisamos juntos antes de la fecha límite.

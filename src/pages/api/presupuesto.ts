@@ -104,16 +104,25 @@ export const POST: APIRoute = async ({ request }) => {
 
   const quote = `CC-${yy}-${String(seq).padStart(5, '0')}`;
 
+  // Solo incluimos email/privacy_accepted_at en el insert cuando hay un
+  // correo que guardar: así, si esas columnas todavía no existen en la
+  // tabla (falta ejecutar el alter table de supabase/schema.sql), el
+  // presupuesto se sigue generando con normalidad para el caso sin email
+  // — el error queda aislado al caso que realmente las necesita.
   const hasEmail = typeof body.email === 'string';
-  const { error: insertError } = await supabase.from('presupuestos').insert({
+  const insertRow: Record<string, unknown> = {
     quote_code: quote,
     regimen: body.regimen,
     facturas: body.facturas,
     reporting: body.reporting,
     total,
-    email: hasEmail ? body.email : null,
-    privacy_accepted_at: hasEmail ? new Date().toISOString() : null,
-  });
+  };
+  if (hasEmail) {
+    insertRow.email = body.email;
+    insertRow.privacy_accepted_at = new Date().toISOString();
+  }
+
+  const { error: insertError } = await supabase.from('presupuestos').insert(insertRow);
   if (insertError) {
     return json({ error: 'No se ha podido guardar el presupuesto' }, 500);
   }

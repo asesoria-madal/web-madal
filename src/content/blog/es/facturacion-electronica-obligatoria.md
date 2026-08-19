@@ -15,7 +15,7 @@ Verifactu obliga a que el programa con el que facturas registre cada factura de 
 
 ## La factura electrónica obligatoria (Ley Crea y Crece)
 
-Esta es otra norma: la Ley 18/2022 de creación y crecimiento de empresas obliga a emitir y recibir facturas entre empresas y autónomos en un formato electrónico estructurado — no un PDF cualquiera, sino un archivo que un sistema informático puede leer e interpretar sin intervención manual — y a poder informar del estado de esa factura (pagada, pendiente, rechazada).
+Esta es otra norma: la Ley 18/2022 de creación y crecimiento de empresas obliga a emitir y recibir facturas entre empresas y autónomos en un formato electrónico estructurado, no un PDF cualquiera, sino un archivo que un sistema informático puede leer e interpretar sin intervención manual, y a poder informar del estado de esa factura (pagada, pendiente, rechazada).
 
 ## Por qué el calendario aún genera dudas
 
@@ -23,4 +23,4 @@ El reglamento que desarrolla esta obligación, el Real Decreto 238/2026, de 25 d
 
 ## Qué puedes ir haciendo ya
 
-Lo más útil ahora mismo es comprobar que tu programa de facturación puede generar formato electrónico estructurado (Facturae u otros estándares equivalentes) — en la práctica, suele ser el mismo requisito técnico que exige Verifactu, así que revisar uno te deja encaminado para el otro.
+Lo más útil ahora mismo es comprobar que tu programa de facturación puede generar formato electrónico estructurado (Facturae u otros estándares equivalentes). En la práctica, suele ser el mismo requisito técnico que exige Verifactu, así que revisar uno te deja encaminado para el otro.

@@ -5,14 +5,79 @@ import type { Locale } from '../../i18n/ui';
 interface Props { lang: Locale; }
 const { lang } = Astro.props;
 const t = useTranslations(lang);
+const s = t.servicios;
 ---
 
 <div id="view-servicios">
-  <div class="page view-intro">
-    <p class="eyebrow">{t.servicios.eyebrow}</p>
-    <h1 class="section-title">{t.servicios.title}</h1>
+  <div class="page view-intro founders-hero">
+    <p class="eyebrow">{s.eyebrow}</p>
+    <h1 class="section-title">{s.heroTitle}</h1>
+    <p class="section-sub">{s.heroDek}</p>
   </div>
-  <div class="page view-block">
-    <p class="section-sub">{t.servicios.comingSoon}</p>
-  </div>
+
+  <section class="section" id="acompanamiento">
+    <div class="label-col"><p class="eyebrow">{s.acompanamiento.eyebrow}</p></div>
+    <div>
+      <h2 class="section-title">{s.acompanamiento.title}</h2>
+      <p class="section-sub">{s.acompanamiento.sub}</p>
+      <div class="feature-grid cols-3">
+        {s.acompanamiento.channels.map((c) => (
+          <div class="feature-card">
+            <h3>{c.title}</h3>
+            <p>{c.desc}</p>
+          </div>
+        ))}
+      </div>
+      <p class="section-sub servicios-follow">{s.acompanamiento.detail}</p>
+    </div>
+  </section>
+
+  <section class="section" id="dashboards">
+    <div class="label-col"><p class="eyebrow">{s.dashboards.eyebrow}</p></div>
+    <div>
+      <h2 class="section-title">{s.dashboards.title}</h2>
+      <p class="section-sub">{s.dashboards.sub}</p>
+      <div class="servicios-shift">
+        <p class="from">{s.dashboards.from}</p>
+        <p class="to">{s.dashboards.to}</p>
+      </div>
+      <p class="section-sub servicios-follow">{s.dashboards.detail}</p>
+    </div>
+  </section>
+
+  <section class="section" id="asistente">
+    <div class="label-col"><p class="eyebrow">{s.asistente.eyebrow}</p></div>
+    <div>
+      <div class="servicios-heading">
+        <h2 class="section-title">{s.asistente.title}</h2>
+        <span class="tag soon">{s.asistente.badge}</span>
+      </div>
+      <p class="section-sub">{s.asistente.sub}</p>
+      <ul class="servicios-list">
+        {s.asistente.items.map((item) => <li>{item}</li>)}
+      </ul>
+      <p class="servicios-note">{s.asistente.note}</p>
+    </div>
+  </section>
+
+  <section class="section" id="futuro">
+    <div class="label-col"><p class="eyebrow">{s.futuro.eyebrow}</p></div>
+    <div>
+      <h2 class="section-title">{s.futuro.title}</h2>
+      <p class="section-sub">{s.futuro.sub}</p>
+      <ul class="roadmap">
+        {s.futuro.items.map((item, i) => (
+          <li>
+            <span class="num">{i + 1}</span>
+            <div class="item">
+              <h3>{item.title}</h3>
+              <p>{item.desc}</p>
+            </div>
+            <span class="tag soon">{s.futuro.badge}</span>
+          </li>
+        ))}
+      </ul>
+      <p class="servicios-closing">{s.futuro.closing}</p>
+    </div>
+  </section>
 </div>

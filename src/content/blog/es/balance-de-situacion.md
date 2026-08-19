@@ -13,8 +13,8 @@ Muchas empresas solo ven su contabilidad cuando toca presentar un impuesto. El b
 
 El balance junta tres bloques:
 
-- **Activo**: todo lo que tu negocio tiene — dinero en el banco, facturas pendientes de cobro, equipo, local si es tuyo.
-- **Pasivo**: todo lo que tu negocio debe — préstamos, facturas pendientes de pagar, la parte de impuestos que aún no has liquidado.
+- **Activo**: todo lo que tu negocio tiene, dinero en el banco, facturas pendientes de cobro, equipo, local si es tuyo.
+- **Pasivo**: todo lo que tu negocio debe, préstamos, facturas pendientes de pagar, la parte de impuestos que aún no has liquidado.
 - **Patrimonio neto**: la diferencia entre los dos anteriores. Es, en la práctica, lo que vale tu negocio en ese momento.
 
 ## Por qué mirarlo y no solo la cuenta de resultados
@@ -25,4 +25,4 @@ Es habitual descubrir con el balance cosas que la cuenta de resultados no enseñ
 
 ## Con qué frecuencia revisarlo
 
-Trimestral es un buen ritmo para un autónomo o pyme pequeña: da tiempo a que se note un cambio de tendencia, pero no tanto como para reaccionar tarde. Esta es exactamente la diferencia entre presentarte solo los impuestos y entregarte un balance que puedas leer y usar para decidir — que es como trabajamos.
+Trimestral es un buen ritmo para un autónomo o pyme pequeña: da tiempo a que se note un cambio de tendencia, pero no tanto como para reaccionar tarde. Esta es exactamente la diferencia entre presentarte solo los impuestos y entregarte un balance que puedas leer y usar para decidir, que es como trabajamos.

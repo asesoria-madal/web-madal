@@ -7,7 +7,7 @@ cat: Fiscalidad
 date: 2026-08-19
 ---
 
-Uno de los sustos más comunes al empezar como autónomo no es pagar impuestos — es no tener el dinero apartado cuando toca pagarlos. El problema casi nunca es fiscal, es de caja.
+Uno de los sustos más comunes al empezar como autónomo no es pagar impuestos, es no tener el dinero apartado cuando toca pagarlos. El problema casi nunca es fiscal, es de caja.
 
 ## Por qué hace falta una reserva
 
@@ -26,4 +26,4 @@ Una cuenta separada donde transfieres automáticamente un porcentaje cada vez qu
 
 ## Reservar no es lo mismo que planificar
 
-Apartar un porcentaje te protege del pago trimestral, pero no resuelve la irregularidad de ingresos a lo largo del año. Si facturas de forma muy desigual entre meses, conviene mirar también cómo repartir esos ingresos para no llegar a fin de año con sorpresas — de eso depende, además, cuánta reserva necesitas realmente en los meses flojos.
+Apartar un porcentaje te protege del pago trimestral, pero no resuelve la irregularidad de ingresos a lo largo del año. Si facturas de forma muy desigual entre meses, conviene mirar también cómo repartir esos ingresos para no llegar a fin de año con sorpresas. Además, de eso depende cuánta reserva necesitas realmente en los meses flojos.

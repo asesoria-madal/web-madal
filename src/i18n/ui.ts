@@ -82,7 +82,7 @@ export const ui = {
       desc: 'Nos encargamos del papeleo. Pagas la tarifa de alta y el primer mes de gestoría va gratis.',
       price: 'Alta desde 59,29 €',
       priceNote: '+ 1er mes de cuota, gratis · IVA incluido',
-      link: 'Ver cómo funciona →',
+      link: 'Simular mi precio →',
     },
 
     altaPage: {
@@ -222,7 +222,7 @@ export const ui = {
         { q: '¿Cuándo me conviene pasar de autónomo a SL?', a: 'Como referencia orientativa (no una cifra legal), suele empezar a compensar entre 60.000 € y 80.000 € de facturación anual, o antes si quieres limitar tu responsabilidad patrimonial.' },
         { q: '¿Y si un trimestre no facturo nada?', a: 'Presentamos el modelo a cero. Va incluido en la cuota. Si vas a tener un tiempo de inactividad, te ofrecemos una cuota reducida.' },
         { q: '¿Por qué varía tanto el precio de una gestoría de un negocio a otro?', a: 'Depende de tu régimen fiscal, del volumen de facturas, de si tienes empleados y de si quieres reporting además de la presentación de impuestos.' },
-        { q: '¿A partir de cuándo es obligatorio Verifactu?', a: '1 de enero de 2027 para sociedades y 1 de julio de 2027 para autónomos, según el Real Decreto-ley 15/2025 — no julio de 2026, que es la fecha que aún circula desactualizada.' },
+        { q: '¿A partir de cuándo es obligatorio Verifactu?', a: '1 de enero de 2027 para sociedades y 1 de julio de 2027 para autónomos, según el Real Decreto-ley 15/2025. No julio de 2026, que es la fecha que aún circula desactualizada.' },
         { q: '¿A quién afecta Verifactu?', a: 'Solo a quien factura con un programa informático (un SIF). Si facturas a mano o en papel, esta obligación concreta no te afecta.' },
         { q: '¿Qué porcentaje de mis ingresos debería reservar cada mes para impuestos?', a: 'Como referencia, entre un 15% y un 30% de la facturación bruta, aparte del IVA, que nunca es tuyo y conviene apartar en cuanto lo cobras.' },
         { q: '¿Cómo interpreto los modelos que presentáis por mí?', a: 'Cada modelo (130, 303, 390, Renta) responde a una obligación distinta. Te enviamos copia de todos, y si uno te genera dudas, te lo desglosamos.' },
@@ -268,7 +268,7 @@ export const ui = {
     equipo: {
       eyebrow: 'Quiénes somos',
       title: 'La misma formación en números, dos experiencias que se complementan',
-      dek: 'Somos los dos socios que fundamos este proyecto. Preferimos presentarnos como equipo, sin fichas individuales por ahora — lo que sí compartimos aquí es nuestra formación, nuestra experiencia profesional y cómo trabajamos con cada cliente.',
+      dek: 'Somos los dos socios que fundamos este proyecto. Preferimos presentarnos como equipo, sin fichas individuales por ahora. Lo que sí compartimos aquí es nuestra formación, nuestra experiencia profesional y cómo trabajamos con cada cliente.',
       tags: ['Economía y Estadística (UB / UPC)', 'Experiencia real en gestoría', '100% online'],
       formacion: {
         eyebrow: 'Formación',
@@ -285,14 +285,14 @@ export const ui = {
         sub: 'La formación es compartida; la experiencia profesional, complementaria. Eso es lo que nos permite mirar tu contabilidad desde dentro de una gestoría y, a la vez, entender cómo se mueven el dinero y la normativa en otro tipo de organizaciones.',
         items: [
           { title: 'Responsable de contabilidad y fiscalidad en una gestoría', desc: 'Una parte del equipo ha sido la máxima responsable de las áreas contable y fiscal de una gestoría, con responsabilidad directa sobre esas materias y sobre la gestión de clientes reales, mes a mes.' },
-          { title: 'Empresa privada, sector público, financiero y regulación', desc: 'La otra parte del equipo ha trabajado en empresas privadas, en el sector público, en el sector financiero y en organismos reguladores — una perspectiva sobre cómo funcionan realmente la economía, los datos y la normativa fuera de una gestoría.' },
+          { title: 'Empresa privada, sector público, financiero y regulación', desc: 'La otra parte del equipo ha trabajado en empresas privadas, en el sector público, en el sector financiero y en organismos reguladores: una perspectiva sobre cómo funcionan realmente la economía, los datos y la normativa fuera de una gestoría.' },
         ],
       },
       metodo: {
         eyebrow: 'Cómo trabajamos',
         title: 'Lo que hacemos distinto a una gestoría al uso',
         steps: [
-          { title: 'Rigor con fuentes oficiales', desc: 'Lo que te contamos, y lo que publicamos, se apoya en normativa de la Agencia Tributaria y el BOE — no en lo que hace la mayoría.' },
+          { title: 'Rigor con fuentes oficiales', desc: 'Lo que te contamos, y lo que publicamos, se apoya en normativa de la Agencia Tributaria y el BOE, no en lo que hace la mayoría.' },
           { title: 'Un balance que se puede analizar', desc: 'Tus cuentas no son solo el papel que hay que presentar: son información que debería ayudarte a decidir.' },
           { title: 'Datos y tecnología, no solo un Excel', desc: 'La estadística no es un adorno en el currículum: la usamos para automatizar procesos y para mirar tu negocio con más perspectiva.' },
           { title: 'Trato directo, sin intermediarios', desc: 'Hablas con quien lleva tu contabilidad, no con un buzón general ni con un departamento que no te conoce.' },
@@ -301,19 +301,64 @@ export const ui = {
       confianza: {
         eyebrow: 'Rigor editorial',
         title: 'Por qué puedes confiar en lo que publicamos',
-        sub: 'Todo lo que escribimos sobre fiscalidad y contabilidad —en el blog, en las FAQs, en el simulador— sigue el mismo criterio.',
+        sub: 'Todo lo que escribimos sobre fiscalidad y contabilidad (en el blog, en las FAQs, en el simulador) sigue el mismo criterio.',
         items: [
           { title: 'Fuentes oficiales, no de terceros', desc: 'Nos apoyamos en la normativa de la Agencia Tributaria y en el BOE, no en lo que dicen otros blogs sobre gestoría.' },
           { title: 'Contenido revisado y actualizado', desc: 'La normativa fiscal cambia. Cuando cambia algo relevante, actualizamos el contenido afectado en lugar de dejarlo desactualizado.' },
-          { title: 'Información general no es asesoramiento', desc: 'Lo que lees aquí es información general. Tu caso concreto puede tener matices — para eso está la llamada, no el artículo.' },
+          { title: 'Información general no es asesoramiento', desc: 'Lo que lees aquí es información general. Tu caso concreto puede tener matices: para eso está la llamada, no el artículo.' },
         ],
       },
     },
 
     servicios: {
       eyebrow: 'Nuestros servicios',
-      title: 'Nuestros servicios',
-      comingSoon: 'Estamos preparando esta página. Muy pronto podrás ver aquí el detalle de todo lo que ofrecemos.',
+      heroTitle: 'Mucho más que presentar impuestos.',
+      heroDek: 'Nos encargamos de tus impuestos y de tu contabilidad, como cualquier gestoría. Lo que hacemos alrededor de eso es lo que nos diferencia: acompañarte para que entiendas tu negocio, tomes mejores decisiones y tengas la tecnología de tu lado para que gestionarlo sea más fácil.',
+      acompanamiento: {
+        eyebrow: 'Gestoría + acompañamiento',
+        title: 'No desaparecemos en cuanto presentamos tus impuestos',
+        sub: 'Llevamos tu contabilidad y presentamos tus impuestos, como esperas de cualquier gestoría. Pero seguimos ahí después: puedes escribirnos, llamarnos o venir a vernos siempre que lo necesites, porque nos importa que tu negocio funcione, no solo que estés al día con Hacienda.',
+        channels: [
+          { title: 'Correo electrónico', desc: 'Escríbenos cuando te surja una duda. Te respondemos con criterio, no con una plantilla.' },
+          { title: 'Teléfono', desc: 'Si lo prefieres hablado, llámanos, sin pasar por un contestador automático.' },
+          { title: 'Presencial en Barcelona', desc: 'Si te va mejor en persona, también podemos vernos.' },
+        ],
+        detail: 'Te ayudamos a entender qué implica cada decisión, fiscal y financieramente, y a pensarla contigo cuando toca tomarla. No vamos a dirigir tu negocio por ti, pero tampoco vas a tener que esperar a la próxima declaración para hablar con nosotros.',
+      },
+      dashboards: {
+        eyebrow: 'Reporting y dashboards',
+        title: 'Tus números, de un vistazo',
+        sub: 'Además de llevar tu contabilidad, te damos acceso a dashboards automatizados desde tu área de cliente, con la información de tu negocio explicada de forma sencilla.',
+        from: '"Mi gestoría lleva mis números."',
+        to: '"Puedo ver y entender cómo está funcionando mi negocio."',
+        detail: 'Los dashboards se actualizan cada mes. Si en algún momento necesitas los datos más recientes, puedes pedírnoslo cuando quieras.',
+      },
+      asistente: {
+        eyebrow: 'En desarrollo',
+        badge: 'En desarrollo',
+        title: 'Un asistente para resolver dudas al momento',
+        sub: 'Estamos construyendo un asistente, accesible desde tu área de cliente, para resolver dudas rápidas sin que tengas que esperar a que te respondamos por correo. Podrás preguntarle por:',
+        items: [
+          'Los impuestos que presentamos por ti',
+          'Tu situación fiscal',
+          'La información disponible sobre tu negocio',
+          'Dudas sobre tus cuentas y tus datos',
+          'Cuestiones sobre la documentación que gestionamos',
+        ],
+        note: 'Está pensado para resolverte lo rápido al momento, no para sustituirnos. Si una duda necesita criterio, seguimos siendo nosotros quienes te atendemos.',
+      },
+      futuro: {
+        eyebrow: 'Hacia dónde vamos',
+        title: 'Y esto es solo el principio',
+        sub: 'Con el tiempo queremos ampliar lo que ofrecemos, siempre desde la misma base: conocer tu negocio de cerca.',
+        badge: 'Visión futura',
+        items: [
+          { title: 'Pricing', desc: 'Ayudarte a analizar tus precios y definir una estrategia basada en tus costes, tus márgenes y cómo es tu negocio, no en lo que hace la competencia.' },
+          { title: 'Automatización de procesos', desc: 'Identificar qué tareas repetitivas de tu día a día se pueden automatizar, para que pierdas menos tiempo y cometas menos errores.' },
+          { title: 'Soluciones de inteligencia artificial', desc: 'Asistentes para tus propios clientes, sistemas que respondan consultas en tu web, automatización de llamadas o de tareas administrativas: soluciones a medida según lo que necesite tu negocio.' },
+        ],
+        closing: 'Tienes una gestoría que se encarga de la parte fiscal y contable, y además, a alguien que entiende tu negocio y te da herramientas para gestionarlo mejor.',
+      },
     },
 
     footer: {
@@ -324,7 +369,7 @@ export const ui = {
       whereTitle: 'Dónde estamos',
       whereOnline: 'Servicio 100% online',
       whereSpain: 'Toda España, excepto Canarias, Navarra y País Vasco (regímenes forales)',
-      legal: 'Asesoría Madal — nombre provisional, boceto de marca. Empresa en fase de constitución.',
+      legal: 'Asesoría Madal (nombre provisional, boceto de marca). Empresa en fase de constitución.',
       portal: 'Área clientes',
       avisoLegal: 'Aviso legal',
       privacidad: 'Privacidad',
@@ -407,7 +452,7 @@ export const ui = {
       desc: 'Ens encarreguem del paperam. Pagues la tarifa d’alta i el primer mes de gestoria va gratis.',
       price: 'Alta des de 59,29 €',
       priceNote: '+ 1r mes de quota, gratis · IVA inclòs',
-      link: 'Veure com funciona →',
+      link: 'Simula el meu preu →',
     },
 
     altaPage: {
@@ -547,7 +592,7 @@ export const ui = {
         { q: 'Quan em convé passar d’autònom a SL?', a: 'Com a referència orientativa (no una xifra legal), sol començar a compensar entre 60.000 € i 80.000 € de facturació anual, o abans si vols limitar la teva responsabilitat patrimonial.' },
         { q: 'I si un trimestre no facturo res?', a: 'Presentem el model a zero. Va inclòs a la quota. Si tindràs un temps d’inactivitat, t’oferim una quota reduïda.' },
         { q: 'Per què varia tant el preu d’una gestoria d’un negoci a un altre?', a: 'Depèn del teu règim fiscal, del volum de factures, de si tens empleats i de si vols reporting a més de la presentació d’impostos.' },
-        { q: 'A partir de quan és obligatori Verifactu?', a: '1 de gener de 2027 per a societats i 1 de juliol de 2027 per a autònoms, segons el Reial decret llei 15/2025 — no juliol de 2026, que és la data que encara circula desactualitzada.' },
+        { q: 'A partir de quan és obligatori Verifactu?', a: '1 de gener de 2027 per a societats i 1 de juliol de 2027 per a autònoms, segons el Reial decret llei 15/2025. No juliol de 2026, que és la data que encara circula desactualitzada.' },
         { q: 'A qui afecta Verifactu?', a: 'Només a qui factura amb un programa informàtic (un SIF). Si factures a mà o en paper, aquesta obligació concreta no t’afecta.' },
         { q: 'Quin percentatge dels meus ingressos hauria de reservar cada mes per a impostos?', a: 'Com a referència, entre un 15% i un 30% de la facturació bruta, a banda de l’IVA, que mai és teu i convé apartar tan bon punt el cobres.' },
         { q: 'Com interpreto els models que presenteu per mi?', a: 'Cada model (130, 303, 390, Renda) respon a una obligació diferent. T’enviem còpia de tots, i si algun et genera dubtes, te’l desglossem.' },
@@ -593,7 +638,7 @@ export const ui = {
     equipo: {
       eyebrow: 'Qui som',
       title: 'La mateixa formació en números, dues experiències que es complementen',
-      dek: 'Som els dos socis que vam fundar aquest projecte. Preferim presentar-nos com a equip, sense fitxes individuals per ara — el que sí que compartim aquí és la nostra formació, la nostra experiència professional i com treballem amb cada client.',
+      dek: 'Som els dos socis que vam fundar aquest projecte. Preferim presentar-nos com a equip, sense fitxes individuals per ara. El que sí que compartim aquí és la nostra formació, la nostra experiència professional i com treballem amb cada client.',
       tags: ['Economia i Estadística (UB / UPC)', 'Experiència real en gestoria', '100% online'],
       formacion: {
         eyebrow: 'Formació',
@@ -610,14 +655,14 @@ export const ui = {
         sub: 'La formació és compartida; l’experiència professional, complementària. Això és el que ens permet mirar la teva comptabilitat des de dins d’una gestoria i, alhora, entendre com es mouen els diners i la normativa en un altre tipus d’organitzacions.',
         items: [
           { title: 'Responsable de comptabilitat i fiscalitat en una gestoria', desc: 'Una part de l’equip ha estat la màxima responsable de les àrees comptable i fiscal d’una gestoria, amb responsabilitat directa sobre aquestes matèries i sobre la gestió de clients reals, mes a mes.' },
-          { title: 'Empresa privada, sector públic, financer i regulació', desc: 'L’altra part de l’equip ha treballat en empreses privades, en el sector públic, en el sector financer i en organismes reguladors — una perspectiva sobre com funcionen realment l’economia, les dades i la normativa fora d’una gestoria.' },
+          { title: 'Empresa privada, sector públic, financer i regulació', desc: 'L’altra part de l’equip ha treballat en empreses privades, en el sector públic, en el sector financer i en organismes reguladors: una perspectiva sobre com funcionen realment l’economia, les dades i la normativa fora d’una gestoria.' },
         ],
       },
       metodo: {
         eyebrow: 'Com treballem',
         title: 'El que fem diferent d’una gestoria a l’ús',
         steps: [
-          { title: 'Rigor amb fonts oficials', desc: 'El que et contem, i el que publiquem, es recolza en normativa de l’Agència Tributària i el BOE — no en el que fa la majoria.' },
+          { title: 'Rigor amb fonts oficials', desc: 'El que et contem, i el que publiquem, es recolza en normativa de l’Agència Tributària i el BOE, no en el que fa la majoria.' },
           { title: 'Un balanç que es pot analitzar', desc: 'Els teus comptes no són només el paper que cal presentar: són informació que t’hauria d’ajudar a decidir.' },
           { title: 'Dades i tecnologia, no només un Excel', desc: 'L’estadística no és un adorn al currículum: la fem servir per automatitzar processos i per mirar el teu negoci amb més perspectiva.' },
           { title: 'Tracte directe, sense intermediaris', desc: 'Parles amb qui porta la teva comptabilitat, no amb una bústia general ni amb un departament que no et coneix.' },
@@ -626,19 +671,64 @@ export const ui = {
       confianza: {
         eyebrow: 'Rigor editorial',
         title: 'Per què pots confiar en el que publiquem',
-        sub: 'Tot el que escrivim sobre fiscalitat i comptabilitat —al blog, a les FAQs, al simulador— segueix el mateix criteri.',
+        sub: 'Tot el que escrivim sobre fiscalitat i comptabilitat (al blog, a les FAQs, al simulador) segueix el mateix criteri.',
         items: [
           { title: 'Fonts oficials, no de tercers', desc: 'Ens recolzem en la normativa de l’Agència Tributària i en el BOE, no en el que diuen altres blogs sobre gestoria.' },
           { title: 'Contingut revisat i actualitzat', desc: 'La normativa fiscal canvia. Quan canvia alguna cosa rellevant, actualitzem el contingut afectat en comptes de deixar-lo desactualitzat.' },
-          { title: 'Informació general no és assessorament', desc: 'El que llegeixes aquí és informació general. El teu cas concret pot tenir matisos — per a això hi ha la trucada, no l’article.' },
+          { title: 'Informació general no és assessorament', desc: 'El que llegeixes aquí és informació general. El teu cas concret pot tenir matisos: per a això hi ha la trucada, no l’article.' },
         ],
       },
     },
 
     servicios: {
       eyebrow: 'Els nostres serveis',
-      title: 'Els nostres serveis',
-      comingSoon: 'Estem preparant aquesta pàgina. Molt aviat hi podràs veure el detall de tot el que oferim.',
+      heroTitle: 'Molt més que presentar impostos.',
+      heroDek: 'Ens encarreguem dels teus impostos i de la teva comptabilitat, com qualsevol gestoria. El que fem al voltant d’això és el que ens diferencia: acompanyar-te perquè entenguis el teu negoci, prenguis millors decisions i tinguis la tecnologia al teu costat perquè gestionar-lo sigui més fàcil.',
+      acompanamiento: {
+        eyebrow: 'Gestoria + acompanyament',
+        title: 'No desapareixem quan presentem els teus impostos',
+        sub: 'Portem la teva comptabilitat i presentem els teus impostos, com esperes de qualsevol gestoria. Però continuem aquí després: pots escriure’ns, trucar-nos o venir a veure’ns sempre que ho necessitis, perquè ens importa que el teu negoci funcioni, no només que estiguis al dia amb Hisenda.',
+        channels: [
+          { title: 'Correu electrònic', desc: 'Escriu-nos quan et sorgeixi un dubte. Et responem amb criteri, no amb una plantilla.' },
+          { title: 'Telèfon', desc: 'Si ho prefereixes parlat, truca’ns, sense passar per un contestador automàtic.' },
+          { title: 'Presencial a Barcelona', desc: 'Si t’ho passes millor en persona, també ens podem veure.' },
+        ],
+        detail: 'T’ajudem a entendre què implica cada decisió, fiscalment i financerament, i a pensar-la amb tu quan toca prendre-la. No dirigirem el teu negoci per tu, però tampoc hauràs d’esperar a la propera declaració per parlar amb nosaltres.',
+      },
+      dashboards: {
+        eyebrow: 'Reporting i dashboards',
+        title: 'Els teus números, d’un cop d’ull',
+        sub: 'A més de portar la teva comptabilitat, et donem accés a dashboards automatitzats des de la teva àrea de client, amb la informació del teu negoci explicada de forma senzilla.',
+        from: '"La meva gestoria porta els meus números."',
+        to: '"Puc veure i entendre com funciona el meu negoci."',
+        detail: 'Els dashboards s’actualitzen cada mes. Si en algun moment necessites les dades més recents, ens ho pots demanar quan vulguis.',
+      },
+      asistente: {
+        eyebrow: 'En desenvolupament',
+        badge: 'En desenvolupament',
+        title: 'Un assistent per resoldre dubtes a l’instant',
+        sub: 'Estem construint un assistent, accessible des de la teva àrea de client, per resoldre dubtes ràpids sense que hagis d’esperar que et responguem per correu. Li podràs preguntar per:',
+        items: [
+          'Els impostos que presentem per tu',
+          'La teva situació fiscal',
+          'La informació disponible sobre el teu negoci',
+          'Dubtes sobre els teus comptes i les teves dades',
+          'Qüestions sobre la documentació que gestionem',
+        ],
+        note: 'Està pensat per resoldre’t el ràpid a l’instant, no per substituir-nos. Si un dubte necessita criteri, seguim sent nosaltres qui t’atenem.',
+      },
+      futuro: {
+        eyebrow: 'Cap a on anem',
+        title: 'I això és només el principi',
+        sub: 'Amb el temps volem ampliar el que oferim, sempre des de la mateixa base: conèixer el teu negoci de prop.',
+        badge: 'Visió de futur',
+        items: [
+          { title: 'Pricing', desc: 'Ajudar-te a analitzar els teus preus i definir una estratègia basada en els teus costos, els teus marges i com és el teu negoci, no en el que fa la competència.' },
+          { title: 'Automatització de processos', desc: 'Identificar quines tasques repetitives del teu dia a dia es poden automatitzar, perquè perdis menys temps i cometis menys errors.' },
+          { title: 'Solucions d’intel·ligència artificial', desc: 'Assistents per als teus propis clients, sistemes que responguin consultes a la teva web, automatització de trucades o de tasques administratives: solucions a mida segons el que necessiti el teu negoci.' },
+        ],
+        closing: 'Tens una gestoria que s’encarrega de la part fiscal i comptable, i a més, algú que entén el teu negoci i et dona eines per gestionar-lo millor.',
+      },
     },
 
     footer: {
@@ -649,7 +739,7 @@ export const ui = {
       whereTitle: 'On som',
       whereOnline: 'Servei 100% online',
       whereSpain: 'A tot Espanya, excepte Canàries, Navarra i el País Basc (règims forals)',
-      legal: 'Asesoría Madal — nom provisional, esbós de marca. Empresa en fase de constitució.',
+      legal: 'Asesoría Madal (nom provisional, esbós de marca). Empresa en fase de constitució.',
       portal: 'Àrea clients',
       avisoLegal: 'Avís legal',
       privacidad: 'Privadesa',
@@ -732,7 +822,7 @@ export const ui = {
       desc: 'We handle the paperwork. You pay the registration fee, and your first month of accounting is free.',
       price: 'Registration from €59.29',
       priceNote: '+ 1st month free · VAT included',
-      link: 'See how it works →',
+      link: 'Get your price →',
     },
 
     altaPage: {
@@ -795,7 +885,7 @@ export const ui = {
       },
       stepFecha: {
         q: 'When do you want to start your activity?',
-        hint: 'Pick a date from today onward. It’s tentative — we confirm it on the call.',
+        hint: 'Pick a date from today onward. It’s tentative, we confirm it on the call.',
       },
       continue: 'Continue',
       email: {
@@ -872,12 +962,12 @@ export const ui = {
         { q: 'When does it make sense to switch from self-employed to an SL?', a: 'As a rough reference (not a legal figure), it usually starts to pay off between €60,000 and €80,000 in annual turnover, or sooner if you want to limit your personal liability.' },
         { q: 'What if I don’t invoice anything in a quarter?', a: 'We file a zero return. It’s included in your fee. If you know you’ll have a quiet stretch, we can offer a reduced fee.' },
         { q: 'Why does the price of an accounting firm vary so much between businesses?', a: 'It depends on your tax regime, how many invoices you issue, whether you have employees, and whether you want reporting on top of tax filing.' },
-        { q: 'When does Verifactu actually become mandatory?', a: '1 January 2027 for companies and 1 July 2027 for freelancers, per Royal Decree-Law 15/2025 — not July 2026, which is the outdated date still circulating.' },
+        { q: 'When does Verifactu actually become mandatory?', a: '1 January 2027 for companies and 1 July 2027 for freelancers, per Royal Decree-Law 15/2025. Not July 2026, which is the outdated date still circulating.' },
         { q: 'Who does Verifactu affect?', a: 'Only people who invoice through billing software (a SIF). If you invoice by hand or on paper, this specific obligation doesn’t apply to you.' },
         { q: 'What percentage of my income should I set aside for taxes each month?', a: 'As a reference, between 15% and 30% of gross invoicing, on top of VAT, which is never really yours and should be set aside as soon as you collect it.' },
         { q: 'How do I read the tax forms you file on my behalf?', a: 'Each form (130, 303, 390, annual return) covers a different obligation. We send you a copy of all of them, and if one raises questions, we break it down for you.' },
         { q: 'What expenses can I deduct to pay less tax?', a: 'Anything necessary for your business and justified with an invoice: utilities, materials, social security contributions (if you’re self-employed), accounting fees, training, and more. We review it with you case by case.' },
-        { q: 'Can you help improve my business profitability, not just file taxes?', a: 'Yes — that’s exactly our differentiator: reading your balance sheet and P&L to spot where you’re losing margin, not just staying compliant. Get in touch for an in-depth look at your case.' },
+        { q: 'Can you help improve my business profitability, not just file taxes?', a: 'Yes, that’s exactly our differentiator: reading your balance sheet and P&L to spot where you’re losing margin, not just staying compliant. Get in touch for an in-depth look at your case.' },
         { q: 'How can I plan my income so I don’t get surprised at year-end?', a: 'By setting aside VAT and a portion of income tax from the moment you invoice, and reviewing your P&L every month instead of only every quarter. Get in touch for a personalised plan.' },
         { q: 'What do I need to do to prepare for mandatory e-invoicing?', a: 'Real Decreto 238/2026 has already been approved (12 months for businesses above €8M turnover, 24 months for everyone else and the self-employed), but the countdown starts once the ministerial order developing it is published, which is still pending. For now, check that your invoicing software can generate structured electronic format.' },
         { q: 'How should I issue invoices so they’re valid?', a: 'With sequential numbering, complete details for you and your client, and the income tax withholding applied if you’re invoicing another professional or business. We review this with you if you have questions.' },
@@ -889,7 +979,7 @@ export const ui = {
         { q: 'Flat-rate or direct estimation regime?', a: 'Direct estimation usually applies, but for activities like hospitality, restaurants, or retail, the flat-rate (módulos) regime can apply instead. Get in touch and we’ll tell you which regime fits your business best.' },
         { q: 'Is the annual income tax return included?', a: 'Yes, unlike most accounting firms, we include your annual income tax return in the fee.' },
         { q: 'Can I opt for the flat-rate (módulos) regime if my activity qualifies?', a: 'Yes, if your activity is on the allowed list and you stay under the invoicing limits.' },
-        { q: 'How often should I check my business’s accounts?', a: 'Quarterly is a good rhythm — enough time to spot a trend without reacting too late.' },
+        { q: 'How often should I check my business’s accounts?', a: 'Quarterly is a good rhythm: enough time to spot a trend without reacting too late.' },
         { q: 'How is the income tax I pay each quarter calculated?', a: 'You pay 20% of the year’s accumulated profit (income minus deductible expenses), minus whatever you’ve already paid in earlier quarters. We walk through an example on the blog.' },
         { q: 'Can I deduct rent, electricity, or my phone if I work from home?', a: 'Yes: rent proportional to the space you use for your business, and for utilities (electricity, water, gas) 30% of that same proportion. We adjust it to your actual home.' },
       ],
@@ -899,7 +989,7 @@ export const ui = {
         { q: 'Do you manage payroll?', a: 'Yes, we handle payroll and labor management.' },
         { q: 'Can you take over an SL that’s already running?', a: 'Yes, we handle the handover with your current accounting firm.' },
         { q: 'Do you help incorporate an SL?', a: 'Not yet. We advise you, but incorporation is handled by a notary.' },
-        { q: 'How often should I check my company’s balance sheet?', a: 'Quarterly is a good rhythm — enough time to spot a trend without reacting too late.' },
+        { q: 'How often should I check my company’s balance sheet?', a: 'Quarterly is a good rhythm: enough time to spot a trend without reacting too late.' },
         { q: 'What’s the difference between a balance sheet and a profit and loss statement?', a: 'The profit and loss statement summarizes the net result (profit or loss) generated by your business over a given period. The balance sheet reflects your financial position at a specific point in time, detailing assets and liabilities to measure your business’s real solvency and net worth.' },
         { q: 'How much share capital do I need to set up an SL?', a: 'From €1, though while it stays below €3,000 you need to set aside 20% of profit each year until reaching that figure.' },
         { q: 'How long does it take to incorporate an SL?', a: 'With standardised bylaws, it can be resolved in a few days; with custom bylaws, it usually takes several weeks.' },
@@ -918,7 +1008,7 @@ export const ui = {
     equipo: {
       eyebrow: 'About us',
       title: 'Same background in numbers, two experiences that complement each other',
-      dek: 'We’re the two founding partners behind this project. We prefer to introduce ourselves as a team, without individual profiles for now — what you can find here is our academic background, our professional experience and how we work with each client.',
+      dek: 'We’re the two founding partners behind this project. We prefer to introduce ourselves as a team, without individual profiles for now. What you can find here is our academic background, our professional experience and how we work with each client.',
       tags: ['Economics & Statistics (UB / UPC)', 'Real accounting-firm experience', '100% online'],
       formacion: {
         eyebrow: 'Background',
@@ -935,14 +1025,14 @@ export const ui = {
         sub: 'The academic background is shared; the professional experience is complementary. That’s what lets us look at your accounts from inside an accounting firm while also understanding how money, data and regulation move in other kinds of organisations.',
         items: [
           { title: 'Head of accounting and tax at an accounting firm', desc: 'One part of the team was the senior person responsible for the accounting and tax areas of an accounting firm, directly responsible for those areas and for managing real clients, month after month.' },
-          { title: 'Private companies, public sector, finance and regulation', desc: 'The other part of the team has worked across private companies, the public sector, the financial sector and regulatory bodies — a perspective on how the economy, data and regulation actually work outside an accounting firm.' },
+          { title: 'Private companies, public sector, finance and regulation', desc: 'The other part of the team has worked across private companies, the public sector, the financial sector and regulatory bodies: a perspective on how the economy, data and regulation actually work outside an accounting firm.' },
         ],
       },
       metodo: {
         eyebrow: 'How we work',
         title: 'What we do differently from a typical accounting firm',
         steps: [
-          { title: 'Rigour, backed by official sources', desc: 'What we tell you, and what we publish, is based on Tax Agency and official gazette (BOE) regulation — not on what everyone else does.' },
+          { title: 'Rigour, backed by official sources', desc: 'What we tell you, and what we publish, is based on Tax Agency and official gazette (BOE) regulation, not on what everyone else does.' },
           { title: 'A balance sheet you can actually read', desc: 'Your accounts aren’t just the paperwork you have to file: they’re information that should help you decide.' },
           { title: 'Data and technology, not just a spreadsheet', desc: 'Statistics isn’t a line on a CV: we use it to automate processes and to look at your business with more perspective.' },
           { title: 'Direct contact, no middlemen', desc: 'You talk to whoever handles your accounting, not a general inbox or a department that doesn’t know you.' },
@@ -951,19 +1041,64 @@ export const ui = {
       confianza: {
         eyebrow: 'Editorial rigour',
         title: 'Why you can trust what we publish',
-        sub: 'Everything we write about tax and accounting — in the blog, the FAQs, the simulator — follows the same standard.',
+        sub: 'Everything we write about tax and accounting (in the blog, the FAQs, the simulator) follows the same standard.',
         items: [
           { title: 'Official sources, not second-hand ones', desc: 'We rely on Tax Agency regulation and the official gazette (BOE), not on what other accounting blogs say.' },
           { title: 'Reviewed and kept up to date', desc: 'Tax rules change. When something relevant changes, we update the affected content instead of leaving it outdated.' },
-          { title: 'General information isn’t personal advice', desc: 'What you read here is general information. Your specific situation may have nuances — that’s what the call is for, not the article.' },
+          { title: 'General information isn’t personal advice', desc: 'What you read here is general information. Your specific situation may have nuances: that’s what the call is for, not the article.' },
         ],
       },
     },
 
     servicios: {
       eyebrow: 'Our services',
-      title: 'Our services',
-      comingSoon: 'We’re putting this page together. Soon you’ll be able to see the full detail of everything we offer here.',
+      heroTitle: 'Much more than filing your taxes.',
+      heroDek: 'We handle your taxes and your accounting, like any accounting firm. What sets us apart is what we do around that: helping you understand your business, make better decisions, and have technology on your side so running it is easier.',
+      acompanamiento: {
+        eyebrow: 'Accounting + ongoing support',
+        title: 'We don’t disappear once we’ve filed your taxes',
+        sub: 'We handle your accounting and file your taxes, like you’d expect from any accounting firm. But we stay involved after that: you can email us, call us, or come see us whenever you need to, because we care about your business working, not just about you staying compliant.',
+        channels: [
+          { title: 'Email', desc: 'Write to us whenever a question comes up. We reply with judgment, not a template.' },
+          { title: 'Phone', desc: 'If you’d rather talk it through, call us, no automated menu in the way.' },
+          { title: 'In person in Barcelona', desc: 'If face to face works better for you, we can meet up too.' },
+        ],
+        detail: 'We help you understand what each decision means, tax-wise and financially, and think it through with you when it’s time to decide. We’re not going to run your business for you, but you won’t have to wait until your next tax return to talk to us either.',
+      },
+      dashboards: {
+        eyebrow: 'Reporting and dashboards',
+        title: 'Your numbers, at a glance',
+        sub: 'On top of handling your accounting, we give you access to automated dashboards from your client area, with your business information explained simply.',
+        from: '"My accounting firm handles my numbers."',
+        to: '"I can see and understand how my business is doing."',
+        detail: 'Dashboards update every month. If you ever need the most recent data, you can ask us for a refresh whenever you want.',
+      },
+      asistente: {
+        eyebrow: 'In development',
+        badge: 'In development',
+        title: 'An assistant to answer questions on the spot',
+        sub: 'We’re building an assistant, accessible from your client area, to answer quick questions without you having to wait for us to reply by email. You’ll be able to ask it about:',
+        items: [
+          'The taxes we file on your behalf',
+          'Your tax situation',
+          'The information available about your business',
+          'Questions about your accounts and your data',
+          'Questions about the paperwork we handle',
+        ],
+        note: 'It’s meant to give you a fast answer on the spot, not to replace us. When a question needs real judgment, we’re still the ones who’ll help you.',
+      },
+      futuro: {
+        eyebrow: 'Where we’re headed',
+        title: 'And this is just the start',
+        sub: 'Over time we want to expand what we offer, always from the same basis: knowing your business closely.',
+        badge: 'Future direction',
+        items: [
+          { title: 'Pricing', desc: 'Helping you analyse your prices and set a strategy based on your costs, your margins, and what your business is like, not on what competitors do.' },
+          { title: 'Process automation', desc: 'Spotting which repetitive tasks in your day-to-day can be automated, so you lose less time and make fewer mistakes.' },
+          { title: 'AI solutions', desc: 'Assistants for your own customers, systems that answer questions on your website, automating calls or admin tasks: solutions tailored to what your business needs.' },
+        ],
+        closing: 'You have an accounting firm handling the tax and accounting side, and on top of that, someone who understands your business and gives you tools to run it better.',
+      },
     },
 
     footer: {
@@ -974,7 +1109,7 @@ export const ui = {
       whereTitle: 'Where we are',
       whereOnline: '100% online service',
       whereSpain: 'All of Spain, except the Canary Islands, Navarre, and the Basque Country (regional tax systems)',
-      legal: 'Asesoría Madal — provisional name, brand sketch. Company in the process of incorporation.',
+      legal: 'Asesoría Madal (provisional name, brand sketch). Company in the process of incorporation.',
       portal: 'Client area',
       avisoLegal: 'Legal notice',
       privacidad: 'Privacy',

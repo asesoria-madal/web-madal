@@ -15,7 +15,7 @@ Desde la reforma de la Ley de creación y crecimiento de empresas, una SL se pue
 
 ## Los pasos del trámite
 
-1. **Certificación de denominación social**, en el Registro Mercantil Central — confirma que el nombre que quieres para tu SL no lo tiene ya otra empresa.
+1. **Certificación de denominación social**, en el Registro Mercantil Central, confirma que el nombre que quieres para tu SL no lo tiene ya otra empresa.
 2. **Apertura de una cuenta bancaria** a nombre de la sociedad en constitución, para ingresar el capital social (con capitales bajos, algunos notarios admiten una declaración de responsabilidad en vez del certificado bancario).
 3. **Escritura pública ante notario**, donde se aprueban los estatutos de la sociedad.
 4. **Obtención del NIF provisional** y alta censal en Hacienda (modelo 036).
@@ -27,4 +27,4 @@ Si se usan estatutos tipo estandarizados a través del sistema de tramitación t
 
 ## Lo que no cambia
 
-El trámite de constitución en sí lo lleva un notario, no una gestoría — nosotros no constituimos SL, pero te asesoramos sobre qué encaja con tu situación antes de dar el paso, y nos encargamos de la contabilidad y la fiscalidad desde el primer día de vida de la sociedad.
+El trámite de constitución en sí lo lleva un notario, no una gestoría. Nosotros no constituimos SL, pero te asesoramos sobre qué encaja con tu situación antes de dar el paso, y nos encargamos de la contabilidad y la fiscalidad desde el primer día de vida de la sociedad.

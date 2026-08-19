@@ -1,5 +1,5 @@
 ---
-import { useTranslations } from '../../i18n/utils';
+import { useTranslations, localizedPath } from '../../i18n/utils';
 import type { Locale } from '../../i18n/ui';
 import ContactSwitch from '../ContactSwitch.astro';
 
@@ -35,6 +35,9 @@ const p = t.altaPage;
     <div class="alta-box">
       <div class="copy">
         <h3>{p.timeline}</h3>
+      </div>
+      <div class="alta-box-cta">
+        <a href={localizedPath('/simulador', lang)} class="btn btn-outline">{t.hero.ctaSim}</a>
       </div>
       <div>
         <p class="price">{p.price}<br /><small>{p.priceNote}</small></p>

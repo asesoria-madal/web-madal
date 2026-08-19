@@ -759,6 +759,25 @@ h2.section-title { font-size: clamp(1.5rem, 2.6vw, 2rem); }
 .sim-input:focus { outline: none; border-color: var(--accent); }
 .sim-continue { display: block; margin: 1.2rem auto 0; }
 .sim-continue:disabled { opacity: 0.5; cursor: not-allowed; }
+/* ---------- Nuestros servicios ---------- */
+.servicios-follow { margin-top: 1.6rem; }
+.servicios-shift {
+  margin-top: 1.6rem;
+  padding: 1.3rem 1.6rem;
+  background: var(--paper-raised);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  max-width: 480px;
+}
+.servicios-shift .from { font-size: 0.95rem; color: var(--ink-soft); font-style: italic; }
+.servicios-shift .to { font-size: 1.05rem; color: var(--ink); font-weight: 600; margin-top: 0.6rem; }
+.servicios-heading { display: flex; align-items: center; gap: 0.8rem; flex-wrap: wrap; }
+.servicios-list { list-style: none; margin-top: 1.3rem; display: flex; flex-direction: column; gap: 0.7rem; max-width: 480px; }
+.servicios-list li { font-size: 0.94rem; color: var(--ink); padding-left: 1.5rem; position: relative; }
+.servicios-list li::before { content: '✓'; position: absolute; left: 0; color: var(--accent); font-weight: 700; }
+.servicios-note { margin-top: 1.3rem; font-size: 0.85rem; color: var(--ink-soft); max-width: 60ch; }
+.servicios-closing { margin-top: 1.8rem; font-family: var(--font-display); font-size: 1.15rem; max-width: 42ch; }
+
 .sim-alta-fee { font-size: 1.05rem; }
 .sim-alta-fee strong { color: var(--accent); }
 .sim-alta-note { margin-top: 0.4rem; font-size: 0.85rem; color: var(--ink-soft); }

@@ -12,13 +12,13 @@ El precio de una gestoría no depende de una tarifa fija de mercado: depende de 
 ## Qué factores suben o bajan el precio
 
 - **Régimen fiscal**: tributar en módulos suele ser más barato de gestionar que en estimación directa, porque hay menos gastos que revisar y justificar cada trimestre.
-- **Volumen de facturas**: cuantas más facturas emitidas y recibidas al mes, más trabajo de contabilización — casi todas las gestorías escalan el precio por este motivo.
+- **Volumen de facturas**: cuantas más facturas emitidas y recibidas al mes, más trabajo de contabilización. Casi todas las gestorías escalan el precio por este motivo.
 - **Empleados a cargo**: si tienes trabajadores, se suma la gestión de nóminas y seguros sociales, que es un servicio aparte del puramente fiscal.
 - **Reporting y asesoría añadida**: presentar impuestos es la base; un balance analizable y explicado, no solo entregado, es un servicio de más valor y normalmente tiene un coste aparte.
 
 ## Por qué desconfiar de un precio "único" para todos
 
-Si una gestoría te da un precio cerrado sin preguntarte por tu régimen, tu volumen de facturas o si tienes empleados, probablemente ese precio no está ajustado a tu caso real — o el servicio detrás es más limitado de lo que parece.
+Si una gestoría te da un precio cerrado sin preguntarte por tu régimen, tu volumen de facturas o si tienes empleados, probablemente ese precio no está ajustado a tu caso real, o el servicio detrás es más limitado de lo que parece.
 
 ## Cómo lo hacemos nosotros
 

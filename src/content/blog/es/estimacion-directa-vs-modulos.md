@@ -25,4 +25,4 @@ Te puede convenir si tu negocio tiene pocos gastos deducibles y factura de forma
 
 ## Cómo decidir
 
-No hay una respuesta única — depende de tu actividad concreta, tus gastos reales y cuánto factures. Los límites de facturación y las actividades permitidas en módulos cambian con la normativa de cada año, así que antes de decidirte confirma tu caso concreto con nosotros: lo revisamos gratis en la primera llamada.
+No hay una respuesta única. Depende de tu actividad concreta, tus gastos reales y cuánto factures. Los límites de facturación y las actividades permitidas en módulos cambian con la normativa de cada año, así que antes de decidirte confirma tu caso concreto con nosotros: lo revisamos gratis en la primera llamada.
