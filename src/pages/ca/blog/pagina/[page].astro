@@ -1,0 +1,30 @@
+---
+import Layout from '../../../../layouts/Layout.astro';
+import Blog from '../../../../components/pages/Blog.astro';
+import { getSortedBlogPosts, toPostPreview, totalBlogPages, BLOG_PAGE_SIZE } from '../../../../lib/blog';
+
+export const prerender = true;
+
+export async function getStaticPaths() {
+  const entries = await getSortedBlogPosts('ca');
+  const total = totalBlogPages(entries.length);
+  return Array.from({ length: Math.max(0, total - 1) }, (_, i) => ({ params: { page: String(i + 2) } }));
+}
+
+const currentPage = Number(Astro.params.page);
+const entries = await getSortedBlogPosts('ca');
+const total = totalBlogPages(entries.length);
+const posts = entries
+  .slice((currentPage - 1) * BLOG_PAGE_SIZE, currentPage * BLOG_PAGE_SIZE)
+  .map((e) => toPostPreview(e, 'ca'));
+---
+
+<Layout
+  lang="ca"
+  path={`/ca/blog/pagina/${currentPage}`}
+  active="blog"
+  title={`Blog, pàgina ${currentPage} · Asesoría Madal`}
+  description="Més articles sobre fiscalitat per a autònoms, SL i pimes."
+>
+  <Blog lang="ca" posts={posts} showFaq={false} pagination={{ current: currentPage, total, baseUrl: '/blog' }} />
+</Layout>

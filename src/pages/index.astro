@@ -1,0 +1,10 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Home from '../components/pages/Home.astro';
+
+export const prerender = true;
+---
+
+<Layout lang="es" path="/" active="home" title="Asesoría Madal" description="Gestoría y asesoría 100% online para autónomos y pymes. Balance trimestral claro, pensado para decidir.">
+  <Home lang="es" />
+</Layout>

@@ -1,0 +1,10 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Simulador from '../../components/pages/Simulador.astro';
+
+export const prerender = true;
+---
+
+<Layout lang="en" path="/en/simulador" active="simulador" title="Price simulator · Asesoría Madal" description="Answer four questions to find out how much Asesoría Madal would cost for your business.">
+  <Simulador lang="en" />
+</Layout>

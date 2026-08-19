@@ -1,0 +1,10 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Equipo from '../../components/pages/Equipo.astro';
+
+export const prerender = true;
+---
+
+<Layout lang="en" path="/en/equipo" active="equipo" title="About us · Asesoría Madal" description="Two people, no departments. Backgrounds in economics and statistics, registered professionals, 100% online.">
+  <Equipo lang="en" />
+</Layout>

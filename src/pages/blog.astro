@@ -1,0 +1,15 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Blog from '../components/pages/Blog.astro';
+import { getSortedBlogPosts, toPostPreview, totalBlogPages, BLOG_PAGE_SIZE } from '../lib/blog';
+
+export const prerender = true;
+
+const entries = await getSortedBlogPosts('es');
+const posts = entries.slice(0, BLOG_PAGE_SIZE).map((e) => toPostPreview(e, 'es'));
+const total = totalBlogPages(entries.length);
+---
+
+<Layout lang="es" path="/blog" active="blog" title="Blog · Asesoría Madal" description="Artículos y preguntas frecuentes sobre fiscalidad para autónomos, SL y pymes.">
+  <Blog lang="es" posts={posts} pagination={{ current: 1, total, baseUrl: '/blog' }} />
+</Layout>

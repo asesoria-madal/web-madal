@@ -1,0 +1,10 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Home from '../../components/pages/Home.astro';
+
+export const prerender = true;
+---
+
+<Layout lang="en" path="/en/" active="home" title="Asesoría Madal" description="Fully online accounting and advisory for freelancers and small businesses in Spain. A clear quarterly balance sheet, built to help you decide.">
+  <Home lang="en" />
+</Layout>

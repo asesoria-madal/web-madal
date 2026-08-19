@@ -1,0 +1,30 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { render } from 'astro:content';
+import type { Locale } from '../../i18n/ui';
+import { useTranslations, localizedPath } from '../../i18n/utils';
+
+interface Props {
+  lang: Locale;
+  entry: CollectionEntry<'blog'>;
+}
+
+const { lang, entry } = Astro.props;
+const t = useTranslations(lang);
+const { Content } = await render(entry);
+const date = entry.data.date.toLocaleDateString(lang === 'es' ? 'es-ES' : lang === 'ca' ? 'ca-ES' : 'en-GB', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+---
+
+<div class="article-page">
+  <a href={localizedPath('/blog', lang)} class="article-back">{t.blog.backToBlog}</a>
+  <p class="eyebrow">{entry.data.cat}</p>
+  <h1 class="article-title">{entry.data.title}</h1>
+  <p class="article-date">{date}</p>
+  <div class="article-body">
+    <Content />
+  </div>
+</div>

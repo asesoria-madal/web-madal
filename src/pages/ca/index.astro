@@ -1,0 +1,10 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Home from '../../components/pages/Home.astro';
+
+export const prerender = true;
+---
+
+<Layout lang="ca" path="/ca/" active="home" title="Asesoría Madal" description="Gestoria i assessoria 100% online per a autònoms i pimes. Balanç trimestral clar, pensat per decidir.">
+  <Home lang="ca" />
+</Layout>

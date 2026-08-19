@@ -1,0 +1,10 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Portal from '../components/pages/Portal.astro';
+
+export const prerender = true;
+---
+
+<Layout lang="es" path="/portal" active="none" title="Área de clientes · Asesoría Madal" description="Accede a tu área de cliente con un enlace por email, sin contraseña." showCtaFinal={false}>
+  <Portal />
+</Layout>

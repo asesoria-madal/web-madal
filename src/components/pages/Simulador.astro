@@ -1,0 +1,233 @@
+---
+import { useTranslations } from '../../i18n/utils';
+import type { Locale } from '../../i18n/ui';
+import ContactSwitch from '../ContactSwitch.astro';
+
+interface Props { lang: Locale; }
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const s = t.sim;
+---
+
+<div id="view-simulador">
+  <div class="sim-page">
+    <p class="eyebrow">{s.eyebrow}</p>
+    <h2 class="sim-page-title">{s.title}</h2>
+    <p class="section-sub" style="margin-left:auto;margin-right:auto;">{s.sub}</p>
+
+    <div class="wizard" id="wizard" data-lang={lang}>
+      <div class="wizard-progress">
+        <span class="step-dot active" data-dot="0"></span>
+        <span class="step-dot" data-dot="1"></span>
+        <span class="step-dot" data-dot="2"></span>
+      </div>
+
+      <div class="wizard-step" data-step="0">
+        <h3>{s.stepRegimen.q}</h3>
+        <div class="card-options">
+          {s.stepRegimen.options.map((opt) => (
+            <button type="button" class="option-card" data-field="regimen" data-value={opt.value}>{opt.label}</button>
+          ))}
+        </div>
+      </div>
+
+      <div class="wizard-step" data-step="1" hidden>
+        <h3>{s.stepFacturas.q}</h3>
+        <div class="card-options" data-facturas-options="autonomo" hidden>
+          {s.stepFacturas.optionsAutonomo.map((opt) => (
+            <button type="button" class="option-card" data-field="facturas" data-value={opt.value}>{opt.label}</button>
+          ))}
+        </div>
+        <div class="card-options" data-facturas-options="pyme" hidden>
+          {s.stepFacturas.optionsPyme.map((opt) => (
+            <button type="button" class="option-card" data-field="facturas" data-value={opt.value}>{opt.label}</button>
+          ))}
+        </div>
+      </div>
+
+      <div class="wizard-step" data-step="2" hidden>
+        <h3>{s.stepReporting.q}</h3>
+        <div class="card-options">
+          {s.stepReporting.options.map((opt) => (
+            <button type="button" class="option-card" data-field="reporting" data-value={opt.value}>{opt.label}</button>
+          ))}
+        </div>
+      </div>
+
+      <div class="wizard-result" hidden>
+        <p class="eyebrow">{s.resultEyebrow}</p>
+        <p class="sim-price"><span id="simPrice">0</span> €<small>{s.priceUnit}</small></p>
+        <ul
+          class="sim-breakdown"
+          id="simBreakdown"
+          data-base-autonomo={s.breakdownBaseAutonomo}
+          data-base-sl={s.breakdownBaseSl}
+          data-reporting={s.breakdownReporting}
+          data-reporting-nose={s.breakdownReportingNose}
+          data-iva={s.breakdownIva}
+          data-total={s.breakdownTotal}
+        ></ul>
+        <p class="sim-monthly-note">{s.monthlyNote}</p>
+        <p class="quote-number">{s.quoteLabel} <span id="quoteNumber">…</span></p>
+        <p class="wizard-error" id="wizardError" hidden>{s.error}</p>
+        <ContactSwitch lang={lang} />
+        <button type="button" class="wizard-restart" id="wizardRestart">{s.restart}</button>
+      </div>
+
+      <button type="button" class="wizard-back" id="wizardBack" hidden>{s.back}</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  (function () {
+    const wizard = document.getElementById('wizard');
+    if (!wizard) return;
+
+    const steps = Array.from(wizard.querySelectorAll<HTMLElement>('.wizard-step'));
+    const result = wizard.querySelector<HTMLElement>('.wizard-result') as HTMLElement;
+    const dots = Array.from(wizard.querySelectorAll<HTMLElement>('.step-dot'));
+    const backBtn = document.getElementById('wizardBack') as HTMLButtonElement;
+    const restartBtn = document.getElementById('wizardRestart') as HTMLButtonElement;
+    const priceEl = document.getElementById('simPrice') as HTMLElement;
+    const quoteEl = document.getElementById('quoteNumber') as HTMLElement;
+    const breakdownList = document.getElementById('simBreakdown') as HTMLElement | null;
+    const errorEl = document.getElementById('wizardError') as HTMLElement;
+    const facturasGroups = Array.from(wizard.querySelectorAll<HTMLElement>('[data-facturas-options]'));
+
+    // Duplicado deliberadamente del cálculo en src/pages/api/presupuesto.ts:
+    // así el precio aparece al instante aunque la llamada a la API tarde o falle,
+    // y solo el número de presupuesto depende de la respuesta del servidor.
+    // Tarifas base SIN IVA; el simulador siempre muestra el importe CON IVA (21%).
+    const IVA_RATE = 0.21;
+    const RATES_AUTONOMO: Record<string, number> = { bajo: 40, medio: 50, alto: 60 };
+    const RATES_PYME: Record<string, number> = { t1: 100, t2: 115, t3: 130, t4: 150 };
+    const REPORTING: Record<string, number> = { si: 30, no: 0, nose: 15 };
+
+    function round2(n: number): number {
+      return Math.round(n * 100) / 100;
+    }
+
+    function formatEUR(n: number): string {
+      const r = round2(n);
+      return Number.isInteger(r) ? String(r) : r.toFixed(2).replace('.', ',');
+    }
+
+    let answers: Record<string, string> = {};
+    let facturaLabels: Record<string, string> = {};
+    let path: number[] = [];
+    let current = 0;
+
+    function showStep(i: number) {
+      current = i;
+      result.hidden = true;
+      steps.forEach(function (el: HTMLElement, idx: number) { el.hidden = idx !== i; });
+      dots.forEach(function (d: HTMLElement, idx: number) {
+        d.classList.toggle('active', idx === i);
+        d.classList.toggle('done', idx < i);
+      });
+      backBtn.hidden = path.length === 0;
+
+      if (i === 1) {
+        const wanted = answers.regimen === 'pyme' ? 'pyme' : 'autonomo';
+        facturasGroups.forEach(function (group) {
+          group.hidden = group.getAttribute('data-facturas-options') !== wanted;
+        });
+      }
+    }
+
+    function renderBreakdown(baseAmount: number, reportingAmount: number, iva: number, total: number) {
+      if (!breakdownList) return;
+      const d = breakdownList.dataset;
+      const lines: { label: string; amount: string; tentative?: boolean }[] = [];
+
+      const baseLabel = answers.regimen === 'pyme' ? d.baseSl : d.baseAutonomo;
+      const facturaLabel = facturaLabels[answers.facturas] || '';
+      lines.push({ label: `${baseLabel ?? ''} (${facturaLabel})`, amount: `${formatEUR(baseAmount)} €` });
+
+      if (answers.reporting === 'si') {
+        lines.push({ label: d.reporting ?? '', amount: `+${formatEUR(reportingAmount)} €` });
+      } else if (answers.reporting === 'nose') {
+        lines.push({ label: d.reportingNose ?? '', amount: `+${formatEUR(reportingAmount)} €`, tentative: true });
+      }
+
+      lines.push({ label: d.iva ?? '', amount: `+${formatEUR(iva)} €` });
+      lines.push({ label: d.total ?? '', amount: `${formatEUR(total)} €` });
+
+      breakdownList.innerHTML = '';
+      lines.forEach(function (line, idx) {
+        const li = document.createElement('li');
+        if (idx === lines.length - 1) li.classList.add('sim-breakdown-total');
+        if (line.tentative) li.classList.add('sim-breakdown-tentative');
+        const labelSpan = document.createElement('span');
+        labelSpan.textContent = line.label;
+        const amountSpan = document.createElement('span');
+        amountSpan.textContent = line.amount;
+        li.append(labelSpan, amountSpan);
+        breakdownList.appendChild(li);
+      });
+    }
+
+    async function showResult() {
+      steps.forEach(function (el: HTMLElement) { el.hidden = true; });
+      dots.forEach(function (d: HTMLElement) { d.classList.add('done'); d.classList.remove('active'); });
+      backBtn.hidden = true;
+      errorEl.hidden = true;
+
+      const rates = answers.regimen === 'pyme' ? RATES_PYME : RATES_AUTONOMO;
+      const base = rates[answers.facturas] || 0;
+      const reportingAmount = REPORTING[answers.reporting] || 0;
+      const subtotal = base + reportingAmount;
+      const iva = round2(subtotal * IVA_RATE);
+      const total = round2(subtotal + iva);
+
+      priceEl.textContent = formatEUR(total);
+      renderBreakdown(base, reportingAmount, iva, total);
+
+      quoteEl.textContent = '…';
+      result.hidden = false;
+
+      try {
+        const res = await fetch('/api/presupuesto', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ regimen: answers.regimen, facturas: answers.facturas, reporting: answers.reporting }),
+        });
+        if (!res.ok) throw new Error('bad response');
+        const data = await res.json();
+        quoteEl.textContent = data.quote;
+      } catch (e) {
+        quoteEl.textContent = '—';
+        errorEl.hidden = false;
+      }
+    }
+
+    wizard.addEventListener('click', function (e: MouseEvent) {
+      const target = e.target as HTMLElement | null;
+      const card = target?.closest('.option-card') as HTMLElement | null;
+      if (!card) return;
+      const field = card.getAttribute('data-field');
+      const value = card.getAttribute('data-value');
+      if (!field || !value) return;
+      answers[field] = value;
+      if (field === 'facturas') facturaLabels[value] = card.textContent || '';
+      path.push(current);
+      if (current + 1 < steps.length) showStep(current + 1);
+      else showResult();
+    });
+
+    backBtn.addEventListener('click', function () {
+      if (!path.length) return;
+      showStep(path.pop() as number);
+    });
+
+    restartBtn.addEventListener('click', function () {
+      answers = {};
+      facturaLabels = {};
+      path = [];
+      showStep(0);
+    });
+
+    showStep(0);
+  })();
+</script>

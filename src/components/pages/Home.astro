@@ -1,0 +1,107 @@
+---
+import { useTranslations, localizedPath } from '../../i18n/utils';
+import type { Locale } from '../../i18n/ui';
+import ContactSwitch from '../ContactSwitch.astro';
+import Simulador from './Simulador.astro';
+
+interface Props { lang: Locale; }
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+---
+
+<div id="view-home">
+  <section class="hero">
+    <div class="page">
+      <div class="hero-inner">
+        <p class="eyebrow">{t.hero.eyebrow}</p>
+        <h1>{t.hero.title}</h1>
+        <p class="dek">{t.hero.dek}</p>
+
+        <div class="hero-price">
+          <div class="hero-price-figure">
+            <span class="hero-price-label">{t.hero.priceLabel}</span>
+            <span class="hero-price-amount">{t.hero.priceAmount}<small>{t.hero.priceUnit}</small></span>
+            <p class="hero-price-claim">{t.hero.priceClaim}</p>
+          </div>
+          <div class="actions">
+            <a href={localizedPath('/simulador', lang)} class="btn btn-primary">{t.hero.ctaSim}</a>
+            <ContactSwitch lang={lang} triggerClass="btn btn-outline" />
+          </div>
+        </div>
+
+        <p class="trust">{t.hero.trust}</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="sim-embed" id="simulador">
+    <Simulador lang={lang} />
+  </div>
+
+  <section class="section" id="como-trabajamos">
+    <div class="label-col"><p class="eyebrow">{t.proceso.eyebrow}</p></div>
+    <div>
+      <h2 class="section-title">{t.proceso.title}</h2>
+      <div class="process">
+        {t.proceso.steps.map((step, i) => (
+          <div class="step">
+            <span class="num">{i + 1}</span>
+            <div><h3>{step.title}</h3><p>{step.desc}</p></div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="diferencia">
+    <div class="label-col"><p class="eyebrow">{t.diferencia.eyebrow}</p></div>
+    <div>
+      <h2 class="section-title">{t.diferencia.title}</h2>
+      <p class="section-sub">{t.diferencia.sub}</p>
+      <div class="compare-grid">
+        <div class="compare-col">
+          <h3>{t.diferencia.oldTitle}</h3>
+          <ul>{t.diferencia.oldItems.map((item) => <li>{item}</li>)}</ul>
+        </div>
+        <div class="compare-col featured">
+          <h3>{t.diferencia.newTitle}</h3>
+          <ul>{t.diferencia.newItems.map((item) => <li>{item}</li>)}</ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="precios">
+    <div class="label-col"><p class="eyebrow">{t.precios.eyebrow}</p></div>
+    <div>
+      <h2 class="section-title">{t.precios.title}</h2>
+      <p class="section-sub">{t.precios.sub}</p>
+      <div class="price-table">
+        {t.precios.rows.map((row) => (
+          <div class="price-row">
+            <h3>{row.title}</h3>
+            <p class="amount">{row.amount}<small>{row.unit}</small></p>
+            <p class="incl">{row.incl}</p>
+          </div>
+        ))}
+      </div>
+      <p class="price-note">{t.precios.note}</p>
+
+      <div class="alta-box">
+        <div class="copy">
+          <h3>{t.alta.title}</h3>
+          <p>{t.alta.desc}</p>
+          <a href={localizedPath('/alta', lang)} class="alta-link">{t.alta.link}</a>
+        </div>
+        <div>
+          <p class="price">{t.alta.price}<br /><small>{t.alta.priceNote}</small></p>
+        </div>
+      </div>
+
+      <div class="blog-teaser">
+        <p>{t.blogTeaser.text}</p>
+        <a href={localizedPath('/blog', lang)}>{t.blogTeaser.link}</a>
+      </div>
+    </div>
+  </section>
+</div>

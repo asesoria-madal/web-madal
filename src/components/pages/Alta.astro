@@ -1,0 +1,47 @@
+---
+import { useTranslations } from '../../i18n/utils';
+import type { Locale } from '../../i18n/ui';
+import ContactSwitch from '../ContactSwitch.astro';
+
+interface Props { lang: Locale; }
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const p = t.altaPage;
+---
+
+<div id="view-alta">
+  <div class="page view-intro">
+    <p class="eyebrow">{p.eyebrow}</p>
+    <h2 class="section-title">{p.title}</h2>
+    <p class="section-sub">{p.intro}</p>
+  </div>
+
+  <section class="section">
+    <div class="label-col"><p class="eyebrow">{p.autonomos.title}</p></div>
+    <div>
+      <p class="section-sub">{p.autonomos.desc}</p>
+      <div class="process">
+        {p.autonomos.steps.map((step, i) => (
+          <div class="step">
+            <span class="num">{i + 1}</span>
+            <div><h3>{step.title}</h3><p>{step.desc}</p></div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <div class="page view-block">
+    <div class="alta-box">
+      <div class="copy">
+        <h3>{p.timeline}</h3>
+      </div>
+      <div>
+        <p class="price">{p.price}<br /><small>{p.priceNote}</small></p>
+        <div style="margin-top:0.8rem;">
+          <ContactSwitch lang={lang} />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

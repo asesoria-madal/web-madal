@@ -1,0 +1,174 @@
+---
+import { useTranslations, localizedPath } from '../../i18n/utils';
+import type { Locale } from '../../i18n/ui';
+
+interface Props {
+  lang: Locale;
+  posts: { slug: string; cat: string; title: string; desc: string; date: string }[];
+  showFaq?: boolean;
+  pagination?: { current: number; total: number; baseUrl: string };
+}
+const { lang, posts, showFaq = true, pagination } = Astro.props;
+const t = useTranslations(lang);
+
+const FAQ_VISIBLE_LIMIT = 8;
+
+function pageHref(n: number): string {
+  if (!pagination) return '#';
+  return n <= 1 ? pagination.baseUrl : `${pagination.baseUrl}/pagina/${n}`;
+}
+
+const paginationLabel = pagination
+  ? t.blog.paginationPageOf.replace('{current}', String(pagination.current)).replace('{total}', String(pagination.total))
+  : '';
+---
+
+<div id="view-blog">
+  <div class="page view-intro">
+    <p class="eyebrow">{t.blog.eyebrow}</p>
+    <h2 class="section-title">{t.blog.title}</h2>
+    <p class="section-sub">{t.blog.sub}</p>
+  </div>
+
+  {showFaq ? (
+    <div class="page view-block">
+      <div class="faq-search">
+        <input type="search" id="faqSearch" placeholder={t.blog.searchPlaceholder} aria-label={t.blog.searchPlaceholder} />
+      </div>
+
+      <div class="faq-columns">
+        <div class="faq-group" data-faq-group>
+          <h3>{t.blog.faqAutonomos}</h3>
+          {t.blog.faqAutonomosItems.map((item, i) => (
+            <details class="faq-item" data-extra={i >= FAQ_VISIBLE_LIMIT ? 'true' : undefined} hidden={i >= FAQ_VISIBLE_LIMIT}>
+              <summary>{item.q}</summary>
+              <p>{item.a}</p>
+            </details>
+          ))}
+          {t.blog.faqAutonomosItems.length > FAQ_VISIBLE_LIMIT && (
+            <button type="button" class="faq-show-more" data-faq-show-more>
+              {t.blog.faqShowMore.replace('{count}', String(t.blog.faqAutonomosItems.length - FAQ_VISIBLE_LIMIT))}
+            </button>
+          )}
+        </div>
+
+        <div class="faq-group" data-faq-group>
+          <h3>{t.blog.faqSl}</h3>
+          {t.blog.faqSlItems.map((item, i) => (
+            <details class="faq-item" data-extra={i >= FAQ_VISIBLE_LIMIT ? 'true' : undefined} hidden={i >= FAQ_VISIBLE_LIMIT}>
+              <summary>{item.q}</summary>
+              <p>{item.a}</p>
+            </details>
+          ))}
+          {t.blog.faqSlItems.length > FAQ_VISIBLE_LIMIT && (
+            <button type="button" class="faq-show-more" data-faq-show-more>
+              {t.blog.faqShowMore.replace('{count}', String(t.blog.faqSlItems.length - FAQ_VISIBLE_LIMIT))}
+            </button>
+          )}
+        </div>
+      </div>
+
+      <p class="faq-empty" id="faqEmpty" hidden>{t.blog.searchEmpty}</p>
+    </div>
+  ) : (
+    <div class="page view-block">
+      <a href={localizedPath(pagination?.baseUrl ?? '/blog', lang)} class="article-back">{t.blog.backToBlog}</a>
+    </div>
+  )}
+
+  {posts.length > 0 && (
+    <div class="page view-block">
+      <h2 class="faq-title">{t.blog.postsTitle}</h2>
+      <div class="post-grid">
+        {posts.map((post) => (
+          <a href={localizedPath(`/blog/${post.slug}`, lang)} class="post-card">
+            <span class="cat">{post.cat} · {post.date}</span>
+            <h3>{post.title}</h3>
+            <p>{post.desc}</p>
+            <span class="read">{t.blog.readMore}</span>
+          </a>
+        ))}
+      </div>
+
+      {pagination && pagination.total > 1 && (
+        <nav class="pagination" aria-label={t.blog.paginationLabel}>
+          {pagination.current > 1 && (
+            <a href={localizedPath(pageHref(pagination.current - 1), lang)} class="pagination-link">{t.blog.paginationPrev}</a>
+          )}
+          <span class="pagination-status">{paginationLabel}</span>
+          {pagination.current < pagination.total && (
+            <a href={localizedPath(pageHref(pagination.current + 1), lang)} class="pagination-link">{t.blog.paginationNext}</a>
+          )}
+        </nav>
+      )}
+    </div>
+  )}
+
+  <aside class="ask-float" id="askFloat">
+    <button type="button" class="ask-float-close" id="askFloatClose" aria-label={t.blog.close}>✕</button>
+    <h3>{t.blog.askTitle}</h3>
+    <p>{t.blog.askDesc} <a href="mailto:contacto@asesoriamadal.es">contacto@asesoriamadal.es</a></p>
+  </aside>
+
+  <script>
+    const DIACRITICS_PATTERN = new RegExp(String.fromCharCode(91, 0x0300, 45, 0x036f, 93), 'g');
+
+    const searchInput = document.getElementById('faqSearch') as HTMLInputElement | null;
+    const emptyMsg = document.getElementById('faqEmpty') as HTMLElement | null;
+    const groups = Array.from(document.querySelectorAll<HTMLElement>('[data-faq-group]'));
+
+    function normalize(text: string): string {
+      return text.toLowerCase().normalize('NFD').replace(DIACRITICS_PATTERN, '');
+    }
+
+    groups.forEach((group) => {
+      const showMoreBtn = group.querySelector<HTMLButtonElement>('[data-faq-show-more]');
+      showMoreBtn?.addEventListener('click', () => {
+        group.querySelectorAll<HTMLElement>('[data-extra]').forEach((item) => {
+          item.hidden = false;
+        });
+        showMoreBtn.hidden = true;
+      });
+    });
+
+    if (searchInput) {
+      searchInput.addEventListener('input', () => {
+        const query = normalize(searchInput.value.trim());
+        const searching = query !== '';
+        let anyVisible = false;
+
+        groups.forEach((group) => {
+          let groupHasMatch = false;
+          const showMoreBtn = group.querySelector<HTMLButtonElement>('[data-faq-show-more]');
+
+          group.querySelectorAll<HTMLDetailsElement>('.faq-item').forEach((item) => {
+            const text = normalize(item.textContent ?? '');
+            const isExtra = item.hasAttribute('data-extra');
+            const matches = searching ? text.includes(query) : !isExtra;
+            item.hidden = !matches;
+            item.open = searching && matches;
+            if (matches) groupHasMatch = true;
+          });
+
+          if (showMoreBtn) showMoreBtn.hidden = searching;
+          group.hidden = !groupHasMatch;
+          if (groupHasMatch) anyVisible = true;
+        });
+
+        if (emptyMsg) emptyMsg.hidden = anyVisible || !searching;
+      });
+    }
+
+    const askFloat = document.getElementById('askFloat') as HTMLElement | null;
+    const askFloatClose = document.getElementById('askFloatClose') as HTMLButtonElement | null;
+    if (askFloat && askFloatClose) {
+      if (sessionStorage.getItem('askFloatDismissed') === '1') {
+        askFloat.hidden = true;
+      }
+      askFloatClose.addEventListener('click', () => {
+        askFloat.hidden = true;
+        sessionStorage.setItem('askFloatDismissed', '1');
+      });
+    }
+  </script>
+</div>

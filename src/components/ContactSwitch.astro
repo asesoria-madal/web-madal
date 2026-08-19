@@ -1,0 +1,56 @@
+---
+// Botón "Contacta con nosotros" que abre un modal centrado (elemento
+// nativo <dialog>, que ya se autocentra y trae backdrop/Escape gratis)
+// con el correo como opción principal y la llamada debajo como
+// alternativa — todavía sin Calendly conectado (href="#" placeholder).
+// Se reutiliza en cabecera, CTA final, home, alta y simulador para no
+// repetir botones sueltos de llamada/correo en cada sitio.
+import type { Locale } from '../i18n/ui';
+import { useTranslations } from '../i18n/utils';
+
+interface Props {
+  lang: Locale;
+  triggerClass?: string;
+}
+
+const { lang, triggerClass = 'btn btn-primary' } = Astro.props;
+const t = useTranslations(lang);
+const dialogId = `contact-dialog-${Math.random().toString(36).slice(2, 9)}`;
+---
+
+<button type="button" class={triggerClass} data-contact-trigger={dialogId}>{t.contact.trigger}</button>
+
+<dialog class="contact-dialog" id={dialogId}>
+  <button type="button" class="contact-dialog-close" data-contact-close aria-label="Cerrar">✕</button>
+  <p class="contact-dialog-label">{t.contact.emailLabel}</p>
+  <a href={`mailto:${t.contact.email}`} class="contact-dialog-email">{t.contact.email}</a>
+  <p class="contact-dialog-guarantee">{t.contact.guarantee}</p>
+  <p class="contact-dialog-or">{t.contact.orLabel}</p>
+  <a href="#" class="contact-dialog-call">{t.contact.callLabel}</a>
+  <p class="contact-dialog-closing">{t.contact.closing}</p>
+</dialog>
+
+<script>
+  const triggers = document.querySelectorAll<HTMLButtonElement>('[data-contact-trigger]');
+  triggers.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const id = btn.getAttribute('data-contact-trigger');
+      const dialog = id ? document.getElementById(id) : null;
+      if (dialog instanceof HTMLDialogElement) dialog.showModal();
+    });
+  });
+
+  document.querySelectorAll<HTMLElement>('.contact-dialog').forEach((dialog) => {
+    if (!(dialog instanceof HTMLDialogElement)) return;
+
+    dialog.querySelector('[data-contact-close]')?.addEventListener('click', () => dialog.close());
+
+    // Cerrar al hacer clic fuera del cuadro (sobre el backdrop).
+    dialog.addEventListener('click', (e) => {
+      const rect = dialog.getBoundingClientRect();
+      const inside =
+        e.clientX >= rect.left && e.clientX <= rect.right && e.clientY >= rect.top && e.clientY <= rect.bottom;
+      if (!inside) dialog.close();
+    });
+  });
+</script>

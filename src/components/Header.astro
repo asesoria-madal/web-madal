@@ -1,0 +1,56 @@
+---
+import { localeNames, locales, type Locale } from '../i18n/ui';
+import { useTranslations, localizedPath } from '../i18n/utils';
+import ContactSwitch from './ContactSwitch.astro';
+
+interface Props {
+  lang: Locale;
+  path: string; // pathname sin prefijo de idioma, p.ej. "/simulador"
+  active: 'home' | 'simulador' | 'blog' | 'equipo' | 'alta' | 'none';
+}
+
+const { lang, path, active } = Astro.props;
+const t = useTranslations(lang);
+const home = lang === 'es' ? '/' : `/${lang}/`;
+const nav = [
+  { key: 'home', href: lang === 'es' ? '/' : `/${lang}/`, label: t.nav.home },
+  { key: 'simulador', href: localizedPath('/simulador', lang), label: t.nav.simulador },
+  { key: 'alta', href: localizedPath('/alta', lang), label: t.nav.alta },
+  { key: 'blog', href: localizedPath('/blog', lang), label: t.nav.blog },
+  { key: 'equipo', href: localizedPath('/equipo', lang), label: t.nav.equipo },
+];
+
+// Emoji de bandera por idioma. El catalán no tiene bandera de país propia
+// (no es un estado) y la secuencia de bandera regional de Cataluña se ve mal
+// o no se renderiza en bastantes dispositivos, así que usamos una etiqueta
+// "CA" con el mismo tamaño en vez de arriesgarnos a un emoji roto.
+const flagEmoji: Partial<Record<Locale, string>> = { es: '🇪🇸', en: '🇬🇧' };
+---
+
+<header class="site">
+  <div class="bar">
+    <a href={home} class="wordmark">Asesoría<span>Madal</span></a>
+    <nav class="primary">
+      {nav.map((item) => (
+        <a class={`navlink${active === item.key ? ' active' : ''}`} href={item.href}>{item.label}</a>
+      ))}
+    </nav>
+    <div class="header-right">
+      <a href="/portal" class="portal-link"><span aria-hidden="true">👤</span> <span class="portal-link-label">{t.header.portal}</span></a>
+      <details class="lang-switch">
+        <summary><span aria-hidden="true">🌐</span> {localeNames[lang]}</summary>
+        <div class="lang-menu">
+          {locales.map((l) => (
+            <a href={localizedPath(path, l)} class={l === lang ? 'active' : ''}>
+              {flagEmoji[l]
+                ? <span class="flag" aria-hidden="true">{flagEmoji[l]}</span>
+                : <span class="flag flag-badge" aria-hidden="true">CA</span>}
+              {localeNames[l]}
+            </a>
+          ))}
+        </div>
+      </details>
+      <ContactSwitch lang={lang} />
+    </div>
+  </div>
+</header>

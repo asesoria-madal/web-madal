@@ -1,0 +1,47 @@
+---
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import ContactSwitch from '../components/ContactSwitch.astro';
+import Analytics from '@vercel/analytics/astro';
+import '../styles/global.css';
+import type { Locale } from '../i18n/ui';
+import { useTranslations } from '../i18n/utils';
+
+interface Props {
+  lang: Locale;
+  path: string;
+  active: 'home' | 'simulador' | 'alta' | 'blog' | 'equipo' | 'none';
+  title: string;
+  description?: string;
+  showCtaFinal?: boolean;
+}
+
+const { lang, path, active, title, description, showCtaFinal = true } = Astro.props;
+const t = useTranslations(lang);
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    {description && <meta name="description" content={description} />}
+    <link rel="icon" href="/favicon.svg" />
+  </head>
+  <body>
+    <Header lang={lang} path={path} active={active} />
+    <slot />
+    {showCtaFinal && (
+      <section class="cta-final" id="cta-final">
+        <h2>{t.ctaFinal.title}</h2>
+        <div class="actions">
+          <ContactSwitch lang={lang} />
+        </div>
+        <p class="fine">{t.ctaFinal.fine}</p>
+      </section>
+    )}
+    <Footer lang={lang} />
+    <Analytics />
+  </body>
+</html>

@@ -1,0 +1,53 @@
+---
+import { useTranslations, localizedPath } from '../i18n/utils';
+import type { Locale } from '../i18n/ui';
+
+interface Props { lang: Locale; }
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const home = lang === 'es' ? '/' : `/${lang}/`;
+---
+
+<footer class="site">
+  <div class="page">
+    <div class="foot-cols">
+      <div>
+        <a href={home} class="wordmark">Asesoría<span>Madal</span></a>
+        <p class="foot-tagline">{t.footer.tagline}</p>
+      </div>
+      <div>
+        <h4>{t.footer.navTitle}</h4>
+        <nav class="foot-nav">
+          <a href={home}>{t.nav.home}</a>
+          <a href={localizedPath('/simulador', lang)}>{t.nav.simulador}</a>
+          <a href={localizedPath('/alta', lang)}>{t.nav.alta}</a>
+          <a href={localizedPath('/blog', lang)}>{t.nav.blog}</a>
+          <a href={localizedPath('/equipo', lang)}>{t.nav.equipo}</a>
+          <a href="/portal">{t.footer.portal}</a>
+        </nav>
+      </div>
+      <div>
+        <h4>{t.footer.contactTitle}</h4>
+        <ul class="foot-list">
+          <li><a href="mailto:contacto@asesoriamadal.es">contacto@asesoriamadal.es</a></li>
+          <li><a href="#">{t.footer.contactCall}</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>{t.footer.whereTitle}</h4>
+        <ul class="foot-list">
+          <li>{t.footer.whereOnline}</li>
+          <li>{t.footer.whereSpain}</li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <p class="legal">{t.footer.legal}</p>
+      <div class="foot-bottom-links">
+        <a href="/aviso-legal">{t.footer.avisoLegal}</a>
+        <a href="/privacidad">{t.footer.privacidad}</a>
+        <a href="/cookies">{t.footer.cookies}</a>
+      </div>
+    </div>
+  </div>
+</footer>
