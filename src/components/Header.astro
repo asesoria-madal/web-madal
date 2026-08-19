@@ -35,15 +35,8 @@ const flagEmoji: Partial<Record<Locale, string>> = { es: '🇪🇸', en: '🇬�
       {nav.map((item) => (
         <a class={`navlink${active === item.key ? ' active' : ''}`} href={item.href}>{item.label}</a>
       ))}
-      <div class="nav-dropdown">
-        <a class={`navlink${active === 'equipo' || active === 'servicios' ? ' active' : ''}`} href={equipoHref}>{t.nav.equipo}</a>
-        <div class="nav-dropdown-menu">
-          <div class="nav-dropdown-menu-inner">
-            <a href={equipoHref} class={active === 'equipo' ? 'active' : ''}>{t.nav.conocenos}</a>
-            <a href={serviciosHref} class={active === 'servicios' ? 'active' : ''}>{t.nav.servicios}</a>
-          </div>
-        </div>
-      </div>
+      <a class={`navlink${active === 'servicios' ? ' active' : ''}`} href={serviciosHref}>{t.nav.servicios}</a>
+      <a class={`navlink${active === 'equipo' ? ' active' : ''}`} href={equipoHref}>{t.nav.conocenos}</a>
     </nav>
     <div class="header-right">
       <button type="button" id="themeToggle" class="theme-toggle" aria-label="Cambiar entre tema claro y oscuro">
