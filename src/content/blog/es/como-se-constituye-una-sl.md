@@ -3,7 +3,7 @@ lang: es
 slug: como-se-constituye-una-sl
 title: 'Cómo se constituye una SL: pasos, capital social y plazos'
 description: 'El trámite pasa por un notario, pero conviene saber qué hay detrás.'
-cat: Fiscalidad
+cat: fiscalidad
 date: 2026-08-19
 ---
 

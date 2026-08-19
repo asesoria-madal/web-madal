@@ -2,13 +2,16 @@
 import { useTranslations, localizedPath } from '../../i18n/utils';
 import type { Locale } from '../../i18n/ui';
 
+interface PostItem { slug: string; catId: string; cat: string; title: string; desc: string; date: string };
+
 interface Props {
   lang: Locale;
-  posts: { slug: string; cat: string; title: string; desc: string; date: string }[];
+  posts: PostItem[];
+  allPosts?: PostItem[];
   showFaq?: boolean;
   pagination?: { current: number; total: number; baseUrl: string };
 }
-const { lang, posts, showFaq = true, pagination } = Astro.props;
+const { lang, posts, allPosts = posts, showFaq = true, pagination } = Astro.props;
 const t = useTranslations(lang);
 
 const FAQ_VISIBLE_LIMIT = 8;
@@ -22,7 +25,7 @@ const paginationLabel = pagination
   ? t.blog.paginationPageOf.replace('{current}', String(pagination.current)).replace('{total}', String(pagination.total))
   : '';
 
-const faqGroups = [
+const faqGroups: { key: string; label: string; items: readonly { q: string; a: string }[] }[] = [
   { key: 'generales', label: t.blog.faqGenerales, items: t.blog.faqGeneralesItems },
   { key: 'autonomos', label: t.blog.faqAutonomos, items: t.blog.faqAutonomosItems },
   { key: 'sl', label: t.blog.faqSl, items: t.blog.faqSlItems },
@@ -36,54 +39,61 @@ const faqGroups = [
     <p class="section-sub">{t.blog.sub}</p>
   </div>
 
-  {showFaq ? (
-    <div class="page view-block">
-      <script type="application/ld+json" is:inline set:html={JSON.stringify({
-        '@context': 'https://schema.org',
-        '@type': 'FAQPage',
-        mainEntity: faqGroups.flatMap((group) => group.items).map((item) => ({
-          '@type': 'Question',
-          name: item.q,
-          acceptedAnswer: { '@type': 'Answer', text: item.a },
-        })),
-      })} />
-      <div class="faq-search">
-        <input type="search" id="faqSearch" placeholder={t.blog.searchPlaceholder} aria-label={t.blog.searchPlaceholder} />
-      </div>
-
-      <div class="faq-columns">
-        {faqGroups.map((group) => (
-          <div class="faq-group" data-faq-group>
-            <h3>{group.label}</h3>
-            {group.items.map((item, i) => (
-              <details class="faq-item" data-extra={i >= FAQ_VISIBLE_LIMIT ? 'true' : undefined} hidden={i >= FAQ_VISIBLE_LIMIT}>
-                <summary>{item.q}</summary>
-                <p>{item.a}</p>
-              </details>
-            ))}
-            {group.items.length > FAQ_VISIBLE_LIMIT && (
-              <button type="button" class="faq-show-more" data-faq-show-more>
-                {t.blog.faqShowMore.replace('{count}', String(group.items.length - FAQ_VISIBLE_LIMIT))}
-              </button>
-            )}
-          </div>
-        ))}
-      </div>
-
-      <p class="faq-empty" id="faqEmpty" hidden>{t.blog.searchEmpty}</p>
+  <div class="page view-block">
+    <div class="faq-search">
+      <input type="search" id="faqSearch" placeholder={t.blog.searchPlaceholder} aria-label={t.blog.searchPlaceholder} />
     </div>
-  ) : (
-    <div class="page view-block">
+
+    {showFaq ? (
+      <>
+        <script type="application/ld+json" is:inline set:html={JSON.stringify({
+          '@context': 'https://schema.org',
+          '@type': 'FAQPage',
+          mainEntity: faqGroups.flatMap((group) => group.items).map((item) => ({
+            '@type': 'Question',
+            name: item.q,
+            acceptedAnswer: { '@type': 'Answer', text: item.a },
+          })),
+        })} />
+        <div class="faq-columns">
+          {faqGroups.map((group) => (
+            <div class="faq-group" data-faq-group>
+              <h3>{group.label}</h3>
+              {group.items.map((item, i) => (
+                <details class="faq-item" data-extra={i >= FAQ_VISIBLE_LIMIT ? 'true' : undefined} hidden={i >= FAQ_VISIBLE_LIMIT}>
+                  <summary>{item.q}</summary>
+                  <p>{item.a}</p>
+                </details>
+              ))}
+              {group.items.length > FAQ_VISIBLE_LIMIT && (
+                <button type="button" class="faq-show-more" data-faq-show-more>
+                  {t.blog.faqShowMore.replace('{count}', String(group.items.length - FAQ_VISIBLE_LIMIT))}
+                </button>
+              )}
+            </div>
+          ))}
+        </div>
+
+        <p class="faq-empty" id="faqEmpty" hidden>{t.blog.searchEmpty}</p>
+      </>
+    ) : (
       <a href={localizedPath(pagination?.baseUrl ?? '/blog', lang)} class="article-back">{t.blog.backToBlog}</a>
-    </div>
-  )}
+    )}
+  </div>
 
   {posts.length > 0 && (
     <div class="page view-block">
-      <h2 class="faq-title">{t.blog.postsTitle}</h2>
-      <div class="post-grid">
+      <div class="articles-head">
+        <h2 class="faq-title">{t.blog.postsTitle}</h2>
+        <select id="catFilter" class="cat-filter" aria-label={t.blog.categoryFilterLabel}>
+          <option value="all">{t.blog.categoryAll}</option>
+          {t.blog.categories.map((c) => <option value={c.id}>{c.label}</option>)}
+        </select>
+      </div>
+
+      <div class="post-grid" id="postGridPaged">
         {posts.map((post) => (
-          <a href={localizedPath(`/blog/${post.slug}`, lang)} class="post-card">
+          <a href={localizedPath(`/blog/${post.slug}`, lang)} class="post-card" data-cat={post.catId} data-search={`${post.title} ${post.desc}`}>
             <span class="cat">{post.cat} · {post.date}</span>
             <h3>{post.title}</h3>
             <p>{post.desc}</p>
@@ -93,7 +103,7 @@ const faqGroups = [
       </div>
 
       {pagination && pagination.total > 1 && (
-        <nav class="pagination" aria-label={t.blog.paginationLabel}>
+        <nav class="pagination" id="postPagination" aria-label={t.blog.paginationLabel}>
           {pagination.current > 1 && (
             <a href={localizedPath(pageHref(pagination.current - 1), lang)} class="pagination-link">{t.blog.paginationPrev}</a>
           )}
@@ -103,6 +113,18 @@ const faqGroups = [
           )}
         </nav>
       )}
+
+      <div class="post-grid" id="postGridAll" hidden>
+        {allPosts.map((post) => (
+          <a href={localizedPath(`/blog/${post.slug}`, lang)} class="post-card" data-cat={post.catId} data-search={`${post.title} ${post.desc}`}>
+            <span class="cat">{post.cat} · {post.date}</span>
+            <h3>{post.title}</h3>
+            <p>{post.desc}</p>
+            <span class="read">{t.blog.readMore}</span>
+          </a>
+        ))}
+      </div>
+      <p class="faq-empty" id="articlesEmpty" hidden>{t.blog.articlesEmpty}</p>
     </div>
   )}
 
@@ -120,9 +142,43 @@ const faqGroups = [
     const groups = Array.from(document.querySelectorAll<HTMLElement>('[data-faq-group]'));
     const askMailLink = document.getElementById('askMailLink') as HTMLAnchorElement | null;
 
+    const catFilter = document.getElementById('catFilter') as HTMLSelectElement | null;
+    const pagedGrid = document.getElementById('postGridPaged') as HTMLElement | null;
+    const allGrid = document.getElementById('postGridAll') as HTMLElement | null;
+    const postPagination = document.getElementById('postPagination') as HTMLElement | null;
+    const articlesEmpty = document.getElementById('articlesEmpty') as HTMLElement | null;
+    const allCards = allGrid ? Array.from(allGrid.querySelectorAll<HTMLElement>('.post-card')) : [];
+
     function normalize(text: string): string {
       return text.toLowerCase().normalize('NFD').replace(DIACRITICS_PATTERN, '');
     }
+
+    function applyArticleFilters(): void {
+      const query = normalize(searchInput?.value.trim() ?? '');
+      const cat = catFilter?.value ?? 'all';
+      const filtering = query !== '' || cat !== 'all';
+
+      if (pagedGrid) pagedGrid.hidden = filtering;
+      if (postPagination) postPagination.hidden = filtering;
+      if (allGrid) allGrid.hidden = !filtering;
+
+      if (!filtering) {
+        if (articlesEmpty) articlesEmpty.hidden = true;
+        return;
+      }
+
+      let anyVisible = false;
+      allCards.forEach((card) => {
+        const matchesCat = cat === 'all' || card.dataset.cat === cat;
+        const matchesQuery = query === '' || normalize(card.dataset.search ?? '').includes(query);
+        const visible = matchesCat && matchesQuery;
+        card.hidden = !visible;
+        if (visible) anyVisible = true;
+      });
+      if (articlesEmpty) articlesEmpty.hidden = anyVisible;
+    }
+
+    catFilter?.addEventListener('change', applyArticleFilters);
 
     function updateMailSubject(query: string): void {
       if (!askMailLink) return;
@@ -168,6 +224,7 @@ const faqGroups = [
 
         if (emptyMsg) emptyMsg.hidden = anyVisible || !searching;
         updateMailSubject(searchInput.value);
+        applyArticleFilters();
       });
     }
 

@@ -217,6 +217,15 @@ export const ui = {
       backToBlog: '← Volver a FAQs',
       searchPlaceholder: 'Busca tu pregunta (ej. "IVA", "coche", "SL"...)',
       searchEmpty: 'No hemos encontrado ninguna pregunta con eso. Prueba con otra palabra o escríbenos.',
+      categoryFilterLabel: 'Filtrar artículos por temática',
+      categoryAll: 'Todas las temáticas',
+      categories: [
+        { id: 'fiscalidad', label: 'Fiscalidad' },
+        { id: 'contabilidad', label: 'Contabilidad' },
+        { id: 'laboral', label: 'Laboral' },
+        { id: 'finanzas', label: 'Finanzas' },
+      ],
+      articlesEmpty: 'No hemos encontrado ningún artículo con eso. Prueba con otra palabra o cambia de temática.',
       faqGenerales: 'Generales',
       faqGeneralesItems: [
         { q: '¿Cuándo me conviene pasar de autónomo a SL?', a: 'Como referencia orientativa (no una cifra legal), suele empezar a compensar entre 60.000 € y 80.000 € de facturación anual, o antes si quieres limitar tu responsabilidad patrimonial.' },
@@ -587,6 +596,15 @@ export const ui = {
       backToBlog: '← Tornar a les FAQ',
       searchPlaceholder: 'Busca la teva pregunta (ex. "IVA", "cotxe", "SL"...)',
       searchEmpty: 'No hem trobat cap pregunta amb això. Prova amb una altra paraula o escriu-nos.',
+      categoryFilterLabel: 'Filtra els articles per temàtica',
+      categoryAll: 'Totes les temàtiques',
+      categories: [
+        { id: 'fiscalidad', label: 'Fiscalitat' },
+        { id: 'contabilidad', label: 'Comptabilitat' },
+        { id: 'laboral', label: 'Laboral' },
+        { id: 'finanzas', label: 'Finances' },
+      ],
+      articlesEmpty: 'No hem trobat cap article amb això. Prova amb una altra paraula o canvia de temàtica.',
       faqGenerales: 'Generals',
       faqGeneralesItems: [
         { q: 'Quan em convé passar d’autònom a SL?', a: 'Com a referència orientativa (no una xifra legal), sol començar a compensar entre 60.000 € i 80.000 € de facturació anual, o abans si vols limitar la teva responsabilitat patrimonial.' },
@@ -957,6 +975,15 @@ export const ui = {
       backToBlog: '← Back to FAQs',
       searchPlaceholder: 'Search your question (e.g. "VAT", "car", "SL"...)',
       searchEmpty: 'No questions matched that. Try another word, or write to us.',
+      categoryFilterLabel: 'Filter articles by topic',
+      categoryAll: 'All topics',
+      categories: [
+        { id: 'fiscalidad', label: 'Tax' },
+        { id: 'contabilidad', label: 'Accounting' },
+        { id: 'laboral', label: 'Employment' },
+        { id: 'finanzas', label: 'Finance' },
+      ],
+      articlesEmpty: 'No articles matched that. Try another word, or change the topic.',
       faqGenerales: 'General',
       faqGeneralesItems: [
         { q: 'When does it make sense to switch from self-employed to an SL?', a: 'As a rough reference (not a legal figure), it usually starts to pay off between €60,000 and €80,000 in annual turnover, or sooner if you want to limit your personal liability.' },

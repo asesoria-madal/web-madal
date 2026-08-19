@@ -3,7 +3,7 @@ lang: es
 slug: reservar-dinero-impuestos-autonomo
 title: 'Qué porcentaje de tus ingresos deberías reservar cada mes para impuestos'
 description: 'Una guía práctica para no quedarte corto en el pago trimestral.'
-cat: Fiscalidad
+cat: fiscalidad
 date: 2026-08-19
 ---
 

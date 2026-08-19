@@ -536,6 +536,18 @@ h2.section-title { font-size: clamp(1.5rem, 2.6vw, 2rem); }
 
 /* ---------- FAQ ---------- */
 .faq-title { font-family: var(--font-display); font-size: 1.3rem; margin-bottom: 0.4rem; }
+.articles-head { display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; margin-bottom: 0.4rem; }
+.articles-head .faq-title { margin-bottom: 0; }
+.cat-filter {
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  padding: 0.5rem 0.9rem;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--paper);
+  color: var(--ink);
+}
+.cat-filter:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
 .faq-search { max-width: 960px; margin-top: 0.4rem; }
 .faq-search input[type="search"] {
   width: 100%;

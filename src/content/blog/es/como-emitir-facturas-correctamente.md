@@ -3,7 +3,7 @@ lang: es
 slug: como-emitir-facturas-correctamente
 title: 'Cómo emitir facturas correctamente: los datos que no pueden faltar'
 description: 'Una factura mal hecha no es deducible ni válida ante Hacienda.'
-cat: Contabilidad
+cat: contabilidad
 date: 2026-08-19
 ---
 

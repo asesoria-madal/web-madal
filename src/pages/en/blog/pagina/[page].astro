@@ -14,9 +14,8 @@ export async function getStaticPaths() {
 const currentPage = Number(Astro.params.page);
 const entries = await getSortedBlogPosts('en');
 const total = totalBlogPages(entries.length);
-const posts = entries
-  .slice((currentPage - 1) * BLOG_PAGE_SIZE, currentPage * BLOG_PAGE_SIZE)
-  .map((e) => toPostPreview(e, 'en'));
+const allPosts = entries.map((e) => toPostPreview(e, 'en'));
+const posts = allPosts.slice((currentPage - 1) * BLOG_PAGE_SIZE, currentPage * BLOG_PAGE_SIZE);
 ---
 
 <Layout
@@ -26,5 +25,5 @@ const posts = entries
   title={`Blog, page ${currentPage} · Asesoría Madal`}
   description="More articles about taxes for freelancers and small companies in Spain."
 >
-  <Blog lang="en" posts={posts} showFaq={false} pagination={{ current: currentPage, total, baseUrl: '/blog' }} />
+  <Blog lang="en" posts={posts} allPosts={allPosts} showFaq={false} pagination={{ current: currentPage, total, baseUrl: '/blog' }} />
 </Layout>

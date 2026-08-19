@@ -6,10 +6,11 @@ import { getSortedBlogPosts, toPostPreview, totalBlogPages, BLOG_PAGE_SIZE } fro
 export const prerender = true;
 
 const entries = await getSortedBlogPosts('es');
-const posts = entries.slice(0, BLOG_PAGE_SIZE).map((e) => toPostPreview(e, 'es'));
+const allPosts = entries.map((e) => toPostPreview(e, 'es'));
+const posts = allPosts.slice(0, BLOG_PAGE_SIZE);
 const total = totalBlogPages(entries.length);
 ---
 
 <Layout lang="es" path="/blog" active="blog" title="Blog · Asesoría Madal" description="Artículos y preguntas frecuentes sobre fiscalidad para autónomos, SL y pymes.">
-  <Blog lang="es" posts={posts} pagination={{ current: 1, total, baseUrl: '/blog' }} />
+  <Blog lang="es" posts={posts} allPosts={allPosts} pagination={{ current: 1, total, baseUrl: '/blog' }} />
 </Layout>

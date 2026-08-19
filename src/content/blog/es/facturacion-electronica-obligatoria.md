@@ -3,7 +3,7 @@ lang: es
 slug: facturacion-electronica-obligatoria
 title: 'Facturación electrónica obligatoria: qué es y en qué se diferencia de Verifactu'
 description: 'Dos normas distintas que se confunden constantemente.'
-cat: Fiscalidad
+cat: fiscalidad
 date: 2026-08-19
 ---
 

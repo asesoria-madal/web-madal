@@ -3,7 +3,7 @@ lang: es
 slug: estimacion-directa-vs-modulos
 title: 'Estimación directa vs. módulos: cuál te conviene'
 description: 'Las diferencias reales, con ejemplos.'
-cat: Fiscalidad
+cat: fiscalidad
 date: 2026-08-18
 ---
 

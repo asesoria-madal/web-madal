@@ -3,7 +3,7 @@ lang: es
 slug: mejorar-rentabilidad-negocio
 title: 'Cómo mejorar la rentabilidad de tu negocio, no solo cumplir con Hacienda'
 description: 'Lo que tu balance y tu cuenta de resultados ya te están diciendo.'
-cat: Contabilidad
+cat: contabilidad
 date: 2026-08-19
 ---
 

@@ -3,7 +3,7 @@ lang: es
 slug: balance-de-situacion
 title: 'Qué es un balance de situación'
 description: 'Y por qué merece la pena mirarlo cada trimestre.'
-cat: Contabilidad
+cat: contabilidad
 date: 2026-08-18
 ---
 

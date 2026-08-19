@@ -21,7 +21,7 @@ const date = entry.data.date.toLocaleDateString(lang === 'es' ? 'es-ES' : lang =
 
 <div class="article-page">
   <a href={localizedPath('/blog', lang)} class="article-back">{t.blog.backToBlog}</a>
-  <p class="eyebrow">{entry.data.cat}</p>
+  <p class="eyebrow">{t.blog.categories.find((c) => c.id === entry.data.cat)?.label ?? entry.data.cat}</p>
   <h1 class="article-title">{entry.data.title}</h1>
   <p class="article-date">{date}</p>
   <div class="article-body">

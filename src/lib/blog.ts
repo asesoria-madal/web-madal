@@ -1,10 +1,12 @@
 import { getCollection, type CollectionEntry } from 'astro:content';
+import { useTranslations } from '../i18n/utils';
 import type { Locale } from '../i18n/ui';
 
 export const BLOG_PAGE_SIZE = 9;
 
 export interface PostPreview {
   slug: string;
+  catId: string;
   cat: string;
   title: string;
   desc: string;
@@ -14,9 +16,12 @@ export interface PostPreview {
 const dateLocale: Record<Locale, string> = { es: 'es-ES', ca: 'ca-ES', en: 'en-GB' };
 
 export function toPostPreview(entry: CollectionEntry<'blog'>, lang: Locale): PostPreview {
+  const t = useTranslations(lang);
+  const catLabel = t.blog.categories.find((c) => c.id === entry.data.cat)?.label ?? entry.data.cat;
   return {
     slug: entry.data.slug,
-    cat: entry.data.cat,
+    catId: entry.data.cat,
+    cat: catLabel,
     title: entry.data.title,
     desc: entry.data.description,
     date: entry.data.date.toLocaleDateString(dateLocale[lang], { year: 'numeric', month: 'long' }),
