@@ -82,7 +82,8 @@ const t = useTranslations(lang);
         {t.precios.rows.map((row) => (
           <div class="price-row">
             <h3>{row.title}</h3>
-            <p class="amount">{row.amount}<small>{row.unit}</small></p>
+            <p class="amount">{row.amount}<small>{row.unit} · {t.precios.ivaLabel}</small></p>
+            <p class="iva-badge">{t.precios.ivaLabel}</p>
             <p class="incl">{row.incl}</p>
           </div>
         ))}

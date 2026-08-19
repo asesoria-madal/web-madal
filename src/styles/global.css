@@ -213,15 +213,17 @@ nav.primary a.navlink.active { color: var(--ink); font-weight: 600; }
 .lang-switch summary {
   list-style: none;
   cursor: pointer;
-  font-size: 0.86rem;
+  font-size: 1rem;
   font-weight: 600;
   color: var(--ink-soft);
   border: 1px solid var(--line);
   border-radius: 7px;
-  padding: 0.42rem 0.65rem;
-  display: flex;
+  width: 2.15rem;
+  height: 2.15rem;
+  display: inline-flex;
   align-items: center;
-  gap: 0.35rem;
+  justify-content: center;
+  padding: 0;
 }
 .lang-switch summary::-webkit-details-marker { display: none; }
 .lang-switch summary:hover { color: var(--ink); border-color: var(--ink-soft); }
@@ -347,10 +349,11 @@ dialog.contact-dialog::backdrop { background: rgba(20, 16, 12, 0.55); }
 /* ---------- Section grid: ledger margin label ---------- */
 section.section {
   border-top: 1px solid var(--line);
-  padding: 3.2rem 0;
+  padding: 3.2rem var(--side-pad);
   display: grid;
   grid-template-columns: 190px 1fr;
   gap: 2.5rem;
+  box-sizing: border-box;
 }
 section.section > .label-col { padding-top: 0.2rem; }
 @media (max-width: 860px) {
@@ -414,6 +417,9 @@ section.hero { border-top: none; padding: 3.6rem 0 3.2rem; display: block; }
   .compare-table { grid-template-columns: 1fr; }
   .compare-table .cell:empty { display: none; }
   .compare-table .cell-head:not(:first-child) { border-top: 1px solid var(--line); }
+  .compare-table .col-trad { order: 1; }
+  .compare-table .col-online { order: 2; }
+  .compare-table .col-madal { order: 3; }
 }
 
 h2.section-title { font-size: clamp(1.5rem, 2.6vw, 2rem); }
@@ -446,6 +452,18 @@ h2.section-title { font-size: clamp(1.5rem, 2.6vw, 2rem); }
 .price-row h3 { font-family: var(--font-body); font-size: 1.02rem; font-weight: 600; }
 .price-row .amount { font-family: var(--font-mono); font-variant-numeric: tabular-nums; font-size: 1.3rem; font-weight: 600; color: var(--accent); }
 .price-row .amount small { font-family: var(--font-body); font-size: 0.8rem; color: var(--ink-soft); font-weight: 500; }
+.price-row .iva-badge {
+  grid-column: 2;
+  grid-row: 2;
+  align-self: start;
+  margin-top: -0.3rem;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-weight: 700;
+  color: var(--accent);
+}
+@media (max-width: 760px) { .price-row .iva-badge { grid-column: 1; grid-row: auto; margin-top: 0; } }
 .price-row .incl { font-size: 0.88rem; color: var(--ink-soft); }
 .price-note { padding: 1.1rem 0; font-size: 0.85rem; color: var(--ink-soft); }
 

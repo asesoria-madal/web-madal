@@ -40,9 +40,8 @@ const flagEmoji: Partial<Record<Locale, string>> = { es: '🇪🇸', en: '🇬�
         <span class="theme-icon-dark" aria-hidden="true">🌙</span>
         <span class="theme-icon-light" aria-hidden="true">☀️</span>
       </button>
-      <a href="/portal" class="portal-link"><span aria-hidden="true">👤</span> <span class="portal-link-label">{t.header.portal}</span></a>
       <details class="lang-switch">
-        <summary><span aria-hidden="true">🌐</span> {localeNames[lang]}</summary>
+        <summary aria-label={localeNames[lang]}><span aria-hidden="true">🌐</span></summary>
         <div class="lang-menu">
           {locales.map((l) => (
             <a href={localizedPath(path, l)} class={l === lang ? 'active' : ''}>
@@ -54,6 +53,7 @@ const flagEmoji: Partial<Record<Locale, string>> = { es: '🇪🇸', en: '🇬�
           ))}
         </div>
       </details>
+      <a href="/portal" class="portal-link"><span aria-hidden="true">👤</span> <span class="portal-link-label">{t.header.portal}</span></a>
       <ContactSwitch lang={lang} />
     </div>
   </div>
