@@ -1,6 +1,6 @@
 ---
 lang: en
-slug: how-much-does-an-online-accounting-firm-cost-in-spain
+slug: precio-gestoria-online-2026
 title: 'How much does an online accounting firm cost in Spain in 2026'
 description: 'What actually sets the price, and what to check before choosing one.'
 cat: Pricing

@@ -1,6 +1,6 @@
 ---
 lang: en
-slug: verifactu-what-it-is-and-when-it-affects-you
+slug: verifactu-2026
 title: 'Verifactu: what it is, and when it actually affects you'
 description: 'The correct date — not the outdated one still circulating online.'
 cat: Taxes

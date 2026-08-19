@@ -1,6 +1,6 @@
 ---
 lang: en
-slug: what-is-a-balance-sheet
+slug: balance-de-situacion
 title: 'What a balance sheet actually tells you'
 description: 'And why it’s worth checking every quarter.'
 cat: Accounting

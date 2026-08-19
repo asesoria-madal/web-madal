@@ -1,6 +1,6 @@
 ---
 lang: en
-slug: direct-estimation-vs-flat-rate-regime
+slug: estimacion-directa-vs-modulos
 title: 'Direct estimation vs. the flat-rate regime: which one fits you'
 description: 'The real differences, with examples.'
 cat: Taxes
