@@ -2,7 +2,7 @@
 // Botón "Contacta con nosotros" que abre un modal centrado (elemento
 // nativo <dialog>, que ya se autocentra y trae backdrop/Escape gratis)
 // con el correo como opción principal y la llamada debajo como
-// alternativa — todavía sin Calendly conectado (href="#" placeholder).
+// alternativa — enlace de Calendly conectado.
 // Se reutiliza en cabecera, CTA final, home, alta y simulador para no
 // repetir botones sueltos de llamada/correo en cada sitio.
 import type { Locale } from '../i18n/ui';
@@ -26,7 +26,7 @@ const dialogId = `contact-dialog-${Math.random().toString(36).slice(2, 9)}`;
   <a href={`mailto:${t.contact.email}`} class="contact-dialog-email">{t.contact.email}</a>
   <p class="contact-dialog-guarantee">{t.contact.guarantee}</p>
   <p class="contact-dialog-or">{t.contact.orLabel}</p>
-  <a href="#" class="contact-dialog-call">{t.contact.callLabel}</a>
+  <a href="https://calendly.com/asesoriamadal4/" target="_blank" rel="noopener" class="contact-dialog-call">{t.contact.callLabel}</a>
   <p class="contact-dialog-closing">{t.contact.closing}</p>
 </dialog>
 
