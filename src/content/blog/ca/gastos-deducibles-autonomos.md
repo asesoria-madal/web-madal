@@ -16,7 +16,7 @@ Una despesa és deduïble si és necessària per a la teva activitat, hi està v
 ## Despeses habituals
 
 - Compres de material i mercaderia.
-- Subministraments i lloguer del local, o la part proporcional si treballes des de casa.
+- Subministraments i lloguer del local, o la part proporcional si treballes des de casa (ho expliquem a [deduir despeses d'habitatge si teletreballes](/ca/blog/deducir-gastos-vivienda-teletrabajo)).
 - La quota d'autònoms i les assegurances vinculades a la teva activitat.
 - Gestoria, advocat o altres professionals que contractis.
 - Publicitat, la teva web i les eines de programari que facis servir per treballar.

@@ -25,6 +25,12 @@ const s = t.servicios;
           <div class="feature-card">
             <h3>{c.title}</h3>
             <p>{c.desc}</p>
+            <a
+              href={c.linkHref}
+              class="feature-card-link"
+              target={c.linkHref.startsWith('http') ? '_blank' : undefined}
+              rel={c.linkHref.startsWith('http') ? 'noopener' : undefined}
+            >{c.linkLabel}</a>
           </div>
         ))}
       </div>

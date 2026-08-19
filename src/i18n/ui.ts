@@ -277,7 +277,7 @@ export const ui = {
     equipo: {
       eyebrow: 'Quiénes somos',
       title: 'La misma formación en números, dos experiencias que se complementan',
-      dek: 'Somos los dos socios que fundamos este proyecto. Preferimos presentarnos como equipo, sin fichas individuales por ahora. Lo que sí compartimos aquí es nuestra formación, nuestra experiencia profesional y cómo trabajamos con cada cliente.',
+      dek: 'Somos los dos socios que fundamos este proyecto. Preferimos presentarnos como equipo. Lo que sí compartimos aquí es nuestra formación, nuestra experiencia profesional y cómo trabajamos con cada cliente.',
       tags: ['Economía y Estadística (UB / UPC)', 'Experiencia real en gestoría', '100% online'],
       formacion: {
         eyebrow: 'Formación',
@@ -328,16 +328,16 @@ export const ui = {
         title: 'No desaparecemos en cuanto presentamos tus impuestos',
         sub: 'Llevamos tu contabilidad y presentamos tus impuestos, como esperas de cualquier gestoría. Pero seguimos ahí después: puedes escribirnos, llamarnos o venir a vernos siempre que lo necesites, porque nos importa que tu negocio funcione, no solo que estés al día con Hacienda.',
         channels: [
-          { title: 'Correo electrónico', desc: 'Escríbenos cuando te surja una duda. Te respondemos con criterio, no con una plantilla.' },
-          { title: 'Teléfono', desc: 'Si lo prefieres hablado, llámanos, sin pasar por un contestador automático.' },
-          { title: 'Presencial en Barcelona', desc: 'Si te va mejor en persona, también podemos vernos.' },
+          { title: 'Correo electrónico', desc: 'Escríbenos cuando te surja una duda. Te respondemos con criterio, no con una plantilla.', linkLabel: 'contacto@asesoriamadal.es', linkHref: 'mailto:contacto@asesoriamadal.es' },
+          { title: 'Llamada', desc: 'Si lo prefieres hablado, reserva un hueco y te llamamos.', linkLabel: 'Reservar llamada →', linkHref: 'https://calendly.com/asesoriamadal4/' },
+          { title: 'Presencial en Barcelona', desc: 'Si te va mejor en persona, escríbenos y acordamos un día para vernos.', linkLabel: 'contacto@asesoriamadal.es', linkHref: 'mailto:contacto@asesoriamadal.es' },
         ],
         detail: 'Te ayudamos a entender qué implica cada decisión, fiscal y financieramente, y a pensarla contigo cuando toca tomarla. No vamos a dirigir tu negocio por ti, pero tampoco vas a tener que esperar a la próxima declaración para hablar con nosotros.',
       },
       dashboards: {
         eyebrow: 'Reporting y dashboards',
         title: 'Tus números, de un vistazo',
-        sub: 'Además de llevar tu contabilidad, te damos acceso a dashboards automatizados desde tu área de cliente, con la información de tu negocio explicada de forma sencilla.',
+        sub: 'Además de llevar tu contabilidad, te damos acceso a dashboards personalizados desde tu área de cliente: no te llenamos de datos, solo te mostramos lo que de verdad quieras ver. Si en algún momento necesitas algo distinto, nos lo dices y lo ajustamos.',
         from: '"Mi gestoría lleva mis números."',
         to: '"Puedo ver y entender cómo está funcionando mi negocio."',
         detail: 'Los dashboards se actualizan cada mes. Si en algún momento necesitas los datos más recientes, puedes pedírnoslo cuando quieras.',
@@ -656,7 +656,7 @@ export const ui = {
     equipo: {
       eyebrow: 'Qui som',
       title: 'La mateixa formació en números, dues experiències que es complementen',
-      dek: 'Som els dos socis que vam fundar aquest projecte. Preferim presentar-nos com a equip, sense fitxes individuals per ara. El que sí que compartim aquí és la nostra formació, la nostra experiència professional i com treballem amb cada client.',
+      dek: 'Som els dos socis que vam fundar aquest projecte. Preferim presentar-nos com a equip. El que sí que compartim aquí és la nostra formació, la nostra experiència professional i com treballem amb cada client.',
       tags: ['Economia i Estadística (UB / UPC)', 'Experiència real en gestoria', '100% online'],
       formacion: {
         eyebrow: 'Formació',
@@ -707,16 +707,16 @@ export const ui = {
         title: 'No desapareixem quan presentem els teus impostos',
         sub: 'Portem la teva comptabilitat i presentem els teus impostos, com esperes de qualsevol gestoria. Però continuem aquí després: pots escriure’ns, trucar-nos o venir a veure’ns sempre que ho necessitis, perquè ens importa que el teu negoci funcioni, no només que estiguis al dia amb Hisenda.',
         channels: [
-          { title: 'Correu electrònic', desc: 'Escriu-nos quan et sorgeixi un dubte. Et responem amb criteri, no amb una plantilla.' },
-          { title: 'Telèfon', desc: 'Si ho prefereixes parlat, truca’ns, sense passar per un contestador automàtic.' },
-          { title: 'Presencial a Barcelona', desc: 'Si t’ho passes millor en persona, també ens podem veure.' },
+          { title: 'Correu electrònic', desc: 'Escriu-nos quan et sorgeixi un dubte. Et responem amb criteri, no amb una plantilla.', linkLabel: 'contacto@asesoriamadal.es', linkHref: 'mailto:contacto@asesoriamadal.es' },
+          { title: 'Trucada', desc: 'Si ho prefereixes parlat, reserva una hora i et truquem.', linkLabel: 'Reservar trucada →', linkHref: 'https://calendly.com/asesoriamadal4/' },
+          { title: 'Presencial a Barcelona', desc: 'Si t’ho passes millor en persona, escriu-nos i quedem un dia per veure’ns.', linkLabel: 'contacto@asesoriamadal.es', linkHref: 'mailto:contacto@asesoriamadal.es' },
         ],
         detail: 'T’ajudem a entendre què implica cada decisió, fiscalment i financerament, i a pensar-la amb tu quan toca prendre-la. No dirigirem el teu negoci per tu, però tampoc hauràs d’esperar a la propera declaració per parlar amb nosaltres.',
       },
       dashboards: {
         eyebrow: 'Reporting i dashboards',
         title: 'Els teus números, d’un cop d’ull',
-        sub: 'A més de portar la teva comptabilitat, et donem accés a dashboards automatitzats des de la teva àrea de client, amb la informació del teu negoci explicada de forma senzilla.',
+        sub: 'A més de portar la teva comptabilitat, et donem accés a dashboards personalitzats des de la teva àrea de client: no t’omplim de dades, només et mostrem el que de veritat vulguis veure. Si en algun moment necessites alguna cosa diferent, ens ho dius i ho ajustem.',
         from: '"La meva gestoria porta els meus números."',
         to: '"Puc veure i entendre com funciona el meu negoci."',
         detail: 'Els dashboards s’actualitzen cada mes. Si en algun moment necessites les dades més recents, ens ho pots demanar quan vulguis.',
@@ -1035,7 +1035,7 @@ export const ui = {
     equipo: {
       eyebrow: 'About us',
       title: 'Same background in numbers, two experiences that complement each other',
-      dek: 'We’re the two founding partners behind this project. We prefer to introduce ourselves as a team, without individual profiles for now. What you can find here is our academic background, our professional experience and how we work with each client.',
+      dek: 'We’re the two founding partners behind this project. We prefer to introduce ourselves as a team. What you can find here is our academic background, our professional experience and how we work with each client.',
       tags: ['Economics & Statistics (UB / UPC)', 'Real accounting-firm experience', '100% online'],
       formacion: {
         eyebrow: 'Background',
@@ -1086,16 +1086,16 @@ export const ui = {
         title: 'We don’t disappear once we’ve filed your taxes',
         sub: 'We handle your accounting and file your taxes, like you’d expect from any accounting firm. But we stay involved after that: you can email us, call us, or come see us whenever you need to, because we care about your business working, not just about you staying compliant.',
         channels: [
-          { title: 'Email', desc: 'Write to us whenever a question comes up. We reply with judgment, not a template.' },
-          { title: 'Phone', desc: 'If you’d rather talk it through, call us, no automated menu in the way.' },
-          { title: 'In person in Barcelona', desc: 'If face to face works better for you, we can meet up too.' },
+          { title: 'Email', desc: 'Write to us whenever a question comes up. We reply with judgment, not a template.', linkLabel: 'contacto@asesoriamadal.es', linkHref: 'mailto:contacto@asesoriamadal.es' },
+          { title: 'Call', desc: 'If you’d rather talk it through, book a slot and we’ll call you.', linkLabel: 'Book a call →', linkHref: 'https://calendly.com/asesoriamadal4/' },
+          { title: 'In person in Barcelona', desc: 'If face to face works better for you, email us and we’ll arrange a day to meet.', linkLabel: 'contacto@asesoriamadal.es', linkHref: 'mailto:contacto@asesoriamadal.es' },
         ],
         detail: 'We help you understand what each decision means, tax-wise and financially, and think it through with you when it’s time to decide. We’re not going to run your business for you, but you won’t have to wait until your next tax return to talk to us either.',
       },
       dashboards: {
         eyebrow: 'Reporting and dashboards',
         title: 'Your numbers, at a glance',
-        sub: 'On top of handling your accounting, we give you access to automated dashboards from your client area, with your business information explained simply.',
+        sub: 'On top of handling your accounting, we give you access to personalized dashboards from your client area: we don’t flood you with data, we only show you what you actually want to see. If you ever need something different, just tell us and we’ll adjust it.',
         from: '"My accounting firm handles my numbers."',
         to: '"I can see and understand how my business is doing."',
         detail: 'Dashboards update every month. If you ever need the most recent data, you can ask us for a refresh whenever you want.',

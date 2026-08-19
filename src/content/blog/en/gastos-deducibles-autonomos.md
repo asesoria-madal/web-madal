@@ -16,7 +16,7 @@ An expense is deductible if it is necessary for your business, linked to it, and
 ## Common expenses
 
 - Purchases of materials and stock.
-- Utilities and rent for your premises, or the proportional part if you work from home.
+- Utilities and rent for your premises, or the proportional part if you work from home (explained in [deducting housing expenses if you work remotely](/en/blog/deducir-gastos-vivienda-teletrabajo)).
 - Your self-employed social security contribution (cuota de autónomos) and any insurance tied to your business.
 - Fees paid to an accountant/tax advisor (gestoría), lawyer, or other professionals you hire.
 - Advertising, your website, and the software tools you use to work.

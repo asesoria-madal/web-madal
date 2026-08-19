@@ -645,6 +645,8 @@ h2.section-title { font-size: clamp(1.5rem, 2.6vw, 2rem); }
 .feature-card { background: var(--paper); padding: 1.4rem 1.5rem; }
 .feature-card h3 { font-family: var(--font-display); font-size: 1.02rem; font-weight: 600; line-height: 1.35; }
 .feature-card p { font-size: 0.9rem; color: var(--ink-soft); margin-top: 0.5rem; }
+.feature-card-link { display: inline-block; font-size: 0.85rem; font-weight: 600; color: var(--accent); text-decoration: none; margin-top: 0.7rem; }
+.feature-card-link:hover { text-decoration: underline; }
 
 /* ---------- Legal / privacidad ---------- */
 .legal-doc { max-width: 720px; }
