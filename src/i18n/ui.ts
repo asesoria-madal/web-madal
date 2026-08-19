@@ -71,7 +71,7 @@ export const ui = {
       sub: 'Precios con IVA incluido. Cifras orientativas mientras cerramos la web definitiva.',
       rows: [
         { title: 'Autónomo', amount: 'desde 48,40 €', unit: '/mes', incl: 'Trimestrales de IVA e IRPF · Balance trimestral · Declaración de la renta incluida' },
-        { title: 'SL y pymes', amount: 'desde 121 €', unit: '/mes', incl: 'Facturación sin límite · Gestión laboral básica incluida · Balance trimestral' },
+        { title: 'SL y pymes', amount: 'desde 121 €', unit: '/mes', incl: 'Facturación sin límite · Balance trimestral' },
       ],
       note: 'Reporting y dashboards: +36,30 €/mes, IVA incluido, opcional. Sin permanencia.',
     },
@@ -293,7 +293,7 @@ export const ui = {
       sub: 'Preus amb IVA inclòs. Xifres orientatives mentre tanquem la web definitiva.',
       rows: [
         { title: 'Autònom', amount: 'des de 48,40 €', unit: '/mes', incl: 'Trimestrals d’IVA i IRPF · Balanç trimestral · Declaració de la renda inclosa' },
-        { title: 'SL i pimes', amount: 'des de 121 €', unit: '/mes', incl: 'Facturació sense límit · Gestió laboral bàsica inclosa · Balanç trimestral' },
+        { title: 'SL i pimes', amount: 'des de 121 €', unit: '/mes', incl: 'Facturació sense límit · Balanç trimestral' },
       ],
       note: 'Reporting i dashboards: +36,30 €/mes, IVA inclòs, opcional. Sense permanència.',
     },
@@ -515,7 +515,7 @@ export const ui = {
       sub: 'Prices include VAT. Figures are indicative while we finalize the site.',
       rows: [
         { title: 'Freelancer', amount: 'from €48.40', unit: '/month', incl: 'Quarterly VAT & income tax filings · Quarterly balance sheet · Annual income tax return included' },
-        { title: 'SL and small businesses', amount: 'from €121', unit: '/month', incl: 'Unlimited invoicing · Basic payroll management included · Quarterly balance sheet' },
+        { title: 'SL and small businesses', amount: 'from €121', unit: '/month', incl: 'Unlimited invoicing · Quarterly balance sheet' },
       ],
       note: 'Reporting & dashboards: +€36.30/month, VAT included, optional. No lock-in.',
     },
