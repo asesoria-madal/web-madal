@@ -1,0 +1,10 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Simulador from '../../components/pages/Simulador.astro';
+
+export const prerender = true;
+---
+
+<Layout lang="ca" path="/ca/solicitud" active="none" title="Sol·licitud enviada · Asesoría Madal" description="El teu pressupost ja està a punt." noindex>
+  <Simulador lang="ca" />
+</Layout>

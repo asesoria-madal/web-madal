@@ -8,7 +8,11 @@ export default defineConfig({
   site: 'https://asesoriamadal.es',
   output: 'server',
   adapter: vercel(),
-  integrations: [sitemap()],
+  integrations: [
+    sitemap({
+      filter: (page) => !page.includes('/solicitud'),
+    }),
+  ],
   i18n: {
     defaultLocale: 'es',
     locales: ['es', 'ca', 'en'],

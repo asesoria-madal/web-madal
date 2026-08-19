@@ -202,6 +202,17 @@ const s = t.sim;
       }
     }
 
+    function redirectToSolicitud() {
+      const lang = wizard?.dataset.lang || 'es';
+      const prefix = lang === 'es' ? '' : `/${lang}`;
+      const params = new URLSearchParams({
+        regimen: answers.regimen,
+        facturas: answers.facturas,
+        reporting: answers.reporting,
+      });
+      window.location.href = `${prefix}/solicitud?${params.toString()}`;
+    }
+
     wizard.addEventListener('click', function (e: MouseEvent) {
       const target = e.target as HTMLElement | null;
       const card = target?.closest('.option-card') as HTMLElement | null;
@@ -213,7 +224,7 @@ const s = t.sim;
       if (field === 'facturas') facturaLabels[value] = card.textContent || '';
       path.push(current);
       if (current + 1 < steps.length) showStep(current + 1);
-      else showResult();
+      else redirectToSolicitud();
     });
 
     backBtn.addEventListener('click', function () {
@@ -228,6 +239,26 @@ const s = t.sim;
       showStep(0);
     });
 
-    showStep(0);
+    // Página /solicitud: llega con las respuestas ya en la URL (redirigida
+    // desde el wizard) — salta directo al resultado, sin volver a preguntar.
+    // Sirve también de página de "éxito" para marcar la conversión en Google Ads.
+    const queryParams = new URLSearchParams(window.location.search);
+    const qRegimen = queryParams.get('regimen');
+    const qFacturas = queryParams.get('facturas');
+    const qReporting = queryParams.get('reporting');
+    const rates = qRegimen === 'pyme' ? RATES_PYME : RATES_AUTONOMO;
+    const validAnswers =
+      (qRegimen === 'autonomo' || qRegimen === 'pyme') &&
+      !!qFacturas && Object.prototype.hasOwnProperty.call(rates, qFacturas) &&
+      !!qReporting && Object.prototype.hasOwnProperty.call(REPORTING, qReporting);
+
+    if (validAnswers && qRegimen && qFacturas && qReporting) {
+      answers = { regimen: qRegimen, facturas: qFacturas, reporting: qReporting };
+      const facturaBtn = wizard.querySelector<HTMLElement>(`[data-field="facturas"][data-value="${qFacturas}"]`);
+      facturaLabels[qFacturas] = facturaBtn?.textContent || '';
+      showResult();
+    } else {
+      showStep(0);
+    }
   })();
 </script>

@@ -15,9 +15,10 @@ interface Props {
   title: string;
   description?: string;
   showCtaFinal?: boolean;
+  noindex?: boolean;
 }
 
-const { lang, path, active, title, description, showCtaFinal = true } = Astro.props;
+const { lang, path, active, title, description, showCtaFinal = true, noindex = false } = Astro.props;
 const t = useTranslations(lang);
 ---
 
@@ -28,6 +29,7 @@ const t = useTranslations(lang);
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     {description && <meta name="description" content={description} />}
+    {noindex && <meta name="robots" content="noindex" />}
     <link rel="icon" href="/favicon.svg" />
   </head>
   <body>
