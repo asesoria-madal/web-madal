@@ -73,7 +73,7 @@ import ContactSwitch from '../ContactSwitch.astro';
             <h2>Subir facturas</h2>
             <p>Sube tus facturas en PDF. Las revisamos y las incorporamos a tu contabilidad.</p>
             <form id="facturaForm" class="factura-upload">
-              <input type="file" id="facturaFile" accept="application/pdf" required />
+              <input type="file" id="facturaFile" accept="application/pdf" multiple required />
               <button type="submit" class="btn btn-primary">Subir factura</button>
             </form>
             <p id="facturaMsg" class="portal-msg" hidden></p>
@@ -186,7 +186,13 @@ import ContactSwitch from '../ContactSwitch.astro';
             const { data: signed } = await supabase!.storage
               .from('facturas')
               .createSignedUrl(row.storage_path as string, 60);
-            if (signed?.signedUrl) window.open(signed.signedUrl, '_blank');
+            if (signed?.signedUrl) {
+              window.open(signed.signedUrl, '_blank');
+            } else {
+              // El registro sigue aquí pero el archivo ya no está en el Storage
+              // (borrado a mano sin limpiar storage_path, o ya archivado en Drive).
+              alert('Esta factura ya no está disponible para descargar. Si la necesitas, escríbenos.');
+            }
           });
           li.appendChild(descargar);
         }
@@ -261,10 +267,10 @@ import ContactSwitch from '../ContactSwitch.astro';
 
     facturaForm.addEventListener('submit', async (e) => {
       e.preventDefault();
-      const file = facturaFile.files?.[0];
-      if (!file) return;
+      const files = Array.from(facturaFile.files ?? []);
+      if (files.length === 0) return;
 
-      if (file.type !== 'application/pdf') {
+      if (files.some((f) => f.type !== 'application/pdf')) {
         facturaMsg.hidden = false;
         facturaMsg.className = 'portal-msg is-error';
         facturaMsg.textContent = 'Solo se admiten archivos en PDF.';
@@ -279,40 +285,52 @@ import ContactSwitch from '../ContactSwitch.astro';
 
       facturaMsg.hidden = false;
       facturaMsg.className = 'portal-msg';
-      facturaMsg.textContent = 'Subiendo…';
+      facturaMsg.textContent = files.length > 1 ? `Subiendo ${files.length} facturas…` : 'Subiendo…';
 
-      // La ruta en Storage usa el auth.uid() de la sesión (así lo exige la
-      // política de Storage, ver schema.sql), no el id interno de clientes.
-      const path = `${session.user.id}/${Date.now()}-${file.name}`;
-      const { error } = await supabase!.storage.from('facturas').upload(path, file, {
-        contentType: 'application/pdf',
-      });
+      // Cada archivo es una subida y una fila independiente en
+      // facturas_subidas: varias facturas seleccionadas a la vez cuentan
+      // como varias facturas, no como una sola. Se suben en secuencia (no en
+      // paralelo) para no saturar la conexión con varios PDFs a la vez.
+      let subidas = 0;
+      let fallos = 0;
 
-      if (error) {
-        facturaMsg.className = 'portal-msg is-error';
-        facturaMsg.textContent = 'No se ha podido subir la factura. Inténtalo de nuevo.';
-        return;
+      for (const file of files) {
+        // La ruta en Storage usa el auth.uid() de la sesión (así lo exige la
+        // política de Storage, ver schema.sql), no el id interno de clientes.
+        // Se añade un id aleatorio además del timestamp para que dos
+        // archivos subidos en el mismo milisegundo no choquen de ruta.
+        const path = `${session.user.id}/${Date.now()}-${crypto.randomUUID()}-${file.name}`;
+        const { error } = await supabase!.storage.from('facturas').upload(path, file, {
+          contentType: 'application/pdf',
+        });
+
+        if (error) {
+          fallos++;
+          continue;
+        }
+
+        // Si el archivo sube bien pero falla el registro de la fila, no lo
+        // contamos como fallo de cara al cliente (el equipo verá el archivo
+        // en el Storage igualmente y podrá revisarlo a mano).
+        await supabase!.from('facturas_subidas').insert({
+          cliente_id: clienteId,
+          nombre_archivo: file.name,
+          storage_path: path,
+        });
+        subidas++;
       }
 
-      const { error: registroError } = await supabase!.from('facturas_subidas').insert({
-        cliente_id: clienteId,
-        nombre_archivo: file.name,
-        storage_path: path,
-      });
-
-      if (registroError) {
-        // El archivo ya está en el Storage; si el registro falla, avisamos
-        // igualmente al equipo que la revisará a mano, pero no bloqueamos
-        // al cliente con un error tras una subida que sí ha funcionado.
+      if (fallos === 0) {
         facturaMsg.className = 'portal-msg is-ok';
-        facturaMsg.textContent = 'Factura subida. Si no aparece en la lista, escríbenos.';
-        facturaForm.reset();
-        renderFacturaList(clienteId);
-        return;
+        facturaMsg.textContent = subidas > 1 ? `${subidas} facturas subidas correctamente.` : 'Factura subida correctamente.';
+      } else if (subidas > 0) {
+        facturaMsg.className = 'portal-msg is-error';
+        facturaMsg.textContent = `${subidas} facturas subidas, ${fallos} no se han podido subir. Inténtalo de nuevo con esas.`;
+      } else {
+        facturaMsg.className = 'portal-msg is-error';
+        facturaMsg.textContent = 'No se ha podido subir ninguna factura. Inténtalo de nuevo.';
       }
 
-      facturaMsg.className = 'portal-msg is-ok';
-      facturaMsg.textContent = 'Factura subida correctamente.';
       facturaForm.reset();
       renderFacturaList(clienteId);
     });
