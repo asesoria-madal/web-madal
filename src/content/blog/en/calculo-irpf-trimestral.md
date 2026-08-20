@@ -5,6 +5,12 @@ title: 'How quarterly IRPF is calculated, and how to estimate it'
 description: 'Where the Modelo 130 figure comes from, with an example.'
 cat: fiscalidad
 date: 2026-08-19
+updatedDate: 2026-08-20
+sources:
+  - label: 'IRPF Regulation (Real Decreto 439/2007), arts. 109-110 — how the fractioned payment and its exemption work'
+    url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2007-6820'
+  - label: 'Ley 35/2006 (IRPF Act), art. 101 — legal basis for the withholding-based exemption'
+    url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2006-20764'
 ---
 
 If you're self-employed under direct estimation (estimación directa), every quarter you file Modelo 130: a payment on account of your annual IRPF. A lot of people pay it without understanding where the figure comes from, which makes it impossible to plan for.

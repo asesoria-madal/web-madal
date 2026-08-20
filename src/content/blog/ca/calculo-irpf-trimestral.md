@@ -5,6 +5,12 @@ title: 'Com es calcula l''IRPF trimestral i com estimar-lo'
 description: 'D''on surt la xifra del model 130, amb un exemple.'
 cat: fiscalidad
 date: 2026-08-19
+updatedDate: 2026-08-20
+sources:
+  - label: 'Reglament de l’IRPF (Real Decreto 439/2007), arts. 109-110 — càlcul i exempció del pagament fraccionat'
+    url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2007-6820'
+  - label: 'Ley 35/2006 del IRPF, art. 101 — base legal de l’exempció per retencions'
+    url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2006-20764'
 ---
 
 Si ets autònom en estimació directa, cada trimestre presentes el model 130: un pagament a compte del teu IRPF anual. Molta gent el paga sense entendre d'on surt la xifra, i això fa impossible anticipar-la.

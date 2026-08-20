@@ -5,6 +5,12 @@ title: 'Facturación electrónica obligatoria: qué es y en qué se diferencia d
 description: 'Dos normas distintas que se confunden constantemente.'
 cat: fiscalidad
 date: 2026-08-19
+updatedDate: 2026-08-20
+sources:
+  - label: 'Ley 18/2022, de creación y crecimiento de empresas ("Crea y Crece")'
+    url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2022-15818'
+  - label: 'Real Decreto 238/2026 — desarrolla la factura electrónica obligatoria entre empresas'
+    url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2026-7295'
 ---
 
 Es muy habitual mezclar dos obligaciones que no son la misma cosa: Verifactu y la factura electrónica obligatoria. Coinciden en el tiempo y las dos hablan de "facturación digital", pero regulan cosas distintas.

@@ -626,6 +626,28 @@ h2.section-title { font-size: clamp(1.5rem, 2.6vw, 2rem); }
 .article-body li { margin-bottom: 0.5rem; }
 .article-body strong { color: var(--ink); }
 
+.article-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1rem;
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+}
+.article-meta strong { color: var(--ink); font-weight: 600; }
+
+.article-sources { margin-top: 2.4rem; padding-top: 1.4rem; border-top: 1px solid var(--line); }
+.article-sources h2 { font-family: var(--font-display); font-size: 1.05rem; margin-bottom: 0.6rem; }
+.article-sources ul { margin: 0; padding: 0 0 0 1.2rem; }
+.article-sources li { font-size: 0.88rem; margin-bottom: 0.3rem; }
+.article-sources a { color: var(--accent); }
+
+.article-related { margin-top: 2.8rem; padding-top: 1.6rem; border-top: 1px solid var(--line); }
+.article-related h2 { font-family: var(--font-display); font-size: 1.2rem; margin-bottom: 1rem; }
+
+.article-related-faq { margin-top: 2.4rem; }
+.article-related-faq h2 { font-family: var(--font-display); font-size: 1.2rem; margin-bottom: 0.4rem; }
+
 /* ---------- FAQ ---------- */
 .faq-title { font-family: var(--font-display); font-size: 1.3rem; margin-bottom: 0.4rem; }
 .articles-head { display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; margin-bottom: 0.4rem; }
@@ -678,6 +700,8 @@ h2.section-title { font-size: clamp(1.5rem, 2.6vw, 2rem); }
 .faq-item summary::after { content: '+'; font-family: var(--font-mono); color: var(--ink-soft); font-size: 1.2rem; flex-shrink: 0; }
 .faq-item[open] summary::after { content: '\2212'; }
 .faq-item p { padding: 0 0 1rem; color: var(--ink-soft); font-size: 0.92rem; max-width: 62ch; }
+.faq-item-link { display: inline-block; margin: -0.5rem 0 1rem; font-size: 0.86rem; font-weight: 600; color: var(--accent); text-decoration: none; }
+.faq-item-link:hover { text-decoration: underline; }
 
 /* ---------- Pregunta al blog (flotante) ---------- */
 .ask-float {

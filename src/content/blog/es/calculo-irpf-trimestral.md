@@ -5,6 +5,12 @@ title: 'Cómo se calcula el IRPF trimestral y cómo estimarlo'
 description: 'De dónde sale la cifra del modelo 130, con un ejemplo.'
 cat: fiscalidad
 date: 2026-08-19
+updatedDate: 2026-08-20
+sources:
+  - label: 'Reglamento del IRPF (Real Decreto 439/2007), arts. 109-110 — cálculo y exención del pago fraccionado'
+    url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2007-6820'
+  - label: 'Ley 35/2006 del IRPF, art. 101 — base legal de la exención por retenciones'
+    url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2006-20764'
 ---
 
 Si eres autónomo en estimación directa, cada trimestre presentas el modelo 130: un pago a cuenta de tu IRPF anual. Mucha gente lo paga sin entender de dónde sale la cifra, y eso hace imposible anticiparla.

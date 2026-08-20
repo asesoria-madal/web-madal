@@ -5,6 +5,12 @@ title: 'Facturació electrònica obligatòria: què és i en què es diferencia 
 description: 'Dues normes diferents que es confonen constantment.'
 cat: fiscalidad
 date: 2026-08-19
+updatedDate: 2026-08-20
+sources:
+  - label: 'Ley 18/2022, de creación y crecimiento de empresas ("Crea y Crece")'
+    url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2022-15818'
+  - label: 'Real Decreto 238/2026 — desenvolupa la factura electrònica obligatòria entre empreses'
+    url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2026-7295'
 ---
 
 És molt habitual barrejar dues obligacions que no són la mateixa cosa: Verifactu i la factura electrònica obligatòria. Coincideixen en el temps i totes dues parlen de "facturació digital", però regulen coses diferents.

@@ -30,7 +30,7 @@ const paginationLabel = pagination
   ? t.blog.paginationPageOf.replace('{current}', String(pagination.current)).replace('{total}', String(pagination.total))
   : '';
 
-const faqGroups: { key: string; label: string; items: readonly { q: string; a: string }[] }[] = [
+const faqGroups: { key: string; label: string; items: readonly { q: string; a: string; related?: string }[] }[] = [
   { key: 'generales', label: t.blog.faqGenerales, items: t.blog.faqGeneralesItems },
   { key: 'autonomos', label: t.blog.faqAutonomos, items: t.blog.faqAutonomosItems },
   { key: 'sl', label: t.blog.faqSl, items: t.blog.faqSlItems },
@@ -68,6 +68,9 @@ const faqGroups: { key: string; label: string; items: readonly { q: string; a: s
                 <details class="faq-item" data-extra={i >= FAQ_VISIBLE_LIMIT ? 'true' : undefined} hidden={i >= FAQ_VISIBLE_LIMIT}>
                   <summary>{item.q}</summary>
                   <p>{item.a}</p>
+                  {item.related && (
+                    <a href={localizedPath(`/blog/${item.related}`, lang)} class="faq-item-link">{t.blog.readMore}</a>
+                  )}
                 </details>
               ))}
               {group.items.length > FAQ_VISIBLE_LIMIT && (

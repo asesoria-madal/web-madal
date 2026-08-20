@@ -5,6 +5,16 @@ title: 'Verifactu: qué es y cuándo te afecta si eres autónomo'
 description: 'La fecha correcta, no la que sigue circulando desactualizada por internet.'
 cat: fiscalidad
 date: 2026-08-18
+updatedDate: 2026-08-20
+sources:
+  - label: 'Ley 58/2003, General Tributaria (art. 29.2.j) — base legal de Verifactu'
+    url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2003-23186'
+  - label: 'Real Decreto 1007/2023 — Reglamento que desarrolla Verifactu'
+    url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2023-24840'
+  - label: 'Real Decreto-ley 15/2025 — aplazamiento del calendario a 2027'
+    url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2025-24446'
+  - label: 'Agencia Tributaria — Manual práctico de IVA 2025, Verifactu'
+    url: 'https://sede.agenciatributaria.gob.es/Sede/ayuda/manuales-videos-folletos/manuales-practicos/manual-iva-2025/capitulo-01-novedades-destacar-2025/verifactu.html'
 ---
 
 Si buscas "Verifactu" ahora mismo, media internet te va a dar una fecha que ya no es cierta. No es un error tonto de nadie: la norma se ha aplazado dos veces y buena parte de las guías que circulan no se han actualizado. Aquí va la versión corregida.

@@ -5,8 +5,8 @@ import ContactSwitch from '../components/ContactSwitch.astro';
 import Analytics from '@vercel/analytics/astro';
 import SpeedInsights from '@vercel/speed-insights/astro';
 import '../styles/global.css';
-import type { Locale } from '../i18n/ui';
-import { useTranslations } from '../i18n/utils';
+import { locales, defaultLocale, type Locale } from '../i18n/ui';
+import { useTranslations, localizedPath } from '../i18n/utils';
 
 interface Props {
   lang: Locale;
@@ -20,6 +20,13 @@ interface Props {
 
 const { lang, path, active, title, description, showCtaFinal = true, noindex = false } = Astro.props;
 const t = useTranslations(lang);
+
+// localizedPath normaliza tanto si `path` llega con prefijo de idioma
+// (p.ej. "/ca/servicios") como sin él, así que sirve tal cual para calcular
+// la URL canónica y las alternativas de cada idioma.
+const canonicalUrl = new URL(localizedPath(path, lang), Astro.site);
+const ogImageUrl = new URL('/brand/logo-largo-claro.png', Astro.site);
+const ogLocale: Record<Locale, string> = { es: 'es_ES', ca: 'ca_ES', en: 'en_GB' };
 ---
 
 <!doctype html>
@@ -31,6 +38,41 @@ const t = useTranslations(lang);
     {description && <meta name="description" content={description} />}
     {noindex && <meta name="robots" content="noindex" />}
     <link rel="icon" href="/favicon.svg" />
+
+    <link rel="canonical" href={canonicalUrl} />
+    {locales.map((l) => (
+      <link rel="alternate" hreflang={l} href={new URL(localizedPath(path, l), Astro.site)} />
+    ))}
+    <link rel="alternate" hreflang="x-default" href={new URL(localizedPath(path, defaultLocale), Astro.site)} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Asesoría Madal" />
+    <meta property="og:title" content={title} />
+    {description && <meta property="og:description" content={description} />}
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:locale" content={ogLocale[lang]} />
+    {locales.filter((l) => l !== lang).map((l) => <meta property="og:locale:alternate" content={ogLocale[l]} />)}
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    {description && <meta name="twitter:description" content={description} />}
+    <meta name="twitter:image" content={ogImageUrl} />
+
+    <link rel="preload" href="/fonts/domine-700.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/publicsans-400.woff2" as="font" type="font/woff2" crossorigin />
+
+    <script type="application/ld+json" is:inline set:html={JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'AccountingService',
+      name: 'Asesoría Madal',
+      url: 'https://asesoriamadal.es',
+      logo: new URL('/brand/logo-am-claro.svg', Astro.site).toString(),
+      email: 'contacto@asesoriamadal.es',
+      areaServed: 'ES',
+      description: 'Gestoría y asesoría 100% online para autónomos y pymes en España.',
+    })} />
+
     <script is:inline>
       // Aplicamos el tema guardado antes de pintar, para evitar el parpadeo
       // de cambiar de claro a oscuro (o viceversa) justo después de cargar.

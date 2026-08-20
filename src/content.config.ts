@@ -16,6 +16,13 @@ const blog = defineCollection({
     description: z.string(),
     cat: z.enum(['fiscalidad', 'contabilidad', 'laboral', 'finanzas']),
     date: z.coerce.date(),
+    // Fecha de la última revisión de contenido. Opcional: si no se indica,
+    // se asume que la fecha de publicación sigue siendo la vigente.
+    updatedDate: z.coerce.date().optional(),
+    // Normativa oficial citada (BOE, AEAT, Seguridad Social...). Opcional a
+    // propósito: solo se rellena cuando aporta valor citar la norma exacta,
+    // y siempre tras verificarla (ver "Verificación de contenido fiscal" en CLAUDE.md).
+    sources: z.array(z.object({ label: z.string(), url: z.string().url() })).optional(),
     draft: z.boolean().default(false),
   }),
 });

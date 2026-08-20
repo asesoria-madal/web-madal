@@ -5,6 +5,12 @@ title: 'Mandatory electronic invoicing: what it is and how it differs from Verif
 description: 'Two different rules that constantly get mixed up.'
 cat: fiscalidad
 date: 2026-08-19
+updatedDate: 2026-08-20
+sources:
+  - label: 'Ley 18/2022, business creation and growth act ("Crea y Crece")'
+    url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2022-15818'
+  - label: 'Real Decreto 238/2026 — implements mandatory e-invoicing between businesses'
+    url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2026-7295'
 ---
 
 It's very common to mix up two obligations that aren't the same thing: Verifactu and mandatory electronic invoicing. They overlap in time and both talk about "digital invoicing," but they regulate different things.

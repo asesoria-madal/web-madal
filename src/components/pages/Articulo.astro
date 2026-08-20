@@ -3,6 +3,7 @@ import type { CollectionEntry } from 'astro:content';
 import { render } from 'astro:content';
 import type { Locale } from '../../i18n/ui';
 import { useTranslations, localizedPath } from '../../i18n/utils';
+import { getSortedBlogPosts, getRelatedPosts } from '../../lib/blog';
 
 interface Props {
   lang: Locale;
@@ -12,19 +13,89 @@ interface Props {
 const { lang, entry } = Astro.props;
 const t = useTranslations(lang);
 const { Content } = await render(entry);
-const date = entry.data.date.toLocaleDateString(lang === 'es' ? 'es-ES' : lang === 'ca' ? 'ca-ES' : 'en-GB', {
-  year: 'numeric',
-  month: 'long',
-  day: 'numeric',
-});
+
+const dateLocale = lang === 'es' ? 'es-ES' : lang === 'ca' ? 'ca-ES' : 'en-GB';
+const publishedDate = entry.data.date.toLocaleDateString(dateLocale, { year: 'numeric', month: 'long', day: 'numeric' });
+const updatedDate = entry.data.updatedDate?.toLocaleDateString(dateLocale, { year: 'numeric', month: 'long', day: 'numeric' });
+
+const allPosts = await getSortedBlogPosts(lang);
+const relatedPosts = getRelatedPosts(allPosts, entry, lang, 3);
+
+// Mismas FAQs que en /blog (ui.ts), filtradas por el campo `related` que
+// las conecta con el slug de este artículo — ver src/i18n/ui.ts. La
+// anotación explícita hace falta porque, con `ui` declarado `as const`,
+// los ítems sin `related` no tienen esa clave en su tipo inferido.
+interface FaqItem { q: string; a: string; related?: string }
+const allFaqItems: FaqItem[] = [...t.blog.faqGeneralesItems, ...t.blog.faqAutonomosItems, ...t.blog.faqSlItems];
+const relatedFaqs = allFaqItems.filter((item) => item.related === entry.data.slug);
+
+const articleLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: entry.data.title,
+  description: entry.data.description,
+  datePublished: entry.data.date.toISOString(),
+  dateModified: (entry.data.updatedDate ?? entry.data.date).toISOString(),
+  inLanguage: lang,
+  author: { '@type': 'Organization', name: 'Asesoría Madal' },
+  publisher: { '@type': 'Organization', name: 'Asesoría Madal' },
+  mainEntityOfPage: new URL(localizedPath(`/blog/${entry.data.slug}`, lang), Astro.site).toString(),
+};
 ---
 
 <div class="article-page">
   <a href={localizedPath('/blog', lang)} class="article-back">{t.blog.backToBlog}</a>
   <p class="eyebrow">{t.blog.categories.find((c) => c.id === entry.data.cat)?.label ?? entry.data.cat}</p>
   <h1 class="article-title">{entry.data.title}</h1>
-  <p class="article-date">{date}</p>
+  <p class="article-meta">
+    <span>{t.blog.publishedLabel} {publishedDate}</span>
+    {updatedDate && updatedDate !== publishedDate && <span>· {t.blog.updatedLabel} {updatedDate}</span>}
+    <span>· <strong>{t.blog.reviewedBy}</strong></span>
+  </p>
   <div class="article-body">
     <Content />
   </div>
+
+  {entry.data.sources && entry.data.sources.length > 0 && (
+    <div class="article-sources">
+      <h2>{t.blog.sourcesLabel}</h2>
+      <ul>
+        {entry.data.sources.map((source) => (
+          <li><a href={source.url} target="_blank" rel="noopener noreferrer">{source.label}</a></li>
+        ))}
+      </ul>
+    </div>
+  )}
+
+  {relatedFaqs.length > 0 && (
+    <div class="article-related-faq">
+      <h2>{t.blog.relatedFaqTitle}</h2>
+      <div class="faq-group">
+        {relatedFaqs.map((item) => (
+          <details class="faq-item">
+            <summary>{item.q}</summary>
+            <p>{item.a}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  )}
+
+  {relatedPosts.length > 0 && (
+    <div class="article-related">
+      <h2>{t.blog.relatedArticlesTitle}</h2>
+      <div class="post-grid">
+        {relatedPosts.map((post) => (
+          <a href={localizedPath(`/blog/${post.slug}`, lang)} class="post-card">
+            <span class="cat">{post.cat} · {post.date}</span>
+            <h3>{post.title}</h3>
+            <p>{post.desc}</p>
+            <span class="read">{t.blog.readMore}</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  )}
 </div>
+
+<script type="application/ld+json" is:inline set:html={JSON.stringify(articleLd)} />
