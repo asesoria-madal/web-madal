@@ -30,7 +30,12 @@ const flagEmoji: Partial<Record<Locale, string>> = { es: '🇪🇸', en: '🇬�
 
 <header class="site">
   <div class="bar">
-    <a href={home} class="wordmark">Asesoría<span>Madal</span></a>
+    <div class="bar-left">
+      <button type="button" id="menuToggle" class="menu-toggle" aria-label={t.header.menu} aria-expanded="false" aria-controls="mobileMenu">
+        <span></span><span></span><span></span>
+      </button>
+      <a href={home} class="wordmark">Asesoría<span>Madal</span></a>
+    </div>
     <nav class="primary">
       {nav.map((item) => (
         <a class={`navlink${active === item.key ? ' active' : ''}`} href={item.href}>{item.label}</a>
@@ -39,7 +44,7 @@ const flagEmoji: Partial<Record<Locale, string>> = { es: '🇪🇸', en: '🇬�
       <a class={`navlink${active === 'equipo' ? ' active' : ''}`} href={equipoHref}>{t.nav.conocenos}</a>
     </nav>
     <div class="header-right">
-      <button type="button" id="themeToggle" class="theme-toggle" aria-label="Cambiar entre tema claro y oscuro">
+      <button type="button" class="theme-toggle" aria-label="Cambiar entre tema claro y oscuro">
         <span class="theme-icon-dark" aria-hidden="true">🌙</span>
         <span class="theme-icon-light" aria-hidden="true">☀️</span>
       </button>
@@ -60,20 +65,67 @@ const flagEmoji: Partial<Record<Locale, string>> = { es: '🇪🇸', en: '🇬�
       <ContactSwitch lang={lang} />
     </div>
   </div>
+
+  <nav id="mobileMenu" class="mobile-menu" aria-label={t.header.menu} hidden>
+    {nav.map((item) => (
+      <a class={`mobile-navlink${active === item.key ? ' active' : ''}`} href={item.href}>{item.label}</a>
+    ))}
+    <a class={`mobile-navlink${active === 'servicios' ? ' active' : ''}`} href={serviciosHref}>{t.nav.servicios}</a>
+    <a class={`mobile-navlink${active === 'equipo' ? ' active' : ''}`} href={equipoHref}>{t.nav.conocenos}</a>
+    <div class="mobile-menu-foot">
+      <button type="button" class="theme-toggle" aria-label="Cambiar entre tema claro y oscuro">
+        <span class="theme-icon-dark" aria-hidden="true">🌙</span>
+        <span class="theme-icon-light" aria-hidden="true">☀️</span>
+      </button>
+      <div class="mobile-lang-links">
+        {locales.map((l) => (
+          <a href={localizedPath(path, l)} class={`mobile-lang-link${l === lang ? ' active' : ''}`} aria-label={localeNames[l]}>
+            {flagEmoji[l]
+              ? <span class="flag" aria-hidden="true">{flagEmoji[l]}</span>
+              : <span class="flag flag-badge" aria-hidden="true">CA</span>}
+          </a>
+        ))}
+      </div>
+    </div>
+  </nav>
 </header>
 
 <script>
-  const themeBtn = document.getElementById('themeToggle');
-
   function currentTheme(): 'dark' | 'light' {
     const attr = document.documentElement.getAttribute('data-theme');
     if (attr === 'dark' || attr === 'light') return attr;
     return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
   }
 
-  themeBtn?.addEventListener('click', () => {
-    const next = currentTheme() === 'dark' ? 'light' : 'dark';
-    document.documentElement.setAttribute('data-theme', next);
-    localStorage.setItem('theme', next);
+  document.querySelectorAll<HTMLButtonElement>('.theme-toggle').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const next = currentTheme() === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
+    });
+  });
+
+  const menuToggle = document.getElementById('menuToggle');
+  const mobileMenu = document.getElementById('mobileMenu');
+
+  function closeMenu() {
+    if (!mobileMenu || !menuToggle) return;
+    mobileMenu.hidden = true;
+    menuToggle.setAttribute('aria-expanded', 'false');
+  }
+
+  menuToggle?.addEventListener('click', () => {
+    if (!mobileMenu) return;
+    const open = mobileMenu.hidden;
+    mobileMenu.hidden = !open;
+    menuToggle.setAttribute('aria-expanded', String(open));
+  });
+
+  mobileMenu?.querySelectorAll('a').forEach((link) => {
+    link.addEventListener('click', closeMenu);
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeMenu();
   });
 </script>

@@ -14,7 +14,7 @@ export const localeNames: Record<Locale, string> = {
 export const ui = {
   es: {
     nav: { home: 'Inicio', simulador: 'Simulador', alta: 'Altas', blog: 'FAQs', equipo: 'Quiénes somos', conocenos: 'Conócenos', servicios: 'Nuestros servicios' },
-    header: { cta: 'Reservar llamada', portal: 'Área clientes' },
+    header: { cta: 'Reservar llamada', portal: 'Área clientes', menu: 'Menú', closeMenu: 'Cerrar menú' },
     contact: {
       trigger: 'Contacta con nosotros',
       emailLabel: 'Escríbenos por correo:',
@@ -393,7 +393,7 @@ export const ui = {
 
   ca: {
     nav: { home: 'Inici', simulador: 'Simulador', alta: 'Altes', blog: 'FAQs', equipo: 'Qui som', conocenos: 'Coneix-nos', servicios: 'Els nostres serveis' },
-    header: { cta: 'Reserva una trucada', portal: 'Àrea clients' },
+    header: { cta: 'Reserva una trucada', portal: 'Àrea clients', menu: 'Menú', closeMenu: 'Tanca el menú' },
     contact: {
       trigger: 'Contacta amb nosaltres',
       emailLabel: 'Escriu-nos per correu:',
@@ -772,7 +772,7 @@ export const ui = {
 
   en: {
     nav: { home: 'Home', simulador: 'Price simulator', alta: 'Registration', blog: 'FAQs', equipo: 'About us', conocenos: 'About us', servicios: 'Our services' },
-    header: { cta: 'Book a call', portal: 'Client area' },
+    header: { cta: 'Book a call', portal: 'Client area', menu: 'Menu', closeMenu: 'Close menu' },
     contact: {
       trigger: 'Contact us',
       emailLabel: 'Email us at:',

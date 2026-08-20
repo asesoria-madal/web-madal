@@ -16,6 +16,7 @@ interface Props {
 const { lang, triggerClass = 'btn btn-primary' } = Astro.props;
 const t = useTranslations(lang);
 const dialogId = `contact-dialog-${Math.random().toString(36).slice(2, 9)}`;
+const [emailLocal, emailDomain] = t.contact.email.split('@');
 ---
 
 <button type="button" class={triggerClass} data-contact-trigger={dialogId}>{t.contact.trigger}</button>
@@ -23,7 +24,7 @@ const dialogId = `contact-dialog-${Math.random().toString(36).slice(2, 9)}`;
 <dialog class="contact-dialog" id={dialogId}>
   <button type="button" class="contact-dialog-close" data-contact-close aria-label="Cerrar">✕</button>
   <p class="contact-dialog-label">{t.contact.emailLabel}</p>
-  <a href={`mailto:${t.contact.email}`} class="contact-dialog-email">{t.contact.email}</a>
+  <a href={`mailto:${t.contact.email}`} class="contact-dialog-email">{emailLocal}@<br class="email-break" />{emailDomain}</a>
   <p class="contact-dialog-guarantee">{t.contact.guarantee}</p>
   <p class="contact-dialog-or">{t.contact.orLabel}</p>
   <a href="https://calendly.com/asesoriamadal4/" target="_blank" rel="noopener" class="contact-dialog-call">{t.contact.callLabel}</a>
