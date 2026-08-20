@@ -7,12 +7,17 @@ interface PostItem { slug: string; catId: string; cat: string; title: string; de
 interface Props {
   lang: Locale;
   posts: PostItem[];
-  allPosts?: PostItem[];
   showFaq?: boolean;
   pagination?: { current: number; total: number; baseUrl: string };
 }
-const { lang, posts, allPosts = posts, showFaq = true, pagination } = Astro.props;
+const { lang, posts, showFaq = true, pagination } = Astro.props;
 const t = useTranslations(lang);
+
+// Listado completo para el filtro/buscador: se pide por fetch la primera
+// vez que el visitante filtra, en vez de embeber todos los posts (ocultos)
+// en cada página de listado — con 200 artículos eso pesaría mucho más de
+// lo que hace falta para una carga normal de /blog. Ver blog/all.json.ts.
+const allPostsUrl = localizedPath('/blog/all.json', lang);
 
 const FAQ_VISIBLE_LIMIT = 8;
 
@@ -114,17 +119,9 @@ const faqGroups: { key: string; label: string; items: readonly { q: string; a: s
         </nav>
       )}
 
-      <div class="post-grid" id="postGridAll" hidden>
-        {allPosts.map((post) => (
-          <a href={localizedPath(`/blog/${post.slug}`, lang)} class="post-card" data-cat={post.catId} data-search={`${post.title} ${post.desc}`}>
-            <span class="cat">{post.cat} · {post.date}</span>
-            <h3>{post.title}</h3>
-            <p>{post.desc}</p>
-            <span class="read">{t.blog.readMore}</span>
-          </a>
-        ))}
-      </div>
+      <div class="post-grid" id="postGridAll" hidden></div>
       <p class="faq-empty" id="articlesEmpty" hidden>{t.blog.articlesEmpty}</p>
+      <script type="application/json" id="blogFilterConfig" is:inline set:html={JSON.stringify({ dataUrl: allPostsUrl, lang, readMore: t.blog.readMore })} />
     </div>
   )}
 
@@ -147,13 +144,74 @@ const faqGroups: { key: string; label: string; items: readonly { q: string; a: s
     const allGrid = document.getElementById('postGridAll') as HTMLElement | null;
     const postPagination = document.getElementById('postPagination') as HTMLElement | null;
     const articlesEmpty = document.getElementById('articlesEmpty') as HTMLElement | null;
-    const allCards = allGrid ? Array.from(allGrid.querySelectorAll<HTMLElement>('.post-card')) : [];
+
+    interface PostJson { slug: string; catId: string; cat: string; title: string; desc: string; date: string }
+
+    const configEl = document.getElementById('blogFilterConfig');
+    const filterConfig = configEl ? (JSON.parse(configEl.textContent ?? '{}') as { dataUrl?: string; lang?: string; readMore?: string }) : {};
+    const blogLang = filterConfig.lang ?? 'es';
+    const readMoreLabel = filterConfig.readMore ?? '';
+
+    function postHref(slug: string): string {
+      return blogLang === 'es' ? `/blog/${slug}` : `/${blogLang}/blog/${slug}`;
+    }
+
+    function buildCard(post: PostJson): HTMLAnchorElement {
+      const a = document.createElement('a');
+      a.href = postHref(post.slug);
+      a.className = 'post-card';
+      a.dataset.cat = post.catId;
+      a.dataset.search = `${post.title} ${post.desc}`;
+
+      const catSpan = document.createElement('span');
+      catSpan.className = 'cat';
+      catSpan.textContent = `${post.cat} · ${post.date}`;
+
+      const h3 = document.createElement('h3');
+      h3.textContent = post.title;
+
+      const p = document.createElement('p');
+      p.textContent = post.desc;
+
+      const readSpan = document.createElement('span');
+      readSpan.className = 'read';
+      readSpan.textContent = readMoreLabel;
+
+      a.append(catSpan, h3, p, readSpan);
+      return a;
+    }
+
+    let allCardsCache: HTMLElement[] | null = null;
+    let allCardsPromise: Promise<HTMLElement[]> | null = null;
+
+    // Se pide el JSON completo solo la primera vez que el visitante filtra
+    // (búsqueda o categoría), no al cargar la página — con 200 artículos,
+    // cargarlo siempre habría inflado el HTML de cada página de listado.
+    function ensureAllCards(): Promise<HTMLElement[]> {
+      if (allCardsCache) return Promise.resolve(allCardsCache);
+      if (!filterConfig.dataUrl || !allGrid) return Promise.resolve([]);
+      if (!allCardsPromise) {
+        allCardsPromise = fetch(filterConfig.dataUrl)
+          .then((r) => (r.ok ? r.json() : []))
+          .then((data: PostJson[]) => {
+            const cards = data.map(buildCard);
+            cards.forEach((card) => allGrid.appendChild(card));
+            allCardsCache = cards;
+            return cards;
+          })
+          .catch(() => {
+            allCardsCache = [];
+            return allCardsCache;
+          });
+      }
+      return allCardsPromise;
+    }
 
     function normalize(text: string): string {
       return text.toLowerCase().normalize('NFD').replace(DIACRITICS_PATTERN, '');
     }
 
-    function applyArticleFilters(): void {
+    async function applyArticleFilters(): Promise<void> {
       const query = normalize(searchInput?.value.trim() ?? '');
       const cat = catFilter?.value ?? 'all';
       const filtering = query !== '' || cat !== 'all';
@@ -167,8 +225,9 @@ const faqGroups: { key: string; label: string; items: readonly { q: string; a: s
         return;
       }
 
+      const cards = await ensureAllCards();
       let anyVisible = false;
-      allCards.forEach((card) => {
+      cards.forEach((card) => {
         const matchesCat = cat === 'all' || card.dataset.cat === cat;
         const matchesQuery = query === '' || normalize(card.dataset.search ?? '').includes(query);
         const visible = matchesCat && matchesQuery;

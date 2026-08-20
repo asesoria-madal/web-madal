@@ -24,8 +24,25 @@ interface Body {
   regimen: string;
   facturas: string;
   reporting: string;
+  alta?: string;
+  certificado?: string;
+  actividad?: string;
+  fechaInicio?: string;
   email?: string;
   privacyAccepted?: boolean;
+}
+
+const FECHA_PATTERN = /^\d{4}-\d{2}-\d{2}$/;
+
+// Los cuatro campos solo existen en la rama "autónomo sin dar de alta" del
+// simulador (ver Simulador.astro, branchSteps): si vienen, deben tener forma
+// válida; si no vienen, se guardan como NULL igual que para el resto de ramas.
+function isValidAltaFields(b: Record<string, unknown>): boolean {
+  if (b.alta !== undefined && (typeof b.alta !== 'string' || (b.alta !== 'si' && b.alta !== 'no'))) return false;
+  if (b.certificado !== undefined && (typeof b.certificado !== 'string' || (b.certificado !== 'si' && b.certificado !== 'no'))) return false;
+  if (b.actividad !== undefined && (typeof b.actividad !== 'string' || b.actividad.length === 0 || b.actividad.length > 100)) return false;
+  if (b.fechaInicio !== undefined && (typeof b.fechaInicio !== 'string' || !FECHA_PATTERN.test(b.fechaInicio))) return false;
+  return true;
 }
 
 function isValidEmailPair(b: Record<string, unknown>): boolean {
@@ -44,6 +61,7 @@ function isValid(body: unknown): body is Body {
   if (typeof b.regimen !== 'string' || typeof b.facturas !== 'string' || typeof b.reporting !== 'string') return false;
   if (!(b.reporting in REPORTING)) return false;
   if (!isValidEmailPair(b)) return false;
+  if (!isValidAltaFields(b)) return false;
   if (b.regimen === 'autonomo') return b.facturas in RATES_AUTONOMO;
   if (b.regimen === 'pyme') return b.facturas in RATES_PYME;
   return false;
@@ -71,7 +89,29 @@ function json(data: unknown, status = 200) {
   return new Response(JSON.stringify(data), { status, headers: { 'Content-Type': 'application/json' } });
 }
 
-export const POST: APIRoute = async ({ request }) => {
+const RATE_LIMIT_WINDOW_MS = 10 * 60 * 1000;
+const RATE_LIMIT_MAX = 20;
+
+// Limitador best-effort en memoria: vive mientras la función serverless esté
+// caliente, se reinicia en cada cold start y no se comparte entre instancias.
+// No es una defensa robusta, pero basta para frenar el spam trivial a este
+// endpoint público sin montar infraestructura nueva (Redis, etc.) en esta
+// fase del proyecto — ver auditoría de escalabilidad.
+const requestLog = new Map<string, number[]>();
+
+function isRateLimited(ip: string): boolean {
+  const now = Date.now();
+  const recent = (requestLog.get(ip) ?? []).filter((t) => now - t < RATE_LIMIT_WINDOW_MS);
+  recent.push(now);
+  requestLog.set(ip, recent);
+  return recent.length > RATE_LIMIT_MAX;
+}
+
+export const POST: APIRoute = async ({ request, clientAddress }) => {
+  if (isRateLimited(clientAddress)) {
+    return json({ error: 'Demasiadas peticiones. Inténtalo de nuevo en unos minutos.' }, 429);
+  }
+
   let body: unknown;
   try {
     body = await request.json();
@@ -117,6 +157,10 @@ export const POST: APIRoute = async ({ request }) => {
     reporting: body.reporting,
     total,
   };
+  if (typeof body.alta === 'string') insertRow.alta = body.alta;
+  if (typeof body.certificado === 'string') insertRow.certificado = body.certificado;
+  if (typeof body.actividad === 'string') insertRow.actividad = body.actividad;
+  if (typeof body.fechaInicio === 'string') insertRow.fecha_inicio = body.fechaInicio;
   if (hasEmail) {
     insertRow.email = body.email;
     insertRow.privacy_accepted_at = new Date().toISOString();
@@ -134,7 +178,11 @@ export const POST: APIRoute = async ({ request }) => {
 // cambia de opinión ya viendo el resultado, este endpoint le añade el
 // correo (con su consentimiento) al presupuesto que ya se generó, en vez
 // de crear uno nuevo.
-export const PATCH: APIRoute = async ({ request }) => {
+export const PATCH: APIRoute = async ({ request, clientAddress }) => {
+  if (isRateLimited(clientAddress)) {
+    return json({ error: 'Demasiadas peticiones. Inténtalo de nuevo en unos minutos.' }, 429);
+  }
+
   let body: unknown;
   try {
     body = await request.json();

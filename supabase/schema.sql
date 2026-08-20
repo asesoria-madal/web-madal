@@ -8,6 +8,12 @@
 -- casilla de aceptación de la Política de Privacidad — en ese caso,
 -- privacy_accepted_at deja constancia de cuándo (principio de
 -- responsabilidad proactiva del RGPD, art. 5.2).
+--
+-- "alta", "certificado", "actividad" y "fecha_inicio" solo se responden en
+-- la rama del simulador para autónomos que todavía no están dados de alta
+-- (ver Simulador.astro, branchSteps): certificado y actividad quedan NULL
+-- para quien ya estaba de alta o es pyme, porque esas preguntas no se le
+-- llegan a hacer.
 
 create table if not exists quote_counters (
   year integer primary key,
@@ -21,6 +27,10 @@ create table if not exists presupuestos (
   facturas text not null,
   reporting text not null,
   total numeric(10, 2) not null,
+  alta text,
+  certificado text,
+  actividad text,
+  fecha_inicio date,
   email text,
   privacy_accepted_at timestamptz,
   created_at timestamptz not null default now()
@@ -30,6 +40,10 @@ create table if not exists presupuestos (
 -- columnas nuevas sin tocar las filas existentes:
 -- alter table presupuestos add column if not exists email text;
 -- alter table presupuestos add column if not exists privacy_accepted_at timestamptz;
+-- alter table presupuestos add column if not exists alta text;
+-- alter table presupuestos add column if not exists certificado text;
+-- alter table presupuestos add column if not exists actividad text;
+-- alter table presupuestos add column if not exists fecha_inicio date;
 
 -- Incremento atómico: aunque lleguen dos peticiones a la vez, cada una
 -- recibe un número distinto (evita el problema de contar filas "a mano").
@@ -76,3 +90,22 @@ alter table clientes enable row level security;
 create policy "clientes ven su propia fila"
   on clientes for select
   using (auth.uid() = id);
+
+-- ---------------------------------------------------------------------
+-- Storage: bucket "facturas" (subida de facturas desde el portal).
+-- Cada archivo se guarda en la ruta `${auth.uid()}/archivo.pdf` (ver
+-- Portal.astro), así que las políticas de storage.objects restringen a
+-- cada cliente a su propia carpeta — nadie puede listar ni subir en la
+-- carpeta de otro cliente. Ya están creadas en el dashboard de Supabase
+-- (Storage → Policies), se documentan aquí solo como referencia; si el
+-- bucket se recrea desde cero, hay que volver a crearlas a mano:
+--
+-- create policy "facturas listar carpeta propia"
+--   on storage.objects for select
+--   to authenticated
+--   using (bucket_id = 'facturas' and (storage.foldername(name))[1] = auth.uid()::text);
+--
+-- create policy "facturas subir en carpeta propia"
+--   on storage.objects for insert
+--   to authenticated
+--   with check (bucket_id = 'facturas' and (storage.foldername(name))[1] = auth.uid()::text);

@@ -347,20 +347,29 @@ const s = t.sim;
       if (resultNormal) resultNormal.hidden = isAltaFlow;
       if (resultAlta) resultAlta.hidden = !isAltaFlow;
 
-      let apiBody: { regimen: string; facturas: string; reporting: string; email?: string; privacyAccepted?: boolean };
+      let apiBody: {
+        regimen: string; facturas: string; reporting: string;
+        alta?: string; certificado?: string; actividad?: string; fechaInicio?: string;
+        email?: string; privacyAccepted?: boolean;
+      };
 
       if (isAltaFlow) {
         // La rama de "gestión del alta" reutiliza el tramo más bajo de autónomo
         // (40 €/mes) como cuota recurrente a partir del segundo mes: es el
         // mismo importe que ya mostramos como "Alta desde 59,29 €" en el resto
         // de la web, solo que aquí calculado dinámicamente con IVA.
-        apiBody = { regimen: 'autonomo', facturas: 'bajo', reporting: 'no' };
+        apiBody = {
+          regimen: 'autonomo', facturas: 'bajo', reporting: 'no',
+          alta: answers.alta, certificado: answers.certificado,
+          actividad: answers.actividad, fechaInicio: answers.fechaInicio,
+        };
         const base = RATES_AUTONOMO.bajo;
         const iva = round2(base * IVA_RATE);
         const total = round2(base + iva);
         if (altaPriceEl) altaPriceEl.textContent = formatEUR(total);
       } else {
         apiBody = { regimen: answers.regimen, facturas: answers.facturas, reporting: answers.reporting };
+        if (answers.alta) apiBody.alta = answers.alta;
         const rates = answers.regimen === 'pyme' ? RATES_PYME : RATES_AUTONOMO;
         const base = rates[answers.facturas] || 0;
         const reportingAmount = REPORTING[answers.reporting] || 0;
