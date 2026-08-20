@@ -141,18 +141,56 @@ import ContactSwitch from '../ContactSwitch.astro';
   if (!supabase) {
     showOnly(unconfiguredEl);
   } else {
-    async function renderFacturaList(userId: string) {
-      const { data, error } = await supabase!.storage.from('facturas').list(userId, {
-        sortBy: { column: 'created_at', order: 'desc' },
-      });
+    function formatFecha(iso: string) {
+      return new Date(iso).toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' });
+    }
+
+    // Id interno de clientes (no el auth.uid() de la sesión) — es lo que
+    // usa facturas_subidas.cliente_id. Se rellena al cargar el dashboard.
+    let currentClienteId: string | null = null;
+
+    async function renderFacturaList(clienteId: string) {
+      const { data, error } = await supabase!
+        .from('facturas_subidas')
+        .select('id, nombre_archivo, storage_path, fecha_subida, fecha_contabilizado')
+        .eq('cliente_id', clienteId)
+        .order('fecha_subida', { ascending: false });
 
       facturaList.innerHTML = '';
-      const files = !error && data ? data.filter((f) => f.name !== '.emptyFolderPlaceholder') : [];
-      facturaEmpty.hidden = files.length > 0;
+      const rows = !error && data ? data : [];
+      facturaEmpty.hidden = rows.length > 0;
 
-      files.forEach((file) => {
+      rows.forEach((row) => {
         const li = document.createElement('li');
-        li.textContent = file.name.replace(/^\d+-/, '');
+
+        const nombre = document.createElement('div');
+        nombre.className = 'factura-nombre';
+        nombre.textContent = row.nombre_archivo as string;
+        li.appendChild(nombre);
+
+        const meta = document.createElement('div');
+        meta.className = 'factura-meta';
+        const subida = `Subida: ${formatFecha(row.fecha_subida as string)}`;
+        const contabilizado = row.fecha_contabilizado
+          ? `Contabilizada: ${formatFecha(row.fecha_contabilizado as string)}`
+          : 'Pendiente de contabilizar';
+        meta.textContent = `${subida} · ${contabilizado}`;
+        li.appendChild(meta);
+
+        if (row.storage_path) {
+          const descargar = document.createElement('button');
+          descargar.type = 'button';
+          descargar.className = 'factura-descargar';
+          descargar.textContent = 'Descargar';
+          descargar.addEventListener('click', async () => {
+            const { data: signed } = await supabase!.storage
+              .from('facturas')
+              .createSignedUrl(row.storage_path as string, 60);
+            if (signed?.signedUrl) window.open(signed.signedUrl, '_blank');
+          });
+          li.appendChild(descargar);
+        }
+
         facturaList.appendChild(li);
       });
     }
@@ -167,10 +205,13 @@ import ContactSwitch from '../ContactSwitch.astro';
         return;
       }
 
+      // Sin filtro por email: RLS ya limita esta consulta a la fila
+      // vinculada (auth_user_id = auth.uid()) — si el trigger de alta
+      // todavía no la ha vinculado, esto no devuelve nada y cae en
+      // "unlinked" más abajo, igual que antes.
       const { data: cliente } = await supabase!
         .from('clientes')
-        .select('nombre, reporting')
-        .eq('email', session.user.email)
+        .select('id, nombre, reporting')
         .maybeSingle();
 
       if (!cliente) {
@@ -178,9 +219,10 @@ import ContactSwitch from '../ContactSwitch.astro';
         return;
       }
 
+      currentClienteId = cliente.id as string;
       nombreEl.textContent = cliente.nombre as string;
       renderReportingPanel(Boolean(cliente.reporting));
-      renderFacturaList(session.user.id);
+      renderFacturaList(currentClienteId);
       showOnly(dashEl);
     }
 
@@ -193,17 +235,27 @@ import ContactSwitch from '../ContactSwitch.astro';
       loginMsg.className = 'portal-msg';
       loginMsg.textContent = 'Enviando…';
 
-      const { error } = await supabase!.auth.signInWithOtp({
-        email: emailInput.value,
-        options: { emailRedirectTo: window.location.href.split('?')[0] },
-      });
+      // Vía el endpoint del servidor, no supabase.auth.signInWithOtp
+      // directo: así solo un email ya dado de alta en `clientes` puede
+      // llegar a recibir el enlace (ver api/portal-login.ts).
+      let ok = false;
+      try {
+        const res = await fetch('/api/portal-login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: emailInput.value, redirectTo: window.location.href.split('?')[0] }),
+        });
+        ok = res.ok;
+      } catch {
+        ok = false;
+      }
 
-      if (error) {
-        loginMsg.className = 'portal-msg is-error';
-        loginMsg.textContent = 'No se ha podido enviar el enlace. Inténtalo de nuevo.';
-      } else {
+      if (ok) {
         loginMsg.className = 'portal-msg is-ok';
         loginMsg.textContent = 'Enlace enviado. Revisa tu bandeja de entrada.';
+      } else {
+        loginMsg.className = 'portal-msg is-error';
+        loginMsg.textContent = 'No se ha podido enviar el enlace. Inténtalo de nuevo.';
       }
     });
 
@@ -222,12 +274,15 @@ import ContactSwitch from '../ContactSwitch.astro';
       const {
         data: { session },
       } = await supabase!.auth.getSession();
-      if (!session) return;
+      if (!session || !currentClienteId) return;
+      const clienteId = currentClienteId;
 
       facturaMsg.hidden = false;
       facturaMsg.className = 'portal-msg';
       facturaMsg.textContent = 'Subiendo…';
 
+      // La ruta en Storage usa el auth.uid() de la sesión (así lo exige la
+      // política de Storage, ver schema.sql), no el id interno de clientes.
       const path = `${session.user.id}/${Date.now()}-${file.name}`;
       const { error } = await supabase!.storage.from('facturas').upload(path, file, {
         contentType: 'application/pdf',
@@ -239,10 +294,27 @@ import ContactSwitch from '../ContactSwitch.astro';
         return;
       }
 
+      const { error: registroError } = await supabase!.from('facturas_subidas').insert({
+        cliente_id: clienteId,
+        nombre_archivo: file.name,
+        storage_path: path,
+      });
+
+      if (registroError) {
+        // El archivo ya está en el Storage; si el registro falla, avisamos
+        // igualmente al equipo que la revisará a mano, pero no bloqueamos
+        // al cliente con un error tras una subida que sí ha funcionado.
+        facturaMsg.className = 'portal-msg is-ok';
+        facturaMsg.textContent = 'Factura subida. Si no aparece en la lista, escríbenos.';
+        facturaForm.reset();
+        renderFacturaList(clienteId);
+        return;
+      }
+
       facturaMsg.className = 'portal-msg is-ok';
       facturaMsg.textContent = 'Factura subida correctamente.';
       facturaForm.reset();
-      renderFacturaList(session.user.id);
+      renderFacturaList(clienteId);
     });
 
     async function logout() {
