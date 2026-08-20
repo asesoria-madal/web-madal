@@ -5,6 +5,12 @@ title: 'Estimació directa vs. mòduls: quin et convé'
 description: 'Les diferències reals, amb exemples.'
 cat: fiscalidad
 date: 2026-08-18
+updatedDate: 2026-08-20
+sources:
+  - label: 'Ley 35/2006 del IRPF, arts. 16 i 28-31 — estimació directa i estimació objectiva (mòduls)'
+    url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2006-20764'
+  - label: 'Reglamento del IRPF (Real Decreto 439/2007) — desenvolupament d’ambdós règims'
+    url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2007-6820'
 ---
 
 Si ets autònom, Hisenda t'obliga a tributar per un d'aquests dos sistemes per calcular l'IRPF de la teva activitat. La diferència no és només de paperassa: canvia quant pagues segons com sigui el teu negoci.

@@ -27,7 +27,7 @@ In the second quarter, the calculation doesn't start from zero, it accumulates. 
 
 ## When you don't need to file it
 
-This installment payment only applies to those taxed under direct estimation. On top of that, if more than 70% of your business income last year already carried an IRPF withholding (typical if you invoice almost entirely to other companies or professionals), you're exempt from filing Modelo 130: Hacienda has already been collecting in advance through those withholdings. Even so, it's advisable to file it anyway, to avoid surprises at tax return time.
+This installment payment only applies to those taxed under direct estimation. On top of that, if more than 70% of your business income last year already carried an IRPF withholding, you're exempt from filing Modelo 130 (this exemption is specific to professional, farming, livestock, or forestry activities: commercial or industrial activities don't usually have invoices with withholding, so in practice they rarely benefit from it). Hacienda has already been collecting in advance through those withholdings. Even so, it's advisable to file it anyway, to avoid surprises at tax return time.
 
 ## Why it doesn't match "what you think you'll owe"
 

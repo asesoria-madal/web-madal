@@ -5,6 +5,14 @@ title: 'Autónomo vs. SL: cuándo conviene dar el salto'
 description: 'No hay una cifra fijada por ley, pero sí señales claras para decidir.'
 cat: fiscalidad
 date: 2026-08-19
+updatedDate: 2026-08-20
+sources:
+  - label: 'Ley 27/2014, del Impuesto sobre Sociedades, art. 29 — tipo general 25% y reducido 15% para nueva creación'
+    url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2014-12328'
+  - label: 'Real Decreto Legislativo 1/2010, Ley de Sociedades de Capital, art. 1.2 — responsabilidad limitada al capital aportado'
+    url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2010-10544'
+  - label: 'Ley 35/2006, del IRPF — tributación progresiva de los autónomos'
+    url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2006-20764'
 ---
 
 No existe una norma que diga "a partir de tal facturación, pásate a SL". La decisión depende de varias cosas: cuánto beneficio tienes, cuánto riesgo asumes, cuánto pagas de impuestos en cada forma y tu comunidad autónoma.

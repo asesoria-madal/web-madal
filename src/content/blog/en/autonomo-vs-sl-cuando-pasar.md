@@ -5,6 +5,14 @@ title: 'Self-employed vs. SL: when it makes sense to switch'
 description: 'There is no legal threshold, but there are clear signs to decide by.'
 cat: fiscalidad
 date: 2026-08-19
+updatedDate: 2026-08-20
+sources:
+  - label: 'Ley 27/2014, Corporate Income Tax Act, art. 29 — 25% general rate, 15% reduced rate for newly created companies'
+    url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2014-12328'
+  - label: 'Real Decreto Legislativo 1/2010, Capital Companies Act, art. 1.2 — liability limited to the capital contributed'
+    url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2010-10544'
+  - label: 'Ley 35/2006 (IRPF Act) — progressive taxation for the self-employed'
+    url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2006-20764'
 ---
 
 There's no rule that says "above this turnover, switch to an SL." The decision depends on several things: how much profit you make, how much risk you carry, how much tax you pay under each structure, and which autonomous community you're in.

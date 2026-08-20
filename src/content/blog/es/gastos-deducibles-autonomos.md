@@ -5,6 +5,12 @@ title: 'Qué gastos te puedes deducir como autónomo (y cómo justificarlos)'
 description: 'La lista no es la parte difícil, la justificación sí.'
 cat: fiscalidad
 date: 2026-08-19
+updatedDate: 2026-08-20
+sources:
+  - label: 'Ley 35/2006 del IRPF — deducibilidad de gastos necesarios y justificados de la actividad'
+    url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2006-20764'
+  - label: 'Ley 11/2021, de prevención y lucha contra el fraude fiscal — límite de pagos en efectivo (1.000 €)'
+    url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2021-11473'
 ---
 
 Cuanto más gasto deducible tengas y puedas justificar, menos beneficio tributa. La lista de qué es deducible no suele ser el problema. El problema es que esté correctamente justificado cuando Hacienda lo revisa.

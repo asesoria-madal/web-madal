@@ -5,6 +5,10 @@ title: 'Can you deduct rent, electricity or phone if you work from home?'
 description: 'Yes, but only the proportional part: here is how it is calculated.'
 cat: fiscalidad
 date: 2026-08-19
+updatedDate: 2026-08-20
+sources:
+  - label: 'Ley 35/2006 (IRPF Act), art. 30.2.5ª.b) — 30% deduction on utilities for the portion used by the business'
+    url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2006-20764'
 ---
 
 If you work from home, part of your housing costs are deductible. The condition is that you declare precisely what part of your home you use for your business, and that you apply the correct calculation to each type of expense.

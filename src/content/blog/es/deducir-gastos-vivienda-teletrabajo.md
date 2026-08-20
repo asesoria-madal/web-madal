@@ -5,6 +5,10 @@ title: '¿Puedes deducirte el alquiler, la luz o el teléfono si trabajas desde 
 description: 'Sí, pero solo la parte proporcional: así se calcula.'
 cat: fiscalidad
 date: 2026-08-19
+updatedDate: 2026-08-20
+sources:
+  - label: 'Ley 35/2006 del IRPF, art. 30.2.5ª.b) — deducción del 30% de suministros en la parte afecta a la actividad'
+    url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2006-20764'
 ---
 
 Si trabajas desde casa, una parte de tus gastos de vivienda son deducibles. La condición es que declares con precisión qué parte de la vivienda usas para tu actividad, y que apliques el cálculo correcto a cada tipo de gasto.

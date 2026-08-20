@@ -5,6 +5,12 @@ title: 'Cómo interpretar los modelos que presentamos por ti (Autónomos)'
 description: 'Modelos 100, 111, 115, 130, 303, 390, 180, 190, 347 y 349, explicados.'
 cat: fiscalidad
 date: 2026-08-19
+updatedDate: 2026-08-20
+sources:
+  - label: 'Reglamento del IRPF (Real Decreto 439/2007), art. 100 — retención del 19% en el modelo 115 (alquileres)'
+    url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2007-6820'
+  - label: 'Real Decreto 1065/2007 — regula el modelo 347 y el umbral de 3.005,06 € con terceros'
+    url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2007-15984'
 ---
 
 Cada trimestre te enviamos copia de los modelos presentados, y es habitual que generen dudas: qué es cada uno, por qué el importe es ese y no otro. Aquí va la referencia rápida.

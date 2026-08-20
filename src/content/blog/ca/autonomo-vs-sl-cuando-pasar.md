@@ -5,6 +5,14 @@ title: 'Autònom vs. SL: quan convé fer el salt'
 description: 'No hi ha una xifra fixada per llei, però sí senyals clars per decidir.'
 cat: fiscalidad
 date: 2026-08-19
+updatedDate: 2026-08-20
+sources:
+  - label: 'Ley 27/2014, del Impuesto sobre Sociedades, art. 29 — tipus general 25% i reduït 15% per a noves creacions'
+    url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2014-12328'
+  - label: 'Real Decreto Legislativo 1/2010, Ley de Sociedades de Capital, art. 1.2 — responsabilitat limitada al capital aportat'
+    url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2010-10544'
+  - label: 'Ley 35/2006, del IRPF — tributació progressiva dels autònoms'
+    url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2006-20764'
 ---
 
 No existeix cap norma que digui "a partir de tal facturació, passa't a SL". La decisió depèn de diverses coses: quant benefici tens, quant risc assumeixes, quant pagues d'impostos en cada forma i la teva comunitat autònoma.

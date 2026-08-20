@@ -5,6 +5,12 @@ title: 'How to issue invoices correctly: the details you cannot leave out'
 description: 'A badly made invoice is neither deductible nor valid before Hacienda.'
 cat: contabilidad
 date: 2026-08-19
+updatedDate: 2026-08-20
+sources:
+  - label: 'Real Decreto 1619/2012, Invoicing Regulation, art. 6 — mandatory invoice content'
+    url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2012-14696'
+  - label: 'IRPF Regulation (Real Decreto 439/2007), art. 95 — 15% withholding, reduced to 7% for the first 2 years'
+    url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2007-6820'
 ---
 
 An invoice with a formal error is not just a cosmetic detail: it can stop being valid as a tax record, both for you and for whoever is paying you.

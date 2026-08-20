@@ -27,7 +27,7 @@ En el segundo trimestre, el cálculo no arranca de cero: se acumula. Si para jun
 
 ## Cuándo no hace falta presentarlo
 
-Este pago fraccionado solo aplica a quienes tributan en estimación directa. Además, si el año anterior más del 70% de tus ingresos de actividad ya llevaron retención de IRPF (típico si facturas casi todo a otras empresas o profesionales), quedas exento de presentar el modelo 130. Hacienda ya ha ido cobrando por adelantado vía esas retenciones. De todas formas es recomendable presentarlo para evitar sorpresas en la renta.
+Este pago fraccionado solo aplica a quienes tributan en estimación directa. Además, si el año anterior más del 70% de tus ingresos de actividad ya llevaron retención de IRPF, quedas exento de presentar el modelo 130 (esta exención es específica de actividades profesionales, agrícolas, ganaderas o forestales: las actividades comerciales o industriales no suelen tener facturas con retención, así que en la práctica no suelen beneficiarse de ella). Hacienda ya ha ido cobrando por adelantado vía esas retenciones. De todas formas es recomendable presentarlo para evitar sorpresas en la renta.
 
 ## Por qué no coincide con "lo que crees que vas a deber"
 

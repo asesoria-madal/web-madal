@@ -5,6 +5,14 @@ title: 'Cómo interpretar los modelos que presentamos por ti (SL)'
 description: 'Modelos 111, 115, 200, 202, 303, 390, 180, 190, 347 y 349, explicados.'
 cat: fiscalidad
 date: 2026-08-19
+updatedDate: 2026-08-20
+sources:
+  - label: 'Reglamento del IRPF (Real Decreto 439/2007), art. 100 — retención del 19% en el modelo 115 (alquileres)'
+    url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2007-6820'
+  - label: 'Real Decreto 1065/2007 — regula el modelo 347 y el umbral de 3.005,06 € con terceros'
+    url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2007-15984'
+  - label: 'Ley 27/2014, del Impuesto sobre Sociedades — base legal de los modelos 200 y 202'
+    url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2014-12328'
 ---
 
 Cada trimestre te enviamos copia de los modelos presentados, y es habitual que generen dudas: qué es cada uno, por qué el importe es ese y no otro. Aquí va la referencia rápida.

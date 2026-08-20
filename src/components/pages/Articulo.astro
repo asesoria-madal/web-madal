@@ -4,6 +4,7 @@ import { render } from 'astro:content';
 import type { Locale } from '../../i18n/ui';
 import { useTranslations, localizedPath } from '../../i18n/utils';
 import { getSortedBlogPosts, getRelatedPosts } from '../../lib/blog';
+import ContactSwitch from '../ContactSwitch.astro';
 
 interface Props {
   lang: Locale;
@@ -98,4 +99,39 @@ const articleLd = {
   )}
 </div>
 
+<aside class="ask-float article-nudge" id="articleNudge" hidden>
+  <button type="button" class="ask-float-close" id="articleNudgeClose" aria-label={t.blog.close}>✕</button>
+  <h3>{t.blog.articleNudgeTitle}</h3>
+  <p>{t.blog.articleNudgeDesc}</p>
+  <ContactSwitch lang={lang} triggerClass="btn btn-primary article-nudge-cta" />
+</aside>
+
 <script type="application/ld+json" is:inline set:html={JSON.stringify(articleLd)} />
+
+<script>
+  // Aviso no intrusivo (tarjeta en esquina, no un modal a pantalla completa)
+  // que aparece al llegar a ~3/4 del artículo, para no interrumpir la
+  // lectura ni arriesgar la penalización de Google a los intersticiales
+  // móviles que tapan el contenido.
+  const nudge = document.getElementById('articleNudge');
+  const nudgeClose = document.getElementById('articleNudgeClose');
+  const articleBody = document.querySelector('.article-body');
+
+  if (nudge && articleBody instanceof HTMLElement && sessionStorage.getItem('articleNudgeDismissed') !== '1') {
+    const checkScroll = () => {
+      const bodyTop = window.scrollY + articleBody.getBoundingClientRect().top;
+      const triggerY = bodyTop + articleBody.offsetHeight * 0.75;
+      if (window.scrollY + window.innerHeight >= triggerY) {
+        nudge.hidden = false;
+        window.removeEventListener('scroll', checkScroll);
+      }
+    };
+    window.addEventListener('scroll', checkScroll, { passive: true });
+    checkScroll();
+  }
+
+  nudgeClose?.addEventListener('click', () => {
+    if (nudge) nudge.hidden = true;
+    sessionStorage.setItem('articleNudgeDismissed', '1');
+  });
+</script>

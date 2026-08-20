@@ -90,6 +90,7 @@ const s = t.sim;
           <input type="checkbox" id="simEmailConsent" />
           <span>{s.email.consentPrefix} <a href="/privacidad" target="_blank" rel="noopener">{s.email.consentLink}</a></span>
         </label>
+        <p class="sim-consent-info">{s.email.consentInfo}</p>
         <p class="sim-field-error" id="simEmailError" hidden>{s.email.error}</p>
         <div class="sim-email-actions">
           <button type="button" class="btn btn-outline sim-continue" id="simEmailSkip">{s.email.skip}</button>
@@ -134,6 +135,7 @@ const s = t.sim;
               <input type="checkbox" id="simEmailAfterConsent" />
               <span>{s.email.consentPrefix} <a href="/privacidad" target="_blank" rel="noopener">{s.email.consentLink}</a></span>
             </label>
+            <p class="sim-consent-info">{s.email.consentInfo}</p>
             <p class="sim-field-error" id="simEmailAfterError" hidden>{s.email.error}</p>
             <button type="button" class="btn btn-outline sim-continue" id="simEmailAfterSend" disabled>{s.email.send}</button>
           </div>

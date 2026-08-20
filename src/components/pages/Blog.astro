@@ -89,6 +89,12 @@ const faqGroups: { key: string; label: string; items: readonly { q: string; a: s
     )}
   </div>
 
+  <aside class="ask-float" id="askFloat">
+    <button type="button" class="ask-float-close" id="askFloatClose" aria-label={t.blog.close}>✕</button>
+    <h3>{t.blog.askTitle}</h3>
+    <p>{t.blog.askDesc} <a href="mailto:contacto@asesoriamadal.es" id="askMailLink" data-subject-prefix={t.blog.askSubjectPrefix}>contacto@asesoriamadal.es</a></p>
+  </aside>
+
   {posts.length > 0 && (
     <div class="page view-block">
       <div class="articles-head">
@@ -127,12 +133,6 @@ const faqGroups: { key: string; label: string; items: readonly { q: string; a: s
       <script type="application/json" id="blogFilterConfig" is:inline set:html={JSON.stringify({ dataUrl: allPostsUrl, lang, readMore: t.blog.readMore })} />
     </div>
   )}
-
-  <aside class="ask-float" id="askFloat">
-    <button type="button" class="ask-float-close" id="askFloatClose" aria-label={t.blog.close}>✕</button>
-    <h3>{t.blog.askTitle}</h3>
-    <p>{t.blog.askDesc} <a href="mailto:contacto@asesoriamadal.es" id="askMailLink" data-subject-prefix={t.blog.askSubjectPrefix}>contacto@asesoriamadal.es</a></p>
-  </aside>
 
   <script>
     const DIACRITICS_PATTERN = new RegExp(String.fromCharCode(91, 0x0300, 45, 0x036f, 93), 'g');

@@ -5,6 +5,12 @@ title: 'Com emetre factures correctament: les dades que no poden faltar'
 description: 'Una factura mal feta no és deduïble ni vàlida davant d''Hisenda.'
 cat: contabilidad
 date: 2026-08-19
+updatedDate: 2026-08-20
+sources:
+  - label: 'Real Decreto 1619/2012, Reglamento de facturación, art. 6 — contingut obligatori de la factura'
+    url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2012-14696'
+  - label: 'Reglamento del IRPF (Real Decreto 439/2007), art. 95 — retenció del 15%, reduïda al 7% els 2 primers anys'
+    url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2007-6820'
 ---
 
 Una factura amb un error de forma no és només un detall estètic: pot deixar de ser vàlida com a justificant fiscal, tant per a tu com per a qui et paga.

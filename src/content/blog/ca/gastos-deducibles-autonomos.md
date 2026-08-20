@@ -5,6 +5,12 @@ title: 'Quines despeses et pots deduir com a autònom (i com justificar-les)'
 description: 'La llista no és la part difícil, la justificació sí.'
 cat: fiscalidad
 date: 2026-08-19
+updatedDate: 2026-08-20
+sources:
+  - label: 'Ley 35/2006 del IRPF — deduïbilitat de despeses necessàries i justificades de l’activitat'
+    url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2006-20764'
+  - label: 'Ley 11/2021, de prevenció i lluita contra el frau fiscal — límit de pagaments en efectiu (1.000 €)'
+    url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2021-11473'
 ---
 
 Com més despesa deduïble tinguis i puguis justificar, menys benefici tributa. La llista de què és deduïble no sol ser el problema. El problema és que estigui correctament justificada quan Hisenda la revisa.

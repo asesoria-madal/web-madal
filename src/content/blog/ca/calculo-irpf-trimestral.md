@@ -27,7 +27,7 @@ En el segon trimestre, el càlcul no arrenca de zero: s'acumula. Si a juny has f
 
 ## Quan no cal presentar-lo
 
-Aquest pagament fraccionat només aplica a qui tributa en estimació directa. A més, si l'any anterior més del 70% dels teus ingressos d'activitat ja portaven retenció d'IRPF (típic si factures gairebé tot a altres empreses o professionals), quedes exempt de presentar el model 130. Hisenda ja ha anat cobrant per avançat via aquestes retencions. De totes maneres és recomanable presentar-lo per evitar sorpreses a la renda.
+Aquest pagament fraccionat només aplica a qui tributa en estimació directa. A més, si l'any anterior més del 70% dels teus ingressos d'activitat ja portaven retenció d'IRPF, quedes exempt de presentar el model 130 (aquesta exempció és específica d'activitats professionals, agrícoles, ramaderes o forestals: les activitats comercials o industrials no solen tenir factures amb retenció, així que a la pràctica no solen beneficiar-se'n). Hisenda ja ha anat cobrant per avançat via aquestes retencions. De totes maneres és recomanable presentar-lo per evitar sorpreses a la renda.
 
 ## Per què no coincideix amb "el que creus que deuràs"
 

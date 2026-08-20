@@ -5,6 +5,12 @@ title: 'Direct estimation vs. modules: which suits you'
 description: 'The real differences, with examples.'
 cat: fiscalidad
 date: 2026-08-18
+updatedDate: 2026-08-20
+sources:
+  - label: 'Ley 35/2006 (IRPF Act), arts. 16 and 28-31 — direct estimation and objective estimation (modules)'
+    url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2006-20764'
+  - label: 'IRPF Regulation (Real Decreto 439/2007) — how both regimes are developed'
+    url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2007-6820'
 ---
 
 If you're self-employed, Hacienda requires you to be taxed under one of two systems to calculate the IRPF on your business. The difference isn't just paperwork, it changes how much you pay depending on how your business works.

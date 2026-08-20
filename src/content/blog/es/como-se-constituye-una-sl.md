@@ -5,6 +5,14 @@ title: 'Cómo se constituye una SL: pasos, capital social y plazos'
 description: 'El trámite pasa por un notario, pero conviene saber qué hay detrás.'
 cat: fiscalidad
 date: 2026-08-19
+updatedDate: 2026-08-20
+sources:
+  - label: 'Ley 18/2022, de creación y crecimiento de empresas — capital social mínimo de 1 €'
+    url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2022-15818'
+  - label: 'Real Decreto Legislativo 1/2010, Ley de Sociedades de Capital — constitución, capital social y responsabilidad'
+    url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2010-10544'
+  - label: 'Ley 27/2014, del Impuesto sobre Sociedades, art. 29 — tipo general 25% y reducido 15% para nueva creación'
+    url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2014-12328'
 ---
 
 Constituir una SL no es tan rápido como darte de alta como autónomo, pero tampoco es el proceso largo y caro que mucha gente imagina.

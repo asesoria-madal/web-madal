@@ -5,6 +5,12 @@ title: 'Com interpretar els models que presentem per tu (Autònoms)'
 description: 'Models 100, 111, 115, 130, 303, 390, 180, 190, 347 i 349, explicats.'
 cat: fiscalidad
 date: 2026-08-19
+updatedDate: 2026-08-20
+sources:
+  - label: 'Reglamento del IRPF (Real Decreto 439/2007), art. 100 — retenció del 19% al model 115 (lloguers)'
+    url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2007-6820'
+  - label: 'Real Decreto 1065/2007 — regula el model 347 i el llindar de 3.005,06 € amb tercers'
+    url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2007-15984'
 ---
 
 Cada trimestre t'enviem còpia dels models presentats, i és habitual que generin dubtes: què és cadascun, per què l'import és aquest i no un altre. Aquí va la referència ràpida.

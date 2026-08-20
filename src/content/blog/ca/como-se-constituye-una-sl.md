@@ -5,6 +5,14 @@ title: 'Com es constitueix una SL: passos, capital social i terminis'
 description: 'El tràmit passa per un notari, però convé saber què hi ha darrere.'
 cat: fiscalidad
 date: 2026-08-19
+updatedDate: 2026-08-20
+sources:
+  - label: 'Ley 18/2022, de creación y crecimiento de empresas — capital social mínim d’1 €'
+    url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2022-15818'
+  - label: 'Real Decreto Legislativo 1/2010, Ley de Sociedades de Capital — constitució, capital social i responsabilitat'
+    url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2010-10544'
+  - label: 'Ley 27/2014, del Impuesto sobre Sociedades, art. 29 — tipus general 25% i reduït 15% per a noves creacions'
+    url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2014-12328'
 ---
 
 Constituir una SL no és tan ràpid com donar-te d'alta com a autònom, però tampoc és el procés llarg i car que molta gent s'imagina.

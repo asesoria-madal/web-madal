@@ -5,6 +5,10 @@ title: 'Et pots deduir el lloguer, la llum o el telèfon si treballes des de cas
 description: 'Sí, però només la part proporcional: així es calcula.'
 cat: fiscalidad
 date: 2026-08-19
+updatedDate: 2026-08-20
+sources:
+  - label: 'Ley 35/2006 del IRPF, art. 30.2.5ª.b) — deducció del 30% de subministraments en la part afecta a l’activitat'
+    url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2006-20764'
 ---
 
 Si treballes des de casa, una part de les teves despeses d'habitatge són deduïbles. La condició és que declaris amb precisió quina part de l'habitatge fas servir per a la teva activitat, i que apliquis el càlcul correcte a cada tipus de despesa.

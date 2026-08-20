@@ -5,6 +5,12 @@ title: 'What expenses self-employed workers in Spain can deduct (and how to prov
 description: 'The list of deductible expenses is not the hard part. Proving them is.'
 cat: fiscalidad
 date: 2026-08-19
+updatedDate: 2026-08-20
+sources:
+  - label: 'Ley 35/2006 (IRPF Act) — deductibility of expenses that are necessary and documented for the business'
+    url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2006-20764'
+  - label: 'Ley 11/2021, tax fraud prevention act — cash payment limit (€1,000)'
+    url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2021-11473'
 ---
 
 The more deductible expenses you have and can prove, the less profit you pay tax on. The list of what counts as deductible is rarely the problem. The problem is having it properly documented when the Spanish tax agency (Hacienda) reviews it.

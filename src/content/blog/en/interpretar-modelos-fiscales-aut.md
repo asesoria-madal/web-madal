@@ -5,6 +5,12 @@ title: 'How to read the tax forms we file on your behalf (Self-employed)'
 description: 'Modelo 100, 111, 115, 130, 303, 390, 180, 190, 347 and 349, explained.'
 cat: fiscalidad
 date: 2026-08-19
+updatedDate: 2026-08-20
+sources:
+  - label: 'IRPF Regulation (Real Decreto 439/2007), art. 100 — 19% withholding on Modelo 115 (rent)'
+    url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2007-6820'
+  - label: 'Real Decreto 1065/2007 — governs Modelo 347 and the €3,005.06 threshold with third parties'
+    url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2007-15984'
 ---
 
 Every quarter we send you a copy of the forms we've filed, and it's normal for them to raise questions: what each one is, why the amount is what it is. Here's a quick reference.

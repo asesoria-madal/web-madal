@@ -5,6 +5,12 @@ title: 'Cómo emitir facturas correctamente: los datos que no pueden faltar'
 description: 'Una factura mal hecha no es deducible ni válida ante Hacienda.'
 cat: contabilidad
 date: 2026-08-19
+updatedDate: 2026-08-20
+sources:
+  - label: 'Real Decreto 1619/2012, Reglamento de facturación, art. 6 — contenido obligatorio de la factura'
+    url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2012-14696'
+  - label: 'Reglamento del IRPF (Real Decreto 439/2007), art. 95 — retención del 15%, reducida al 7% los 2 primeros años'
+    url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2007-6820'
 ---
 
 Una factura con un error de forma no es solo un detalle estético: puede dejar de ser válida como justificante fiscal, tanto para ti como para quien te paga.
