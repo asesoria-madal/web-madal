@@ -241,7 +241,21 @@ nav.primary a.navlink.active { color: var(--ink); font-weight: 600; }
   .header-right .lang-switch {
     display: none;
   }
+  header.site .bar { gap: 0.5rem; padding-left: 1rem; padding-right: 1rem; }
+  .bar-left { gap: 0.5rem; }
+  .wordmark { font-size: 1.05rem; }
+  .header-right { gap: 0.5rem; }
+  .header-right .btn {
+    white-space: normal;
+    text-align: center;
+    line-height: 1.2;
+    padding: 0.5rem 0.7rem;
+    font-size: 0.78rem;
+    max-width: 7rem;
+  }
 }
+
+.mobile-menu-contact { margin-top: 1.2rem; width: 100%; }
 
 .theme-toggle {
   display: inline-flex;
