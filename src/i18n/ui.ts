@@ -80,7 +80,7 @@ export const ui = {
     alta: {
       title: '¿Vas a darte de alta como autónomo?',
       desc: 'Nos encargamos del papeleo. Pagas la tarifa de alta y el primer mes de gestoría va gratis.',
-      price: 'Alta desde 59,29 €',
+      price: 'Alta desde 39,93 €',
       priceNote: '+ 1er mes de cuota, gratis · IVA incluido',
       link: 'Simular mi precio →',
     },
@@ -99,7 +99,7 @@ export const ui = {
         ],
       },
       timeline: 'En menos de 2 días tienes el alta hecha y ya puedes facturar, con el primer mes de gestoría incluido.',
-      price: 'Alta desde 59,29 €',
+      price: 'Alta desde 39,93 €',
       priceNote: '+ 1er mes de cuota, gratis · IVA incluido',
       ctaCall: 'Reservar llamada',
     },
@@ -163,7 +163,7 @@ export const ui = {
       },
       altaResult: {
         feeLabel: 'Gestión del alta',
-        feeAmount: '59,29 €',
+        feeAmount: '39,93 €',
         feeNote: 'Pago único · IVA incluido',
         firstMonthNote: 'El primer mes de cuota va incluido, gratis.',
         fromLabel: 'A partir del segundo mes',
@@ -235,7 +235,7 @@ export const ui = {
       articlesEmpty: 'No hemos encontrado ningún artículo con eso. Prueba con otra palabra o cambia de temática.',
       faqGenerales: 'Generales',
       faqGeneralesItems: [
-        { q: '¿Cuándo me conviene pasar de autónomo a SL?', a: 'Como referencia orientativa (no una cifra legal), suele empezar a compensar entre 60.000 € y 80.000 € de facturación anual, o antes si quieres limitar tu responsabilidad patrimonial.', related: 'autonomo-vs-sl-cuando-pasar' },
+        { q: '¿Cuándo me conviene pasar de autónomo a SL?', a: 'Como referencia orientativa (no una cifra legal), suele empezar a compensar entre 40.000 € y 60.000 € de beneficio anual, o antes si quieres limitar tu responsabilidad patrimonial. Más información en el artículo.', related: 'autonomo-vs-sl-cuando-pasar' },
         { q: '¿Y si un trimestre no facturo nada?', a: 'Presentamos el modelo a cero. Va incluido en la cuota. Si vas a tener un tiempo de inactividad, te ofrecemos una cuota reducida.' },
         { q: '¿Por qué varía tanto el precio de una gestoría de un negocio a otro?', a: 'Depende de tu régimen fiscal, del volumen de facturas, de si tienes empleados y de si quieres reporting además de la presentación de impuestos.', related: 'precio-gestoria-online-2026' },
         { q: '¿A partir de cuándo es obligatorio Verifactu?', a: '1 de enero de 2027 para sociedades y 1 de julio de 2027 para autónomos, según el Real Decreto-ley 15/2025. No julio de 2026, que es la fecha que aún circula desactualizada.', related: 'verifactu-2026' },
@@ -477,7 +477,7 @@ export const ui = {
     alta: {
       title: 'Et donaràs d’alta com a autònom?',
       desc: 'Ens encarreguem del paperam. Pagues la tarifa d’alta i el primer mes de gestoria va gratis.',
-      price: 'Alta des de 59,29 €',
+      price: 'Alta des de 39,93 €',
       priceNote: '+ 1r mes de quota, gratis · IVA inclòs',
       link: 'Simula el meu preu →',
     },
@@ -496,7 +496,7 @@ export const ui = {
         ],
       },
       timeline: 'En menys de 2 dies tens l’alta feta i ja pots facturar, amb el primer mes de gestoria inclòs.',
-      price: 'Alta des de 59,29 €',
+      price: 'Alta des de 39,93 €',
       priceNote: '+ 1r mes de quota, gratis · IVA inclòs',
       ctaCall: 'Reserva una trucada',
     },
@@ -560,7 +560,7 @@ export const ui = {
       },
       altaResult: {
         feeLabel: 'Gestió de l’alta',
-        feeAmount: '59,29 €',
+        feeAmount: '39,93 €',
         feeNote: 'Pagament únic · IVA inclòs',
         firstMonthNote: 'El primer mes de quota va inclòs, gratis.',
         fromLabel: 'A partir del segon mes',
@@ -632,7 +632,7 @@ export const ui = {
       articlesEmpty: 'No hem trobat cap article amb això. Prova amb una altra paraula o canvia de temàtica.',
       faqGenerales: 'Generals',
       faqGeneralesItems: [
-        { q: 'Quan em convé passar d’autònom a SL?', a: 'Com a referència orientativa (no una xifra legal), sol començar a compensar entre 60.000 € i 80.000 € de facturació anual, o abans si vols limitar la teva responsabilitat patrimonial.', related: 'autonomo-vs-sl-cuando-pasar' },
+        { q: 'Quan em convé passar d’autònom a SL?', a: 'Com a referència orientativa (no una xifra legal), sol començar a compensar entre 40.000 € i 60.000 € de benefici anual, o abans si vols limitar la teva responsabilitat patrimonial. Més informació a l\'article.', related: 'autonomo-vs-sl-cuando-pasar' },
         { q: 'I si un trimestre no facturo res?', a: 'Presentem el model a zero. Va inclòs a la quota. Si tindràs un temps d’inactivitat, t’oferim una quota reduïda.' },
         { q: 'Per què varia tant el preu d’una gestoria d’un negoci a un altre?', a: 'Depèn del teu règim fiscal, del volum de factures, de si tens empleats i de si vols reporting a més de la presentació d’impostos.', related: 'precio-gestoria-online-2026' },
         { q: 'A partir de quan és obligatori Verifactu?', a: '1 de gener de 2027 per a societats i 1 de juliol de 2027 per a autònoms, segons el Reial decret llei 15/2025. No juliol de 2026, que és la data que encara circula desactualitzada.', related: 'verifactu-2026' },
@@ -874,7 +874,7 @@ export const ui = {
     alta: {
       title: 'Registering as a freelancer?',
       desc: 'We handle the paperwork. You pay the registration fee, and your first month of accounting is free.',
-      price: 'Registration from €59.29',
+      price: 'Registration from €39.93',
       priceNote: '+ 1st month free · VAT included',
       link: 'Get your price →',
     },
@@ -893,7 +893,7 @@ export const ui = {
         ],
       },
       timeline: 'In under 2 days your registration is done and you can start invoicing, with your first month of accounting included.',
-      price: 'Registration from €59.29',
+      price: 'Registration from €39.93',
       priceNote: '+ 1st month free · VAT included',
       ctaCall: 'Book a call',
     },
@@ -957,7 +957,7 @@ export const ui = {
       },
       altaResult: {
         feeLabel: 'Registration handling',
-        feeAmount: '€59.29',
+        feeAmount: '€39.93',
         feeNote: 'One-off payment · VAT included',
         firstMonthNote: 'The first month of the fee is included, free.',
         fromLabel: 'From the second month onward',
@@ -1029,7 +1029,7 @@ export const ui = {
       articlesEmpty: 'No articles matched that. Try another word, or change the topic.',
       faqGenerales: 'General',
       faqGeneralesItems: [
-        { q: 'When does it make sense to switch from self-employed to an SL?', a: 'As a rough reference (not a legal figure), it usually starts to pay off between €60,000 and €80,000 in annual turnover, or sooner if you want to limit your personal liability.', related: 'autonomo-vs-sl-cuando-pasar' },
+        { q: 'When does it make sense to switch from self-employed to an SL?', a: 'As a rough reference (not a legal figure), it usually starts to pay off between €40,000 and €60,000 in annual profit, or sooner if you want to limit your personal liability. More information in the article.', related: 'autonomo-vs-sl-cuando-pasar' },
         { q: 'What if I don’t invoice anything in a quarter?', a: 'We file a zero return. It’s included in your fee. If you know you’ll have a quiet stretch, we can offer a reduced fee.' },
         { q: 'Why does the price of an accounting firm vary so much between businesses?', a: 'It depends on your tax regime, how many invoices you issue, whether you have employees, and whether you want reporting on top of tax filing.', related: 'precio-gestoria-online-2026' },
         { q: 'When does Verifactu actually become mandatory?', a: '1 January 2027 for companies and 1 July 2027 for freelancers, per Royal Decree-Law 15/2025. Not July 2026, which is the outdated date still circulating.', related: 'verifactu-2026' },

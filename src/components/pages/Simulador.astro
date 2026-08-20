@@ -356,10 +356,11 @@ const s = t.sim;
       };
 
       if (isAltaFlow) {
-        // La rama de "gestión del alta" reutiliza el tramo más bajo de autónomo
-        // (40 €/mes) como cuota recurrente a partir del segundo mes: es el
-        // mismo importe que ya mostramos como "Alta desde 59,29 €" en el resto
-        // de la web, solo que aquí calculado dinámicamente con IVA.
+        // Este importe es la cuota mensual recurrente a partir del segundo
+        // mes (el tramo más bajo de autónomo, RATES_AUTONOMO.bajo + IVA), NO
+        // la tarifa de alta puntual (esa es s.altaResult.feeAmount, estática,
+        // ver ui.ts). Son dos precios distintos que se muestran juntos en el
+        // resultado del wizard: pago único de alta + cuota desde el mes 2.
         apiBody = {
           regimen: 'autonomo', facturas: 'bajo', reporting: 'no',
           alta: answers.alta, certificado: answers.certificado,
