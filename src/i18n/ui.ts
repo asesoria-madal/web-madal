@@ -61,7 +61,7 @@ export const ui = {
       steps: [
         { title: 'Reserva una llamada de 20 minutos', desc: 'Nos cuentas tu actividad y resolvemos dudas. Sin compromiso.' },
         { title: 'Confirmamos tu cuota y damos de alta tu expediente', desc: 'Trámites y apoderamientos incluidos.' },
-        { title: 'Cada trimestre, presentamos y te asesoramos para que tu negocio mejore', desc: 'Modelos presentados a tiempo, con tu balance y PyG explicados para que decidas con datos, no a ciegas.' },
+        { title: 'Cada trimestre, presentamos y te asesoramos para que tu negocio mejore', desc: 'Modelos presentados a tiempo, con tu balance y PyG explicados para que decidas con datos.' },
       ],
     },
 
