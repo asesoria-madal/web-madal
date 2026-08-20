@@ -122,8 +122,13 @@ p { margin: 0; }
 }
 
 .page { max-width: 1180px; margin: 0 auto; padding: 0 var(--side-pad); }
-.view-intro { padding: 3rem 0 0.5rem; }
-.view-block { padding: 2.2rem 0; }
+/* padding-top/bottom (no el shorthand "padding"): así no pisan el padding
+   lateral que ya pone .page en el mismo elemento — con el shorthand,
+   .view-intro/.view-block ponían padding-left/right a 0, y en viewports
+   más estrechos que max-width (1180px) --que no se compensan con el
+   auto-centrado-- el contenido quedaba pegado al borde. */
+.view-intro { padding-top: 3rem; padding-bottom: 0.5rem; }
+.view-block { padding-top: 2.2rem; padding-bottom: 2.2rem; }
 .view-block + .view-block { border-top: 1px solid var(--line); }
 
 /* ---------- Header ---------- */
@@ -681,10 +686,6 @@ h2.section-title { font-size: clamp(1.5rem, 2.6vw, 2rem); }
 }
 @media (max-width: 640px) {
   .faq-columns { grid-template-columns: 1fr; gap: 0; }
-  .faq-group h3 { padding: 0 0.5rem; }
-  .faq-item summary { padding: 0.95rem 0.5rem; }
-  .faq-item p { padding: 0 0.5rem 1rem; }
-  .faq-item-link { margin-left: 0.5rem; }
 }
 .faq-group { margin-top: 1.8rem; }
 .faq-group h3 { font-family: var(--font-body); font-size: 0.95rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--warm); margin-bottom: 0.6rem; }
@@ -1035,3 +1036,29 @@ footer.site a { text-decoration: none; color: var(--footer-ink-soft); }
 footer.site a:hover { color: var(--footer-ink); }
 footer.site .foot-bottom { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.8rem; padding-top: 1.4rem; font-size: 0.78rem; }
 footer.site .foot-bottom-links { display: flex; gap: 1.2rem; flex-wrap: wrap; }
+
+/* ---------- Banner de cookies (Google Ads, ver CookieConsent.astro) ---------- */
+.cookie-banner {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.2rem;
+  flex-wrap: wrap;
+  background: var(--paper-raised);
+  border-top: 1px solid var(--line);
+  padding: 1rem var(--side-pad);
+  box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.24);
+}
+.cookie-banner p { margin: 0; font-size: 0.86rem; color: var(--ink-soft); max-width: 60ch; }
+.cookie-banner a { color: var(--accent); text-decoration: underline; }
+.cookie-banner-actions { display: flex; gap: 0.7rem; flex-shrink: 0; }
+.cookie-banner .btn { padding: 0.55rem 1.1rem; font-size: 0.86rem; }
+@media (max-width: 640px) {
+  .cookie-banner { flex-direction: column; align-items: stretch; text-align: center; }
+  .cookie-banner-actions { justify-content: center; }
+}

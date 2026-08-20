@@ -1,0 +1,68 @@
+---
+// Banner de aceptar/rechazar cookies de publicidad, listo para el día que
+// se active Google Ads. Ver src/lib/ads-config.ts: mientras
+// GOOGLE_ADS_CONVERSION_ID esté vacío, este componente no renderiza nada y
+// no se carga ningún script — no afecta a las visitas actuales. En cuanto
+// se rellene ese ID, el banner aparece solo (sin más cambios de código) y,
+// si el visitante acepta, carga el tag de Google Ads; si rechaza o no
+// responde, no se carga nada.
+import { GOOGLE_ADS_CONVERSION_ID } from '../lib/ads-config';
+import type { Locale } from '../i18n/ui';
+import { useTranslations } from '../i18n/utils';
+
+interface Props {
+  lang: Locale;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const enabled = GOOGLE_ADS_CONVERSION_ID.length > 0;
+---
+
+{enabled && (
+  <div class="cookie-banner" id="cookieBanner" data-conversion-id={GOOGLE_ADS_CONVERSION_ID} hidden>
+    <p>{t.cookieBanner.text} <a href="/cookies">{t.cookieBanner.link}</a></p>
+    <div class="cookie-banner-actions">
+      <button type="button" id="cookieReject" class="btn btn-outline">{t.cookieBanner.reject}</button>
+      <button type="button" id="cookieAccept" class="btn btn-primary">{t.cookieBanner.accept}</button>
+    </div>
+  </div>
+)}
+
+<script>
+  const banner = document.getElementById('cookieBanner');
+  if (banner) {
+    const conversionId = banner.dataset.conversionId;
+
+    function loadGoogleAds() {
+      if (!conversionId || document.getElementById('ga-gtag-script')) return;
+      const loader = document.createElement('script');
+      loader.id = 'ga-gtag-script';
+      loader.async = true;
+      loader.src = `https://www.googletagmanager.com/gtag/js?id=${conversionId}`;
+      document.head.appendChild(loader);
+
+      const inline = document.createElement('script');
+      inline.textContent = `window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', '${conversionId}');`;
+      document.head.appendChild(inline);
+    }
+
+    const stored = localStorage.getItem('cookieConsent');
+    if (stored === 'accepted') {
+      loadGoogleAds();
+    } else if (stored !== 'rejected') {
+      banner.hidden = false;
+    }
+
+    document.getElementById('cookieAccept')?.addEventListener('click', () => {
+      localStorage.setItem('cookieConsent', 'accepted');
+      banner.hidden = true;
+      loadGoogleAds();
+    });
+
+    document.getElementById('cookieReject')?.addEventListener('click', () => {
+      localStorage.setItem('cookieConsent', 'rejected');
+      banner.hidden = true;
+    });
+  }
+</script>

@@ -68,13 +68,13 @@ export const ui = {
     precios: {
       eyebrow: 'Tarifas',
       title: 'Precios públicos, sin letra pequeña',
-      sub: 'Precios con IVA incluido. Cifras orientativas mientras cerramos la web definitiva.',
+      sub: 'Precios con IVA incluido.',
       ivaLabel: 'IVA incluido',
       rows: [
         { title: 'Autónomo', amount: 'desde 48,40 €', unit: '/mes', incl: 'Trimestrales de IVA e IRPF · Declaración de la renta incluida' },
         { title: 'SL', amount: 'desde 121 €', unit: '/mes', incl: 'Impuestos trimestrales, balance y PyG trimestral' },
       ],
-      note: 'Reporting y dashboards: +36,30 €/mes, IVA incluido, opcional. Sin permanencia.',
+      note: 'Reporting y dashboards: +36,30 €/mes, IVA incluido, opcional.',
     },
 
     alta: {
@@ -199,7 +199,7 @@ export const ui = {
       breakdownReportingNose: 'Reporting y dashboards, opcional (no incluido en el total) *',
       breakdownIva: 'IVA (21%)',
       breakdownTotal: 'Total',
-      monthlyNote: 'Precio mensual. Sin permanencia.',
+      monthlyNote: 'Precio mensual.',
       reportingExplain: '* A diferencia de otras gestorías, llevar una contabilidad enfocada al negocio y no solo a la presentación de impuestos nos permite hacer un seguimiento del estado de salud de tu empresa, para ayudarte a tomar mejores decisiones y no tener sustos financieros.',
       ctaCall: 'Reservar llamada',
       contactAlt: 'O escríbenos a',
@@ -248,6 +248,7 @@ export const ui = {
         { q: '¿Qué tengo que hacer para prepararme para la facturación electrónica obligatoria?', a: 'El Real Decreto 238/2026 ya está aprobado (12 meses para empresas de más de 8 millones de facturación, 24 para el resto y autónomos), pero el plazo empieza a contar cuando se publique la orden ministerial que lo desarrolla, todavía pendiente. De momento, comprueba que tu programa de facturación puede generar formato electrónico estructurado.', related: 'facturacion-electronica-obligatoria' },
         { q: '¿Cómo debo emitir mis facturas para que sean válidas?', a: 'Con numeración correlativa, tus datos y los del cliente completos, y la retención de IRPF aplicada si facturas a otro profesional o empresa. Lo revisamos contigo si tienes dudas.', related: 'como-emitir-facturas-correctamente' },
         { q: '¿Qué diferencia de impuestos hay entre autónomo y SL?', a: 'El autónomo tributa por IRPF de forma progresiva; la SL paga el Impuesto de Sociedades a un tipo fijo, con reducción los primeros años. Hay que contar también lo que cuesta sacar el dinero de la SL.', related: 'autonomo-vs-sl-cuando-pasar' },
+        { q: '¿Hay permanencia mínima de contrato?', a: 'Sí, 12 meses, coincidiendo con el ejercicio fiscal completo: así te cubrimos todos los servicios que ofrecemos a lo largo del año antes de que decidas si seguir. Se renueva tácitamente cada año, salvo que avises con 1-2 meses de antelación a que termine el periodo. Si te vas antes de esos 12 meses, se abonan las mensualidades pendientes hasta el final del periodo, con un máximo de 3 mensualidades.' },
       ],
       faqAutonomos: 'Autónomos',
       faqAutonomosItems: [
@@ -386,12 +387,20 @@ export const ui = {
       contactCall: 'Reservar llamada',
       whereTitle: 'Dónde estamos',
       whereOnline: 'Servicio 100% online',
+      whereBase: 'Con sede en Barcelona',
       whereSpain: 'Toda España, excepto Canarias, Navarra y País Vasco (regímenes forales)',
       legal: '© Asesoría Madal. Servicio de gestoría y asesoría 100% online.',
       portal: 'Área clientes',
       avisoLegal: 'Aviso legal',
       privacidad: 'Privacidad',
       cookies: 'Cookies',
+    },
+
+    cookieBanner: {
+      text: 'Usamos cookies de Google Ads para medir qué visitas llegan desde nuestros anuncios.',
+      link: 'Más información',
+      accept: 'Aceptar',
+      reject: 'Rechazar',
     },
 
     privacidad: {
@@ -456,13 +465,13 @@ export const ui = {
     precios: {
       eyebrow: 'Tarifes',
       title: 'Preus públics, sense lletra petita',
-      sub: 'Preus amb IVA inclòs. Xifres orientatives mentre tanquem la web definitiva.',
+      sub: 'Preus amb IVA inclòs.',
       ivaLabel: 'IVA inclòs',
       rows: [
         { title: 'Autònom', amount: 'des de 48,40 €', unit: '/mes', incl: 'Trimestrals d’IVA i IRPF · Declaració de la renda inclosa' },
         { title: 'SL', amount: 'des de 121 €', unit: '/mes', incl: 'Impostos trimestrals, balanç i compte de resultats trimestral' },
       ],
-      note: 'Reporting i dashboards: +36,30 €/mes, IVA inclòs, opcional. Sense permanència.',
+      note: 'Reporting i dashboards: +36,30 €/mes, IVA inclòs, opcional.',
     },
 
     alta: {
@@ -587,7 +596,7 @@ export const ui = {
       breakdownReportingNose: 'Reporting i dashboards, opcional (no inclòs al total) *',
       breakdownIva: 'IVA (21%)',
       breakdownTotal: 'Total',
-      monthlyNote: 'Preu mensual. Sense permanència.',
+      monthlyNote: 'Preu mensual.',
       reportingExplain: '* A diferència d’altres gestories, portar una comptabilitat enfocada al negoci i no només a la presentació d’impostos ens permet fer un seguiment de l’estat de salut de la teva empresa, per ajudar-te a prendre millors decisions i no tenir ensurts financers.',
       ctaCall: 'Reserva una trucada',
       contactAlt: 'O escriu-nos a',
@@ -636,6 +645,7 @@ export const ui = {
         { q: 'Què he de fer per preparar-me per a la facturació electrònica obligatòria?', a: 'El Reial decret 238/2026 ja està aprovat (12 mesos per a empreses de més de 8 milions de facturació, 24 per a la resta i autònoms), però el termini comença a comptar quan es publiqui l’ordre ministerial que el desenvolupa, encara pendent. De moment, comprova que el teu programa de facturació pot generar format electrònic estructurat.', related: 'facturacion-electronica-obligatoria' },
         { q: 'Com he d’emetre les meves factures perquè siguin vàlides?', a: 'Amb numeració correlativa, les teves dades i les del client completes, i la retenció d’IRPF aplicada si factures a un altre professional o empresa. Ho revisem amb tu si tens dubtes.', related: 'como-emitir-facturas-correctamente' },
         { q: 'Quina diferència d’impostos hi ha entre autònom i SL?', a: 'L’autònom tributa per IRPF de forma progressiva; la SL paga l’Impost de Societats a un tipus fix, amb reducció els primers anys. Cal comptar també el que costa treure els diners de la SL.', related: 'autonomo-vs-sl-cuando-pasar' },
+        { q: 'Hi ha permanència mínima de contracte?', a: 'Sí, 12 mesos, coincidint amb l’exercici fiscal complet: així et cobrim tots els serveis que oferim al llarg de l’any abans que decideixis si continuar. Es renova tàcitament cada any, tret que avisis amb 1-2 mesos d’antelació abans que acabi el període. Si te’n vas abans d’aquests 12 mesos, s’abonen les mensualitats pendents fins al final del període, amb un màxim de 3 mensualitats.' },
       ],
       faqAutonomos: 'Autònoms',
       faqAutonomosItems: [
@@ -774,12 +784,20 @@ export const ui = {
       contactCall: 'Reserva una trucada',
       whereTitle: 'On som',
       whereOnline: 'Servei 100% online',
+      whereBase: 'Amb seu a Barcelona',
       whereSpain: 'A tot Espanya, excepte Canàries, Navarra i el País Basc (règims forals)',
       legal: '© Asesoría Madal. Servei de gestoria i assessoria 100% online.',
       portal: 'Àrea clients',
       avisoLegal: 'Avís legal',
       privacidad: 'Privadesa',
       cookies: 'Cookies',
+    },
+
+    cookieBanner: {
+      text: 'Fem servir cookies de Google Ads per mesurar quines visites arriben des dels nostres anuncis.',
+      link: 'Més informació',
+      accept: 'Acceptar',
+      reject: 'Rebutjar',
     },
 
     privacidad: {
@@ -844,13 +862,13 @@ export const ui = {
     precios: {
       eyebrow: 'Pricing',
       title: 'Public pricing, no fine print',
-      sub: 'Prices include VAT. Figures are indicative while we finalize the site.',
+      sub: 'Prices include VAT.',
       ivaLabel: 'VAT included',
       rows: [
         { title: 'Freelancer', amount: 'from €48.40', unit: '/month', incl: 'Quarterly VAT & income tax filings · Annual income tax return included' },
         { title: 'SL', amount: 'from €121', unit: '/month', incl: 'Quarterly taxes, balance sheet and P&L' },
       ],
-      note: 'Reporting & dashboards: +€36.30/month, VAT included, optional. No lock-in.',
+      note: 'Reporting & dashboards: +€36.30/month, VAT included, optional.',
     },
 
     alta: {
@@ -975,7 +993,7 @@ export const ui = {
       breakdownReportingNose: 'Reporting and dashboards, optional (not included in the total) *',
       breakdownIva: 'VAT (21%)',
       breakdownTotal: 'Total',
-      monthlyNote: 'Monthly price. No lock-in.',
+      monthlyNote: 'Monthly price.',
       reportingExplain: '* Unlike other accounting firms, keeping accounts focused on your business, not just on filing taxes, lets us track your company’s financial health, to help you make better decisions and avoid financial surprises.',
       ctaCall: 'Book a call',
       contactAlt: 'Or email us at',
@@ -1024,6 +1042,7 @@ export const ui = {
         { q: 'What do I need to do to prepare for mandatory e-invoicing?', a: 'Real Decreto 238/2026 has already been approved (12 months for businesses above €8M turnover, 24 months for everyone else and the self-employed), but the countdown starts once the ministerial order developing it is published, which is still pending. For now, check that your invoicing software can generate structured electronic format.', related: 'facturacion-electronica-obligatoria' },
         { q: 'How should I issue invoices so they’re valid?', a: 'With sequential numbering, complete details for you and your client, and the income tax withholding applied if you’re invoicing another professional or business. We review this with you if you have questions.', related: 'como-emitir-facturas-correctamente' },
         { q: 'What is the tax difference between self-employed and an SL?', a: 'Self-employed income is taxed progressively under income tax; an SL pays Corporate Tax at a flat rate, with a reduction in the first years. You also need to factor in the cost of taking money out of the SL.', related: 'autonomo-vs-sl-cuando-pasar' },
+        { q: 'Is there a minimum contract term?', a: 'Yes, 12 months, matching a full tax year: that way we cover every service we offer over the course of the year before you decide whether to continue. It renews automatically each year unless you give 1-2 months\' notice before it ends. If you leave before those 12 months are up, you pay the remaining monthly fees until the end of the period, capped at 3 months.' },
       ],
       faqAutonomos: 'Freelancers',
       faqAutonomosItems: [
@@ -1162,12 +1181,20 @@ export const ui = {
       contactCall: 'Book a call',
       whereTitle: 'Where we are',
       whereOnline: '100% online service',
+      whereBase: 'Based in Barcelona',
       whereSpain: 'All of Spain, except the Canary Islands, Navarre, and the Basque Country (regional tax systems)',
       legal: '© Asesoría Madal. 100% online accounting and advisory service.',
       portal: 'Client area',
       avisoLegal: 'Legal notice',
       privacidad: 'Privacy',
       cookies: 'Cookies',
+    },
+
+    cookieBanner: {
+      text: 'We use Google Ads cookies to measure which visits come from our ads.',
+      link: 'More information',
+      accept: 'Accept',
+      reject: 'Reject',
     },
 
     privacidad: {

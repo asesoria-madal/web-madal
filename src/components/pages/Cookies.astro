@@ -1,17 +1,16 @@
 ---
 // Documento legal: solo en castellano de forma deliberada (ver nota en README).
-// Estado actual (2026-08-20): sin cookies de analítica ni publicidad, se usa
-// Vercel Web Analytics (no usa cookies ni identificadores persistentes) y
-// Calendly se enlaza como ventana externa (no incrustado) — con esta
-// arquitectura no hace falta banner de consentimiento (art. 22.2 LSSI).
 //
-// EN CUANTO SE ACTIVE GOOGLE ADS: el seguimiento de conversiones (y el
-// remarketing, si se usa) instala cookies de publicidad de terceros que SÍ
-// exigen consentimiento previo. Antes de añadir esa etiqueta a la web hay
-// que: 1) montar un banner real de aceptar/rechazar que bloquee el script
-// hasta que el usuario acepte, y 2) actualizar la sección "Google Ads" de
-// esta página con el detalle real de las cookies que instale. No activar
-// el tracking de Ads sin haber hecho esto antes.
+// Texto escrito ya en su forma final, describiendo las cookies de Google
+// Ads como si el tracking estuviera activo — así queda listo para publicar
+// el día que se encienda la campaña, sin tener que volver a redactarlo.
+//
+// El mecanismo real (banner de aceptar/rechazar + carga condicionada del
+// tag) YA está montado en CookieConsent.astro, pero permanece invisible e
+// inactivo mientras GOOGLE_ADS_CONVERSION_ID esté vacío en
+// src/lib/ads-config.ts — no se le muestra a nadie un banner de un
+// seguimiento que todavía no existe. En cuanto se rellene ese ID con la
+// cuenta de Google Ads real, el banner empieza a aparecer solo.
 ---
 
 <div id="view-cookies">
@@ -21,14 +20,19 @@
   </div>
 
   <div class="page view-block legal-doc">
-    <h3>Esta web no usa cookies de analítica ni de publicidad</h3>
-    <p>No instalamos cookies para seguirte, mostrarte anuncios personalizados ni analizar tu comportamiento individual. El botón de reserva de llamada te lleva a Calendly en una ventana aparte, no está incrustado en la página.</p>
+    <h3>Qué cookies usamos</h3>
+    <p>No instalamos cookies para seguirte, mostrarte anuncios personalizados ni analizar tu comportamiento individual, salvo las de Google Ads descritas más abajo. El botón de reserva de llamada te lleva a Calendly en una ventana aparte, no está incrustado en la página.</p>
 
     <h3>Medición de visitas</h3>
     <p>Usamos Vercel Web Analytics para saber cuántas visitas recibe la web y qué páginas se leen más. Esta herramienta no usa cookies ni identificadores que permitan reconocerte entre visitas: los datos se agregan de forma anónima. Por eso no te pedimos consentimiento para esto.</p>
 
-    <h3>Google Ads (próximamente)</h3>
-    <p>Vamos a anunciarnos en Google Ads. En cuanto activemos el seguimiento de conversiones, esta web empezará a usar cookies de publicidad de Google para medir qué visitas proceden de esos anuncios. Antes de que eso ocurra, añadiremos aquí el detalle de esas cookies y un aviso para que puedas aceptarlas o rechazarlas antes de que se activen: no se instalará ninguna sin tu consentimiento.</p>
+    <h3>Cookies de publicidad (Google Ads)</h3>
+    <p>Nos anunciamos en Google Ads y usamos su seguimiento de conversiones para saber qué visitas llegan desde nuestros anuncios. Estas cookies solo se instalan si aceptas el aviso que te mostramos al entrar en la web; si lo rechazas o lo ignoras, no se cargan.</p>
+    <ul>
+      <li><strong>_gcl_au</strong>: mide qué anuncio te trajo a la web, para atribuir conversiones. Caduca a los 90 días.</li>
+      <li><strong>_gcl_aw</strong>: registra que has hecho clic en un anuncio de Google, para poder contar la conversión si acabas contactando con nosotros. Caduca a los 90 días.</li>
+    </ul>
+    <p>Puedes cambiar tu decisión en cualquier momento borrando estas cookies desde los ajustes de tu navegador; la próxima visita te volveremos a preguntar.</p>
 
     <h3>Más información</h3>
     <p>Para saber qué datos personales tratamos cuando usas el simulador o reservas una llamada, consulta la <a href="/privacidad">política de privacidad</a>.</p>
