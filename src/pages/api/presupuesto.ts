@@ -7,7 +7,7 @@ export const prerender = false;
 // y se devuelve va siempre CON IVA (21%) — así coincide con lo que se
 // muestra en el simulador y en la web.
 const RATES_AUTONOMO: Record<string, number> = { bajo: 40, medio: 50, alto: 60 };
-const RATES_PYME: Record<string, number> = { t1: 100, t2: 115, t3: 130, t4: 150 };
+const RATES_PYME: Record<string, number> = { t1: 100, t2: 130, t3: 150 };
 // "nose" (no lo tiene claro) no suma nada al total: el reporting solo se
 // cobra si el cliente lo confirma con "si". Ver Simulador.astro (duplicado
 // deliberado del cálculo, para que coincidan front y back).

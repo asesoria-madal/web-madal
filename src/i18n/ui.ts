@@ -171,15 +171,14 @@ export const ui = {
       stepFacturas: {
         q: '¿Cuántas facturas emites al mes?',
         optionsAutonomo: [
-          { value: 'bajo', label: 'Hasta 10 facturas' },
-          { value: 'medio', label: 'De 10 a 25 facturas' },
-          { value: 'alto', label: 'Más de 25 facturas' },
+          { value: 'bajo', label: 'Hasta 5 facturas' },
+          { value: 'medio', label: 'De 5 a 20 facturas' },
+          { value: 'alto', label: 'Más de 20 facturas' },
         ],
         optionsPyme: [
-          { value: 't1', label: 'Hasta 25 facturas' },
-          { value: 't2', label: 'De 25 a 50 facturas' },
-          { value: 't3', label: 'De 50 a 75 facturas' },
-          { value: 't4', label: 'Más de 75 facturas' },
+          { value: 't1', label: 'Hasta 10 facturas' },
+          { value: 't2', label: 'De 10 a 25 facturas' },
+          { value: 't3', label: 'Más de 25 facturas' },
         ],
       },
       stepReporting: {
@@ -568,15 +567,14 @@ export const ui = {
       stepFacturas: {
         q: 'Quantes factures emets al mes?',
         optionsAutonomo: [
-          { value: 'bajo', label: 'Fins a 10 factures' },
-          { value: 'medio', label: 'De 10 a 25 factures' },
-          { value: 'alto', label: 'Més de 25 factures' },
+          { value: 'bajo', label: 'Fins a 5 factures' },
+          { value: 'medio', label: 'De 5 a 20 factures' },
+          { value: 'alto', label: 'Més de 20 factures' },
         ],
         optionsPyme: [
-          { value: 't1', label: 'Fins a 25 factures' },
-          { value: 't2', label: 'De 25 a 50 factures' },
-          { value: 't3', label: 'De 50 a 75 factures' },
-          { value: 't4', label: 'Més de 75 factures' },
+          { value: 't1', label: 'Fins a 10 factures' },
+          { value: 't2', label: 'De 10 a 25 factures' },
+          { value: 't3', label: 'Més de 25 factures' },
         ],
       },
       stepReporting: {
@@ -965,15 +963,14 @@ export const ui = {
       stepFacturas: {
         q: 'How many invoices do you issue per month?',
         optionsAutonomo: [
-          { value: 'bajo', label: 'Up to 10 invoices' },
-          { value: 'medio', label: '10 to 25 invoices' },
-          { value: 'alto', label: 'More than 25 invoices' },
+          { value: 'bajo', label: 'Up to 5 invoices' },
+          { value: 'medio', label: '5 to 20 invoices' },
+          { value: 'alto', label: 'More than 20 invoices' },
         ],
         optionsPyme: [
-          { value: 't1', label: 'Up to 25 invoices' },
-          { value: 't2', label: '25 to 50 invoices' },
-          { value: 't3', label: '50 to 75 invoices' },
-          { value: 't4', label: 'More than 75 invoices' },
+          { value: 't1', label: 'Up to 10 invoices' },
+          { value: 't2', label: '10 to 25 invoices' },
+          { value: 't3', label: 'More than 25 invoices' },
         ],
       },
       stepReporting: {
