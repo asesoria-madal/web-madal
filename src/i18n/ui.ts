@@ -71,7 +71,7 @@ export const ui = {
       sub: 'Precios con IVA incluido.',
       ivaLabel: 'IVA incluido',
       rows: [
-        { title: 'Autónomo', amount: 'desde 48,40 €', unit: '/mes', incl: 'Trimestrales de IVA e IRPF · Declaración de la renta incluida' },
+        { title: 'Autónomo', amount: 'desde 48,40 €', unit: '/mes', incl: 'Trimestrales de IVA e IRPF · Declaración de la renta: 40 € + IVA aparte' },
         { title: 'SL', amount: 'desde 121 €', unit: '/mes', incl: 'Impuestos trimestrales, balance y PyG trimestral' },
       ],
       note: 'Reporting y dashboards: +36,30 €/mes, IVA incluido, opcional.',
@@ -254,7 +254,7 @@ export const ui = {
       faqAutonomosItems: [
         { q: '¿Cuánto tarda el alta como autónomo?', a: 'Un día laborable, si tienes la documentación lista.' },
         { q: '¿Módulos o estimación directa?', a: 'Generalmente se aplica estimación directa, sin embargo para actividades como hosteleria, restauración o comercio al por menor se pueden aplicar módulos. Contáctanos para ver qué régimen se adapta mejor a tu empresa.', related: 'estimacion-directa-vs-modulos' },
-        { q: '¿La renta entra en la cuota?', a: 'Sí, a diferencia de la mayoría de gestorías, incluimos la renta en la cuota.' },
+        { q: '¿La renta entra en la cuota?', a: 'No, la declaración de la renta no está incluida en la cuota mensual. Tiene un coste aparte de 40 € + IVA (48,40 € con IVA).' },
         { q: '¿Puedo elegir estar en módulos si mi actividad lo permite?', a: 'Sí, si tu actividad está entre las permitidas y no superas los límites de facturación.', related: 'estimacion-directa-vs-modulos' },
         { q: '¿Con qué frecuencia debería revisar las cuentas de mi negocio?', a: 'Trimestral es un buen ritmo: da tiempo a detectar un cambio de tendencia sin reaccionar tarde.', related: 'balance-de-situacion' },
         { q: '¿Cómo se calcula el IRPF que pago cada trimestre?', a: 'Se paga el 20% del beneficio acumulado del año (ingresos menos gastos deducibles), restando lo que ya hayas pagado en trimestres anteriores. Te lo explicamos con un ejemplo en el blog.', related: 'calculo-irpf-trimestral' },
@@ -468,7 +468,7 @@ export const ui = {
       sub: 'Preus amb IVA inclòs.',
       ivaLabel: 'IVA inclòs',
       rows: [
-        { title: 'Autònom', amount: 'des de 48,40 €', unit: '/mes', incl: 'Trimestrals d’IVA i IRPF · Declaració de la renda inclosa' },
+        { title: 'Autònom', amount: 'des de 48,40 €', unit: '/mes', incl: 'Trimestrals d’IVA i IRPF · Declaració de la renda: 40 € + IVA a part' },
         { title: 'SL', amount: 'des de 121 €', unit: '/mes', incl: 'Impostos trimestrals, balanç i compte de resultats trimestral' },
       ],
       note: 'Reporting i dashboards: +36,30 €/mes, IVA inclòs, opcional.',
@@ -651,7 +651,7 @@ export const ui = {
       faqAutonomosItems: [
         { q: 'Quant triga l’alta com a autònom?', a: 'Un dia laborable, si tens la documentació preparada.' },
         { q: 'Mòduls o estimació directa?', a: 'Generalment s’aplica l’estimació directa, però per a activitats com hostaleria, restauració o comerç al detall es poden aplicar mòduls. Contacta’ns per veure quin règim s’adapta millor a la teva empresa.', related: 'estimacion-directa-vs-modulos' },
-        { q: 'La renda entra a la quota?', a: 'Sí, a diferència de la majoria de gestories, incloem la renda a la quota.' },
+        { q: 'La renda entra a la quota?', a: 'No, la declaració de la renda no està inclosa a la quota mensual. Té un cost a part de 40 € + IVA (48,40 € amb IVA).' },
         { q: 'Puc estar en mòduls si la meva activitat ho permet?', a: 'Sí, si la teva activitat és de les permeses i no superes els límits de facturació.', related: 'estimacion-directa-vs-modulos' },
         { q: 'Amb quina freqüència hauria de revisar els comptes del meu negoci?', a: 'Trimestral és un bon ritme: dona temps a detectar un canvi de tendència sense reaccionar tard.', related: 'balance-de-situacion' },
         { q: 'Com es calcula l’IRPF que pago cada trimestre?', a: 'Es paga el 20% del benefici acumulat de l’any (ingressos menys despeses deduïbles), restant el que ja hagis pagat en trimestres anteriors. T’ho expliquem amb un exemple al blog.', related: 'calculo-irpf-trimestral' },
@@ -865,7 +865,7 @@ export const ui = {
       sub: 'Prices include VAT.',
       ivaLabel: 'VAT included',
       rows: [
-        { title: 'Freelancer', amount: 'from €48.40', unit: '/month', incl: 'Quarterly VAT & income tax filings · Annual income tax return included' },
+        { title: 'Freelancer', amount: 'from €48.40', unit: '/month', incl: 'Quarterly VAT & income tax filings · Annual income tax return: €40 + VAT, separate' },
         { title: 'SL', amount: 'from €121', unit: '/month', incl: 'Quarterly taxes, balance sheet and P&L' },
       ],
       note: 'Reporting & dashboards: +€36.30/month, VAT included, optional.',
@@ -1048,7 +1048,7 @@ export const ui = {
       faqAutonomosItems: [
         { q: 'How long does freelancer registration take?', a: 'One business day, if your paperwork is ready.' },
         { q: 'Flat-rate or direct estimation regime?', a: 'Direct estimation usually applies, but for activities like hospitality, restaurants, or retail, the flat-rate (módulos) regime can apply instead. Get in touch and we’ll tell you which regime fits your business best.', related: 'estimacion-directa-vs-modulos' },
-        { q: 'Is the annual income tax return included?', a: 'Yes, unlike most accounting firms, we include your annual income tax return in the fee.' },
+        { q: 'Is the annual income tax return included?', a: 'No, the annual income tax return is not included in the monthly fee. It costs €40 + VAT (€48.40 with VAT) separately.' },
         { q: 'Can I opt for the flat-rate (módulos) regime if my activity qualifies?', a: 'Yes, if your activity is on the allowed list and you stay under the invoicing limits.', related: 'estimacion-directa-vs-modulos' },
         { q: 'How often should I check my business’s accounts?', a: 'Quarterly is a good rhythm: enough time to spot a trend without reacting too late.', related: 'balance-de-situacion' },
         { q: 'How is the income tax I pay each quarter calculated?', a: 'You pay 20% of the year’s accumulated profit (income minus deductible expenses), minus whatever you’ve already paid in earlier quarters. We walk through an example on the blog.', related: 'calculo-irpf-trimestral' },
