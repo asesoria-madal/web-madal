@@ -96,6 +96,37 @@
       <label class="checkbox-option"><input type="checkbox" id="fTrabajadores" /> Voy a tener trabajadores a mi cargo</label>
     </fieldset>
 
+    <fieldset class="alta-section">
+      <legend>Antes de enviar: apodéranos</legend>
+      <p class="field-hint">
+        Para tramitar tu alta necesitamos actuar en tu nombre ante la Agencia Tributaria y la Seguridad Social — eso
+        requiere que nos apoderes con tu certificado digital o Cl@ve PIN. Descarga estas guías con los pasos exactos:
+      </p>
+      <ul class="doc-list">
+        <li>
+          <a href="https://suslwmgqdzingeqhfrpw.supabase.co/storage/v1/object/public/docs-publicos/Pasos_Apoderamiento_Seguridad_Social.pdf" target="_blank" rel="noopener">
+            Pasos para el apoderamiento de la Seguridad Social (PDF)
+          </a>
+        </li>
+        <li>
+          <a href="https://suslwmgqdzingeqhfrpw.supabase.co/storage/v1/object/public/docs-publicos/Pasos_Apoderamiento_AEAT.pdf" target="_blank" rel="noopener">
+            Pasos para el apoderamiento de la AEAT (PDF)
+          </a>
+        </li>
+        <li>
+          <a href="https://suslwmgqdzingeqhfrpw.supabase.co/storage/v1/object/public/docs-publicos/RGPD.pdf" target="_blank" rel="noopener">
+            Información de Protección de Datos (RGPD) (PDF)
+          </a>
+        </li>
+      </ul>
+      <p class="field-hint">
+        El documento de RGPD es distinto de la casilla de política de privacidad de abajo: hay que descargarlo,
+        leerlo y devolvérnoslo firmado (incluye también el anexo de encargo de tratamiento, que solo aplica si vas a
+        tener trabajadores). Puedes escribirnos a <a href="mailto:contacto@asesoriamadal.es">contacto@asesoriamadal.es</a>
+        con el documento firmado adjunto, o resolverlo en la llamada.
+      </p>
+    </fieldset>
+
     <label class="consent">
       <input type="checkbox" id="fPrivacy" required />
       <span>He leído y acepto la <a href="/privacidad" target="_blank" rel="noopener">Política de Privacidad</a> de Asesoría Madal para el tratamiento de estos datos.</span>
@@ -248,6 +279,8 @@
   }
   .field input:focus, .field textarea:focus { outline: none; border-color: var(--accent); }
   .field-hint { font-size: 0.82rem; color: var(--ink-soft); }
+  .doc-list { display: flex; flex-direction: column; gap: 0.5rem; list-style: none; }
+  .doc-list a { color: var(--accent); font-weight: 600; font-size: 0.92rem; text-decoration: underline; }
   .field-group { display: flex; flex-direction: column; gap: 0.6rem; }
   .field-group-label { font-size: 0.9rem; font-weight: 600; color: var(--ink); }
   .radio-group { display: flex; flex-direction: column; gap: 0.5rem; }
