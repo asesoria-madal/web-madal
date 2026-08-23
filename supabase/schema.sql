@@ -20,6 +20,18 @@ create table if not exists quote_counters (
   value integer not null default 0
 );
 
+-- presupuesto_enviado_at / recordatorio_enviado_at / respondido_at: soporte
+-- para el workflow de n8n que envía el presupuesto por email al cliente (si
+-- dejó su correo) y hace seguimiento. presupuesto_enviado_at se rellena al
+-- mandar el email inicial; recordatorio_enviado_at, al mandar el recordatorio
+-- si a los 5 días no hay respuesta. respondido_at la rellena automáticamente
+-- otro flujo de n8n (lee la bandeja por IMAP y cruza el remitente con esta
+-- tabla) en cuanto el cliente contesta — no hay marcado manual. Mientras
+-- respondido_at sea null, el workflow de recordatorio sigue considerando el
+-- presupuesto "sin respuesta". El recordatorio no usa threading real por
+-- cabeceras (In-Reply-To/References) porque el nodo Send Email de n8n no
+-- las expone — se manda con el mismo asunto prefijado "Re:", que Gmail
+-- agrupa igualmente en el mismo hilo sin necesitar esas cabeceras.
 create table if not exists presupuestos (
   id bigint generated always as identity primary key,
   quote_code text not null unique,
@@ -33,6 +45,9 @@ create table if not exists presupuestos (
   fecha_inicio date,
   email text,
   privacy_accepted_at timestamptz,
+  presupuesto_enviado_at timestamptz,
+  recordatorio_enviado_at timestamptz,
+  respondido_at timestamptz,
   created_at timestamptz not null default now()
 );
 
@@ -44,6 +59,9 @@ create table if not exists presupuestos (
 -- alter table presupuestos add column if not exists certificado text;
 -- alter table presupuestos add column if not exists actividad text;
 -- alter table presupuestos add column if not exists fecha_inicio date;
+-- alter table presupuestos add column if not exists presupuesto_enviado_at timestamptz;
+-- alter table presupuestos add column if not exists recordatorio_enviado_at timestamptz;
+-- alter table presupuestos add column if not exists respondido_at timestamptz;
 
 -- Incremento atómico: aunque lleguen dos peticiones a la vez, cada una
 -- recibe un número distinto (evita el problema de contar filas "a mano").
