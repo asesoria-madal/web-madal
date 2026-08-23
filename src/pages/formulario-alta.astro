@@ -1,0 +1,10 @@
+---
+import Layout from '../layouts/Layout.astro';
+import FormularioAlta from '../components/pages/FormularioAlta.astro';
+
+export const prerender = true;
+---
+
+<Layout lang="es" path="/formulario-alta" active="none" title="Datos para tu alta · Asesoría Madal" description="Formulario con los datos que necesitamos para tramitar tu alta de autónomo." noindex>
+  <FormularioAlta />
+</Layout>

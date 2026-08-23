@@ -81,6 +81,83 @@ alter table quote_counters enable row level security;
 alter table presupuestos enable row level security;
 
 -- ---------------------------------------------------------------------
+-- Formulario "alta de autónomo": los datos que Edurne necesita para
+-- tramitar el alta en Hacienda/Seguridad Social una vez el cliente ha
+-- aceptado el presupuesto. Vive en una página suelta de la web (sin
+-- enlazar desde el menú — se le manda el link directo al cliente tras la
+-- llamada de venta), no en el simulador. Se guarda con la service role
+-- key desde el endpoint del servidor, igual que "presupuestos" — RLS
+-- activada y sin políticas, nadie puede leer/escribir esta tabla desde
+-- el navegador.
+--
+-- quote_code enlaza con el presupuesto simulado si lo hubo, pero es
+-- opcional: "si es solo alta no hace falta firma de presupuesto", así
+-- que puede haber una fila de alta sin presupuesto previo.
+--
+-- privacy_accepted_at es obligatorio aquí (a diferencia de
+-- presupuestos, donde el email es opcional y el consentimiento solo se
+-- pide si lo hay): este formulario sí o sí recoge NIF, IBAN y
+-- domicilio, así que el consentimiento RGPD no puede faltar en
+-- ninguna fila.
+--
+-- Los campos de texto con valores cerrados (identificacion_digital,
+-- tipo_local, regimen_cotizacion, retencion_irpf) no llevan CHECK en
+-- SQL: se validan en el endpoint, igual que regimen/facturas/reporting
+-- en presupuesto.ts — mismo criterio ya usado en este proyecto.
+--
+-- Las columnas *_at del bloque final (pago_confirmado_at,
+-- cita_aeat_solicitada_at, apoderamiento_aeat_at,
+-- apoderamiento_seg_soc_at) no las rellena el formulario: son checklist
+-- del equipo, igual que facturas_subidas.fecha_contabilizado — se
+-- marcan a mano en el Table Editor de Supabase mientras no haya
+-- automatización, y quedan NULL hasta que se completa ese paso.
+create table if not exists alta_nuevos_autonomos (
+  id bigint generated always as identity primary key,
+  quote_code text references presupuestos (quote_code),
+  privacy_accepted_at timestamptz not null default now(),
+
+  -- Identificación digital: si es 'ninguno', hay que pedirle cita AEAT
+  -- (cita_aeat_solicitada_at, más abajo, trackea ese trámite).
+  identificacion_digital text not null, -- 'certificado' | 'clave_pin' | 'ninguno'
+
+  -- Datos básicos
+  nombre_completo text not null,
+  nif_nie text not null,
+  email text not null,
+  telefono text not null,
+  domicilio_fiscal text not null,
+  domicilio_notificaciones text, -- null = igual que domicilio_fiscal
+  iban text not null,
+
+  -- Datos de la actividad económica
+  epigrafes_iae text not null, -- código(s) IAE si los conoce, o descripción libre de la actividad si no
+  fecha_inicio_actividad date not null,
+  tipo_local text not null, -- 'casa' | 'oficina' | 'sin_local'
+  domicilio_local text, -- null si tipo_local = 'sin_local'
+  multiples_locales boolean not null default false,
+  detalle_locales_adicionales text, -- solo si multiples_locales = true
+  profesion_colegiada boolean not null default false,
+  regimen_cotizacion text, -- 'reta' | 'mutualidad', solo si profesion_colegiada = true
+
+  -- Datos IVA
+  operaciones_intracomunitarias boolean not null default false, -- para valorar alta en el ROI
+
+  -- Datos IRPF
+  retencion_irpf text not null default 'no_sabe', -- 'si' | 'no' | 'no_sabe'
+  tendra_trabajadores boolean not null default false,
+
+  -- Checklist del equipo (no lo rellena el formulario, ver comentario arriba)
+  pago_confirmado_at timestamptz,
+  cita_aeat_solicitada_at timestamptz,
+  apoderamiento_aeat_at timestamptz,
+  apoderamiento_seg_soc_at timestamptz,
+
+  created_at timestamptz not null default now()
+);
+
+alter table alta_nuevos_autonomos enable row level security;
+
+-- ---------------------------------------------------------------------
 -- Portal de clientes (reporting/dashboards, fase 2 del roadmap).
 -- Cada cliente inicia sesión con enlace mágico por email (Supabase Auth,
 -- ya incluido en el proyecto, no requiere activación aparte). El alta de
