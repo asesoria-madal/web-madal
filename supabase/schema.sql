@@ -158,6 +158,92 @@ create table if not exists alta_nuevos_autonomos (
 alter table alta_nuevos_autonomos enable row level security;
 
 -- ---------------------------------------------------------------------
+-- Formulario "traspaso desde otra gestoría" — para clientes que ya
+-- estaban dados de alta en otro sitio y se cambian a nosotros. Se manda
+-- manualmente (no automatizado) en cuanto el equipo da de alta al cliente,
+-- momento en el que ya se sabe si es autónomo o SL — por eso son DOS
+-- páginas (formulario-traspaso-autonomo y formulario-traspaso-sl, mismo
+-- componente Astro con un prop `tipo`), pero UNA sola tabla: la columna
+-- `tipo` ('autonomo' | 'sl') distingue el origen de cada fila, y las
+-- columnas que solo aplican a un tipo quedan NULL en las filas del otro
+-- en vez de crear dos tablas casi idénticas.
+--
+-- Columnas exclusivas de autónomo (NULL en filas tipo='sl', porque el
+-- formulario de SL no las pregunta): fecha_alta_actividad,
+-- epigrafes_iae_actuales, regimen_iva_actual, regimen_irpf_actual,
+-- factura_con_retencion, porcentaje_retencion.
+-- Columna exclusiva de SL: domicilio_social.
+-- El resto de columnas son compartidas entre ambos tipos.
+--
+-- Los apartados "documentación a pedir a la gestoría anterior" y
+-- "documentación a aportar por el cliente" del encargo original NO se
+-- han convertido en columnas: son listas de qué reunir, no preguntas
+-- con respuesta — este formulario no sube archivos (no se ha pedido esa
+-- función), así que se muestran como texto informativo en la página y el
+-- equipo gestiona la recogida real de esos documentos por email/Drive.
+-- Por el mismo motivo, "revocar el apoderamiento anterior" y "apoderarnos
+-- en AEAT/Seg. Social" tampoco son checkboxes que rellene el cliente
+-- (no hay forma de verificar desde el formulario si los ha hecho): son
+-- trámites que se explican como recordatorio en la página, igual que en
+-- alta_nuevos_autonomos, y el equipo marca su fecha a mano cuando los
+-- confirma (columnas *_at del bloque final).
+create table if not exists traspasos_nuevos (
+  id bigint generated always as identity primary key,
+  tipo text not null, -- 'autonomo' | 'sl'
+  privacy_accepted_at timestamptz not null default now(),
+
+  -- Igual que en alta_nuevos_autonomos: si es 'ninguno', hay que
+  -- gestionarle cita AEAT o renovación (cita_aeat_solicitada_at más abajo).
+  identificacion_digital text not null, -- 'certificado' | 'clave_pin' | 'ninguno'
+
+  -- Datos básicos. nombre_razon_social y nif_cif están unificados a
+  -- propósito (en vez de columnas separadas "nombre_completo"/"nif_nie"
+  -- para autónomo y "razon_social"/"cif" para SL): son el mismo dato de
+  -- negocio bajo dos etiquetas distintas según el tipo, así que una sola
+  -- columna evita duplicar el campo por tipo — el formulario decide qué
+  -- etiqueta mostrar según el prop `tipo`.
+  nombre_razon_social text not null,
+  nif_cif text not null,
+  email text not null,
+  telefono text not null,
+  domicilio_fiscal text not null,
+  domicilio_social text, -- solo SL: domicilio social si es distinto del fiscal
+  domicilio_notificaciones text, -- null = igual que domicilio fiscal
+  iban text not null, -- para el cobro de honorarios
+
+  -- Situación fiscal actual (autónomo): el cliente informa lo que ya
+  -- tiene, no elige nada nuevo — ver comentario arriba sobre columnas
+  -- exclusivas de autónomo.
+  fecha_alta_actividad date,
+  epigrafes_iae_actuales text,
+  regimen_iva_actual text, -- 'general' | 'recargo_equivalencia' | 'simplificado' | 'exento' | otro (texto libre)
+  regimen_irpf_actual text, -- 'directa_normal' | 'directa_simplificada' | 'modulos'
+  factura_con_retencion boolean not null default false,
+  porcentaje_retencion numeric(5, 2), -- solo si factura_con_retencion = true
+
+  -- Situación fiscal actual (compartida autónomo/SL)
+  tiene_trabajadores boolean not null default false,
+  numero_trabajadores integer, -- solo si tiene_trabajadores = true
+  operaciones_intracomunitarias boolean not null default false,
+
+  -- Continuidad con la gestoría anterior (compartida)
+  tiene_requerimientos_aeat boolean not null default false,
+  detalle_requerimientos_aeat text, -- solo si tiene_requerimientos_aeat = true
+  contacto_gestoria_anterior text not null, -- para poder reclamarle documentación
+  autoriza_solicitar_historico boolean not null default false, -- consentimiento para pedir el histórico a la gestoría anterior en su nombre
+
+  -- Checklist del equipo (no lo rellena el formulario, ver comentario arriba)
+  revocacion_apoderamiento_anterior_at timestamptz,
+  apoderamiento_aeat_at timestamptz,
+  apoderamiento_seg_soc_at timestamptz,
+  cita_aeat_solicitada_at timestamptz,
+
+  created_at timestamptz not null default now()
+);
+
+alter table traspasos_nuevos enable row level security;
+
+-- ---------------------------------------------------------------------
 -- Portal de clientes (reporting/dashboards, fase 2 del roadmap).
 -- Cada cliente inicia sesión con enlace mágico por email (Supabase Auth,
 -- ya incluido en el proyecto, no requiere activación aparte). El alta de
