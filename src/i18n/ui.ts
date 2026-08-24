@@ -398,7 +398,8 @@ export const ui = {
       avisoLegal: 'Aviso legal',
       privacidad: 'Privacidad',
       cookies: 'Cookies',
-      socialLinkedin: 'Síguenos en LinkedIn',
+      socialTitle: 'Redes sociales',
+      socialLinkedin: 'LinkedIn',
     },
 
     cookieBanner: {
@@ -800,7 +801,8 @@ export const ui = {
       avisoLegal: 'Avís legal',
       privacidad: 'Privadesa',
       cookies: 'Cookies',
-      socialLinkedin: 'Segueix-nos a LinkedIn',
+      socialTitle: 'Xarxes socials',
+      socialLinkedin: 'LinkedIn',
     },
 
     cookieBanner: {
@@ -1202,7 +1204,8 @@ export const ui = {
       avisoLegal: 'Legal notice',
       privacidad: 'Privacy',
       cookies: 'Cookies',
-      socialLinkedin: 'Follow us on LinkedIn',
+      socialTitle: 'Social media',
+      socialLinkedin: 'LinkedIn',
     },
 
     cookieBanner: {

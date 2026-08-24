@@ -1063,9 +1063,10 @@ section.cta-final .fine a { color: var(--ink-soft); text-decoration: underline; 
 
 /* ---------- Footer (banda oscura fija, no cambia con el tema) ---------- */
 footer.site { background: var(--footer-bg); color: var(--footer-ink-soft); padding: 3rem 0 1.6rem; font-size: 0.9rem; }
-footer.site .foot-cols { display: grid; grid-template-columns: 1.3fr 1fr 1fr 1fr; gap: 2rem; padding-bottom: 2.2rem; border-bottom: 1px solid var(--footer-line); }
-@media (max-width: 760px) { footer.site .foot-cols { grid-template-columns: 1fr 1fr; } }
-@media (max-width: 480px) { footer.site .foot-cols { grid-template-columns: 1fr; } }
+footer.site .foot-cols { display: grid; grid-template-columns: 1.3fr 1fr 1fr 1fr 1fr; gap: 2rem; padding-bottom: 2.2rem; border-bottom: 1px solid var(--footer-line); }
+@media (max-width: 900px) { footer.site .foot-cols { grid-template-columns: 1fr 1fr 1fr; } }
+@media (max-width: 600px) { footer.site .foot-cols { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 420px) { footer.site .foot-cols { grid-template-columns: 1fr; } }
 footer.site .wordmark { color: var(--footer-ink); }
 footer.site .wordmark span { color: #7fd6c9; }
 footer.site .foot-tagline { margin-top: 0.8rem; max-width: 26ch; font-size: 0.86rem; }
@@ -1075,7 +1076,7 @@ footer.site a { text-decoration: none; color: var(--footer-ink-soft); }
 footer.site a:hover { color: var(--footer-ink); }
 footer.site .foot-bottom { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.8rem; padding-top: 1.4rem; font-size: 0.78rem; }
 footer.site .foot-bottom-links { display: flex; align-items: center; gap: 1.2rem; flex-wrap: wrap; }
-footer.site .foot-social { display: inline-flex; align-items: center; }
+footer.site .foot-social { display: inline-flex; align-items: center; gap: 0.5rem; }
 footer.site .foot-social:hover { color: #7fd6c9; }
 
 /* ---------- Formularios largos (alta, traspaso) ----------
