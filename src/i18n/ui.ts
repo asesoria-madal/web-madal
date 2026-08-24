@@ -326,6 +326,11 @@ export const ui = {
           { title: 'Información general no es asesoramiento', desc: 'Lo que lees aquí es información general. Tu caso concreto puede tener matices: para eso está la llamada, no el artículo.' },
         ],
       },
+      redes: {
+        eyebrow: 'Síguenos',
+        title: 'También estamos en redes',
+        linkedin: 'LinkedIn',
+      },
     },
 
     servicios: {
@@ -393,6 +398,7 @@ export const ui = {
       avisoLegal: 'Aviso legal',
       privacidad: 'Privacidad',
       cookies: 'Cookies',
+      socialLinkedin: 'Síguenos en LinkedIn',
     },
 
     cookieBanner: {
@@ -722,6 +728,11 @@ export const ui = {
           { title: 'Informació general no és assessorament', desc: 'El que llegeixes aquí és informació general. El teu cas concret pot tenir matisos: per a això hi ha la trucada, no l’article.' },
         ],
       },
+      redes: {
+        eyebrow: 'Segueix-nos',
+        title: 'També som a les xarxes',
+        linkedin: 'LinkedIn',
+      },
     },
 
     servicios: {
@@ -789,6 +800,7 @@ export const ui = {
       avisoLegal: 'Avís legal',
       privacidad: 'Privadesa',
       cookies: 'Cookies',
+      socialLinkedin: 'Segueix-nos a LinkedIn',
     },
 
     cookieBanner: {
@@ -1118,6 +1130,11 @@ export const ui = {
           { title: 'General information isn’t personal advice', desc: 'What you read here is general information. Your specific situation may have nuances: that’s what the call is for, not the article.' },
         ],
       },
+      redes: {
+        eyebrow: 'Follow us',
+        title: 'Find us on social media too',
+        linkedin: 'LinkedIn',
+      },
     },
 
     servicios: {
@@ -1185,6 +1202,7 @@ export const ui = {
       avisoLegal: 'Legal notice',
       privacidad: 'Privacy',
       cookies: 'Cookies',
+      socialLinkedin: 'Follow us on LinkedIn',
     },
 
     cookieBanner: {
