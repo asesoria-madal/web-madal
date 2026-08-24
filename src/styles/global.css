@@ -975,6 +975,10 @@ body.portal-app .portal-page > .eyebrow,
 body.portal-app .portal-page > h2.section-title {
   display: none;
 }
+/* .portal-box trae margin-top: 2rem para separarse de la cabecera de
+   marketing; con la cabecera oculta (header.site display:none, arriba) ese
+   margen queda como un hueco del color del fondo antes de la barra lateral. */
+body.portal-app .portal-box { margin-top: 0; }
 
 .app-shell { display: grid; grid-template-columns: 240px 1fr; min-height: 100vh; }
 @media (max-width: 760px) { .app-shell { grid-template-columns: 1fr; } }
