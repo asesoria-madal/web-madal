@@ -1,6 +1,4 @@
 ---
-import ContactSwitch from '../ContactSwitch.astro';
-
 // Portal de clientes: solo en castellano, como el resto de páginas
 // funcionales (no de marketing). Login por enlace mágico (Supabase Auth),
 // sin contraseña. Toda la lógica corre en el navegador: el acceso a los
@@ -10,6 +8,12 @@ import ContactSwitch from '../ContactSwitch.astro';
 // el id interno de Supabase Auth): así se puede dar de alta a un cliente
 // con solo su email, antes incluso de que haya iniciado sesión por primera
 // vez. Ver el SQL de configuración en la memoria del proyecto.
+
+// CTA de "quiero contratar dashboards" con asunto ya escrito: pensado para
+// distinguir en el buzón estos leads de un "Contacta con nosotros" genérico
+// (mismo texto en el enlace y en el asunto del email, a propósito).
+const dashboardsCtaSubject = 'Quiero contratar el servicio de dashboards y reporting';
+const dashboardsCtaHref = `mailto:contacto@asesoriamadal.es?subject=${encodeURIComponent(dashboardsCtaSubject)}`;
 ---
 
 <div class="portal-page">
@@ -46,6 +50,7 @@ import ContactSwitch from '../ContactSwitch.astro';
           <nav class="app-nav">
             <button type="button" class="app-nav-link active" data-panel="dashboards">📊 Dashboards y reporting</button>
             <button type="button" class="app-nav-link" data-panel="facturas">📄 Subir facturas</button>
+            <button type="button" class="app-nav-link" data-panel="documentacion">📚 Documentación</button>
           </nav>
           <div class="app-sidebar-foot">
             <span>Hola, <span id="portal-nombre"></span></span>
@@ -57,10 +62,24 @@ import ContactSwitch from '../ContactSwitch.astro';
           <section class="app-panel" data-panel="dashboards">
             <h2>Dashboards y reporting</h2>
             <div id="panel-reporting-off" hidden>
+              <div class="portal-stats">
+                <div class="portal-stat">
+                  <span class="portal-stat-value" id="stat-facturas-mes">—</span>
+                  <span class="portal-stat-label">Facturas enviadas este mes</span>
+                </div>
+                <div class="portal-stat">
+                  <span class="portal-stat-value" id="stat-facturas-media">—</span>
+                  <span class="portal-stat-label">Media de facturas al mes</span>
+                </div>
+                <div class="portal-stat">
+                  <span class="portal-stat-value portal-stat-placeholder">Próximamente</span>
+                  <span class="portal-stat-label">Días hasta tu próxima presentación de impuestos</span>
+                </div>
+              </div>
               <div class="portal-empty">
                 Todavía no tienes el reporting activo. Con reporting, te ayudamos con dashboards y datos de tu negocio para que tomes mejores decisiones, por 30 €/mes.
               </div>
-              <ContactSwitch lang="es" triggerClass="btn btn-primary" />
+              <a href={dashboardsCtaHref} class="btn btn-primary">Quiero contratar el servicio de dashboards y reporting</a>
             </div>
             <div id="panel-reporting-on" hidden>
               <div class="portal-empty">
@@ -79,6 +98,69 @@ import ContactSwitch from '../ContactSwitch.astro';
             <p id="facturaMsg" class="portal-msg" hidden></p>
             <p id="facturaEmpty" class="factura-empty" hidden>Todavía no has subido ninguna factura.</p>
             <ul id="facturaList" class="factura-list"></ul>
+          </section>
+
+          <section class="app-panel" data-panel="documentacion" hidden>
+            <h2>Documentación</h2>
+
+            <div class="field-group">
+              <p class="field-group-label">Guía del área de clientes</p>
+              <ul class="doc-list">
+                <li>
+                  <a href="https://suslwmgqdzingeqhfrpw.supabase.co/storage/v1/object/public/docs-publicos/Guia_Area_Clientes.pdf" target="_blank" rel="noopener">
+                    Cómo usar tu área de clientes (PDF)
+                  </a>
+                </li>
+              </ul>
+            </div>
+
+            <div class="field-group">
+              <p class="field-group-label">Presentación de servicios</p>
+              <ul id="doc-presentacion-autonomo" class="doc-list" hidden>
+                <li>
+                  <a href="https://suslwmgqdzingeqhfrpw.supabase.co/storage/v1/object/public/docs-publicos/Presentacion_Autonomos.pdf" target="_blank" rel="noopener">
+                    Presentación de servicios — Autónomos (PDF)
+                  </a>
+                </li>
+              </ul>
+              <ul id="doc-presentacion-sl" class="doc-list" hidden>
+                <li>
+                  <a href="https://suslwmgqdzingeqhfrpw.supabase.co/storage/v1/object/public/docs-publicos/Presentacion_SL.pdf" target="_blank" rel="noopener">
+                    Presentación de servicios — SL (PDF)
+                  </a>
+                </li>
+              </ul>
+              <p id="doc-presentacion-pendiente" class="field-hint" hidden>
+                Todavía no tenemos marcado si eres autónomo o SL. Escríbenos a <a href="mailto:contacto@asesoriamadal.es">contacto@asesoriamadal.es</a> y lo revisamos.
+              </p>
+            </div>
+
+            <div class="field-group">
+              <p class="field-group-label">Pasos de apoderamiento</p>
+              <ul class="doc-list">
+                <li>
+                  <a href="https://suslwmgqdzingeqhfrpw.supabase.co/storage/v1/object/public/docs-publicos/Pasos_Apoderamiento_AEAT.pdf" target="_blank" rel="noopener">
+                    Pasos para el apoderamiento de la AEAT (PDF)
+                  </a>
+                </li>
+                <li>
+                  <a href="https://suslwmgqdzingeqhfrpw.supabase.co/storage/v1/object/public/docs-publicos/Pasos_Apoderamiento_Seguridad_Social.pdf" target="_blank" rel="noopener">
+                    Pasos para el apoderamiento de la Seguridad Social (PDF)
+                  </a>
+                </li>
+              </ul>
+            </div>
+
+            <div class="field-group">
+              <p class="field-group-label">Protección de datos (RGPD)</p>
+              <ul class="doc-list">
+                <li>
+                  <a href="https://suslwmgqdzingeqhfrpw.supabase.co/storage/v1/object/public/docs-publicos/RGPD.pdf" target="_blank" rel="noopener">
+                    Información de Protección de Datos (RGPD) (PDF)
+                  </a>
+                </li>
+              </ul>
+            </div>
           </section>
         </main>
       </div>
@@ -102,6 +184,12 @@ import ContactSwitch from '../ContactSwitch.astro';
 
   const reportingOffEl = document.getElementById('panel-reporting-off') as HTMLElement;
   const reportingOnEl = document.getElementById('panel-reporting-on') as HTMLElement;
+  const statFacturasMesEl = document.getElementById('stat-facturas-mes') as HTMLElement;
+  const statFacturasMediaEl = document.getElementById('stat-facturas-media') as HTMLElement;
+
+  const docPresentacionAutonomoEl = document.getElementById('doc-presentacion-autonomo') as HTMLElement;
+  const docPresentacionSlEl = document.getElementById('doc-presentacion-sl') as HTMLElement;
+  const docPresentacionPendienteEl = document.getElementById('doc-presentacion-pendiente') as HTMLElement;
 
   const navLinks = Array.from(document.querySelectorAll<HTMLButtonElement>('.app-nav-link'));
   const panels = Array.from(document.querySelectorAll<HTMLElement>('.app-panel'));
@@ -136,6 +224,34 @@ import ContactSwitch from '../ContactSwitch.astro';
     reportingOnEl.hidden = !hasReporting;
   }
 
+  // tipo_persona: 'autonomo' | 'sl' | null (todavía sin marcar por el equipo).
+  function renderDocumentacionPanel(tipoPersona: string | null) {
+    docPresentacionAutonomoEl.hidden = tipoPersona !== 'autonomo';
+    docPresentacionSlEl.hidden = tipoPersona !== 'sl';
+    docPresentacionPendienteEl.hidden = tipoPersona === 'autonomo' || tipoPersona === 'sl';
+  }
+
+  // "Media de facturas al mes" se calcula solo sobre los meses en los que
+  // ya hay al menos una factura subida (no desde el alta del cliente): así
+  // un cliente recién incorporado sin histórico no arranca con una media
+  // engañosamente baja por meses sin actividad todavía.
+  function renderFacturaStats(rows: { fecha_subida: string }[]) {
+    const now = new Date();
+    const mesActualKey = `${now.getFullYear()}-${now.getMonth()}`;
+    const mesesConFacturas = new Set<string>();
+    let facturasEsteMes = 0;
+
+    rows.forEach((row) => {
+      const fecha = new Date(row.fecha_subida);
+      const key = `${fecha.getFullYear()}-${fecha.getMonth()}`;
+      mesesConFacturas.add(key);
+      if (key === mesActualKey) facturasEsteMes++;
+    });
+
+    statFacturasMesEl.textContent = String(facturasEsteMes);
+    statFacturasMediaEl.textContent = rows.length > 0 ? (rows.length / mesesConFacturas.size).toFixed(1) : '0';
+  }
+
   const supabase = getSupabaseBrowser();
 
   if (!supabase) {
@@ -159,6 +275,7 @@ import ContactSwitch from '../ContactSwitch.astro';
       facturaList.innerHTML = '';
       const rows = !error && data ? data : [];
       facturaEmpty.hidden = rows.length > 0;
+      renderFacturaStats(rows);
 
       rows.forEach((row) => {
         const li = document.createElement('li');
@@ -217,7 +334,7 @@ import ContactSwitch from '../ContactSwitch.astro';
       // "unlinked" más abajo, igual que antes.
       const { data: cliente } = await supabase!
         .from('clientes')
-        .select('id, nombre, reporting')
+        .select('id, nombre, reporting, tipo_persona')
         .maybeSingle();
 
       if (!cliente) {
@@ -228,6 +345,7 @@ import ContactSwitch from '../ContactSwitch.astro';
       currentClienteId = cliente.id as string;
       nombreEl.textContent = cliente.nombre as string;
       renderReportingPanel(Boolean(cliente.reporting));
+      renderDocumentacionPanel((cliente.tipo_persona as string | null) ?? null);
       renderFacturaList(currentClienteId);
       showOnly(dashEl);
     }

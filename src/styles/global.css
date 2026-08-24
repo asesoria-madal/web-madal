@@ -950,6 +950,21 @@ h2.section-title { font-size: clamp(1.5rem, 2.6vw, 2rem); }
 }
 .portal-logout { margin-top: 1.6rem; background: none; border: none; color: var(--ink-soft); font-size: 0.85rem; text-decoration: underline; cursor: pointer; padding: 0; }
 
+.portal-stats { display: flex; gap: 1rem; flex-wrap: wrap; }
+.portal-stat {
+  flex: 1 1 180px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 1.2rem 1.4rem;
+  background: var(--paper-raised);
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+.portal-stat-value { font-family: var(--font-display); font-size: 1.8rem; color: var(--accent); }
+.portal-stat-value.portal-stat-placeholder { font-size: 1.1rem; color: var(--ink-soft); }
+.portal-stat-label { font-size: 0.82rem; color: var(--ink-soft); }
+
 /* ---------- Área de cliente logueada (app, sin nav de marketing) ---------- */
 body.portal-app header.site,
 body.portal-app footer.site {

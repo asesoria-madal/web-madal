@@ -265,6 +265,15 @@ alter table traspasos_nuevos enable row level security;
 -- beneficio, periodo...). Cuando exista, debe llevar una columna
 -- cliente_id references clientes(id) y su propia política RLS igual
 -- que la de abajo (using (auth.uid() = (select auth_user_id from clientes where id = cliente_id))).
+-- "tipo_persona" ('autonomo' | 'sl') decide, en el panel de Documentación
+-- del portal, qué PDF de presentación de servicios genérica le corresponde
+-- a cada cliente (ver Portal.astro; no confundir con el presupuesto
+-- individual ya firmado, que se envía por otra vía). Igual que "reporting", lo rellena el equipo
+-- a mano al dar de alta al cliente. Esta columna ya existía en el
+-- proyecto de Supabase en marcha antes de este cambio (se añade aquí solo
+-- para que el "create table if not exists" reproduzca el esquema real si
+-- se recrea la base desde cero); queda NULL para clientes sin ese dato
+-- marcado, y el portal muestra un aviso en vez de un enlace mientras tanto.
 create table if not exists clientes (
   id uuid primary key default gen_random_uuid(),
   auth_user_id uuid unique references auth.users (id) on delete set null,
@@ -272,6 +281,7 @@ create table if not exists clientes (
   empresa text,
   email text,
   reporting boolean not null default false,
+  tipo_persona text,
   created_at timestamptz not null default now()
 );
 
@@ -329,6 +339,12 @@ create trigger on_auth_user_created
 --   on clientes for select
 --   using (auth.uid() = auth_user_id);
 --
+-- "tipo_persona" ya existía en el proyecto de Supabase en marcha antes del
+-- panel de Documentación del portal (ver Portal.astro) — no hace falta
+-- ningún alter table para esto, solo rellenarla por cliente si algún
+-- cliente todavía la tiene NULL:
+-- update clientes set tipo_persona = 'autonomo' where id = '...'; -- (o 'sl')
+
 -- Si ya habéis ejecutado el bloque de facturas_subidas de más abajo (antes
 -- de este cambio), sus políticas también asumían cliente_id = auth.uid()
 -- directamente — hay que corregirlas también, en este mismo momento:
