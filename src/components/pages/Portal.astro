@@ -429,12 +429,17 @@ const dashboardsCtaHref = `mailto:contacto@asesoriamadal.es?subject=${encodeURIC
 
         // Si el archivo sube bien pero falla el registro de la fila, no lo
         // contamos como fallo de cara al cliente (el equipo verá el archivo
-        // en el Storage igualmente y podrá revisarlo a mano).
-        await supabase!.from('facturas_subidas').insert({
+        // en el Storage igualmente y podrá revisarlo a mano) — pero sí lo
+        // dejamos en consola para poder diagnosticar por qué falla el insert
+        // (RLS, FK, tipo de columna...).
+        const { error: insertError } = await supabase!.from('facturas_subidas').insert({
           cliente_id: clienteId,
           nombre_archivo: file.name,
           storage_path: path,
         });
+        if (insertError) {
+          console.error('facturas_subidas insert error:', insertError);
+        }
         subidas++;
       }
 
