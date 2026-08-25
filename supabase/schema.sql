@@ -98,6 +98,19 @@ create table if not exists clientes (
 -- el vínculo automático de abajo, porque no sabríamos a qué fila enlazar.
 create unique index if not exists clientes_email_lower_idx on clientes (lower(email));
 
+-- alta_hecha: para la automatización de onboarding de n8n (trigger AFTER
+-- INSERT en esta tabla -> webhook cliente-nuevo). Solo aplica a
+-- tipo_persona = 'autonomo' (columna ya existente, ver más arriba) —
+-- para 'sl' se ignora y queda NULL sin que eso sea un error.
+--
+-- Interpretación que usa el workflow de n8n:
+--   tipo_persona NULL                     -> falta por rellenar (incompleto)
+--   tipo_persona = 'autonomo', alta_hecha NULL  -> falta por rellenar (incompleto)
+--   tipo_persona = 'autonomo', alta_hecha true  -> necesita alta (la tramitamos nosotros)
+--   tipo_persona = 'autonomo', alta_hecha false -> ya estaba dado de alta (traspaso)
+--   tipo_persona = 'sl'                   -> SL (alta_hecha no aplica, se ignora)
+alter table clientes add column if not exists alta_hecha boolean;
+
 alter table clientes enable row level security;
 
 -- Un cliente autenticado solo puede leer su propia fila, nunca las de
