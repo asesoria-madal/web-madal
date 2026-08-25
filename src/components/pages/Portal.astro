@@ -417,10 +417,11 @@ const dashboardsCtaHref = `mailto:contacto@asesoriamadal.es?subject=${encodeURIC
         // (así lo exige la política de Storage, ver schema.sql) como para
         // prefijar el propio nombre de archivo — mismo id que cliente_id en
         // facturas_subidas, para que carpeta y archivo sean identificables a
-        // mano (Drive, revisión manual) en vez de un uid opaco. Se añade un
-        // id aleatorio además del timestamp para que dos archivos subidos en
-        // el mismo milisegundo no choquen de ruta.
-        const path = `${clienteId}/${clienteId}-${Date.now()}-${crypto.randomUUID()}-${file.name}`;
+        // mano (Drive, revisión manual) en vez de un uid opaco. Sin
+        // timestamp/id de por medio a propósito: si el cliente sube dos
+        // veces un archivo con el mismo nombre, la segunda subida falla
+        // (Storage no deja sobrescribir por defecto) y cuenta como fallo.
+        const path = `${clienteId}/${clienteId}-${file.name}`;
         const { error } = await supabase!.storage.from('facturas').upload(path, file, {
           contentType: 'application/pdf',
         });
