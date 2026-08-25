@@ -7,7 +7,6 @@ export const prerender = false;
 // basta para descartar entradas rotas, no pretende validar NIF/IBAN al
 // 100% — eso ya lo revisa Edurne a mano antes de tramitar el alta.
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const QUOTE_CODE_PATTERN = /^CC-\d{2}-\d{5}$/;
 const NIF_NIE_PATTERN = /^[0-9XYZxyz][0-9]{7}[A-Za-z]$/;
 const IBAN_PATTERN = /^[A-Za-z]{2}\d{2}[A-Za-z0-9]{10,30}$/;
 const TELEFONO_PATTERN = /^[+\d][\d\s-]{6,20}$/;
@@ -19,7 +18,6 @@ const REGIMEN_COTIZACION_VALUES = ['reta', 'mutualidad'];
 const RETENCION_IRPF_VALUES = ['si', 'no', 'no_sabe'];
 
 interface Body {
-  quoteCode?: string;
   identificacionDigital: string;
   nombreCompleto: string;
   nifNie: string;
@@ -50,7 +48,6 @@ function isValid(body: unknown): body is Body {
   if (typeof body !== 'object' || body === null) return false;
   const b = body as Record<string, unknown>;
 
-  if (b.quoteCode !== undefined && (typeof b.quoteCode !== 'string' || !QUOTE_CODE_PATTERN.test(b.quoteCode))) return false;
   if (!IDENTIFICACION_VALUES.includes(b.identificacionDigital as string)) return false;
   if (!isNonEmptyString(b.nombreCompleto, 150)) return false;
   if (typeof b.nifNie !== 'string' || !NIF_NIE_PATTERN.test(b.nifNie.trim())) return false;
@@ -144,7 +141,6 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
     tendra_trabajadores: body.tendraTrabajadores,
     privacy_accepted_at: new Date().toISOString(),
   };
-  if (body.quoteCode) insertRow.quote_code = body.quoteCode;
   if (body.domicilioNotificaciones) insertRow.domicilio_notificaciones = body.domicilioNotificaciones.trim();
   if (body.tipoLocal !== 'sin_local' && body.domicilioLocal) insertRow.domicilio_local = body.domicilioLocal.trim();
   if (body.multiplesLocales && body.detalleLocalesAdicionales) insertRow.detalle_locales_adicionales = body.detalleLocalesAdicionales.trim();

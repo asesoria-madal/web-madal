@@ -90,9 +90,10 @@ alter table presupuestos enable row level security;
 -- activada y sin políticas, nadie puede leer/escribir esta tabla desde
 -- el navegador.
 --
--- quote_code enlaza con el presupuesto simulado si lo hubo, pero es
--- opcional: "si es solo alta no hace falta firma de presupuesto", así
--- que puede haber una fila de alta sin presupuesto previo.
+-- El vínculo con el presupuesto/cliente ya no se hace por quote_code (se
+-- quitó esa columna — ver migración más abajo): ahora se hace por NIF,
+-- igual que el resto de flujos de este proyecto (ver clientes.id). El link
+-- a este formulario se manda con ?nif=... y ese valor llega en nif_nie.
 --
 -- privacy_accepted_at es obligatorio aquí (a diferencia de
 -- presupuestos, donde el email es opcional y el consentimiento solo se
@@ -113,7 +114,6 @@ alter table presupuestos enable row level security;
 -- automatización, y quedan NULL hasta que se completa ese paso.
 create table if not exists alta_nuevos_autonomos (
   id bigint generated always as identity primary key,
-  quote_code text references presupuestos (quote_code),
   privacy_accepted_at timestamptz not null default now(),
 
   -- Identificación digital: si es 'ninguno', hay que pedirle cita AEAT
@@ -408,6 +408,14 @@ create trigger on_auth_user_created
 -- 1. Quitar la FK mientras cambiamos el tipo de columna en ambos lados.
 alter table facturas_subidas drop constraint if exists facturas_subidas_cliente_id_fkey;
 
+-- 1b. Postgres no deja cambiar el tipo de una columna mientras una policy
+--     la referencia — y las dos policies de facturas_subidas referencian
+--     clientes.id en su subconsulta (cliente_id in (select id from
+--     clientes ...)). Hay que quitarlas y recrearlas idénticas más abajo
+--     (paso 5), después del cambio de tipo.
+drop policy if exists "cliente ve sus facturas subidas" on facturas_subidas;
+drop policy if exists "cliente registra su propia subida" on facturas_subidas;
+
 -- 2. Borrar los clientes de prueba (y cualquier factura de prueba que
 --    dependa de ellos). Anota antes su nombre/email si los quieres
 --    recrear igual, con el NIF real en vez de un valor inventado.
@@ -431,11 +439,33 @@ alter table facturas_subidas
   foreign key (cliente_id) references clientes (id)
   on delete cascade on update cascade;
 
--- 5. Recrear los clientes de prueba con NIF real como id (ejemplo — pon
+-- 5. Recrear las dos políticas borradas en el paso 1b, idénticas a como
+--    estaban (la comparación cliente_id in (select id from ...) sigue
+--    funcionando igual, ahora comparando text con text en vez de uuid).
+create policy "cliente ve sus facturas subidas"
+  on facturas_subidas for select
+  using (cliente_id in (select id from clientes where auth_user_id = auth.uid()));
+
+create policy "cliente registra su propia subida"
+  on facturas_subidas for insert
+  with check (
+    fecha_contabilizado is null
+    and cliente_id in (select id from clientes where auth_user_id = auth.uid())
+  );
+
+-- 6. Recrear los clientes de prueba con NIF real como id (ejemplo — pon
 --    los datos y NIFs de prueba que quieras usar):
 -- insert into clientes (id, nombre, email, tipo_persona) values
 --   ('12345678A', 'Cliente Prueba Uno', 'prueba1@example.com', 'autonomo'),
 --   ('87654321B', 'Cliente Prueba Dos', 'prueba2@example.com', 'autonomo');
+
+-- 7. quote_code deja de usarse para vincular alta_nuevos_autonomos con el
+--    presupuesto — ese vínculo pasa a hacerse por NIF, como todo lo demás
+--    (ver comentario junto a la tabla, más arriba). Se asume que a fecha de
+--    esta migración no hay ninguna fila real de alta_nuevos_autonomos que
+--    dependa de este dato para no perder nada; si ya hay alguna, anota su
+--    quote_code antes de borrar la columna.
+alter table alta_nuevos_autonomos drop column if exists quote_code;
 
 -- ---------------------------------------------------------------------
 -- Storage: bucket "facturas" (subida de facturas desde el portal).

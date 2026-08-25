@@ -18,13 +18,12 @@
       Rellena este formulario con calma — con esto tenemos todo lo que necesitamos para darte de alta en Hacienda y
       Seguridad Social. Si algo no lo sabes seguro, indícalo y lo revisamos juntos.
     </p>
+    <p class="field-hint">Los campos marcados con * son obligatorios.</p>
   </div>
 
   <form id="altaForm" class="alta-form page view-block" novalidate>
-    <input type="hidden" id="fQuoteCode" name="quoteCode" />
-
     <fieldset class="alta-section">
-      <legend>Identificación digital</legend>
+      <legend>Identificación digital *</legend>
       <p class="field-hint">Para tramitar el alta necesitamos operar en tu nombre ante la Administración.</p>
       <div class="radio-group" data-field="identificacionDigital">
         <label class="radio-option"><input type="radio" name="identificacionDigital" value="certificado" /> Tengo certificado digital</label>
@@ -35,26 +34,26 @@
 
     <fieldset class="alta-section">
       <legend>Datos básicos</legend>
-      <label class="field">Nombre y apellidos completos <input type="text" id="fNombre" maxlength="150" required /></label>
-      <label class="field">NIF / NIE <input type="text" id="fNif" maxlength="9" placeholder="12345678A" required /></label>
-      <label class="field">Email <input type="email" id="fEmail" maxlength="254" required /></label>
-      <label class="field">Teléfono <input type="tel" id="fTelefono" maxlength="20" required /></label>
-      <label class="field">Domicilio fiscal completo <textarea id="fDomicilioFiscal" maxlength="300" rows="2" required></textarea></label>
+      <label class="field">Nombre y apellidos completos * <input type="text" id="fNombre" maxlength="150" required /></label>
+      <label class="field">NIF / NIE * <input type="text" id="fNif" maxlength="9" placeholder="12345678A" required /></label>
+      <label class="field">Email * <input type="email" id="fEmail" maxlength="254" required /></label>
+      <label class="field">Teléfono * <input type="tel" id="fTelefono" maxlength="20" required /></label>
+      <label class="field">Domicilio fiscal completo * <textarea id="fDomicilioFiscal" maxlength="300" rows="2" required></textarea></label>
       <label class="field">Domicilio a efectos de notificaciones <span class="field-optional">(solo si es distinto al fiscal)</span>
         <textarea id="fDomicilioNotif" maxlength="300" rows="2"></textarea>
       </label>
-      <label class="field">IBAN para la cuota de autónomo <input type="text" id="fIban" maxlength="34" placeholder="ES00 0000 0000 0000 0000 0000" required /></label>
+      <label class="field">IBAN para la cuota de autónomo * <input type="text" id="fIban" maxlength="34" placeholder="ES00 0000 0000 0000 0000 0000" required /></label>
     </fieldset>
 
     <fieldset class="alta-section">
       <legend>Datos de la actividad económica</legend>
-      <label class="field">Epígrafe(s) IAE <span class="field-optional">(el código exacto si lo conoces, o descríbenos todas las actividades que vas a hacer)</span>
+      <label class="field">Epígrafe(s) IAE * <span class="field-optional">(el código exacto si lo conoces, o descríbenos todas las actividades que vas a hacer)</span>
         <textarea id="fEpigrafes" maxlength="500" rows="3" required></textarea>
       </label>
-      <label class="field">Fecha real de inicio de actividad <input type="date" id="fFechaInicio" required /></label>
+      <label class="field">Fecha real de inicio de actividad * <input type="date" id="fFechaInicio" required /></label>
 
       <div class="field-group">
-        <p class="field-group-label">¿Dónde vas a ejercer la actividad?</p>
+        <p class="field-group-label">¿Dónde vas a ejercer la actividad? *</p>
         <div class="radio-group" data-field="tipoLocal">
           <label class="radio-option"><input type="radio" name="tipoLocal" value="casa" /> Desde casa</label>
           <label class="radio-option"><input type="radio" name="tipoLocal" value="oficina" /> En una oficina / local</label>
@@ -63,14 +62,17 @@
         <p class="field-hint">Ojo: según la actividad y el local, puede aplicarte la tasa de basuras — si tienes dudas lo miramos juntos.</p>
       </div>
 
-      <label class="field" id="fDomicilioLocalWrap">Domicilio del local de actividad <textarea id="fDomicilioLocal" maxlength="300" rows="2"></textarea></label>
+      <label class="field" id="fDomicilioLocalWrap">Dirección desde la que vas a ejercer la actividad *
+        <span class="field-optional">(tu domicilio si trabajas desde casa, o la dirección del local/oficina si tienes uno)</span>
+        <textarea id="fDomicilioLocal" maxlength="300" rows="2"></textarea>
+      </label>
 
       <label class="checkbox-option"><input type="checkbox" id="fMultiplesLocales" /> Voy a tener más de un local o centro de trabajo</label>
       <label class="field" id="fDetalleLocalesWrap" hidden>Cuéntanos algo más de esos otros locales <textarea id="fDetalleLocales" maxlength="300" rows="2"></textarea></label>
 
       <label class="checkbox-option"><input type="checkbox" id="fColegiada" /> Es una profesión colegiada (abogado/a, arquitecto/a, médico/a...)</label>
       <div class="field-group" id="fRegimenCotizacionWrap" hidden>
-        <p class="field-group-label">¿Vas a cotizar por RETA o por la mutualidad alternativa del colegio?</p>
+        <p class="field-group-label">¿Vas a cotizar por RETA o por la mutualidad alternativa del colegio? *</p>
         <div class="radio-group" data-field="regimenCotizacion">
           <label class="radio-option"><input type="radio" name="regimenCotizacion" value="reta" /> RETA</label>
           <label class="radio-option"><input type="radio" name="regimenCotizacion" value="mutualidad" /> Mutualidad alternativa</label>
@@ -86,7 +88,7 @@
     <fieldset class="alta-section">
       <legend>Datos de IRPF</legend>
       <div class="field-group">
-        <p class="field-group-label">¿Vas a facturar con retención de IRPF?</p>
+        <p class="field-group-label">¿Vas a facturar con retención de IRPF? *</p>
         <div class="radio-group" data-field="retencionIrpf">
           <label class="radio-option"><input type="radio" name="retencionIrpf" value="si" /> Sí</label>
           <label class="radio-option"><input type="radio" name="retencionIrpf" value="no" /> No</label>
@@ -123,7 +125,7 @@
 
     <label class="consent">
       <input type="checkbox" id="fPrivacy" required />
-      <span>He leído y acepto la <a href="/privacidad" target="_blank" rel="noopener">Política de Privacidad</a> de Asesoría Madal para el tratamiento de estos datos.</span>
+      <span>He leído y acepto la <a href="/privacidad" target="_blank" rel="noopener">Política de Privacidad</a> de Asesoría Madal para el tratamiento de estos datos. *</span>
     </label>
 
     <p class="form-error" id="formError" hidden>Revisa que todos los campos obligatorios estén rellenos y con un formato válido (NIF/NIE, IBAN, email, teléfono).</p>
@@ -147,10 +149,20 @@
     const errorEl = document.getElementById('formError') as HTMLElement;
     const submitBtn = document.getElementById('formSubmit') as HTMLButtonElement;
 
-    const quoteCodeInput = document.getElementById('fQuoteCode') as HTMLInputElement;
     const params = new URLSearchParams(window.location.search);
-    const quoteParam = params.get('quote');
-    if (quoteParam) quoteCodeInput.value = quoteParam;
+
+    // El link de este formulario se manda ya personalizado con el NIF del
+    // cliente (?nif=..., añadido por el workflow de n8n al enviarlo — ver
+    // "Preparar mail"), que es el mismo id con el que se creó su fila en
+    // `clientes`. Se precarga en el campo NIF/NIE que ya existía y se deja
+    // de solo lectura para que no pueda desincronizarse del cliente al que
+    // está vinculado el envío.
+    const nifInput = document.getElementById('fNif') as HTMLInputElement;
+    const nifParam = params.get('nif');
+    if (nifParam) {
+      nifInput.value = nifParam;
+      nifInput.readOnly = true;
+    }
 
     const tipoLocalWrap = document.getElementById('fDomicilioLocalWrap') as HTMLElement;
     const domicilioLocalInput = document.getElementById('fDomicilioLocal') as HTMLTextAreaElement;
@@ -228,8 +240,6 @@
       }
 
       if (colegiada.checked) body.regimenCotizacion = regimenCotizacion;
-
-      if (quoteCodeInput.value.trim()) body.quoteCode = quoteCodeInput.value.trim();
 
       submitBtn.disabled = true;
       try {

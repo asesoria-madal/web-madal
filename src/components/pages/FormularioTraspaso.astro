@@ -44,11 +44,12 @@ const docsCliente = isAutonomo
       Rellena este formulario con calma — con esto tenemos todo lo que necesitamos para continuar tu contabilidad y
       fiscalidad sin cortes. Si algo no lo sabes seguro, indícalo y lo revisamos juntos.
     </p>
+    <p class="field-hint">Los campos marcados con * son obligatorios.</p>
   </div>
 
   <form id="traspasoForm" class="alta-form page view-block" novalidate data-tipo={tipo}>
     <fieldset class="alta-section">
-      <legend>Identificación digital</legend>
+      <legend>Identificación digital *</legend>
       <p class="field-hint">Para gestionar tu traspaso necesitamos operar en tu nombre ante la Administración.</p>
       <div class="radio-group" data-field="identificacionDigital">
         <label class="radio-option"><input type="radio" name="identificacionDigital" value="certificado" /> Tengo certificado digital vigente</label>
@@ -59,18 +60,18 @@ const docsCliente = isAutonomo
 
     <fieldset class="alta-section">
       <legend>Datos básicos</legend>
-      <label class="field">{nombreLabel} <input type="text" id="fNombreRazonSocial" maxlength="150" required /></label>
-      <label class="field">{nifLabel} <input type="text" id="fNifCif" maxlength="9" required /></label>
-      <label class="field">Email <input type="email" id="fEmail" maxlength="254" required /></label>
-      <label class="field">Teléfono <input type="tel" id="fTelefono" maxlength="20" required /></label>
-      <label class="field">Domicilio fiscal completo <textarea id="fDomicilioFiscal" maxlength="300" rows="2" required></textarea></label>
+      <label class="field">{nombreLabel} * <input type="text" id="fNombreRazonSocial" maxlength="150" required /></label>
+      <label class="field">{nifLabel} * <input type="text" id="fNifCif" maxlength="9" required /></label>
+      <label class="field">Email * <input type="email" id="fEmail" maxlength="254" required /></label>
+      <label class="field">Teléfono * <input type="tel" id="fTelefono" maxlength="20" required /></label>
+      <label class="field">Domicilio fiscal completo * <textarea id="fDomicilioFiscal" maxlength="300" rows="2" required></textarea></label>
       {!isAutonomo && (
-        <label class="field">Domicilio social <textarea id="fDomicilioSocial" maxlength="300" rows="2" required></textarea></label>
+        <label class="field">Domicilio social * <textarea id="fDomicilioSocial" maxlength="300" rows="2" required></textarea></label>
       )}
       <label class="field">Domicilio a efectos de notificaciones <span class="field-optional">(solo si es distinto al fiscal)</span>
         <textarea id="fDomicilioNotif" maxlength="300" rows="2"></textarea>
       </label>
-      <label class="field">IBAN para el cobro de honorarios <input type="text" id="fIban" maxlength="34" placeholder="ES00 0000 0000 0000 0000 0000" required /></label>
+      <label class="field">IBAN para el cobro de honorarios * <input type="text" id="fIban" maxlength="34" placeholder="ES00 0000 0000 0000 0000 0000" required /></label>
     </fieldset>
 
     <fieldset class="alta-section">
@@ -79,11 +80,11 @@ const docsCliente = isAutonomo
 
       {isAutonomo && (
         <>
-          <label class="field">Fecha de alta como autónomo <input type="date" id="fFechaAlta" required /></label>
-          <label class="field">Epígrafe(s) IAE actuales <textarea id="fEpigrafes" maxlength="500" rows="2" required></textarea></label>
+          <label class="field">Fecha de alta como autónomo * <input type="date" id="fFechaAlta" required /></label>
+          <label class="field">Epígrafe(s) IAE actuales * <textarea id="fEpigrafes" maxlength="500" rows="2" required></textarea></label>
 
           <div class="field-group">
-            <p class="field-group-label">Régimen de IVA actual</p>
+            <p class="field-group-label">Régimen de IVA actual *</p>
             <div class="radio-group" data-field="regimenIva">
               <label class="radio-option"><input type="radio" name="regimenIva" value="general" /> General</label>
               <label class="radio-option"><input type="radio" name="regimenIva" value="recargo_equivalencia" /> Recargo de equivalencia</label>
@@ -95,7 +96,7 @@ const docsCliente = isAutonomo
           </div>
 
           <div class="field-group">
-            <p class="field-group-label">Régimen de IRPF actual</p>
+            <p class="field-group-label">Régimen de IRPF actual *</p>
             <div class="radio-group" data-field="regimenIrpf">
               <label class="radio-option"><input type="radio" name="regimenIrpf" value="directa_normal" /> Estimación directa normal</label>
               <label class="radio-option"><input type="radio" name="regimenIrpf" value="directa_simplificada" /> Estimación directa simplificada</label>
@@ -119,7 +120,7 @@ const docsCliente = isAutonomo
       <label class="checkbox-option"><input type="checkbox" id="fRequerimientos" /> Tengo requerimientos o procedimientos abiertos con la AEAT</label>
       <label class="field" id="fDetalleRequerimientosWrap" hidden>Cuéntanos algo más <textarea id="fDetalleRequerimientos" maxlength="500" rows="2"></textarea></label>
 
-      <label class="field">Datos de contacto de tu gestoría anterior <span class="field-optional">(para poder reclamar documentación si hace falta)</span>
+      <label class="field">Datos de contacto de tu gestoría anterior * <span class="field-optional">(para poder reclamar documentación si hace falta)</span>
         <textarea id="fContactoGestoria" maxlength="300" rows="2" required></textarea>
       </label>
 
@@ -133,7 +134,7 @@ const docsCliente = isAutonomo
 
       <label class="checkbox-option">
         <input type="checkbox" id="fAutorizaHistorico" required />
-        Autorizo a Asesoría Madal a solicitar a mi gestoría anterior el histórico de facturación/contabilidad del ejercicio en curso
+        Autorizo a Asesoría Madal a solicitar a mi gestoría anterior el histórico de facturación/contabilidad del ejercicio en curso *
       </label>
 
       <div class="field-group">
@@ -174,7 +175,7 @@ const docsCliente = isAutonomo
 
     <label class="consent">
       <input type="checkbox" id="fPrivacy" required />
-      <span>He leído y acepto la <a href="/privacidad" target="_blank" rel="noopener">Política de Privacidad</a> de Asesoría Madal para el tratamiento de estos datos.</span>
+      <span>He leído y acepto la <a href="/privacidad" target="_blank" rel="noopener">Política de Privacidad</a> de Asesoría Madal para el tratamiento de estos datos. *</span>
     </label>
 
     <p class="form-error" id="formError" hidden>Revisa que todos los campos obligatorios estén rellenos y con un formato válido (NIF/CIF, IBAN, email, teléfono).</p>
@@ -203,6 +204,19 @@ const docsCliente = isAutonomo
 
     function el<T extends HTMLElement>(id: string): T | null {
       return document.getElementById(id) as T | null;
+    }
+
+    // El link de este formulario se manda ya personalizado con el NIF/CIF
+    // del cliente (?nif=..., añadido por el workflow de n8n al enviarlo),
+    // que es el mismo id con el que se creó su fila en `clientes`. Se
+    // precarga en el campo NIF/CIF que ya existía y se deja de solo
+    // lectura para que no pueda desincronizarse del cliente al que está
+    // vinculado el envío.
+    const nifParam = new URLSearchParams(window.location.search).get('nif');
+    const nifCifInput = el<HTMLInputElement>('fNifCif');
+    if (nifParam && nifCifInput) {
+      nifCifInput.value = nifParam;
+      nifCifInput.readOnly = true;
     }
 
     function radioValue(name: string): string | undefined {
