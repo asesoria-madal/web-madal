@@ -458,6 +458,21 @@ create policy "cliente registra su propia subida"
 -- insert into clientes (id, nombre, email, tipo_persona) values
 --   ('12345678A', 'Cliente Prueba Uno', 'prueba1@example.com', 'autonomo'),
 --   ('87654321B', 'Cliente Prueba Dos', 'prueba2@example.com', 'autonomo');
+--
+-- 6b. IMPORTANTE si alguno de esos emails YA tenía cuenta de Auth de antes
+--     (ej. clientes de prueba reutilizados): el trigger vincular_cliente_nuevo
+--     solo rellena auth_user_id al INSERTAR en auth.users (primer login), no
+--     al insertar en clientes — así que una fila de clientes recreada para un
+--     email que ya tenía cuenta se queda con auth_user_id en null para
+--     siempre, y con eso todo lo que dependa de auth_user_id = auth.uid()
+--     (RLS de facturas_subidas y de storage.objects, ver más abajo) falla en
+--     silencio (insert rechazado por RLS, sin fila ni error visible para el
+--     cliente). Repite este backfill cada vez que recrees clientes para
+--     emails que puedan ya tener cuenta:
+-- update clientes c
+-- set auth_user_id = u.id
+-- from auth.users u
+-- where lower(c.email) = lower(u.email) and c.auth_user_id is null;
 
 -- 7. quote_code deja de usarse para vincular alta_nuevos_autonomos con el
 --    presupuesto — ese vínculo pasa a hacerse por NIF, como todo lo demás
@@ -469,22 +484,46 @@ alter table alta_nuevos_autonomos drop column if exists quote_code;
 
 -- ---------------------------------------------------------------------
 -- Storage: bucket "facturas" (subida de facturas desde el portal).
--- Cada archivo se guarda en la ruta `${auth.uid()}/archivo.pdf` (ver
--- Portal.astro), así que las políticas de storage.objects restringen a
--- cada cliente a su propia carpeta — nadie puede listar ni subir en la
--- carpeta de otro cliente. Ya están creadas en el dashboard de Supabase
--- (Storage → Policies), se documentan aquí solo como referencia; si el
--- bucket se recrea desde cero, hay que volver a crearlas a mano:
+-- Cada archivo se guarda en la ruta `${NIF}/archivo.pdf` (ver Portal.astro:
+-- el NIF del cliente, mismo valor que facturas_subidas.cliente_id), así que
+-- las políticas de storage.objects restringen a cada cliente a su propia
+-- carpeta — nadie puede listar ni subir en la carpeta de otro cliente. Se
+-- comprueba vía subconsulta a `clientes` (igual que las políticas de
+-- facturas_subidas más abajo), no comparando directamente contra auth.uid()
+-- como antes de la migración a NIF (ver más abajo). Ya están creadas en el
+-- dashboard de Supabase (Storage → Policies), se documentan aquí solo como
+-- referencia; si el bucket se recrea desde cero, hay que volver a crearlas a
+-- mano:
 --
 -- create policy "facturas listar carpeta propia"
 --   on storage.objects for select
 --   to authenticated
---   using (bucket_id = 'facturas' and (storage.foldername(name))[1] = auth.uid()::text);
+--   using (
+--     bucket_id = 'facturas'
+--     and (storage.foldername(name))[1] in (select id from clientes where auth_user_id = auth.uid())
+--   );
 --
 -- create policy "facturas subir en carpeta propia"
 --   on storage.objects for insert
 --   to authenticated
---   with check (bucket_id = 'facturas' and (storage.foldername(name))[1] = auth.uid()::text);
+--   with check (
+--     bucket_id = 'facturas'
+--     and (storage.foldername(name))[1] in (select id from clientes where auth_user_id = auth.uid())
+--   );
+--
+-- MIGRACIÓN (2026-08-25, junto con clientes.id -> NIF): si el bucket ya
+-- tenía las políticas antiguas (comparando contra auth.uid()::text), hay que
+-- reemplazarlas por las de arriba:
+--
+-- drop policy if exists "facturas listar carpeta propia" on storage.objects;
+-- drop policy if exists "facturas subir en carpeta propia" on storage.objects;
+-- (y luego crear las dos de arriba)
+--
+-- Los archivos ya subidos bajo la carpeta antigua (nombrada con el uid de
+-- sesión) dejan de ser accesibles con las políticas nuevas: no había
+-- facturas reales todavía en el bucket a fecha de este cambio, solo pruebas,
+-- así que no hace falta migrarlos — si alguna vez hay que hacerlo, es un
+-- storage.objects.update de la ruta (mover de carpeta) por cada archivo.
 
 -- ---------------------------------------------------------------------
 -- Registro de facturas subidas (metadatos, independiente del Storage).
