@@ -7,9 +7,14 @@ interface Props {
   lang: Locale;
   path: string; // pathname sin prefijo de idioma, p.ej. "/simulador"
   active: 'home' | 'simulador' | 'blog' | 'equipo' | 'servicios' | 'alta' | 'none';
+  // Para páginas sueltas sin enlazar (p.ej. formulario-alta): solo deja el
+  // wordmark, el idioma y el tema — sin links de navegación, portal ni CTA
+  // de contacto, porque quien llega ahí ya viene con un link directo y no
+  // tiene sentido invitarle a navegar fuera del formulario.
+  minimal?: boolean;
 }
 
-const { lang, path, active } = Astro.props;
+const { lang, path, active, minimal = false } = Astro.props;
 const t = useTranslations(lang);
 const home = lang === 'es' ? '/' : `/${lang}/`;
 const nav = [
@@ -31,18 +36,22 @@ const flagEmoji: Partial<Record<Locale, string>> = { es: '🇪🇸', en: '🇬�
 <header class="site">
   <div class="bar">
     <div class="bar-left">
-      <button type="button" id="menuToggle" class="menu-toggle" aria-label={t.header.menu} aria-expanded="false" aria-controls="mobileMenu">
-        <span></span><span></span><span></span>
-      </button>
+      {!minimal && (
+        <button type="button" id="menuToggle" class="menu-toggle" aria-label={t.header.menu} aria-expanded="false" aria-controls="mobileMenu">
+          <span></span><span></span><span></span>
+        </button>
+      )}
       <a href={home} class="wordmark">Asesoría<span>Madal</span></a>
     </div>
-    <nav class="primary">
-      {nav.map((item) => (
-        <a class={`navlink${active === item.key ? ' active' : ''}`} href={item.href}>{item.label}</a>
-      ))}
-      <a class={`navlink${active === 'servicios' ? ' active' : ''}`} href={serviciosHref}>{t.nav.servicios}</a>
-      <a class={`navlink${active === 'equipo' ? ' active' : ''}`} href={equipoHref}>{t.nav.conocenos}</a>
-    </nav>
+    {!minimal && (
+      <nav class="primary">
+        {nav.map((item) => (
+          <a class={`navlink${active === item.key ? ' active' : ''}`} href={item.href}>{item.label}</a>
+        ))}
+        <a class={`navlink${active === 'servicios' ? ' active' : ''}`} href={serviciosHref}>{t.nav.servicios}</a>
+        <a class={`navlink${active === 'equipo' ? ' active' : ''}`} href={equipoHref}>{t.nav.conocenos}</a>
+      </nav>
+    )}
     <div class="header-right">
       <button type="button" class="theme-toggle" aria-label="Cambiar entre tema claro y oscuro">
         <span class="theme-icon-dark" aria-hidden="true">🌙</span>
@@ -61,34 +70,40 @@ const flagEmoji: Partial<Record<Locale, string>> = { es: '🇪🇸', en: '🇬�
           ))}
         </div>
       </details>
-      <a href="/portal" class="portal-link"><span aria-hidden="true">👤</span> <span class="portal-link-label">{t.header.portal}</span></a>
-      <ContactSwitch lang={lang} />
+      {!minimal && (
+        <>
+          <a href="/portal" class="portal-link"><span aria-hidden="true">👤</span> <span class="portal-link-label">{t.header.portal}</span></a>
+          <ContactSwitch lang={lang} />
+        </>
+      )}
     </div>
   </div>
 
-  <nav id="mobileMenu" class="mobile-menu" aria-label={t.header.menu} hidden>
-    {nav.map((item) => (
-      <a class={`mobile-navlink${active === item.key ? ' active' : ''}`} href={item.href}>{item.label}</a>
-    ))}
-    <a class={`mobile-navlink${active === 'servicios' ? ' active' : ''}`} href={serviciosHref}>{t.nav.servicios}</a>
-    <a class={`mobile-navlink${active === 'equipo' ? ' active' : ''}`} href={equipoHref}>{t.nav.conocenos}</a>
-    <div class="mobile-menu-foot">
-      <button type="button" class="theme-toggle" aria-label="Cambiar entre tema claro y oscuro">
-        <span class="theme-icon-dark" aria-hidden="true">🌙</span>
-        <span class="theme-icon-light" aria-hidden="true">☀️</span>
-      </button>
-      <div class="mobile-lang-links">
-        {locales.map((l) => (
-          <a href={localizedPath(path, l)} class={`mobile-lang-link${l === lang ? ' active' : ''}`} aria-label={localeNames[l]}>
-            {flagEmoji[l]
-              ? <span class="flag" aria-hidden="true">{flagEmoji[l]}</span>
-              : <span class="flag flag-badge" aria-hidden="true">CA</span>}
-          </a>
-        ))}
+  {!minimal && (
+    <nav id="mobileMenu" class="mobile-menu" aria-label={t.header.menu} hidden>
+      {nav.map((item) => (
+        <a class={`mobile-navlink${active === item.key ? ' active' : ''}`} href={item.href}>{item.label}</a>
+      ))}
+      <a class={`mobile-navlink${active === 'servicios' ? ' active' : ''}`} href={serviciosHref}>{t.nav.servicios}</a>
+      <a class={`mobile-navlink${active === 'equipo' ? ' active' : ''}`} href={equipoHref}>{t.nav.conocenos}</a>
+      <div class="mobile-menu-foot">
+        <button type="button" class="theme-toggle" aria-label="Cambiar entre tema claro y oscuro">
+          <span class="theme-icon-dark" aria-hidden="true">🌙</span>
+          <span class="theme-icon-light" aria-hidden="true">☀️</span>
+        </button>
+        <div class="mobile-lang-links">
+          {locales.map((l) => (
+            <a href={localizedPath(path, l)} class={`mobile-lang-link${l === lang ? ' active' : ''}`} aria-label={localeNames[l]}>
+              {flagEmoji[l]
+                ? <span class="flag" aria-hidden="true">{flagEmoji[l]}</span>
+                : <span class="flag flag-badge" aria-hidden="true">CA</span>}
+            </a>
+          ))}
+        </div>
       </div>
-    </div>
-    <ContactSwitch lang={lang} triggerClass="btn btn-primary mobile-menu-contact" />
-  </nav>
+      <ContactSwitch lang={lang} triggerClass="btn btn-primary mobile-menu-contact" />
+    </nav>
+  )}
 </header>
 
 <script>

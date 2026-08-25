@@ -535,6 +535,10 @@ h2.section-title { font-size: clamp(1.5rem, 2.6vw, 2rem); }
 .tag.soon { background: var(--paper-strong); color: var(--ink-soft); }
 .tag.info { background: var(--accent-tint); color: var(--accent); }
 
+/* ---------- Social links (p.ej. bloque de redes en Quiénes somos) ---------- */
+.social-links { margin-top: 1.6rem; display: flex; gap: 0.8rem; flex-wrap: wrap; }
+.social-link svg { flex-shrink: 0; }
+
 /* ---------- Process ---------- */
 .process { margin-top: 1.6rem; display: flex; flex-direction: column; }
 .process .step { display: grid; grid-template-columns: 3rem 1fr; gap: 1.2rem; padding: 1.3rem 0; border-bottom: 1px solid var(--line); }
@@ -950,6 +954,21 @@ h2.section-title { font-size: clamp(1.5rem, 2.6vw, 2rem); }
 }
 .portal-logout { margin-top: 1.6rem; background: none; border: none; color: var(--ink-soft); font-size: 0.85rem; text-decoration: underline; cursor: pointer; padding: 0; }
 
+.portal-stats { display: flex; gap: 1rem; flex-wrap: wrap; }
+.portal-stat {
+  flex: 1 1 180px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 1.2rem 1.4rem;
+  background: var(--paper-raised);
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+.portal-stat-value { font-family: var(--font-display); font-size: 1.8rem; color: var(--accent); }
+.portal-stat-value.portal-stat-placeholder { font-size: 1.1rem; color: var(--ink-soft); }
+.portal-stat-label { font-size: 0.82rem; color: var(--ink-soft); }
+
 /* ---------- Área de cliente logueada (app, sin nav de marketing) ---------- */
 body.portal-app header.site,
 body.portal-app footer.site {
@@ -960,6 +979,10 @@ body.portal-app .portal-page > .eyebrow,
 body.portal-app .portal-page > h2.section-title {
   display: none;
 }
+/* .portal-box trae margin-top: 2rem para separarse de la cabecera de
+   marketing; con la cabecera oculta (header.site display:none, arriba) ese
+   margen queda como un hueco del color del fondo antes de la barra lateral. */
+body.portal-app .portal-box { margin-top: 0; }
 
 .app-shell { display: grid; grid-template-columns: 240px 1fr; min-height: 100vh; }
 @media (max-width: 760px) { .app-shell { grid-template-columns: 1fr; } }
@@ -1043,6 +1066,7 @@ footer.site { background: var(--footer-bg); color: var(--footer-ink-soft); paddi
 footer.site .foot-cols { display: grid; grid-template-columns: 1.3fr 1fr 1fr 1fr; gap: 2rem; padding-bottom: 2.2rem; border-bottom: 1px solid var(--footer-line); }
 @media (max-width: 760px) { footer.site .foot-cols { grid-template-columns: 1fr 1fr; } }
 @media (max-width: 480px) { footer.site .foot-cols { grid-template-columns: 1fr; } }
+footer.site .foot-subtitle { margin-top: 1.6rem; }
 footer.site .wordmark { color: var(--footer-ink); }
 footer.site .wordmark span { color: #7fd6c9; }
 footer.site .foot-tagline { margin-top: 0.8rem; max-width: 26ch; font-size: 0.86rem; }
@@ -1051,7 +1075,65 @@ footer.site .foot-nav, footer.site .foot-list { display: flex; flex-direction: c
 footer.site a { text-decoration: none; color: var(--footer-ink-soft); }
 footer.site a:hover { color: var(--footer-ink); }
 footer.site .foot-bottom { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.8rem; padding-top: 1.4rem; font-size: 0.78rem; }
-footer.site .foot-bottom-links { display: flex; gap: 1.2rem; flex-wrap: wrap; }
+footer.site .foot-bottom-links { display: flex; align-items: center; gap: 1.2rem; flex-wrap: wrap; }
+footer.site .foot-social { display: inline-flex; align-items: center; gap: 0.5rem; }
+footer.site .foot-social:hover { color: #7fd6c9; }
+
+/* ---------- Formularios largos (alta, traspaso) ----------
+   Compartido entre FormularioAlta.astro y FormularioTraspaso.astro — vive
+   aquí (global) en vez de en el <style> con scope de cada componente,
+   precisamente para que ambos lo reutilicen sin duplicar estas reglas. */
+.alta-form { max-width: 640px; margin: 0 auto; display: flex; flex-direction: column; gap: 2rem; }
+.alta-section { border: 1px solid var(--line); border-radius: 12px; padding: 1.4rem 1.5rem; display: flex; flex-direction: column; gap: 1.1rem; }
+.alta-section legend {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 700;
+  padding: 0 0.4rem;
+}
+.field { display: flex; flex-direction: column; gap: 0.4rem; font-size: 0.9rem; font-weight: 600; color: var(--ink); }
+.field-optional { font-weight: 400; color: var(--ink-soft); }
+.field input, .field textarea {
+  font-family: var(--font-body);
+  font-size: 0.96rem;
+  font-weight: 400;
+  padding: 0.75rem 0.9rem;
+  border: 1.5px solid var(--line);
+  border-radius: 10px;
+  background: var(--paper-raised);
+  color: var(--ink);
+  resize: vertical;
+}
+.field input:focus, .field textarea:focus { outline: none; border-color: var(--accent); }
+.field-hint { font-size: 0.82rem; color: var(--ink-soft); }
+.doc-list { display: flex; flex-direction: column; gap: 0.5rem; list-style: none; }
+.doc-list a { color: var(--accent); font-weight: 600; font-size: 0.92rem; text-decoration: underline; }
+.field-group { display: flex; flex-direction: column; gap: 0.6rem; }
+.field-group-label { font-size: 0.9rem; font-weight: 600; color: var(--ink); }
+.radio-group { display: flex; flex-direction: column; gap: 0.5rem; }
+.radio-option, .checkbox-option {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.55rem;
+  font-size: 0.9rem;
+  font-weight: 400;
+  color: var(--ink);
+  cursor: pointer;
+}
+.radio-option input, .checkbox-option input { margin-top: 0.2rem; flex-shrink: 0; }
+.consent {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.55rem;
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+  cursor: pointer;
+}
+.consent input { margin-top: 0.2rem; flex-shrink: 0; }
+.consent a { color: var(--accent); text-decoration: underline; }
+.form-error { font-size: 0.85rem; color: var(--warm); }
+.form-success { text-align: center; }
+.form-submit { align-self: flex-start; }
 
 /* ---------- Banner de cookies (Google Ads, ver CookieConsent.astro) ---------- */
 .cookie-banner {

@@ -1,0 +1,332 @@
+---
+// Mismo criterio que FormularioAlta.astro (formulario largo tradicional,
+// sin enlazar desde el menú, solo español) — ver comentarios ahí.
+//
+// Un solo componente para los dos tipos (en vez de duplicar el formulario
+// entero): el prop `tipo` decide qué etiquetas y qué secciones de
+// "situación fiscal actual" se muestran, pero la estructura y el resto de
+// campos son los mismos. Las dos páginas (formulario-traspaso-autonomo y
+// formulario-traspaso-sl) son solo un wrapper de una línea con el `tipo`
+// correspondiente — ver schema.sql (tabla traspasos_nuevos) para el porqué
+// de compartir tabla también.
+interface Props { tipo: 'autonomo' | 'sl'; }
+const { tipo } = Astro.props;
+const isAutonomo = tipo === 'autonomo';
+
+const nombreLabel = isAutonomo ? 'Nombre y apellidos completos' : 'Razón social';
+const nifLabel = isAutonomo ? 'NIF / NIE' : 'CIF';
+
+// Documentación: listas informativas, no campos del formulario (no hay
+// subida de archivos montada — ver comentario en schema.sql). El equipo
+// hace el seguimiento real de estos documentos por email/Drive.
+const docsGestoriaAnterior = isAutonomo
+  ? ['Facturas emitidas y recibidas del ejercicio en curso', 'Libros de registro, si los llevaba la gestoría anterior']
+  : [
+      'Libros de registro de este año y el año anterior',
+      'Libro diario de este año y el año anterior',
+      'Sumas y saldos de este año y el año anterior',
+      'Registro de inmovilizado (para la amortización)',
+      'Balance y cuenta de Pérdidas y Ganancias del año anterior',
+      'Cuentas Anuales y legalización de libros de años anteriores',
+      'Todos los modelos presentados de este año y el año anterior (303, 200, 111, 115...)',
+      'Si tiene empleados: contratos, nóminas del año en curso, TC2/informes de cotización recientes',
+    ];
+const docsCliente = isAutonomo
+  ? ['Facturas emitidas y recibidas pendientes de contabilizar']
+  : ['Escrituras (todas las que tengáis)', 'Facturas emitidas y recibidas pendientes de contabilizar'];
+---
+
+<div id="view-traspaso-form">
+  <div class="page view-intro">
+    <p class="eyebrow">Traspaso de gestoría</p>
+    <h2 class="section-title">Tus datos para el traspaso{isAutonomo ? '' : ' de tu SL'}</h2>
+    <p class="section-sub">
+      Rellena este formulario con calma — con esto tenemos todo lo que necesitamos para continuar tu contabilidad y
+      fiscalidad sin cortes. Si algo no lo sabes seguro, indícalo y lo revisamos juntos.
+    </p>
+  </div>
+
+  <form id="traspasoForm" class="alta-form page view-block" novalidate data-tipo={tipo}>
+    <fieldset class="alta-section">
+      <legend>Identificación digital</legend>
+      <p class="field-hint">Para gestionar tu traspaso necesitamos operar en tu nombre ante la Administración.</p>
+      <div class="radio-group" data-field="identificacionDigital">
+        <label class="radio-option"><input type="radio" name="identificacionDigital" value="certificado" /> Tengo certificado digital vigente</label>
+        <label class="radio-option"><input type="radio" name="identificacionDigital" value="clave_pin" /> Tengo Cl@ve PIN vigente</label>
+        <label class="radio-option"><input type="radio" name="identificacionDigital" value="ninguno" /> No tengo ninguno, o está caducado</label>
+      </div>
+    </fieldset>
+
+    <fieldset class="alta-section">
+      <legend>Datos básicos</legend>
+      <label class="field">{nombreLabel} <input type="text" id="fNombreRazonSocial" maxlength="150" required /></label>
+      <label class="field">{nifLabel} <input type="text" id="fNifCif" maxlength="9" required /></label>
+      <label class="field">Email <input type="email" id="fEmail" maxlength="254" required /></label>
+      <label class="field">Teléfono <input type="tel" id="fTelefono" maxlength="20" required /></label>
+      <label class="field">Domicilio fiscal completo <textarea id="fDomicilioFiscal" maxlength="300" rows="2" required></textarea></label>
+      {!isAutonomo && (
+        <label class="field">Domicilio social <textarea id="fDomicilioSocial" maxlength="300" rows="2" required></textarea></label>
+      )}
+      <label class="field">Domicilio a efectos de notificaciones <span class="field-optional">(solo si es distinto al fiscal)</span>
+        <textarea id="fDomicilioNotif" maxlength="300" rows="2"></textarea>
+      </label>
+      <label class="field">IBAN para el cobro de honorarios <input type="text" id="fIban" maxlength="34" placeholder="ES00 0000 0000 0000 0000 0000" required /></label>
+    </fieldset>
+
+    <fieldset class="alta-section">
+      <legend>Situación fiscal actual</legend>
+      <p class="field-hint">Cuéntanos cómo tienes la situación ahora mismo — no se trata de decidir nada, solo de que la sepamos.</p>
+
+      {isAutonomo && (
+        <>
+          <label class="field">Fecha de alta como autónomo <input type="date" id="fFechaAlta" required /></label>
+          <label class="field">Epígrafe(s) IAE actuales <textarea id="fEpigrafes" maxlength="500" rows="2" required></textarea></label>
+
+          <div class="field-group">
+            <p class="field-group-label">Régimen de IVA actual</p>
+            <div class="radio-group" data-field="regimenIva">
+              <label class="radio-option"><input type="radio" name="regimenIva" value="general" /> General</label>
+              <label class="radio-option"><input type="radio" name="regimenIva" value="recargo_equivalencia" /> Recargo de equivalencia</label>
+              <label class="radio-option"><input type="radio" name="regimenIva" value="simplificado" /> Simplificado</label>
+              <label class="radio-option"><input type="radio" name="regimenIva" value="exento" /> Exento</label>
+              <label class="radio-option"><input type="radio" name="regimenIva" value="otro" /> Otro</label>
+            </div>
+            <input type="text" id="fRegimenIvaOtro" class="field-conditional-input" maxlength="100" placeholder="¿Cuál?" hidden />
+          </div>
+
+          <div class="field-group">
+            <p class="field-group-label">Régimen de IRPF actual</p>
+            <div class="radio-group" data-field="regimenIrpf">
+              <label class="radio-option"><input type="radio" name="regimenIrpf" value="directa_normal" /> Estimación directa normal</label>
+              <label class="radio-option"><input type="radio" name="regimenIrpf" value="directa_simplificada" /> Estimación directa simplificada</label>
+              <label class="radio-option"><input type="radio" name="regimenIrpf" value="modulos" /> Módulos</label>
+            </div>
+          </div>
+
+          <label class="checkbox-option"><input type="checkbox" id="fFacturaRetencion" /> Facturo actualmente con retención de IRPF</label>
+          <label class="field" id="fPorcentajeRetencionWrap" hidden>¿Qué porcentaje aplicas? <input type="number" id="fPorcentajeRetencion" min="0" max="100" step="0.01" /></label>
+        </>
+      )}
+
+      <label class="checkbox-option"><input type="checkbox" id="fTrabajadores" /> Tengo trabajadores a mi cargo</label>
+      <label class="field" id="fNumeroTrabajadoresWrap" hidden>¿Cuántos? <input type="number" id="fNumeroTrabajadores" min="1" step="1" /></label>
+
+      <label class="checkbox-option"><input type="checkbox" id="fIntracomunitarias" /> Tengo operaciones intracomunitarias / estoy en el ROI</label>
+    </fieldset>
+
+    <fieldset class="alta-section">
+      <legend>Continuidad con la gestoría anterior</legend>
+      <label class="checkbox-option"><input type="checkbox" id="fRequerimientos" /> Tengo requerimientos o procedimientos abiertos con la AEAT</label>
+      <label class="field" id="fDetalleRequerimientosWrap" hidden>Cuéntanos algo más <textarea id="fDetalleRequerimientos" maxlength="500" rows="2"></textarea></label>
+
+      <label class="field">Datos de contacto de tu gestoría anterior <span class="field-optional">(para poder reclamar documentación si hace falta)</span>
+        <textarea id="fContactoGestoria" maxlength="300" rows="2" required></textarea>
+      </label>
+
+      <div class="field-group">
+        <p class="field-group-label">Documentación que le vamos a pedir a tu gestoría anterior:</p>
+        <ul class="plain-list">
+          {docsGestoriaAnterior.map((d) => <li>{d}</li>)}
+        </ul>
+        <p class="field-hint">Nos ocupamos nosotros de pedirlo directamente, no tienes que hacer nada más que autorizarlo.</p>
+      </div>
+
+      <label class="checkbox-option">
+        <input type="checkbox" id="fAutorizaHistorico" required />
+        Autorizo a Asesoría Madal a solicitar a mi gestoría anterior el histórico de facturación/contabilidad del ejercicio en curso
+      </label>
+
+      <div class="field-group">
+        <p class="field-group-label">Documentación que nos tendrás que aportar tú:</p>
+        <ul class="plain-list">
+          {docsCliente.map((d) => <li>{d}</li>)}
+        </ul>
+        <p class="field-hint">No hace falta que la mandes ahora — te contactamos para recogerla en cuanto arranquemos.</p>
+      </div>
+    </fieldset>
+
+    <fieldset class="alta-section">
+      <legend>Recuerda</legend>
+      <p class="field-hint">
+        Hay trámites que tienes que hacer tú, no nosotros: revocar el apoderamiento a tu gestoría anterior en la
+        Sede Electrónica de la AEAT (si no lo haces, la anterior gestoría sigue viendo tus notificaciones), y
+        apoderarnos a nosotros en la AEAT y en la Seguridad Social (Sistema RED). Descarga estas guías con los
+        pasos exactos para apoderarnos:
+      </p>
+      <ul class="doc-list">
+        <li>
+          <a href="https://suslwmgqdzingeqhfrpw.supabase.co/storage/v1/object/public/docs-publicos/Pasos_Apoderamiento_Seguridad_Social.pdf" target="_blank" rel="noopener">
+            Pasos para el apoderamiento de la Seguridad Social (PDF)
+          </a>
+        </li>
+        <li>
+          <a href="https://suslwmgqdzingeqhfrpw.supabase.co/storage/v1/object/public/docs-publicos/Pasos_Apoderamiento_AEAT.pdf" target="_blank" rel="noopener">
+            Pasos para el apoderamiento de la AEAT (PDF)
+          </a>
+        </li>
+      </ul>
+      <p class="field-hint">
+        El documento de protección de datos (RGPD) ya te lo enviamos junto con el presupuesto — si ya nos lo has
+        devuelto firmado, no hace falta que lo vuelvas a pasar. Si no lo tienes a mano, aquí lo tienes de nuevo:
+        <a href="https://suslwmgqdzingeqhfrpw.supabase.co/storage/v1/object/public/docs-publicos/RGPD.pdf" target="_blank" rel="noopener">Información de Protección de Datos (RGPD) (PDF)</a>.
+      </p>
+    </fieldset>
+
+    <label class="consent">
+      <input type="checkbox" id="fPrivacy" required />
+      <span>He leído y acepto la <a href="/privacidad" target="_blank" rel="noopener">Política de Privacidad</a> de Asesoría Madal para el tratamiento de estos datos.</span>
+    </label>
+
+    <p class="form-error" id="formError" hidden>Revisa que todos los campos obligatorios estén rellenos y con un formato válido (NIF/CIF, IBAN, email, teléfono).</p>
+
+    <button type="submit" class="btn btn-primary form-submit" id="formSubmit">Enviar mis datos</button>
+  </form>
+
+  <div class="page view-block form-success" id="formSuccess" hidden>
+    <p class="eyebrow">Recibido</p>
+    <h2 class="section-title">Gracias, ya tenemos tus datos</h2>
+    <p class="section-sub">Los estamos revisando y nos ponemos en contacto contigo en cuanto tramitemos el siguiente paso.</p>
+  </div>
+</div>
+
+<script>
+  (function () {
+    const form = document.getElementById('traspasoForm') as HTMLFormElement | null;
+    if (!form) return;
+
+    const tipo = form.dataset.tipo === 'sl' ? 'sl' : 'autonomo';
+    const isAutonomo = tipo === 'autonomo';
+
+    const success = document.getElementById('formSuccess') as HTMLElement;
+    const errorEl = document.getElementById('formError') as HTMLElement;
+    const submitBtn = document.getElementById('formSubmit') as HTMLButtonElement;
+
+    function el<T extends HTMLElement>(id: string): T | null {
+      return document.getElementById(id) as T | null;
+    }
+
+    function radioValue(name: string): string | undefined {
+      const checked = form?.querySelector<HTMLInputElement>(`[name="${name}"]:checked`);
+      return checked?.value;
+    }
+
+    const regimenIvaOtro = el<HTMLInputElement>('fRegimenIvaOtro');
+    form.querySelectorAll<HTMLInputElement>('[name="regimenIva"]').forEach(function (radio) {
+      radio.addEventListener('change', function () {
+        if (regimenIvaOtro) regimenIvaOtro.hidden = radio.value !== 'otro' || !radio.checked;
+      });
+    });
+
+    const facturaRetencion = el<HTMLInputElement>('fFacturaRetencion');
+    const porcentajeWrap = el<HTMLElement>('fPorcentajeRetencionWrap');
+    const porcentajeInput = el<HTMLInputElement>('fPorcentajeRetencion');
+    facturaRetencion?.addEventListener('change', function () {
+      if (porcentajeWrap) porcentajeWrap.hidden = !facturaRetencion.checked;
+      if (!facturaRetencion.checked && porcentajeInput) porcentajeInput.value = '';
+    });
+
+    const trabajadores = el<HTMLInputElement>('fTrabajadores');
+    const numTrabajadoresWrap = el<HTMLElement>('fNumeroTrabajadoresWrap');
+    const numTrabajadoresInput = el<HTMLInputElement>('fNumeroTrabajadores');
+    trabajadores?.addEventListener('change', function () {
+      if (numTrabajadoresWrap) numTrabajadoresWrap.hidden = !trabajadores.checked;
+      if (!trabajadores.checked && numTrabajadoresInput) numTrabajadoresInput.value = '';
+    });
+
+    const requerimientos = el<HTMLInputElement>('fRequerimientos');
+    const detalleWrap = el<HTMLElement>('fDetalleRequerimientosWrap');
+    const detalleInput = el<HTMLTextAreaElement>('fDetalleRequerimientos');
+    requerimientos?.addEventListener('change', function () {
+      if (detalleWrap) detalleWrap.hidden = !requerimientos.checked;
+      if (!requerimientos.checked && detalleInput) detalleInput.value = '';
+    });
+
+    form.addEventListener('submit', async function (e) {
+      e.preventDefault();
+      errorEl.hidden = true;
+
+      const identificacionDigital = radioValue('identificacionDigital');
+      const regimenIva = isAutonomo ? radioValue('regimenIva') : undefined;
+      const regimenIrpf = isAutonomo ? radioValue('regimenIrpf') : undefined;
+
+      if (!identificacionDigital || (isAutonomo && (!regimenIva || !regimenIrpf))) {
+        errorEl.hidden = false;
+        return;
+      }
+
+      const body: Record<string, unknown> = {
+        tipo,
+        identificacionDigital,
+        nombreRazonSocial: el<HTMLInputElement>('fNombreRazonSocial')!.value.trim(),
+        nifCif: el<HTMLInputElement>('fNifCif')!.value.trim(),
+        email: el<HTMLInputElement>('fEmail')!.value.trim(),
+        telefono: el<HTMLInputElement>('fTelefono')!.value.trim(),
+        domicilioFiscal: el<HTMLTextAreaElement>('fDomicilioFiscal')!.value.trim(),
+        iban: el<HTMLInputElement>('fIban')!.value.trim(),
+        tieneTrabajadores: !!trabajadores?.checked,
+        operacionesIntracomunitarias: !!el<HTMLInputElement>('fIntracomunitarias')?.checked,
+        tieneRequerimientosAeat: !!requerimientos?.checked,
+        contactoGestoriaAnterior: el<HTMLTextAreaElement>('fContactoGestoria')!.value.trim(),
+        autorizaSolicitarHistorico: !!el<HTMLInputElement>('fAutorizaHistorico')?.checked,
+        privacyAccepted: !!el<HTMLInputElement>('fPrivacy')?.checked,
+      };
+
+      const domicilioNotif = el<HTMLTextAreaElement>('fDomicilioNotif')?.value.trim();
+      if (domicilioNotif) body.domicilioNotificaciones = domicilioNotif;
+
+      if (!isAutonomo) {
+        body.domicilioSocial = el<HTMLTextAreaElement>('fDomicilioSocial')!.value.trim();
+      }
+
+      if (isAutonomo) {
+        body.fechaAltaActividad = el<HTMLInputElement>('fFechaAlta')!.value;
+        body.epigrafesIaeActuales = el<HTMLTextAreaElement>('fEpigrafes')!.value.trim();
+        body.regimenIvaActual = regimenIva === 'otro' ? (regimenIvaOtro?.value.trim() || 'otro') : regimenIva;
+        body.regimenIrpfActual = regimenIrpf;
+        body.facturaConRetencion = !!facturaRetencion?.checked;
+        if (facturaRetencion?.checked && porcentajeInput?.value) {
+          body.porcentajeRetencion = Number(porcentajeInput.value);
+        }
+      }
+
+      if (trabajadores?.checked && numTrabajadoresInput?.value) {
+        body.numeroTrabajadores = Number(numTrabajadoresInput.value);
+      }
+
+      if (requerimientos?.checked) {
+        const detalle = detalleInput?.value.trim();
+        if (detalle) body.detalleRequerimientosAeat = detalle;
+      }
+
+      submitBtn.disabled = true;
+      try {
+        const res = await fetch('/api/traspaso', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(body),
+        });
+        if (!res.ok) throw new Error('bad response');
+        form.hidden = true;
+        success.hidden = false;
+      } catch (err) {
+        errorEl.hidden = false;
+        submitBtn.disabled = false;
+      }
+    });
+  })();
+</script>
+
+<style>
+  .plain-list { list-style: disc; padding-left: 1.3rem; display: flex; flex-direction: column; gap: 0.35rem; font-size: 0.88rem; color: var(--ink); }
+  .field-conditional-input {
+    margin-top: 0.6rem;
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    padding: 0.65rem 0.85rem;
+    border: 1.5px solid var(--line);
+    border-radius: 10px;
+    background: var(--paper-raised);
+    color: var(--ink);
+    max-width: 300px;
+  }
+</style>

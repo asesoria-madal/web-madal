@@ -1,0 +1,250 @@
+---
+// Formulario de una sola página (no wizard tipo Simulador.astro): aquí no
+// hay ramas de preguntas ni precio que calcular, solo muchos campos de
+// datos que Edurne necesita para tramitar el alta — un formulario largo
+// tradicional, agrupado por secciones, es más rápido de rellenar que un
+// wizard de una pregunta por pantalla.
+//
+// Página deliberadamente solo en español y sin enlazar desde el menú: se
+// manda el link directo al cliente ya identificado (español), así que no
+// hace falta el ca/en que sí tiene el resto del sitio público.
+---
+
+<div id="view-alta-form">
+  <div class="page view-intro">
+    <p class="eyebrow">Alta de autónomo</p>
+    <h2 class="section-title">Tus datos para tramitar el alta</h2>
+    <p class="section-sub">
+      Rellena este formulario con calma — con esto tenemos todo lo que necesitamos para darte de alta en Hacienda y
+      Seguridad Social. Si algo no lo sabes seguro, indícalo y lo revisamos juntos.
+    </p>
+  </div>
+
+  <form id="altaForm" class="alta-form page view-block" novalidate>
+    <input type="hidden" id="fQuoteCode" name="quoteCode" />
+
+    <fieldset class="alta-section">
+      <legend>Identificación digital</legend>
+      <p class="field-hint">Para tramitar el alta necesitamos operar en tu nombre ante la Administración.</p>
+      <div class="radio-group" data-field="identificacionDigital">
+        <label class="radio-option"><input type="radio" name="identificacionDigital" value="certificado" /> Tengo certificado digital</label>
+        <label class="radio-option"><input type="radio" name="identificacionDigital" value="clave_pin" /> Tengo Cl@ve PIN</label>
+        <label class="radio-option"><input type="radio" name="identificacionDigital" value="ninguno" /> No tengo ninguno de los dos</label>
+      </div>
+    </fieldset>
+
+    <fieldset class="alta-section">
+      <legend>Datos básicos</legend>
+      <label class="field">Nombre y apellidos completos <input type="text" id="fNombre" maxlength="150" required /></label>
+      <label class="field">NIF / NIE <input type="text" id="fNif" maxlength="9" placeholder="12345678A" required /></label>
+      <label class="field">Email <input type="email" id="fEmail" maxlength="254" required /></label>
+      <label class="field">Teléfono <input type="tel" id="fTelefono" maxlength="20" required /></label>
+      <label class="field">Domicilio fiscal completo <textarea id="fDomicilioFiscal" maxlength="300" rows="2" required></textarea></label>
+      <label class="field">Domicilio a efectos de notificaciones <span class="field-optional">(solo si es distinto al fiscal)</span>
+        <textarea id="fDomicilioNotif" maxlength="300" rows="2"></textarea>
+      </label>
+      <label class="field">IBAN para la cuota de autónomo <input type="text" id="fIban" maxlength="34" placeholder="ES00 0000 0000 0000 0000 0000" required /></label>
+    </fieldset>
+
+    <fieldset class="alta-section">
+      <legend>Datos de la actividad económica</legend>
+      <label class="field">Epígrafe(s) IAE <span class="field-optional">(el código exacto si lo conoces, o descríbenos todas las actividades que vas a hacer)</span>
+        <textarea id="fEpigrafes" maxlength="500" rows="3" required></textarea>
+      </label>
+      <label class="field">Fecha real de inicio de actividad <input type="date" id="fFechaInicio" required /></label>
+
+      <div class="field-group">
+        <p class="field-group-label">¿Dónde vas a ejercer la actividad?</p>
+        <div class="radio-group" data-field="tipoLocal">
+          <label class="radio-option"><input type="radio" name="tipoLocal" value="casa" /> Desde casa</label>
+          <label class="radio-option"><input type="radio" name="tipoLocal" value="oficina" /> En una oficina / local</label>
+          <label class="radio-option"><input type="radio" name="tipoLocal" value="sin_local" /> Sin local (actividad sin sede fija)</label>
+        </div>
+        <p class="field-hint">Ojo: según la actividad y el local, puede aplicarte la tasa de basuras — si tienes dudas lo miramos juntos.</p>
+      </div>
+
+      <label class="field" id="fDomicilioLocalWrap">Domicilio del local de actividad <textarea id="fDomicilioLocal" maxlength="300" rows="2"></textarea></label>
+
+      <label class="checkbox-option"><input type="checkbox" id="fMultiplesLocales" /> Voy a tener más de un local o centro de trabajo</label>
+      <label class="field" id="fDetalleLocalesWrap" hidden>Cuéntanos algo más de esos otros locales <textarea id="fDetalleLocales" maxlength="300" rows="2"></textarea></label>
+
+      <label class="checkbox-option"><input type="checkbox" id="fColegiada" /> Es una profesión colegiada (abogado/a, arquitecto/a, médico/a...)</label>
+      <div class="field-group" id="fRegimenCotizacionWrap" hidden>
+        <p class="field-group-label">¿Vas a cotizar por RETA o por la mutualidad alternativa del colegio?</p>
+        <div class="radio-group" data-field="regimenCotizacion">
+          <label class="radio-option"><input type="radio" name="regimenCotizacion" value="reta" /> RETA</label>
+          <label class="radio-option"><input type="radio" name="regimenCotizacion" value="mutualidad" /> Mutualidad alternativa</label>
+        </div>
+      </div>
+    </fieldset>
+
+    <fieldset class="alta-section">
+      <legend>Datos de IVA</legend>
+      <label class="checkbox-option"><input type="checkbox" id="fIntracomunitarias" /> Voy a facturar operaciones intracomunitarias (con clientes o proveedores de otros países de la UE)</label>
+    </fieldset>
+
+    <fieldset class="alta-section">
+      <legend>Datos de IRPF</legend>
+      <div class="field-group">
+        <p class="field-group-label">¿Vas a facturar con retención de IRPF?</p>
+        <div class="radio-group" data-field="retencionIrpf">
+          <label class="radio-option"><input type="radio" name="retencionIrpf" value="si" /> Sí</label>
+          <label class="radio-option"><input type="radio" name="retencionIrpf" value="no" /> No</label>
+          <label class="radio-option"><input type="radio" name="retencionIrpf" value="no_sabe" /> No lo sé, lo miráis vosotros</label>
+        </div>
+      </div>
+      <label class="checkbox-option"><input type="checkbox" id="fTrabajadores" /> Voy a tener trabajadores a mi cargo</label>
+    </fieldset>
+
+    <fieldset class="alta-section">
+      <legend>Recuerda</legend>
+      <p class="field-hint">
+        Tienes que apoderarnos para que podamos darte de alta y, en el futuro, seguir presentando tus impuestos.
+        Descarga estas guías con los pasos exactos:
+      </p>
+      <ul class="doc-list">
+        <li>
+          <a href="https://suslwmgqdzingeqhfrpw.supabase.co/storage/v1/object/public/docs-publicos/Pasos_Apoderamiento_Seguridad_Social.pdf" target="_blank" rel="noopener">
+            Pasos para el apoderamiento de la Seguridad Social (PDF)
+          </a>
+        </li>
+        <li>
+          <a href="https://suslwmgqdzingeqhfrpw.supabase.co/storage/v1/object/public/docs-publicos/Pasos_Apoderamiento_AEAT.pdf" target="_blank" rel="noopener">
+            Pasos para el apoderamiento de la AEAT (PDF)
+          </a>
+        </li>
+      </ul>
+      <p class="field-hint">
+        El documento de protección de datos (RGPD) ya te lo enviamos junto con el presupuesto — si ya nos lo has
+        devuelto firmado, no hace falta que lo vuelvas a pasar. Si no lo tienes a mano, aquí lo tienes de nuevo:
+        <a href="https://suslwmgqdzingeqhfrpw.supabase.co/storage/v1/object/public/docs-publicos/RGPD.pdf" target="_blank" rel="noopener">Información de Protección de Datos (RGPD) (PDF)</a>.
+      </p>
+    </fieldset>
+
+    <label class="consent">
+      <input type="checkbox" id="fPrivacy" required />
+      <span>He leído y acepto la <a href="/privacidad" target="_blank" rel="noopener">Política de Privacidad</a> de Asesoría Madal para el tratamiento de estos datos.</span>
+    </label>
+
+    <p class="form-error" id="formError" hidden>Revisa que todos los campos obligatorios estén rellenos y con un formato válido (NIF/NIE, IBAN, email, teléfono).</p>
+
+    <button type="submit" class="btn btn-primary form-submit" id="formSubmit">Enviar mis datos</button>
+  </form>
+
+  <div class="page view-block form-success" id="formSuccess" hidden>
+    <p class="eyebrow">Recibido</p>
+    <h2 class="section-title">Gracias, ya tenemos tus datos</h2>
+    <p class="section-sub">Los estamos revisando y nos ponemos en contacto contigo en cuanto tramitemos el siguiente paso.</p>
+  </div>
+</div>
+
+<script>
+  (function () {
+    const form = document.getElementById('altaForm') as HTMLFormElement | null;
+    if (!form) return;
+
+    const success = document.getElementById('formSuccess') as HTMLElement;
+    const errorEl = document.getElementById('formError') as HTMLElement;
+    const submitBtn = document.getElementById('formSubmit') as HTMLButtonElement;
+
+    const quoteCodeInput = document.getElementById('fQuoteCode') as HTMLInputElement;
+    const params = new URLSearchParams(window.location.search);
+    const quoteParam = params.get('quote');
+    if (quoteParam) quoteCodeInput.value = quoteParam;
+
+    const tipoLocalWrap = document.getElementById('fDomicilioLocalWrap') as HTMLElement;
+    const domicilioLocalInput = document.getElementById('fDomicilioLocal') as HTMLTextAreaElement;
+    form.querySelectorAll<HTMLInputElement>('[name="tipoLocal"]').forEach(function (radio) {
+      radio.addEventListener('change', function () {
+        const sinLocal = radio.value === 'sin_local' && radio.checked;
+        tipoLocalWrap.hidden = sinLocal;
+        if (sinLocal) domicilioLocalInput.value = '';
+      });
+    });
+
+    const multiplesLocales = document.getElementById('fMultiplesLocales') as HTMLInputElement;
+    const detalleLocalesWrap = document.getElementById('fDetalleLocalesWrap') as HTMLElement;
+    const detalleLocalesInput = document.getElementById('fDetalleLocales') as HTMLTextAreaElement;
+    multiplesLocales.addEventListener('change', function () {
+      detalleLocalesWrap.hidden = !multiplesLocales.checked;
+      if (!multiplesLocales.checked) detalleLocalesInput.value = '';
+    });
+
+    const colegiada = document.getElementById('fColegiada') as HTMLInputElement;
+    const regimenWrap = document.getElementById('fRegimenCotizacionWrap') as HTMLElement;
+    colegiada.addEventListener('change', function () {
+      regimenWrap.hidden = !colegiada.checked;
+      if (!colegiada.checked) {
+        form.querySelectorAll<HTMLInputElement>('[name="regimenCotizacion"]').forEach(function (r) { r.checked = false; });
+      }
+    });
+
+    function radioValue(name: string): string | undefined {
+      const checked = form?.querySelector<HTMLInputElement>(`[name="${name}"]:checked`);
+      return checked?.value;
+    }
+
+    form.addEventListener('submit', async function (e) {
+      e.preventDefault();
+      errorEl.hidden = true;
+
+      const identificacionDigital = radioValue('identificacionDigital');
+      const tipoLocal = radioValue('tipoLocal');
+      const retencionIrpf = radioValue('retencionIrpf');
+      const regimenCotizacion = colegiada.checked ? radioValue('regimenCotizacion') : undefined;
+
+      if (!identificacionDigital || !tipoLocal || !retencionIrpf || (colegiada.checked && !regimenCotizacion)) {
+        errorEl.hidden = false;
+        return;
+      }
+
+      const body: Record<string, unknown> = {
+        identificacionDigital,
+        nombreCompleto: (document.getElementById('fNombre') as HTMLInputElement).value.trim(),
+        nifNie: (document.getElementById('fNif') as HTMLInputElement).value.trim(),
+        email: (document.getElementById('fEmail') as HTMLInputElement).value.trim(),
+        telefono: (document.getElementById('fTelefono') as HTMLInputElement).value.trim(),
+        domicilioFiscal: (document.getElementById('fDomicilioFiscal') as HTMLTextAreaElement).value.trim(),
+        iban: (document.getElementById('fIban') as HTMLInputElement).value.trim(),
+        epigrafesIae: (document.getElementById('fEpigrafes') as HTMLTextAreaElement).value.trim(),
+        fechaInicioActividad: (document.getElementById('fFechaInicio') as HTMLInputElement).value,
+        tipoLocal,
+        multiplesLocales: multiplesLocales.checked,
+        profesionColegiada: colegiada.checked,
+        operacionesIntracomunitarias: (document.getElementById('fIntracomunitarias') as HTMLInputElement).checked,
+        retencionIrpf,
+        tendraTrabajadores: (document.getElementById('fTrabajadores') as HTMLInputElement).checked,
+        privacyAccepted: (document.getElementById('fPrivacy') as HTMLInputElement).checked,
+      };
+
+      const domicilioNotif = (document.getElementById('fDomicilioNotif') as HTMLTextAreaElement).value.trim();
+      if (domicilioNotif) body.domicilioNotificaciones = domicilioNotif;
+
+      if (tipoLocal !== 'sin_local') body.domicilioLocal = domicilioLocalInput.value.trim();
+
+      if (multiplesLocales.checked) {
+        const detalle = detalleLocalesInput.value.trim();
+        if (detalle) body.detalleLocalesAdicionales = detalle;
+      }
+
+      if (colegiada.checked) body.regimenCotizacion = regimenCotizacion;
+
+      if (quoteCodeInput.value.trim()) body.quoteCode = quoteCodeInput.value.trim();
+
+      submitBtn.disabled = true;
+      try {
+        const res = await fetch('/api/alta-autonomo', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(body),
+        });
+        if (!res.ok) throw new Error('bad response');
+        form.hidden = true;
+        success.hidden = false;
+      } catch (err) {
+        errorEl.hidden = false;
+        submitBtn.disabled = false;
+      }
+    });
+  })();
+</script>

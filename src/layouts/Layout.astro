@@ -17,9 +17,10 @@ interface Props {
   description?: string;
   showCtaFinal?: boolean;
   noindex?: boolean;
+  minimalHeader?: boolean;
 }
 
-const { lang, path, active, title, description, showCtaFinal = true, noindex = false } = Astro.props;
+const { lang, path, active, title, description, showCtaFinal = true, noindex = false, minimalHeader = false } = Astro.props;
 const t = useTranslations(lang);
 
 // localizedPath normaliza tanto si `path` llega con prefijo de idioma
@@ -86,7 +87,7 @@ const ogLocale: Record<Locale, string> = { es: 'es_ES', ca: 'ca_ES', en: 'en_GB'
     </script>
   </head>
   <body>
-    <Header lang={lang} path={path} active={active} />
+    <Header lang={lang} path={path} active={active} minimal={minimalHeader} />
     <slot />
     {showCtaFinal && (
       <section class="cta-final" id="cta-final">

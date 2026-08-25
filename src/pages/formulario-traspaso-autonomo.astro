@@ -1,0 +1,10 @@
+---
+import Layout from '../layouts/Layout.astro';
+import FormularioTraspaso from '../components/pages/FormularioTraspaso.astro';
+
+export const prerender = true;
+---
+
+<Layout lang="es" path="/formulario-traspaso-autonomo" active="none" title="Datos para tu traspaso · Asesoría Madal" description="Formulario con los datos que necesitamos para traspasar tu contabilidad como autónomo." noindex showCtaFinal={false} minimalHeader>
+  <FormularioTraspaso tipo="autonomo" />
+</Layout>
