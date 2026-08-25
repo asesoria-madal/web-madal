@@ -413,13 +413,14 @@ const dashboardsCtaHref = `mailto:contacto@asesoriamadal.es?subject=${encodeURIC
       let fallos = 0;
 
       for (const file of files) {
-        // La ruta en Storage usa el NIF del cliente (así lo exige la política
-        // de Storage, ver schema.sql) — mismo id que cliente_id en
-        // facturas_subidas, para que la carpeta sea identificable a mano
-        // (Drive, revisión manual) en vez de un uid opaco. Se añade un id
-        // aleatorio además del timestamp para que dos archivos subidos en el
-        // mismo milisegundo no choquen de ruta.
-        const path = `${clienteId}/${Date.now()}-${crypto.randomUUID()}-${file.name}`;
+        // La ruta en Storage usa el NIF del cliente tanto para la carpeta
+        // (así lo exige la política de Storage, ver schema.sql) como para
+        // prefijar el propio nombre de archivo — mismo id que cliente_id en
+        // facturas_subidas, para que carpeta y archivo sean identificables a
+        // mano (Drive, revisión manual) en vez de un uid opaco. Se añade un
+        // id aleatorio además del timestamp para que dos archivos subidos en
+        // el mismo milisegundo no choquen de ruta.
+        const path = `${clienteId}/${clienteId}-${Date.now()}-${crypto.randomUUID()}-${file.name}`;
         const { error } = await supabase!.storage.from('facturas').upload(path, file, {
           contentType: 'application/pdf',
         });
