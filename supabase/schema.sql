@@ -254,11 +254,17 @@ alter table traspasos_nuevos enable row level security;
 -- silenciosamente cualquier email que no esté en esta tabla, así nadie
 -- ajeno puede generarse una cuenta escribiendo un email cualquiera).
 --
--- "id" es un identificador propio, generado al dar de alta, independiente
--- de Auth: así se puede crear la fila del cliente (con solo su email) sin
--- esperar a que inicie sesión por primera vez. "auth_user_id" empieza
--- vacío y se rellena solo — vía trigger, ver más abajo — la primera vez
--- que ese email inicia sesión. La política RLS usa auth_user_id, no id.
+-- "id" es el NIF/NIE del cliente (texto, normalizado en mayúsculas por
+-- quien lo inserta), no un uuid generado: el NIF ya es único de por sí, así
+-- que usarlo como PK evita mantener un identificador redundante y permite
+-- que el workflow de n8n que da de alta al cliente (al firmar el
+-- presupuesto) y el que recibe las respuestas de los formularios busquen y
+-- vinculen todo directamente por NIF. Se crea la fila del cliente (con
+-- email + NIF) sin esperar a que inicie sesión por primera vez.
+-- "auth_user_id" empieza vacío y se rellena solo — vía trigger, ver más
+-- abajo — la primera vez que ese email inicia sesión. La política RLS usa
+-- auth_user_id, no id: el login por magic link no depende en absoluto del
+-- valor ni del tipo de "id" (ver migración más abajo).
 --
 -- Pendiente de definir con la socia: la tabla (o tablas) con los datos
 -- financieros reales que verá cada cliente (facturación, gastos,
@@ -275,7 +281,7 @@ alter table traspasos_nuevos enable row level security;
 -- se recrea la base desde cero); queda NULL para clientes sin ese dato
 -- marcado, y el portal muestra un aviso en vez de un enlace mientras tanto.
 create table if not exists clientes (
-  id uuid primary key default gen_random_uuid(),
+  id text primary key, -- NIF/NIE, en mayúsculas (ver comentario arriba)
   auth_user_id uuid unique references auth.users (id) on delete set null,
   nombre text not null,
   empresa text,
@@ -376,6 +382,62 @@ create trigger on_auth_user_created
 --   );
 
 -- ---------------------------------------------------------------------
+-- MIGRACIÓN (2026-08-25): clientes.id pasa de uuid aleatorio a NIF/NIE
+-- (texto). Motivo: el NIF ya es único de por sí, así que un uuid aparte es
+-- redundante y obliga a un lookup extra en los workflows de n8n; con
+-- id = NIF, tanto el workflow de alta (presupuesto firmado -> crea cliente)
+-- como el que recibe las respuestas de los 3 formularios pueden
+-- buscar/crear la fila directamente por NIF, sin paso intermedio.
+--
+-- Comprobado antes de hacer esto: el login por magic link NO depende de
+-- id. La política RLS de clientes usa auth_user_id (columna aparte,
+-- rellenada por el trigger vincular_cliente_nuevo cuando el email
+-- coincide), y api/portal-login.ts solo comprueba si existe una fila por
+-- email (usa el resultado como boolean, nunca lee el valor de id). El
+-- único punto que sí dependía del tipo de id era la FK de
+-- facturas_subidas.cliente_id.
+--
+-- Ejecutar UNA VEZ, en este orden. A fecha de esta migración solo había 2
+-- clientes de prueba sin facturas reales asociadas, así que el camino
+-- elegido es borrar y recrear en vez de migrar valores fila a fila (mucho
+-- más simple con datos de prueba). Si para cuando ejecutes esto ya hay
+-- clientes reales dados de alta, NO uses los DELETE de abajo tal cual:
+-- hace falta primero anotar el NIF real de cada cliente y hacer un UPDATE
+-- fila a fila en vez de borrar.
+
+-- 1. Quitar la FK mientras cambiamos el tipo de columna en ambos lados.
+alter table facturas_subidas drop constraint if exists facturas_subidas_cliente_id_fkey;
+
+-- 2. Borrar los clientes de prueba (y cualquier factura de prueba que
+--    dependa de ellos). Anota antes su nombre/email si los quieres
+--    recrear igual, con el NIF real en vez de un valor inventado.
+delete from facturas_subidas;
+delete from clientes;
+
+-- 3. Cambiar el tipo de columna: quitamos el default aleatorio de
+--    clientes.id (a partir de ahora siempre lo pone quien inserta la fila:
+--    el workflow de n8n) y pasamos ambas columnas a text.
+alter table clientes alter column id drop default;
+alter table clientes alter column id type text using id::text;
+alter table facturas_subidas alter column cliente_id type text using cliente_id::text;
+
+-- 4. Recrear la FK. "on update cascade" es nuevo a propósito: con un uuid
+--    random nadie lo escribía a mano así que nunca hacía falta corregirlo,
+--    pero un NIF sí se puede teclear mal — con cascade, corregir el NIF de
+--    un cliente ya dado de alta es un UPDATE en clientes.id y se propaga
+--    solo a facturas_subidas, sin migración manual.
+alter table facturas_subidas
+  add constraint facturas_subidas_cliente_id_fkey
+  foreign key (cliente_id) references clientes (id)
+  on delete cascade on update cascade;
+
+-- 5. Recrear los clientes de prueba con NIF real como id (ejemplo — pon
+--    los datos y NIFs de prueba que quieras usar):
+-- insert into clientes (id, nombre, email, tipo_persona) values
+--   ('12345678A', 'Cliente Prueba Uno', 'prueba1@example.com', 'autonomo'),
+--   ('87654321B', 'Cliente Prueba Dos', 'prueba2@example.com', 'autonomo');
+
+-- ---------------------------------------------------------------------
 -- Storage: bucket "facturas" (subida de facturas desde el portal).
 -- Cada archivo se guarda en la ruta `${auth.uid()}/archivo.pdf` (ver
 -- Portal.astro), así que las políticas de storage.objects restringen a
@@ -413,7 +475,7 @@ create trigger on_auth_user_created
 -- independientes.
 create table if not exists facturas_subidas (
   id bigint generated always as identity primary key,
-  cliente_id uuid not null references clientes (id) on delete cascade,
+  cliente_id text not null references clientes (id) on delete cascade on update cascade,
   nombre_archivo text not null,
   storage_path text,
   fecha_subida timestamptz not null default now(),
