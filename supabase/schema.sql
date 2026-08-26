@@ -662,19 +662,50 @@ create table if not exists dashboard_periodos (
   iva_repercutido numeric,
   iva_soportado numeric,
   iva_resultado numeric,
+  iva_a_compensar numeric,
   base_111 numeric,
   retenido_111 numeric,
   base_115 numeric,
   retenido_115 numeric,
   pago_fraccionado_130 numeric,
+  ingresos_ytd numeric,
+  gastos_ytd numeric,
+  retenciones_soportadas_ytd numeric,
   sincronizado_at timestamptz not null default now(),
   unique (cliente_id, periodo)
 );
+
+-- Si la tabla ya existía de antes de estas columnas (2026-08-26, junto con
+-- el panel de finanzas del portal y el desglose de gastos por categoría):
+alter table dashboard_periodos add column if not exists iva_a_compensar numeric;
+alter table dashboard_periodos add column if not exists ingresos_ytd numeric;
+alter table dashboard_periodos add column if not exists gastos_ytd numeric;
+alter table dashboard_periodos add column if not exists retenciones_soportadas_ytd numeric;
 
 alter table dashboard_periodos enable row level security;
 
 create policy "cliente ve sus propios periodos"
   on dashboard_periodos for select
+  using (cliente_id in (select id from clientes where auth_user_id = auth.uid()));
+
+-- Desglose de gastos por subcuenta del mes (ver DashboardData.gastosMes en
+-- el Java) — igual que dashboard_pendientes, cada sincronización borra y
+-- reinserta las filas del cliente para ese periodo, no es histórico
+-- acumulativo dentro de un mismo mes (sí lo es entre meses, vía "periodo").
+create table if not exists dashboard_gastos_categoria (
+  id uuid primary key default gen_random_uuid(),
+  cliente_id text not null references clientes (id) on delete cascade on update cascade,
+  periodo date not null,
+  categoria text not null,
+  importe numeric not null,
+  sincronizado_at timestamptz not null default now(),
+  unique (cliente_id, periodo, categoria)
+);
+
+alter table dashboard_gastos_categoria enable row level security;
+
+create policy "cliente ve sus propios gastos por categoria"
+  on dashboard_gastos_categoria for select
   using (cliente_id in (select id from clientes where auth_user_id = auth.uid()));
 
 -- No hay ids estables en COBROS.DBF/PAGOS.DBF de Visionwin, así que cada

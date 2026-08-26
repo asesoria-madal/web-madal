@@ -96,14 +96,15 @@ const dashboardsCtaHref = `mailto:contacto@asesoriamadal.es?subject=${encodeURIC
                 Todavía no hay datos cargados. En cuanto tengamos tus números, aparecerán aquí como gráficas.
               </div>
               <div id="finanzas-datos" hidden>
-                <p class="field-hint" id="finanzas-periodo"></p>
-                <div class="portal-stats">
+                <p class="field-hint" id="finanzas-actualizado"></p>
+
+                <div class="portal-stats portal-stats-color">
                   <div class="portal-stat">
-                    <span class="portal-stat-value" id="stat-ingresos">—</span>
+                    <span class="portal-stat-value is-good" id="stat-ingresos">—</span>
                     <span class="portal-stat-label">Ingresos del mes</span>
                   </div>
                   <div class="portal-stat">
-                    <span class="portal-stat-value" id="stat-gastos">—</span>
+                    <span class="portal-stat-value is-bad" id="stat-gastos">—</span>
                     <span class="portal-stat-label">Gastos del mes</span>
                   </div>
                   <div class="portal-stat">
@@ -114,16 +115,54 @@ const dashboardsCtaHref = `mailto:contacto@asesoriamadal.es?subject=${encodeURIC
                     <span class="portal-stat-value" id="stat-tesoreria">—</span>
                     <span class="portal-stat-label">Tesorería (caja y bancos)</span>
                   </div>
+                </div>
+
+                <h3 class="finanzas-subtitle">Evolución de los últimos meses</h3>
+                <div id="finanzas-evolucion" class="finanzas-evolucion"></div>
+                <div class="finanzas-evo-legend">
+                  <span><i class="dot" style="background:var(--accent)"></i> Ingresos</span>
+                  <span><i class="dot" style="background:var(--warm)"></i> Gastos</span>
+                  <span><i class="dot" style="background:var(--ink)"></i> Beneficio</span>
+                </div>
+
+                <h3 class="finanzas-subtitle">Acumulado del año</h3>
+                <div class="portal-stats portal-stats-color">
                   <div class="portal-stat">
-                    <span class="portal-stat-value" id="stat-iva">—</span>
-                    <span class="portal-stat-label" id="stat-iva-label">IVA del trimestre</span>
+                    <span class="portal-stat-value is-good" id="stat-ingresos-ytd">—</span>
+                    <span class="portal-stat-label">Ingresos acumulados</span>
                   </div>
                   <div class="portal-stat">
-                    <span class="portal-stat-value" id="stat-130">—</span>
-                    <span class="portal-stat-label">Pago fraccionado estimado (modelo 130)</span>
+                    <span class="portal-stat-value is-bad" id="stat-gastos-ytd">—</span>
+                    <span class="portal-stat-label">Gastos acumulados</span>
+                  </div>
+                  <div class="portal-stat">
+                    <span class="portal-stat-value" id="stat-beneficio-ytd">—</span>
+                    <span class="portal-stat-label">Beneficio acumulado</span>
                   </div>
                 </div>
 
+                <h3 class="finanzas-subtitle">Gastos por tipo — este mes</h3>
+                <p id="gastosCategoriaEmpty" class="factura-empty" hidden>Sin gastos registrados este mes.</p>
+                <div id="gastosCategoriaList" class="finanzas-barlist"></div>
+
+                <h3 class="finanzas-subtitle">IVA del trimestre</h3>
+                <div class="finanzas-detalle">
+                  <div class="finanzas-detalle-linea"><span>IVA repercutido</span><span id="iva-repercutido">—</span></div>
+                  <div class="finanzas-detalle-linea"><span>IVA soportado</span><span id="iva-soportado">—</span></div>
+                  <div class="finanzas-detalle-linea"><span>A compensar de periodos anteriores</span><span id="iva-compensar">—</span></div>
+                  <div class="finanzas-detalle-linea finanzas-detalle-total"><span id="iva-resultado-label">Resultado</span><span id="iva-resultado-final">—</span></div>
+                </div>
+
+                <h3 class="finanzas-subtitle">Modelo 130 — pago fraccionado IRPF</h3>
+                <div class="finanzas-detalle">
+                  <div class="finanzas-detalle-linea"><span>Ingresos acumulados del año</span><span id="m130-ingresos">—</span></div>
+                  <div class="finanzas-detalle-linea"><span>Gastos acumulados del año</span><span id="m130-gastos">—</span></div>
+                  <div class="finanzas-detalle-linea"><span>Rendimiento neto</span><span id="m130-rendimiento">—</span></div>
+                  <div class="finanzas-detalle-linea"><span>Retenciones ya soportadas</span><span id="m130-retenciones">—</span></div>
+                  <div class="finanzas-detalle-linea finanzas-detalle-total"><span>Pago fraccionado estimado (20%)</span><span id="m130-pago">—</span></div>
+                </div>
+
+                <h3 class="finanzas-subtitle">Cobros y pagos pendientes</h3>
                 <div class="finanzas-pendientes">
                   <div>
                     <p class="field-group-label">Cobros pendientes</p>
@@ -138,7 +177,7 @@ const dashboardsCtaHref = `mailto:contacto@asesoriamadal.es?subject=${encodeURIC
                 </div>
 
                 <p class="field-hint finanzas-disclaimer">
-                  Cifras estimadas a partir de tu contabilidad, actualizadas una vez por semana. Antes de presentar cualquier modelo, lo revisamos contigo con el cálculo oficial.
+                  Cifras estimadas a partir de tu contabilidad. Antes de presentar cualquier modelo, lo revisamos contigo con el cálculo oficial.
                 </p>
               </div>
             </div>
@@ -250,14 +289,27 @@ const dashboardsCtaHref = `mailto:contacto@asesoriamadal.es?subject=${encodeURIC
 
   const finanzasEmptyEl = document.getElementById('finanzas-empty') as HTMLElement;
   const finanzasDatosEl = document.getElementById('finanzas-datos') as HTMLElement;
-  const finanzasPeriodoEl = document.getElementById('finanzas-periodo') as HTMLElement;
+  const finanzasActualizadoEl = document.getElementById('finanzas-actualizado') as HTMLElement;
   const statIngresosEl = document.getElementById('stat-ingresos') as HTMLElement;
   const statGastosEl = document.getElementById('stat-gastos') as HTMLElement;
   const statResultadoEl = document.getElementById('stat-resultado') as HTMLElement;
   const statTesoreriaEl = document.getElementById('stat-tesoreria') as HTMLElement;
-  const statIvaEl = document.getElementById('stat-iva') as HTMLElement;
-  const statIvaLabelEl = document.getElementById('stat-iva-label') as HTMLElement;
-  const stat130El = document.getElementById('stat-130') as HTMLElement;
+  const statIngresosYtdEl = document.getElementById('stat-ingresos-ytd') as HTMLElement;
+  const statGastosYtdEl = document.getElementById('stat-gastos-ytd') as HTMLElement;
+  const statBeneficioYtdEl = document.getElementById('stat-beneficio-ytd') as HTMLElement;
+  const finanzasEvolucionEl = document.getElementById('finanzas-evolucion') as HTMLElement;
+  const gastosCategoriaEmptyEl = document.getElementById('gastosCategoriaEmpty') as HTMLElement;
+  const gastosCategoriaListEl = document.getElementById('gastosCategoriaList') as HTMLElement;
+  const ivaRepercutidoEl = document.getElementById('iva-repercutido') as HTMLElement;
+  const ivaSoportadoEl = document.getElementById('iva-soportado') as HTMLElement;
+  const ivaCompensarEl = document.getElementById('iva-compensar') as HTMLElement;
+  const ivaResultadoLabelEl = document.getElementById('iva-resultado-label') as HTMLElement;
+  const ivaResultadoFinalEl = document.getElementById('iva-resultado-final') as HTMLElement;
+  const m130IngresosEl = document.getElementById('m130-ingresos') as HTMLElement;
+  const m130GastosEl = document.getElementById('m130-gastos') as HTMLElement;
+  const m130RendimientoEl = document.getElementById('m130-rendimiento') as HTMLElement;
+  const m130RetencionesEl = document.getElementById('m130-retenciones') as HTMLElement;
+  const m130PagoEl = document.getElementById('m130-pago') as HTMLElement;
   const cobrosEmptyEl = document.getElementById('cobrosEmpty') as HTMLElement;
   const cobrosListEl = document.getElementById('cobrosList') as HTMLElement;
   const pagosEmptyEl = document.getElementById('pagosEmpty') as HTMLElement;
@@ -441,24 +493,137 @@ const dashboardsCtaHref = `mailto:contacto@asesoriamadal.es?subject=${encodeURIC
       });
     }
 
-    // Se pinta solo con el ultimo periodo sincronizado (dashboard_periodos.periodo
-    // mas reciente) — el sincronizador de Visionwin solo manda el mes en curso,
-    // asi que no hay historico que elegir todavia.
+    const CATEGORIA_COLORS = ['var(--accent)', 'var(--warm)', 'var(--accent-strong)', 'color-mix(in srgb, var(--accent) 50%, var(--warm) 50%)'];
+
+    function setSigno(el: HTMLElement, valor: number) {
+      el.classList.toggle('is-bad', valor > 0);
+      el.classList.toggle('is-good', valor <= 0);
+    }
+
+    // Barras por mes (ingresos/gastos/beneficio), en orden cronologico. La
+    // altura es proporcional al mayor valor absoluto de todo el rango
+    // mostrado, no al de cada mes por separado, para que se puedan comparar
+    // meses entre si de un vistazo.
+    function renderEvolucion(rows: { periodo: string; ingresos: number; gastos: number }[]) {
+      finanzasEvolucionEl.innerHTML = '';
+      if (rows.length === 0) {
+        const p = document.createElement('p');
+        p.className = 'factura-empty';
+        p.textContent = 'Todavía no hay suficiente histórico para mostrar la evolución.';
+        finanzasEvolucionEl.appendChild(p);
+        return;
+      }
+
+      const maxAbs = Math.max(1, ...rows.flatMap((r) => [Math.abs(r.ingresos), Math.abs(r.gastos), Math.abs(r.ingresos - r.gastos)]));
+      const ALTURA_PX = 110;
+
+      rows.forEach((row) => {
+        const beneficio = row.ingresos - row.gastos;
+        const col = document.createElement('div');
+        col.className = 'finanzas-evo-mes';
+
+        const bars = document.createElement('div');
+        bars.className = 'finanzas-evo-bars';
+
+        const mkBar = (valor: number, color: string) => {
+          const bar = document.createElement('div');
+          bar.className = 'bar';
+          bar.style.height = `${Math.max(2, (Math.abs(valor) / maxAbs) * ALTURA_PX)}px`;
+          bar.style.background = color;
+          bar.title = formatEur(valor);
+          return bar;
+        };
+
+        bars.appendChild(mkBar(row.ingresos, 'var(--accent)'));
+        bars.appendChild(mkBar(row.gastos, 'var(--warm)'));
+        const barBeneficio = mkBar(beneficio, 'var(--ink)');
+        if (beneficio < 0) barBeneficio.style.opacity = '0.45';
+        bars.appendChild(barBeneficio);
+        col.appendChild(bars);
+
+        const label = document.createElement('div');
+        label.className = 'mes-label';
+        label.textContent = new Date(row.periodo).toLocaleDateString('es-ES', { month: 'short', year: '2-digit' });
+        col.appendChild(label);
+
+        finanzasEvolucionEl.appendChild(col);
+      });
+    }
+
+    function renderGastosCategoria(rows: { categoria: string; importe: number }[]) {
+      gastosCategoriaListEl.innerHTML = '';
+      gastosCategoriaEmptyEl.hidden = rows.length > 0;
+      if (rows.length === 0) return;
+
+      const ordenado = [...rows].sort((a, b) => b.importe - a.importe);
+      const max = Math.max(...ordenado.map((r) => r.importe), 1);
+
+      ordenado.forEach((row, i) => {
+        const wrap = document.createElement('div');
+        wrap.className = 'finanzas-bar-row';
+
+        const label = document.createElement('div');
+        label.className = 'finanzas-bar-label';
+        const nombre = document.createElement('span');
+        nombre.textContent = row.categoria;
+        const amt = document.createElement('span');
+        amt.className = 'amt';
+        amt.textContent = formatEur(row.importe);
+        label.appendChild(nombre);
+        label.appendChild(amt);
+        wrap.appendChild(label);
+
+        const track = document.createElement('div');
+        track.className = 'finanzas-bar-track';
+        const fill = document.createElement('div');
+        fill.className = 'finanzas-bar-fill';
+        fill.style.width = `${Math.max(2, (row.importe / max) * 100)}%`;
+        fill.style.background = CATEGORIA_COLORS[i % CATEGORIA_COLORS.length];
+        track.appendChild(fill);
+        wrap.appendChild(track);
+
+        gastosCategoriaListEl.appendChild(wrap);
+      });
+    }
+
+    type PeriodoRow = {
+      periodo: string;
+      ingresos: number;
+      gastos: number;
+      tesoreria: number;
+      iva_repercutido: number;
+      iva_soportado: number;
+      iva_a_compensar: number;
+      pago_fraccionado_130: number;
+      ingresos_ytd: number;
+      gastos_ytd: number;
+      retenciones_soportadas_ytd: number;
+      sincronizado_at: string;
+    };
+
+    // Se pinta con el ultimo periodo sincronizado (dashboard_periodos.periodo
+    // mas reciente) para los KPIs del mes/IVA/130, y con los ultimos 6 meses
+    // para el grafico de evolucion — el sincronizador de Visionwin manda un
+    // upsert por mes cada vez que corre, asi que el historico se va
+    // acumulando solo, un mes a la vez.
     async function renderFinanzas(clienteId: string) {
       const { data: periodos } = await supabase!
         .from('dashboard_periodos')
-        .select('periodo, ingresos, gastos, tesoreria, iva_resultado, pago_fraccionado_130')
+        .select(
+          'periodo, ingresos, gastos, tesoreria, iva_repercutido, iva_soportado, iva_a_compensar, pago_fraccionado_130, ingresos_ytd, gastos_ytd, retenciones_soportadas_ytd, sincronizado_at'
+        )
         .eq('cliente_id', clienteId)
         .order('periodo', { ascending: false })
-        .limit(1);
+        .limit(6);
 
-      const ultimo = periodos && periodos.length > 0 ? periodos[0] : null;
+      const rows = (periodos ?? []) as PeriodoRow[];
+      const ultimo = rows.length > 0 ? rows[0] : null;
       finanzasEmptyEl.hidden = ultimo !== null;
       finanzasDatosEl.hidden = ultimo === null;
       if (!ultimo) return;
 
-      const fechaPeriodo = new Date(ultimo.periodo as string);
-      finanzasPeriodoEl.textContent = `Datos de ${fechaPeriodo.toLocaleDateString('es-ES', { month: 'long', year: 'numeric' })}, actualizados una vez por semana.`;
+      const actualizado = new Date(ultimo.sincronizado_at);
+      finanzasActualizadoEl.textContent = `Actualizado por última vez: ${actualizado.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' })}`;
 
       const ingresos = Number(ultimo.ingresos) || 0;
       const gastos = Number(ultimo.gastos) || 0;
@@ -467,11 +632,40 @@ const dashboardsCtaHref = `mailto:contacto@asesoriamadal.es?subject=${encodeURIC
       statResultadoEl.textContent = formatEur(ingresos - gastos);
       statTesoreriaEl.textContent = formatEur(Number(ultimo.tesoreria) || 0);
 
-      const ivaResultado = Number(ultimo.iva_resultado) || 0;
-      statIvaEl.textContent = formatEur(Math.abs(ivaResultado));
-      statIvaLabelEl.textContent = ivaResultado >= 0 ? 'IVA del trimestre (a pagar)' : 'IVA del trimestre (a devolver)';
+      const ingresosYtd = Number(ultimo.ingresos_ytd) || 0;
+      const gastosYtd = Number(ultimo.gastos_ytd) || 0;
+      statIngresosYtdEl.textContent = formatEur(ingresosYtd);
+      statGastosYtdEl.textContent = formatEur(gastosYtd);
+      statBeneficioYtdEl.textContent = formatEur(ingresosYtd - gastosYtd);
 
-      stat130El.textContent = formatEur(Number(ultimo.pago_fraccionado_130) || 0);
+      renderEvolucion(
+        [...rows].reverse().map((r) => ({ periodo: r.periodo, ingresos: Number(r.ingresos) || 0, gastos: Number(r.gastos) || 0 }))
+      );
+
+      const ivaRepercutido = Number(ultimo.iva_repercutido) || 0;
+      const ivaSoportado = Number(ultimo.iva_soportado) || 0;
+      const ivaCompensar = Number(ultimo.iva_a_compensar) || 0;
+      const ivaResultadoFinal = ivaRepercutido - ivaSoportado - ivaCompensar;
+      ivaRepercutidoEl.textContent = formatEur(ivaRepercutido);
+      ivaSoportadoEl.textContent = formatEur(ivaSoportado);
+      ivaCompensarEl.textContent = formatEur(ivaCompensar);
+      ivaResultadoLabelEl.textContent = ivaResultadoFinal >= 0 ? 'Resultado (a pagar)' : 'Resultado (a devolver)';
+      ivaResultadoFinalEl.textContent = formatEur(Math.abs(ivaResultadoFinal));
+      setSigno(ivaResultadoFinalEl, ivaResultadoFinal);
+
+      const rendimientoNeto = ingresosYtd - gastosYtd;
+      m130IngresosEl.textContent = formatEur(ingresosYtd);
+      m130GastosEl.textContent = formatEur(gastosYtd);
+      m130RendimientoEl.textContent = formatEur(rendimientoNeto);
+      m130RetencionesEl.textContent = formatEur(Number(ultimo.retenciones_soportadas_ytd) || 0);
+      m130PagoEl.textContent = formatEur(Number(ultimo.pago_fraccionado_130) || 0);
+
+      const { data: gastosCategoria } = await supabase!
+        .from('dashboard_gastos_categoria')
+        .select('categoria, importe')
+        .eq('cliente_id', clienteId)
+        .eq('periodo', ultimo.periodo);
+      renderGastosCategoria((gastosCategoria ?? []) as { categoria: string; importe: number }[]);
 
       const { data: pendientes } = await supabase!
         .from('dashboard_pendientes')
@@ -479,9 +673,9 @@ const dashboardsCtaHref = `mailto:contacto@asesoriamadal.es?subject=${encodeURIC
         .eq('cliente_id', clienteId)
         .order('fecha_vencimiento', { ascending: true });
 
-      const rows = (pendientes ?? []) as (Pendiente & { tipo: string })[];
-      renderPendienteList(cobrosListEl, cobrosEmptyEl, rows.filter((r) => r.tipo === 'cobro'));
-      renderPendienteList(pagosListEl, pagosEmptyEl, rows.filter((r) => r.tipo === 'pago'));
+      const pendRows = (pendientes ?? []) as (Pendiente & { tipo: string })[];
+      renderPendienteList(cobrosListEl, cobrosEmptyEl, pendRows.filter((r) => r.tipo === 'cobro'));
+      renderPendienteList(pagosListEl, pagosEmptyEl, pendRows.filter((r) => r.tipo === 'pago'));
     }
 
     async function renderForSession() {
