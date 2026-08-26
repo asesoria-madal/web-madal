@@ -61,6 +61,12 @@ const dashboardsCtaHref = `mailto:contacto@asesoriamadal.es?subject=${encodeURIC
         <main class="app-main">
           <section class="app-panel" data-panel="dashboards">
             <h2>Dashboards y reporting</h2>
+            <div id="proximo-impuesto" class="portal-stats" hidden>
+              <div class="portal-stat">
+                <span class="portal-stat-value" id="stat-dias-impuesto">—</span>
+                <span class="portal-stat-label" id="stat-dias-impuesto-label">Días hasta tu próxima presentación de impuestos</span>
+              </div>
+            </div>
             <div id="panel-reporting-off" hidden>
               <div class="portal-stats">
                 <div class="portal-stat">
@@ -70,10 +76,6 @@ const dashboardsCtaHref = `mailto:contacto@asesoriamadal.es?subject=${encodeURIC
                 <div class="portal-stat">
                   <span class="portal-stat-value" id="stat-facturas-media">—</span>
                   <span class="portal-stat-label">Media de facturas al mes</span>
-                </div>
-                <div class="portal-stat">
-                  <span class="portal-stat-value portal-stat-placeholder">Próximamente</span>
-                  <span class="portal-stat-label">Días hasta tu próxima presentación de impuestos</span>
                 </div>
               </div>
               <div class="portal-empty">
@@ -170,6 +172,7 @@ const dashboardsCtaHref = `mailto:contacto@asesoriamadal.es?subject=${encodeURIC
 
 <script>
   import { getSupabaseBrowser } from '../../lib/supabaseClient';
+  import { proximaPresentacion } from '../../lib/modelosFiscales';
 
   const loadingEl = document.getElementById('portal-loading') as HTMLElement;
   const unconfiguredEl = document.getElementById('portal-unconfigured') as HTMLElement;
@@ -186,6 +189,10 @@ const dashboardsCtaHref = `mailto:contacto@asesoriamadal.es?subject=${encodeURIC
   const reportingOnEl = document.getElementById('panel-reporting-on') as HTMLElement;
   const statFacturasMesEl = document.getElementById('stat-facturas-mes') as HTMLElement;
   const statFacturasMediaEl = document.getElementById('stat-facturas-media') as HTMLElement;
+
+  const proximoImpuestoEl = document.getElementById('proximo-impuesto') as HTMLElement;
+  const statDiasImpuestoEl = document.getElementById('stat-dias-impuesto') as HTMLElement;
+  const statDiasImpuestoLabelEl = document.getElementById('stat-dias-impuesto-label') as HTMLElement;
 
   const docPresentacionAutonomoEl = document.getElementById('doc-presentacion-autonomo') as HTMLElement;
   const docPresentacionSlEl = document.getElementById('doc-presentacion-sl') as HTMLElement;
@@ -222,6 +229,19 @@ const dashboardsCtaHref = `mailto:contacto@asesoriamadal.es?subject=${encodeURIC
   function renderReportingPanel(hasReporting: boolean) {
     reportingOffEl.hidden = hasReporting;
     reportingOnEl.hidden = !hasReporting;
+  }
+
+  // Independiente de `reporting`: saber cuándo toca presentar impuestos es
+  // información básica de gestoría, no una funcionalidad de pago. Se oculta
+  // solo si el cliente todavía no tiene ningún modelo marcado en Supabase.
+  function renderProximoImpuesto(modelos: string[]) {
+    const proxima = proximaPresentacion(modelos);
+    proximoImpuestoEl.hidden = !proxima;
+    if (proxima) {
+      statDiasImpuestoEl.textContent = String(proxima.dias);
+      const fechaTexto = proxima.fecha.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' });
+      statDiasImpuestoLabelEl.textContent = `Días hasta el modelo ${proxima.modelo} (${fechaTexto})`;
+    }
   }
 
   // tipo_persona: 'autonomo' | 'sl' | null (todavía sin marcar por el equipo).
@@ -334,7 +354,7 @@ const dashboardsCtaHref = `mailto:contacto@asesoriamadal.es?subject=${encodeURIC
       // "unlinked" más abajo, igual que antes.
       const { data: cliente } = await supabase!
         .from('clientes')
-        .select('id, nombre, reporting, tipo_persona')
+        .select('id, nombre, reporting, tipo_persona, modelos')
         .maybeSingle();
 
       if (!cliente) {
@@ -345,6 +365,7 @@ const dashboardsCtaHref = `mailto:contacto@asesoriamadal.es?subject=${encodeURIC
       currentClienteId = cliente.id as string;
       nombreEl.textContent = cliente.nombre as string;
       renderReportingPanel(Boolean(cliente.reporting));
+      renderProximoImpuesto((cliente.modelos as string[] | null) ?? []);
       renderDocumentacionPanel((cliente.tipo_persona as string | null) ?? null);
       renderFacturaList(currentClienteId);
       showOnly(dashEl);

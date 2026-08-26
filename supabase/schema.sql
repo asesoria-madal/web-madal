@@ -308,6 +308,26 @@ create unique index if not exists clientes_email_lower_idx on clientes (lower(em
 --   tipo_persona = 'sl'                   -> SL (alta_hecha no aplica, se ignora)
 alter table clientes add column if not exists alta_hecha boolean;
 
+-- Modelos fiscales que presenta cada cliente (2026-08-26). Se rellena a mano
+-- en el Table Editor, igual que alta_hecha/reporting — no hay endpoint que
+-- escriba este campo. Sirve para dos cosas: (1) que el portal solo muestre
+-- "próximos impuestos a pagar" de los modelos que le tocan a cada cliente
+-- (a alguien sin retenciones de alquiler no se le avisa del 115), y (2) de
+-- base para una futura sincronización con Visionwin (ver ARQUITECTURA.md),
+-- que sabrá qué estimar por cliente a partir de esta misma lista.
+--
+-- Primer campo multivalor del esquema: se usa text[] (no jsonb) porque es
+-- una lista plana de códigos y encaja mejor con filtros SQL (`'130' = any(modelos)`)
+-- sin parsear JSON. Sigue el mismo criterio del resto del proyecto de no
+-- llevar CHECK en SQL para valores cerrados — los códigos válidos hoy son:
+-- 130, 131 (IRPF trimestral, estimación directa/módulos — mutuamente excluyentes)
+-- 111 (retenciones IRPF), 115 (retenciones alquiler), 303 (IVA trimestral),
+-- 349 (operaciones intracomunitarias), 202 (pago fraccionado IS, solo SL),
+-- 347 (operaciones con terceros, anual), 390 (resumen anual IVA),
+-- 190 (resumen anual retenciones IRPF), 180 (resumen anual retenciones alquiler),
+-- 200 (Impuesto de Sociedades anual, solo SL).
+alter table clientes add column if not exists modelos text[] not null default '{}';
+
 alter table clientes enable row level security;
 
 -- Un cliente autenticado solo puede leer su propia fila, nunca las de
@@ -528,7 +548,7 @@ alter table alta_nuevos_autonomos drop column if exists quote_code;
 -- ---------------------------------------------------------------------
 -- Registro de facturas subidas (metadatos, independiente del Storage).
 --
--- Por qué existe: la automatización (Bloque 4 de PENDIENTES-WEB.txt) baja
+-- Por qué existe: la automatización de n8n (ver n8n-workflows/CLAUDE.md) baja
 -- cada factura del Storage a Drive compartido y, pasados unos días de
 -- margen (pensado 7, por si falla la sincronización o el cliente necesita
 -- recuperarla), borra el archivo del Storage para ahorrar espacio. Si el
