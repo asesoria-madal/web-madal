@@ -240,7 +240,13 @@ const dashboardsCtaHref = `mailto:contacto@asesoriamadal.es?subject=${encodeURIC
     if (proxima) {
       statDiasImpuestoEl.textContent = String(proxima.dias);
       const fechaTexto = proxima.fecha.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' });
-      statDiasImpuestoLabelEl.textContent = `Días hasta el modelo ${proxima.modelo} (${fechaTexto})`;
+      // Varios modelos suelen compartir la misma fecha (130/111/303 se
+      // presentan el mismo día): se listan todos, no solo el primero.
+      const codigos = proxima.modelos.map((m) => m.modelo);
+      const listaModelos =
+        codigos.length > 1 ? `${codigos.slice(0, -1).join(', ')} y ${codigos[codigos.length - 1]}` : codigos[0];
+      const etiqueta = codigos.length > 1 ? 'los modelos' : 'el modelo';
+      statDiasImpuestoLabelEl.textContent = `Días hasta ${etiqueta} ${listaModelos} (${fechaTexto})`;
     }
   }
 

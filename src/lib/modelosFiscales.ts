@@ -12,6 +12,15 @@ export interface Presentacion {
   fecha: Date;
 }
 
+export interface ProximaPresentacion {
+  fecha: Date;
+  dias: number;
+  // Varios modelos suelen compartir la misma fecha límite trimestral (130,
+  // 111, 303...) — se presentan todos el mismo día, así que se agrupan aquí
+  // en vez de mostrar solo uno y ocultar los demás.
+  modelos: { modelo: string; nombre: string }[];
+}
+
 interface ModeloFiscal {
   nombre: string;
   // Fechas límite de presentación de este modelo para el año natural dado.
@@ -66,13 +75,11 @@ export const MODELOS_FISCALES: Record<string, ModeloFiscal> = {
 /**
  * De entre los modelos indicados, la próxima fecha límite de presentación
  * (mira el año en curso y el siguiente, para no quedarse sin resultado en
- * diciembre). Devuelve null si `modelos` está vacío o no contiene ningún
+ * diciembre) — con todos los modelos que comparten esa misma fecha, no solo
+ * el primero. Devuelve null si `modelos` está vacío o no contiene ningún
  * código reconocido.
  */
-export function proximaPresentacion(
-  modelos: string[],
-  hoy: Date = new Date(),
-): (Presentacion & { dias: number }) | null {
+export function proximaPresentacion(modelos: string[], hoy: Date = new Date()): ProximaPresentacion | null {
   const hoySinHora = new Date(hoy.getFullYear(), hoy.getMonth(), hoy.getDate());
   const candidatas: Presentacion[] = [];
 
@@ -88,8 +95,13 @@ export function proximaPresentacion(
 
   if (candidatas.length === 0) return null;
 
-  candidatas.sort((a, b) => a.fecha.getTime() - b.fecha.getTime());
-  const proxima = candidatas[0];
-  const dias = Math.round((proxima.fecha.getTime() - hoySinHora.getTime()) / 86_400_000);
-  return { ...proxima, dias };
+  const fechaMinima = Math.min(...candidatas.map((c) => c.fecha.getTime()));
+  const delMismoDia = candidatas.filter((c) => c.fecha.getTime() === fechaMinima);
+  const dias = Math.round((fechaMinima - hoySinHora.getTime()) / 86_400_000);
+
+  return {
+    fecha: delMismoDia[0].fecha,
+    dias,
+    modelos: delMismoDia.map((c) => ({ modelo: c.modelo, nombre: c.nombre })),
+  };
 }
