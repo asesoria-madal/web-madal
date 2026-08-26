@@ -1060,25 +1060,47 @@ body.portal-app .portal-box { margin-top: 0; }
 .finanzas-preview-list strong { color: var(--ink); }
 
 .finanzas-subtitle { font-family: var(--font-display); font-size: 1.05rem; margin: 1.8rem 0 0.6rem; }
+
+.finanzas-periodo-bar { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.4rem; }
+.finanzas-periodo-bar label { font-size: 0.86rem; color: var(--ink-soft); }
+.finanzas-periodo-bar select {
+  font: inherit;
+  font-size: 0.9rem;
+  padding: 0.4rem 0.7rem;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: var(--paper-raised);
+  color: var(--ink);
+  text-transform: capitalize;
+}
+.finanzas-actual-tag { font-size: 0.72rem; font-weight: 400; color: var(--ink-soft); text-transform: none; }
 .portal-stat-value.is-good { color: var(--accent); }
 .portal-stat-value.is-bad { color: var(--warm); }
 
+/* Tarjetas con fondo de color (no solo el numero) segun si el KPI es
+   positivo/negativo, ademas de las que ya llevan is-good/is-bad fijo en
+   ingresos/gastos. :has() ya tiene soporte amplio en navegadores actuales. */
+.portal-stats-color .portal-stat:has(.portal-stat-value.is-good) {
+  background: var(--accent-tint);
+  border-color: color-mix(in srgb, var(--accent) 35%, var(--line));
+}
+.portal-stats-color .portal-stat:has(.portal-stat-value.is-bad) {
+  background: var(--warm-soft);
+  border-color: color-mix(in srgb, var(--warm) 35%, var(--line));
+}
+
 .finanzas-evolucion {
-  display: flex;
-  align-items: flex-end;
-  gap: 1.2rem;
   margin-top: 0.4rem;
-  padding: 1.2rem 1.4rem 1rem;
+  padding: 1.2rem 1.4rem 0.8rem;
   border: 1px solid var(--line);
   border-radius: 12px;
   background: var(--paper-raised);
-  overflow-x: auto;
-  min-height: 160px;
 }
-.finanzas-evo-mes { display: flex; flex-direction: column; align-items: center; gap: 0.5rem; flex: 0 0 auto; }
-.finanzas-evo-bars { display: flex; align-items: flex-end; gap: 4px; height: 110px; }
-.finanzas-evo-bars .bar { width: 14px; border-radius: 3px 3px 0 0; }
-.finanzas-evo-mes .mes-label { font-size: 0.72rem; color: var(--ink-soft); text-transform: capitalize; }
+.finanzas-evo-svg { width: 100%; height: 190px; display: block; overflow: visible; }
+.finanzas-evo-line { fill: none; stroke-width: 2.5; }
+.finanzas-evo-baseline { stroke: var(--line); stroke-width: 1; stroke-dasharray: 4 3; }
+.finanzas-evo-labels { display: flex; justify-content: space-between; margin-top: 0.5rem; font-size: 0.72rem; color: var(--ink-soft); }
+.finanzas-evo-labels span { text-transform: capitalize; flex: 1; text-align: center; }
 .finanzas-evo-legend { display: flex; gap: 1.2rem; font-size: 0.78rem; color: var(--ink-soft); margin-top: 0.6rem; }
 .finanzas-evo-legend span { display: inline-flex; align-items: center; gap: 0.4rem; }
 .finanzas-evo-legend .dot { width: 9px; height: 9px; border-radius: 50%; display: inline-block; }

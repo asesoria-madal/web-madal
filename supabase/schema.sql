@@ -667,6 +667,7 @@ create table if not exists dashboard_periodos (
   retenido_111 numeric,
   base_115 numeric,
   retenido_115 numeric,
+  pago_fraccionado_130_anteriores numeric,
   pago_fraccionado_130 numeric,
   ingresos_ytd numeric,
   gastos_ytd numeric,
@@ -680,6 +681,11 @@ create table if not exists dashboard_periodos (
 alter table dashboard_periodos add column if not exists iva_a_compensar numeric;
 alter table dashboard_periodos add column if not exists ingresos_ytd numeric;
 alter table dashboard_periodos add column if not exists gastos_ytd numeric;
+-- pago_fraccionado_130_anteriores (2026-08-26, segunda vuelta del mismo día):
+-- suma de M130CAB.DBF (modelo 130 ya presentado en Visionwin) de trimestres
+-- anteriores del mismo ejercicio — se resta del 20% acumulado para no pedir
+-- de más al cliente lo que ya pagó en un trimestre previo.
+alter table dashboard_periodos add column if not exists pago_fraccionado_130_anteriores numeric;
 alter table dashboard_periodos add column if not exists retenciones_soportadas_ytd numeric;
 
 alter table dashboard_periodos enable row level security;

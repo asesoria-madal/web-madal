@@ -96,6 +96,10 @@ const dashboardsCtaHref = `mailto:contacto@asesoriamadal.es?subject=${encodeURIC
                 Todavía no hay datos cargados. En cuanto tengamos tus números, aparecerán aquí como gráficas.
               </div>
               <div id="finanzas-datos" hidden>
+                <div class="finanzas-periodo-bar">
+                  <label for="finanzas-periodo-select">Mes:</label>
+                  <select id="finanzas-periodo-select"></select>
+                </div>
                 <p class="field-hint" id="finanzas-actualizado"></p>
 
                 <div class="portal-stats portal-stats-color">
@@ -141,8 +145,8 @@ const dashboardsCtaHref = `mailto:contacto@asesoriamadal.es?subject=${encodeURIC
                   </div>
                 </div>
 
-                <h3 class="finanzas-subtitle">Gastos por tipo — este mes</h3>
-                <p id="gastosCategoriaEmpty" class="factura-empty" hidden>Sin gastos registrados este mes.</p>
+                <h3 class="finanzas-subtitle">Gastos por tipo — acumulado del año</h3>
+                <p id="gastosCategoriaEmpty" class="factura-empty" hidden>Sin gastos registrados este año.</p>
                 <div id="gastosCategoriaList" class="finanzas-barlist"></div>
 
                 <h3 class="finanzas-subtitle">IVA del trimestre</h3>
@@ -159,10 +163,11 @@ const dashboardsCtaHref = `mailto:contacto@asesoriamadal.es?subject=${encodeURIC
                   <div class="finanzas-detalle-linea"><span>Gastos acumulados del año</span><span id="m130-gastos">—</span></div>
                   <div class="finanzas-detalle-linea"><span>Rendimiento neto</span><span id="m130-rendimiento">—</span></div>
                   <div class="finanzas-detalle-linea"><span>Retenciones ya soportadas</span><span id="m130-retenciones">—</span></div>
+                  <div class="finanzas-detalle-linea"><span>Pagado en trimestres anteriores</span><span id="m130-anteriores">—</span></div>
                   <div class="finanzas-detalle-linea finanzas-detalle-total"><span>Pago fraccionado estimado (20%)</span><span id="m130-pago">—</span></div>
                 </div>
 
-                <h3 class="finanzas-subtitle">Cobros y pagos pendientes</h3>
+                <h3 class="finanzas-subtitle">Cobros y pagos pendientes <span class="finanzas-actual-tag">a día de hoy</span></h3>
                 <div class="finanzas-pendientes">
                   <div>
                     <p class="field-group-label">Cobros pendientes</p>
@@ -289,6 +294,7 @@ const dashboardsCtaHref = `mailto:contacto@asesoriamadal.es?subject=${encodeURIC
 
   const finanzasEmptyEl = document.getElementById('finanzas-empty') as HTMLElement;
   const finanzasDatosEl = document.getElementById('finanzas-datos') as HTMLElement;
+  const finanzasPeriodoSelectEl = document.getElementById('finanzas-periodo-select') as HTMLSelectElement;
   const finanzasActualizadoEl = document.getElementById('finanzas-actualizado') as HTMLElement;
   const statIngresosEl = document.getElementById('stat-ingresos') as HTMLElement;
   const statGastosEl = document.getElementById('stat-gastos') as HTMLElement;
@@ -309,6 +315,7 @@ const dashboardsCtaHref = `mailto:contacto@asesoriamadal.es?subject=${encodeURIC
   const m130GastosEl = document.getElementById('m130-gastos') as HTMLElement;
   const m130RendimientoEl = document.getElementById('m130-rendimiento') as HTMLElement;
   const m130RetencionesEl = document.getElementById('m130-retenciones') as HTMLElement;
+  const m130AnterioresEl = document.getElementById('m130-anteriores') as HTMLElement;
   const m130PagoEl = document.getElementById('m130-pago') as HTMLElement;
   const cobrosEmptyEl = document.getElementById('cobrosEmpty') as HTMLElement;
   const cobrosListEl = document.getElementById('cobrosList') as HTMLElement;
@@ -495,15 +502,25 @@ const dashboardsCtaHref = `mailto:contacto@asesoriamadal.es?subject=${encodeURIC
 
     const CATEGORIA_COLORS = ['var(--accent)', 'var(--warm)', 'var(--accent-strong)', 'color-mix(in srgb, var(--accent) 50%, var(--warm) 50%)'];
 
+    // Para importes donde positivo = "toca pagar" (IVA a pagar, por ejemplo).
     function setSigno(el: HTMLElement, valor: number) {
       el.classList.toggle('is-bad', valor > 0);
       el.classList.toggle('is-good', valor <= 0);
     }
 
-    // Barras por mes (ingresos/gastos/beneficio), en orden cronologico. La
-    // altura es proporcional al mayor valor absoluto de todo el rango
-    // mostrado, no al de cada mes por separado, para que se puedan comparar
-    // meses entre si de un vistazo.
+    // Para importes donde positivo = bueno (beneficio, tesorería a favor).
+    function setSignoInvertido(el: HTMLElement, valor: number) {
+      el.classList.toggle('is-good', valor >= 0);
+      el.classList.toggle('is-bad', valor < 0);
+    }
+
+    const SVG_NS = 'http://www.w3.org/2000/svg';
+
+    // Grafico de lineas (ingresos/gastos/beneficio) en SVG a mano, sin
+    // libreria: tres <polyline> sobre un viewBox fijo, con un punto <circle>
+    // por mes (con su valor exacto como title, al pasar el raton) y una
+    // linea de base en cero si el rango de valores la cruza (para que un
+    // beneficio negativo se vea claramente por debajo de la linea).
     function renderEvolucion(rows: { periodo: string; ingresos: number; gastos: number }[]) {
       finanzasEvolucionEl.innerHTML = '';
       if (rows.length === 0) {
@@ -514,40 +531,70 @@ const dashboardsCtaHref = `mailto:contacto@asesoriamadal.es?subject=${encodeURIC
         return;
       }
 
-      const maxAbs = Math.max(1, ...rows.flatMap((r) => [Math.abs(r.ingresos), Math.abs(r.gastos), Math.abs(r.ingresos - r.gastos)]));
-      const ALTURA_PX = 110;
+      const puntos = rows.map((r) => ({ periodo: r.periodo, ingresos: r.ingresos, gastos: r.gastos, beneficio: r.ingresos - r.gastos }));
+      const valores = puntos.flatMap((p) => [p.ingresos, p.gastos, p.beneficio]);
+      const W = 640;
+      const H = 200;
+      const PAD_X = 20;
+      const PAD_Y = 18;
+      const max = Math.max(...valores, 0);
+      const min = Math.min(...valores, 0);
+      const rango = Math.max(max - min, 1);
+      const stepX = puntos.length > 1 ? (W - PAD_X * 2) / (puntos.length - 1) : 0;
+      const x = (i: number) => PAD_X + i * stepX;
+      const y = (v: number) => H - PAD_Y - ((v - min) / rango) * (H - PAD_Y * 2);
 
-      rows.forEach((row) => {
-        const beneficio = row.ingresos - row.gastos;
-        const col = document.createElement('div');
-        col.className = 'finanzas-evo-mes';
+      const svg = document.createElementNS(SVG_NS, 'svg');
+      svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+      svg.setAttribute('class', 'finanzas-evo-svg');
+      svg.setAttribute('preserveAspectRatio', 'none');
 
-        const bars = document.createElement('div');
-        bars.className = 'finanzas-evo-bars';
+      if (min < 0 && max > 0) {
+        const baseline = document.createElementNS(SVG_NS, 'line');
+        baseline.setAttribute('x1', String(PAD_X));
+        baseline.setAttribute('x2', String(W - PAD_X));
+        baseline.setAttribute('y1', String(y(0)));
+        baseline.setAttribute('y2', String(y(0)));
+        baseline.setAttribute('class', 'finanzas-evo-baseline');
+        svg.appendChild(baseline);
+      }
 
-        const mkBar = (valor: number, color: string) => {
-          const bar = document.createElement('div');
-          bar.className = 'bar';
-          bar.style.height = `${Math.max(2, (Math.abs(valor) / maxAbs) * ALTURA_PX)}px`;
-          bar.style.background = color;
-          bar.title = formatEur(valor);
-          return bar;
-        };
+      const series: { valores: number[]; color: string }[] = [
+        { valores: puntos.map((p) => p.ingresos), color: 'var(--accent)' },
+        { valores: puntos.map((p) => p.gastos), color: 'var(--warm)' },
+        { valores: puntos.map((p) => p.beneficio), color: 'var(--ink)' },
+      ];
 
-        bars.appendChild(mkBar(row.ingresos, 'var(--accent)'));
-        bars.appendChild(mkBar(row.gastos, 'var(--warm)'));
-        const barBeneficio = mkBar(beneficio, 'var(--ink)');
-        if (beneficio < 0) barBeneficio.style.opacity = '0.45';
-        bars.appendChild(barBeneficio);
-        col.appendChild(bars);
+      series.forEach((s) => {
+        const polyline = document.createElementNS(SVG_NS, 'polyline');
+        polyline.setAttribute('points', s.valores.map((v, i) => `${x(i)},${y(v)}`).join(' '));
+        polyline.setAttribute('class', 'finanzas-evo-line');
+        polyline.setAttribute('style', `stroke:${s.color}`);
+        svg.appendChild(polyline);
 
-        const label = document.createElement('div');
-        label.className = 'mes-label';
-        label.textContent = new Date(row.periodo).toLocaleDateString('es-ES', { month: 'short', year: '2-digit' });
-        col.appendChild(label);
-
-        finanzasEvolucionEl.appendChild(col);
+        s.valores.forEach((v, i) => {
+          const circle = document.createElementNS(SVG_NS, 'circle');
+          circle.setAttribute('cx', String(x(i)));
+          circle.setAttribute('cy', String(y(v)));
+          circle.setAttribute('r', '3.5');
+          circle.setAttribute('style', `fill:${s.color}`);
+          const title = document.createElementNS(SVG_NS, 'title');
+          title.textContent = formatEur(v);
+          circle.appendChild(title);
+          svg.appendChild(circle);
+        });
       });
+
+      finanzasEvolucionEl.appendChild(svg);
+
+      const labels = document.createElement('div');
+      labels.className = 'finanzas-evo-labels';
+      puntos.forEach((p) => {
+        const span = document.createElement('span');
+        span.textContent = new Date(p.periodo).toLocaleDateString('es-ES', { month: 'short', year: '2-digit' });
+        labels.appendChild(span);
+      });
+      finanzasEvolucionEl.appendChild(labels);
     }
 
     function renderGastosCategoria(rows: { categoria: string; importe: number }[]) {
@@ -594,6 +641,7 @@ const dashboardsCtaHref = `mailto:contacto@asesoriamadal.es?subject=${encodeURIC
       iva_repercutido: number;
       iva_soportado: number;
       iva_a_compensar: number;
+      pago_fraccionado_130_anteriores: number;
       pago_fraccionado_130: number;
       ingresos_ytd: number;
       gastos_ytd: number;
@@ -601,50 +649,39 @@ const dashboardsCtaHref = `mailto:contacto@asesoriamadal.es?subject=${encodeURIC
       sincronizado_at: string;
     };
 
-    // Se pinta con el ultimo periodo sincronizado (dashboard_periodos.periodo
-    // mas reciente) para los KPIs del mes/IVA/130, y con los ultimos 6 meses
-    // para el grafico de evolucion — el sincronizador de Visionwin manda un
-    // upsert por mes cada vez que corre, asi que el historico se va
-    // acumulando solo, un mes a la vez.
-    async function renderFinanzas(clienteId: string) {
-      const { data: periodos } = await supabase!
-        .from('dashboard_periodos')
-        .select(
-          'periodo, ingresos, gastos, tesoreria, iva_repercutido, iva_soportado, iva_a_compensar, pago_fraccionado_130, ingresos_ytd, gastos_ytd, retenciones_soportadas_ytd, sincronizado_at'
-        )
-        .eq('cliente_id', clienteId)
-        .order('periodo', { ascending: false })
-        .limit(6);
-
-      const rows = (periodos ?? []) as PeriodoRow[];
-      const ultimo = rows.length > 0 ? rows[0] : null;
-      finanzasEmptyEl.hidden = ultimo !== null;
-      finanzasDatosEl.hidden = ultimo === null;
-      if (!ultimo) return;
-
-      const actualizado = new Date(ultimo.sincronizado_at);
+    // Pinta los paneles que dependen del mes elegido en el desplegable: KPIs
+    // del mes, IVA y 130 (estos dos usan los campos *_ytd/*_a_compensar tal
+    // como se guardaron en esa fila — cada fila de dashboard_periodos ya
+    // lleva su propio acumulado del año calculado en su momento, asi que
+    // elegir un mes antiguo enseña el acumulado tal como estaba entonces,
+    // no el de hoy) y los gastos por categoria (desde el 1 de enero del año
+    // de ese periodo hasta ese mismo periodo, no mas alla).
+    async function pintarPeriodo(clienteId: string, row: PeriodoRow) {
+      const actualizado = new Date(row.sincronizado_at);
       finanzasActualizadoEl.textContent = `Actualizado por última vez: ${actualizado.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' })}`;
 
-      const ingresos = Number(ultimo.ingresos) || 0;
-      const gastos = Number(ultimo.gastos) || 0;
+      const ingresos = Number(row.ingresos) || 0;
+      const gastos = Number(row.gastos) || 0;
+      const resultado = ingresos - gastos;
+      const tesoreria = Number(row.tesoreria) || 0;
       statIngresosEl.textContent = formatEur(ingresos);
       statGastosEl.textContent = formatEur(gastos);
-      statResultadoEl.textContent = formatEur(ingresos - gastos);
-      statTesoreriaEl.textContent = formatEur(Number(ultimo.tesoreria) || 0);
+      statResultadoEl.textContent = formatEur(resultado);
+      statTesoreriaEl.textContent = formatEur(tesoreria);
+      setSignoInvertido(statResultadoEl, resultado);
+      setSignoInvertido(statTesoreriaEl, tesoreria);
 
-      const ingresosYtd = Number(ultimo.ingresos_ytd) || 0;
-      const gastosYtd = Number(ultimo.gastos_ytd) || 0;
+      const ingresosYtd = Number(row.ingresos_ytd) || 0;
+      const gastosYtd = Number(row.gastos_ytd) || 0;
+      const beneficioYtd = ingresosYtd - gastosYtd;
       statIngresosYtdEl.textContent = formatEur(ingresosYtd);
       statGastosYtdEl.textContent = formatEur(gastosYtd);
-      statBeneficioYtdEl.textContent = formatEur(ingresosYtd - gastosYtd);
+      statBeneficioYtdEl.textContent = formatEur(beneficioYtd);
+      setSignoInvertido(statBeneficioYtdEl, beneficioYtd);
 
-      renderEvolucion(
-        [...rows].reverse().map((r) => ({ periodo: r.periodo, ingresos: Number(r.ingresos) || 0, gastos: Number(r.gastos) || 0 }))
-      );
-
-      const ivaRepercutido = Number(ultimo.iva_repercutido) || 0;
-      const ivaSoportado = Number(ultimo.iva_soportado) || 0;
-      const ivaCompensar = Number(ultimo.iva_a_compensar) || 0;
+      const ivaRepercutido = Number(row.iva_repercutido) || 0;
+      const ivaSoportado = Number(row.iva_soportado) || 0;
+      const ivaCompensar = Number(row.iva_a_compensar) || 0;
       const ivaResultadoFinal = ivaRepercutido - ivaSoportado - ivaCompensar;
       ivaRepercutidoEl.textContent = formatEur(ivaRepercutido);
       ivaSoportadoEl.textContent = formatEur(ivaSoportado);
@@ -657,15 +694,65 @@ const dashboardsCtaHref = `mailto:contacto@asesoriamadal.es?subject=${encodeURIC
       m130IngresosEl.textContent = formatEur(ingresosYtd);
       m130GastosEl.textContent = formatEur(gastosYtd);
       m130RendimientoEl.textContent = formatEur(rendimientoNeto);
-      m130RetencionesEl.textContent = formatEur(Number(ultimo.retenciones_soportadas_ytd) || 0);
-      m130PagoEl.textContent = formatEur(Number(ultimo.pago_fraccionado_130) || 0);
+      m130RetencionesEl.textContent = formatEur(Number(row.retenciones_soportadas_ytd) || 0);
+      m130AnterioresEl.textContent = formatEur(Number(row.pago_fraccionado_130_anteriores) || 0);
+      m130PagoEl.textContent = formatEur(Number(row.pago_fraccionado_130) || 0);
 
+      const anioIniStr = `${new Date(row.periodo).getFullYear()}-01-01`;
       const { data: gastosCategoria } = await supabase!
         .from('dashboard_gastos_categoria')
         .select('categoria, importe')
         .eq('cliente_id', clienteId)
-        .eq('periodo', ultimo.periodo);
-      renderGastosCategoria((gastosCategoria ?? []) as { categoria: string; importe: number }[]);
+        .gte('periodo', anioIniStr)
+        .lte('periodo', row.periodo);
+
+      const acumuladoCategoria = new Map<string, number>();
+      ((gastosCategoria ?? []) as { categoria: string; importe: number }[]).forEach((r) => {
+        acumuladoCategoria.set(r.categoria, (acumuladoCategoria.get(r.categoria) ?? 0) + (Number(r.importe) || 0));
+      });
+      renderGastosCategoria(Array.from(acumuladoCategoria, ([categoria, importe]) => ({ categoria, importe })));
+    }
+
+    // El desplegable de mes y el grafico de evolucion usan los ultimos 12
+    // meses de dashboard_periodos — el sincronizador manda un upsert por mes
+    // cada vez que corre, asi que el historico se va acumulando solo. Los
+    // cobros/pagos pendientes NO dependen del mes elegido (esa tabla no
+    // guarda historico, siempre es el estado actual — ver comentario en
+    // schema.sql), asi que se cargan una sola vez aqui.
+    async function renderFinanzas(clienteId: string) {
+      const { data: periodos } = await supabase!
+        .from('dashboard_periodos')
+        .select(
+          'periodo, ingresos, gastos, tesoreria, iva_repercutido, iva_soportado, iva_a_compensar, pago_fraccionado_130_anteriores, pago_fraccionado_130, ingresos_ytd, gastos_ytd, retenciones_soportadas_ytd, sincronizado_at'
+        )
+        .eq('cliente_id', clienteId)
+        .order('periodo', { ascending: false })
+        .limit(12);
+
+      const rows = (periodos ?? []) as PeriodoRow[];
+      const ultimo = rows.length > 0 ? rows[0] : null;
+      finanzasEmptyEl.hidden = ultimo !== null;
+      finanzasDatosEl.hidden = ultimo === null;
+      if (!ultimo) return;
+
+      finanzasPeriodoSelectEl.innerHTML = '';
+      rows.forEach((row) => {
+        const option = document.createElement('option');
+        option.value = row.periodo;
+        option.textContent = new Date(row.periodo).toLocaleDateString('es-ES', { month: 'long', year: 'numeric' });
+        finanzasPeriodoSelectEl.appendChild(option);
+      });
+      finanzasPeriodoSelectEl.value = ultimo.periodo;
+      finanzasPeriodoSelectEl.onchange = () => {
+        const seleccionado = rows.find((r) => r.periodo === finanzasPeriodoSelectEl.value);
+        if (seleccionado) pintarPeriodo(clienteId, seleccionado);
+      };
+
+      renderEvolucion(
+        [...rows].reverse().map((r) => ({ periodo: r.periodo, ingresos: Number(r.ingresos) || 0, gastos: Number(r.gastos) || 0 }))
+      );
+
+      await pintarPeriodo(clienteId, ultimo);
 
       const { data: pendientes } = await supabase!
         .from('dashboard_pendientes')
