@@ -79,13 +79,67 @@ const dashboardsCtaHref = `mailto:contacto@asesoriamadal.es?subject=${encodeURIC
                 </div>
               </div>
               <div class="portal-empty">
-                Todavía no tienes el reporting activo. Con reporting, te ayudamos con dashboards y datos de tu negocio para que tomes mejores decisiones, por 30 € + IVA/mes.
+                <p>Todavía no tienes el reporting activo. Actívalo y verás aquí, actualizado cada semana:</p>
+                <ul class="finanzas-preview-list">
+                  <li><strong>Ingresos y gastos del mes</strong> — cómo va tu negocio de un vistazo, sin esperar al cierre del trimestre.</li>
+                  <li><strong>Tesorería</strong> (caja y bancos) — cuánto dinero tienes disponible ahora mismo.</li>
+                  <li><strong>IVA del trimestre</strong> — una estimación de lo que te tocará pagar o te devolverán, antes de que llegue la fecha de presentación.</li>
+                  <li><strong>Pago fraccionado del IRPF (modelo 130)</strong> estimado — para que vayas apartando lo que corresponde y no te pille de sorpresa.</li>
+                  <li><strong>Cobros y pagos pendientes</strong> — qué facturas tienes por cobrar y qué pagos tienes por hacer, con su fecha de vencimiento.</li>
+                </ul>
+                <p>Por 30 € + IVA/mes.</p>
               </div>
               <a href={dashboardsCtaHref} class="btn btn-primary">Quiero contratar el servicio de dashboards y reporting</a>
             </div>
             <div id="panel-reporting-on" hidden>
-              <div class="portal-empty">
+              <div id="finanzas-empty" class="portal-empty">
                 Todavía no hay datos cargados. En cuanto tengamos tus números, aparecerán aquí como gráficas.
+              </div>
+              <div id="finanzas-datos" hidden>
+                <p class="field-hint" id="finanzas-periodo"></p>
+                <div class="portal-stats">
+                  <div class="portal-stat">
+                    <span class="portal-stat-value" id="stat-ingresos">—</span>
+                    <span class="portal-stat-label">Ingresos del mes</span>
+                  </div>
+                  <div class="portal-stat">
+                    <span class="portal-stat-value" id="stat-gastos">—</span>
+                    <span class="portal-stat-label">Gastos del mes</span>
+                  </div>
+                  <div class="portal-stat">
+                    <span class="portal-stat-value" id="stat-resultado">—</span>
+                    <span class="portal-stat-label">Resultado del mes</span>
+                  </div>
+                  <div class="portal-stat">
+                    <span class="portal-stat-value" id="stat-tesoreria">—</span>
+                    <span class="portal-stat-label">Tesorería (caja y bancos)</span>
+                  </div>
+                  <div class="portal-stat">
+                    <span class="portal-stat-value" id="stat-iva">—</span>
+                    <span class="portal-stat-label" id="stat-iva-label">IVA del trimestre</span>
+                  </div>
+                  <div class="portal-stat">
+                    <span class="portal-stat-value" id="stat-130">—</span>
+                    <span class="portal-stat-label">Pago fraccionado estimado (modelo 130)</span>
+                  </div>
+                </div>
+
+                <div class="finanzas-pendientes">
+                  <div>
+                    <p class="field-group-label">Cobros pendientes</p>
+                    <p id="cobrosEmpty" class="factura-empty" hidden>No tienes cobros pendientes.</p>
+                    <ul id="cobrosList" class="factura-list"></ul>
+                  </div>
+                  <div>
+                    <p class="field-group-label">Pagos pendientes</p>
+                    <p id="pagosEmpty" class="factura-empty" hidden>No tienes pagos pendientes.</p>
+                    <ul id="pagosList" class="factura-list"></ul>
+                  </div>
+                </div>
+
+                <p class="field-hint finanzas-disclaimer">
+                  Cifras estimadas a partir de tu contabilidad, actualizadas una vez por semana. Antes de presentar cualquier modelo, lo revisamos contigo con el cálculo oficial.
+                </p>
               </div>
             </div>
           </section>
@@ -194,6 +248,21 @@ const dashboardsCtaHref = `mailto:contacto@asesoriamadal.es?subject=${encodeURIC
   const statDiasImpuestoEl = document.getElementById('stat-dias-impuesto') as HTMLElement;
   const statDiasImpuestoLabelEl = document.getElementById('stat-dias-impuesto-label') as HTMLElement;
 
+  const finanzasEmptyEl = document.getElementById('finanzas-empty') as HTMLElement;
+  const finanzasDatosEl = document.getElementById('finanzas-datos') as HTMLElement;
+  const finanzasPeriodoEl = document.getElementById('finanzas-periodo') as HTMLElement;
+  const statIngresosEl = document.getElementById('stat-ingresos') as HTMLElement;
+  const statGastosEl = document.getElementById('stat-gastos') as HTMLElement;
+  const statResultadoEl = document.getElementById('stat-resultado') as HTMLElement;
+  const statTesoreriaEl = document.getElementById('stat-tesoreria') as HTMLElement;
+  const statIvaEl = document.getElementById('stat-iva') as HTMLElement;
+  const statIvaLabelEl = document.getElementById('stat-iva-label') as HTMLElement;
+  const stat130El = document.getElementById('stat-130') as HTMLElement;
+  const cobrosEmptyEl = document.getElementById('cobrosEmpty') as HTMLElement;
+  const cobrosListEl = document.getElementById('cobrosList') as HTMLElement;
+  const pagosEmptyEl = document.getElementById('pagosEmpty') as HTMLElement;
+  const pagosListEl = document.getElementById('pagosList') as HTMLElement;
+
   const docPresentacionAutonomoEl = document.getElementById('doc-presentacion-autonomo') as HTMLElement;
   const docPresentacionSlEl = document.getElementById('doc-presentacion-sl') as HTMLElement;
   const docPresentacionPendienteEl = document.getElementById('doc-presentacion-pendiente') as HTMLElement;
@@ -287,6 +356,10 @@ const dashboardsCtaHref = `mailto:contacto@asesoriamadal.es?subject=${encodeURIC
       return new Date(iso).toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' });
     }
 
+    function formatEur(v: number) {
+      return new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR' }).format(v);
+    }
+
     // Id interno de clientes (no el auth.uid() de la sesión) — es lo que
     // usa facturas_subidas.cliente_id. Se rellena al cargar el dashboard.
     let currentClienteId: string | null = null;
@@ -344,6 +417,73 @@ const dashboardsCtaHref = `mailto:contacto@asesoriamadal.es?subject=${encodeURIC
       });
     }
 
+    type Pendiente = { nombre: string | null; fecha_vencimiento: string | null; importe: number };
+
+    function renderPendienteList(listEl: HTMLElement, emptyEl: HTMLElement, rows: Pendiente[]) {
+      listEl.innerHTML = '';
+      emptyEl.hidden = rows.length > 0;
+
+      rows.forEach((row) => {
+        const li = document.createElement('li');
+
+        const nombre = document.createElement('div');
+        nombre.className = 'factura-nombre';
+        nombre.textContent = row.nombre || '(sin nombre)';
+        li.appendChild(nombre);
+
+        const meta = document.createElement('div');
+        meta.className = 'factura-meta';
+        const fecha = row.fecha_vencimiento ? `Vence: ${formatFecha(row.fecha_vencimiento)}` : 'Sin fecha de vencimiento';
+        meta.textContent = `${fecha} · ${formatEur(row.importe ?? 0)}`;
+        li.appendChild(meta);
+
+        listEl.appendChild(li);
+      });
+    }
+
+    // Se pinta solo con el ultimo periodo sincronizado (dashboard_periodos.periodo
+    // mas reciente) — el sincronizador de Visionwin solo manda el mes en curso,
+    // asi que no hay historico que elegir todavia.
+    async function renderFinanzas(clienteId: string) {
+      const { data: periodos } = await supabase!
+        .from('dashboard_periodos')
+        .select('periodo, ingresos, gastos, tesoreria, iva_resultado, pago_fraccionado_130')
+        .eq('cliente_id', clienteId)
+        .order('periodo', { ascending: false })
+        .limit(1);
+
+      const ultimo = periodos && periodos.length > 0 ? periodos[0] : null;
+      finanzasEmptyEl.hidden = ultimo !== null;
+      finanzasDatosEl.hidden = ultimo === null;
+      if (!ultimo) return;
+
+      const fechaPeriodo = new Date(ultimo.periodo as string);
+      finanzasPeriodoEl.textContent = `Datos de ${fechaPeriodo.toLocaleDateString('es-ES', { month: 'long', year: 'numeric' })}, actualizados una vez por semana.`;
+
+      const ingresos = Number(ultimo.ingresos) || 0;
+      const gastos = Number(ultimo.gastos) || 0;
+      statIngresosEl.textContent = formatEur(ingresos);
+      statGastosEl.textContent = formatEur(gastos);
+      statResultadoEl.textContent = formatEur(ingresos - gastos);
+      statTesoreriaEl.textContent = formatEur(Number(ultimo.tesoreria) || 0);
+
+      const ivaResultado = Number(ultimo.iva_resultado) || 0;
+      statIvaEl.textContent = formatEur(Math.abs(ivaResultado));
+      statIvaLabelEl.textContent = ivaResultado >= 0 ? 'IVA del trimestre (a pagar)' : 'IVA del trimestre (a devolver)';
+
+      stat130El.textContent = formatEur(Number(ultimo.pago_fraccionado_130) || 0);
+
+      const { data: pendientes } = await supabase!
+        .from('dashboard_pendientes')
+        .select('tipo, nombre, fecha_vencimiento, importe')
+        .eq('cliente_id', clienteId)
+        .order('fecha_vencimiento', { ascending: true });
+
+      const rows = (pendientes ?? []) as (Pendiente & { tipo: string })[];
+      renderPendienteList(cobrosListEl, cobrosEmptyEl, rows.filter((r) => r.tipo === 'cobro'));
+      renderPendienteList(pagosListEl, pagosEmptyEl, rows.filter((r) => r.tipo === 'pago'));
+    }
+
     async function renderForSession() {
       const {
         data: { session },
@@ -372,6 +512,7 @@ const dashboardsCtaHref = `mailto:contacto@asesoriamadal.es?subject=${encodeURIC
       nombreEl.textContent = cliente.nombre as string;
       renderReportingPanel(Boolean(cliente.reporting));
       renderProximoImpuesto((cliente.modelos as string[] | null) ?? []);
+      if (cliente.reporting) renderFinanzas(currentClienteId);
       renderDocumentacionPanel((cliente.tipo_persona as string | null) ?? null);
       renderFacturaList(currentClienteId);
       showOnly(dashEl);

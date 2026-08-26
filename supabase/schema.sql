@@ -328,6 +328,17 @@ alter table clientes add column if not exists alta_hecha boolean;
 -- 200 (Impuesto de Sociedades anual, solo SL).
 alter table clientes add column if not exists modelos text[] not null default '{}';
 
+-- NOTA (2026-08-26): esta sección tenía antes una columna
+-- "visionwin_empresa_codigo" para vincular cada cliente con su empresa en
+-- Visionwin. Ya no hace falta: desde la migración de clientes.id a NIF (ver
+-- más abajo), clientes.id ES el NIF, y el campo CIF de EMPRESA.DBF en
+-- Visionwin también lo es — así que el sincronizador de dashboards
+-- (n8n-workflows, ver también el prototipo Java de Edurne) vincula
+-- directamente por NIF/CIF normalizado contra clientes.id, sin columna
+-- intermedia. Si esa columna todavía existe físicamente en la tabla real
+-- (se creó antes de esta migración), no hace falta borrarla — simplemente
+-- ya no la usa nada.
+
 alter table clientes enable row level security;
 
 -- Un cliente autenticado solo puede leer su propia fila, nunca las de
@@ -590,3 +601,98 @@ create policy "cliente registra su propia subida"
     fecha_contabilizado is null
     and cliente_id in (select id from clientes where auth_user_id = auth.uid())
   );
+
+-- fecha_descargado / drive_file_id / drive_carpeta_pendientes_id: estados
+-- del pipeline de contabilización automática (OCR de Visionwin). El
+-- ciclo de una fila es:
+--   fecha_subida        -> el cliente sube la factura desde el portal
+--   fecha_descargado     -> n8n la baja de Storage y la sube a la carpeta
+--                           de Drive del cliente correspondiente
+--                           (1-contabilidad/<año>/<trimestre>/Pendientes),
+--                           solo si el cliente ya tiene NIF y
+--                           visionwin_empresa_codigo asignados. Guarda a
+--                           la vez drive_file_id (el archivo subido) y
+--                           drive_carpeta_pendientes_id (la carpeta
+--                           Pendientes en la que se dejó), para poder
+--                           comprobar más tarde si alguien lo movió sin
+--                           tener que recalcular año/trimestre otra vez.
+--   fecha_contabilizado  -> un segundo workflow detecta que
+--                           drive_file_id ya no vive en
+--                           drive_carpeta_pendientes_id (alguien lo
+--                           movió a Contabilizadas tras pasar el OCR de
+--                           Visionwin) y marca la fecha sola.
+-- Los tres quedan NULL hasta completar ese paso — no hace falta editarlos
+-- a mano en el Table Editor.
+--
+-- (fecha_revisado se planteó en un diseño anterior con una tercera
+-- carpeta "Revisadas" que ya no existe — solo hay Pendientes y
+-- Contabilizadas — así que se ha quitado. Si ya la creaste en el
+-- proyecto de Supabase en marcha, hay que borrarla a mano una vez:
+--   alter table facturas_subidas drop column if exists fecha_revisado;)
+alter table facturas_subidas add column if not exists fecha_descargado timestamptz;
+alter table facturas_subidas add column if not exists drive_file_id text;
+alter table facturas_subidas add column if not exists drive_carpeta_pendientes_id text;
+
+-- ---------------------------------------------------------------------
+-- dashboard_periodos / dashboard_pendientes
+-- ---------------------------------------------------------------------
+-- Alimentadas una vez por semana por el sincronizador Java que lee los
+-- .DBF de Visionwin (contabilidad@SOB-MARIO) y hace upsert aquí con la
+-- service role key — no hay política de insert/update/delete, igual que
+-- el resto de tablas de este proyecto.
+--
+-- cliente_id es "text", igual que clientes.id — que desde la migración a
+-- NIF (ver más arriba) es directamente el NIF/CIF del cliente en
+-- mayúsculas. El vínculo entre cada empresa de Visionwin y su cliente en
+-- Supabase se hace comparando el CIF de EMPRESA.DBF (normalizado:
+-- trim + mayúsculas) directamente contra clientes.id — ya no hace falta
+-- ninguna columna intermedia tipo visionwin_empresa_codigo, que existió
+-- brevemente antes de esta migración y ya no se usa (ver nota más arriba,
+-- junto a la columna "modelos").
+--
+-- "on update cascade" por el mismo motivo que en facturas_subidas: si se
+-- corrige a mano un NIF mal tecleado, se propaga solo.
+create table if not exists dashboard_periodos (
+  id uuid primary key default gen_random_uuid(),
+  cliente_id text not null references clientes (id) on delete cascade on update cascade,
+  periodo date not null, -- primer día del mes, p.ej. 2026-08-01
+  ingresos numeric,
+  gastos numeric,
+  tesoreria numeric,
+  iva_repercutido numeric,
+  iva_soportado numeric,
+  iva_resultado numeric,
+  base_111 numeric,
+  retenido_111 numeric,
+  base_115 numeric,
+  retenido_115 numeric,
+  pago_fraccionado_130 numeric,
+  sincronizado_at timestamptz not null default now(),
+  unique (cliente_id, periodo)
+);
+
+alter table dashboard_periodos enable row level security;
+
+create policy "cliente ve sus propios periodos"
+  on dashboard_periodos for select
+  using (cliente_id in (select id from clientes where auth_user_id = auth.uid()));
+
+-- No hay ids estables en COBROS.DBF/PAGOS.DBF de Visionwin, así que cada
+-- sincronización borra y reinserta de golpe todas las filas del cliente
+-- (ver SupabaseSync.java) — esta tabla siempre refleja el estado exacto
+-- del último sync, no un histórico.
+create table if not exists dashboard_pendientes (
+  id uuid primary key default gen_random_uuid(),
+  cliente_id text not null references clientes (id) on delete cascade on update cascade,
+  tipo text not null, -- 'cobro' | 'pago' — sin CHECK a propósito, se valida en el Java antes de enviarlo
+  nombre text,
+  fecha_vencimiento date,
+  importe numeric,
+  sincronizado_at timestamptz not null default now()
+);
+
+alter table dashboard_pendientes enable row level security;
+
+create policy "cliente ve sus propios pendientes"
+  on dashboard_pendientes for select
+  using (cliente_id in (select id from clientes where auth_user_id = auth.uid()));
