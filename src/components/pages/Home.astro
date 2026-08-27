@@ -3,10 +3,15 @@ import { useTranslations, localizedPath } from '../../i18n/utils';
 import type { Locale } from '../../i18n/ui';
 import ContactSwitch from '../ContactSwitch.astro';
 import Simulador from './Simulador.astro';
+import { getSortedBlogPosts } from '../../lib/blog';
 
 interface Props { lang: Locale; }
 const { lang } = Astro.props;
 const t = useTranslations(lang);
+
+// Enlace profundo al artículo más reciente del idioma: ayuda a Google a
+// descubrir e indexar la página del artículo (no solo el índice del blog).
+const latestPost = (await getSortedBlogPosts(lang))[0];
 ---
 
 <div id="view-home">
@@ -102,8 +107,15 @@ const t = useTranslations(lang);
       </div>
 
       <div class="blog-teaser">
-        <p>{t.blogTeaser.text}</p>
-        <a href={localizedPath('/blog', lang)}>{t.blogTeaser.link}</a>
+        {latestPost ? (
+          <p>
+            <span class="blog-teaser-label">{t.blogTeaser.latestLabel}</span>
+            <a href={localizedPath(`/blog/${latestPost.data.slug}`, lang)}>{latestPost.data.title}</a>
+          </p>
+        ) : (
+          <p>{t.blogTeaser.text}</p>
+        )}
+        <a class="blog-teaser-all" href={localizedPath('/blog', lang)}>{t.blogTeaser.link}</a>
       </div>
     </div>
   </section>

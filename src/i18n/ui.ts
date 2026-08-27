@@ -104,7 +104,7 @@ export const ui = {
       ctaCall: 'Reservar llamada',
     },
 
-    blogTeaser: { text: 'Te explicamos tus impuestos sin tecnicismos.', link: 'Ver el blog →' },
+    blogTeaser: { text: 'Te explicamos tus impuestos sin tecnicismos.', latestLabel: 'Último artículo', link: 'Ver todo el blog →' },
 
     ctaFinal: {
       title: 'Habla con nosotros antes de decidir nada',
@@ -507,7 +507,7 @@ export const ui = {
       ctaCall: 'Reserva una trucada',
     },
 
-    blogTeaser: { text: 'T’expliquem els teus impostos sense tecnicismes.', link: 'Veure el blog →' },
+    blogTeaser: { text: 'T’expliquem els teus impostos sense tecnicismes.', latestLabel: 'Últim article', link: 'Veure tot el blog →' },
 
     ctaFinal: {
       title: 'Parla amb nosaltres abans de decidir res',
@@ -910,7 +910,7 @@ export const ui = {
       ctaCall: 'Book a call',
     },
 
-    blogTeaser: { text: 'We explain your taxes without the jargon.', link: 'Read the blog →' },
+    blogTeaser: { text: 'We explain your taxes without the jargon.', latestLabel: 'Latest article', link: 'Browse the whole blog →' },
 
     ctaFinal: {
       title: 'Talk to us before deciding anything',
