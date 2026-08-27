@@ -687,7 +687,7 @@ const dashboardsCtaHref = `mailto:contacto@asesoriamadal.es?subject=${encodeURIC
       ivaSoportadoEl.textContent = formatEur(ivaSoportado);
       ivaCompensarEl.textContent = formatEur(ivaCompensar);
       ivaResultadoLabelEl.textContent = ivaResultadoFinal >= 0 ? 'Resultado (a pagar)' : 'Resultado (a devolver)';
-      ivaResultadoFinalEl.textContent = formatEur(Math.abs(ivaResultadoFinal));
+      ivaResultadoFinalEl.textContent = formatEur(ivaResultadoFinal);
       setSigno(ivaResultadoFinalEl, ivaResultadoFinal);
 
       const rendimientoNeto = ingresosYtd - gastosYtd;
