@@ -115,7 +115,7 @@ const dashboardsCtaHref = `mailto:contacto@asesoriamadal.es?subject=${encodeURIC
                     <span class="portal-stat-value" id="stat-resultado">—</span>
                     <span class="portal-stat-label">Resultado del mes</span>
                   </div>
-                  <div class="portal-stat">
+                  <div class="portal-stat" id="tesoreria-card">
                     <span class="portal-stat-value" id="stat-tesoreria">—</span>
                     <span class="portal-stat-label">Tesorería (caja y bancos)</span>
                   </div>
@@ -157,14 +157,16 @@ const dashboardsCtaHref = `mailto:contacto@asesoriamadal.es?subject=${encodeURIC
                   <div class="finanzas-detalle-linea finanzas-detalle-total"><span id="iva-resultado-label">Resultado</span><span id="iva-resultado-final">—</span></div>
                 </div>
 
-                <h3 class="finanzas-subtitle">Modelo 130 — pago fraccionado IRPF</h3>
-                <div class="finanzas-detalle">
-                  <div class="finanzas-detalle-linea"><span>Ingresos acumulados del año</span><span id="m130-ingresos">—</span></div>
-                  <div class="finanzas-detalle-linea"><span>Gastos acumulados del año</span><span id="m130-gastos">—</span></div>
-                  <div class="finanzas-detalle-linea"><span>Rendimiento neto</span><span id="m130-rendimiento">—</span></div>
-                  <div class="finanzas-detalle-linea"><span>Retenciones ya soportadas</span><span id="m130-retenciones">—</span></div>
-                  <div class="finanzas-detalle-linea"><span>Pagado en trimestres anteriores</span><span id="m130-anteriores">—</span></div>
-                  <div class="finanzas-detalle-linea finanzas-detalle-total"><span>Pago fraccionado estimado (20%)</span><span id="m130-pago">—</span></div>
+                <div id="modelo-130-section">
+                  <h3 class="finanzas-subtitle">Modelo 130 — pago fraccionado IRPF</h3>
+                  <div class="finanzas-detalle">
+                    <div class="finanzas-detalle-linea"><span>Ingresos acumulados del año</span><span id="m130-ingresos">—</span></div>
+                    <div class="finanzas-detalle-linea"><span>Gastos acumulados del año</span><span id="m130-gastos">—</span></div>
+                    <div class="finanzas-detalle-linea"><span>Rendimiento neto</span><span id="m130-rendimiento">—</span></div>
+                    <div class="finanzas-detalle-linea"><span>Retenciones ya soportadas</span><span id="m130-retenciones">—</span></div>
+                    <div class="finanzas-detalle-linea"><span>Pagado en trimestres anteriores</span><span id="m130-anteriores">—</span></div>
+                    <div class="finanzas-detalle-linea finanzas-detalle-total"><span>Pago fraccionado estimado (20%)</span><span id="m130-pago">—</span></div>
+                  </div>
                 </div>
 
                 <h3 class="finanzas-subtitle">Cobros y pagos pendientes <span class="finanzas-actual-tag">a día de hoy</span></h3>
@@ -300,6 +302,8 @@ const dashboardsCtaHref = `mailto:contacto@asesoriamadal.es?subject=${encodeURIC
   const statGastosEl = document.getElementById('stat-gastos') as HTMLElement;
   const statResultadoEl = document.getElementById('stat-resultado') as HTMLElement;
   const statTesoreriaEl = document.getElementById('stat-tesoreria') as HTMLElement;
+  const tesoreriaCardEl = document.getElementById('tesoreria-card') as HTMLElement;
+  const modelo130SectionEl = document.getElementById('modelo-130-section') as HTMLElement;
   const statIngresosYtdEl = document.getElementById('stat-ingresos-ytd') as HTMLElement;
   const statGastosYtdEl = document.getElementById('stat-gastos-ytd') as HTMLElement;
   const statBeneficioYtdEl = document.getElementById('stat-beneficio-ytd') as HTMLElement;
@@ -383,6 +387,16 @@ const dashboardsCtaHref = `mailto:contacto@asesoriamadal.es?subject=${encodeURIC
     docPresentacionAutonomoEl.hidden = tipoPersona !== 'autonomo';
     docPresentacionSlEl.hidden = tipoPersona !== 'sl';
     docPresentacionPendienteEl.hidden = tipoPersona === 'autonomo' || tipoPersona === 'sl';
+  }
+
+  // Tesorería no aplica a autónomos (mezcla caja personal/negocio, no es una
+  // métrica útil para ellos); modelo 130 es pago fraccionado de IRPF, no
+  // aplica a SL (tributan por Impuesto de Sociedades, modelo 202). Si
+  // tipo_persona todavía no está marcado (null), se muestran ambos por
+  // defecto en vez de ocultar información sin saber a quién aplica.
+  function renderFinanzasVisibilidadPorTipo(tipoPersona: string | null) {
+    tesoreriaCardEl.hidden = tipoPersona === 'autonomo';
+    modelo130SectionEl.hidden = tipoPersona === 'sl';
   }
 
   // "Media de facturas al mes" se calcula solo sobre los meses en los que
@@ -795,6 +809,7 @@ const dashboardsCtaHref = `mailto:contacto@asesoriamadal.es?subject=${encodeURIC
       renderProximoImpuesto((cliente.modelos as string[] | null) ?? []);
       if (cliente.reporting) renderFinanzas(currentClienteId);
       renderDocumentacionPanel((cliente.tipo_persona as string | null) ?? null);
+      renderFinanzasVisibilidadPorTipo((cliente.tipo_persona as string | null) ?? null);
       renderFacturaList(currentClienteId);
       showOnly(dashEl);
     }
