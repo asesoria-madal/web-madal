@@ -11,17 +11,22 @@ import { useTranslations } from '../i18n/utils';
 interface Props {
   lang: Locale;
   triggerClass?: string;
+  // Superficie desde la que se muestra este botón (header, home_hero,
+  // cta_final, blog_nudge, alta, simulador, menu_movil…). Viaja en el
+  // evento `contacto_click` de Vercel Analytics para poder comparar qué
+  // sitio de la web genera más contactos. Solo visible en plan Pro.
+  origen?: string;
 }
 
-const { lang, triggerClass = 'btn btn-primary' } = Astro.props;
+const { lang, triggerClass = 'btn btn-primary', origen = 'desconocido' } = Astro.props;
 const t = useTranslations(lang);
 const dialogId = `contact-dialog-${Math.random().toString(36).slice(2, 9)}`;
 const [emailLocal, emailDomain] = t.contact.email.split('@');
 ---
 
-<button type="button" class={triggerClass} data-contact-trigger={dialogId}>{t.contact.trigger}</button>
+<button type="button" class={triggerClass} data-contact-trigger={dialogId} data-origen={origen}>{t.contact.trigger}</button>
 
-<dialog class="contact-dialog" id={dialogId}>
+<dialog class="contact-dialog" id={dialogId} data-origen={origen}>
   <button type="button" class="contact-dialog-close" data-contact-close aria-label="Cerrar">✕</button>
   <p class="contact-dialog-label">{t.contact.emailLabel}</p>
   <a href={`mailto:${t.contact.email}`} class="contact-dialog-email">{emailLocal}@<br class="email-break" />{emailDomain}</a>
@@ -34,21 +39,27 @@ const [emailLocal, emailDomain] = t.contact.email.split('@');
 <script>
   import { track } from '@vercel/analytics';
 
+  const originOf = (el: HTMLElement | null) => el?.dataset.origen || 'desconocido';
+
   const triggers = document.querySelectorAll<HTMLButtonElement>('[data-contact-trigger]');
   triggers.forEach((btn) => {
     btn.addEventListener('click', () => {
       const id = btn.getAttribute('data-contact-trigger');
       const dialog = id ? document.getElementById(id) : null;
       if (dialog instanceof HTMLDialogElement) dialog.showModal();
-      track('contacto_click', { via: 'abrir' });
+      track('contacto_click', { via: 'abrir', origen: originOf(btn) });
     });
   });
 
   document.querySelectorAll<HTMLAnchorElement>('.contact-dialog-email').forEach((a) => {
-    a.addEventListener('click', () => track('contacto_click', { via: 'email' }));
+    a.addEventListener('click', () =>
+      track('contacto_click', { via: 'email', origen: originOf(a.closest<HTMLElement>('.contact-dialog')) }),
+    );
   });
   document.querySelectorAll<HTMLAnchorElement>('.contact-dialog-call').forEach((a) => {
-    a.addEventListener('click', () => track('contacto_click', { via: 'llamada' }));
+    a.addEventListener('click', () =>
+      track('contacto_click', { via: 'llamada', origen: originOf(a.closest<HTMLElement>('.contact-dialog')) }),
+    );
   });
 
   document.querySelectorAll<HTMLElement>('.contact-dialog').forEach((dialog) => {

@@ -73,7 +73,7 @@ const flagEmoji: Partial<Record<Locale, string>> = { es: '🇪🇸', en: '🇬�
       {!minimal && (
         <>
           <a href={localizedPath('/portal', lang)} class="portal-link"><span aria-hidden="true">👤</span> <span class="portal-link-label">{t.header.portal}</span></a>
-          <ContactSwitch lang={lang} />
+          <ContactSwitch lang={lang} origen="header" />
         </>
       )}
     </div>
@@ -101,7 +101,7 @@ const flagEmoji: Partial<Record<Locale, string>> = { es: '🇪🇸', en: '🇬�
           ))}
         </div>
       </div>
-      <ContactSwitch lang={lang} triggerClass="btn btn-primary mobile-menu-contact" />
+      <ContactSwitch lang={lang} triggerClass="btn btn-primary mobile-menu-contact" origen="menu_movil" />
     </nav>
   )}
 </header>
