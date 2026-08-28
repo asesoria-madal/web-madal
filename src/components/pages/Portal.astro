@@ -1,46 +1,60 @@
 ---
-// Portal de clientes: solo en castellano, como el resto de páginas
-// funcionales (no de marketing). Login por enlace mágico (Supabase Auth),
-// sin contraseña. Toda la lógica corre en el navegador: el acceso a los
-// datos lo protege RLS en la base de datos, no este código.
+// Portal de clientes. Login por enlace mágico (Supabase Auth), sin
+// contraseña. Toda la lógica corre en el navegador: el acceso a los datos
+// lo protege RLS en la base de datos, no este código.
 //
 // La ficha del cliente en la tabla `clientes` se vincula por email (no por
 // el id interno de Supabase Auth): así se puede dar de alta a un cliente
 // con solo su email, antes incluso de que haya iniciado sesión por primera
 // vez. Ver el SQL de configuración en la memoria del proyecto.
+//
+// Disponible en es/ca/en: los textos vienen de ui.ts (t.portal). Los que
+// necesita el <script> del navegador viajan en el <script type="application/json">
+// del final; las fechas e importes se formatean con `locale` (data-locale).
+import { useTranslations } from '../../i18n/utils';
+import type { Locale } from '../../i18n/ui';
 
-// CTA de "quiero contratar dashboards" con asunto ya escrito: pensado para
-// distinguir en el buzón estos leads de un "Contacta con nosotros" genérico
-// (mismo texto en el enlace y en el asunto del email, a propósito).
-const dashboardsCtaSubject = 'Quiero contratar el servicio de dashboards y reporting';
-const dashboardsCtaHref = `mailto:contacto@asesoriamadal.es?subject=${encodeURIComponent(dashboardsCtaSubject)}`;
+interface Props { lang: Locale; }
+const { lang } = Astro.props;
+const t = useTranslations(lang).portal;
+
+const localeTag: Record<Locale, string> = { es: 'es-ES', ca: 'ca-ES', en: 'en-GB' };
+const locale = localeTag[lang];
+
+const EMAIL = 'contacto@asesoriamadal.es';
+
+// CTA de "quiero contratar dashboards" con asunto ya escrito: mismo texto en
+// el enlace y en el asunto del email, a propósito (distinguir en el buzón
+// estos leads de un "Contacta con nosotros" genérico).
+const dashboardsCtaSubject = t.dashboards.reportingCta;
+const dashboardsCtaHref = `mailto:${EMAIL}?subject=${encodeURIComponent(dashboardsCtaSubject)}`;
 ---
 
-<div class="portal-page">
-  <p class="eyebrow">Clientes</p>
-  <h2 class="section-title">Tu área de cliente</h2>
+<div class="portal-page" data-locale={locale}>
+  <p class="eyebrow">{t.eyebrow}</p>
+  <h2 class="section-title">{t.title}</h2>
 
   <div class="portal-box">
     <div id="portal-loading">
-      <p>Cargando…</p>
+      <p>{t.loading}</p>
     </div>
 
     <div id="portal-unconfigured" hidden>
-      <p>El portal todavía no está conectado a la base de datos. Vuelve a intentarlo más tarde o escríbenos a <a href="mailto:contacto@asesoriamadal.es">contacto@asesoriamadal.es</a>.</p>
+      <p>{t.unconfiguredPre}<a href={`mailto:${EMAIL}`}>{EMAIL}</a>{t.unconfiguredPost}</p>
     </div>
 
     <form id="portal-login-form" hidden class="portal-form-wrap">
-      <p>Escribe tu email y te mandamos un enlace de acceso, sin contraseña.</p>
+      <p>{t.loginIntro}</p>
       <div class="portal-form">
-        <input type="email" id="portal-email" name="email" placeholder="tu@email.com" required autocomplete="email" />
-        <button type="submit" class="btn btn-primary">Enviar enlace</button>
+        <input type="email" id="portal-email" name="email" placeholder={t.emailPlaceholder} required autocomplete="email" />
+        <button type="submit" class="btn btn-primary">{t.sendLink}</button>
       </div>
       <p id="portal-login-msg" class="portal-msg" hidden></p>
     </form>
 
     <div id="portal-unlinked" hidden>
-      <p>Tu email está verificado, pero todavía no lo hemos vinculado a ningún cliente. Escríbenos a <a href="mailto:contacto@asesoriamadal.es">contacto@asesoriamadal.es</a> y lo activamos.</p>
-      <button type="button" id="portal-logout-1" class="portal-logout">Cerrar sesión</button>
+      <p>{t.unlinkedPre}<a href={`mailto:${EMAIL}`}>{EMAIL}</a>{t.unlinkedPost}</p>
+      <button type="button" id="portal-logout-1" class="portal-logout">{t.logout}</button>
     </div>
 
     <div id="portal-dash" class="portal-dash" hidden>
@@ -48,56 +62,59 @@ const dashboardsCtaHref = `mailto:contacto@asesoriamadal.es?subject=${encodeURIC
         <aside class="app-sidebar">
           <a href="/" class="wordmark">Asesoría<span>Madal</span></a>
           <nav class="app-nav">
-            <button type="button" class="app-nav-link active" data-panel="dashboards">📊 Dashboards y reporting</button>
-            <button type="button" class="app-nav-link" data-panel="facturas">📄 Subir facturas</button>
-            <button type="button" class="app-nav-link" data-panel="documentacion">📚 Documentación</button>
+            <button type="button" class="app-nav-link active" data-panel="dashboards">{t.nav.dashboards}</button>
+            <button type="button" class="app-nav-link" data-panel="facturas">{t.nav.facturas}</button>
+            <button type="button" class="app-nav-link" data-panel="documentacion">{t.nav.documentacion}</button>
           </nav>
           <div class="app-sidebar-foot">
-            <span>Hola, <span id="portal-nombre"></span></span>
-            <button type="button" id="portal-logout-2" class="portal-logout">Cerrar sesión</button>
+            <span>{t.greeting} <span id="portal-nombre"></span></span>
+            <div class="app-lang" aria-label={t.langLabel}>
+              <a href="/portal" class={lang === 'es' ? 'active' : ''} hreflang="es">ES</a>
+              <a href="/ca/portal" class={lang === 'ca' ? 'active' : ''} hreflang="ca">CA</a>
+              <a href="/en/portal" class={lang === 'en' ? 'active' : ''} hreflang="en">EN</a>
+            </div>
+            <button type="button" id="portal-logout-2" class="portal-logout">{t.logout}</button>
           </div>
         </aside>
 
         <main class="app-main">
           <section class="app-panel" data-panel="dashboards">
-            <h2>Dashboards y reporting</h2>
+            <h2>{t.dashboards.title}</h2>
             <div id="proximo-impuesto" class="portal-stats" hidden>
               <div class="portal-stat">
                 <span class="portal-stat-value" id="stat-dias-impuesto">—</span>
-                <span class="portal-stat-label" id="stat-dias-impuesto-label">Días hasta tu próxima presentación de impuestos</span>
+                <span class="portal-stat-label" id="stat-dias-impuesto-label">{t.dashboards.diasImpuestoLabel}</span>
               </div>
             </div>
             <div id="panel-reporting-off" hidden>
               <div class="portal-stats">
                 <div class="portal-stat">
                   <span class="portal-stat-value" id="stat-facturas-mes">—</span>
-                  <span class="portal-stat-label">Facturas enviadas este mes</span>
+                  <span class="portal-stat-label">{t.dashboards.facturasMes}</span>
                 </div>
                 <div class="portal-stat">
                   <span class="portal-stat-value" id="stat-facturas-media">—</span>
-                  <span class="portal-stat-label">Media de facturas al mes</span>
+                  <span class="portal-stat-label">{t.dashboards.facturasMedia}</span>
                 </div>
               </div>
               <div class="portal-empty">
-                <p>Todavía no tienes el reporting activo. Actívalo y verás aquí, actualizado cada semana:</p>
+                <p>{t.dashboards.reportingOffIntro}</p>
                 <ul class="finanzas-preview-list">
-                  <li><strong>Ingresos y gastos del mes</strong> — cómo va tu negocio de un vistazo, sin esperar al cierre del trimestre.</li>
-                  <li><strong>Tesorería</strong> (caja y bancos) — cuánto dinero tienes disponible ahora mismo.</li>
-                  <li><strong>IVA del trimestre</strong> — una estimación de lo que te tocará pagar o te devolverán, antes de que llegue la fecha de presentación.</li>
-                  <li><strong>Pago fraccionado del IRPF (modelo 130)</strong> estimado — para que vayas apartando lo que corresponde y no te pille de sorpresa.</li>
-                  <li><strong>Cobros y pagos pendientes</strong> — qué facturas tienes por cobrar y qué pagos tienes por hacer, con su fecha de vencimiento.</li>
+                  {t.dashboards.reportingOffList.map((it) => (
+                    <li><strong>{it.strong}</strong>{it.rest}</li>
+                  ))}
                 </ul>
-                <p>Por 30 € + IVA/mes.</p>
+                <p>{t.dashboards.reportingOffPrice}</p>
               </div>
-              <a href={dashboardsCtaHref} class="btn btn-primary">Quiero contratar el servicio de dashboards y reporting</a>
+              <a href={dashboardsCtaHref} class="btn btn-primary">{t.dashboards.reportingCta}</a>
             </div>
             <div id="panel-reporting-on" hidden>
               <div id="finanzas-empty" class="portal-empty">
-                Todavía no hay datos cargados. En cuanto tengamos tus números, aparecerán aquí como gráficas.
+                {t.dashboards.noData}
               </div>
               <div id="finanzas-datos" hidden>
                 <div class="finanzas-periodo-bar">
-                  <label for="finanzas-periodo-select">Mes:</label>
+                  <label for="finanzas-periodo-select">{t.dashboards.mesLabel}</label>
                   <select id="finanzas-periodo-select"></select>
                 </div>
                 <p class="field-hint" id="finanzas-actualizado"></p>
@@ -105,160 +122,160 @@ const dashboardsCtaHref = `mailto:contacto@asesoriamadal.es?subject=${encodeURIC
                 <div class="portal-stats portal-stats-color">
                   <div class="portal-stat">
                     <span class="portal-stat-value is-good" id="stat-ingresos">—</span>
-                    <span class="portal-stat-label">Ingresos del mes</span>
+                    <span class="portal-stat-label">{t.dashboards.ingresosMes}</span>
                   </div>
                   <div class="portal-stat">
                     <span class="portal-stat-value is-bad" id="stat-gastos">—</span>
-                    <span class="portal-stat-label">Gastos del mes</span>
+                    <span class="portal-stat-label">{t.dashboards.gastosMes}</span>
                   </div>
                   <div class="portal-stat">
                     <span class="portal-stat-value" id="stat-resultado">—</span>
-                    <span class="portal-stat-label">Resultado del mes</span>
+                    <span class="portal-stat-label">{t.dashboards.resultadoMes}</span>
                   </div>
                   <div class="portal-stat" id="tesoreria-card">
                     <span class="portal-stat-value" id="stat-tesoreria">—</span>
-                    <span class="portal-stat-label">Tesorería (caja y bancos)</span>
+                    <span class="portal-stat-label">{t.dashboards.tesoreria}</span>
                   </div>
                 </div>
 
-                <h3 class="finanzas-subtitle">Evolución de los últimos meses</h3>
+                <h3 class="finanzas-subtitle">{t.dashboards.evolucionTitle}</h3>
                 <div id="finanzas-evolucion" class="finanzas-evolucion"></div>
                 <div class="finanzas-evo-legend">
-                  <span><i class="dot" style="background:var(--accent)"></i> Ingresos</span>
-                  <span><i class="dot" style="background:var(--warm)"></i> Gastos</span>
-                  <span><i class="dot" style="background:var(--ink)"></i> Beneficio</span>
+                  <span><i class="dot" style="background:var(--accent)"></i> {t.dashboards.legendIngresos}</span>
+                  <span><i class="dot" style="background:var(--warm)"></i> {t.dashboards.legendGastos}</span>
+                  <span><i class="dot" style="background:var(--ink)"></i> {t.dashboards.legendBeneficio}</span>
                 </div>
 
-                <h3 class="finanzas-subtitle">Acumulado del año</h3>
+                <h3 class="finanzas-subtitle">{t.dashboards.acumuladoTitle}</h3>
                 <div class="portal-stats portal-stats-color">
                   <div class="portal-stat">
                     <span class="portal-stat-value is-good" id="stat-ingresos-ytd">—</span>
-                    <span class="portal-stat-label">Ingresos acumulados</span>
+                    <span class="portal-stat-label">{t.dashboards.ingresosAcum}</span>
                   </div>
                   <div class="portal-stat">
                     <span class="portal-stat-value is-bad" id="stat-gastos-ytd">—</span>
-                    <span class="portal-stat-label">Gastos acumulados</span>
+                    <span class="portal-stat-label">{t.dashboards.gastosAcum}</span>
                   </div>
                   <div class="portal-stat">
                     <span class="portal-stat-value" id="stat-beneficio-ytd">—</span>
-                    <span class="portal-stat-label">Beneficio acumulado</span>
+                    <span class="portal-stat-label">{t.dashboards.beneficioAcum}</span>
                   </div>
                 </div>
 
-                <h3 class="finanzas-subtitle">Gastos por tipo — acumulado del año</h3>
-                <p id="gastosCategoriaEmpty" class="factura-empty" hidden>Sin gastos registrados este año.</p>
+                <h3 class="finanzas-subtitle">{t.dashboards.gastosTipoTitle}</h3>
+                <p id="gastosCategoriaEmpty" class="factura-empty" hidden>{t.dashboards.gastosTipoEmpty}</p>
                 <div id="gastosCategoriaList" class="finanzas-barlist"></div>
 
-                <h3 class="finanzas-subtitle">IVA del trimestre</h3>
+                <h3 class="finanzas-subtitle">{t.dashboards.ivaTitle}</h3>
                 <div class="finanzas-detalle">
-                  <div class="finanzas-detalle-linea"><span>IVA repercutido</span><span id="iva-repercutido">—</span></div>
-                  <div class="finanzas-detalle-linea"><span>IVA soportado</span><span id="iva-soportado">—</span></div>
-                  <div class="finanzas-detalle-linea"><span>A compensar de periodos anteriores</span><span id="iva-compensar">—</span></div>
-                  <div class="finanzas-detalle-linea finanzas-detalle-total"><span id="iva-resultado-label">Resultado</span><span id="iva-resultado-final">—</span></div>
+                  <div class="finanzas-detalle-linea"><span>{t.dashboards.ivaRepercutido}</span><span id="iva-repercutido">—</span></div>
+                  <div class="finanzas-detalle-linea"><span>{t.dashboards.ivaSoportado}</span><span id="iva-soportado">—</span></div>
+                  <div class="finanzas-detalle-linea"><span>{t.dashboards.ivaCompensar}</span><span id="iva-compensar">—</span></div>
+                  <div class="finanzas-detalle-linea finanzas-detalle-total"><span id="iva-resultado-label">{t.dashboards.ivaResultado}</span><span id="iva-resultado-final">—</span></div>
                 </div>
 
                 <div id="modelo-130-section">
-                  <h3 class="finanzas-subtitle">Modelo 130 — pago fraccionado IRPF</h3>
+                  <h3 class="finanzas-subtitle">{t.dashboards.m130Title}</h3>
                   <div class="finanzas-detalle">
-                    <div class="finanzas-detalle-linea"><span>Ingresos acumulados del año</span><span id="m130-ingresos">—</span></div>
-                    <div class="finanzas-detalle-linea"><span>Gastos acumulados del año</span><span id="m130-gastos">—</span></div>
-                    <div class="finanzas-detalle-linea"><span>Rendimiento neto</span><span id="m130-rendimiento">—</span></div>
-                    <div class="finanzas-detalle-linea"><span>Retenciones ya soportadas</span><span id="m130-retenciones">—</span></div>
-                    <div class="finanzas-detalle-linea"><span>Pagado en trimestres anteriores</span><span id="m130-anteriores">—</span></div>
-                    <div class="finanzas-detalle-linea finanzas-detalle-total"><span>Pago fraccionado estimado (20%)</span><span id="m130-pago">—</span></div>
+                    <div class="finanzas-detalle-linea"><span>{t.dashboards.m130Ingresos}</span><span id="m130-ingresos">—</span></div>
+                    <div class="finanzas-detalle-linea"><span>{t.dashboards.m130Gastos}</span><span id="m130-gastos">—</span></div>
+                    <div class="finanzas-detalle-linea"><span>{t.dashboards.m130Rendimiento}</span><span id="m130-rendimiento">—</span></div>
+                    <div class="finanzas-detalle-linea"><span>{t.dashboards.m130Retenciones}</span><span id="m130-retenciones">—</span></div>
+                    <div class="finanzas-detalle-linea"><span>{t.dashboards.m130Anteriores}</span><span id="m130-anteriores">—</span></div>
+                    <div class="finanzas-detalle-linea finanzas-detalle-total"><span>{t.dashboards.m130Pago}</span><span id="m130-pago">—</span></div>
                   </div>
                 </div>
 
-                <h3 class="finanzas-subtitle">Cobros y pagos pendientes <span class="finanzas-actual-tag">a día de hoy</span></h3>
+                <h3 class="finanzas-subtitle">{t.dashboards.pendientesTitle} <span class="finanzas-actual-tag">{t.dashboards.pendientesTag}</span></h3>
                 <div class="finanzas-pendientes">
                   <div>
-                    <p class="field-group-label">Cobros pendientes</p>
-                    <p id="cobrosEmpty" class="factura-empty" hidden>No tienes cobros pendientes.</p>
+                    <p class="field-group-label">{t.dashboards.cobrosTitle}</p>
+                    <p id="cobrosEmpty" class="factura-empty" hidden>{t.dashboards.cobrosEmpty}</p>
                     <ul id="cobrosList" class="factura-list"></ul>
                   </div>
                   <div>
-                    <p class="field-group-label">Pagos pendientes</p>
-                    <p id="pagosEmpty" class="factura-empty" hidden>No tienes pagos pendientes.</p>
+                    <p class="field-group-label">{t.dashboards.pagosTitle}</p>
+                    <p id="pagosEmpty" class="factura-empty" hidden>{t.dashboards.pagosEmpty}</p>
                     <ul id="pagosList" class="factura-list"></ul>
                   </div>
                 </div>
 
                 <p class="field-hint finanzas-disclaimer">
-                  Cifras estimadas a partir de tu contabilidad. Antes de presentar cualquier modelo, lo revisamos contigo con el cálculo oficial.
+                  {t.dashboards.disclaimer}
                 </p>
               </div>
             </div>
           </section>
 
           <section class="app-panel" data-panel="facturas" hidden>
-            <h2>Subir facturas</h2>
-            <p>Sube tus facturas en PDF. Las revisamos y las incorporamos a tu contabilidad.</p>
+            <h2>{t.facturas.title}</h2>
+            <p>{t.facturas.intro}</p>
             <form id="facturaForm" class="factura-upload">
               <input type="file" id="facturaFile" accept="application/pdf" multiple required />
-              <button type="submit" class="btn btn-primary">Subir factura</button>
+              <button type="submit" class="btn btn-primary">{t.facturas.submit}</button>
             </form>
             <p id="facturaMsg" class="portal-msg" hidden></p>
-            <p id="facturaEmpty" class="factura-empty" hidden>Todavía no has subido ninguna factura.</p>
+            <p id="facturaEmpty" class="factura-empty" hidden>{t.facturas.empty}</p>
             <ul id="facturaList" class="factura-list"></ul>
           </section>
 
           <section class="app-panel" data-panel="documentacion" hidden>
-            <h2>Documentación</h2>
+            <h2>{t.doc.title}</h2>
 
             <div class="field-group">
-              <p class="field-group-label">Guía del área de clientes</p>
+              <p class="field-group-label">{t.doc.guiaGroup}</p>
               <ul class="doc-list">
                 <li>
                   <a href="https://suslwmgqdzingeqhfrpw.supabase.co/storage/v1/object/public/docs-publicos/Guia_Area_Clientes.pdf" target="_blank" rel="noopener">
-                    Cómo usar tu área de clientes (PDF)
+                    {t.doc.guiaLink}
                   </a>
                 </li>
               </ul>
             </div>
 
             <div class="field-group">
-              <p class="field-group-label">Presentación de servicios</p>
+              <p class="field-group-label">{t.doc.presentacionGroup}</p>
               <ul id="doc-presentacion-autonomo" class="doc-list" hidden>
                 <li>
                   <a href="https://suslwmgqdzingeqhfrpw.supabase.co/storage/v1/object/public/docs-publicos/Presentacion_Autonomos.pdf" target="_blank" rel="noopener">
-                    Presentación de servicios — Autónomos (PDF)
+                    {t.doc.presentacionAutonomo}
                   </a>
                 </li>
               </ul>
               <ul id="doc-presentacion-sl" class="doc-list" hidden>
                 <li>
                   <a href="https://suslwmgqdzingeqhfrpw.supabase.co/storage/v1/object/public/docs-publicos/Presentacion_SL.pdf" target="_blank" rel="noopener">
-                    Presentación de servicios — SL (PDF)
+                    {t.doc.presentacionSl}
                   </a>
                 </li>
               </ul>
               <p id="doc-presentacion-pendiente" class="field-hint" hidden>
-                Todavía no tenemos marcado si eres autónomo o SL. Escríbenos a <a href="mailto:contacto@asesoriamadal.es">contacto@asesoriamadal.es</a> y lo revisamos.
+                {t.doc.presentacionPendientePre}<a href={`mailto:${EMAIL}`}>{EMAIL}</a>{t.doc.presentacionPendientePost}
               </p>
             </div>
 
             <div class="field-group">
-              <p class="field-group-label">Pasos de apoderamiento</p>
+              <p class="field-group-label">{t.doc.apoderamientoGroup}</p>
               <ul class="doc-list">
                 <li>
                   <a href="https://suslwmgqdzingeqhfrpw.supabase.co/storage/v1/object/public/docs-publicos/Pasos_Apoderamiento_AEAT.pdf" target="_blank" rel="noopener">
-                    Pasos para el apoderamiento de la AEAT (PDF)
+                    {t.doc.apoderamientoAeat}
                   </a>
                 </li>
                 <li>
                   <a href="https://suslwmgqdzingeqhfrpw.supabase.co/storage/v1/object/public/docs-publicos/Pasos_Apoderamiento_Seguridad_Social.pdf" target="_blank" rel="noopener">
-                    Pasos para el apoderamiento de la Seguridad Social (PDF)
+                    {t.doc.apoderamientoSs}
                   </a>
                 </li>
               </ul>
             </div>
 
             <div class="field-group">
-              <p class="field-group-label">Protección de datos (RGPD)</p>
+              <p class="field-group-label">{t.doc.rgpdGroup}</p>
               <ul class="doc-list">
                 <li>
                   <a href="https://suslwmgqdzingeqhfrpw.supabase.co/storage/v1/object/public/docs-publicos/RGPD.pdf" target="_blank" rel="noopener">
-                    Información de Protección de Datos (RGPD) (PDF)
+                    {t.doc.rgpdLink}
                   </a>
                 </li>
               </ul>
@@ -270,9 +287,38 @@ const dashboardsCtaHref = `mailto:contacto@asesoriamadal.es?subject=${encodeURIC
   </div>
 </div>
 
+<script type="application/json" id="portal-i18n" is:inline set:html={JSON.stringify(t)} />
+
+<style>
+  .app-lang { display: flex; gap: 0.35rem; margin: 0.15rem 0 0.1rem; }
+  .app-lang a {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    color: var(--ink-soft);
+    text-decoration: none;
+    padding: 0.1rem 0.32rem;
+    border-radius: 6px;
+  }
+  .app-lang a:hover { color: var(--ink); }
+  .app-lang a.active {
+    color: var(--accent);
+    background: color-mix(in srgb, var(--accent) 12%, transparent);
+  }
+</style>
+
 <script>
   import { getSupabaseBrowser } from '../../lib/supabaseClient';
   import { proximaPresentacion } from '../../lib/modelosFiscales';
+
+  // Textos que necesita este script (viajan serializados desde el servidor,
+  // ya en el idioma de la página) y locale para formatear fechas/importes.
+  const I18N = JSON.parse(document.getElementById('portal-i18n')?.textContent || '{}');
+  const LOCALE = (document.querySelector('.portal-page') as HTMLElement | null)?.dataset.locale || 'es-ES';
+
+  function tpl(str: string, vars: Record<string, string | number>): string {
+    return str.replace(/\{(\w+)\}/g, (_m, key) => String(vars[key] ?? ''));
+  }
 
   const loadingEl = document.getElementById('portal-loading') as HTMLElement;
   const unconfiguredEl = document.getElementById('portal-unconfigured') as HTMLElement;
@@ -371,14 +417,16 @@ const dashboardsCtaHref = `mailto:contacto@asesoriamadal.es?subject=${encodeURIC
     proximoImpuestoEl.hidden = !proxima;
     if (proxima) {
       statDiasImpuestoEl.textContent = String(proxima.dias);
-      const fechaTexto = proxima.fecha.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' });
+      const fechaTexto = proxima.fecha.toLocaleDateString(LOCALE, { day: '2-digit', month: '2-digit', year: 'numeric' });
       // Varios modelos suelen compartir la misma fecha (130/111/303 se
       // presentan el mismo día): se listan todos, no solo el primero.
       const codigos = proxima.modelos.map((m) => m.modelo);
       const listaModelos =
-        codigos.length > 1 ? `${codigos.slice(0, -1).join(', ')} y ${codigos[codigos.length - 1]}` : codigos[0];
-      const etiqueta = codigos.length > 1 ? 'los modelos' : 'el modelo';
-      statDiasImpuestoLabelEl.textContent = `Días hasta ${etiqueta} ${listaModelos} (${fechaTexto})`;
+        codigos.length > 1
+          ? `${codigos.slice(0, -1).join(', ')} ${I18N.dashboards.joinY} ${codigos[codigos.length - 1]}`
+          : codigos[0];
+      const prefijo = codigos.length > 1 ? I18N.dashboards.diasHastaModeloPlur : I18N.dashboards.diasHastaModeloSing;
+      statDiasImpuestoLabelEl.textContent = `${prefijo} ${listaModelos} (${fechaTexto})`;
     }
   }
 
@@ -426,11 +474,11 @@ const dashboardsCtaHref = `mailto:contacto@asesoriamadal.es?subject=${encodeURIC
     showOnly(unconfiguredEl);
   } else {
     function formatFecha(iso: string) {
-      return new Date(iso).toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' });
+      return new Date(iso).toLocaleDateString(LOCALE, { day: '2-digit', month: '2-digit', year: 'numeric' });
     }
 
     function formatEur(v: number) {
-      return new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR' }).format(v);
+      return new Intl.NumberFormat(LOCALE, { style: 'currency', currency: 'EUR' }).format(v);
     }
 
     // Id interno de clientes (no el auth.uid() de la sesión) — es lo que
@@ -459,10 +507,10 @@ const dashboardsCtaHref = `mailto:contacto@asesoriamadal.es?subject=${encodeURIC
 
         const meta = document.createElement('div');
         meta.className = 'factura-meta';
-        const subida = `Subida: ${formatFecha(row.fecha_subida as string)}`;
+        const subida = `${I18N.facturas.uploadedPrefix} ${formatFecha(row.fecha_subida as string)}`;
         const contabilizado = row.fecha_contabilizado
-          ? `Contabilizada: ${formatFecha(row.fecha_contabilizado as string)}`
-          : 'Pendiente de contabilizar';
+          ? `${I18N.facturas.accountedPrefix} ${formatFecha(row.fecha_contabilizado as string)}`
+          : I18N.facturas.pendingAccounting;
         meta.textContent = `${subida} · ${contabilizado}`;
         li.appendChild(meta);
 
@@ -470,7 +518,7 @@ const dashboardsCtaHref = `mailto:contacto@asesoriamadal.es?subject=${encodeURIC
           const descargar = document.createElement('button');
           descargar.type = 'button';
           descargar.className = 'factura-descargar';
-          descargar.textContent = 'Descargar';
+          descargar.textContent = I18N.facturas.download;
           descargar.addEventListener('click', async () => {
             const { data: signed } = await supabase!.storage
               .from('facturas')
@@ -480,7 +528,7 @@ const dashboardsCtaHref = `mailto:contacto@asesoriamadal.es?subject=${encodeURIC
             } else {
               // El registro sigue aquí pero el archivo ya no está en el Storage
               // (borrado a mano sin limpiar storage_path, o ya archivado en Drive).
-              alert('Esta factura ya no está disponible para descargar. Si la necesitas, escríbenos.');
+              alert(I18N.facturas.gone);
             }
           });
           li.appendChild(descargar);
@@ -501,12 +549,14 @@ const dashboardsCtaHref = `mailto:contacto@asesoriamadal.es?subject=${encodeURIC
 
         const nombre = document.createElement('div');
         nombre.className = 'factura-nombre';
-        nombre.textContent = row.nombre || '(sin nombre)';
+        nombre.textContent = row.nombre || I18N.dashboards.sinNombre;
         li.appendChild(nombre);
 
         const meta = document.createElement('div');
         meta.className = 'factura-meta';
-        const fecha = row.fecha_vencimiento ? `Vence: ${formatFecha(row.fecha_vencimiento)}` : 'Sin fecha de vencimiento';
+        const fecha = row.fecha_vencimiento
+          ? `${I18N.dashboards.vencePrefix} ${formatFecha(row.fecha_vencimiento)}`
+          : I18N.dashboards.sinVencimiento;
         meta.textContent = `${fecha} · ${formatEur(row.importe ?? 0)}`;
         li.appendChild(meta);
 
@@ -540,7 +590,7 @@ const dashboardsCtaHref = `mailto:contacto@asesoriamadal.es?subject=${encodeURIC
       if (rows.length === 0) {
         const p = document.createElement('p');
         p.className = 'factura-empty';
-        p.textContent = 'Todavía no hay suficiente histórico para mostrar la evolución.';
+        p.textContent = I18N.dashboards.evolucionEmpty;
         finanzasEvolucionEl.appendChild(p);
         return;
       }
@@ -605,7 +655,7 @@ const dashboardsCtaHref = `mailto:contacto@asesoriamadal.es?subject=${encodeURIC
       labels.className = 'finanzas-evo-labels';
       puntos.forEach((p) => {
         const span = document.createElement('span');
-        span.textContent = new Date(p.periodo).toLocaleDateString('es-ES', { month: 'short', year: '2-digit' });
+        span.textContent = new Date(p.periodo).toLocaleDateString(LOCALE, { month: 'short', year: '2-digit' });
         labels.appendChild(span);
       });
       finanzasEvolucionEl.appendChild(labels);
@@ -672,7 +722,7 @@ const dashboardsCtaHref = `mailto:contacto@asesoriamadal.es?subject=${encodeURIC
     // de ese periodo hasta ese mismo periodo, no mas alla).
     async function pintarPeriodo(clienteId: string, row: PeriodoRow) {
       const actualizado = new Date(row.sincronizado_at);
-      finanzasActualizadoEl.textContent = `Actualizado por última vez: ${actualizado.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' })}`;
+      finanzasActualizadoEl.textContent = `${I18N.dashboards.updatedPrefix} ${actualizado.toLocaleDateString(LOCALE, { day: '2-digit', month: '2-digit', year: 'numeric' })}`;
 
       const ingresos = Number(row.ingresos) || 0;
       const gastos = Number(row.gastos) || 0;
@@ -700,7 +750,7 @@ const dashboardsCtaHref = `mailto:contacto@asesoriamadal.es?subject=${encodeURIC
       ivaRepercutidoEl.textContent = formatEur(ivaRepercutido);
       ivaSoportadoEl.textContent = formatEur(ivaSoportado);
       ivaCompensarEl.textContent = formatEur(ivaCompensar);
-      ivaResultadoLabelEl.textContent = ivaResultadoFinal >= 0 ? 'Resultado (a pagar)' : 'Resultado (a devolver)';
+      ivaResultadoLabelEl.textContent = ivaResultadoFinal >= 0 ? I18N.dashboards.ivaResultadoPagar : I18N.dashboards.ivaResultadoDevolver;
       ivaResultadoFinalEl.textContent = formatEur(ivaResultadoFinal);
       setSigno(ivaResultadoFinalEl, ivaResultadoFinal);
 
@@ -753,7 +803,7 @@ const dashboardsCtaHref = `mailto:contacto@asesoriamadal.es?subject=${encodeURIC
       rows.forEach((row) => {
         const option = document.createElement('option');
         option.value = row.periodo;
-        option.textContent = new Date(row.periodo).toLocaleDateString('es-ES', { month: 'long', year: 'numeric' });
+        option.textContent = new Date(row.periodo).toLocaleDateString(LOCALE, { month: 'long', year: 'numeric' });
         finanzasPeriodoSelectEl.appendChild(option);
       });
       finanzasPeriodoSelectEl.value = ultimo.periodo;
@@ -821,7 +871,7 @@ const dashboardsCtaHref = `mailto:contacto@asesoriamadal.es?subject=${encodeURIC
       e.preventDefault();
       loginMsg.hidden = false;
       loginMsg.className = 'portal-msg';
-      loginMsg.textContent = 'Enviando…';
+      loginMsg.textContent = I18N.login.sending;
 
       // Vía el endpoint del servidor, no supabase.auth.signInWithOtp
       // directo: así solo un email ya dado de alta en `clientes` puede
@@ -840,10 +890,10 @@ const dashboardsCtaHref = `mailto:contacto@asesoriamadal.es?subject=${encodeURIC
 
       if (ok) {
         loginMsg.className = 'portal-msg is-ok';
-        loginMsg.textContent = 'Enlace enviado. Revisa tu bandeja de entrada.';
+        loginMsg.textContent = I18N.login.sent;
       } else {
         loginMsg.className = 'portal-msg is-error';
-        loginMsg.textContent = 'No se ha podido enviar el enlace. Inténtalo de nuevo.';
+        loginMsg.textContent = I18N.login.error;
       }
     });
 
@@ -855,7 +905,7 @@ const dashboardsCtaHref = `mailto:contacto@asesoriamadal.es?subject=${encodeURIC
       if (files.some((f) => f.type !== 'application/pdf')) {
         facturaMsg.hidden = false;
         facturaMsg.className = 'portal-msg is-error';
-        facturaMsg.textContent = 'Solo se admiten archivos en PDF.';
+        facturaMsg.textContent = I18N.facturas.onlyPdf;
         return;
       }
 
@@ -867,7 +917,7 @@ const dashboardsCtaHref = `mailto:contacto@asesoriamadal.es?subject=${encodeURIC
 
       facturaMsg.hidden = false;
       facturaMsg.className = 'portal-msg';
-      facturaMsg.textContent = files.length > 1 ? `Subiendo ${files.length} facturas…` : 'Subiendo…';
+      facturaMsg.textContent = files.length > 1 ? tpl(I18N.facturas.uploadingMany, { n: files.length }) : I18N.facturas.uploadingOne;
 
       // Cada archivo es una subida y una fila independiente en
       // facturas_subidas: varias facturas seleccionadas a la vez cuentan
@@ -916,13 +966,13 @@ const dashboardsCtaHref = `mailto:contacto@asesoriamadal.es?subject=${encodeURIC
 
       if (fallos === 0) {
         facturaMsg.className = 'portal-msg is-ok';
-        facturaMsg.textContent = subidas > 1 ? `${subidas} facturas subidas correctamente.` : 'Factura subida correctamente.';
+        facturaMsg.textContent = subidas > 1 ? tpl(I18N.facturas.okMany, { n: subidas }) : I18N.facturas.okOne;
       } else if (subidas > 0) {
         facturaMsg.className = 'portal-msg is-error';
-        facturaMsg.textContent = `${subidas} facturas subidas, ${fallos} no se han podido subir. Inténtalo de nuevo con esas.`;
+        facturaMsg.textContent = tpl(I18N.facturas.partial, { ok: subidas, fail: fallos });
       } else {
         facturaMsg.className = 'portal-msg is-error';
-        facturaMsg.textContent = 'No se ha podido subir ninguna factura. Inténtalo de nuevo.';
+        facturaMsg.textContent = I18N.facturas.failAll;
       }
 
       facturaForm.reset();

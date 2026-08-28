@@ -72,7 +72,7 @@ const flagEmoji: Partial<Record<Locale, string>> = { es: '🇪🇸', en: '🇬�
       </details>
       {!minimal && (
         <>
-          <a href="/portal" class="portal-link"><span aria-hidden="true">👤</span> <span class="portal-link-label">{t.header.portal}</span></a>
+          <a href={localizedPath('/portal', lang)} class="portal-link"><span aria-hidden="true">👤</span> <span class="portal-link-label">{t.header.portal}</span></a>
           <ContactSwitch lang={lang} />
         </>
       )}

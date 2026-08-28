@@ -24,7 +24,7 @@ const home = lang === 'es' ? '/' : `/${lang}/`;
           <a href={localizedPath('/blog', lang)}>{t.nav.blog}</a>
           <a href={localizedPath('/servicios', lang)}>{t.nav.servicios}</a>
           <a href={localizedPath('/equipo', lang)}>{t.nav.conocenos}</a>
-          <a href="/portal">{t.footer.portal}</a>
+          <a href={localizedPath('/portal', lang)}>{t.footer.portal}</a>
         </nav>
       </div>
       <div>
