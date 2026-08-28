@@ -32,13 +32,23 @@ const [emailLocal, emailDomain] = t.contact.email.split('@');
 </dialog>
 
 <script>
+  import { track } from '@vercel/analytics';
+
   const triggers = document.querySelectorAll<HTMLButtonElement>('[data-contact-trigger]');
   triggers.forEach((btn) => {
     btn.addEventListener('click', () => {
       const id = btn.getAttribute('data-contact-trigger');
       const dialog = id ? document.getElementById(id) : null;
       if (dialog instanceof HTMLDialogElement) dialog.showModal();
+      track('contacto_click', { via: 'abrir' });
     });
+  });
+
+  document.querySelectorAll<HTMLAnchorElement>('.contact-dialog-email').forEach((a) => {
+    a.addEventListener('click', () => track('contacto_click', { via: 'email' }));
+  });
+  document.querySelectorAll<HTMLAnchorElement>('.contact-dialog-call').forEach((a) => {
+    a.addEventListener('click', () => track('contacto_click', { via: 'llamada' }));
   });
 
   document.querySelectorAll<HTMLElement>('.contact-dialog').forEach((dialog) => {

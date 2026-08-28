@@ -141,6 +141,8 @@
 </div>
 
 <script>
+  import { track } from '@vercel/analytics';
+
   (function () {
     const form = document.getElementById('altaForm') as HTMLFormElement | null;
     if (!form) return;
@@ -249,6 +251,7 @@
           body: JSON.stringify(body),
         });
         if (!res.ok) throw new Error('bad response');
+        track('formulario_enviado', { tipo: 'alta' });
         form.hidden = true;
         success.hidden = false;
       } catch (err) {

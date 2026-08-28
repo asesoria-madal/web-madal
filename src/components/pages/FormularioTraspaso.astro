@@ -191,6 +191,8 @@ const docsCliente = isAutonomo
 </div>
 
 <script>
+  import { track } from '@vercel/analytics';
+
   (function () {
     const form = document.getElementById('traspasoForm') as HTMLFormElement | null;
     if (!form) return;
@@ -320,6 +322,7 @@ const docsCliente = isAutonomo
           body: JSON.stringify(body),
         });
         if (!res.ok) throw new Error('bad response');
+        track('formulario_enviado', { tipo: 'traspaso', variante: tipo });
         form.hidden = true;
         success.hidden = false;
       } catch (err) {

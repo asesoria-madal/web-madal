@@ -152,6 +152,8 @@ const s = t.sim;
 </div>
 
 <script>
+  import { track } from '@vercel/analytics';
+
   (function () {
     const wizard = document.getElementById('wizard');
     if (!wizard) return;
@@ -225,6 +227,7 @@ const s = t.sim;
     let path: string[] = [];
     let currentStep = 'regimen';
     let lastQuoteCode = '';
+    let started = false;
 
     // Quien no ha respondido "alta" todavía cuenta como la rama normal
     // (facturas + reporting) a efectos de los puntos de progreso: solo se
@@ -289,6 +292,7 @@ const s = t.sim;
     }
 
     function advance() {
+      track('simulador_paso', { paso: currentStep });
       path.push(currentStep);
       const next = nextStepId(currentStep);
       if (next === 'result') redirectToSolicitud();
@@ -412,6 +416,10 @@ const s = t.sim;
     }
 
     function redirectToSolicitud() {
+      track('simulador_resultado', {
+        regimen: answers.regimen || '',
+        flujo: answers.alta === 'no' ? 'alta' : 'gestion',
+      });
       const lang = wizard?.dataset.lang || 'es';
       const prefix = lang === 'es' ? '' : `/${lang}`;
       const params = new URLSearchParams();
@@ -429,6 +437,10 @@ const s = t.sim;
       const value = card.getAttribute('data-value');
       if (!field || !value) return;
       answers[field] = value;
+      if (!started) {
+        started = true;
+        track('simulador_inicio', { idioma: wizard?.dataset.lang || 'es' });
+      }
       if (field === 'facturas') facturaLabels[value] = card.textContent || '';
       advance();
     });
@@ -465,6 +477,7 @@ const s = t.sim;
     emailSendBtn?.addEventListener('click', function () {
       if (!emailInput || !isValidEmail(emailInput.value) || !emailConsent?.checked) return;
       if (emailErrorEl) emailErrorEl.hidden = true;
+      track('simulador_email', { momento: 'antes' });
       sessionStorage.setItem(EMAIL_STORAGE_KEY, emailInput.value.trim());
       sessionStorage.setItem(CONSENT_STORAGE_KEY, '1');
       advance();
@@ -492,6 +505,7 @@ const s = t.sim;
           body: JSON.stringify({ quote: lastQuoteCode, email: emailAfterInput.value.trim(), privacyAccepted: true }),
         });
         if (!res.ok) throw new Error('bad response');
+        track('simulador_email', { momento: 'despues' });
         const formEl = document.getElementById('simEmailAfterForm');
         if (formEl) formEl.hidden = true;
         if (emailAfterSuccessEl) emailAfterSuccessEl.hidden = false;
