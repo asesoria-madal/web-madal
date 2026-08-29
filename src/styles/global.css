@@ -519,7 +519,7 @@ section.hero { border-top: none; padding: 3.6rem 0 3.2rem; display: block; }
   .compare-table .col-madal { order: 3; }
 }
 
-h2.section-title { font-size: clamp(1.5rem, 2.6vw, 2rem); }
+h2.section-title, h1.section-title { font-size: clamp(1.5rem, 2.6vw, 2rem); }
 .view-intro h1.section-title { font-size: clamp(1.9rem, 3.6vw, 2.6rem); max-width: 22ch; }
 .section-sub { color: var(--ink-soft); max-width: 56ch; margin-top: 0.6rem; font-size: 1rem; }
 
@@ -628,6 +628,13 @@ h2.section-title { font-size: clamp(1.5rem, 2.6vw, 2rem); }
 .article-page { max-width: 720px; margin: 0 auto; padding: 3rem var(--side-pad) 4rem; }
 .article-back { display: inline-block; margin-bottom: 1.4rem; font-size: 0.9rem; font-weight: 600; color: var(--accent); text-decoration: none; }
 .article-back:hover { text-decoration: underline; }
+.breadcrumb { display: flex; flex-wrap: wrap; align-items: center; gap: 0.4rem; margin-bottom: 1.4rem; font-size: 0.85rem; color: var(--ink-soft); }
+.breadcrumb a { color: var(--accent); font-weight: 600; text-decoration: none; }
+.breadcrumb a:hover { text-decoration: underline; }
+.breadcrumb [aria-current="page"] { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 22ch; }
+.article-share { margin-top: 1.2rem; }
+.article-share-btn { font: inherit; font-size: 0.85rem; font-weight: 600; color: var(--accent); background: none; border: 1px solid var(--line); border-radius: 999px; padding: 0.35rem 0.95rem; cursor: pointer; }
+.article-share-btn:hover { border-color: var(--accent); }
 .article-title { font-family: var(--font-display); font-size: 2rem; line-height: 1.25; margin-top: 0.4rem; text-wrap: balance; }
 .article-date { margin-top: 0.5rem; font-size: 0.85rem; color: var(--ink-soft); }
 .article-body { margin-top: 2rem; font-size: 1.02rem; line-height: 1.7; }
@@ -978,7 +985,7 @@ body.portal-app footer.site {
 }
 body.portal-app .portal-page { max-width: none; margin: 0; padding: 0; }
 body.portal-app .portal-page > .eyebrow,
-body.portal-app .portal-page > h2.section-title {
+body.portal-app .portal-page > h1.section-title {
   display: none;
 }
 /* .portal-box trae margin-top: 2rem para separarse de la cabecera de

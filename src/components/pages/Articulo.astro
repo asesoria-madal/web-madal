@@ -30,6 +30,8 @@ interface FaqItem { q: string; a: string; related?: string }
 const allFaqItems: FaqItem[] = [...t.blog.faqGeneralesItems, ...t.blog.faqAutonomosItems, ...t.blog.faqSlItems];
 const relatedFaqs = allFaqItems.filter((item) => item.related === entry.data.slug);
 
+const articleUrl = new URL(localizedPath(`/blog/${entry.data.slug}`, lang), Astro.site).toString();
+
 const articleLd = {
   '@context': 'https://schema.org',
   '@type': 'Article',
@@ -40,12 +42,30 @@ const articleLd = {
   inLanguage: lang,
   author: { '@type': 'Organization', name: 'Asesoría Madal' },
   publisher: { '@type': 'Organization', name: 'Asesoría Madal' },
-  mainEntityOfPage: new URL(localizedPath(`/blog/${entry.data.slug}`, lang), Astro.site).toString(),
+  mainEntityOfPage: articleUrl,
+};
+
+// Migas de pan: Inicio › FAQs › [artículo]. El texto visible y el JSON-LD
+// usan las mismas etiquetas para que coincidan (requisito de Google).
+const breadcrumbLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: t.blog.breadcrumbHome, item: new URL(localizedPath('/', lang), Astro.site).toString() },
+    { '@type': 'ListItem', position: 2, name: t.nav.blog, item: new URL(localizedPath('/blog', lang), Astro.site).toString() },
+    { '@type': 'ListItem', position: 3, name: entry.data.title, item: articleUrl },
+  ],
 };
 ---
 
 <div class="article-page">
-  <a href={localizedPath('/blog', lang)} class="article-back">{t.blog.backToBlog}</a>
+  <nav class="breadcrumb" aria-label={t.blog.breadcrumbAria}>
+    <a href={localizedPath('/', lang)}>{t.blog.breadcrumbHome}</a>
+    <span aria-hidden="true">›</span>
+    <a href={localizedPath('/blog', lang)}>{t.nav.blog}</a>
+    <span aria-hidden="true">›</span>
+    <span aria-current="page">{entry.data.title}</span>
+  </nav>
   <p class="eyebrow">{t.blog.categories.find((c) => c.id === entry.data.cat)?.label ?? entry.data.cat}</p>
   <h1 class="article-title">{entry.data.title}</h1>
   <p class="article-meta">
@@ -53,6 +73,15 @@ const articleLd = {
     {updatedDate && updatedDate !== publishedDate && <span>· {t.blog.updatedLabel} {updatedDate}</span>}
     <span>· <strong>{t.blog.reviewedBy}</strong></span>
   </p>
+  <div class="article-share">
+    <button
+      type="button"
+      class="article-share-btn"
+      data-share-url={articleUrl}
+      data-share-title={entry.data.title}
+      data-copied-label={t.blog.shareCopied}
+    >{t.blog.shareLabel}</button>
+  </div>
   <div class="article-body">
     <Content />
   </div>
@@ -107,8 +136,38 @@ const articleLd = {
 </aside>
 
 <script type="application/ld+json" is:inline set:html={JSON.stringify(articleLd)} />
+<script type="application/ld+json" is:inline set:html={JSON.stringify(breadcrumbLd)} />
 
 <script>
+  // Botón compartir: usa el diálogo nativo del sistema en móvil
+  // (navigator.share) y, donde no existe, copia el enlace al portapapeles.
+  const shareBtn = document.querySelector('.article-share-btn');
+  if (shareBtn instanceof HTMLButtonElement) {
+    const shareUrl = shareBtn.dataset.shareUrl || window.location.href;
+    const shareTitle = shareBtn.dataset.shareTitle || document.title;
+    const copiedLabel = shareBtn.dataset.copiedLabel || 'OK';
+    const originalLabel = shareBtn.textContent;
+    shareBtn.addEventListener('click', async () => {
+      if (navigator.share) {
+        try {
+          await navigator.share({ title: shareTitle, url: shareUrl });
+        } catch {
+          // el usuario canceló el diálogo: no hacemos nada
+        }
+        return;
+      }
+      try {
+        await navigator.clipboard.writeText(shareUrl);
+        shareBtn.textContent = copiedLabel;
+        window.setTimeout(() => {
+          shareBtn.textContent = originalLabel;
+        }, 2000);
+      } catch {
+        // sin permiso de portapapeles: dejamos el botón como estaba
+      }
+    });
+  }
+
   // Aviso no intrusivo (tarjeta en esquina, no un modal a pantalla completa)
   // que aparece al llegar a ~3/4 del artículo, para no interrumpir la
   // lectura ni arriesgar la penalización de Google a los intersticiales

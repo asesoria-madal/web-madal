@@ -3,16 +3,20 @@ import { useTranslations } from '../../i18n/utils';
 import type { Locale } from '../../i18n/ui';
 import ContactSwitch from '../ContactSwitch.astro';
 
-interface Props { lang: Locale; }
-const { lang } = Astro.props;
+// `embedded` = incrustado en otra página (la home) que ya tiene su propio
+// <h1>. En ese caso el título del simulador baja a <h2> para no dejar dos
+// <h1> en la misma página; suelto en /simulador es el <h1> de la página.
+interface Props { lang: Locale; embedded?: boolean; }
+const { lang, embedded = false } = Astro.props;
 const t = useTranslations(lang);
 const s = t.sim;
+const Heading = embedded ? 'h2' : 'h1';
 ---
 
 <div id="view-simulador">
   <div class="sim-page">
     <p class="eyebrow">{s.eyebrow}</p>
-    <h2 class="sim-page-title">{s.title}</h2>
+    <Heading class="sim-page-title">{s.title}</Heading>
     <p class="section-sub" style="margin-left:auto;margin-right:auto;">{s.sub}</p>
 
     <div class="wizard" id="wizard" data-lang={lang}>

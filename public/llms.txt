@@ -1,0 +1,28 @@
+# Asesoría Madal
+
+> Gestoría y asesoría fiscal 100% online para autónomos y pymes en España. El diferencial frente a una gestoría tradicional: entregar un balance trimestral claro y bien asesorado, no solo presentar impuestos.
+
+Asesoría Madal es una gestoría online. Servicios actuales: alta de autónomos y SL, y contabilidad y fiscalidad recurrentes con balances pensados para dar valor analítico al cliente. El blog es divulgación fiscal revisada contra normativa oficial (BOE y Agencia Tributaria). Precios orientativos por tramos: 50 / 70 / 130 € al mes + IVA según volumen y complejidad; declaración de la renta 40 € + IVA aparte. Idiomas del sitio: castellano (por defecto), catalán (/ca) e inglés (/en).
+
+## Páginas principales
+
+- [Inicio](https://asesoriamadal.es/): qué hacemos y precios por tramos.
+- [Nuestros servicios](https://asesoriamadal.es/servicios): detalle de lo que ofrecemos.
+- [Alta de autónomos y SL](https://asesoriamadal.es/alta): proceso y plazos (alta en menos de 2 días).
+- [Simulador de precio](https://asesoriamadal.es/simulador): estimación de cuota en cuatro preguntas.
+- [Quiénes somos](https://asesoriamadal.es/equipo): los dos socios fundadores y su formación.
+
+## Blog y preguntas frecuentes
+
+- [Blog y FAQs](https://asesoriamadal.es/blog): artículos y preguntas frecuentes sobre fiscalidad de autónomos, SL y pymes.
+- [Mapa del sitio](https://asesoriamadal.es/sitemap-index.xml): listado completo de URLs, incluidas todas las del blog.
+
+## Contacto
+
+- Email: contacto@asesoriamadal.es
+- Portal de clientes: https://asesoriamadal.es/portal
+
+## Notas
+
+- Aviso legal, privacidad y cookies están en /aviso-legal, /privacidad y /cookies.
+- La marca "Asesoría Madal" y los precios son provisionales y pueden cambiar.

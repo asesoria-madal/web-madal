@@ -1,0 +1,32 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+// Prerenderizada: Vercel la sirve como 404.html estática, sin invocar la
+// función de servidor en cada acierto de ruta inexistente.
+export const prerender = true;
+---
+
+<Layout
+  lang="es"
+  path="/404"
+  active="none"
+  title="Página no encontrada · Asesoría Madal"
+  description="La página que buscas no existe o se ha movido."
+  noindex
+>
+  <div class="page view-intro">
+    <p class="eyebrow">Error 404</p>
+    <h1 class="section-title">Esta página no existe</h1>
+  </div>
+  <div class="page view-block">
+    <p class="section-sub">
+      Puede que el enlace esté roto o que la página se haya movido de sitio.
+      Puedes seguir desde aquí:
+    </p>
+    <div class="actions" style="display:flex;flex-wrap:wrap;gap:0.9rem;margin-top:1.5rem;">
+      <a href="/" class="btn btn-primary">Ir al inicio</a>
+      <a href="/blog" class="btn btn-outline">Ver el blog</a>
+      <a href="/simulador" class="btn btn-outline">Calcular mi precio</a>
+    </div>
+  </div>
+</Layout>
