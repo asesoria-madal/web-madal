@@ -27,7 +27,7 @@ Una despesa és deduïble si és necessària per a la teva activitat, hi està v
 - Gestoria, advocat o altres professionals que contractis.
 - Publicitat, la teva web i les eines de programari que facis servir per treballar.
 - Formació relacionada directament amb la teva activitat.
-- El vehicle, però només si està "exclusivament afecte" a l'activitat: transport, comercials, taxi. És una de les despeses amb més matisos, convé revisar-la cas per cas.
+- El vehicle, però només si està "exclusivament afecte" a l'activitat: transport, comercials, taxi. És una de les despeses amb més matisos: ho desenvolupem a [quant et pots desgravar del cotxe sent autònom](/ca/blog/deducir-coche-autonomo).
 - Si tens un local: reparacions, servei de neteja... qualsevol despesa associada al manteniment del local.
 
 ## El que sol generar dubtes

@@ -48,4 +48,4 @@ Per defensar l'afectació exclusiva en IRPF, o un percentatge superior al 50% en
 
 ## Abans de comprar-te un cotxe "per desgravar-lo"
 
-Fes el número real: per a la majoria d'autònoms l'estalvi es limita al 50% de l'IVA de la compra i del manteniment, no al cotxe sencer. Si la teva activitat encaixa en alguna de les excepcions, la cosa canvia. Ho revisem amb tu segons el teu cas, i si vols veure la resta de despeses que sí que pots deduir sense tant matís, ho tens a [quines despeses et pots deduir com a autònom](/ca/blog/gastos-deducibles-autonomos).
+Fes el número real: per a la majoria d'autònoms l'estalvi es limita al 50% de l'IVA de la compra i del manteniment, no al cotxe sencer. Si la teva activitat encaixa en alguna de les excepcions, la cosa canvia. Ho revisem amb tu segons el teu cas, i si vols veure la resta de despeses que sí que pots deduir sense tant matís, ho tens a [quines despeses et pots deduir com a autònom](/ca/blog/gastos-deducibles-autonomos). I si el cotxe no serà teu com a autònom sinó d'una SL, les regles són unes altres: ho veiem a [cotxe per a una SL: compra, rènting o lísing](/ca/blog/coche-sl-renting-leasing-compra).

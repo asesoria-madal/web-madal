@@ -48,4 +48,4 @@ Para defender la afectación exclusiva en IRPF, o un porcentaje superior al 50% 
 
 ## Antes de comprarte un coche "para desgravarlo"
 
-Echa el número real: para la mayoría de autónomos el ahorro se limita al 50% del IVA de la compra y del mantenimiento, no al coche entero. Si tu actividad encaja en alguna de las excepciones, la cosa cambia. Lo revisamos contigo según tu caso, y si quieres ver el resto de gastos que sí puedes deducir sin tanto matiz, lo tienes en [qué gastos te puedes deducir como autónomo](/blog/gastos-deducibles-autonomos).
+Echa el número real: para la mayoría de autónomos el ahorro se limita al 50% del IVA de la compra y del mantenimiento, no al coche entero. Si tu actividad encaja en alguna de las excepciones, la cosa cambia. Lo revisamos contigo según tu caso, y si quieres ver el resto de gastos que sí puedes deducir sin tanto matiz, lo tienes en [qué gastos te puedes deducir como autónomo](/blog/gastos-deducibles-autonomos). Y si el coche no va a ser tuyo como autónomo sino de una SL, las reglas son otras: lo vemos en [coche para una SL: compra, renting o leasing](/blog/coche-sl-renting-leasing-compra).

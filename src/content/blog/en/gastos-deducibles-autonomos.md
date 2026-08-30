@@ -27,7 +27,7 @@ An expense is deductible if it is necessary for your business, linked to it, and
 - Fees paid to an accountant/tax advisor (gestoría), lawyer, or other professionals you hire.
 - Advertising, your website, and the software tools you use to work.
 - Training directly related to your business.
-- Your vehicle, but only if it is "exclusively used" for the business: transport, sales reps, taxi drivers. This is one of the expenses with the most nuance, worth reviewing case by case.
+- Your vehicle, but only if it is "exclusively used" for the business: transport, sales reps, taxi drivers. This is one of the expenses with the most nuance: we cover it in [how much you can deduct for your car as a self-employed worker](/en/blog/deducir-coche-autonomo).
 - If you have business premises: repairs, cleaning services, and any expense tied to maintaining the space.
 
 ## What usually raises doubts
