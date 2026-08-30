@@ -328,16 +328,27 @@ alter table clientes add column if not exists alta_hecha boolean;
 -- 200 (Impuesto de Sociedades anual, solo SL).
 alter table clientes add column if not exists modelos text[] not null default '{}';
 
--- NOTA (2026-08-26): esta sección tenía antes una columna
--- "visionwin_empresa_codigo" para vincular cada cliente con su empresa en
--- Visionwin. Ya no hace falta: desde la migración de clientes.id a NIF (ver
--- más abajo), clientes.id ES el NIF, y el campo CIF de EMPRESA.DBF en
--- Visionwin también lo es — así que el sincronizador de dashboards
--- (n8n-workflows, ver también el prototipo Java de Edurne) vincula
--- directamente por NIF/CIF normalizado contra clientes.id, sin columna
--- intermedia. Si esa columna todavía existe físicamente en la tabla real
--- (se creó antes de esta migración), no hace falta borrarla — simplemente
--- ya no la usa nada.
+-- visionwin_empresa_codigo: código de la empresa del cliente en Visionwin
+-- (el ERP de contabilidad). Se rellena A MANO en el Table Editor cuando el
+-- equipo da de alta al cliente y le crea su empresa en Visionwin — no hay
+-- endpoint ni automatización que lo escriba, igual que alta_hecha/modelos.
+--
+-- Para qué se usa: es el flag de "cliente ya configurado en Visionwin".
+-- El workflow n8n "Descarga de facturas" solo baja una factura del Storage
+-- a la carpeta de Drive del cliente si este ya tiene NIF Y
+-- visionwin_empresa_codigo (nodo "¿Cliente listo?"). Si falta alguno de
+-- los dos, la factura se queda en el Storage y se reintenta cada 12 h
+-- hasta que el equipo complete el alta — deliberado: no se archiva en
+-- Drive la factura de un cliente que todavía no está montado en Visionwin.
+--
+-- NO lo usa la sincronización de dashboards (dashboard_periodos, etc.):
+-- esa vincula cada empresa de Visionwin con su cliente comparando el CIF
+-- de EMPRESA.DBF (normalizado) directamente contra clientes.id, que desde
+-- la migración a NIF ES el NIF. Una nota anterior de este archivo (y del
+-- bloque dashboard_periodos, más abajo) decía que la columna "ya no la usa
+-- nada": eso valía solo para ese sincronizador — el pipeline de facturas
+-- sí la usa.
+alter table clientes add column if not exists visionwin_empresa_codigo text;
 
 alter table clientes enable row level security;
 
@@ -645,10 +656,11 @@ alter table facturas_subidas add column if not exists drive_carpeta_pendientes_i
 -- NIF (ver más arriba) es directamente el NIF/CIF del cliente en
 -- mayúsculas. El vínculo entre cada empresa de Visionwin y su cliente en
 -- Supabase se hace comparando el CIF de EMPRESA.DBF (normalizado:
--- trim + mayúsculas) directamente contra clientes.id — ya no hace falta
--- ninguna columna intermedia tipo visionwin_empresa_codigo, que existió
--- brevemente antes de esta migración y ya no se usa (ver nota más arriba,
--- junto a la columna "modelos").
+-- trim + mayúsculas) directamente contra clientes.id — este sincronizador
+-- no necesita la columna clientes.visionwin_empresa_codigo. (Esa columna
+-- sí sigue viva y en uso, pero para otra cosa: es el flag manual de
+-- "cliente ya configurado en Visionwin" que usa el workflow "Descarga de
+-- facturas" — ver la nota junto a la columna, más arriba.)
 --
 -- "on update cascade" por el mismo motivo que en facturas_subidas: si se
 -- corrige a mano un NIF mal tecleado, se propaga solo.
