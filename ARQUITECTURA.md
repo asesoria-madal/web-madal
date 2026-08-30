@@ -1,6 +1,8 @@
 # Arquitectura (Supabase / Vercel)
 
-Referencia técnica para quien construya automatizaciones (n8n) u otras integraciones sobre esta web, sin tener que releer el código fuente. Regenerado el **2026-08-26** a partir del código real del repo en ese momento — si ha pasado tiempo y algo no cuadra con lo que veas en `src/`, `supabase/schema.sql` o el dashboard de Supabase/Vercel, fíate del código y actualiza este documento.
+Referencia técnica para quien construya automatizaciones (n8n) u otras integraciones sobre esta web, sin tener que releer el código fuente. Regenerado el **2026-08-26** a partir del código real del repo, y revisado el **2026-08-30** (sigue cuadrando con `supabase/schema.sql` tras los cambios de administrador de portal y de `visionwin_empresa_codigo`) — si ha pasado tiempo y algo no cuadra con lo que veas en `src/`, `supabase/schema.sql` o el dashboard de Supabase/Vercel, fíate del código y actualiza este documento.
+
+Para tareas concretas hay guías aparte: **`DOCS/CONTENIDO.md`** (editar blog y FAQs) y **`DOCS/OPERACIONES.md`** (pasos manuales, config de paneles, deploy y rollback). El índice del repo es **`README.md`**.
 
 **`supabase/schema.sql` manda sobre este documento.** Sus comentarios explican el *porqué* de cada decisión de diseño; aquí solo está el resumen operativo.
 
