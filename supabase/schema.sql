@@ -733,3 +733,83 @@ alter table dashboard_pendientes enable row level security;
 create policy "cliente ve sus propios pendientes"
   on dashboard_pendientes for select
   using (cliente_id in (select id from clientes where auth_user_id = auth.uid()));
+
+-- ---------------------------------------------------------------------
+-- Acceso de administrador al portal (2026-08-30)
+-- ---------------------------------------------------------------------
+-- El equipo (Hugo, Edurne) necesita entrar al portal y ver el área de
+-- CUALQUIER cliente — sin esto, un panel de reporting por cliente no
+-- sirve para dar soporte. Es una capa por encima del login normal: cada
+-- miembro del equipo sigue entrando con su enlace mágico a su propio
+-- email; lo único que cambia es que tener fila en portal_admins le da
+-- permiso de SELECT sobre todas las filas.
+--
+-- Es SOLO LECTURA a propósito: no se añade ninguna política de
+-- insert/update/delete. Un admin no sube facturas ni edita datos de
+-- clientes desde el portal (el frontend le oculta el formulario de
+-- subida, y aunque lo forzara, la política de insert de facturas_subidas
+-- exige una fila propia en clientes que un admin no tiene).
+--
+-- Alta/baja de un admin = insertar/borrar su fila aquí a mano en el
+-- Table Editor. El auth_user_id de cada persona aparece en
+-- Authentication -> Users después de su primer login por enlace mágico.
+create table if not exists portal_admins (
+  auth_user_id uuid primary key references auth.users (id) on delete cascade,
+  nombre text,
+  created_at timestamptz not null default now()
+);
+
+alter table portal_admins enable row level security;
+
+-- Cada uno puede comprobar si él mismo es admin (lo usa el portal para
+-- decidir si enseña el selector de clientes). Nadie ve las filas de los
+-- demás ni puede añadirse: el alta la hace el equipo con la service role.
+create policy "cada uno ve su propia fila de admin"
+  on portal_admins for select
+  using (auth.uid() = auth_user_id);
+
+-- Políticas de admin: SELECT sobre todo. Son ADITIVAS respecto a las
+-- políticas "cliente ve lo suyo" de arriba — Postgres combina las
+-- políticas permisivas con OR, así que un cliente normal no se ve
+-- afectado. El subselect a portal_admins queda limitado por su propia
+-- RLS ("tu fila si eres admin"), así que basta con esto y no hace falta
+-- una función SECURITY DEFINER.
+create policy "admin ve todos los clientes"
+  on clientes for select
+  using (auth.uid() in (select auth_user_id from portal_admins));
+
+create policy "admin ve todas las facturas subidas"
+  on facturas_subidas for select
+  using (auth.uid() in (select auth_user_id from portal_admins));
+
+create policy "admin ve todos los periodos"
+  on dashboard_periodos for select
+  using (auth.uid() in (select auth_user_id from portal_admins));
+
+create policy "admin ve todos los gastos por categoria"
+  on dashboard_gastos_categoria for select
+  using (auth.uid() in (select auth_user_id from portal_admins));
+
+create policy "admin ve todos los pendientes"
+  on dashboard_pendientes for select
+  using (auth.uid() in (select auth_user_id from portal_admins));
+
+-- Storage: para que el botón "Descargar" funcione con cualquier factura
+-- (createSignedUrl necesita SELECT sobre storage.objects). Igual que el
+-- resto de políticas de storage.objects de este proyecto, hay que
+-- crearla A MANO en el dashboard (Storage -> Policies) — aquí solo queda
+-- documentada:
+--
+-- create policy "admin lista y descarga cualquier factura"
+--   on storage.objects for select
+--   to authenticated
+--   using (
+--     bucket_id = 'facturas'
+--     and auth.uid() in (select auth_user_id from portal_admins)
+--   );
+
+-- Alta de los admins actuales (ejecutar UNA VEZ, con el auth_user_id real
+-- de cada uno — de Authentication -> Users tras su primer login):
+-- insert into portal_admins (auth_user_id, nombre) values
+--   ('00000000-0000-0000-0000-000000000000', 'Hugo'),
+--   ('00000000-0000-0000-0000-000000000000', 'Edurne');

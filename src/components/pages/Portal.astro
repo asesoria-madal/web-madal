@@ -78,6 +78,17 @@ const dashboardsCtaHref = `mailto:${EMAIL}?subject=${encodeURIComponent(dashboar
         </aside>
 
         <main class="app-main">
+          <div id="portal-admin-bar" class="portal-admin-bar" hidden>
+            <span class="portal-admin-tag">
+              {t.admin.bannerPrefix} <strong id="portal-admin-cliente-nombre"></strong>
+            </span>
+            <label class="portal-admin-select">
+              <span>{t.admin.selectLabel}</span>
+              <select id="portal-admin-cliente-select"></select>
+            </label>
+            <span class="portal-admin-note">{t.admin.readonlyNote}</span>
+          </div>
+
           <section class="app-panel" data-panel="dashboards">
             <h2>{t.dashboards.title}</h2>
             <div id="proximo-impuesto" class="portal-stats" hidden>
@@ -305,6 +316,31 @@ const dashboardsCtaHref = `mailto:${EMAIL}?subject=${encodeURIComponent(dashboar
     color: var(--accent);
     background: color-mix(in srgb, var(--accent) 12%, transparent);
   }
+
+  .portal-admin-bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem 1.1rem;
+    padding: 0.7rem 1rem;
+    margin-bottom: 1.4rem;
+    border: 1px solid var(--accent);
+    border-radius: 10px;
+    background: color-mix(in srgb, var(--accent) 8%, transparent);
+    font-size: 0.9rem;
+  }
+  .portal-admin-tag { font-weight: 600; }
+  .portal-admin-select { display: flex; align-items: center; gap: 0.4rem; }
+  .portal-admin-select select {
+    padding: 0.32rem 0.5rem;
+    border-radius: 6px;
+    border: 1px solid var(--accent);
+    background: var(--paper);
+    color: var(--ink);
+    font: inherit;
+    max-width: 60vw;
+  }
+  .portal-admin-note { color: var(--ink-soft); font-size: 0.8rem; }
 </style>
 
 <script>
@@ -330,6 +366,10 @@ const dashboardsCtaHref = `mailto:${EMAIL}?subject=${encodeURIComponent(dashboar
   const nombreEl = document.getElementById('portal-nombre') as HTMLElement;
   const logoutBtn1 = document.getElementById('portal-logout-1') as HTMLButtonElement;
   const logoutBtn2 = document.getElementById('portal-logout-2') as HTMLButtonElement;
+
+  const adminBar = document.getElementById('portal-admin-bar') as HTMLElement;
+  const adminClienteSelect = document.getElementById('portal-admin-cliente-select') as HTMLSelectElement;
+  const adminClienteNombre = document.getElementById('portal-admin-cliente-nombre') as HTMLElement;
 
   const reportingOffEl = document.getElementById('panel-reporting-off') as HTMLElement;
   const reportingOnEl = document.getElementById('panel-reporting-on') as HTMLElement;
@@ -829,6 +869,86 @@ const dashboardsCtaHref = `mailto:${EMAIL}?subject=${encodeURIComponent(dashboar
       renderPendienteList(pagosListEl, pagosEmptyEl, pendRows.filter((r) => r.tipo === 'pago'));
     }
 
+    type ClienteRow = {
+      id: string;
+      nombre: string;
+      reporting: boolean;
+      tipo_persona: string | null;
+      modelos: string[] | null;
+      email?: string | null;
+    };
+
+    // Pinta el área de un cliente concreto. La usan los dos caminos: el
+    // cliente normal (su propia fila) y el admin (la fila que elija en el
+    // selector). Las consultas a las tablas hijas van filtradas por
+    // cliente_id; en modo admin RLS las deja leer por la política
+    // "admin ve todo".
+    function aplicarCliente(cliente: ClienteRow) {
+      currentClienteId = cliente.id;
+      nombreEl.textContent = cliente.nombre ?? '';
+      renderReportingPanel(Boolean(cliente.reporting));
+      renderProximoImpuesto(cliente.modelos ?? []);
+      if (cliente.reporting) renderFinanzas(cliente.id);
+      renderDocumentacionPanel(cliente.tipo_persona ?? null);
+      renderFinanzasVisibilidadPorTipo(cliente.tipo_persona ?? null);
+      renderFacturaList(cliente.id);
+    }
+
+    let adminClientes: ClienteRow[] = [];
+
+    // Modo admin: en vez de "tu ficha", un desplegable con todos los
+    // clientes. La consulta devuelve todas las filas gracias a la política
+    // RLS "admin ve todos los clientes"; para un cliente normal esa misma
+    // consulta solo devolvería la suya (y no llegamos aquí).
+    async function renderAdmin() {
+      // Ya montado (p.ej. un TOKEN_REFRESHED posterior de Supabase Auth):
+      // no reconstruir el selector ni perder el cliente que se estaba viendo.
+      if (!adminBar.hidden && adminClientes.length > 0) {
+        showOnly(dashEl);
+        return;
+      }
+
+      const { data, error } = await supabase!
+        .from('clientes')
+        .select('id, nombre, email, reporting, tipo_persona, modelos')
+        .order('nombre', { ascending: true });
+
+      adminClientes = (!error && data ? data : []) as ClienteRow[];
+      adminClienteSelect.innerHTML = '';
+
+      if (adminClientes.length === 0) {
+        const opt = document.createElement('option');
+        opt.value = '';
+        opt.textContent = I18N.admin.noClientes;
+        adminClienteSelect.appendChild(opt);
+      } else {
+        adminClientes.forEach((c) => {
+          const opt = document.createElement('option');
+          opt.value = c.id;
+          opt.textContent = c.email ? `${c.nombre} — ${c.email}` : `${c.nombre} (${c.id})`;
+          adminClienteSelect.appendChild(opt);
+        });
+      }
+
+      adminClienteSelect.onchange = () => {
+        const c = adminClientes.find((x) => x.id === adminClienteSelect.value);
+        if (c) {
+          adminClienteNombre.textContent = c.nombre ?? '';
+          aplicarCliente(c);
+        }
+      };
+
+      adminBar.hidden = false;
+      facturaForm.hidden = true; // el admin no sube facturas en nombre del cliente
+
+      if (adminClientes.length > 0) {
+        adminClienteSelect.value = adminClientes[0].id;
+        adminClienteNombre.textContent = adminClientes[0].nombre ?? '';
+        aplicarCliente(adminClientes[0]);
+      }
+      showOnly(dashEl);
+    }
+
     async function renderForSession() {
       const {
         data: { session },
@@ -839,10 +959,23 @@ const dashboardsCtaHref = `mailto:${EMAIL}?subject=${encodeURIComponent(dashboar
         return;
       }
 
-      // Sin filtro por email: RLS ya limita esta consulta a la fila
-      // vinculada (auth_user_id = auth.uid()) — si el trigger de alta
-      // todavía no la ha vinculado, esto no devuelve nada y cae en
-      // "unlinked" más abajo, igual que antes.
+      // ¿La sesión es de un miembro del equipo con acceso admin? La
+      // política RLS de portal_admins solo deja ver la fila propia, así
+      // que esto devuelve algo únicamente si eres admin.
+      const { data: adminRow } = await supabase!
+        .from('portal_admins')
+        .select('auth_user_id')
+        .maybeSingle();
+
+      if (adminRow) {
+        await renderAdmin();
+        return;
+      }
+
+      // Cliente normal. Sin filtro por email: RLS ya limita esta consulta
+      // a la fila vinculada (auth_user_id = auth.uid()) — si el trigger de
+      // alta todavía no la ha vinculado, no devuelve nada y cae en
+      // "unlinked", igual que antes.
       const { data: cliente } = await supabase!
         .from('clientes')
         .select('id, nombre, reporting, tipo_persona, modelos')
@@ -853,14 +986,9 @@ const dashboardsCtaHref = `mailto:${EMAIL}?subject=${encodeURIComponent(dashboar
         return;
       }
 
-      currentClienteId = cliente.id as string;
-      nombreEl.textContent = cliente.nombre as string;
-      renderReportingPanel(Boolean(cliente.reporting));
-      renderProximoImpuesto((cliente.modelos as string[] | null) ?? []);
-      if (cliente.reporting) renderFinanzas(currentClienteId);
-      renderDocumentacionPanel((cliente.tipo_persona as string | null) ?? null);
-      renderFinanzasVisibilidadPorTipo((cliente.tipo_persona as string | null) ?? null);
-      renderFacturaList(currentClienteId);
+      adminBar.hidden = true;
+      facturaForm.hidden = false;
+      aplicarCliente(cliente as ClienteRow);
       showOnly(dashEl);
     }
 

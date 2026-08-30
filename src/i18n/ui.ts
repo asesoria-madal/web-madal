@@ -437,6 +437,12 @@ export const ui = {
         facturas: '📄 Subir facturas',
         documentacion: '📚 Documentación',
       },
+      admin: {
+        bannerPrefix: 'Modo administrador — viendo la cuenta de',
+        selectLabel: 'Cliente:',
+        noClientes: 'No hay clientes dados de alta todavía.',
+        readonlyNote: 'Solo lectura: no puedes subir facturas ni editar datos desde aquí.',
+      },
       login: {
         sending: 'Enviando…',
         sent: 'Enlace enviado. Revisa tu bandeja de entrada.',
@@ -964,6 +970,12 @@ export const ui = {
         facturas: '📄 Puja factures',
         documentacion: '📚 Documentació',
       },
+      admin: {
+        bannerPrefix: 'Modo administrador — viendo la cuenta de',
+        selectLabel: 'Cliente:',
+        noClientes: 'No hay clientes dados de alta todavía.',
+        readonlyNote: 'Solo lectura: no puedes subir facturas ni editar datos desde aquí.',
+      },
       login: {
         sending: 'Enviant…',
         sent: 'Enllaç enviat. Revisa la teva safata d’entrada.',
@@ -1490,6 +1502,12 @@ export const ui = {
         dashboards: '📊 Dashboards and reporting',
         facturas: '📄 Upload invoices',
         documentacion: '📚 Documents',
+      },
+      admin: {
+        bannerPrefix: 'Modo administrador — viendo la cuenta de',
+        selectLabel: 'Cliente:',
+        noClientes: 'No hay clientes dados de alta todavía.',
+        readonlyNote: 'Solo lectura: no puedes subir facturas ni editar datos desde aquí.',
       },
       login: {
         sending: 'Sending…',
