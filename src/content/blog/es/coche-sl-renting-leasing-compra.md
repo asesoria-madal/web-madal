@@ -4,8 +4,8 @@ slug: coche-sl-renting-leasing-compra
 title: 'Coche para una SL: ¿compra, renting o leasing?'
 description: 'La forma de financiarlo importa menos que si el coche tendrá uso privado del socio.'
 cat: fiscalidad
-date: 2026-09-08
-draft: true
+date: 2026-09-06
+draft: false
 sources:
   - label: 'Ley 27/2014 del Impuesto sobre Sociedades, art. 12 — amortización del inmovilizado'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2014-12328'

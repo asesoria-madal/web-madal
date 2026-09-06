@@ -4,8 +4,8 @@ slug: coche-sl-renting-leasing-compra
 title: 'Cotxe per a una SL: compra, rènting o lísing?'
 description: 'La manera de finançar-lo importa menys que si el cotxe tindrà ús privat del soci.'
 cat: fiscalidad
-date: 2026-09-08
-draft: true
+date: 2026-09-06
+draft: false
 sources:
   - label: 'Ley 27/2014 del Impuesto sobre Sociedades, art. 12 — amortització de l’immobilitzat'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2014-12328'
