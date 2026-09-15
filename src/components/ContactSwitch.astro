@@ -39,40 +39,49 @@ const [emailLocal, emailDomain] = t.contact.email.split('@');
 <script>
   import { track } from '@vercel/analytics';
 
-  const originOf = (el: HTMLElement | null) => el?.dataset.origen || 'desconocido';
+  // Se reengancha en "astro:page-load" (carga inicial + cada transición de
+  // vista) porque este componente se repite en varios puntos de cada página
+  // (cabecera, hero, CTA final...) y sus nodos se sustituyen por unos nuevos
+  // en cada navegación — sin esto, dejaría de abrir el diálogo después de la
+  // primera transición.
+  function initContactSwitch() {
+    const originOf = (el: HTMLElement | null) => el?.dataset.origen || 'desconocido';
 
-  const triggers = document.querySelectorAll<HTMLButtonElement>('[data-contact-trigger]');
-  triggers.forEach((btn) => {
-    btn.addEventListener('click', () => {
-      const id = btn.getAttribute('data-contact-trigger');
-      const dialog = id ? document.getElementById(id) : null;
-      if (dialog instanceof HTMLDialogElement) dialog.showModal();
-      track('contacto_click', { via: 'abrir', origen: originOf(btn) });
+    const triggers = document.querySelectorAll<HTMLButtonElement>('[data-contact-trigger]');
+    triggers.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const id = btn.getAttribute('data-contact-trigger');
+        const dialog = id ? document.getElementById(id) : null;
+        if (dialog instanceof HTMLDialogElement) dialog.showModal();
+        track('contacto_click', { via: 'abrir', origen: originOf(btn) });
+      });
     });
-  });
 
-  document.querySelectorAll<HTMLAnchorElement>('.contact-dialog-email').forEach((a) => {
-    a.addEventListener('click', () =>
-      track('contacto_click', { via: 'email', origen: originOf(a.closest<HTMLElement>('.contact-dialog')) }),
-    );
-  });
-  document.querySelectorAll<HTMLAnchorElement>('.contact-dialog-call').forEach((a) => {
-    a.addEventListener('click', () =>
-      track('contacto_click', { via: 'llamada', origen: originOf(a.closest<HTMLElement>('.contact-dialog')) }),
-    );
-  });
-
-  document.querySelectorAll<HTMLElement>('.contact-dialog').forEach((dialog) => {
-    if (!(dialog instanceof HTMLDialogElement)) return;
-
-    dialog.querySelector('[data-contact-close]')?.addEventListener('click', () => dialog.close());
-
-    // Cerrar al hacer clic fuera del cuadro (sobre el backdrop).
-    dialog.addEventListener('click', (e) => {
-      const rect = dialog.getBoundingClientRect();
-      const inside =
-        e.clientX >= rect.left && e.clientX <= rect.right && e.clientY >= rect.top && e.clientY <= rect.bottom;
-      if (!inside) dialog.close();
+    document.querySelectorAll<HTMLAnchorElement>('.contact-dialog-email').forEach((a) => {
+      a.addEventListener('click', () =>
+        track('contacto_click', { via: 'email', origen: originOf(a.closest<HTMLElement>('.contact-dialog')) }),
+      );
     });
-  });
+    document.querySelectorAll<HTMLAnchorElement>('.contact-dialog-call').forEach((a) => {
+      a.addEventListener('click', () =>
+        track('contacto_click', { via: 'llamada', origen: originOf(a.closest<HTMLElement>('.contact-dialog')) }),
+      );
+    });
+
+    document.querySelectorAll<HTMLElement>('.contact-dialog').forEach((dialog) => {
+      if (!(dialog instanceof HTMLDialogElement)) return;
+
+      dialog.querySelector('[data-contact-close]')?.addEventListener('click', () => dialog.close());
+
+      // Cerrar al hacer clic fuera del cuadro (sobre el backdrop).
+      dialog.addEventListener('click', (e) => {
+        const rect = dialog.getBoundingClientRect();
+        const inside =
+          e.clientX >= rect.left && e.clientX <= rect.right && e.clientY >= rect.top && e.clientY <= rect.bottom;
+        if (!inside) dialog.close();
+      });
+    });
+  }
+
+  document.addEventListener('astro:page-load', initContactSwitch);
 </script>

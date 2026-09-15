@@ -67,10 +67,12 @@ const faqGroups: { key: string; label: string; items: readonly { q: string; a: s
               {group.items.map((item, i) => (
                 <details class="faq-item" data-extra={i >= FAQ_VISIBLE_LIMIT ? 'true' : undefined} hidden={i >= FAQ_VISIBLE_LIMIT}>
                   <summary>{item.q}</summary>
-                  <p>{item.a}</p>
-                  {item.related && (
-                    <a href={localizedPath(`/blog/${item.related}`, lang)} class="faq-item-link">{t.blog.readMore}</a>
-                  )}
+                  <div class="faq-item-body">
+                    <p>{item.a}</p>
+                    {item.related && (
+                      <a href={localizedPath(`/blog/${item.related}`, lang)} class="faq-item-link">{t.blog.readMore}</a>
+                    )}
+                  </div>
                 </details>
               ))}
               {group.items.length > FAQ_VISIBLE_LIMIT && (
@@ -135,6 +137,13 @@ const faqGroups: { key: string; label: string; items: readonly { q: string; a: s
   )}
 
   <script>
+    import { enhanceFaqAccordions } from '../../scripts/faqAccordion';
+
+    // Todo el script de /blog vive en una función con nombre, reenganchada
+    // en "astro:page-load": si no, el buscador, el filtro de categoría y el
+    // acordeón de FAQs quedarían inertes al llegar aquí navegando desde otra
+    // página (transición de vista) en vez de con una carga completa.
+    function initBlogPage() {
     const DIACRITICS_PATTERN = new RegExp(String.fromCharCode(91, 0x0300, 45, 0x036f, 93), 'g');
 
     const searchInput = document.getElementById('faqSearch') as HTMLInputElement | null;
@@ -301,5 +310,10 @@ const faqGroups: { key: string; label: string; items: readonly { q: string; a: s
         sessionStorage.setItem('askFloatDismissed', '1');
       });
     }
+
+    enhanceFaqAccordions();
+    }
+
+    document.addEventListener('astro:page-load', initBlogPage);
   </script>
 </div>

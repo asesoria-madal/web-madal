@@ -26,9 +26,9 @@ export const ui = {
     },
 
     hero: {
-      eyebrow: 'Gestoría online para autónomos y pymes',
+      eyebrow: 'Gestoría online, con sede en Barcelona',
       title: 'Presentamos tus impuestos, te lo explicamos todo y seguimos en contacto contigo.',
-      dek: 'Contabilidad para autónomos y pymes, 100% online. Presentamos tus impuestos cada trimestre y te explicamos, paso a paso, qué significan tus números.',
+      dek: 'Contabilidad para autónomos y pymes. Trabajamos online y, si lo prefieres, también en persona en Barcelona. Presentamos tus impuestos cada trimestre y te explicamos, paso a paso, qué significan tus números.',
       priceLabel: 'Cuota',
       priceAmount: 'desde 48,40 €',
       priceUnit: '/mes, IVA incluido',
@@ -46,7 +46,7 @@ export const ui = {
       colOnline: 'Gestoría online al uso',
       colMadal: 'Asesoría Madal',
       rows: [
-        { trad: 'Poca digitalización', online: '100% digital', madal: '100% digital, con trato cercano' },
+        { trad: 'Poca digitalización', online: '100% digital', madal: 'Todo digital, con trato cercano' },
         { trad: 'Solo presenta tus impuestos', online: 'Presenta tus impuestos', madal: 'Presentamos tus impuestos y te explicamos qué dicen los números' },
         { trad: 'Solo se comunica cuando llamas tú', online: 'Solo automatizaciones, sin trato directo con personas', madal: 'Comunicación activa y continuada: somos tu referente fiscal' },
         { trad: 'Precio elevado', online: '100% digital, 0% personalizado', madal: 'Te enviamos tu balance y PyG explicados cada trimestre' },
@@ -295,7 +295,7 @@ export const ui = {
       eyebrow: 'Quiénes somos',
       title: 'La misma formación en números, dos experiencias que se complementan',
       dek: 'Somos los dos socios que fundamos este proyecto. Preferimos presentarnos como equipo. Lo que sí compartimos aquí es nuestra formación, nuestra experiencia profesional y cómo trabajamos con cada cliente.',
-      tags: ['Economía y Estadística (UB / UPC)', 'Experiencia real en gestoría', '100% online'],
+      tags: ['Economía y Estadística (UB / UPC)', 'Experiencia real en gestoría', 'Con sede en Barcelona'],
       formacion: {
         eyebrow: 'Formación',
         title: 'Doble grado en Economía y Estadística',
@@ -363,6 +363,8 @@ export const ui = {
         from: '"Mi gestoría lleva mis números."',
         to: '"Puedo ver y entender cómo está funcionando mi negocio."',
         detail: 'Los dashboards se actualizan cada mes. Si en algún momento necesitas los datos más recientes, puedes pedírnoslo cuando quieras.',
+        exampleCaption: 'Ejemplo ilustrativo, no son datos reales de ningún cliente.',
+        exampleLegend: { ingresos: 'Ingresos', gastos: 'Gastos', beneficio: 'Beneficio' },
       },
       asistente: {
         eyebrow: 'En desarrollo',
@@ -393,15 +395,15 @@ export const ui = {
     },
 
     footer: {
-      tagline: 'Gestoría y asesoría 100% online, para autónomos y pymes de toda España.',
+      tagline: 'Gestoría y asesoría con sede en Barcelona, para autónomos y pymes de toda España.',
       navTitle: 'Navegación',
       contactTitle: 'Contacto',
       contactCall: 'Reservar llamada',
       whereTitle: 'Dónde estamos',
-      whereOnline: 'Servicio 100% online',
+      whereOnline: 'También atendemos online',
       whereBase: 'Con sede en Barcelona',
       whereSpain: 'Toda España, excepto Canarias, Navarra y País Vasco (regímenes forales)',
-      legal: '© Asesoría Madal. Servicio de gestoría y asesoría 100% online.',
+      legal: '© Asesoría Madal. Servicio de gestoría y asesoría, con sede en Barcelona.',
       portal: 'Área clientes',
       avisoLegal: 'Aviso legal',
       privacidad: 'Privacidad',
@@ -563,9 +565,9 @@ export const ui = {
     },
 
     hero: {
-      eyebrow: 'Gestoria online per a autònoms i pimes',
+      eyebrow: 'Gestoria online, amb seu a Barcelona',
       title: 'Presentem els teus impostos, te’ls expliquem tot i seguim en contacte amb tu.',
-      dek: 'Comptabilitat per a autònoms i pimes, 100% online. Presentem els teus impostos cada trimestre i t’expliquem, pas a pas, què signifiquen els teus números.',
+      dek: 'Comptabilitat per a autònoms i pimes. Treballem online i, si ho prefereixes, també en persona a Barcelona. Presentem els teus impostos cada trimestre i t’expliquem, pas a pas, què signifiquen els teus números.',
       priceLabel: 'Quota',
       priceAmount: 'des de 48,40 €',
       priceUnit: '/mes, IVA inclòs',
@@ -583,7 +585,7 @@ export const ui = {
       colOnline: 'Gestoria online habitual',
       colMadal: 'Asesoría Madal',
       rows: [
-        { trad: 'Poca digitalització', online: '100% digital', madal: '100% digital, amb tracte proper' },
+        { trad: 'Poca digitalització', online: '100% digital', madal: 'Tot digital, amb tracte proper' },
         { trad: 'Només presenta els teus impostos', online: 'Presenta els teus impostos', madal: 'Presentem els teus impostos i t’expliquem què diuen els números' },
         { trad: 'Només es comunica quan truques tu', online: 'Només automatitzacions, sense tracte directe amb persones', madal: 'Comunicació activa i continuada: som el teu referent fiscal' },
         { trad: 'Preu elevat', online: '100% digital, 0% personalitzat', madal: 'T’enviem el teu balanç i compte de resultats explicats cada trimestre' },
@@ -832,7 +834,7 @@ export const ui = {
       eyebrow: 'Qui som',
       title: 'La mateixa formació en números, dues experiències que es complementen',
       dek: 'Som els dos socis que vam fundar aquest projecte. Preferim presentar-nos com a equip. El que sí que compartim aquí és la nostra formació, la nostra experiència professional i com treballem amb cada client.',
-      tags: ['Economia i Estadística (UB / UPC)', 'Experiència real en gestoria', '100% online'],
+      tags: ['Economia i Estadística (UB / UPC)', 'Experiència real en gestoria', 'Amb seu a Barcelona'],
       formacion: {
         eyebrow: 'Formació',
         title: 'Doble grau en Economia i Estadística',
@@ -900,6 +902,8 @@ export const ui = {
         from: '"La meva gestoria porta els meus números."',
         to: '"Puc veure i entendre com funciona el meu negoci."',
         detail: 'Els dashboards s’actualitzen cada mes. Si en algun moment necessites les dades més recents, ens ho pots demanar quan vulguis.',
+        exampleCaption: 'Exemple il·lustratiu, no són dades reals de cap client.',
+        exampleLegend: { ingresos: 'Ingressos', gastos: 'Despeses', beneficio: 'Benefici' },
       },
       asistente: {
         eyebrow: 'En desenvolupament',
@@ -930,15 +934,15 @@ export const ui = {
     },
 
     footer: {
-      tagline: 'Gestoria i assessoria 100% online, per a autònoms i pimes de tot Espanya.',
+      tagline: 'Gestoria i assessoria amb seu a Barcelona, per a autònoms i pimes de tot Espanya.',
       navTitle: 'Navegació',
       contactTitle: 'Contacte',
       contactCall: 'Reserva una trucada',
       whereTitle: 'On som',
-      whereOnline: 'Servei 100% online',
+      whereOnline: 'També atenem online',
       whereBase: 'Amb seu a Barcelona',
       whereSpain: 'A tot Espanya, excepte Canàries, Navarra i el País Basc (règims forals)',
-      legal: '© Asesoría Madal. Servei de gestoria i assessoria 100% online.',
+      legal: '© Asesoría Madal. Servei de gestoria i assessoria, amb seu a Barcelona.',
       portal: 'Àrea clients',
       avisoLegal: 'Avís legal',
       privacidad: 'Privadesa',
@@ -1100,9 +1104,9 @@ export const ui = {
     },
 
     hero: {
-      eyebrow: 'Online accounting for freelancers and small businesses',
+      eyebrow: 'Online accounting, based in Barcelona',
       title: 'We file your taxes, explain everything clearly, and stay in touch with you.',
-      dek: 'Accounting for freelancers and small businesses in Spain, fully online. We file your taxes every quarter and explain, step by step, what your numbers mean.',
+      dek: 'Accounting for freelancers and small businesses in Spain. We work online and, if you prefer, also in person in Barcelona. We file your taxes every quarter and explain, step by step, what your numbers mean.',
       priceLabel: 'Fee',
       priceAmount: 'from €48.40',
       priceUnit: '/month, VAT included',
@@ -1120,7 +1124,7 @@ export const ui = {
       colOnline: 'Typical online accounting firm',
       colMadal: 'Asesoría Madal',
       rows: [
-        { trad: 'Little digitalization', online: '100% digital', madal: '100% digital, with a personal touch' },
+        { trad: 'Little digitalization', online: '100% digital', madal: 'Fully digital, with a personal touch' },
         { trad: 'Just files your taxes', online: 'Files your taxes', madal: 'Files your taxes and explains what the numbers mean' },
         { trad: 'Only talks to you when you call', online: 'Automated messages only, no direct contact with a person', madal: 'Active, ongoing communication: we’re your go-to for tax questions' },
         { trad: 'High fees', online: '100% digital, 0% personalized', madal: 'We send you your balance sheet and P&L, explained, every quarter' },
@@ -1369,7 +1373,7 @@ export const ui = {
       eyebrow: 'About us',
       title: 'Same background in numbers, two experiences that complement each other',
       dek: 'We’re the two founding partners behind this project. We prefer to introduce ourselves as a team. What you can find here is our academic background, our professional experience and how we work with each client.',
-      tags: ['Economics & Statistics (UB / UPC)', 'Real accounting-firm experience', '100% online'],
+      tags: ['Economics & Statistics (UB / UPC)', 'Real accounting-firm experience', 'Based in Barcelona'],
       formacion: {
         eyebrow: 'Background',
         title: 'A joint degree in Economics and Statistics',
@@ -1437,6 +1441,8 @@ export const ui = {
         from: '"My accounting firm handles my numbers."',
         to: '"I can see and understand how my business is doing."',
         detail: 'Dashboards update every month. If you ever need the most recent data, you can ask us for a refresh whenever you want.',
+        exampleCaption: 'Illustrative example — not real data from any client.',
+        exampleLegend: { ingresos: 'Income', gastos: 'Expenses', beneficio: 'Profit' },
       },
       asistente: {
         eyebrow: 'In development',
@@ -1467,15 +1473,15 @@ export const ui = {
     },
 
     footer: {
-      tagline: 'Fully online accounting and advisory for freelancers and small businesses across Spain.',
+      tagline: 'Accounting and advisory based in Barcelona, for freelancers and small businesses across Spain.',
       navTitle: 'Navigation',
       contactTitle: 'Contact',
       contactCall: 'Book a call',
       whereTitle: 'Where we are',
-      whereOnline: '100% online service',
+      whereOnline: 'Also available online',
       whereBase: 'Based in Barcelona',
       whereSpain: 'All of Spain, except the Canary Islands, Navarre, and the Basque Country (regional tax systems)',
-      legal: '© Asesoría Madal. 100% online accounting and advisory service.',
+      legal: '© Asesoría Madal. Accounting and advisory service, based in Barcelona.',
       portal: 'Client area',
       avisoLegal: 'Legal notice',
       privacidad: 'Privacy',

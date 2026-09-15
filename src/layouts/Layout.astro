@@ -5,6 +5,7 @@ import ContactSwitch from '../components/ContactSwitch.astro';
 import CookieConsent from '../components/CookieConsent.astro';
 import Analytics from '@vercel/analytics/astro';
 import SpeedInsights from '@vercel/speed-insights/astro';
+import { ClientRouter } from 'astro:transitions';
 import '../styles/global.css';
 import { locales, defaultLocale, type Locale } from '../i18n/ui';
 import { useTranslations, localizedPath } from '../i18n/utils';
@@ -63,6 +64,8 @@ const ogLocale: Record<Locale, string> = { es: 'es_ES', ca: 'ca_ES', en: 'en_GB'
 
     <link rel="preload" href="/fonts/domine-700.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/fonts/publicsans-400.woff2" as="font" type="font/woff2" crossorigin />
+
+    <ClientRouter />
 
     <script type="application/ld+json" is:inline set:html={JSON.stringify({
       '@context': 'https://schema.org',

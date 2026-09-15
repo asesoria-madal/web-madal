@@ -6,6 +6,41 @@ interface Props { lang: Locale; }
 const { lang } = Astro.props;
 const t = useTranslations(lang);
 const s = t.servicios;
+
+// Mismo trazo que el gráfico real del área de cliente (ver Portal.astro,
+// renderEvolucion): tres polylines sobre un viewBox fijo, con un punto por
+// mes. Aquí, en vez de datos reales de Supabase, es un ejemplo fijo — la
+// promesa de "reporting y dashboards" se demuestra en vez de solo contarse
+// en texto, sin fabricar datos de ningún cliente real (por eso llevan el
+// aviso "ejemplo ilustrativo" explícito, igual que el resto del sitio evita
+// prueba social inventada).
+const evoExample = [
+  { mes: 'Ene', ingresos: 4200, gastos: 2800 },
+  { mes: 'Feb', ingresos: 3900, gastos: 3100 },
+  { mes: 'Mar', ingresos: 5100, gastos: 2600 },
+  { mes: 'Abr', ingresos: 4700, gastos: 3400 },
+  { mes: 'May', ingresos: 5800, gastos: 2900 },
+  { mes: 'Jun', ingresos: 6200, gastos: 3300 },
+];
+const evoPuntos = evoExample.map((p) => ({ ...p, beneficio: p.ingresos - p.gastos }));
+const evoValores = evoPuntos.flatMap((p) => [p.ingresos, p.gastos, p.beneficio]);
+const EVO_W = 640;
+const EVO_H = 200;
+const EVO_PAD_X = 20;
+const EVO_PAD_Y = 18;
+const evoMax = Math.max(...evoValores, 0);
+const evoMin = Math.min(...evoValores, 0);
+const evoRango = Math.max(evoMax - evoMin, 1);
+const evoStepX = evoPuntos.length > 1 ? (EVO_W - EVO_PAD_X * 2) / (evoPuntos.length - 1) : 0;
+const evoX = (i: number) => EVO_PAD_X + i * evoStepX;
+const evoY = (v: number) => EVO_H - EVO_PAD_Y - ((v - evoMin) / evoRango) * (EVO_H - EVO_PAD_Y * 2);
+const evoBaselineY = evoY(0);
+const evoShowBaseline = evoMin < 0 && evoMax > 0;
+const evoSeries = [
+  { valores: evoPuntos.map((p) => p.ingresos), color: 'var(--accent)', label: s.dashboards.exampleLegend.ingresos },
+  { valores: evoPuntos.map((p) => p.gastos), color: 'var(--warm)', label: s.dashboards.exampleLegend.gastos },
+  { valores: evoPuntos.map((p) => p.beneficio), color: 'var(--ink)', label: s.dashboards.exampleLegend.beneficio },
+];
 ---
 
 <div id="view-servicios">
@@ -47,6 +82,32 @@ const s = t.servicios;
         <p class="from">{s.dashboards.from}</p>
         <p class="to">{s.dashboards.to}</p>
       </div>
+
+      <div class="finanzas-evolucion servicios-follow">
+        <svg viewBox={`0 0 ${EVO_W} ${EVO_H}`} class="finanzas-evo-svg" preserveAspectRatio="none">
+          {evoShowBaseline && (
+            <line x1={EVO_PAD_X} x2={EVO_W - EVO_PAD_X} y1={evoBaselineY} y2={evoBaselineY} class="finanzas-evo-baseline" />
+          )}
+          {evoSeries.map((serie) => (
+            <>
+              <polyline points={serie.valores.map((v, i) => `${evoX(i)},${evoY(v)}`).join(' ')} class="finanzas-evo-line" style={`stroke:${serie.color}`} />
+              {serie.valores.map((v, i) => (
+                <circle cx={evoX(i)} cy={evoY(v)} r="3.5" style={`fill:${serie.color}`} />
+              ))}
+            </>
+          ))}
+        </svg>
+        <div class="finanzas-evo-labels">
+          {evoPuntos.map((p) => <span>{p.mes}</span>)}
+        </div>
+        <div class="finanzas-evo-legend">
+          {evoSeries.map((serie) => (
+            <span><span class="dot" style={`background:${serie.color}`}></span>{serie.label}</span>
+          ))}
+        </div>
+      </div>
+      <p class="servicios-note">{s.dashboards.exampleCaption}</p>
+
       <p class="section-sub servicios-follow">{s.dashboards.detail}</p>
     </div>
   </section>

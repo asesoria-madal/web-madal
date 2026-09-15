@@ -26,11 +26,12 @@ const nav = [
 const equipoHref = localizedPath('/equipo', lang);
 const serviciosHref = localizedPath('/servicios', lang);
 
-// Emoji de bandera por idioma. El catalán no tiene bandera de país propia
-// (no es un estado) y la secuencia de bandera regional de Cataluña se ve mal
-// o no se renderiza en bastantes dispositivos, así que usamos una etiqueta
-// "CA" con el mismo tamaño en vez de arriesgarnos a un emoji roto.
-const flagEmoji: Partial<Record<Locale, string>> = { es: '🇪🇸', en: '🇬🇧' };
+// Etiqueta de 2 letras por idioma, en vez de emoji de bandera: el catalán
+// no tiene bandera de país propia (no es un estado), así que mezclar
+// banderas emoji para es/en con una etiqueta de texto solo para "ca" quedaba
+// inconsistente. Con esta insignia tipográfica para los tres idiomas, el
+// selector deja de depender de iconografía prestada (como el resto del sitio).
+const localeCode: Record<Locale, string> = { es: 'ES', ca: 'CA', en: 'EN' };
 ---
 
 <header class="site">
@@ -41,7 +42,7 @@ const flagEmoji: Partial<Record<Locale, string>> = { es: '🇪🇸', en: '🇬�
           <span></span><span></span><span></span>
         </button>
       )}
-      <a href={home} class="wordmark">Asesoría<span>Madal</span></a>
+      <a href={home} class="wordmark" transition:name="wordmark">Asesoría<span>Madal</span></a>
     </div>
     {!minimal && (
       <nav class="primary">
@@ -54,17 +55,15 @@ const flagEmoji: Partial<Record<Locale, string>> = { es: '🇪🇸', en: '🇬�
     )}
     <div class="header-right">
       <button type="button" class="theme-toggle" aria-label="Cambiar entre tema claro y oscuro">
-        <span class="theme-icon-dark" aria-hidden="true">🌙</span>
-        <span class="theme-icon-light" aria-hidden="true">☀️</span>
+        <svg class="theme-icon-dark" width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16.5 12.3A7 7 0 0 1 7.7 3.5a7 7 0 1 0 8.8 8.8Z"/></svg>
+        <svg class="theme-icon-light" width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><circle cx="10" cy="10" r="4"/><path d="M10 1.5v2.4M10 16.1v2.4M18.5 10h-2.4M3.9 10H1.5M15.9 4.1l-1.7 1.7M5.8 14.2l-1.7 1.7M15.9 15.9l-1.7-1.7M5.8 5.8 4.1 4.1"/></svg>
       </button>
       <details class="lang-switch">
-        <summary aria-label={localeNames[lang]}><span aria-hidden="true">🌐</span></summary>
+        <summary aria-label={localeNames[lang]}><span class="flag-badge" aria-hidden="true">{localeCode[lang]}</span></summary>
         <div class="lang-menu">
           {locales.map((l) => (
             <a href={localizedPath(path, l)} class={l === lang ? 'active' : ''}>
-              {flagEmoji[l]
-                ? <span class="flag" aria-hidden="true">{flagEmoji[l]}</span>
-                : <span class="flag flag-badge" aria-hidden="true">CA</span>}
+              <span class="flag-badge" aria-hidden="true">{localeCode[l]}</span>
               {localeNames[l]}
             </a>
           ))}
@@ -72,7 +71,10 @@ const flagEmoji: Partial<Record<Locale, string>> = { es: '🇪🇸', en: '🇬�
       </details>
       {!minimal && (
         <>
-          <a href={localizedPath('/portal', lang)} class="portal-link"><span aria-hidden="true">👤</span> <span class="portal-link-label">{t.header.portal}</span></a>
+          <a href={localizedPath('/portal', lang)} class="portal-link">
+            <svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="10" cy="6.5" r="3.3"/><path d="M3.8 17c1-3.6 4-5.6 6.2-5.6s5.2 2 6.2 5.6"/></svg>
+            <span class="portal-link-label">{t.header.portal}</span>
+          </a>
           <ContactSwitch lang={lang} origen="header" />
         </>
       )}
@@ -88,15 +90,13 @@ const flagEmoji: Partial<Record<Locale, string>> = { es: '🇪🇸', en: '🇬�
       <a class={`mobile-navlink${active === 'equipo' ? ' active' : ''}`} href={equipoHref}>{t.nav.conocenos}</a>
       <div class="mobile-menu-foot">
         <button type="button" class="theme-toggle" aria-label="Cambiar entre tema claro y oscuro">
-          <span class="theme-icon-dark" aria-hidden="true">🌙</span>
-          <span class="theme-icon-light" aria-hidden="true">☀️</span>
+          <svg class="theme-icon-dark" width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16.5 12.3A7 7 0 0 1 7.7 3.5a7 7 0 1 0 8.8 8.8Z"/></svg>
+          <svg class="theme-icon-light" width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><circle cx="10" cy="10" r="4"/><path d="M10 1.5v2.4M10 16.1v2.4M18.5 10h-2.4M3.9 10H1.5M15.9 4.1l-1.7 1.7M5.8 14.2l-1.7 1.7M15.9 15.9l-1.7-1.7M5.8 5.8 4.1 4.1"/></svg>
         </button>
         <div class="mobile-lang-links">
           {locales.map((l) => (
             <a href={localizedPath(path, l)} class={`mobile-lang-link${l === lang ? ' active' : ''}`} aria-label={localeNames[l]}>
-              {flagEmoji[l]
-                ? <span class="flag" aria-hidden="true">{flagEmoji[l]}</span>
-                : <span class="flag flag-badge" aria-hidden="true">CA</span>}
+              <span class="flag-badge" aria-hidden="true">{localeCode[l]}</span>
             </a>
           ))}
         </div>
@@ -107,41 +107,60 @@ const flagEmoji: Partial<Record<Locale, string>> = { es: '🇪🇸', en: '🇬�
 </header>
 
 <script>
-  function currentTheme(): 'dark' | 'light' {
-    const attr = document.documentElement.getAttribute('data-theme');
-    if (attr === 'dark' || attr === 'light') return attr;
-    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  // El header persiste visualmente entre páginas gracias a las transiciones
+  // de vista (ver Layout.astro), pero Astro no vuelve a ejecutar este script
+  // en cada navegación por sí solo: por eso toda la inicialización vive en
+  // una función que se reengancha en "astro:page-load", el evento que
+  // dispara tanto en la carga inicial como después de cada transición.
+  function initHeader() {
+    function currentTheme(): 'dark' | 'light' {
+      const attr = document.documentElement.getAttribute('data-theme');
+      if (attr === 'dark' || attr === 'light') return attr;
+      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+
+    document.querySelectorAll<HTMLButtonElement>('.theme-toggle').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const next = currentTheme() === 'dark' ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', next);
+        localStorage.setItem('theme', next);
+      });
+    });
+
+    const menuToggle = document.getElementById('menuToggle');
+    const mobileMenu = document.getElementById('mobileMenu');
+
+    function closeMenu() {
+      if (!mobileMenu || !menuToggle) return;
+      mobileMenu.hidden = true;
+      menuToggle.setAttribute('aria-expanded', 'false');
+    }
+
+    menuToggle?.addEventListener('click', () => {
+      if (!mobileMenu) return;
+      const open = mobileMenu.hidden;
+      mobileMenu.hidden = !open;
+      menuToggle.setAttribute('aria-expanded', String(open));
+    });
+
+    mobileMenu?.querySelectorAll('a').forEach((link) => {
+      link.addEventListener('click', closeMenu);
+    });
   }
 
-  document.querySelectorAll<HTMLButtonElement>('.theme-toggle').forEach((btn) => {
-    btn.addEventListener('click', () => {
-      const next = currentTheme() === 'dark' ? 'light' : 'dark';
-      document.documentElement.setAttribute('data-theme', next);
-      localStorage.setItem('theme', next);
-    });
-  });
+  document.addEventListener('astro:page-load', initHeader);
 
-  const menuToggle = document.getElementById('menuToggle');
-  const mobileMenu = document.getElementById('mobileMenu');
-
-  function closeMenu() {
+  // El listener de Escape vive fuera de initHeader() y se engancha una sola
+  // vez: `document` no se reemplaza entre navegaciones (solo su contenido),
+  // así que enganchar esto en cada astro:page-load iría acumulando
+  // listeners duplicados. Consulta el menú actual en el momento de la
+  // pulsación en vez de capturarlo al iniciar.
+  document.addEventListener('keydown', (e) => {
+    if (e.key !== 'Escape') return;
+    const mobileMenu = document.getElementById('mobileMenu');
+    const menuToggle = document.getElementById('menuToggle');
     if (!mobileMenu || !menuToggle) return;
     mobileMenu.hidden = true;
     menuToggle.setAttribute('aria-expanded', 'false');
-  }
-
-  menuToggle?.addEventListener('click', () => {
-    if (!mobileMenu) return;
-    const open = mobileMenu.hidden;
-    mobileMenu.hidden = !open;
-    menuToggle.setAttribute('aria-expanded', String(open));
-  });
-
-  mobileMenu?.querySelectorAll('a').forEach((link) => {
-    link.addEventListener('click', closeMenu);
-  });
-
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') closeMenu();
   });
 </script>

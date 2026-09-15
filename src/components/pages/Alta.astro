@@ -40,7 +40,7 @@ const p = t.altaPage;
         <a href={localizedPath('/simulador', lang)} class="btn btn-outline">{t.hero.ctaSim}</a>
       </div>
       <div>
-        <p class="price">{p.price}<br /><small>{p.priceNote}</small></p>
+        <p class="price"><span data-countup>{p.price}</span><br /><small>{p.priceNote}</small></p>
         <div style="margin-top:0.8rem;">
           <ContactSwitch lang={lang} origen="alta" />
         </div>
@@ -48,3 +48,8 @@ const p = t.altaPage;
     </div>
   </div>
 </div>
+
+<script>
+  import { observeCountUp } from '../../scripts/countup';
+  document.addEventListener('astro:page-load', () => observeCountUp());
+</script>

@@ -25,7 +25,7 @@ const latestPost = (await getSortedBlogPosts(lang))[0];
         <div class="hero-price">
           <div class="hero-price-figure">
             <span class="hero-price-label">{t.hero.priceLabel}</span>
-            <span class="hero-price-amount">{t.hero.priceAmount}<small>{t.hero.priceUnit}</small></span>
+            <span class="hero-price-amount"><span data-countup>{t.hero.priceAmount}</span><small>{t.hero.priceUnit}</small></span>
             <p class="hero-price-claim">{t.hero.priceClaim}</p>
           </div>
           <div class="actions">
@@ -87,7 +87,7 @@ const latestPost = (await getSortedBlogPosts(lang))[0];
         {t.precios.rows.map((row) => (
           <div class="price-row">
             <h3>{row.title}</h3>
-            <p class="amount">{row.amount}<small>{row.unit} · {t.precios.ivaLabel}</small></p>
+            <p class="amount"><span data-countup>{row.amount}</span><small>{row.unit} · {t.precios.ivaLabel}</small></p>
             <p class="iva-badge">{t.precios.ivaLabel}</p>
             <p class="incl">{row.incl}</p>
           </div>
@@ -102,7 +102,7 @@ const latestPost = (await getSortedBlogPosts(lang))[0];
           <a href={localizedPath('/simulador', lang)} class="alta-link">{t.alta.link}</a>
         </div>
         <div>
-          <p class="price">{t.alta.price}<br /><small>{t.alta.priceNote}</small></p>
+          <p class="price"><span data-countup>{t.alta.price}</span><br /><small>{t.alta.priceNote}</small></p>
         </div>
       </div>
 
@@ -120,3 +120,8 @@ const latestPost = (await getSortedBlogPosts(lang))[0];
     </div>
   </section>
 </div>
+
+<script>
+  import { observeCountUp } from '../../scripts/countup';
+  document.addEventListener('astro:page-load', () => observeCountUp());
+</script>

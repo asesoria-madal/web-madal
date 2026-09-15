@@ -104,7 +104,7 @@ const breadcrumbLd = {
         {relatedFaqs.map((item) => (
           <details class="faq-item">
             <summary>{item.q}</summary>
-            <p>{item.a}</p>
+            <div class="faq-item-body"><p>{item.a}</p></div>
           </details>
         ))}
       </div>
@@ -139,6 +139,14 @@ const breadcrumbLd = {
 <script type="application/ld+json" is:inline set:html={JSON.stringify(breadcrumbLd)} />
 
 <script>
+  import { enhanceFaqAccordions } from '../../scripts/faqAccordion';
+
+  // Función con nombre reenganchada en "astro:page-load": un artículo
+  // enlaza con frecuencia a otros artículos relacionados (misma plantilla,
+  // contenido distinto), justo el caso donde más falta hace que el botón de
+  // compartir, el aviso de contacto y el acordeón de FAQs se reinicien tras
+  // cada transición en vez de quedarse inertes después de la primera.
+  function initArticlePage() {
   // Botón compartir: usa el diálogo nativo del sistema en móvil
   // (navigator.share) y, donde no existe, copia el enlace al portapapeles.
   const shareBtn = document.querySelector('.article-share-btn');
@@ -193,4 +201,9 @@ const breadcrumbLd = {
     if (nudge) nudge.hidden = true;
     sessionStorage.setItem('articleNudgeDismissed', '1');
   });
+
+  enhanceFaqAccordions();
+  }
+
+  document.addEventListener('astro:page-load', initArticlePage);
 </script>

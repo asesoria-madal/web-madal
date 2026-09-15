@@ -30,8 +30,12 @@ const enabled = GOOGLE_ADS_CONVERSION_ID.length > 0;
 )}
 
 <script>
-  const banner = document.getElementById('cookieBanner');
-  if (banner) {
+  // Igual que Header/ContactSwitch: se reengancha en "astro:page-load" para
+  // seguir funcionando tras cada transición de vista, no solo en la carga
+  // inicial.
+  function initCookieConsent() {
+    const banner = document.getElementById('cookieBanner');
+    if (!banner) return;
     const conversionId = banner.dataset.conversionId;
 
     function loadGoogleAds() {
@@ -65,4 +69,6 @@ const enabled = GOOGLE_ADS_CONVERSION_ID.length > 0;
       banner.hidden = true;
     });
   }
+
+  document.addEventListener('astro:page-load', initCookieConsent);
 </script>

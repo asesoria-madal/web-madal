@@ -157,8 +157,13 @@ const Heading = embedded ? 'h2' : 'h1';
 
 <script>
   import { track } from '@vercel/analytics';
+  import { animateCountUp } from '../../scripts/countup';
 
-  (function () {
+  // Función con nombre en vez de IIFE anónima, reenganchada en
+  // "astro:page-load": si no, el simulador quedaría inerte al llegar a
+  // /simulador navegando desde otra página (transición de vista) en vez de
+  // con una carga completa, porque el script solo se ejecutaría una vez.
+  function initSimulador() {
     const wizard = document.getElementById('wizard');
     if (!wizard) return;
 
@@ -377,7 +382,7 @@ const Heading = embedded ? 'h2' : 'h1';
         const base = RATES_AUTONOMO.bajo;
         const iva = round2(base * IVA_RATE);
         const total = round2(base + iva);
-        if (altaPriceEl) altaPriceEl.textContent = formatEUR(total);
+        if (altaPriceEl) animateCountUp(altaPriceEl, total, formatEUR);
       } else {
         apiBody = { regimen: answers.regimen, facturas: answers.facturas, reporting: answers.reporting };
         if (answers.alta) apiBody.alta = answers.alta;
@@ -387,7 +392,7 @@ const Heading = embedded ? 'h2' : 'h1';
         const subtotal = base + reportingAmount;
         const iva = round2(subtotal * IVA_RATE);
         const total = round2(subtotal + iva);
-        priceEl.textContent = formatEUR(total);
+        animateCountUp(priceEl, total, formatEUR);
         renderBreakdown(base, reportingAmount, iva, total);
       }
 
@@ -582,5 +587,7 @@ const Heading = embedded ? 'h2' : 'h1';
     } else {
       showStep('regimen');
     }
-  })();
+  }
+
+  document.addEventListener('astro:page-load', initSimulador);
 </script>

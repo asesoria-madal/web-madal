@@ -407,7 +407,6 @@ dialog.contact-dialog::backdrop { background: rgba(20, 16, 12, 0.55); }
 }
 .contact-dialog-call:hover { color: var(--accent); border-color: var(--accent); }
 .contact-dialog-closing { margin-top: 1.1rem; font-size: 0.8rem; color: var(--ink-soft); }
-.lang-switch .flag { font-size: 1.05em; line-height: 1; }
 .lang-switch .flag-badge {
   display: inline-flex;
   align-items: center;
