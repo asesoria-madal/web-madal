@@ -44,12 +44,18 @@ const Heading = embedded ? 'h2' : 'h1';
         <h3>{s.stepFacturas.q}</h3>
         <div class="card-options" data-facturas-options="autonomo" hidden>
           {s.stepFacturas.optionsAutonomo.map((opt) => (
-            <button type="button" class="option-card" data-field="facturas" data-value={opt.value}>{opt.label}</button>
+            <button type="button" class="option-card" data-field="facturas" data-value={opt.value}>
+              <span class="option-card-label">{opt.label}</span>
+              {'desc' in opt && opt.desc && <span class="option-card-desc">{opt.desc}</span>}
+            </button>
           ))}
         </div>
         <div class="card-options" data-facturas-options="pyme" hidden>
           {s.stepFacturas.optionsPyme.map((opt) => (
-            <button type="button" class="option-card" data-field="facturas" data-value={opt.value}>{opt.label}</button>
+            <button type="button" class="option-card" data-field="facturas" data-value={opt.value}>
+              <span class="option-card-label">{opt.label}</span>
+              {'desc' in opt && opt.desc && <span class="option-card-desc">{opt.desc}</span>}
+            </button>
           ))}
         </div>
       </div>
@@ -202,13 +208,19 @@ const Heading = embedded ? 'h2' : 'h1';
     // y solo el número de presupuesto depende de la respuesta del servidor.
     // Tarifas base SIN IVA; el simulador siempre muestra el importe CON IVA (21%).
     const IVA_RATE = 0.21;
-    const RATES_AUTONOMO: Record<string, number> = { bajo: 40, medio: 50, alto: 60 };
+    // Planes por niveles (Esencial/Crece/Total), no por volumen de facturas
+    // — el campo se sigue llamando "facturas" (igual en la BBDD y en la API,
+    // ver api/presupuesto.ts) por no tocar ese contrato, pero ahora guarda el
+    // plan elegido libremente por el visitante, no un tramo automático.
+    const RATES_AUTONOMO: Record<string, number> = { esencial: 55, crece: 85, total: 125 };
     const RATES_PYME: Record<string, number> = { t1: 100, t2: 130, t3: 150 };
-    // "nose" (no lo tengo claro) no suma nada al total: el reporting solo se
-    // cobra si el cliente lo confirma. REPORTING_OPTIONAL_PRICE es el precio
-    // que se muestra como nota informativa (no incluida en el total) en ese caso.
-    const REPORTING: Record<string, number> = { si: 30, no: 0, nose: 0 };
-    const REPORTING_OPTIONAL_PRICE = 30;
+    // El reporting/dashboards cuesta menos con el plan Total (incluido con
+    // 50% de descuento) que con el resto de planes.
+    const REPORTING_PRICE_AUTONOMO: Record<string, number> = { esencial: 30, crece: 30, total: 15 };
+    const REPORTING_PRICE_PYME = 30;
+    function reportingPrice(): number {
+      return answers.regimen === 'pyme' ? REPORTING_PRICE_PYME : (REPORTING_PRICE_AUTONOMO[answers.facturas] ?? 30);
+    }
 
     function round2(n: number): number {
       return Math.round(n * 100) / 100;
@@ -320,7 +332,7 @@ const Heading = embedded ? 'h2' : 'h1';
       if (answers.reporting === 'si') {
         lines.push({ label: d.reporting ?? '', amount: `+${formatEUR(reportingAmount)} €` });
       } else if (answers.reporting === 'nose') {
-        lines.push({ label: d.reportingNose ?? '', amount: `+${formatEUR(REPORTING_OPTIONAL_PRICE)} €`, tentative: true });
+        lines.push({ label: d.reportingNose ?? '', amount: `+${formatEUR(reportingPrice())} €`, tentative: true });
       }
 
       if (explainEl) explainEl.hidden = answers.reporting === 'no';
@@ -370,16 +382,16 @@ const Heading = embedded ? 'h2' : 'h1';
 
       if (isAltaFlow) {
         // Este importe es la cuota mensual recurrente a partir del segundo
-        // mes (el tramo más bajo de autónomo, RATES_AUTONOMO.bajo + IVA), NO
+        // mes (el plan más económico, RATES_AUTONOMO.esencial + IVA), NO
         // la tarifa de alta puntual (esa es s.altaResult.feeAmount, estática,
         // ver ui.ts). Son dos precios distintos que se muestran juntos en el
         // resultado del wizard: pago único de alta + cuota desde el mes 2.
         apiBody = {
-          regimen: 'autonomo', facturas: 'bajo', reporting: 'no',
+          regimen: 'autonomo', facturas: 'esencial', reporting: 'no',
           alta: answers.alta, certificado: answers.certificado,
           actividad: answers.actividad, fechaInicio: answers.fechaInicio,
         };
-        const base = RATES_AUTONOMO.bajo;
+        const base = RATES_AUTONOMO.esencial;
         const iva = round2(base * IVA_RATE);
         const total = round2(base + iva);
         if (altaPriceEl) animateCountUp(altaPriceEl, total, formatEUR);
@@ -388,7 +400,7 @@ const Heading = embedded ? 'h2' : 'h1';
         if (answers.alta) apiBody.alta = answers.alta;
         const rates = answers.regimen === 'pyme' ? RATES_PYME : RATES_AUTONOMO;
         const base = rates[answers.facturas] || 0;
-        const reportingAmount = REPORTING[answers.reporting] || 0;
+        const reportingAmount = answers.reporting === 'si' ? reportingPrice() : 0;
         const subtotal = base + reportingAmount;
         const iva = round2(subtotal * IVA_RATE);
         const total = round2(subtotal + iva);
@@ -450,7 +462,10 @@ const Heading = embedded ? 'h2' : 'h1';
         started = true;
         track('simulador_inicio', { idioma: wizard?.dataset.lang || 'es' });
       }
-      if (field === 'facturas') facturaLabels[value] = card.textContent || '';
+      if (field === 'facturas') {
+        const labelEl = card.querySelector('.option-card-label');
+        facturaLabels[value] = (labelEl?.textContent || card.textContent || '').trim();
+      }
       advance();
     });
 
@@ -572,12 +587,13 @@ const Heading = embedded ? 'h2' : 'h1';
     } else {
       const rates = qRegimen === 'pyme' ? RATES_PYME : RATES_AUTONOMO;
       const facturasOk = !!qFacturas && Object.prototype.hasOwnProperty.call(rates, qFacturas);
-      const reportingOk = !!qReporting && Object.prototype.hasOwnProperty.call(REPORTING, qReporting);
+      const reportingOk = qReporting === 'si' || qReporting === 'no' || qReporting === 'nose';
       if ((qRegimen === 'autonomo' || qRegimen === 'pyme') && facturasOk && reportingOk && qFacturas && qReporting) {
         answers = { regimen: qRegimen, facturas: qFacturas, reporting: qReporting };
         if (qAlta) answers.alta = qAlta;
         const facturaBtn = wizard.querySelector<HTMLElement>(`[data-field="facturas"][data-value="${qFacturas}"]`);
-        facturaLabels[qFacturas] = facturaBtn?.textContent || '';
+        const facturaLabelEl = facturaBtn?.querySelector('.option-card-label');
+        facturaLabels[qFacturas] = (facturaLabelEl?.textContent || facturaBtn?.textContent || '').trim();
         validAnswers = true;
       }
     }

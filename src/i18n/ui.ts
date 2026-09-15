@@ -68,13 +68,70 @@ export const ui = {
     precios: {
       eyebrow: 'Tarifas',
       title: 'Precios públicos, sin letra pequeña',
-      sub: 'Precios con IVA incluido.',
+      sub: 'Precios sin IVA — el total con IVA va debajo de cada plan.',
       ivaLabel: 'IVA incluido',
-      rows: [
-        { title: 'Autónomo', amount: 'desde 48,40 €', unit: '/mes', incl: 'Trimestrales de IVA e IRPF · Declaración de la renta: 40 € + IVA aparte' },
-        { title: 'SL', amount: 'desde 121 €', unit: '/mes', incl: 'Impuestos trimestrales, balance y PyG trimestral' },
+      autonomoTitle: 'Autónomos',
+      // Los tramos de facturación son orientativos: ayudan a elegir, pero no
+      // fuerzan ningún plan — el visitante elige libremente en el simulador.
+      autonomoTiers: [
+        {
+          key: 'esencial',
+          name: 'Esencial',
+          desc: 'Actividad sencilla. Orientativo: hasta 25.000 € al año.',
+          amount: '55 €',
+          unit: '/mes',
+          ivaNote: 'Total con IVA: 66,55 €/mes',
+          features: [
+            'Contabilidad, libros y todos los modelos',
+            'Notificaciones de la AEAT vigiladas',
+            'Tus documentos siempre a mano en la plataforma',
+            'Revisión de tu borrador antes de presentar (5 días hábiles)',
+            'Contacto por email y WhatsApp',
+          ],
+        },
+        {
+          key: 'crece',
+          name: 'Crece',
+          desc: 'Actividad consolidada. Orientativo: de 25.000 € a 45.000 € al año.',
+          amount: '85 €',
+          unit: '/mes',
+          ivaNote: 'Total con IVA: 102,85 €/mes',
+          includesPrevious: 'Todo lo del plan Esencial, más:',
+          features: [
+            'Declaración de la renta a 60 € (20 € más barata)',
+            'Asesoramiento fiscal incluido hasta 15 min por consulta',
+            'Te revisamos las facturas antes de que las envíes*',
+            'Certificados de estar al corriente*',
+            'Cambios de base de cotización*',
+            'Atención también por teléfono',
+          ],
+        },
+        {
+          key: 'total',
+          name: 'Total',
+          desc: 'Actividad de más de 45.000 € al año, o con decisiones que planificar.',
+          amount: '125 €',
+          unit: '/mes',
+          ivaNote: 'Total con IVA: 151,25 €/mes',
+          includesPrevious: 'Todo lo del plan Crece, más:',
+          features: [
+            'Declaración de la renta incluida',
+            'Asesoramiento fiscal incluido hasta 30 min por consulta',
+            'Reunión en noviembre para cerrar el año cuando todavía se puede hacer algo*',
+            'Estimación de tu renta en marzo, antes de la campaña oficial*',
+            'Informe trimestral de ingresos, gastos y margen* (4 veces al año)',
+            '1 requerimiento de la AEAT incluido al año',
+            'Dashboard con 50% de descuento (15 €/mes)',
+            'Estudio ¿Autónomo o SL? a precio reducido (75 €)**',
+          ],
+        },
       ],
-      note: 'Reporting y dashboards: +36,30 €/mes, IVA incluido, opcional.',
+      footnotes: [
+        '* A petición tuya. Las reuniones y los servicios marcados se activan cuando tú los pides: no te perseguimos, están ahí cuando los necesitas.',
+        '** El precio reducido del estudio ¿Autónomo o SL? se activa a partir del octavo mes como cliente del plan Total.',
+      ],
+      sl: { title: 'SL', amount: 'desde 121 €', unit: '/mes', incl: 'Impuestos trimestrales, balance y PyG trimestral' },
+      note: 'Reporting y dashboards: +30 €/mes (36,30 € con IVA), opcional en cualquier plan — con el plan Total, +15 €/mes (18,15 € con IVA).',
     },
 
     alta: {
@@ -169,11 +226,14 @@ export const ui = {
         fromLabel: 'A partir del segundo mes',
       },
       stepFacturas: {
-        q: '¿Cuántas facturas emites al mes?',
+        q: '¿Qué plan quieres?',
+        // El tramo de facturación de cada plan es solo orientativo (para
+        // ayudar a elegir) — el visitante elige el plan libremente, no se le
+        // asigna uno automáticamente según su facturación.
         optionsAutonomo: [
-          { value: 'bajo', label: 'Hasta 5 facturas' },
-          { value: 'medio', label: 'De 5 a 20 facturas' },
-          { value: 'alto', label: 'Más de 20 facturas' },
+          { value: 'esencial', label: 'Esencial', desc: 'Actividad sencilla. Orientativo: hasta 25.000 € al año.' },
+          { value: 'crece', label: 'Crece', desc: 'Actividad consolidada. Orientativo: de 25.000 € a 45.000 € al año.' },
+          { value: 'total', label: 'Total', desc: 'Más de 45.000 € al año, o con decisiones que planificar.' },
         ],
         optionsPyme: [
           { value: 't1', label: 'Hasta 10 facturas' },
@@ -607,13 +667,68 @@ export const ui = {
     precios: {
       eyebrow: 'Tarifes',
       title: 'Preus públics, sense lletra petita',
-      sub: 'Preus amb IVA inclòs.',
+      sub: 'Preus sense IVA — el total amb IVA va sota de cada pla.',
       ivaLabel: 'IVA inclòs',
-      rows: [
-        { title: 'Autònom', amount: 'des de 48,40 €', unit: '/mes', incl: 'Trimestrals d’IVA i IRPF · Declaració de la renda: 40 € + IVA a part' },
-        { title: 'SL', amount: 'des de 121 €', unit: '/mes', incl: 'Impostos trimestrals, balanç i compte de resultats trimestral' },
+      autonomoTitle: 'Autònoms',
+      autonomoTiers: [
+        {
+          key: 'esencial',
+          name: 'Essencial',
+          desc: 'Activitat senzilla. Orientatiu: fins a 25.000 € l’any.',
+          amount: '55 €',
+          unit: '/mes',
+          ivaNote: 'Total amb IVA: 66,55 €/mes',
+          features: [
+            'Comptabilitat, llibres i tots els models',
+            'Notificacions de l’AEAT vigilades',
+            'Els teus documents sempre a mà a la plataforma',
+            'Revisió del teu esborrany abans de presentar (5 dies hàbils)',
+            'Contacte per correu i WhatsApp',
+          ],
+        },
+        {
+          key: 'crece',
+          name: 'Creix',
+          desc: 'Activitat consolidada. Orientatiu: de 25.000 € a 45.000 € l’any.',
+          amount: '85 €',
+          unit: '/mes',
+          ivaNote: 'Total amb IVA: 102,85 €/mes',
+          includesPrevious: 'Tot el que inclou el pla Essencial, més:',
+          features: [
+            'Declaració de la renda a 60 € (20 € més barata)',
+            'Assessorament fiscal inclòs fins a 15 min per consulta',
+            'Et revisem les factures abans d’enviar-les*',
+            'Certificats d’estar al corrent*',
+            'Canvis de base de cotització*',
+            'Atenció també per telèfon',
+          ],
+        },
+        {
+          key: 'total',
+          name: 'Total',
+          desc: 'Activitat de més de 45.000 € l’any, o amb decisions per planificar.',
+          amount: '125 €',
+          unit: '/mes',
+          ivaNote: 'Total amb IVA: 151,25 €/mes',
+          includesPrevious: 'Tot el que inclou el pla Creix, més:',
+          features: [
+            'Declaració de la renda inclosa',
+            'Assessorament fiscal inclòs fins a 30 min per consulta',
+            'Reunió al novembre per tancar l’any quan encara es pot fer alguna cosa*',
+            'Estimació de la teva renda al març, abans de la campanya oficial*',
+            'Informe trimestral d’ingressos, despeses i marge* (4 vegades l’any)',
+            '1 requeriment de l’AEAT inclòs a l’any',
+            'Dashboard amb 50% de descompte (15 €/mes)',
+            'Estudi Autònom o SL? a preu reduït (75 €)**',
+          ],
+        },
       ],
-      note: 'Reporting i dashboards: +36,30 €/mes, IVA inclòs, opcional.',
+      footnotes: [
+        '* A petició teva. Les reunions i els serveis marcats s’activen quan tu els demanes: no et perseguim, hi són quan els necessites.',
+        '** El preu reduït de l’estudi Autònom o SL? s’activa a partir del vuitè mes com a client del pla Total.',
+      ],
+      sl: { title: 'SL', amount: 'des de 121 €', unit: '/mes', incl: 'Impostos trimestrals, balanç i compte de resultats trimestral' },
+      note: 'Reporting i dashboards: +30 €/mes (36,30 € amb IVA), opcional en qualsevol pla — amb el pla Total, +15 €/mes (18,15 € amb IVA).',
     },
 
     alta: {
@@ -708,11 +823,11 @@ export const ui = {
         fromLabel: 'A partir del segon mes',
       },
       stepFacturas: {
-        q: 'Quantes factures emets al mes?',
+        q: 'Quin pla vols?',
         optionsAutonomo: [
-          { value: 'bajo', label: 'Fins a 5 factures' },
-          { value: 'medio', label: 'De 5 a 20 factures' },
-          { value: 'alto', label: 'Més de 20 factures' },
+          { value: 'esencial', label: 'Essencial', desc: 'Activitat senzilla. Orientatiu: fins a 25.000 € l’any.' },
+          { value: 'crece', label: 'Creix', desc: 'Activitat consolidada. Orientatiu: de 25.000 € a 45.000 € l’any.' },
+          { value: 'total', label: 'Total', desc: 'Més de 45.000 € l’any, o amb decisions per planificar.' },
         ],
         optionsPyme: [
           { value: 't1', label: 'Fins a 10 factures' },
@@ -1146,13 +1261,68 @@ export const ui = {
     precios: {
       eyebrow: 'Pricing',
       title: 'Public pricing, no fine print',
-      sub: 'Prices include VAT.',
+      sub: 'Prices exclude VAT — the VAT-included total is shown under each plan.',
       ivaLabel: 'VAT included',
-      rows: [
-        { title: 'Freelancer', amount: 'from €48.40', unit: '/month', incl: 'Quarterly VAT & income tax filings · Annual income tax return: €40 + VAT, separate' },
-        { title: 'SL', amount: 'from €121', unit: '/month', incl: 'Quarterly taxes, balance sheet and P&L' },
+      autonomoTitle: 'Freelancers',
+      autonomoTiers: [
+        {
+          key: 'esencial',
+          name: 'Essential',
+          desc: 'Simple activity. Guideline: up to €25,000 a year.',
+          amount: '€55',
+          unit: '/month',
+          ivaNote: 'Total with VAT: €66.55/month',
+          features: [
+            'Bookkeeping, ledgers and all tax filings',
+            'AEAT (tax office) notices monitored',
+            'Your documents always at hand on the platform',
+            'We review your draft before filing (5 business days)',
+            'Contact by email and WhatsApp',
+          ],
+        },
+        {
+          key: 'crece',
+          name: 'Grow',
+          desc: 'Established activity. Guideline: €25,000 to €45,000 a year.',
+          amount: '€85',
+          unit: '/month',
+          ivaNote: 'Total with VAT: €102.85/month',
+          includesPrevious: 'Everything in Essential, plus:',
+          features: [
+            'Annual income tax return for €60 (€20 cheaper)',
+            'Tax advice included, up to 15 min per query',
+            'We check your invoices before you send them*',
+            'Good-standing certificates*',
+            'Social security contribution base changes*',
+            'Phone support too',
+          ],
+        },
+        {
+          key: 'total',
+          name: 'Total',
+          desc: 'Over €45,000 a year, or with decisions to plan for.',
+          amount: '€125',
+          unit: '/month',
+          ivaNote: 'Total with VAT: €151.25/month',
+          includesPrevious: 'Everything in Grow, plus:',
+          features: [
+            'Annual income tax return included',
+            'Tax advice included, up to 30 min per query',
+            'A November meeting to close out the year while there is still time to act*',
+            'March estimate of your income tax, ahead of the official filing season*',
+            'Quarterly income, expenses and margin report* (4 times a year)',
+            '1 AEAT information request included per year',
+            '50% off dashboards (€15/month)',
+            'Freelancer-vs-SL study at a reduced price (€75)**',
+          ],
+        },
       ],
-      note: 'Reporting & dashboards: +€36.30/month, VAT included, optional.',
+      footnotes: [
+        '* On request. These meetings and services are triggered when you ask for them — we don’t chase you, they’re there when you need them.',
+        '** The reduced price for the Freelancer-vs-SL study kicks in from your 8th month as a Total plan client.',
+      ],
+      sl: { title: 'SL', amount: 'from €121', unit: '/month', incl: 'Quarterly taxes, balance sheet and P&L' },
+      note: 'Reporting & dashboards: +€30/month (€36.30 with VAT), optional on any plan — €15/month (€18.15 with VAT) on the Total plan.',
     },
 
     alta: {
@@ -1247,11 +1417,11 @@ export const ui = {
         fromLabel: 'From the second month onward',
       },
       stepFacturas: {
-        q: 'How many invoices do you issue per month?',
+        q: 'Which plan do you want?',
         optionsAutonomo: [
-          { value: 'bajo', label: 'Up to 5 invoices' },
-          { value: 'medio', label: '5 to 20 invoices' },
-          { value: 'alto', label: 'More than 20 invoices' },
+          { value: 'esencial', label: 'Essential', desc: 'Simple activity. Guideline: up to €25,000 a year.' },
+          { value: 'crece', label: 'Grow', desc: 'Established activity. Guideline: €25,000 to €45,000 a year.' },
+          { value: 'total', label: 'Total', desc: 'Over €45,000 a year, or with decisions to plan for.' },
         ],
         optionsPyme: [
           { value: 't1', label: 'Up to 10 invoices' },

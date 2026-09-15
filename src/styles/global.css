@@ -568,6 +568,21 @@ h2.section-title, h1.section-title { font-size: clamp(1.5rem, 2.6vw, 2rem); }
 .price-row .incl { font-size: 0.88rem; color: var(--ink-soft); }
 .price-note { padding: 1.1rem 0; font-size: 0.88rem; font-weight: 600; color: var(--warm); }
 
+/* ---------- Planes por niveles (autónomos) ---------- */
+.pricing-group-title { margin-top: 1.8rem; font-family: var(--font-body); font-weight: 700; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.03em; color: var(--ink-soft); }
+.pricing-tiers { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; margin-top: 0.9rem; }
+@media (max-width: 900px) { .pricing-tiers { grid-template-columns: 1fr; } }
+.pricing-tier { border: 1.5px solid var(--line); border-radius: 16px; padding: 1.5rem 1.4rem; background: var(--paper-raised); display: flex; flex-direction: column; }
+.pricing-tier h3 { font-family: var(--font-display); font-size: 1.15rem; }
+.pricing-tier-desc { font-size: 0.85rem; color: var(--ink-soft); margin-top: 0.3rem; }
+.pricing-tier .amount { font-family: var(--font-mono); font-variant-numeric: tabular-nums; font-size: 1.6rem; font-weight: 600; color: var(--accent); margin-top: 0.9rem; }
+.pricing-tier .amount small { font-family: var(--font-body); font-size: 0.78rem; color: var(--ink-soft); font-weight: 500; margin-left: 0.2rem; }
+.pricing-tier-iva { font-size: 0.78rem; color: var(--ink-soft); margin-top: 0.15rem; }
+.pricing-tier-includes { font-size: 0.82rem; font-weight: 600; margin-top: 1rem; }
+.pricing-tier-features { margin-top: 0.5rem; }
+.pricing-footnotes { margin-top: 0.9rem; display: flex; flex-direction: column; gap: 0.3rem; }
+.pricing-footnotes p { font-size: 0.78rem; color: var(--ink-soft); }
+
 /* ---------- Alta de autónomos (promo) ---------- */
 .alta-box {
   margin-top: 1.6rem;
@@ -832,6 +847,11 @@ h2.section-title, h1.section-title { font-size: clamp(1.5rem, 2.6vw, 2rem); }
 }
 .option-card:hover { border-color: var(--accent); background: var(--accent-tint); }
 .option-card:active { transform: scale(0.98); }
+/* Solo las tarjetas con .option-card-desc pasan a layout de dos líneas
+   alineadas a la izquierda — el resto de pasos del simulador (una sola
+   palabra centrada) no cambian. */
+.option-card:has(.option-card-desc) { display: flex; flex-direction: column; gap: 0.35rem; text-align: left; }
+.option-card-desc { font-weight: 500; font-size: 0.82rem; color: var(--ink-soft); }
 .wizard-back { display: block; margin: 1.8rem auto 0; background: none; border: none; color: var(--ink-soft); font-size: 0.85rem; cursor: pointer; text-decoration: underline; }
 .wizard-result .eyebrow { display: block; }
 .wizard-result .sim-price {

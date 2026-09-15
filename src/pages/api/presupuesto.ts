@@ -3,15 +3,25 @@ import { getSupabaseAdmin } from '../../lib/supabase';
 
 export const prerender = false;
 
-// Tarifas base SIN IVA, por tramo de facturas/mes. El total que se guarda
-// y se devuelve va siempre CON IVA (21%) — así coincide con lo que se
-// muestra en el simulador y en la web.
-const RATES_AUTONOMO: Record<string, number> = { bajo: 40, medio: 50, alto: 60 };
+// Tarifas base SIN IVA. Para autónomo son planes por niveles (Esencial/
+// Crece/Total), no tramos de facturas — el campo se sigue llamando
+// "facturas" (mismo nombre en la tabla `presupuestos`) por no romper ese
+// contrato, pero ahora guarda el plan que el visitante elige libremente en
+// el simulador. El total que se guarda y se devuelve va siempre CON IVA
+// (21%) — así coincide con lo que se muestra en el simulador y en la web.
+const RATES_AUTONOMO: Record<string, number> = { esencial: 55, crece: 85, total: 125 };
 const RATES_PYME: Record<string, number> = { t1: 100, t2: 130, t3: 150 };
-// "nose" (no lo tiene claro) no suma nada al total: el reporting solo se
-// cobra si el cliente lo confirma con "si". Ver Simulador.astro (duplicado
-// deliberado del cálculo, para que coincidan front y back).
-const REPORTING: Record<string, number> = { si: 30, no: 0, nose: 0 };
+// El reporting/dashboards cuesta menos con el plan Total (incluido con 50%
+// de descuento) que con el resto. "nose" (no lo tiene claro) no suma nada
+// al total: el reporting solo se cobra si el cliente lo confirma con "si".
+// Ver Simulador.astro (duplicado deliberado del cálculo, para que
+// coincidan front y back).
+const REPORTING_VALUES = ['si', 'no', 'nose'] as const;
+const REPORTING_PRICE_AUTONOMO: Record<string, number> = { esencial: 30, crece: 30, total: 15 };
+const REPORTING_PRICE_PYME = 30;
+function reportingPrice(regimen: string, facturas: string): number {
+  return regimen === 'pyme' ? REPORTING_PRICE_PYME : (REPORTING_PRICE_AUTONOMO[facturas] ?? 30);
+}
 const IVA_RATE = 0.21;
 
 // Validación deliberadamente laxa (longitud + forma "algo@algo.algo"): basta
@@ -59,7 +69,7 @@ function isValid(body: unknown): body is Body {
   if (typeof body !== 'object' || body === null) return false;
   const b = body as Record<string, unknown>;
   if (typeof b.regimen !== 'string' || typeof b.facturas !== 'string' || typeof b.reporting !== 'string') return false;
-  if (!(b.reporting in REPORTING)) return false;
+  if (!REPORTING_VALUES.includes(b.reporting as (typeof REPORTING_VALUES)[number])) return false;
   if (!isValidEmailPair(b)) return false;
   if (!isValidAltaFields(b)) return false;
   if (b.regimen === 'autonomo') return b.facturas in RATES_AUTONOMO;
@@ -124,7 +134,8 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
   }
 
   const rates = body.regimen === 'pyme' ? RATES_PYME : RATES_AUTONOMO;
-  const subtotal = rates[body.facturas] + REPORTING[body.reporting];
+  const reportingAmount = body.reporting === 'si' ? reportingPrice(body.regimen, body.facturas) : 0;
+  const subtotal = rates[body.facturas] + reportingAmount;
   const total = round2(subtotal * (1 + IVA_RATE));
   const year = new Date().getFullYear();
   const yy = String(year).slice(-2);
