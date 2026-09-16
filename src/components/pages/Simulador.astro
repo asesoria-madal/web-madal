@@ -68,11 +68,17 @@ const altaPriceNoteText = debutTier
             </button>
           ))}
         </div>
-        <div class="card-options" data-facturas-options="pyme" hidden>
-          {s.stepFacturas.optionsPyme.map((opt) => (
-            <button type="button" class="option-card" data-field="facturas" data-value={opt.value}>
-              <span class="option-card-label">{opt.label}</span>
-              {'desc' in opt && opt.desc && <span class="option-card-desc">{opt.desc}</span>}
+        <div class="card-options card-options-vertical" data-facturas-options="pyme" hidden>
+          {t.precios.pymeTiers.map((tier) => (
+            <button type="button" class="option-card option-card-tier" data-field="facturas" data-value={tier.key}>
+              <span class="option-card-label">{tier.name}</span>
+              <span class="option-card-desc">{tier.desc}</span>
+              <span class="option-card-tier-price">{tier.amount}<small>{tier.unit}</small> <small>· {tier.ivaNote}</small></span>
+              {'includesPrevious' in tier && tier.includesPrevious && <span class="option-card-tier-includes">{tier.includesPrevious}</span>}
+              <ul class="option-card-tier-features">
+                {tier.features.map((f) => (<li>{f}</li>))}
+              </ul>
+              {'dashboardNote' in tier && tier.dashboardNote && <span class="option-card-tier-dashboard">{tier.dashboardNote}</span>}
             </button>
           ))}
         </div>
@@ -228,20 +234,22 @@ const altaPriceNoteText = debutTier
     // y solo el número de presupuesto depende de la respuesta del servidor.
     // Tarifas base SIN IVA; el simulador siempre muestra el importe CON IVA (21%).
     const IVA_RATE = 0.21;
-    // Planes por niveles (Debut/Esencial/Crece/Total), no por volumen de
-    // facturas — el campo se sigue llamando "facturas" (igual en la BBDD y
-    // en la API, ver api/presupuesto.ts) por no tocar ese contrato, pero
-    // ahora guarda el plan elegido libremente por el visitante, no un tramo
-    // automático. Debut es el precio del primer año para quien se acaba de
-    // dar de alta (o le damos nosotros el alta, ver isAltaFlow más abajo).
+    // Planes por niveles (autónomo: Debut/Esencial/Crece/Total; SL: Esencial/
+    // Equipo/Expansión), no por volumen de facturas — el campo se sigue
+    // llamando "facturas" (igual en la BBDD y en la API, ver
+    // api/presupuesto.ts) por no tocar ese contrato, pero ahora guarda el
+    // plan elegido libremente por el visitante, no un tramo automático.
+    // Debut es el precio del primer año para quien se acaba de dar de alta
+    // (o le damos nosotros el alta, ver isAltaFlow más abajo).
     const RATES_AUTONOMO: Record<string, number> = { debut: 35, esencial: 55, crece: 85, total: 125 };
-    const RATES_PYME: Record<string, number> = { t1: 100, t2: 130, t3: 150 };
-    // El reporting/dashboards cuesta menos con el plan Total (incluido con
-    // 50% de descuento) que con el resto de planes.
+    const RATES_PYME: Record<string, number> = { esencial: 100, equipo: 150, expansion: 200 };
+    // El reporting/dashboards cuesta menos con el plan más completo de cada
+    // régimen (incluido con 50% de descuento) que con el resto de planes.
     const REPORTING_PRICE_AUTONOMO: Record<string, number> = { debut: 30, esencial: 30, crece: 30, total: 15 };
-    const REPORTING_PRICE_PYME = 30;
+    const REPORTING_PRICE_PYME: Record<string, number> = { esencial: 30, equipo: 30, expansion: 15 };
     function reportingPrice(): number {
-      return answers.regimen === 'pyme' ? REPORTING_PRICE_PYME : (REPORTING_PRICE_AUTONOMO[answers.facturas] ?? 30);
+      const rates = answers.regimen === 'pyme' ? REPORTING_PRICE_PYME : REPORTING_PRICE_AUTONOMO;
+      return rates[answers.facturas] ?? 30;
     }
 
     function round2(n: number): number {

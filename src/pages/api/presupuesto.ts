@@ -3,26 +3,27 @@ import { getSupabaseAdmin } from '../../lib/supabase';
 
 export const prerender = false;
 
-// Tarifas base SIN IVA. Para autónomo son planes por niveles (Debut/
-// Esencial/Crece/Total), no tramos de facturas — el campo se sigue llamando
-// "facturas" (mismo nombre en la tabla `presupuestos`) por no romper ese
-// contrato, pero ahora guarda el plan que el visitante elige libremente en
-// el simulador (o, en el flujo de alta, el plan Debut que se le asigna sin
-// preguntar — ver Simulador.astro). El total que se guarda y se devuelve va
-// siempre CON IVA (21%) — así coincide con lo que se muestra en el
-// simulador y en la web.
+// Tarifas base SIN IVA. Planes por niveles (autónomo: Debut/Esencial/Crece/
+// Total; SL: Esencial/Equipo/Expansión), no tramos de facturas — el campo
+// se sigue llamando "facturas" (mismo nombre en la tabla `presupuestos`)
+// por no romper ese contrato, pero ahora guarda el plan que el visitante
+// elige libremente en el simulador (o, en el flujo de alta, el plan Debut
+// que se le asigna sin preguntar — ver Simulador.astro). El total que se
+// guarda y se devuelve va siempre CON IVA (21%) — así coincide con lo que
+// se muestra en el simulador y en la web.
 const RATES_AUTONOMO: Record<string, number> = { debut: 35, esencial: 55, crece: 85, total: 125 };
-const RATES_PYME: Record<string, number> = { t1: 100, t2: 130, t3: 150 };
-// El reporting/dashboards cuesta menos con el plan Total (incluido con 50%
-// de descuento) que con el resto. "nose" (no lo tiene claro) no suma nada
-// al total: el reporting solo se cobra si el cliente lo confirma con "si".
-// Ver Simulador.astro (duplicado deliberado del cálculo, para que
-// coincidan front y back).
+const RATES_PYME: Record<string, number> = { esencial: 100, equipo: 150, expansion: 200 };
+// El reporting/dashboards cuesta menos con el plan más completo de cada
+// régimen (incluido con 50% de descuento) que con el resto. "nose" (no lo
+// tiene claro) no suma nada al total: el reporting solo se cobra si el
+// cliente lo confirma con "si". Ver Simulador.astro (duplicado deliberado
+// del cálculo, para que coincidan front y back).
 const REPORTING_VALUES = ['si', 'no', 'nose'] as const;
 const REPORTING_PRICE_AUTONOMO: Record<string, number> = { debut: 30, esencial: 30, crece: 30, total: 15 };
-const REPORTING_PRICE_PYME = 30;
+const REPORTING_PRICE_PYME: Record<string, number> = { esencial: 30, equipo: 30, expansion: 15 };
 function reportingPrice(regimen: string, facturas: string): number {
-  return regimen === 'pyme' ? REPORTING_PRICE_PYME : (REPORTING_PRICE_AUTONOMO[facturas] ?? 30);
+  const rates = regimen === 'pyme' ? REPORTING_PRICE_PYME : REPORTING_PRICE_AUTONOMO;
+  return rates[facturas] ?? 30;
 }
 const IVA_RATE = 0.21;
 

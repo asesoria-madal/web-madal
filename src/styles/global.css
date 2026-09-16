@@ -547,25 +547,6 @@ h2.section-title, h1.section-title { font-size: clamp(1.5rem, 2.6vw, 2rem); }
 .process .step p { color: var(--ink-soft); font-size: 0.92rem; margin-top: 0.35rem; max-width: 60ch; }
 
 /* ---------- Pricing ---------- */
-.price-table { margin-top: 1.6rem; border-top: 1px solid var(--line); }
-.price-row { display: grid; grid-template-columns: 1.4fr 1fr 2fr; gap: 1.5rem; padding: 1.4rem 0; border-bottom: 1px solid var(--line); align-items: baseline; }
-@media (max-width: 760px) { .price-row { grid-template-columns: 1fr; gap: 0.4rem; } }
-.price-row h3 { font-family: var(--font-body); font-size: 1.02rem; font-weight: 600; }
-.price-row .amount { font-family: var(--font-mono); font-variant-numeric: tabular-nums; font-size: 1.3rem; font-weight: 600; color: var(--accent); }
-.price-row .amount small { font-family: var(--font-body); font-size: 0.8rem; color: var(--ink-soft); font-weight: 500; }
-.price-row .iva-badge {
-  grid-column: 2;
-  grid-row: 2;
-  align-self: start;
-  margin-top: -0.3rem;
-  font-size: 0.7rem;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  font-weight: 700;
-  color: var(--accent);
-}
-@media (max-width: 760px) { .price-row .iva-badge { grid-column: 1; grid-row: auto; margin-top: 0; } }
-.price-row .incl { font-size: 0.88rem; color: var(--ink-soft); }
 .price-note { padding: 1.1rem 0; font-size: 0.88rem; font-weight: 600; color: var(--warm); }
 
 /* ---------- Planes por niveles (autónomos) ---------- */
@@ -582,6 +563,7 @@ h2.section-title, h1.section-title { font-size: clamp(1.5rem, 2.6vw, 2rem); }
 .pricing-tier-includes { font-size: 0.82rem; font-weight: 600; margin-top: 1rem; }
 .pricing-tier-features { margin-top: 0.5rem; }
 .pricing-tier-transition { font-size: 0.76rem; color: var(--ink-soft); margin-top: 1rem; border-top: 1px dashed var(--line); padding-top: 0.7rem; }
+.pricing-tier-dashboard { font-size: 0.78rem; color: var(--ink-soft); margin-top: 0.8rem; }
 .pricing-footnotes { margin-top: 0.9rem; display: flex; flex-direction: column; gap: 0.3rem; }
 .pricing-footnotes p { font-size: 0.78rem; color: var(--ink-soft); }
 
@@ -865,6 +847,7 @@ h2.section-title, h1.section-title { font-size: clamp(1.5rem, 2.6vw, 2rem); }
 .option-card-tier-includes { font-size: 0.82rem; font-weight: 600; margin-top: 0.9rem; }
 .option-card-tier-features { list-style: disc; margin: 0.4rem 0 0; padding-left: 1.2rem; font-weight: 500; font-size: 0.86rem; color: var(--ink-soft); display: flex; flex-direction: column; gap: 0.35rem; }
 .option-card-tier-transition { font-size: 0.78rem; color: var(--ink-soft); margin-top: 0.8rem; border-top: 1px dashed var(--line); padding-top: 0.6rem; }
+.option-card-tier-dashboard { font-size: 0.78rem; color: var(--ink-soft); margin-top: 0.7rem; }
 .wizard-back { display: block; margin: 1.8rem auto 0; background: none; border: none; color: var(--ink-soft); font-size: 0.85rem; cursor: pointer; text-decoration: underline; }
 .wizard-result .eyebrow { display: block; }
 .wizard-result .sim-price {

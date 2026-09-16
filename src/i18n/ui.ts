@@ -69,7 +69,6 @@ export const ui = {
       eyebrow: 'Tarifas',
       title: 'Precios públicos, sin letra pequeña',
       sub: 'Precios sin IVA — el total con IVA va debajo de cada plan.',
-      ivaLabel: 'IVA incluido',
       autonomoTitle: 'Autónomos',
       // Los tramos de facturación son orientativos: ayudan a elegir, pero no
       // fuerzan ningún plan — el visitante elige libremente en el simulador.
@@ -142,12 +141,71 @@ export const ui = {
           ],
         },
       ],
-      footnotes: [
+      autonomoFootnotes: [
         '* A petición tuya. Las reuniones y los servicios marcados se activan cuando tú los pides: no te perseguimos, están ahí cuando los necesitas.',
         '** El precio reducido del estudio ¿Autónomo o SL? se activa a partir del octavo mes como cliente del plan Total.',
       ],
-      sl: { title: 'SL', amount: 'desde 121 €', unit: '/mes', incl: 'Impuestos trimestrales, balance y PyG trimestral' },
-      note: 'Reporting y dashboards: +30 €/mes (36,30 € con IVA), opcional en cualquier plan — con el plan Total, +15 €/mes (18,15 € con IVA).',
+      pymeTitle: 'SL y pymes',
+      pymeTiers: [
+        {
+          key: 'esencial',
+          name: 'Esencial',
+          desc: 'Sociedad sin trabajadores, con operativa sencilla.',
+          amount: '100 €',
+          unit: '/mes',
+          ivaNote: 'Total con IVA: 121,00 €/mes',
+          features: [
+            'Contabilidad y libros oficiales',
+            'IVA, retenciones y modelos informativos (303, 111, 115, 347, 349)',
+            'Impuesto de Sociedades incluido (200 y 202)',
+            'Notificaciones de la AEAT y la ATC vigiladas',
+            'Coordinación de operaciones societarias con notaría y Registro Mercantil (asesoramiento incluido; la gestión, según operación)',
+            'Cuentas anuales, legalización de libros y depósito a 100 €',
+            'Contacto por email',
+          ],
+          dashboardNote: 'Se puede contratar Dashboard por 30 € + IVA al mes.',
+        },
+        {
+          key: 'equipo',
+          name: 'Equipo',
+          desc: 'Sociedad en marcha, con socios en nómina o equipo pequeño (hasta 2 nóminas).',
+          amount: '150 €',
+          unit: '/mes',
+          ivaNote: 'Total con IVA: 181,50 €/mes',
+          includesPrevious: 'Todo lo del plan Esencial, más:',
+          features: [
+            'Nóminas de socios y administradores incluidas, hasta 2 personas en nómina',
+            'Asesoramiento fiscal incluido hasta 15 min por consulta',
+            'Atención también por teléfono',
+          ],
+          dashboardNote: 'Se puede contratar Dashboard por 30 € + IVA al mes.',
+        },
+        {
+          key: 'expansion',
+          name: 'Expansión',
+          desc: 'Sociedad consolidada, con plantilla y decisiones que planificar.',
+          amount: '200 €',
+          unit: '/mes',
+          ivaNote: 'Total con IVA: 242,00 €/mes',
+          includesPrevious: 'Todo lo del plan Equipo, más:',
+          features: [
+            'Hasta 5 personas en nómina',
+            'Asesoramiento fiscal incluido hasta 30 min por consulta',
+            'Reunión en noviembre para acabar de arreglar el año*',
+            'Reunión en el cierre (aprox. enero-febrero) para asegurarnos de que todo se presenta bien*',
+            'Revisión trimestral de resultados*',
+            '1 requerimiento de la AEAT incluido al año**',
+            'Dashboard con 50% de descuento (15 €/mes)',
+            'Cuentas anuales, legalización de libros y depósito incluidos',
+          ],
+          dashboardNote: 'Se puede contratar Dashboard por 15 € + IVA al mes.',
+        },
+      ],
+      pymeFootnotes: [
+        '* A petición tuya. Las reuniones y los servicios marcados se activan cuando tú los pides: no te perseguimos, están ahí cuando los necesitas.',
+        '** Incluye un requerimiento de la AEAT al año; a partir del segundo, se factura según tarifa.',
+      ],
+      note: 'Reporting y dashboards: +30 €/mes (36,30 € con IVA), opcional en cualquier plan — más barato en el plan más completo de cada régimen (ver detalle en cada plan).',
     },
 
     alta: {
@@ -245,15 +303,11 @@ export const ui = {
       },
       stepFacturas: {
         q: '¿Qué plan quieres?',
-        // Las tarjetas de planes de autónomo ya no salen de aquí: se pintan
-        // directamente desde t.precios.autonomoTiers (mismo contenido que la
-        // tabla de precios de la home, con todo lo que incluye cada plan),
-        // para no duplicar el listado de funcionalidades en dos sitios.
-        optionsPyme: [
-          { value: 't1', label: 'Hasta 10 facturas' },
-          { value: 't2', label: 'De 10 a 25 facturas' },
-          { value: 't3', label: 'Más de 25 facturas' },
-        ],
+        // Las tarjetas de planes (autónomo y SL) ya no salen de aquí: se
+        // pintan directamente desde t.precios.autonomoTiers/pymeTiers
+        // (mismo contenido que la tabla de precios de la home, con todo lo
+        // que incluye cada plan), para no duplicar el listado de
+        // funcionalidades en dos sitios.
       },
       stepReporting: {
         q: '¿Quieres reporting y dashboards de tu negocio?',
@@ -687,7 +741,6 @@ export const ui = {
       eyebrow: 'Tarifes',
       title: 'Preus públics, sense lletra petita',
       sub: 'Preus sense IVA — el total amb IVA va sota de cada pla.',
-      ivaLabel: 'IVA inclòs',
       autonomoTitle: 'Autònoms',
       autonomoTiers: [
         {
@@ -758,12 +811,71 @@ export const ui = {
           ],
         },
       ],
-      footnotes: [
+      autonomoFootnotes: [
         '* A petició teva. Les reunions i els serveis marcats s’activen quan tu els demanes: no et perseguim, hi són quan els necessites.',
         '** El preu reduït de l’estudi Autònom o SL? s’activa a partir del vuitè mes com a client del pla Total.',
       ],
-      sl: { title: 'SL', amount: 'des de 121 €', unit: '/mes', incl: 'Impostos trimestrals, balanç i compte de resultats trimestral' },
-      note: 'Reporting i dashboards: +30 €/mes (36,30 € amb IVA), opcional en qualsevol pla — amb el pla Total, +15 €/mes (18,15 € amb IVA).',
+      pymeTitle: 'SL i pymes',
+      pymeTiers: [
+        {
+          key: 'esencial',
+          name: 'Essencial',
+          desc: 'Societat sense treballadors, amb operativa senzilla.',
+          amount: '100 €',
+          unit: '/mes',
+          ivaNote: 'Total amb IVA: 121,00 €/mes',
+          features: [
+            'Comptabilitat i llibres oficials',
+            'IVA, retencions i models informatius (303, 111, 115, 347, 349)',
+            'Impost de Societats inclòs (200 i 202)',
+            'Notificacions de l’AEAT i l’ATC vigilades',
+            'Coordinació d’operacions societàries amb notaria i Registre Mercantil (assessorament inclòs; la gestió, segons l’operació)',
+            'Comptes anuals, legalització de llibres i dipòsit a 100 €',
+            'Contacte per correu',
+          ],
+          dashboardNote: 'Es pot contractar Dashboard per 30 € + IVA al mes.',
+        },
+        {
+          key: 'equipo',
+          name: 'Equip',
+          desc: 'Societat en marxa, amb socis en nòmina o equip petit (fins a 2 nòmines).',
+          amount: '150 €',
+          unit: '/mes',
+          ivaNote: 'Total amb IVA: 181,50 €/mes',
+          includesPrevious: 'Tot el que inclou el pla Essencial, més:',
+          features: [
+            'Nòmines de socis i administradors incloses, fins a 2 persones en nòmina',
+            'Assessorament fiscal inclòs fins a 15 min per consulta',
+            'Atenció també per telèfon',
+          ],
+          dashboardNote: 'Es pot contractar Dashboard per 30 € + IVA al mes.',
+        },
+        {
+          key: 'expansion',
+          name: 'Expansió',
+          desc: 'Societat consolidada, amb plantilla i decisions per planificar.',
+          amount: '200 €',
+          unit: '/mes',
+          ivaNote: 'Total amb IVA: 242,00 €/mes',
+          includesPrevious: 'Tot el que inclou el pla Equip, més:',
+          features: [
+            'Fins a 5 persones en nòmina',
+            'Assessorament fiscal inclòs fins a 30 min per consulta',
+            'Reunió al novembre per acabar d’arreglar l’any*',
+            'Reunió al tancament (aprox. gener-febrer) per assegurar-nos que tot es presenta bé*',
+            'Revisió trimestral de resultats*',
+            '1 requeriment de l’AEAT inclòs a l’any**',
+            'Dashboard amb 50% de descompte (15 €/mes)',
+            'Comptes anuals, legalització de llibres i dipòsit inclosos',
+          ],
+          dashboardNote: 'Es pot contractar Dashboard per 15 € + IVA al mes.',
+        },
+      ],
+      pymeFootnotes: [
+        '* A petició teva. Les reunions i els serveis marcats s’activen quan tu els demanes: no et perseguim, hi són quan els necessites.',
+        '** Inclou un requeriment de l’AEAT a l’any; a partir del segon, es factura segons tarifa.',
+      ],
+      note: 'Reporting i dashboards: +30 €/mes (36,30 € amb IVA), opcional en qualsevol pla — més barat en el pla més complet de cada règim (veure detall a cada pla).',
     },
 
     alta: {
@@ -858,11 +970,6 @@ export const ui = {
       },
       stepFacturas: {
         q: 'Quin pla vols?',
-        optionsPyme: [
-          { value: 't1', label: 'Fins a 10 factures' },
-          { value: 't2', label: 'De 10 a 25 factures' },
-          { value: 't3', label: 'Més de 25 factures' },
-        ],
       },
       stepReporting: {
         q: 'Vols reporting i dashboards del teu negoci?',
@@ -1296,7 +1403,6 @@ export const ui = {
       eyebrow: 'Pricing',
       title: 'Public pricing, no fine print',
       sub: 'Prices exclude VAT — the VAT-included total is shown under each plan.',
-      ivaLabel: 'VAT included',
       autonomoTitle: 'Freelancers',
       autonomoTiers: [
         {
@@ -1367,12 +1473,71 @@ export const ui = {
           ],
         },
       ],
-      footnotes: [
+      autonomoFootnotes: [
         '* On request. These meetings and services are triggered when you ask for them — we don’t chase you, they’re there when you need them.',
         '** The reduced price for the Freelancer-vs-SL study kicks in from your 8th month as a Total plan client.',
       ],
-      sl: { title: 'SL', amount: 'from €121', unit: '/month', incl: 'Quarterly taxes, balance sheet and P&L' },
-      note: 'Reporting & dashboards: +€30/month (€36.30 with VAT), optional on any plan — €15/month (€18.15 with VAT) on the Total plan.',
+      pymeTitle: 'SL & small companies',
+      pymeTiers: [
+        {
+          key: 'esencial',
+          name: 'Essential',
+          desc: 'Company with no employees, simple operations.',
+          amount: '€100',
+          unit: '/month',
+          ivaNote: 'Total with VAT: €121.00/month',
+          features: [
+            'Bookkeeping and official ledgers',
+            'VAT, withholdings and informational filings (303, 111, 115, 347, 349)',
+            'Corporate income tax included (forms 200 and 202)',
+            'Tax office notices (AEAT and, where it applies, regional tax agency) monitored',
+            'Coordination of corporate transactions with notaries and the Commercial Registry (advice included; the filing itself depends on the transaction)',
+            'Annual accounts, ledger legalization and filing for €100',
+            'Contact by email',
+          ],
+          dashboardNote: 'Dashboard available for €30 + VAT a month.',
+        },
+        {
+          key: 'equipo',
+          name: 'Team',
+          desc: 'Company up and running, with partners on payroll or a small team (up to 2 payslips).',
+          amount: '€150',
+          unit: '/month',
+          ivaNote: 'Total with VAT: €181.50/month',
+          includesPrevious: 'Everything in Essential, plus:',
+          features: [
+            'Partner and director payroll included, up to 2 people on payroll',
+            'Tax advice included, up to 15 min per query',
+            'Phone support too',
+          ],
+          dashboardNote: 'Dashboard available for €30 + VAT a month.',
+        },
+        {
+          key: 'expansion',
+          name: 'Expansion',
+          desc: 'Established company, with staff and decisions to plan for.',
+          amount: '€200',
+          unit: '/month',
+          ivaNote: 'Total with VAT: €242.00/month',
+          includesPrevious: 'Everything in Team, plus:',
+          features: [
+            'Up to 5 people on payroll',
+            'Tax advice included, up to 30 min per query',
+            'A November meeting to tie up the year*',
+            'A year-end meeting (roughly January-February) to make sure everything files correctly*',
+            'Quarterly results review*',
+            '1 AEAT information request included per year**',
+            '50% off dashboards (€15/month)',
+            'Annual accounts, ledger legalization and filing included',
+          ],
+          dashboardNote: 'Dashboard available for €15 + VAT a month.',
+        },
+      ],
+      pymeFootnotes: [
+        '* On request. These meetings and services are triggered when you ask for them — we don’t chase you, they’re there when you need them.',
+        '** Covers one AEAT information request a year; from the second one onward, it’s billed at our standard rate.',
+      ],
+      note: 'Reporting & dashboards: +€30/month (€36.30 with VAT), optional on any plan — cheaper on the top plan of each track (see each plan for details).',
     },
 
     alta: {
@@ -1467,11 +1632,6 @@ export const ui = {
       },
       stepFacturas: {
         q: 'Which plan do you want?',
-        optionsPyme: [
-          { value: 't1', label: 'Up to 10 invoices' },
-          { value: 't2', label: '10 to 25 invoices' },
-          { value: 't3', label: 'More than 25 invoices' },
-        ],
       },
       stepReporting: {
         q: 'Do you want reporting and dashboards for your business?',
