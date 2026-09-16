@@ -204,6 +204,10 @@ export const ui = {
           { value: 'no', label: 'No, quiero que me deis de alta' },
         ],
       },
+      // {price} lo rellena Simulador.astro con la cuota del plan Debut ya
+      // calculada (35 € + IVA/mes → con IVA), para no duplicar ese número
+      // como texto suelto aquí — mismo criterio que RATES_AUTONOMO.
+      altaPriceNote: 'Como te damos de alta nosotros, tu cuota desde el segundo mes será de {price} — plan Debut, durante el primer año.',
       stepCertificado: {
         q: '¿Tienes Certificado Digital o Cl@ve?',
         options: [
@@ -222,9 +226,10 @@ export const ui = {
       },
       continue: 'Continuar',
       email: {
-        qBefore: '¿Quieres que te avisemos por email?',
-        qAfter: '¿Prefieres que te contactemos por email?',
-        hint: 'Te lo enviamos junto con tu número de presupuesto. Es opcional.',
+        qBefore: '¿Quieres que te enviemos el presupuesto completo por email, y concretar una llamada para resolver tus dudas?',
+        qAfter: '¿Prefieres que te enviemos el presupuesto completo por email?',
+        hint: 'Te lo enviamos junto con tu número de presupuesto.',
+        noAds: 'Solo te enviaremos eso: no aprovechamos para mandarte publicidad ni nada más.',
         placeholder: 'tu@email.com',
         consentPrefix: 'He leído y acepto la',
         consentLink: 'Política de Privacidad',
@@ -818,6 +823,7 @@ export const ui = {
           { value: 'no', label: 'No, vull que em doneu d’alta' },
         ],
       },
+      altaPriceNote: 'Com que et donem d’alta nosaltres, la teva quota des del segon mes serà de {price} — pla Debut, durant el primer any.',
       stepCertificado: {
         q: 'Tens Certificat Digital o Cl@ve?',
         options: [
@@ -836,9 +842,10 @@ export const ui = {
       },
       continue: 'Continuar',
       email: {
-        qBefore: 'Vols que t’avisem per email?',
-        qAfter: 'Prefereixes que et contactem per email?',
-        hint: 'T’ho enviem juntament amb el teu número de pressupost. És opcional.',
+        qBefore: 'Vols que t’enviem el pressupost complet per email, i concretar una trucada per resoldre els teus dubtes?',
+        qAfter: 'Prefereixes que t’enviem el pressupost complet per email?',
+        hint: 'T’ho enviem juntament amb el teu número de pressupost.',
+        noAds: 'Només t’enviarem això: no ho aprofitem per enviar-te publicitat ni res més.',
         placeholder: 'elteu@email.com',
         consentPrefix: 'He llegit i accepto la',
         consentLink: 'Política de Privacitat',
@@ -1428,6 +1435,7 @@ export const ui = {
           { value: 'no', label: 'No, I need you to register me' },
         ],
       },
+      altaPriceNote: 'Since we handle your registration, your fee from the second month onward will be {price} — Debut plan, for the first year.',
       stepCertificado: {
         q: 'Do you have a Digital Certificate or Cl@ve?',
         options: [
@@ -1446,9 +1454,10 @@ export const ui = {
       },
       continue: 'Continue',
       email: {
-        qBefore: 'Want us to email you?',
-        qAfter: 'Would you rather we contact you by email?',
-        hint: 'We’ll send it along with your quote number. It’s optional.',
+        qBefore: 'Want us to email you the full quote, and set up a call to answer your questions?',
+        qAfter: 'Would you rather we email you the full quote?',
+        hint: 'We’ll send it along with your quote number.',
+        noAds: 'That’s all we’ll send — we won’t use it to email you marketing or anything else.',
         placeholder: 'you@email.com',
         consentPrefix: 'I’ve read and accept the',
         consentLink: 'Privacy Policy',

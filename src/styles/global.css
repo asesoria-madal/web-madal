@@ -905,6 +905,8 @@ h2.section-title, h1.section-title { font-size: clamp(1.5rem, 2.6vw, 2rem); }
 .wizard-error { margin-top: 1rem; font-size: 0.85rem; color: var(--warm); }
 
 .sim-field-hint { font-size: 0.85rem; color: var(--ink-soft); max-width: 400px; margin: 0 auto 1.2rem; }
+.sim-no-ads { margin-top: -0.6rem; font-size: 0.76rem; opacity: 0.85; }
+.sim-alta-price-note { max-width: 420px; margin: 0 auto 1.4rem; padding: 0.7rem 0.9rem; border-radius: 10px; background: var(--accent-tint); font-size: 0.88rem; font-weight: 600; color: var(--ink); }
 .sim-input {
   display: block;
   width: 100%;

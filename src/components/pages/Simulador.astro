@@ -11,6 +11,17 @@ const { lang, embedded = false } = Astro.props;
 const t = useTranslations(lang);
 const s = t.sim;
 const Heading = embedded ? 'h2' : 'h1';
+
+// Quien nos pide que le demos de alta no pasa por el paso de elegir plan
+// (se le asigna Debut directamente, ver Simulador — sección <script> más
+// abajo, RATES_AUTONOMO.debut): sin este aviso no vería ningún precio hasta
+// rellenar certificado/actividad/fecha y correo. Reutiliza el mismo importe
+// ya traducido de precios.autonomoTiers en vez de duplicarlo como texto
+// suelto aquí.
+const debutTier = t.precios.autonomoTiers.find((tier) => tier.key === 'debut');
+const altaPriceNoteText = debutTier
+  ? s.altaPriceNote.replace('{price}', `${debutTier.amount}${debutTier.unit} · ${debutTier.ivaNote}`)
+  : '';
 ---
 
 <div id="view-simulador">
@@ -77,6 +88,7 @@ const Heading = embedded ? 'h2' : 'h1';
       </div>
 
       <div class="wizard-step" data-step="certificado" hidden>
+        {altaPriceNoteText && <p class="sim-alta-price-note">{altaPriceNoteText}</p>}
         <h3>{s.stepCertificado.q}</h3>
         <div class="card-options">
           {s.stepCertificado.options.map((opt) => (
@@ -102,6 +114,7 @@ const Heading = embedded ? 'h2' : 'h1';
       <div class="wizard-step" data-step="email" hidden>
         <h3>{s.email.qBefore}</h3>
         <p class="sim-field-hint">{s.email.hint}</p>
+        <p class="sim-field-hint sim-no-ads">{s.email.noAds}</p>
         <input type="email" id="simEmailInput" class="sim-input" placeholder={s.email.placeholder} autocomplete="email" />
         <label class="sim-consent">
           <input type="checkbox" id="simEmailConsent" />
@@ -147,6 +160,7 @@ const Heading = embedded ? 'h2' : 'h1';
         <div class="sim-email-after" id="simEmailAfter" hidden>
           <div id="simEmailAfterForm">
             <p class="sim-field-hint">{s.email.qAfter}</p>
+            <p class="sim-field-hint sim-no-ads">{s.email.noAds}</p>
             <input type="email" id="simEmailAfterInput" class="sim-input" placeholder={s.email.placeholder} autocomplete="email" />
             <label class="sim-consent">
               <input type="checkbox" id="simEmailAfterConsent" />
