@@ -12,16 +12,12 @@ const t = useTranslations(lang);
 const s = t.sim;
 const Heading = embedded ? 'h2' : 'h1';
 
-// Quien nos pide que le demos de alta no pasa por el paso de elegir plan
-// (se le asigna Debut directamente, ver Simulador — sección <script> más
-// abajo, RATES_AUTONOMO.debut): sin este aviso no vería ningún precio hasta
-// rellenar certificado/actividad/fecha y correo. Reutiliza el mismo importe
-// ya traducido de precios.autonomoTiers en vez de duplicarlo como texto
-// suelto aquí.
+// Quien nos pide que le demos de alta ahora elige plan igual que el resto
+// (antes se le asignaba Debut sin preguntar) — pero sigue siendo el plan
+// pensado para su caso, así que se destaca como recomendado y se le
+// recuerda al final el aviso de paso a Esencial a los 6-12 meses (mismo
+// texto que ya existe en precios.autonomoTiers, sin duplicarlo).
 const debutTier = t.precios.autonomoTiers.find((tier) => tier.key === 'debut');
-const altaPriceNoteText = debutTier
-  ? s.altaPriceNote.replace('{price}', `${debutTier.amount}${debutTier.unit} · ${debutTier.ivaNote}`)
-  : '';
 ---
 
 <div id="view-simulador">
@@ -56,6 +52,7 @@ const altaPriceNoteText = debutTier
         <div class="card-options card-options-vertical" data-facturas-options="autonomo" hidden>
           {t.precios.autonomoTiers.map((tier) => (
             <button type="button" class="option-card option-card-tier" data-field="facturas" data-value={tier.key}>
+              {tier.key === 'debut' && <span class="option-card-tier-badge" id="debutRecommendedBadge" hidden>{s.recommendedLabel}</span>}
               <span class="option-card-label">{tier.name}</span>
               <span class="option-card-desc">{tier.desc}</span>
               <span class="option-card-tier-price">{tier.amount}<small>{tier.unit}</small> <small>· {tier.ivaNote}</small></span>
@@ -94,7 +91,6 @@ const altaPriceNoteText = debutTier
       </div>
 
       <div class="wizard-step" data-step="certificado" hidden>
-        {altaPriceNoteText && <p class="sim-alta-price-note">{altaPriceNoteText}</p>}
         <h3>{s.stepCertificado.q}</h3>
         <div class="card-options">
           {s.stepCertificado.options.map((opt) => (
@@ -153,10 +149,11 @@ const altaPriceNoteText = debutTier
           <p class="sim-monthly-note">{s.monthlyNote}</p>
         </div>
 
-        <div id="simResultAlta" hidden>
-          <p class="sim-alta-note">{s.altaResult.note}</p>
+        <div id="simResultAlta" hidden data-alta-note-template={s.altaResult.note}>
+          <p class="sim-alta-note" id="simAltaResultNote"></p>
           <p class="sim-price"><span id="simPriceAlta">0</span> €<small>{s.priceUnit}</small></p>
           <p class="sim-monthly-note">{s.altaResult.fromLabel}</p>
+          {debutTier?.transitionNote && <p class="sim-alta-transition" id="simAltaTransition" hidden>{debutTier.transitionNote}</p>}
         </div>
 
         <p class="quote-number">{s.quoteLabel} <span id="quoteNumber">…</span></p>
@@ -290,11 +287,14 @@ const altaPriceNoteText = debutTier
         seq.push('facturas', 'reporting', 'email');
         return seq;
       }
-      seq.push('altaEstado');
+      // Quien nos pide que le demos de alta elige plan igual que el resto
+      // (antes se le asignaba Debut sin preguntar) — solo cambia en que,
+      // tras elegir, sigue con los datos del alta en vez de con reporting.
+      seq.push('altaEstado', 'facturas');
       if (answers.alta === 'no') {
         seq.push('certificado', 'actividad', 'fechaInicio', 'email');
       } else {
-        seq.push('facturas', 'reporting', 'email');
+        seq.push('reporting', 'email');
       }
       return seq;
     }
@@ -302,8 +302,8 @@ const altaPriceNoteText = debutTier
     function nextStepId(step: string): string {
       switch (step) {
         case 'regimen': return answers.regimen === 'pyme' ? 'facturas' : 'altaEstado';
-        case 'altaEstado': return answers.alta === 'no' ? 'certificado' : 'facturas';
-        case 'facturas': return 'reporting';
+        case 'altaEstado': return 'facturas';
+        case 'facturas': return answers.alta === 'no' ? 'certificado' : 'reporting';
         case 'reporting': return 'email';
         case 'certificado': return 'actividad';
         case 'actividad': return 'fechaInicio';
@@ -336,6 +336,14 @@ const altaPriceNoteText = debutTier
         facturasGroups.forEach(function (group) {
           group.hidden = group.getAttribute('data-facturas-options') !== wanted;
         });
+        // Debut es el plan pensado para quien todavía no está dado de alta
+        // (o se lo tramitamos nosotros): se destaca solo en esa rama, no
+        // para quien ya lleva tiempo dado de alta por su cuenta.
+        const isNewAlta = answers.regimen === 'autonomo' && answers.alta === 'no';
+        const debutCard = wizard?.querySelector<HTMLElement>('.option-card-tier[data-value="debut"]');
+        const debutBadge = document.getElementById('debutRecommendedBadge');
+        if (debutCard) debutCard.classList.toggle('is-recommended', isNewAlta);
+        if (debutBadge) debutBadge.hidden = !isNewAlta;
       }
       if (stepId === 'fechaInicio' && fechaInput) {
         fechaInput.min = new Date().toISOString().slice(0, 10);
@@ -411,20 +419,27 @@ const altaPriceNoteText = debutTier
       };
 
       if (isAltaFlow) {
-        // Cuota mensual del plan Debut (+ IVA), desde el primer mes — el
-        // alta de autónomo va incluida en esa cuota, no es un pago aparte.
-        // A quien le tramitamos nosotros el alta le corresponde siempre el
-        // plan Debut (ver ui.ts, precios.autonomoTiers) — no se le
-        // pregunta, se le asigna.
+        // Quien nos pide que le demos de alta elige su plan en el paso
+        // "facturas" igual que el resto (Debut sale primero y destacado,
+        // pero puede elegir otro) — aquí solo se usa lo que haya elegido,
+        // ya no se fuerza a Debut.
         apiBody = {
-          regimen: 'autonomo', facturas: 'debut', reporting: 'no',
+          regimen: 'autonomo', facturas: answers.facturas, reporting: 'no',
           alta: answers.alta, certificado: answers.certificado,
           actividad: answers.actividad, fechaInicio: answers.fechaInicio,
         };
-        const base = RATES_AUTONOMO.debut;
+        const base = RATES_AUTONOMO[answers.facturas] || 0;
         const iva = round2(base * IVA_RATE);
         const total = round2(base + iva);
         if (altaPriceEl) animateCountUp(altaPriceEl, total, formatEUR);
+
+        const noteEl = document.getElementById('simAltaResultNote');
+        const noteTemplate = resultAlta?.dataset.altaNoteTemplate;
+        if (noteEl && noteTemplate) {
+          noteEl.textContent = noteTemplate.replace('{plan}', facturaLabels[answers.facturas] || '');
+        }
+        const transitionEl = document.getElementById('simAltaTransition');
+        if (transitionEl) transitionEl.hidden = answers.facturas !== 'debut';
       } else {
         apiBody = { regimen: answers.regimen, facturas: answers.facturas, reporting: answers.reporting };
         if (answers.alta) apiBody.alta = answers.alta;

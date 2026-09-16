@@ -262,10 +262,7 @@ export const ui = {
           { value: 'no', label: 'No, quiero que me deis de alta' },
         ],
       },
-      // {price} lo rellena Simulador.astro con la cuota del plan Debut ya
-      // calculada (35 € + IVA/mes → con IVA), para no duplicar ese número
-      // como texto suelto aquí — mismo criterio que RATES_AUTONOMO.
-      altaPriceNote: 'Como te damos de alta nosotros, tu cuota desde el primer mes será de {price} — plan Debut, con el alta de autónomo incluida, durante el primer año.',
+      recommendedLabel: 'Recomendado',
       stepCertificado: {
         q: '¿Tienes Certificado Digital o Cl@ve?',
         options: [
@@ -297,9 +294,11 @@ export const ui = {
         success: '¡Gracias! Te avisaremos a ese correo.',
         error: 'No hemos podido guardar tu correo. Prueba de nuevo o escríbenos directamente.',
       },
+      // {plan} lo rellena Simulador.astro con el nombre del plan elegido
+      // (facturaLabels), para no duplicar el listado de planes aquí.
       altaResult: {
-        note: 'Plan Debut — con el alta de autónomo incluida (RETA + Hacienda).',
-        fromLabel: 'Desde el primer mes, durante el primer año.',
+        note: 'Plan {plan} — nos encargamos de tu alta de autónomo (RETA + Hacienda).',
+        fromLabel: 'Desde el primer mes.',
       },
       stepFacturas: {
         q: '¿Qué plan quieres?',
@@ -932,7 +931,7 @@ export const ui = {
           { value: 'no', label: 'No, vull que em doneu d’alta' },
         ],
       },
-      altaPriceNote: 'Com que et donem d’alta nosaltres, la teva quota des del primer mes serà de {price} — pla Debut, amb l’alta d’autònom inclosa, durant el primer any.',
+      recommendedLabel: 'Recomanat',
       stepCertificado: {
         q: 'Tens Certificat Digital o Cl@ve?',
         options: [
@@ -965,8 +964,8 @@ export const ui = {
         error: 'No hem pogut desar el teu correu. Torna-ho a provar o escriu-nos directament.',
       },
       altaResult: {
-        note: 'Pla Debut — amb l’alta d’autònom inclosa (RETA + Hisenda).',
-        fromLabel: 'Des del primer mes, durant el primer any.',
+        note: 'Pla {plan} — ens encarreguem de la teva alta d’autònom (RETA + Hisenda).',
+        fromLabel: 'Des del primer mes.',
       },
       stepFacturas: {
         q: 'Quin pla vols?',
@@ -1594,7 +1593,7 @@ export const ui = {
           { value: 'no', label: 'No, I need you to register me' },
         ],
       },
-      altaPriceNote: 'Since we handle your registration, your fee from the first month onward will be {price} — Debut plan, with freelancer registration included, for the first year.',
+      recommendedLabel: 'Recommended',
       stepCertificado: {
         q: 'Do you have a Digital Certificate or Cl@ve?',
         options: [
@@ -1627,8 +1626,8 @@ export const ui = {
         error: 'We couldn’t save your email. Try again or email us directly.',
       },
       altaResult: {
-        note: 'Debut plan — with freelancer registration included (Social Security + Tax Agency).',
-        fromLabel: 'From the first month onward, for the first year.',
+        note: '{plan} plan — we handle your freelancer registration (Social Security + Tax Agency).',
+        fromLabel: 'From the first month onward.',
       },
       stepFacturas: {
         q: 'Which plan do you want?',

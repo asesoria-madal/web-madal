@@ -840,7 +840,21 @@ h2.section-title, h1.section-title { font-size: clamp(1.5rem, 2.6vw, 2rem); }
 /* Paso de elegir plan (autónomo): tarjetas completas apiladas en vertical,
    no en fila — con este volumen de texto por tarjeta, en fila no cabía. */
 .card-options-vertical { flex-direction: column !important; }
-.option-card-tier { align-items: flex-start; padding: 1.4rem 1.5rem; }
+.option-card-tier { align-items: flex-start; padding: 1.4rem 1.5rem; position: relative; }
+.option-card-tier.is-recommended { border-color: var(--warm); background: var(--warm-soft); }
+.option-card-tier-badge {
+  position: absolute;
+  top: -11px;
+  left: 1.3rem;
+  background: var(--warm);
+  color: var(--paper);
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 0.25rem 0.6rem;
+  border-radius: 999px;
+}
 .option-card-tier-price { font-family: var(--font-mono); font-variant-numeric: tabular-nums; font-size: 1.25rem; font-weight: 700; color: var(--accent); margin-top: 0.6rem; }
 .option-card-tier-price small { font-family: var(--font-body); font-weight: 500; font-size: 0.78rem; color: var(--ink-soft); }
 .option-card-tier-duration { font-size: 0.78rem; font-weight: 700; color: var(--warm); margin-top: 0.2rem; }
@@ -926,6 +940,7 @@ h2.section-title, h1.section-title { font-size: clamp(1.5rem, 2.6vw, 2rem); }
 .servicios-closing { margin-top: 1.8rem; font-family: var(--font-display); font-size: 1.15rem; max-width: 42ch; }
 
 .sim-alta-note { font-size: 0.95rem; color: var(--ink-soft); }
+.sim-alta-transition { margin-top: 0.8rem; font-size: 0.8rem; color: var(--ink-soft); max-width: 400px; margin-left: auto; margin-right: auto; }
 
 .sim-consent {
   display: flex;
