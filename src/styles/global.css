@@ -942,9 +942,7 @@ h2.section-title, h1.section-title { font-size: clamp(1.5rem, 2.6vw, 2rem); }
 .servicios-note { margin-top: 1.3rem; font-size: 0.85rem; color: var(--ink-soft); max-width: 60ch; }
 .servicios-closing { margin-top: 1.8rem; font-family: var(--font-display); font-size: 1.15rem; max-width: 42ch; }
 
-.sim-alta-fee { font-size: 1.05rem; }
-.sim-alta-fee strong { color: var(--accent); }
-.sim-alta-note { margin-top: 0.4rem; font-size: 0.85rem; color: var(--ink-soft); }
+.sim-alta-note { font-size: 0.95rem; color: var(--ink-soft); }
 
 .sim-consent {
   display: flex;

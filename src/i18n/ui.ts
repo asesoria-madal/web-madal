@@ -152,16 +152,16 @@ export const ui = {
 
     alta: {
       title: '¿Vas a darte de alta como autónomo?',
-      desc: 'Nos encargamos del papeleo. Pagas la tarifa de alta y el primer mes de gestoría va gratis.',
-      price: 'Alta desde 39,93 €',
-      priceNote: '+ 1er mes de cuota, gratis · IVA incluido',
+      desc: 'Nos encargamos del papeleo — con el plan Debut, el alta va incluida en tu cuota desde el primer mes, sin tarifas aparte.',
+      price: 'Desde 35 € + IVA/mes',
+      priceNote: 'Alta de autónomo incluida · plan Debut, el primer año',
       link: 'Simular mi precio →',
     },
 
     altaPage: {
       eyebrow: 'Alta rápida',
       title: 'Alta de autónomos en menos de 2 días',
-      intro: 'Nos encargamos de todo el papeleo para que puedas empezar a facturar cuanto antes. Pagas la tarifa de alta y el primer mes de gestoría ya va incluido, gratis.',
+      intro: 'Nos encargamos de todo el papeleo para que puedas empezar a facturar cuanto antes. Con el plan Debut, el alta va incluida en tu cuota desde el primer mes, sin tarifas aparte.',
       autonomos: {
         title: 'Si vas a darte de alta como autónomo',
         desc: 'Presentamos tu alta en Hacienda y en el RETA de la Seguridad Social.',
@@ -171,9 +171,9 @@ export const ui = {
           { title: 'Presentamos el alta', desc: 'En Hacienda (censo de actividades) y en la Seguridad Social (RETA).' },
         ],
       },
-      timeline: 'En menos de 2 días tienes el alta hecha y ya puedes facturar, con el primer mes de gestoría incluido.',
-      price: 'Alta desde 39,93 €',
-      priceNote: '+ 1er mes de cuota, gratis · IVA incluido',
+      timeline: 'En menos de 2 días tienes el alta hecha y ya puedes facturar.',
+      price: 'Desde 35 € + IVA/mes',
+      priceNote: 'Alta de autónomo incluida · plan Debut, el primer año',
       ctaCall: 'Reservar llamada',
     },
 
@@ -207,7 +207,7 @@ export const ui = {
       // {price} lo rellena Simulador.astro con la cuota del plan Debut ya
       // calculada (35 € + IVA/mes → con IVA), para no duplicar ese número
       // como texto suelto aquí — mismo criterio que RATES_AUTONOMO.
-      altaPriceNote: 'Como te damos de alta nosotros, tu cuota desde el segundo mes será de {price} — plan Debut, durante el primer año.',
+      altaPriceNote: 'Como te damos de alta nosotros, tu cuota desde el primer mes será de {price} — plan Debut, con el alta de autónomo incluida, durante el primer año.',
       stepCertificado: {
         q: '¿Tienes Certificado Digital o Cl@ve?',
         options: [
@@ -240,11 +240,8 @@ export const ui = {
         error: 'No hemos podido guardar tu correo. Prueba de nuevo o escríbenos directamente.',
       },
       altaResult: {
-        feeLabel: 'Gestión del alta',
-        feeAmount: '39,93 €',
-        feeNote: 'Pago único · IVA incluido',
-        firstMonthNote: 'El primer mes de cuota va incluido, gratis.',
-        fromLabel: 'A partir del segundo mes',
+        note: 'Plan Debut — con el alta de autónomo incluida (RETA + Hacienda).',
+        fromLabel: 'Desde el primer mes, durante el primer año.',
       },
       stepFacturas: {
         q: '¿Qué plan quieres?',
@@ -771,16 +768,16 @@ export const ui = {
 
     alta: {
       title: 'Et donaràs d’alta com a autònom?',
-      desc: 'Ens encarreguem del paperam. Pagues la tarifa d’alta i el primer mes de gestoria va gratis.',
-      price: 'Alta des de 39,93 €',
-      priceNote: '+ 1r mes de quota, gratis · IVA inclòs',
+      desc: 'Ens encarreguem del paperam — amb el pla Debut, l’alta va inclosa a la teva quota des del primer mes, sense tarifes a part.',
+      price: 'Des de 35 € + IVA/mes',
+      priceNote: 'Alta d’autònom inclosa · pla Debut, el primer any',
       link: 'Simula el meu preu →',
     },
 
     altaPage: {
       eyebrow: 'Alta ràpida',
       title: 'Alta d’autònoms en menys de 2 dies',
-      intro: 'Ens encarreguem de tot el paperam perquè puguis començar a facturar com més aviat millor. Pagues la tarifa d’alta i el primer mes de gestoria ja va inclòs, gratis.',
+      intro: 'Ens encarreguem de tot el paperam perquè puguis començar a facturar com més aviat millor. Amb el pla Debut, l’alta va inclosa a la teva quota des del primer mes, sense tarifes a part.',
       autonomos: {
         title: 'Si et donaràs d’alta com a autònom',
         desc: 'Presentem la teva alta a Hisenda i al RETA de la Seguretat Social.',
@@ -790,9 +787,9 @@ export const ui = {
           { title: 'Presentem l’alta', desc: 'A Hisenda (cens d’activitats) i a la Seguretat Social (RETA).' },
         ],
       },
-      timeline: 'En menys de 2 dies tens l’alta feta i ja pots facturar, amb el primer mes de gestoria inclòs.',
-      price: 'Alta des de 39,93 €',
-      priceNote: '+ 1r mes de quota, gratis · IVA inclòs',
+      timeline: 'En menys de 2 dies tens l’alta feta i ja pots facturar.',
+      price: 'Des de 35 € + IVA/mes',
+      priceNote: 'Alta d’autònom inclosa · pla Debut, el primer any',
       ctaCall: 'Reserva una trucada',
     },
 
@@ -823,7 +820,7 @@ export const ui = {
           { value: 'no', label: 'No, vull que em doneu d’alta' },
         ],
       },
-      altaPriceNote: 'Com que et donem d’alta nosaltres, la teva quota des del segon mes serà de {price} — pla Debut, durant el primer any.',
+      altaPriceNote: 'Com que et donem d’alta nosaltres, la teva quota des del primer mes serà de {price} — pla Debut, amb l’alta d’autònom inclosa, durant el primer any.',
       stepCertificado: {
         q: 'Tens Certificat Digital o Cl@ve?',
         options: [
@@ -856,11 +853,8 @@ export const ui = {
         error: 'No hem pogut desar el teu correu. Torna-ho a provar o escriu-nos directament.',
       },
       altaResult: {
-        feeLabel: 'Gestió de l’alta',
-        feeAmount: '39,93 €',
-        feeNote: 'Pagament únic · IVA inclòs',
-        firstMonthNote: 'El primer mes de quota va inclòs, gratis.',
-        fromLabel: 'A partir del segon mes',
+        note: 'Pla Debut — amb l’alta d’autònom inclosa (RETA + Hisenda).',
+        fromLabel: 'Des del primer mes, durant el primer any.',
       },
       stepFacturas: {
         q: 'Quin pla vols?',
@@ -1383,16 +1377,16 @@ export const ui = {
 
     alta: {
       title: 'Registering as a freelancer?',
-      desc: 'We handle the paperwork. You pay the registration fee, and your first month of accounting is free.',
-      price: 'Registration from €39.93',
-      priceNote: '+ 1st month free · VAT included',
+      desc: 'We handle the paperwork — with the Debut plan, registration is included in your fee from the first month, no separate charges.',
+      price: 'From €35 + VAT/month',
+      priceNote: 'Freelancer registration included · Debut plan, first year',
       link: 'Get your price →',
     },
 
     altaPage: {
       eyebrow: 'Fast registration',
       title: 'Freelancer registration in under 2 days',
-      intro: 'We handle the paperwork so you can start invoicing as soon as possible. You pay the registration fee, and your first month of accounting is already included, free.',
+      intro: 'We handle the paperwork so you can start invoicing as soon as possible. With the Debut plan, registration is included in your fee from the first month, no separate charges.',
       autonomos: {
         title: 'If you’re registering as a freelancer',
         desc: 'We file your registration with the Spanish Tax Agency and with Social Security (RETA).',
@@ -1402,9 +1396,9 @@ export const ui = {
           { title: 'We file the registration', desc: 'With the Tax Agency and with Social Security (RETA).' },
         ],
       },
-      timeline: 'In under 2 days your registration is done and you can start invoicing, with your first month of accounting included.',
-      price: 'Registration from €39.93',
-      priceNote: '+ 1st month free · VAT included',
+      timeline: 'In under 2 days your registration is done and you can start invoicing.',
+      price: 'From €35 + VAT/month',
+      priceNote: 'Freelancer registration included · Debut plan, first year',
       ctaCall: 'Book a call',
     },
 
@@ -1435,7 +1429,7 @@ export const ui = {
           { value: 'no', label: 'No, I need you to register me' },
         ],
       },
-      altaPriceNote: 'Since we handle your registration, your fee from the second month onward will be {price} — Debut plan, for the first year.',
+      altaPriceNote: 'Since we handle your registration, your fee from the first month onward will be {price} — Debut plan, with freelancer registration included, for the first year.',
       stepCertificado: {
         q: 'Do you have a Digital Certificate or Cl@ve?',
         options: [
@@ -1468,11 +1462,8 @@ export const ui = {
         error: 'We couldn’t save your email. Try again or email us directly.',
       },
       altaResult: {
-        feeLabel: 'Registration handling',
-        feeAmount: '€39.93',
-        feeNote: 'One-off payment · VAT included',
-        firstMonthNote: 'The first month of the fee is included, free.',
-        fromLabel: 'From the second month onward',
+        note: 'Debut plan — with freelancer registration included (Social Security + Tax Agency).',
+        fromLabel: 'From the first month onward, for the first year.',
       },
       stepFacturas: {
         q: 'Which plan do you want?',

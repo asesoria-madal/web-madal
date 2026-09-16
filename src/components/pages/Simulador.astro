@@ -148,8 +148,7 @@ const altaPriceNoteText = debutTier
         </div>
 
         <div id="simResultAlta" hidden>
-          <p class="sim-alta-fee">{s.altaResult.feeLabel} <strong>{s.altaResult.feeAmount}</strong></p>
-          <p class="sim-alta-note">{s.altaResult.feeNote} · {s.altaResult.firstMonthNote}</p>
+          <p class="sim-alta-note">{s.altaResult.note}</p>
           <p class="sim-price"><span id="simPriceAlta">0</span> €<small>{s.priceUnit}</small></p>
           <p class="sim-monthly-note">{s.altaResult.fromLabel}</p>
         </div>
@@ -404,13 +403,11 @@ const altaPriceNoteText = debutTier
       };
 
       if (isAltaFlow) {
-        // Este importe es la cuota mensual recurrente a partir del segundo
-        // mes (plan Debut + IVA), NO la tarifa de alta puntual (esa es
-        // s.altaResult.feeAmount, estática, ver ui.ts). Son dos precios
-        // distintos que se muestran juntos en el resultado del wizard: pago
-        // único de alta + cuota desde el mes 2. A quien le tramitamos
-        // nosotros el alta le corresponde siempre el plan Debut (ver
-        // ui.ts, precios.autonomoTiers) — no se le pregunta, se le asigna.
+        // Cuota mensual del plan Debut (+ IVA), desde el primer mes — el
+        // alta de autónomo va incluida en esa cuota, no es un pago aparte.
+        // A quien le tramitamos nosotros el alta le corresponde siempre el
+        // plan Debut (ver ui.ts, precios.autonomoTiers) — no se le
+        // pregunta, se le asigna.
         apiBody = {
           regimen: 'autonomo', facturas: 'debut', reporting: 'no',
           alta: answers.alta, certificado: answers.certificado,
