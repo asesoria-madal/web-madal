@@ -75,6 +75,22 @@ export const ui = {
       // fuerzan ningún plan — el visitante elige libremente en el simulador.
       autonomoTiers: [
         {
+          key: 'debut',
+          name: 'Debut',
+          desc: 'Para autónomos que se acaban de dar de alta (o están a punto).',
+          amount: '35 €',
+          unit: '/mes',
+          ivaNote: 'Total con IVA: 42,35 €/mes',
+          durationNote: 'El primer año completo.',
+          includesPrevious: 'Mismo alcance fiscal y contable que el plan Esencial, más:',
+          features: [
+            'Alta de autónomo incluida (RETA + Hacienda)',
+            'Llamada inicial de bienvenida: repasamos el alta, resolvemos tus dudas y te explicamos tus próximas obligaciones',
+            'Contacto por email y WhatsApp',
+          ],
+          transitionNote: 'A los 6 meses revisamos tu facturación: si tu proyección anual supera los 25.000 €, pasas al plan Esencial en ese momento. Al finalizar los 12 meses, pasas automáticamente a Esencial (o al plan que corresponda según tu facturación real).',
+        },
+        {
           key: 'esencial',
           name: 'Esencial',
           desc: 'Actividad sencilla. Orientativo: hasta 25.000 € al año.',
@@ -227,14 +243,10 @@ export const ui = {
       },
       stepFacturas: {
         q: '¿Qué plan quieres?',
-        // El tramo de facturación de cada plan es solo orientativo (para
-        // ayudar a elegir) — el visitante elige el plan libremente, no se le
-        // asigna uno automáticamente según su facturación.
-        optionsAutonomo: [
-          { value: 'esencial', label: 'Esencial', desc: 'Actividad sencilla. Orientativo: hasta 25.000 € al año.' },
-          { value: 'crece', label: 'Crece', desc: 'Actividad consolidada. Orientativo: de 25.000 € a 45.000 € al año.' },
-          { value: 'total', label: 'Total', desc: 'Más de 45.000 € al año, o con decisiones que planificar.' },
-        ],
+        // Las tarjetas de planes de autónomo ya no salen de aquí: se pintan
+        // directamente desde t.precios.autonomoTiers (mismo contenido que la
+        // tabla de precios de la home, con todo lo que incluye cada plan),
+        // para no duplicar el listado de funcionalidades en dos sitios.
         optionsPyme: [
           { value: 't1', label: 'Hasta 10 facturas' },
           { value: 't2', label: 'De 10 a 25 facturas' },
@@ -672,6 +684,22 @@ export const ui = {
       autonomoTitle: 'Autònoms',
       autonomoTiers: [
         {
+          key: 'debut',
+          name: 'Debut',
+          desc: 'Per a autònoms que s’acaben de donar d’alta (o hi estan a punt).',
+          amount: '35 €',
+          unit: '/mes',
+          ivaNote: 'Total amb IVA: 42,35 €/mes',
+          durationNote: 'El primer any complet.',
+          includesPrevious: 'Mateix abast fiscal i comptable que el pla Essencial, més:',
+          features: [
+            'Alta d’autònom inclosa (RETA + Hisenda)',
+            'Trucada inicial de benvinguda: repassem l’alta, resolem els teus dubtes i t’expliquem les teves properes obligacions',
+            'Contacte per correu i WhatsApp',
+          ],
+          transitionNote: 'Als 6 mesos revisem la teva facturació: si la teva projecció anual supera els 25.000 €, passes al pla Essencial en aquell moment. En acabar els 12 mesos, passes automàticament a Essencial (o al pla que correspongui segons la teva facturació real).',
+        },
+        {
           key: 'esencial',
           name: 'Essencial',
           desc: 'Activitat senzilla. Orientatiu: fins a 25.000 € l’any.',
@@ -824,11 +852,6 @@ export const ui = {
       },
       stepFacturas: {
         q: 'Quin pla vols?',
-        optionsAutonomo: [
-          { value: 'esencial', label: 'Essencial', desc: 'Activitat senzilla. Orientatiu: fins a 25.000 € l’any.' },
-          { value: 'crece', label: 'Creix', desc: 'Activitat consolidada. Orientatiu: de 25.000 € a 45.000 € l’any.' },
-          { value: 'total', label: 'Total', desc: 'Més de 45.000 € l’any, o amb decisions per planificar.' },
-        ],
         optionsPyme: [
           { value: 't1', label: 'Fins a 10 factures' },
           { value: 't2', label: 'De 10 a 25 factures' },
@@ -1266,6 +1289,22 @@ export const ui = {
       autonomoTitle: 'Freelancers',
       autonomoTiers: [
         {
+          key: 'debut',
+          name: 'Debut',
+          desc: 'For freelancers who just registered (or are about to).',
+          amount: '€35',
+          unit: '/month',
+          ivaNote: 'Total with VAT: €42.35/month',
+          durationNote: 'The full first year.',
+          includesPrevious: 'Same tax and accounting scope as the Essential plan, plus:',
+          features: [
+            'Freelancer registration included (social security + tax office)',
+            'Initial welcome call: we go over your registration, answer your questions and explain what comes next',
+            'Contact by email and WhatsApp',
+          ],
+          transitionNote: 'At 6 months we review your revenue: if your annual projection is over €25,000, you move to the Essential plan then. At the end of 12 months, you move automatically to Essential (or whichever plan fits your actual revenue).',
+        },
+        {
           key: 'esencial',
           name: 'Essential',
           desc: 'Simple activity. Guideline: up to €25,000 a year.',
@@ -1418,11 +1457,6 @@ export const ui = {
       },
       stepFacturas: {
         q: 'Which plan do you want?',
-        optionsAutonomo: [
-          { value: 'esencial', label: 'Essential', desc: 'Simple activity. Guideline: up to €25,000 a year.' },
-          { value: 'crece', label: 'Grow', desc: 'Established activity. Guideline: €25,000 to €45,000 a year.' },
-          { value: 'total', label: 'Total', desc: 'Over €45,000 a year, or with decisions to plan for.' },
-        ],
         optionsPyme: [
           { value: 't1', label: 'Up to 10 invoices' },
           { value: 't2', label: '10 to 25 invoices' },

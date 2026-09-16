@@ -42,11 +42,18 @@ const Heading = embedded ? 'h2' : 'h1';
 
       <div class="wizard-step" data-step="facturas" hidden>
         <h3>{s.stepFacturas.q}</h3>
-        <div class="card-options" data-facturas-options="autonomo" hidden>
-          {s.stepFacturas.optionsAutonomo.map((opt) => (
-            <button type="button" class="option-card" data-field="facturas" data-value={opt.value}>
-              <span class="option-card-label">{opt.label}</span>
-              {'desc' in opt && opt.desc && <span class="option-card-desc">{opt.desc}</span>}
+        <div class="card-options card-options-vertical" data-facturas-options="autonomo" hidden>
+          {t.precios.autonomoTiers.map((tier) => (
+            <button type="button" class="option-card option-card-tier" data-field="facturas" data-value={tier.key}>
+              <span class="option-card-label">{tier.name}</span>
+              <span class="option-card-desc">{tier.desc}</span>
+              <span class="option-card-tier-price">{tier.amount}<small>{tier.unit}</small> <small>· {tier.ivaNote}</small></span>
+              {'durationNote' in tier && tier.durationNote && <span class="option-card-tier-duration">{tier.durationNote}</span>}
+              {'includesPrevious' in tier && tier.includesPrevious && <span class="option-card-tier-includes">{tier.includesPrevious}</span>}
+              <ul class="option-card-tier-features">
+                {tier.features.map((f) => (<li>{f}</li>))}
+              </ul>
+              {'transitionNote' in tier && tier.transitionNote && <span class="option-card-tier-transition">{tier.transitionNote}</span>}
             </button>
           ))}
         </div>
@@ -208,15 +215,17 @@ const Heading = embedded ? 'h2' : 'h1';
     // y solo el número de presupuesto depende de la respuesta del servidor.
     // Tarifas base SIN IVA; el simulador siempre muestra el importe CON IVA (21%).
     const IVA_RATE = 0.21;
-    // Planes por niveles (Esencial/Crece/Total), no por volumen de facturas
-    // — el campo se sigue llamando "facturas" (igual en la BBDD y en la API,
-    // ver api/presupuesto.ts) por no tocar ese contrato, pero ahora guarda el
-    // plan elegido libremente por el visitante, no un tramo automático.
-    const RATES_AUTONOMO: Record<string, number> = { esencial: 55, crece: 85, total: 125 };
+    // Planes por niveles (Debut/Esencial/Crece/Total), no por volumen de
+    // facturas — el campo se sigue llamando "facturas" (igual en la BBDD y
+    // en la API, ver api/presupuesto.ts) por no tocar ese contrato, pero
+    // ahora guarda el plan elegido libremente por el visitante, no un tramo
+    // automático. Debut es el precio del primer año para quien se acaba de
+    // dar de alta (o le damos nosotros el alta, ver isAltaFlow más abajo).
+    const RATES_AUTONOMO: Record<string, number> = { debut: 35, esencial: 55, crece: 85, total: 125 };
     const RATES_PYME: Record<string, number> = { t1: 100, t2: 130, t3: 150 };
     // El reporting/dashboards cuesta menos con el plan Total (incluido con
     // 50% de descuento) que con el resto de planes.
-    const REPORTING_PRICE_AUTONOMO: Record<string, number> = { esencial: 30, crece: 30, total: 15 };
+    const REPORTING_PRICE_AUTONOMO: Record<string, number> = { debut: 30, esencial: 30, crece: 30, total: 15 };
     const REPORTING_PRICE_PYME = 30;
     function reportingPrice(): number {
       return answers.regimen === 'pyme' ? REPORTING_PRICE_PYME : (REPORTING_PRICE_AUTONOMO[answers.facturas] ?? 30);
@@ -382,16 +391,18 @@ const Heading = embedded ? 'h2' : 'h1';
 
       if (isAltaFlow) {
         // Este importe es la cuota mensual recurrente a partir del segundo
-        // mes (el plan más económico, RATES_AUTONOMO.esencial + IVA), NO
-        // la tarifa de alta puntual (esa es s.altaResult.feeAmount, estática,
-        // ver ui.ts). Son dos precios distintos que se muestran juntos en el
-        // resultado del wizard: pago único de alta + cuota desde el mes 2.
+        // mes (plan Debut + IVA), NO la tarifa de alta puntual (esa es
+        // s.altaResult.feeAmount, estática, ver ui.ts). Son dos precios
+        // distintos que se muestran juntos en el resultado del wizard: pago
+        // único de alta + cuota desde el mes 2. A quien le tramitamos
+        // nosotros el alta le corresponde siempre el plan Debut (ver
+        // ui.ts, precios.autonomoTiers) — no se le pregunta, se le asigna.
         apiBody = {
-          regimen: 'autonomo', facturas: 'esencial', reporting: 'no',
+          regimen: 'autonomo', facturas: 'debut', reporting: 'no',
           alta: answers.alta, certificado: answers.certificado,
           actividad: answers.actividad, fechaInicio: answers.fechaInicio,
         };
-        const base = RATES_AUTONOMO.esencial;
+        const base = RATES_AUTONOMO.debut;
         const iva = round2(base * IVA_RATE);
         const total = round2(base + iva);
         if (altaPriceEl) animateCountUp(altaPriceEl, total, formatEUR);

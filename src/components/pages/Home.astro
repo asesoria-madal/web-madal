@@ -92,10 +92,12 @@ const latestPost = (await getSortedBlogPosts(lang))[0];
             <p class="pricing-tier-desc">{tier.desc}</p>
             <p class="amount"><span data-countup>{tier.amount}</span><small>{tier.unit}</small></p>
             <p class="pricing-tier-iva">{tier.ivaNote}</p>
+            {'durationNote' in tier && tier.durationNote && <p class="pricing-tier-duration">{tier.durationNote}</p>}
             {'includesPrevious' in tier && tier.includesPrevious && <p class="pricing-tier-includes">{tier.includesPrevious}</p>}
             <ul class="finanzas-preview-list pricing-tier-features">
               {tier.features.map((f) => (<li>{f}</li>))}
             </ul>
+            {'transitionNote' in tier && tier.transitionNote && <p class="pricing-tier-transition">{tier.transitionNote}</p>}
           </div>
         ))}
       </div>

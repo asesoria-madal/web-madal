@@ -3,13 +3,15 @@ import { getSupabaseAdmin } from '../../lib/supabase';
 
 export const prerender = false;
 
-// Tarifas base SIN IVA. Para autónomo son planes por niveles (Esencial/
-// Crece/Total), no tramos de facturas — el campo se sigue llamando
+// Tarifas base SIN IVA. Para autónomo son planes por niveles (Debut/
+// Esencial/Crece/Total), no tramos de facturas — el campo se sigue llamando
 // "facturas" (mismo nombre en la tabla `presupuestos`) por no romper ese
 // contrato, pero ahora guarda el plan que el visitante elige libremente en
-// el simulador. El total que se guarda y se devuelve va siempre CON IVA
-// (21%) — así coincide con lo que se muestra en el simulador y en la web.
-const RATES_AUTONOMO: Record<string, number> = { esencial: 55, crece: 85, total: 125 };
+// el simulador (o, en el flujo de alta, el plan Debut que se le asigna sin
+// preguntar — ver Simulador.astro). El total que se guarda y se devuelve va
+// siempre CON IVA (21%) — así coincide con lo que se muestra en el
+// simulador y en la web.
+const RATES_AUTONOMO: Record<string, number> = { debut: 35, esencial: 55, crece: 85, total: 125 };
 const RATES_PYME: Record<string, number> = { t1: 100, t2: 130, t3: 150 };
 // El reporting/dashboards cuesta menos con el plan Total (incluido con 50%
 // de descuento) que con el resto. "nose" (no lo tiene claro) no suma nada
@@ -17,7 +19,7 @@ const RATES_PYME: Record<string, number> = { t1: 100, t2: 130, t3: 150 };
 // Ver Simulador.astro (duplicado deliberado del cálculo, para que
 // coincidan front y back).
 const REPORTING_VALUES = ['si', 'no', 'nose'] as const;
-const REPORTING_PRICE_AUTONOMO: Record<string, number> = { esencial: 30, crece: 30, total: 15 };
+const REPORTING_PRICE_AUTONOMO: Record<string, number> = { debut: 30, esencial: 30, crece: 30, total: 15 };
 const REPORTING_PRICE_PYME = 30;
 function reportingPrice(regimen: string, facturas: string): number {
   return regimen === 'pyme' ? REPORTING_PRICE_PYME : (REPORTING_PRICE_AUTONOMO[facturas] ?? 30);
