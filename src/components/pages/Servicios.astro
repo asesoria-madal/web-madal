@@ -83,6 +83,12 @@ const evoSeries = [
         <p class="to">{s.dashboards.to}</p>
       </div>
 
+      <ul class="finanzas-preview-list">
+        {s.dashboards.items.map((it) => (
+          <li><strong>{it.strong}</strong>{it.rest}</li>
+        ))}
+      </ul>
+
       <div class="finanzas-evolucion servicios-follow">
         <svg viewBox={`0 0 ${EVO_W} ${EVO_H}`} class="finanzas-evo-svg" preserveAspectRatio="none">
           {evoShowBaseline && (
