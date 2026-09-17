@@ -747,6 +747,37 @@ section.hero { border-top: none; padding: 3.6rem 0 3.2rem; display: block; posit
 .hero-price-amount small { font-family: var(--font-body); font-size: 0.72rem; font-weight: 500; color: var(--ink-soft); margin-left: 0.2rem; }
 .hero-price-claim { font-size: 0.8rem; color: var(--ink-soft); margin-top: 0.7rem; max-width: 34ch; line-height: 1.4; }
 
+/* El ticket se queda con los colores del modo claro también en modo
+   oscuro (a propósito, no un descuido): sobre el papel crema queda
+   mejor que con los tonos oscuros del resto de la web ahí. Valores
+   fijos en vez de var(--...) porque esas variables cambian con el
+   tema — aquí es justo lo que no queremos. Mismo patrón que el resto
+   del archivo: [data-theme='dark'] explícito + la preferencia del
+   sistema cuando no hay tema forzado (nunca ':not([data-theme=light])'
+   suelto fuera de ese media query, o pillaría también a quien no ha
+   elegido tema y tiene el sistema en claro). */
+:root[data-theme='dark'] .hero-ticket { background: #eadfcf; }
+:root[data-theme='dark'] .hero-price-row + .hero-price-row { border-top-color: #d8c9b0; }
+:root[data-theme='dark'] .hero-price-label,
+:root[data-theme='dark'] .hero-price-amount small,
+:root[data-theme='dark'] .hero-price-claim {
+  color: #6b6155;
+}
+:root[data-theme='dark'] .hero-price-amount { color: #2a2420; }
+:root[data-theme='dark'] .hero-ticket-pip { box-shadow: 0 0 0 4px #eadfcf; }
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) .hero-ticket { background: #eadfcf; }
+  :root:not([data-theme='light']) .hero-price-row + .hero-price-row { border-top-color: #d8c9b0; }
+  :root:not([data-theme='light']) .hero-price-label,
+  :root:not([data-theme='light']) .hero-price-amount small,
+  :root:not([data-theme='light']) .hero-price-claim {
+    color: #6b6155;
+  }
+  :root:not([data-theme='light']) .hero-price-amount { color: #2a2420; }
+  :root:not([data-theme='light']) .hero-ticket-pip { box-shadow: 0 0 0 4px #eadfcf; }
+}
+
 .hero-scroll-cue {
   position: absolute; z-index: 1; bottom: 0.6rem; left: 50%; margin-left: -11px;
   color: var(--ink-soft); animation: bounceArrow 1.7s ease-in-out 1.2s infinite;
