@@ -53,8 +53,14 @@ function tierTintClass(index: number, total: number): string {
         <div class="hero-ticket-wrap">
           <div class="hero-ticket">
             <span class="hero-ticket-pip"></span>
-            <span class="hero-price-label">{t.hero.priceLabel}</span>
-            <span class="hero-price-amount"><span data-countup>{t.hero.priceAmount}</span><small>{t.hero.priceUnit}</small></span>
+            <div class="hero-price-row">
+              <span class="hero-price-label">{t.hero.priceAutonomoLabel}</span>
+              <span class="hero-price-amount"><span data-countup>{t.hero.priceAutonomoAmount}</span><small>{t.hero.priceUnit}</small></span>
+            </div>
+            <div class="hero-price-row">
+              <span class="hero-price-label">{t.hero.priceSlLabel}</span>
+              <span class="hero-price-amount"><span data-countup>{t.hero.priceSlAmount}</span><small>{t.hero.priceUnit}</small></span>
+            </div>
             <p class="hero-price-claim">{t.hero.priceClaim}</p>
           </div>
         </div>

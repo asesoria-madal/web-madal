@@ -559,8 +559,10 @@ section.hero { border-top: none; padding: 3.6rem 0 3.2rem; display: block; posit
 @keyframes dotIdleB { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(-5px, 6px); } }
 
 /* Campo de color asimétrico detrás de la columna visual (no al 50%, con
-   una costura suave en vez de un corte brusco). Solo en desktop: en
-   móvil el hero pasa a una sola columna y el campo no aporta nada. */
+   una costura suave en vez de un corte brusco). El corte a la izquierda
+   solo tiene sentido con las dos columnas del desktop — en móvil, donde
+   el hero se apila en una sola columna, el color no desaparece: pasa a
+   ser el fondo de todo el bloque visual (.hero-visual), como un panel. */
 .hero-field, .hero-seam { display: none; }
 @media (min-width: 861px) {
   .hero-field {
@@ -621,7 +623,9 @@ section.hero { border-top: none; padding: 3.6rem 0 3.2rem; display: block; posit
 .btn-volume:active { transform: translateY(6px); box-shadow: 0 0 0 var(--ink); }
 
 .hero-visual { position: relative; z-index: 1; min-height: 22rem; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1.6rem; }
-@media (max-width: 860px) { .hero-visual { min-height: 0; padding: 1rem 0; } }
+@media (max-width: 860px) {
+  .hero-visual { min-height: 0; padding: 1.6rem 1rem 2rem; background: var(--accent-tint); border-radius: 20px; }
+}
 
 .hero-dot { position: absolute; border-radius: 50%; transition: transform 0.12s ease-out; }
 .hero-dot-a { top: 2.2rem; left: 2.5rem; width: 16px; height: 16px; background: var(--accent); }
@@ -642,19 +646,20 @@ section.hero { border-top: none; padding: 3.6rem 0 3.2rem; display: block; posit
   position: absolute; top: -6px; right: 1rem; width: 12px; height: 12px; border-radius: 50%;
   background: var(--warm); box-shadow: 0 0 0 4px var(--accent-tint);
 }
-@media (max-width: 860px) { .hero-ticket-pip { box-shadow: 0 0 0 4px var(--paper); } }
-.hero-price-label { font-size: 0.8rem; color: var(--ink-soft); display: block; margin-bottom: 0.35rem; }
+.hero-price-row { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; }
+.hero-price-row + .hero-price-row { margin-top: 0.45rem; padding-top: 0.45rem; border-top: 1px dashed var(--line); }
+.hero-price-label { font-size: 0.8rem; color: var(--ink-soft); }
 .hero-price-amount {
   font-family: var(--font-mono);
   font-variant-numeric: tabular-nums;
-  font-size: 1.55rem;
+  font-size: 1.25rem;
   font-weight: 600;
   color: var(--ink);
   line-height: 1.1;
   white-space: nowrap;
 }
-.hero-price-amount small { font-family: var(--font-body); font-size: 0.8rem; font-weight: 500; color: var(--ink-soft); margin-left: 0.3rem; }
-.hero-price-claim { font-size: 0.85rem; color: var(--ink-soft); margin-top: 0.6rem; max-width: 34ch; line-height: 1.4; }
+.hero-price-amount small { font-family: var(--font-body); font-size: 0.72rem; font-weight: 500; color: var(--ink-soft); margin-left: 0.2rem; }
+.hero-price-claim { font-size: 0.8rem; color: var(--ink-soft); margin-top: 0.7rem; max-width: 34ch; line-height: 1.4; }
 
 .hero-scroll-cue {
   position: absolute; z-index: 1; bottom: 0.6rem; left: 50%; margin-left: -11px;
