@@ -171,14 +171,10 @@ nav.primary a.navlink {
 }
 nav.primary a.navlink:hover { color: var(--ink); }
 nav.primary a.navlink.active { color: var(--ink); font-weight: 600; }
-/* Vuelto a 860px (el mismo corte que usa el resto del sitio para
-   móvil/tablet — .hero-grid, section.section, etc.): en ordenador hay
-   espacio de sobra para el menú completo con hover, la hamburguesa es
-   solo para pantallas realmente estrechas. */
-@media (max-width: 860px) {
-  nav.primary a.navlink { display: none; }
-  nav.primary .nav-services { display: none; }
-}
+/* La hamburguesa es ahora el único punto de entrada a la navegación,
+   también en ordenador — este menú horizontal ya no se muestra nunca
+   (se deja el CSS de abajo sin usar por si se retoma más adelante). */
+nav.primary a.navlink, nav.primary .nav-services { display: none; }
 
 /* ---------- Menú desplegable de "Nuestros servicios" ---------- */
 /* Estructura en dos capas: .services-menu es la zona "activa" al ratón,
@@ -277,22 +273,61 @@ nav.primary a.navlink.active { color: var(--ink); font-weight: 600; }
 }
 .mobile-navlink:hover, .mobile-navlink.active { color: var(--ink); font-weight: 600; }
 
-/* "Nuestros servicios" en el menú móvil: desplegable propio (no hover,
-   que en táctil no existe) con los mismos items que el menú de escritorio. */
-.mobile-services summary {
-  display: flex; align-items: center; justify-content: space-between; gap: 0.6rem;
-  cursor: pointer; list-style: none;
+/* "Nuestros servicios" en el menú móvil: desplegable propio con los
+   mismos items que el menú de escritorio de antes. Botón + div normales
+   (nada de <details>: su contenido no se deja mostrar de forma fiable
+   vía CSS cuando no está [open], ni con "display: flex !important" —
+   se queda sin pintar aunque el estilo computado diga que es visible).
+   El estado abierto/cerrado lo lleva la clase .is-open (ver Header.astro). */
+.mobile-services-trigger {
+  display: flex; width: 100%; align-items: center; justify-content: space-between; gap: 0.6rem;
+  background: none; border: none; font: inherit; text-align: left; cursor: pointer;
 }
-.mobile-services summary::-webkit-details-marker { display: none; }
-.mobile-services summary svg { flex-shrink: 0; transition: transform 0.15s ease; color: var(--ink-soft); }
-.mobile-services[open] summary svg { transform: rotate(180deg); }
-.mobile-services-menu { display: flex; flex-direction: column; padding: 0.2rem 0 0.6rem; }
+.mobile-services-trigger svg { flex-shrink: 0; transition: transform 0.15s ease; color: var(--ink-soft); }
+.mobile-services.is-open .mobile-services-trigger svg { transform: rotate(180deg); }
+.mobile-services-menu {
+  display: flex; flex-direction: column; overflow: hidden;
+  max-height: 0; transition: max-height 0.2s ease;
+}
+.mobile-services.is-open .mobile-services-menu { max-height: 30rem; padding-bottom: 0.6rem; }
 .mobile-services-item {
   display: flex; flex-direction: column; gap: 0.2rem;
   padding: 0.7rem 0.8rem; margin-top: 0.3rem; border-radius: 8px; text-decoration: none;
   background: var(--paper-raised);
 }
 .mobile-services-item:hover { background: var(--paper-strong); }
+
+/* En ordenador (con ratón), "Nuestros servicios" se abre en hover como
+   un flyout a la derecha, en vez de desplegarse hacia abajo como en
+   móvil. El clic (.is-open) se queda como mecanismo de apertura por
+   teclado/táctil; el hover es un extra que no depende de esa clase. */
+@media (min-width: 861px) {
+  /* Sin esto, .mobile-services se estira a todo el ancho de la fila
+     (como el resto de enlaces del menú) y "left: 100%" del flyout cae
+     fuera de la pantalla. Se encoge al ancho de su propio texto. */
+  .mobile-services { position: relative; align-self: flex-start; }
+  .mobile-services-trigger svg { display: none; }
+  .mobile-services-menu {
+    position: absolute; top: 0; left: 100%; margin-left: 0.6rem;
+    max-height: none; overflow: visible; width: 320px; padding: 0.5rem;
+    /* paper-raised, no paper: el fondo del header/menú ya es --paper,
+       así que con el mismo tono el flyout se volvía invisible encima. */
+    background: var(--paper-raised); border: 1px solid var(--line); border-radius: 12px;
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.28);
+    opacity: 0; visibility: hidden; pointer-events: none;
+    transition: opacity 0.15s ease, visibility 0.15s;
+    z-index: 10;
+  }
+  .mobile-services:hover .mobile-services-menu,
+  .mobile-services:focus-within .mobile-services-menu,
+  .mobile-services.is-open .mobile-services-menu {
+    opacity: 1; visibility: visible; pointer-events: auto;
+  }
+  /* Los items ya no necesitan su propio fondo aquí (el contenedor ya
+     tiene paper-raised) — si no, se confunden con la tarjeta. */
+  .mobile-services-menu .mobile-services-item { background: transparent; margin-top: 0; }
+  .mobile-services-menu .mobile-services-item:hover { background: var(--paper-strong); }
+}
 
 .mobile-menu-foot {
   display: flex;
@@ -313,9 +348,15 @@ nav.primary a.navlink.active { color: var(--ink); font-weight: 600; }
   text-decoration: none;
 }
 .mobile-lang-link.active { border-color: var(--accent); }
+
+/* Hamburguesa siempre visible (ordenador incluido) — ver nota de
+   nav.primary más arriba. El toggle de tema y el selector de idioma se
+   quedan en la barra en ordenador (hay sitio); solo se compactan en
+   móvil estrecho. */
+.menu-toggle { display: inline-flex; }
+.mobile-menu:not([hidden]) { display: flex; }
+
 @media (max-width: 860px) {
-  .menu-toggle { display: inline-flex; }
-  .mobile-menu:not([hidden]) { display: flex; }
   .header-right .theme-toggle,
   .header-right .lang-switch {
     display: none;

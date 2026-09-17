@@ -111,11 +111,15 @@ const localeCode: Record<Locale, string> = { es: 'ES', ca: 'CA', en: 'EN' };
       {nav.map((item) => (
         <a class={`mobile-navlink${active === item.key ? ' active' : ''}`} href={item.href}>{item.label}</a>
       ))}
-      <details class="mobile-services">
-        <summary class={`mobile-navlink${active === 'servicios' ? ' active' : ''}`}>
+      <div class="mobile-services">
+        <button
+          type="button"
+          class={`mobile-navlink mobile-services-trigger${active === 'servicios' ? ' active' : ''}`}
+          aria-expanded="false"
+        >
           {t.nav.servicios}
           <svg width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 7.5l5 5 5-5"/></svg>
-        </summary>
+        </button>
         <div class="mobile-services-menu">
           {serviciosMenuItems.map((item) => (
             <a href={item.href} class="mobile-services-item">
@@ -124,7 +128,7 @@ const localeCode: Record<Locale, string> = { es: 'ES', ca: 'CA', en: 'EN' };
             </a>
           ))}
         </div>
-      </details>
+      </div>
       <a class={`mobile-navlink${active === 'equipo' ? ' active' : ''}`} href={equipoHref}>{t.nav.conocenos}</a>
       <div class="mobile-menu-foot">
         <button type="button" class="theme-toggle" aria-label="Cambiar entre tema claro y oscuro">
@@ -172,6 +176,10 @@ const localeCode: Record<Locale, string> = { es: 'ES', ca: 'CA', en: 'EN' };
       if (!mobileMenu || !menuToggle) return;
       mobileMenu.hidden = true;
       menuToggle.setAttribute('aria-expanded', 'false');
+      document.querySelectorAll<HTMLElement>('.mobile-services.is-open').forEach((wrap) => {
+        wrap.classList.remove('is-open');
+        wrap.querySelector('.mobile-services-trigger')?.setAttribute('aria-expanded', 'false');
+      });
     }
 
     menuToggle?.addEventListener('click', () => {
@@ -183,6 +191,18 @@ const localeCode: Record<Locale, string> = { es: 'ES', ca: 'CA', en: 'EN' };
 
     mobileMenu?.querySelectorAll('a').forEach((link) => {
       link.addEventListener('click', closeMenu);
+    });
+
+    // "Nuestros servicios" dentro del menú: en móvil se abre/cierra al
+    // tocar (no hay hover); en ordenador el CSS lo abre también en hover,
+    // esta clase es solo el mecanismo de apertura por clic/teclado.
+    document.querySelectorAll<HTMLButtonElement>('.mobile-services-trigger').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const wrap = btn.closest('.mobile-services');
+        if (!wrap) return;
+        const open = wrap.classList.toggle('is-open');
+        btn.setAttribute('aria-expanded', String(open));
+      });
     });
   }
 
