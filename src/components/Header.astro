@@ -105,7 +105,14 @@ const localeCode: Record<Locale, string> = { es: 'ES', ca: 'CA', en: 'EN' };
       )}
     </div>
   </div>
+</header>
 
+{/* Fuera del <header>: su backdrop-filter crea un "contexto" propio
+    para los descendientes position:fixed, así que este menú (fixed,
+    pensado para ocupar toda la pantalla por debajo de la cabecera) se
+    quedaba encogido a la altura del header en vez de llegar hasta
+    abajo. Como sitio, el <header> ya no lo necesita: aria-controls
+    sigue enlazándolo con el botón por id, no por posición en el DOM. */}
   {!minimal && (
     <nav id="mobileMenu" class="mobile-menu" aria-label={t.header.menu} hidden>
       {nav.map((item) => (
@@ -146,7 +153,6 @@ const localeCode: Record<Locale, string> = { es: 'ES', ca: 'CA', en: 'EN' };
       <ContactSwitch lang={lang} triggerClass="btn btn-primary btn-stamp mobile-menu-contact" origen="menu_movil" />
     </nav>
   )}
-</header>
 
 <script>
   // El header persiste visualmente entre páginas gracias a las transiciones
@@ -176,17 +182,23 @@ const localeCode: Record<Locale, string> = { es: 'ES', ca: 'CA', en: 'EN' };
       if (!mobileMenu || !menuToggle) return;
       mobileMenu.hidden = true;
       menuToggle.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
       document.querySelectorAll<HTMLElement>('.mobile-services.is-open').forEach((wrap) => {
         wrap.classList.remove('is-open');
         wrap.querySelector('.mobile-services-trigger')?.setAttribute('aria-expanded', 'false');
       });
     }
 
+    // El menú ahora es una capa fija a pantalla completa (ver
+    // .mobile-menu en global.css): bloqueamos el scroll de la página de
+    // detrás mientras está abierta para que no se pueda arrastrar el
+    // contenido por debajo sin querer.
     menuToggle?.addEventListener('click', () => {
       if (!mobileMenu) return;
       const open = mobileMenu.hidden;
       mobileMenu.hidden = !open;
       menuToggle.setAttribute('aria-expanded', String(open));
+      document.body.style.overflow = open ? 'hidden' : '';
     });
 
     mobileMenu?.querySelectorAll('a').forEach((link) => {

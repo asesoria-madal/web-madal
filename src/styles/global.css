@@ -28,6 +28,10 @@
 }
 
 :root {
+  /* Alto real de header.site (padding 0.95rem arriba/abajo + los
+     iconos de 2.15rem) — lo usa .mobile-menu para colocarse justo
+     debajo sin taparlo ni dejar hueco. */
+  --header-h: 76px;
   --paper: #f3ebdf;
   --paper-raised: #eadfcf;
   --paper-strong: #e0d2bc;
@@ -255,13 +259,25 @@ nav.primary a.navlink, nav.primary .nav-services { display: none; }
 .menu-toggle[aria-expanded='true'] span:nth-child(2) { opacity: 0; }
 .menu-toggle[aria-expanded='true'] span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
 
+/* A todo lo ancho y hasta el borde de la pantalla (no una columna
+   centrada de 1180px) y con su propio scroll interno acotado al alto
+   de la ventana — así nunca "sale" más abajo del tamaño total ni
+   empuja el contenido de la página de debajo. */
 .mobile-menu {
   display: none;
   flex-direction: column;
   gap: 0.2rem;
-  max-width: 1180px;
-  margin: 0 auto;
-  padding: 0.4rem var(--side-pad) 1.2rem;
+  position: fixed;
+  top: var(--header-h);
+  left: 0;
+  right: 0;
+  bottom: 0;
+  max-width: none;
+  margin: 0;
+  padding: 0.6rem var(--side-pad) 1.5rem;
+  background: var(--paper);
+  overflow-y: auto;
+  z-index: 15;
   border-top: 1px solid var(--line);
 }
 .mobile-navlink {
