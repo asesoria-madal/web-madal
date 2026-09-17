@@ -111,7 +111,20 @@ const localeCode: Record<Locale, string> = { es: 'ES', ca: 'CA', en: 'EN' };
       {nav.map((item) => (
         <a class={`mobile-navlink${active === item.key ? ' active' : ''}`} href={item.href}>{item.label}</a>
       ))}
-      <a class={`mobile-navlink${active === 'servicios' ? ' active' : ''}`} href={serviciosHref}>{t.nav.servicios}</a>
+      <details class="mobile-services">
+        <summary class={`mobile-navlink${active === 'servicios' ? ' active' : ''}`}>
+          {t.nav.servicios}
+          <svg width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 7.5l5 5 5-5"/></svg>
+        </summary>
+        <div class="mobile-services-menu">
+          {serviciosMenuItems.map((item) => (
+            <a href={item.href} class="mobile-services-item">
+              <span class="services-menu-title">{item.title}</span>
+              <span class="services-menu-desc">{item.desc}</span>
+            </a>
+          ))}
+        </div>
+      </details>
       <a class={`mobile-navlink${active === 'equipo' ? ' active' : ''}`} href={equipoHref}>{t.nav.conocenos}</a>
       <div class="mobile-menu-foot">
         <button type="button" class="theme-toggle" aria-label="Cambiar entre tema claro y oscuro">

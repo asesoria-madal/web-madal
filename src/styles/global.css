@@ -276,6 +276,24 @@ nav.primary a.navlink.active { color: var(--ink); font-weight: 600; }
   border-bottom: 1px solid var(--line);
 }
 .mobile-navlink:hover, .mobile-navlink.active { color: var(--ink); font-weight: 600; }
+
+/* "Nuestros servicios" en el menú móvil: desplegable propio (no hover,
+   que en táctil no existe) con los mismos items que el menú de escritorio. */
+.mobile-services summary {
+  display: flex; align-items: center; justify-content: space-between; gap: 0.6rem;
+  cursor: pointer; list-style: none;
+}
+.mobile-services summary::-webkit-details-marker { display: none; }
+.mobile-services summary svg { flex-shrink: 0; transition: transform 0.15s ease; color: var(--ink-soft); }
+.mobile-services[open] summary svg { transform: rotate(180deg); }
+.mobile-services-menu { display: flex; flex-direction: column; padding: 0.2rem 0 0.6rem; }
+.mobile-services-item {
+  display: flex; flex-direction: column; gap: 0.2rem;
+  padding: 0.7rem 0.8rem; margin-top: 0.3rem; border-radius: 8px; text-decoration: none;
+  background: var(--paper-raised);
+}
+.mobile-services-item:hover { background: var(--paper-strong); }
+
 .mobile-menu-foot {
   display: flex;
   align-items: center;
