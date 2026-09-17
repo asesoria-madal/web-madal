@@ -5,7 +5,7 @@ title: 'Autònom vs. SL: quan convé fer el salt'
 description: 'No hi ha una xifra fixada per llei, però sí senyals clars per decidir.'
 cat: fiscalidad
 date: 2026-08-19
-updatedDate: 2026-08-20
+updatedDate: 2026-09-17
 sources:
   - label: 'Ley 27/2014, del Impuesto sobre Sociedades, art. 29 — tipus general 25% i reduït 15% per a noves creacions'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2014-12328'
@@ -15,11 +15,15 @@ sources:
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2006-20764'
 ---
 
-No existeix cap norma que digui "a partir de tal facturació, passa't a SL". La decisió depèn de diverses coses: quant benefici tens, quant risc assumeixes, quant pagues d'impostos en cada forma i la teva comunitat autònoma.
+No existeix cap norma que digui "a partir de tal facturació, passa't a SL". La decisió depèn de diverses coses: quant benefici tens, quant risc assumeixes, quant pagues d'impostos en cada forma, la teva comunitat autònoma, quants diners necessites treure cada mes per viure i la teva situació familiar.
 
 ## Una xifra orientativa
 
 Sol començar a compensar entre 40.000 € i 60.000 € de benefici anual, tot i que no és una xifra fixada per Hisenda ni per llei: és una referència pràctica, no un llindar oficial. Per sota d'aquesta xifra, l'estalvi fiscal de passar a SL rarament compensa el cost afegit de mantenir-la (comptabilitat obligatòria, comptes anuals al Registre Mercantil, gestoria més cara).
+
+## No és només una qüestió de facturació
+
+Aquesta xifra orientativa parteix d'un benefici "genèric", però el teu cas concret té factors propis que la mouen en un sentit o un altre. La teva comunitat autònoma importa, perquè els trams i tipus de l'IRPF varien d'una a l'altra, i algunes tenen bonificacions pròpies per a autònoms o per a la creació de societats. També importa quants diners necessites treure cada mes per viure: com més diners treguis de la SL per a ús personal, més es dilueix l'estalvi fiscal, perquè aquesta sortida també tributa (via nòmina o dividends). I la teva situació familiar —persones a càrrec teu, altres fonts d'ingressos, les teves pròpies cotitzacions— canvia el càlcul igual que canvia qualsevol altra declaració de la renda. Per això 40.000-60.000 € és un punt de partida per començar a mirar-ho, no una resposta per al teu cas.
 
 ## La raó que no és fiscal: la responsabilitat
 
@@ -32,3 +36,7 @@ Com a autònom, tributes per IRPF de forma progressiva: com més guanyes, més a
 ## Com decidir-ho a la pràctica
 
 Si estàs a prop d'aquesta franja de facturació, o si el risc de la teva activitat ja et preocupa encara que facturis poc, és el moment de seure a comparar el teu cas concret amb xifres reals, no una regla general. Ho revisem amb tu abans que sigui una decisió presa a mitges.
+
+## Vols saber-ho amb els teus propis números?
+
+T'oferim un estudi detallat en què analitzem la teva situació concreta i et diem, amb xifres, a partir de quina facturació et compensaria fer el salt a SL. L'estudi costa 150 € + IVA si ja ets client nostre, o 200 € + IVA si encara no ho ets. Escriu-nos a [contacto@asesoriamadal.es](mailto:contacto@asesoriamadal.es) si vols més informació: podem concretar una trucada per donar-te més detalls.
