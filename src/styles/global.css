@@ -171,11 +171,11 @@ nav.primary a.navlink {
 }
 nav.primary a.navlink:hover { color: var(--ink); }
 nav.primary a.navlink.active { color: var(--ink); font-weight: 600; }
-/* 1080px se quedó corto: en portátiles normales (1366-1536px lógicos,
-   típico con escalado de Windows al 125%) la barra seguía mostrando todo
-   el menú apretado. Subido a 1600px para que la hamburguesa entre ya en
-   esos anchos habituales, no solo en móvil/tablet. */
-@media (max-width: 1600px) {
+/* Vuelto a 860px (el mismo corte que usa el resto del sitio para
+   móvil/tablet — .hero-grid, section.section, etc.): en ordenador hay
+   espacio de sobra para el menú completo con hover, la hamburguesa es
+   solo para pantallas realmente estrechas. */
+@media (max-width: 860px) {
   nav.primary a.navlink { display: none; }
   nav.primary .nav-services { display: none; }
 }
@@ -313,7 +313,7 @@ nav.primary a.navlink.active { color: var(--ink); font-weight: 600; }
   text-decoration: none;
 }
 .mobile-lang-link.active { border-color: var(--accent); }
-@media (max-width: 1600px) {
+@media (max-width: 860px) {
   .menu-toggle { display: inline-flex; }
   .mobile-menu:not([hidden]) { display: flex; }
   .header-right .theme-toggle,
@@ -521,15 +521,25 @@ dialog.contact-dialog::backdrop { background: rgba(20, 16, 12, 0.55); }
    aplica a botones de flujos/formularios (Simulador, Portal, altas) para
    no meter un gesto tan marcado en controles que se pulsan en serie. */
 .btn.btn-stamp {
-  box-shadow: 0 6px 0 var(--accent-strong);
+  --stamp-shadow: var(--accent-strong);
+  box-shadow: 0 6px 0 var(--stamp-shadow);
   transform: translateY(0);
   transition: transform 0.12s ease, box-shadow 0.12s ease, background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
 }
-.btn.btn-stamp:hover { transform: translateY(3px); box-shadow: 0 3px 0 var(--accent-strong); }
-.btn.btn-stamp:active { transform: translateY(6px); box-shadow: 0 0 0 var(--accent-strong); }
-.btn.btn-outline.btn-stamp { box-shadow: 0 6px 0 var(--ink); }
-.btn.btn-outline.btn-stamp:hover { box-shadow: 0 3px 0 var(--ink); }
-.btn.btn-outline.btn-stamp:active { box-shadow: 0 0 0 var(--ink); }
+.btn.btn-stamp:hover { transform: translateY(3px); box-shadow: 0 3px 0 var(--stamp-shadow); }
+.btn.btn-stamp:active { transform: translateY(6px); box-shadow: 0 0 0 var(--stamp-shadow); }
+.btn.btn-outline.btn-stamp { --stamp-shadow: var(--ink); }
+
+/* Modo oscuro: accent/accent-strong (e ink/paper) invierten su
+   luminosidad relativa respecto al claro, así que el canto quedaba más
+   claro que la cara del botón (el volumen se leía al revés). Se
+   intercambian los tonos para que el canto siga viéndose "hundido". */
+:root[data-theme='dark'] .btn-primary.btn-stamp { background: var(--accent-strong); --stamp-shadow: var(--accent); }
+:root[data-theme='dark'] .btn.btn-outline.btn-stamp { --stamp-shadow: var(--paper); }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) .btn-primary.btn-stamp { background: var(--accent-strong); --stamp-shadow: var(--accent); }
+  :root:not([data-theme='light']) .btn.btn-outline.btn-stamp { --stamp-shadow: var(--paper); }
+}
 
 /* ---------- Section grid: ledger margin label ---------- */
 section.section {
