@@ -318,26 +318,35 @@ nav.primary a.navlink, nav.primary .nav-services { display: none; }
    móvil. El clic (.is-open) se queda como mecanismo de apertura por
    teclado/táctil; el hover es un extra que no depende de esa clase. */
 @media (min-width: 861px) {
-  /* Sin esto, .mobile-services se estira a todo el ancho de la fila
-     (como el resto de enlaces del menú) y "left: 100%" del flyout cae
-     fuera de la pantalla. Se encoge al ancho de su propio texto. */
-  .mobile-services { position: relative; align-self: flex-start; }
+  /* .mobile-services se queda a todo el ancho de la fila, IGUAL que el
+     resto de enlaces del menú: el hover tiene que poder activarse desde
+     cualquier punto de la fila, no solo sobre el texto. El flyout se
+     ancla a una distancia fija desde la izquierda (no "left: 100%",
+     que con la fila a todo el ancho cae fuera de la pantalla) — al
+     estar dentro del propio ancho de .mobile-services, el ratón nunca
+     sale de su zona de hover al moverse hacia el flyout, así que no
+     desaparece a mitad de camino. */
+  .mobile-services { position: relative; }
   .mobile-services-trigger svg { display: none; }
   .mobile-services-menu {
-    position: absolute; top: 0; left: 100%; margin-left: 0.6rem;
+    position: absolute; top: 0; left: 17rem;
     max-height: none; overflow: visible; width: 320px; padding: 0.5rem;
     /* paper-raised, no paper: el fondo del header/menú ya es --paper,
        así que con el mismo tono el flyout se volvía invisible encima. */
     background: var(--paper-raised); border: 1px solid var(--line); border-radius: 12px;
     box-shadow: 0 12px 28px rgba(0, 0, 0, 0.28);
-    opacity: 0; visibility: hidden; pointer-events: none;
-    transition: opacity 0.15s ease, visibility 0.15s;
+    /* Sin transición: con prefers-reduced-motion (que fuerza duraciones
+       casi a cero en todo el sitio, ver arriba) una transición aquí se
+       queda a medias y el flyout no acaba de mostrarse ni de aceptar
+       clics. Aparecer/desaparecer al instante funciona igual de bien
+       para un desplegable de navegación. */
+    display: none;
     z-index: 10;
   }
   .mobile-services:hover .mobile-services-menu,
   .mobile-services:focus-within .mobile-services-menu,
   .mobile-services.is-open .mobile-services-menu {
-    opacity: 1; visibility: visible; pointer-events: auto;
+    display: block;
   }
   /* Los items ya no necesitan su propio fondo aquí (el contenedor ya
      tiene paper-raised) — si no, se confunden con la tarjeta. */
