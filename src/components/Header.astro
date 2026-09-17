@@ -20,7 +20,6 @@ const home = lang === 'es' ? '/' : `/${lang}/`;
 const nav = [
   { key: 'home', href: lang === 'es' ? '/' : `/${lang}/`, label: t.nav.home },
   { key: 'simulador', href: localizedPath('/simulador', lang), label: t.nav.simulador },
-  { key: 'alta', href: localizedPath('/alta', lang), label: t.nav.alta },
   { key: 'blog', href: localizedPath('/blog', lang), label: t.nav.blog },
 ];
 const equipoHref = localizedPath('/equipo', lang);
@@ -63,7 +62,7 @@ const localeCode: Record<Locale, string> = { es: 'ES', ca: 'CA', en: 'EN' };
           <a class={`navlink${active === item.key ? ' active' : ''}`} href={item.href}>{item.label}</a>
         ))}
         <div class="nav-services">
-          <a class={`navlink${active === 'servicios' ? ' active' : ''}`} href={serviciosHref}>{t.nav.servicios}</a>
+          <a class={`navlink${active === 'servicios' ? ' active' : ''}`} href={serviciosHref}>{t.nav.servicios} <span class="nav-services-caret" aria-hidden="true">▾</span></a>
           <div class="services-menu">
             <div class="services-menu-card">
               {serviciosMenuItems.map((item) => (

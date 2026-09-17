@@ -175,10 +175,18 @@ nav.primary a.navlink {
 }
 nav.primary a.navlink:hover { color: var(--ink); }
 nav.primary a.navlink.active { color: var(--ink); font-weight: 600; }
-/* La hamburguesa es ahora el único punto de entrada a la navegación,
-   también en ordenador — este menú horizontal ya no se muestra nunca
-   (se deja el CSS de abajo sin usar por si se retoma más adelante). */
-nav.primary a.navlink, nav.primary .nav-services { display: none; }
+/* Flechita de texto (no icono/SVG) junto a "Nuestros servicios" en el
+   menú horizontal, para dar la pista de que se abre al pasar el ratón. */
+.nav-services-caret {
+  display: inline-block;
+  font-size: 0.7em;
+  color: var(--ink-soft);
+  transition: transform 0.15s ease;
+}
+.nav-services:hover .nav-services-caret,
+.nav-services:focus-within .nav-services-caret {
+  transform: translateY(1px) rotate(180deg);
+}
 
 /* ---------- Menú desplegable de "Nuestros servicios" ---------- */
 /* Estructura en dos capas: .services-menu es la zona "activa" al ratón,
@@ -317,10 +325,12 @@ nav.primary a.navlink, nav.primary .nav-services { display: none; }
 }
 .mobile-services-item:hover { background: var(--paper-strong); }
 
-/* En ordenador (con ratón), "Nuestros servicios" se abre en hover como
-   un flyout a la derecha, en vez de desplegarse hacia abajo como en
-   móvil. El clic (.is-open) se queda como mecanismo de apertura por
-   teclado/táctil; el hover es un extra que no depende de esa clase. */
+/* Flyout de "Nuestros servicios" dentro de la hamburguesa: ahora que la
+   hamburguesa vuelve a ser solo de móvil (ver nav.primary/.menu-toggle
+   más arriba), este bloque para ratón ya no se activa nunca — se deja
+   documentado por si se retoma la hamburguesa-siempre más adelante. En
+   ordenador el desplegable de "Nuestros servicios" es ahora el de
+   .nav-services / .services-menu, en el menú horizontal. */
 @media (min-width: 861px) {
   /* .mobile-services se queda a todo el ancho de la fila, IGUAL que el
      resto de enlaces del menú: el hover tiene que poder activarse desde
@@ -384,14 +394,13 @@ nav.primary a.navlink, nav.primary .nav-services { display: none; }
 }
 .mobile-lang-link.active { border-color: var(--accent); }
 
-/* Hamburguesa siempre visible (ordenador incluido) — ver nota de
-   nav.primary más arriba. El toggle de tema y el selector de idioma se
-   quedan en la barra en ordenador (hay sitio); solo se compactan en
-   móvil estrecho. */
-.menu-toggle { display: inline-flex; }
-.mobile-menu:not([hidden]) { display: flex; }
-
 @media (max-width: 860px) {
+  /* Por debajo de este ancho la hamburguesa vuelve a ser el punto de
+     entrada a la navegación (el menú horizontal no cabe); en ordenador
+     se ve el menú horizontal de nav.primary y la hamburguesa se oculta. */
+  nav.primary { display: none; }
+  .menu-toggle { display: inline-flex; }
+  .mobile-menu:not([hidden]) { display: flex; }
   .header-right .theme-toggle,
   .header-right .lang-switch {
     display: none;
