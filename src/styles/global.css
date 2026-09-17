@@ -333,11 +333,14 @@ nav.primary a.navlink, nav.primary .nav-services { display: none; }
   .mobile-services { position: relative; }
   .mobile-services-trigger svg { display: none; }
   .mobile-services-menu {
-    position: absolute; top: 0; left: 17rem;
-    max-height: none; overflow: visible; padding: 0.5rem;
+    /* Centrado en vertical respecto a la fila del trigger (no pegado
+       por su esquina superior): el punto medio del lado izquierdo del
+       flyout queda a la altura de "Nuestros servicios". */
+    position: absolute; top: 50%; left: 17rem; transform: translateY(-50%);
+    max-height: none; overflow: visible; padding: 0.6rem;
     /* Rectángulo horizontal (2 columnas), no una lista vertical larga. */
-    grid-template-columns: repeat(2, minmax(210px, 1fr)); gap: 0.15rem;
-    width: 460px;
+    grid-template-columns: repeat(2, minmax(260px, 1fr)); gap: 0.2rem;
+    width: 600px;
     /* paper-raised, no paper: el fondo del header/menú ya es --paper,
        así que con el mismo tono el flyout se volvía invisible encima. */
     background: var(--paper-raised); border: 1px solid var(--line); border-radius: 12px;
