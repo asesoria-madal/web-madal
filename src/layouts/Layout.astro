@@ -3,6 +3,7 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import ContactSwitch from '../components/ContactSwitch.astro';
 import CookieConsent from '../components/CookieConsent.astro';
+import TrustBanner from '../components/TrustBanner.astro';
 import Analytics from '@vercel/analytics/astro';
 import SpeedInsights from '@vercel/speed-insights/astro';
 import { ClientRouter } from 'astro:transitions';
@@ -94,11 +95,12 @@ const ogLocale: Record<Locale, string> = { es: 'es_ES', ca: 'ca_ES', en: 'en_GB'
   <body>
     <Header lang={lang} path={path} active={active} minimal={minimalHeader} />
     <slot />
+    {showCtaFinal && <TrustBanner lang={lang} />}
     {showCtaFinal && (
       <section class="cta-final" id="cta-final">
         <h2>{t.ctaFinal.title}</h2>
         <div class="actions">
-          <ContactSwitch lang={lang} origen="cta_final" />
+          <ContactSwitch lang={lang} triggerClass="btn btn-primary btn-stamp" origen="cta_final" />
         </div>
         <p class="fine">{t.ctaFinal.fine}</p>
       </section>

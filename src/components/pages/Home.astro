@@ -12,30 +12,63 @@ const t = useTranslations(lang);
 // Enlace profundo al artículo más reciente del idioma: ayuda a Google a
 // descubrir e indexar la página del artículo (no solo el índice del blog).
 const latestPost = (await getSortedBlogPosts(lang))[0];
+
+// Tinte progresivo de marca por tramo (primero cálido, medio neutro/tint,
+// último sólido) — puramente visual, no cambia el orden ni el contenido
+// de los planes.
+function tierTintClass(index: number, total: number): string {
+  if (index === total - 1) return 'tier-solid';
+  if (index === 0) return 'tier-warm';
+  if (index === total - 2) return 'tier-tint';
+  return '';
+}
 ---
 
 <div id="view-home">
   <section class="hero">
-    <div class="page">
-      <div class="hero-inner">
-        <p class="eyebrow">{t.hero.eyebrow}</p>
+    <div class="hero-field"></div>
+    <div class="hero-seam"></div>
+    <div class="page hero-grid">
+      <div class="hero-copy">
+        <p class="hero-kicker">{t.hero.eyebrow}</p>
         <h1>{t.hero.title}</h1>
         <p class="dek">{t.hero.dek}</p>
 
-        <div class="hero-price">
-          <div class="hero-price-figure">
-            <span class="hero-price-label">{t.hero.priceLabel}</span>
-            <span class="hero-price-amount"><span data-countup>{t.hero.priceAmount}</span><small>{t.hero.priceUnit}</small></span>
-            <p class="hero-price-claim">{t.hero.priceClaim}</p>
-          </div>
-          <div class="actions">
-            <a href={localizedPath('/simulador', lang)} class="btn btn-primary">{t.hero.ctaSim}</a>
-            <ContactSwitch lang={lang} triggerClass="btn btn-outline" origen="home_hero" />
+        <div class="hero-actions">
+          <div class="hero-magnet">
+            <div class="hero-magnet-inner">
+              <ContactSwitch lang={lang} triggerClass="btn-volume" origen="home_hero" />
+            </div>
           </div>
         </div>
 
         <p class="trust">{t.hero.trust}</p>
       </div>
+
+      <div class="hero-visual">
+        <div class="hero-dot hero-dot-a"><span></span></div>
+        <div class="hero-dot hero-dot-b"><span></span></div>
+        <div class="hero-dot hero-dot-c"><span></span></div>
+
+        <div class="hero-ticket-wrap">
+          <div class="hero-ticket">
+            <span class="hero-ticket-pip"></span>
+            <span class="hero-price-label">{t.hero.priceLabel}</span>
+            <span class="hero-price-amount"><span data-countup>{t.hero.priceAmount}</span><small>{t.hero.priceUnit}</small></span>
+            <p class="hero-price-claim">{t.hero.priceClaim}</p>
+          </div>
+        </div>
+
+        <div class="hero-magnet">
+          <div class="hero-magnet-inner">
+            <a href={localizedPath('/simulador', lang)} class="btn-circle">{t.hero.ctaSim}</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-scroll-cue" aria-hidden="true">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"></path></svg>
     </div>
   </section>
 
@@ -86,8 +119,8 @@ const latestPost = (await getSortedBlogPosts(lang))[0];
 
       <p class="pricing-group-title">{t.precios.autonomoTitle}</p>
       <div class="pricing-tiers">
-        {t.precios.autonomoTiers.map((tier) => (
-          <div class="pricing-tier">
+        {t.precios.autonomoTiers.map((tier, i) => (
+          <div class={`pricing-tier ${tierTintClass(i, t.precios.autonomoTiers.length)}`}>
             <h3>{tier.name}</h3>
             <p class="pricing-tier-desc">{tier.desc}</p>
             <p class="amount"><span data-countup>{tier.amount}</span><small>{tier.unit}</small></p>
@@ -108,8 +141,8 @@ const latestPost = (await getSortedBlogPosts(lang))[0];
 
       <p class="pricing-group-title">{t.precios.pymeTitle}</p>
       <div class="pricing-tiers">
-        {t.precios.pymeTiers.map((tier) => (
-          <div class="pricing-tier">
+        {t.precios.pymeTiers.map((tier, i) => (
+          <div class={`pricing-tier ${tierTintClass(i, t.precios.pymeTiers.length)}`}>
             <h3>{tier.name}</h3>
             <p class="pricing-tier-desc">{tier.desc}</p>
             <p class="amount"><span data-countup>{tier.amount}</span><small>{tier.unit}</small></p>
@@ -156,5 +189,9 @@ const latestPost = (await getSortedBlogPosts(lang))[0];
 
 <script>
   import { observeCountUp } from '../../scripts/countup';
-  document.addEventListener('astro:page-load', () => observeCountUp());
+  import { initHeroInteractions } from '../../scripts/heroInteractions';
+  document.addEventListener('astro:page-load', () => {
+    observeCountUp();
+    initHeroInteractions();
+  });
 </script>

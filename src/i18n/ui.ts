@@ -257,6 +257,15 @@ export const ui = {
       fine: 'Sin compromiso · Respuesta en menos de 24 h',
     },
 
+    trustBanner: {
+      items: [
+        'Precios públicos, sin letra pequeña',
+        'Te explicamos tus impuestos, no solo los presentamos',
+        'Respuesta en menos de 24 horas',
+        'Primera llamada de 20 minutos, sin compromiso',
+      ],
+    },
+
     sim: {
       eyebrow: 'Simulador de precio',
       title: '¿Cuánto te costaría con Asesoría Madal?',
@@ -947,6 +956,15 @@ export const ui = {
       fine: 'Sense compromís · Resposta en menys de 24 h',
     },
 
+    trustBanner: {
+      items: [
+        'Preus públics, sense lletra petita',
+        'T’expliquem els teus impostos, no només els presentem',
+        'Resposta en menys de 24 hores',
+        'Primera trucada de 20 minuts, sense compromís',
+      ],
+    },
+
     sim: {
       eyebrow: 'Simulador de preu',
       title: 'Quant et costaria amb Asesoría Madal?',
@@ -1628,6 +1646,15 @@ export const ui = {
       ctaCall: 'Book a 20-minute call',
       ctaMail: 'Email us',
       fine: 'No commitment · We reply within 24 h',
+    },
+
+    trustBanner: {
+      items: [
+        'Public pricing, no fine print',
+        'We explain your taxes, not just file them',
+        'We reply within 24 hours',
+        'First 20-minute call, no commitment',
+      ],
     },
 
     sim: {

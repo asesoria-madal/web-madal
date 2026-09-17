@@ -65,12 +65,14 @@ const localeCode: Record<Locale, string> = { es: 'ES', ca: 'CA', en: 'EN' };
         <div class="nav-services">
           <a class={`navlink${active === 'servicios' ? ' active' : ''}`} href={serviciosHref}>{t.nav.servicios}</a>
           <div class="services-menu">
-            {serviciosMenuItems.map((item) => (
-              <a href={item.href} class="services-menu-item">
-                <span class="services-menu-title">{item.title}</span>
-                <span class="services-menu-desc">{item.desc}</span>
-              </a>
-            ))}
+            <div class="services-menu-card">
+              {serviciosMenuItems.map((item) => (
+                <a href={item.href} class="services-menu-item">
+                  <span class="services-menu-title">{item.title}</span>
+                  <span class="services-menu-desc">{item.desc}</span>
+                </a>
+              ))}
+            </div>
           </div>
         </div>
         <a class={`navlink${active === 'equipo' ? ' active' : ''}`} href={equipoHref}>{t.nav.conocenos}</a>
@@ -98,7 +100,7 @@ const localeCode: Record<Locale, string> = { es: 'ES', ca: 'CA', en: 'EN' };
             <svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="10" cy="6.5" r="3.3"/><path d="M3.8 17c1-3.6 4-5.6 6.2-5.6s5.2 2 6.2 5.6"/></svg>
             <span class="portal-link-label">{t.header.portal}</span>
           </a>
-          <ContactSwitch lang={lang} origen="header" />
+          <ContactSwitch lang={lang} triggerClass="btn btn-primary btn-stamp" origen="header" />
         </>
       )}
     </div>
@@ -124,7 +126,7 @@ const localeCode: Record<Locale, string> = { es: 'ES', ca: 'CA', en: 'EN' };
           ))}
         </div>
       </div>
-      <ContactSwitch lang={lang} triggerClass="btn btn-primary mobile-menu-contact" origen="menu_movil" />
+      <ContactSwitch lang={lang} triggerClass="btn btn-primary btn-stamp mobile-menu-contact" origen="menu_movil" />
     </nav>
   )}
 </header>
