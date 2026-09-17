@@ -171,7 +171,50 @@ nav.primary a.navlink:hover { color: var(--ink); }
 nav.primary a.navlink.active { color: var(--ink); font-weight: 600; }
 @media (max-width: 900px) {
   nav.primary a.navlink { display: none; }
+  nav.primary .nav-services { display: none; }
 }
+
+/* ---------- Menú desplegable de "Nuestros servicios" ---------- */
+.nav-services { position: relative; display: inline-flex; }
+.nav-services .services-menu {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%) translateY(4px);
+  margin-top: 0.7rem;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  padding: 0.5rem;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(210px, 1fr));
+  gap: 0.15rem;
+  min-width: 440px;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s;
+  z-index: 40;
+}
+.nav-services:hover .services-menu,
+.nav-services:focus-within .services-menu {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateX(-50%) translateY(0);
+}
+.services-menu-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 0.7rem 0.8rem;
+  border-radius: 8px;
+  text-decoration: none;
+}
+.services-menu-item:hover, .services-menu-item:focus-visible { background: var(--paper-raised); }
+.services-menu-title { font-size: 0.9rem; font-weight: 600; color: var(--ink); }
+.services-menu-desc { font-size: 0.79rem; color: var(--ink-soft); line-height: 1.4; }
 
 .header-right { display: flex; align-items: center; gap: 1rem; }
 
@@ -794,6 +837,8 @@ h2.section-title, h1.section-title { font-size: clamp(1.5rem, 2.6vw, 2rem); }
 .feature-card p { font-size: 0.9rem; color: var(--ink-soft); margin-top: 0.5rem; }
 .feature-card-link { display: inline-block; font-size: 0.85rem; font-weight: 600; color: var(--accent); text-decoration: none; margin-top: 0.7rem; }
 .feature-card-link:hover { text-decoration: underline; }
+.feature-card-price { font-family: var(--font-mono); font-variant-numeric: tabular-nums; font-size: 1.3rem; font-weight: 600; color: var(--accent); margin-top: 0.7rem; }
+.feature-card .servicios-note { margin-top: 0.3rem; }
 
 /* ---------- Legal / privacidad ---------- */
 .legal-doc { max-width: 720px; }
@@ -938,6 +983,7 @@ h2.section-title, h1.section-title { font-size: clamp(1.5rem, 2.6vw, 2rem); }
 .servicios-list li::before { content: '✓'; position: absolute; left: 0; color: var(--accent); font-weight: 700; }
 .servicios-note { margin-top: 1.3rem; font-size: 0.85rem; color: var(--ink-soft); max-width: 60ch; }
 .servicios-closing { margin-top: 1.8rem; font-family: var(--font-display); font-size: 1.15rem; max-width: 42ch; }
+.servicios-cta { margin-top: 1.6rem; display: flex; flex-direction: column; align-items: flex-start; gap: 0.9rem; }
 
 .sim-alta-note { font-size: 0.95rem; color: var(--ink-soft); }
 .sim-alta-transition { margin-top: 0.8rem; font-size: 0.8rem; color: var(--ink-soft); max-width: 400px; margin-left: auto; margin-right: auto; }

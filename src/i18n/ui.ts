@@ -25,6 +25,18 @@ export const ui = {
       closing: 'Elige lo que te resulte más cómodo, correo o llamada: te atendemos con la misma cercanía.',
     },
 
+    // Contenido del menú desplegable de "Nuestros servicios" en la
+    // cabecera (ver Header.astro): un resumen de una línea por servicio,
+    // enlazando a su sección en /servicios (o a /alta para el primero).
+    // El detalle completo de cada uno vive en `servicios` más abajo.
+    serviciosMenu: {
+      alta: { title: 'Alta de autónomo', desc: 'Te damos de alta en Hacienda y el RETA. Con el plan Debut, incluido en tu cuota desde el primer mes.' },
+      gestoria: { title: 'Gestoría mensual', desc: 'Gestoría + acompañamiento: contabilidad, impuestos y trato cercano todo el año.' },
+      dashboard: { title: 'Dashboard', desc: 'Tus números de un vistazo: ingresos, gastos e impuestos estimados, actualizado cada semana.' },
+      estudio: { title: '¿Autónomo o SL?', desc: 'Un estudio que te dice, con cifras, qué estructura te sale más a cuenta.' },
+      futuro: { title: 'Próximamente', desc: 'Los próximos servicios que vamos a ofrecer.' },
+    },
+
     hero: {
       eyebrow: 'Gestoría online, con sede en Barcelona',
       title: 'Presentamos tus impuestos, te lo explicamos todo y seguimos en contacto contigo.',
@@ -224,9 +236,10 @@ export const ui = {
         title: 'Si vas a darte de alta como autónomo',
         desc: 'Presentamos tu alta en Hacienda y en el RETA de la Seguridad Social.',
         steps: [
-          { title: 'Nos cuentas tu actividad', desc: 'Por llamada o por correo, sin compromiso.' },
-          { title: 'Nos mandas tu DNI y los datos básicos', desc: 'Los que hagan falta según tu actividad.' },
-          { title: 'Presentamos el alta', desc: 'En Hacienda (censo de actividades) y en la Seguridad Social (RETA).' },
+          { title: 'Primera llamada (opcional)', desc: 'Resolvemos tus dudas y repasamos tus obligaciones fiscales antes de darte de alta.' },
+          { title: 'Nos das la información que necesitamos', desc: 'Tu DNI y los datos básicos según tu actividad.' },
+          { title: 'Hacemos el alta', desc: 'En la Agencia Tributaria (censo de actividades) y en la Seguridad Social (RETA).' },
+          { title: 'Ya puedes empezar a trabajar', desc: 'Con normalidad, en cuanto el alta está confirmada.' },
         ],
       },
       timeline: 'En menos de 2 días tienes el alta hecha y ya puedes facturar.',
@@ -499,6 +512,18 @@ export const ui = {
         exampleCaption: 'Ejemplo ilustrativo, no son datos reales de ningún cliente.',
         exampleLegend: { ingresos: 'Ingresos', gastos: 'Gastos', beneficio: 'Beneficio' },
       },
+      estudio: {
+        eyebrow: 'Estudio a medida',
+        title: '¿Autónomo o SL? Descubre qué te sale más a cuenta',
+        sub: 'Te pedimos los datos de tu situación (facturación, gastos, previsión de crecimiento) y hacemos los cálculos de lo que pagarías en cada caso. Te entregamos un informe comparando los gastos que tendrías como autónomo y como SL, con nuestra recomendación de cuál te conviene y a partir de qué facturación te compensaría dar el salto.',
+        pricesTitle: 'Precio del estudio',
+        prices: [
+          { label: 'Clientes del plan Esencial o Crece', amount: '150 € + IVA', ivaNote: 'Total con IVA: 181,50 €' },
+          { label: 'Clientes del plan Total', amount: '75 € + IVA', ivaNote: 'Total con IVA: 90,75 €' },
+          { label: 'Si todavía no eres cliente', amount: '200 € + IVA', ivaNote: 'Total con IVA: 242,00 €' },
+        ],
+        cta: '¿Quieres más información sobre el estudio?',
+      },
       asistente: {
         eyebrow: 'En desarrollo',
         badge: 'En desarrollo',
@@ -694,6 +719,14 @@ export const ui = {
       orLabel: 'O si ho prefereixes:',
       callLabel: 'Reserva una trucada',
       closing: 'Tria el que et resulti més còmode, correu o trucada: t’atenem amb la mateixa proximitat.',
+    },
+
+    serviciosMenu: {
+      alta: { title: 'Alta d’autònom', desc: 'Et donem d’alta a Hisenda i al RETA. Amb el pla Debut, inclòs a la teva quota des del primer mes.' },
+      gestoria: { title: 'Gestoria mensual', desc: 'Gestoria + acompanyament: comptabilitat, impostos i tracte proper tot l’any.' },
+      dashboard: { title: 'Dashboard', desc: 'Els teus números d’un cop d’ull: ingressos, despeses i impostos estimats, actualitzat cada setmana.' },
+      estudio: { title: 'Autònom o SL?', desc: 'Un estudi que et diu, amb xifres, quina estructura et surt més a compte.' },
+      futuro: { title: 'Pròximament', desc: 'Els propers serveis que oferirem.' },
     },
 
     hero: {
@@ -893,9 +926,10 @@ export const ui = {
         title: 'Si et donaràs d’alta com a autònom',
         desc: 'Presentem la teva alta a Hisenda i al RETA de la Seguretat Social.',
         steps: [
-          { title: 'Ens expliques la teva activitat', desc: 'Per trucada o per correu, sense compromís.' },
-          { title: 'Ens envies el teu DNI i les dades bàsiques', desc: 'Les que calguin segons la teva activitat.' },
-          { title: 'Presentem l’alta', desc: 'A Hisenda (cens d’activitats) i a la Seguretat Social (RETA).' },
+          { title: 'Primera trucada (opcional)', desc: 'Resolem els teus dubtes i repassem les teves obligacions fiscals abans de donar-te d’alta.' },
+          { title: 'Ens dones la informació que necessitem', desc: 'El teu DNI i les dades bàsiques segons la teva activitat.' },
+          { title: 'Fem l’alta', desc: 'A l’Agència Tributària (cens d’activitats) i a la Seguretat Social (RETA).' },
+          { title: 'Ja pots començar a treballar', desc: 'Amb normalitat, tan bon punt l’alta estigui confirmada.' },
         ],
       },
       timeline: 'En menys de 2 dies tens l’alta feta i ja pots facturar.',
@@ -1161,6 +1195,18 @@ export const ui = {
         exampleCaption: 'Exemple il·lustratiu, no són dades reals de cap client.',
         exampleLegend: { ingresos: 'Ingressos', gastos: 'Despeses', beneficio: 'Benefici' },
       },
+      estudio: {
+        eyebrow: 'Estudi a mida',
+        title: 'Autònom o SL? Descobreix què et surt més a compte',
+        sub: 'Et demanem les dades de la teva situació (facturació, despeses, previsió de creixement) i fem els càlculs del que pagaries en cada cas. Et lliurem un informe comparant les despeses que tindries com a autònom i com a SL, amb la nostra recomanació de quina et convé i a partir de quina facturació et compensaria fer el salt.',
+        pricesTitle: 'Preu de l’estudi',
+        prices: [
+          { label: 'Clients del pla Esencial o Crece', amount: '150 € + IVA', ivaNote: 'Total amb IVA: 181,50 €' },
+          { label: 'Clients del pla Total', amount: '75 € + IVA', ivaNote: 'Total amb IVA: 90,75 €' },
+          { label: 'Si encara no ets client', amount: '200 € + IVA', ivaNote: 'Total amb IVA: 242,00 €' },
+        ],
+        cta: 'Vols més informació sobre l’estudi?',
+      },
       asistente: {
         eyebrow: 'En desenvolupament',
         badge: 'En desenvolupament',
@@ -1356,6 +1402,14 @@ export const ui = {
       orLabel: "Or if you'd rather:",
       callLabel: 'Book a call',
       closing: 'Pick whatever works best for you, email or a call: you get the same personal attention either way.',
+    },
+
+    serviciosMenu: {
+      alta: { title: 'Freelancer registration', desc: 'We register you with the Tax Agency and Social Security (RETA). With the Debut plan, included in your fee from month one.' },
+      gestoria: { title: 'Monthly accounting', desc: 'Accounting + ongoing support: bookkeeping, taxes and a close relationship all year round.' },
+      dashboard: { title: 'Dashboard', desc: 'Your numbers at a glance: income, expenses and estimated taxes, updated every week.' },
+      estudio: { title: 'Freelancer or company?', desc: 'A study that tells you, with figures, which structure works out cheaper for you.' },
+      futuro: { title: 'Coming soon', desc: 'The next services we’ll be offering.' },
     },
 
     hero: {
@@ -1555,9 +1609,10 @@ export const ui = {
         title: 'If you’re registering as a freelancer',
         desc: 'We file your registration with the Spanish Tax Agency and with Social Security (RETA).',
         steps: [
-          { title: 'Tell us about your activity', desc: 'By call or email, no commitment.' },
-          { title: 'Send us your ID and basic details', desc: 'Whatever your specific activity requires.' },
-          { title: 'We file the registration', desc: 'With the Tax Agency and with Social Security (RETA).' },
+          { title: 'First call (optional)', desc: 'We answer your questions and go over your tax obligations before registering you.' },
+          { title: 'You give us the information we need', desc: 'Your ID and the basic details your activity requires.' },
+          { title: 'We file the registration', desc: 'With the Tax Agency (business census) and with Social Security (RETA).' },
+          { title: 'You can start working', desc: 'As normal, as soon as the registration is confirmed.' },
         ],
       },
       timeline: 'In under 2 days your registration is done and you can start invoicing.',
@@ -1822,6 +1877,18 @@ export const ui = {
         detail: 'If you ever need something different, just tell us and we’ll adjust it.',
         exampleCaption: 'Illustrative example — not real data from any client.',
         exampleLegend: { ingresos: 'Income', gastos: 'Expenses', beneficio: 'Profit' },
+      },
+      estudio: {
+        eyebrow: 'Tailored study',
+        title: 'Freelancer or company? Find out which works out cheaper',
+        sub: 'We ask for details about your situation (revenue, expenses, growth forecast) and work out what you’d pay under each option. We hand you a report comparing the costs of being a freelancer versus a company, with our recommendation on which suits you and at what revenue level switching would pay off.',
+        pricesTitle: 'Price of the study',
+        prices: [
+          { label: 'Clients on the Esencial or Crece plan', amount: '€150 + VAT', ivaNote: 'Total with VAT: €181.50' },
+          { label: 'Clients on the Total plan', amount: '€75 + VAT', ivaNote: 'Total with VAT: €90.75' },
+          { label: 'If you’re not a client yet', amount: '€200 + VAT', ivaNote: 'Total with VAT: €242.00' },
+        ],
+        cta: 'Want more information about the study?',
       },
       asistente: {
         eyebrow: 'In development',

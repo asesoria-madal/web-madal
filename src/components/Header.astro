@@ -26,6 +26,19 @@ const nav = [
 const equipoHref = localizedPath('/equipo', lang);
 const serviciosHref = localizedPath('/servicios', lang);
 
+// Menú desplegable de "Nuestros servicios" (se abre al pasar por encima,
+// ver CSS .nav-services / .services-menu): un resumen de cada servicio con
+// enlace directo a su sección — el alta enlaza a /alta (página propia),
+// el resto a anclas de /servicios. El texto de cada item vive en
+// t.serviciosMenu (ui.ts), el href se calcula aquí porque depende de lang.
+const serviciosMenuItems = [
+  { ...t.serviciosMenu.alta, href: localizedPath('/alta', lang) },
+  { ...t.serviciosMenu.gestoria, href: `${serviciosHref}#acompanamiento` },
+  { ...t.serviciosMenu.dashboard, href: `${serviciosHref}#dashboards` },
+  { ...t.serviciosMenu.estudio, href: `${serviciosHref}#estudio` },
+  { ...t.serviciosMenu.futuro, href: `${serviciosHref}#futuro` },
+];
+
 // Etiqueta de 2 letras por idioma, en vez de emoji de bandera: el catalán
 // no tiene bandera de país propia (no es un estado), así que mezclar
 // banderas emoji para es/en con una etiqueta de texto solo para "ca" quedaba
@@ -49,7 +62,17 @@ const localeCode: Record<Locale, string> = { es: 'ES', ca: 'CA', en: 'EN' };
         {nav.map((item) => (
           <a class={`navlink${active === item.key ? ' active' : ''}`} href={item.href}>{item.label}</a>
         ))}
-        <a class={`navlink${active === 'servicios' ? ' active' : ''}`} href={serviciosHref}>{t.nav.servicios}</a>
+        <div class="nav-services">
+          <a class={`navlink${active === 'servicios' ? ' active' : ''}`} href={serviciosHref}>{t.nav.servicios}</a>
+          <div class="services-menu">
+            {serviciosMenuItems.map((item) => (
+              <a href={item.href} class="services-menu-item">
+                <span class="services-menu-title">{item.title}</span>
+                <span class="services-menu-desc">{item.desc}</span>
+              </a>
+            ))}
+          </div>
+        </div>
         <a class={`navlink${active === 'equipo' ? ' active' : ''}`} href={equipoHref}>{t.nav.conocenos}</a>
       </nav>
     )}

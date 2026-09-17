@@ -1,6 +1,7 @@
 ---
 import { useTranslations } from '../../i18n/utils';
 import type { Locale } from '../../i18n/ui';
+import ContactSwitch from '../ContactSwitch.astro';
 
 interface Props { lang: Locale; }
 const { lang } = Astro.props;
@@ -115,6 +116,30 @@ const evoSeries = [
       <p class="servicios-note">{s.dashboards.exampleCaption}</p>
 
       <p class="section-sub servicios-follow">{s.dashboards.detail}</p>
+    </div>
+  </section>
+
+  <section class="section" id="estudio">
+    <div class="label-col"><p class="eyebrow">{s.estudio.eyebrow}</p></div>
+    <div>
+      <h2 class="section-title">{s.estudio.title}</h2>
+      <p class="section-sub">{s.estudio.sub}</p>
+
+      <p class="pricing-group-title">{s.estudio.pricesTitle}</p>
+      <div class="feature-grid cols-3">
+        {s.estudio.prices.map((p) => (
+          <div class="feature-card">
+            <h3>{p.label}</h3>
+            <p class="feature-card-price">{p.amount}</p>
+            <p class="servicios-note">{p.ivaNote}</p>
+          </div>
+        ))}
+      </div>
+
+      <div class="servicios-cta">
+        <p class="section-sub servicios-follow">{s.estudio.cta}</p>
+        <ContactSwitch lang={lang} triggerClass="btn btn-primary" origen="servicios_estudio" />
+      </div>
     </div>
   </section>
 
