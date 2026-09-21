@@ -23,7 +23,7 @@ Un gasto es deducible si es necesario para tu actividad, está vinculado a ella 
 
 - Compras de material y mercancía.
 - Suministros y alquiler del local, o la parte proporcional si trabajas desde casa (lo explicamos en [deducir gastos de vivienda si teletrabajas](/blog/deducir-gastos-vivienda-teletrabajo)).
-- La cuota de autónomos y los seguros vinculados a tu actividad.
+- [La cuota de autónomos](/blog/tarifa-plana-cuota-autonomos-2026) y los seguros vinculados a tu actividad.
 - Gestoría, abogado u otros profesionales que contrates.
 - Publicidad, tu web y las herramientas de software que uses para trabajar.
 - Formación relacionada directamente con tu actividad.
