@@ -5,7 +5,7 @@ title: 'Cómo interpretar los modelos que presentamos por ti (SL)'
 description: 'Modelos 111, 115, 200, 202, 303, 390, 180, 190, 347 y 349, explicados.'
 cat: fiscalidad
 date: 2026-08-19
-updatedDate: 2026-08-20
+updatedDate: 2026-09-23
 sources:
   - label: 'Reglamento del IRPF (Real Decreto 439/2007), art. 100 — retención del 19% en el modelo 115 (alquileres)'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2007-6820'
@@ -19,6 +19,23 @@ Cada trimestre te enviamos copia de los modelos presentados, y es habitual que g
 
 > Nota: Los modelos que empiezan por 1 están asociados a IRPF y retenciones, los que empiezan por 2 a Sociedades, y los que empiezan por 3 al IVA.
 
+## Todos los modelos, de un vistazo
+
+| Modelo | Qué declara | Periodicidad | Se presenta |
+|---|---|---|---|
+| 111 | Retenciones a trabajadores y profesionales | Trimestral | Abril, julio, octubre y enero |
+| 115 | Retenciones de alquiler | Trimestral | Abril, julio, octubre y enero |
+| 200 | Impuesto de Sociedades (ajuste anual) | Anual | Julio |
+| 202 | Pago fraccionado del Impuesto de Sociedades | 3 veces al año | Abril, octubre y diciembre |
+| 303 | IVA trimestral | Trimestral | Abril, julio, octubre y enero |
+| 390 | Resumen anual de IVA (informativo) | Anual | Enero |
+| 180 | Resumen anual de retenciones de alquiler (informativo) | Anual | Enero |
+| 190 | Resumen anual de retenciones a trabajadores y profesionales (informativo) | Anual | Enero |
+| 347 | Operaciones con terceros &gt; 3.005,06 € (informativo) | Anual | Febrero |
+| 232 | Operaciones vinculadas y paraísos fiscales (informativo) | Anual, solo si aplica | Variable, te avisamos si te toca |
+| 349 | Operaciones intracomunitarias (informativo) | Mensual, trimestral o anual según volumen | Variable, te avisamos si te toca |
+
+Debajo tienes el detalle de cada uno: qué significa, de dónde sale el importe y en qué casos no te afecta.
 
 ## Modelo 111 - Retenciones a trabajadores y profesionales
 
@@ -71,3 +88,7 @@ Es una declaración informativa (no se paga nada aparte) que recoge las compras 
 Todos estos modelos se construyen a partir de tu libro registro de ingresos y gastos, que a su vez sale de las facturas que emites y recibes. Por eso insistimos en que nos hagas llegar todas las facturas, no solo las que a ti te parecen relevantes. Cualquier gasto sin factura no puede entrar en el cálculo.
 
 Si un trimestre concreto te sorprende el importe, pregúntanos directamente por ese modelo: siempre podemos desglosarte de dónde sale la cifra.
+
+## ¿Te ha surgido una duda con alguno?
+
+Escríbenos sin compromiso a [contacto@asesoriamadal.es](mailto:contacto@asesoriamadal.es) y te lo explicamos.

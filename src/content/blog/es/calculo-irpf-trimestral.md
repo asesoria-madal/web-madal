@@ -5,7 +5,7 @@ title: 'Cómo se calcula el IRPF trimestral y cómo estimarlo'
 description: 'De dónde sale la cifra del modelo 130, con un ejemplo.'
 cat: fiscalidad
 date: 2026-08-19
-updatedDate: 2026-08-20
+updatedDate: 2026-09-23
 sources:
   - label: 'Reglamento del IRPF (Real Decreto 439/2007), arts. 109-110 — cálculo y exención del pago fraccionado'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2007-6820'
@@ -35,4 +35,8 @@ El modelo 130 es un pago a cuenta, no el cálculo definitivo de tu IRPF. El ajus
 
 ## Cómo estimarlo tú mismo
 
-Si llevas al día tu registro de ingresos y gastos, puedes aplicar el 20% al acumulado del año y restar lo ya pagado en trimestres anteriores para tener una cifra orientativa antes de que llegue la fecha de presentación. De todas formas, nosotros lo calculamos y presentamos por ti cada trimestre, si quieres verlo venir con antelación, lo revisamos juntos antes de la fecha límite.
+Si llevas al día tu registro de ingresos y gastos, puedes aplicar el 20% al acumulado del año y restar lo ya pagado en trimestres anteriores para tener una cifra orientativa antes de que llegue la fecha de presentación. De todas formas, nosotros lo calculamos y presentamos por ti cada trimestre.
+
+## ¿Quieres verlo venir con antelación?
+
+Escríbenos sin compromiso a [contacto@asesoriamadal.es](mailto:contacto@asesoriamadal.es) y lo revisamos juntos antes de la fecha límite.

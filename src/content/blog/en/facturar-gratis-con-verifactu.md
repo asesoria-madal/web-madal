@@ -5,6 +5,7 @@ title: 'No, you don''t need to pay for any software to comply with Verifactu'
 description: 'What invoicing platforms won''t tell you: the Spanish Tax Agency offers a free alternative.'
 cat: fiscalidad
 date: 2026-08-21
+updatedDate: 2026-09-23
 sources:
   - label: 'Real Decreto 1007/2023 — Regulation implementing Verifactu'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2023-24840'
@@ -30,6 +31,19 @@ This isn't a secret or a loophole: it's a provision built into the regulation it
 
 The fine print matters. As currently designed, the Tax Agency's tool only supports full invoices, with complete recipient details, not simplified ones (receipt-style), and it isn't built for managing product catalogues, automated recurring invoicing, multiple users, or integration with your bank or your accounting. If you invoice little and to few clients, you won't notice. If you invoice a lot, you will.
 
+## The comparison, at a glance
+
+| | Tax Agency's free app | Paid platform |
+|---|---|---|
+| Cost | €0 | Monthly fee (depending on the plan) |
+| Complies with Verifactu | Yes | Yes |
+| Simplified invoices (receipt-style) | No | Yes |
+| Automated recurring invoicing | No | Yes |
+| Quotes that turn into invoices | No | Yes, on most plans |
+| Bank reconciliation and accounting integration | No | Yes, on most plans |
+| Multiple users | No | Yes, on most plans |
+| Best for | A handful of invoices a month, nothing complicated | High volume or a need to automate |
+
 ## When paying for a platform is worth it
 
 Paying makes sense when what you're buying isn't "the ability to invoice", but time: automated recurring invoicing, quotes that turn into invoices with one click, bank reconciliation, expense and inventory management, or having your gestoría connect directly to your data instead of you sending it every quarter. Past a certain volume, that saved time is worth more than the monthly fee.
@@ -37,3 +51,7 @@ Paying makes sense when what you're buying isn't "the ability to invoice", but t
 ## Our recommendation
 
 We don't sell or take commission on any invoicing software, so we'll say it plainly: if you're just starting out and invoice a handful of times a month, the Tax Agency's free app is more than enough. If your volume grows or you need to automate, then it's worth looking at a paid platform, but as a time-saving decision, not as a legal requirement that doesn't exist.
+
+## Not sure which one fits you?
+
+Email us, no strings attached, at [contacto@asesoriamadal.es](mailto:contacto@asesoriamadal.es) and we'll give you our honest opinion, without trying to sell you anything.

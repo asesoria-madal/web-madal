@@ -5,7 +5,7 @@ title: '¿Puedes deducirte el alquiler, la luz o el teléfono si trabajas desde 
 description: 'Sí, pero solo la parte proporcional: así se calcula.'
 cat: fiscalidad
 date: 2026-08-19
-updatedDate: 2026-08-20
+updatedDate: 2026-09-23
 sources:
   - label: 'Ley 35/2006 del IRPF, art. 30.2.5ª.b) — deducción del 30% de suministros en la parte afecta a la actividad'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2006-20764'
@@ -24,6 +24,18 @@ Hacienda exige que declares qué porcentaje de la vivienda destinas a tu activid
     - **¡Aviso!**: Cuando das de alta tu domicilio como lugar en el que ejerces tu actividad, algunos ayuntamientos pasan a cobrar la Tasa de basuras, que puede rondar entre 300 y 800€ anuales. Si lo que te podrás deducir es inferior a la tasa de basuras, no vale la pena deducirse el alquiler ni los suministros.
 - **Teléfono**: deducible si es una línea identificable como profesional. Lo más limpio es tener una línea separada de la personal.
 
+## Un ejemplo con números
+
+Vivienda de 80 m², con un despacho de 16 m² (20% de afectación). Alquiler de 800 €/mes y suministros de 150 €/mes.
+
+| Concepto | Cálculo | Deducible al mes | Deducible al año |
+|---|---|---|---|
+| Alquiler | 20% × 800 € | 160 € | 1.920 € |
+| Suministros | 30% × (20% × 150 €) | 9 € | 108 € |
+| **Total** | | **169 €** | **2.028 €** |
+
+Si en vez de alquiler fueras propietario y ya no tuvieras hipoteca pendiente (sin intereses que deducir), el único gasto deducible serían los suministros: en este ejemplo, 108 € al año. Ahí es exactamente donde entra en juego el aviso sobre la Tasa de basuras: si el ayuntamiento te va a cobrar 300-800 € anuales por dar de alta el domicilio como lugar de actividad, y solo vas a poder deducirte 108 € de suministros, sale a perder.
+
 ## Lo que hace falta para que no te lo discutan
 
 Declarar el porcentaje de afectación en el modelo censal correspondiente, guardar todas las facturas de suministros y vivienda a tu nombre, y que el porcentaje declarado sea razonable respecto al uso real del espacio.
@@ -31,3 +43,7 @@ Declarar el porcentaje de afectación en el modelo censal correspondiente, guard
 ## Por qué conviene calcularlo bien, no a ojo
 
 Un porcentaje muy alto puede levantar preguntas de Hacienda; uno muy bajo simplemente te deja dinero deducible sin aprovechar. Lo revisamos contigo con los datos reales de tu vivienda, y si quieres ver el resto de gastos que puedes deducir como autónomo, lo tienes todo en [qué gastos te puedes deducir](/blog/gastos-deducibles-autonomos).
+
+## ¿Quieres calcularlo con tus datos reales?
+
+Escríbenos sin compromiso a [contacto@asesoriamadal.es](mailto:contacto@asesoriamadal.es) y lo vemos juntos.

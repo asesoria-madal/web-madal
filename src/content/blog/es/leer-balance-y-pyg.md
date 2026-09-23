@@ -5,6 +5,7 @@ title: 'Cómo leer tu balance y tu PyG sin ser economista'
 description: 'Dos documentos, dos preguntas distintas: qué tienes y qué debes, y si el negocio gana dinero de verdad.'
 cat: finanzas
 date: 2026-09-17
+updatedDate: 2026-09-23
 ---
 
 ## Dos fotos distintas del mismo negocio
@@ -34,6 +35,39 @@ En el balance: si tu activo corriente (lo que puedes convertir en dinero en meno
 
 En la PyG: si el resultado de explotación (antes de intereses e impuestos) es positivo. Un negocio puede tener beneficio final gracias a un ingreso puntual (venta de un activo, por ejemplo) y aun así tener un problema estructural en su actividad principal — el resultado de explotación es el que te dice si el negocio "del día a día" funciona.
 
+## Un ejemplo sencillo, con los dos documentos a la vez
+
+Imagina un trimestre con estos números:
+
+**PyG del trimestre**
+
+| Concepto | Importe |
+|---|---|
+| Ingresos por ventas | 12.000 € |
+| Coste directo de lo vendido | −3.000 € |
+| **Margen bruto** | **9.000 €** |
+| Gastos de estructura (alquiler, gestoría, marketing...) | −4.000 € |
+| **Resultado de explotación** | **5.000 €** |
+| Gastos financieros | −200 € |
+| Resultado antes de impuestos | 4.800 € |
+| Impuesto (aprox.) | −960 € |
+| **Resultado del ejercicio** | **3.840 €** |
+
+**Balance a cierre del trimestre**
+
+| Activo | | Pasivo + Patrimonio neto | |
+|---|---|---|---|
+| Caja | 2.000 € | Proveedores | 1.200 € |
+| Clientes (facturas pendientes de cobro) | 3.500 € | Préstamo | 2.000 € |
+| Equipo informático | 1.500 € | Patrimonio neto | 3.800 € |
+| **Total activo** | **7.000 €** | **Total** | **7.000 €** |
+
+El trimestre cierra con 3.840 € de beneficio, una buena noticia sobre el papel. Pero el balance enseña la otra cara: de esos 7.000 € de activo, solo 2.000 € están realmente en caja; 3.500 € son facturas emitidas y todavía sin cobrar. Si ese cliente tarda en pagar, el negocio puede tener problemas de liquidez el mes que viene aunque la PyG diga que fue rentable. Ese es exactamente el tipo de lectura conjunta que estos dos documentos permiten y que uno solo, por separado, no te da.
+
 ## De los números a las decisiones
 
-Leer estos dos documentos es el primer paso; la parte que de verdad aporta valor es entender qué te están diciendo sobre tu negocio concreto — por eso no nos limitamos a presentarte impuestos, sino a explicarte tu balance y tu PyG con criterio, no solo a entregártelos. Escríbenos a [contacto@asesoriamadal.es](mailto:contacto@asesoriamadal.es) si quieres que repasemos los tuyos juntos.
+Leer estos dos documentos es el primer paso; la parte que de verdad aporta valor es entender qué te están diciendo sobre tu negocio concreto — por eso no nos limitamos a presentarte impuestos, sino a explicarte tu balance y tu PyG con criterio, no solo a entregártelos.
+
+## ¿Quieres que repasemos los tuyos?
+
+Escríbenos sin compromiso a [contacto@asesoriamadal.es](mailto:contacto@asesoriamadal.es) y lo vemos juntos.

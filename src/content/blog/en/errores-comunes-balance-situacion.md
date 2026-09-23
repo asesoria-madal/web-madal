@@ -5,9 +5,10 @@ title: 'Common balance sheet mistakes: reading it wrong and building it wrong'
 description: 'The ones we see most often, with examples, in two groups: misreading it and misbuilding it.'
 cat: contabilidad
 date: 2026-08-24
+updatedDate: 2026-09-23
 ---
 
-We already covered [what a balance sheet is](/blog/balance-de-situacion) and why it's worth checking every quarter. But a balance sheet only adds value if it's both built correctly and read correctly — and in practice we see both fail, independently of each other. Here are the most common mistakes of each kind.
+We already covered [what a balance sheet is](/en/blog/balance-de-situacion) and why it's worth checking every quarter. But a balance sheet only adds value if it's both built correctly and read correctly — and in practice we see both fail, independently of each other. Here are the most common mistakes of each kind.
 
 ## Reading it wrong
 
@@ -29,6 +30,14 @@ These are construction mistakes: if the base is wrong, any later reading starts 
 - **Misclassifying current vs. non-current.** The portion of a loan due within the next twelve months needs to move to current liabilities; leaving it all as non-current dresses up the business's real liquidity.
 - **Forgetting depreciation and provisions.** Equipment, vehicles, or software lose value with use and time; not reflecting that on the balance sheet inflates the value of assets above what they're actually worth today.
 
+## An example of the most common reading mistake
+
+An online shop closes the quarter with €15,000 of profit on the P&L. The owner, looking only at that figure, decides to pay themselves €10,000 and reinvest the rest. But the balance sheet tells a different story: of the €18,000 in current assets, €13,000 is invoices to clients still unpaid, and only €5,000 is actually in the bank. If they withdraw €10,000 they don't have in cash, they can't pay suppliers that month, even though the business looks fine on paper. That's exactly the reading mistake explained above, with real numbers.
+
 ## Why we treat these separately
 
 A poorly built balance sheet leads to a wrong reading even if whoever reads it is very careful — and a perfectly built balance sheet is still useless if nobody reads it well. That's why we don't just file your taxes: we prepare the balance sheet carefully and then sit down with you to explain what it says, so both sides of the process are covered.
+
+## Want us to review yours?
+
+Email us, no strings attached, at [contacto@asesoriamadal.es](mailto:contacto@asesoriamadal.es) and we'll take a look together.

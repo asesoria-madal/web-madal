@@ -5,6 +5,7 @@ title: 'Errores comunes en el balance: de interpretación y de confección'
 description: 'Los que más vemos, con ejemplos, en dos bloques: cómo se lee mal y cómo se hace mal.'
 cat: contabilidad
 date: 2026-08-24
+updatedDate: 2026-09-23
 ---
 
 Ya explicamos [qué es un balance de situación](/blog/balance-de-situacion) y por qué merece la pena mirarlo cada trimestre. Pero un balance solo aporta valor si está bien hecho y bien leído — y en la práctica vemos fallar las dos cosas, por separado. Aquí van los errores más habituales de cada tipo.
@@ -29,6 +30,14 @@ Estos son fallos al construir el balance: si la base está mal, cualquier lectur
 - **Clasificar mal corriente y no corriente.** Un préstamo cuyo próximo año de cuotas vence en los próximos doce meses debe pasar a pasivo corriente por esa parte; dejarlo todo en no corriente maquilla la liquidez real del negocio.
 - **Olvidar amortizaciones y provisiones.** El equipo, los vehículos o el software se deprecian con el uso y el tiempo; no reflejarlo en el balance infla el valor del activo por encima de lo que realmente vale hoy.
 
+## Un ejemplo del error de interpretación más frecuente
+
+Una tienda online cierra el trimestre con 15.000 € de beneficio en la PyG. El dueño, mirando solo esa cifra, decide repartirse 10.000 € y reinvertir el resto. Pero su balance dice otra cosa: de los 18.000 € de activo corriente, 13.000 € son facturas a clientes pendientes de cobro y solo 5.000 € están en el banco. Si retira 10.000 € que no tiene en caja, no puede pagar a sus proveedores ese mes, aunque el negocio, sobre el papel, vaya bien. Es exactamente el error de interpretación que explicamos arriba, con cifras concretas.
+
 ## Por qué separamos las dos cosas
 
 Un balance mal confeccionado da lugar a una interpretación errónea aunque quien lo lea sea muy cuidadoso — y un balance perfectamente confeccionado sigue sin servir de nada si nadie lo lee bien. Por eso no nos limitamos a presentar impuestos: preparamos el balance con cuidado y luego nos sentamos contigo a explicarte qué dice, para que las dos partes del proceso estén cubiertas.
+
+## ¿Quieres que revisemos el tuyo?
+
+Escríbenos sin compromiso a [contacto@asesoriamadal.es](mailto:contacto@asesoriamadal.es) y lo vemos juntos.

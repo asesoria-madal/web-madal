@@ -5,7 +5,7 @@ title: 'Quines despeses et pots deduir com a autònom (i com justificar-les)'
 description: 'La llista no és la part difícil, la justificació sí.'
 cat: fiscalidad
 date: 2026-08-19
-updatedDate: 2026-08-20
+updatedDate: 2026-09-23
 sources:
   - label: 'Ley 35/2006 del IRPF — deduïbilitat de despeses necessàries i justificades de l’activitat'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2006-20764'
@@ -38,4 +38,20 @@ Els àpats i dietes amb clients són deduïbles, però amb límits i només si h
 
 No sol ser deduir de més. L'error habitual és no guardar bé les factures, o pagar en efectiu alguna cosa que hauria de tenir traçabilitat bancària. Hisenda no sol discutir tant el concepte de la despesa com si la pots provar.
 
+## Què prova (i què no prova) una despesa
+
+| Justificant | Val per deduir? |
+|---|---|
+| Factura completa al teu nom (amb el teu NIF) | Sí |
+| Factura simplificada (tiquet) | No, tret d'imports molt petits i sense alternativa |
+| Rebut de Bizum o transferència, sense factura | No, per si sol |
+| Pagament en efectiu superior a 1.000 € | No: a més de la factura, incompleix el límit legal de pagaments en efectiu |
+| Factura + pagament rastrejable (targeta o transferència) | Sí, és la combinació més sòlida |
+
+## Abans de donar per perduda una despesa
+
 Si tens dubtes sobre una despesa concreta, millor preguntar abans de deduir-la que arriscar-te al fet que te la qüestionin després. Ho revisem amb tu cas per cas.
+
+## Tens dubtes amb una despesa concreta?
+
+Escriu-nos sense compromís a [contacto@asesoriamadal.es](mailto:contacto@asesoriamadal.es) i ho mirem junts.

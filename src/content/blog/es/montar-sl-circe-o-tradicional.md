@@ -5,6 +5,7 @@ title: 'Montar una SL por CIRCE o por la vía tradicional: qué cambia de verdad
 description: 'Mismo resultado legal, pero aranceles y plazos muy distintos según qué estatutos uses.'
 cat: fiscalidad
 date: 2026-08-21
+updatedDate: 2026-09-23
 sources:
   - label: 'Real Decreto-ley 13/2010, art. 5 — aranceles notariales y registrales reducidos con estatutos tipo'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2010-18651'
@@ -41,6 +42,22 @@ La condición para acceder a esta vía es que los estatutos sean los estatutos t
 
 Un matiz que se suele pasar por alto: constituir por CIRCE no te libra de la cuota de autónomos. Si vas a administrar la SL y tienes el control efectivo de la sociedad, el caso típico de quien da el salto de autónomo a SL en solitario, con el 100% o la mayoría del capital, Seguridad Social te obliga a darte de alta como autónomo societario en el RETA y a pagar la cuota, saques el dinero por nómina, por factura o por dividendos.
 
+## Las dos vías, de un vistazo
+
+| | CIRCE (estatutos tipo) | Vía tradicional (estatutos a medida) |
+|---|---|---|
+| Notario y registrador | Los que gestione el PAE o el sistema CIRCE | Los eliges tú |
+| Estatutos | Modelo estándar del Ministerio de Justicia, sin modificaciones sustanciales | A medida, sin límite de cláusulas |
+| Coste (capital ≤ 3.100 €) | 60 € notario + 40 € registrador | Precio libre de mercado |
+| Coste (capital > 3.100 €) | 150 € notario + 100 € registrador | Precio libre de mercado |
+| Plazo | Días (6 horas hábiles solo para la calificación registral) | Varias semanas |
+| Varios administradores, aportaciones no dinerarias, participaciones desiguales | Sí, el modelo lo permite | Sí, sin restricciones |
+| Consejo de administración, objeto social fuera de CNAE, cláusulas de arrastre... | No | Sí |
+
 ## Lo que no cambia
 
 Elijas la vía que elijas, el trámite de constitución en sí lo lleva un notario (y, en su caso, el sistema CIRCE), no una gestoría. Nosotros te asesoramos sobre qué vía encaja con tu situación antes de dar el paso, y nos encargamos de la contabilidad y la fiscalidad desde el primer día de vida de la sociedad.
+
+## ¿No sabes cuál te conviene?
+
+Escríbenos sin compromiso a [contacto@asesoriamadal.es](mailto:contacto@asesoriamadal.es) y lo vemos según tu caso.

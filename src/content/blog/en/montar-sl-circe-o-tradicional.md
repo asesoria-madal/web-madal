@@ -5,6 +5,7 @@ title: 'Setting up an SL through CIRCE or the traditional route: what actually c
 description: 'Same legal outcome, but very different fees and timelines depending on which bylaws you use.'
 cat: fiscalidad
 date: 2026-08-21
+updatedDate: 2026-09-23
 sources:
   - label: 'Real Decreto-ley 13/2010, art. 5 — reduced notary and registry fees with standard bylaws'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2010-18651'
@@ -41,6 +42,22 @@ The condition to use this route is that the bylaws must be the standard bylaws a
 
 One nuance that's easy to miss: incorporating through CIRCE doesn't get you out of the self-employed Social Security contribution. If you're going to be the SL's administrator and hold effective control of the company, the typical case of someone moving solo from being self-employed to an SL, with 100% or the majority of the capital, Social Security requires you to register as a "socio societario" under the RETA scheme and pay the contribution, whether you take money out through payroll, invoices, or dividends.
 
+## The two routes, at a glance
+
+| | CIRCE (standard bylaws) | Traditional route (custom bylaws) |
+|---|---|---|
+| Notary and registrar | Whoever the PAE or the CIRCE system assigns | You choose them |
+| Bylaws | Standard Ministry of Justice template, no substantial changes | Custom, no limit on clauses |
+| Cost (capital ≤ €3,100) | €60 notary + €40 registrar | Freely negotiated market price |
+| Cost (capital > €3,100) | €150 notary + €100 registrar | Freely negotiated market price |
+| Timeline | Days (6 business hours just for registry review) | Several weeks |
+| Several administrators, non-cash contributions, uneven shares | Yes, the template allows it | Yes, with no restrictions |
+| Board of directors, business purpose outside CNAE, drag-along clauses... | No | Yes |
+
 ## What doesn't change
 
 Whichever route you choose, the incorporation itself is handled by a notary (and, where applicable, the CIRCE system), not a gestoría. We advise you on which route fits your situation before you take the step, and we handle the accounting and tax side from day one of the company's life.
+
+## Not sure which one fits you?
+
+Email us, no strings attached, at [contacto@asesoriamadal.es](mailto:contacto@asesoriamadal.es) and we'll look at it based on your case.

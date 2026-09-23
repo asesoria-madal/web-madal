@@ -5,6 +5,7 @@ title: 'Cotxe per a una SL: compra, rènting o lísing?'
 description: 'La manera de finançar-lo importa menys que si el cotxe tindrà ús privat del soci.'
 cat: fiscalidad
 date: 2026-09-06
+updatedDate: 2026-09-23
 draft: false
 sources:
   - label: 'Ley 27/2014 del Impuesto sobre Sociedades, art. 12 — amortització de l’immobilitzat'
@@ -41,6 +42,30 @@ En el rènting pagues una quota mensual que inclou el lloguer més serveis (asse
 
 Compris, facis lísing o rènting, l'IVA suportat del vehicle (i del seu combustible i manteniment) es dedueix al **50%** per presumpció legal, tret que provis més afectació o siguis a la llista del 100% (taxi, autoescola, comercials, transport, vigilància). Ho expliquem en detall a [quant et pots desgravar del cotxe](/ca/blog/deducir-coche-autonomo). Canvia el *quan* suportes aquest IVA: de cop en la compra, repartit en lísing, mes a mes en rènting.
 
-## Com decidir en el teu cas
+## Un exemple amb números, a 4 anys
 
-Amb ús privat, el primer és calcular la retribució en espècie i veure què queda d'estalvi real. Sense ús privat, l'elecció depèn de la teva tresoreria, de quants anys tindràs el cotxe i de si vols l'actiu en balanç: rènting per oblidar-te'n, lísing per avançar deducció quedant-te'l, compra si et sobra caixa. Ho modelem amb tu amb els números de la teva SL abans de signar res.
+Cotxe 100% afecte a l'activitat (sense ús privat, per aïllar la comparació), valor 30.000 € + IVA (6.300 €) = 36.300 € de preu total.
+
+| | Compra | Lísing (4 anys) | Rènting (4 anys) |
+|---|---|---|---|
+| Desemborsament inicial | 36.300 € (o finançament a part) | Sense entrada rellevant | Sense entrada |
+| Quota mensual aproximada | — | ≈ 750 € + IVA | ≈ 650 € + IVA (inclou assegurança, manteniment, ITV) |
+| Què et dedueixes a l'Impost de Societats | Amortització segons taules: fins al 16% anual → 4.800 €/any | Amortització accelerada: fins al doble de taules (32%) els primers anys → fins a 9.600 €/any | El 100% de la quota (en la part afecta) → ≈ 7.800 €/any |
+| Estalvi fiscal aproximat en IS (tipus 25%) | ≈ 1.200 €/any, constant durant diversos anys | ≈ 2.400 €/any els primers 2-3 anys, després menys | ≈ 1.950 €/any mentre duri el contracte |
+| IVA recuperable | 3.150 € (50% de 6.300 €) de cop, en la compra | 50% de l'IVA de cada quota, repartit en 4 anys | 50% de l'IVA de cada quota, repartit en 4 anys |
+| El cotxe queda en el balanç de la SL? | Sí | Sí | No |
+| Assegurança, manteniment, ITV | Els gestiones i pagues tu a part | Els gestiones i pagues tu a part | Inclosos en la quota |
+
+Són xifres arrodonides per il·lustrar el mecanisme, no una taula de preus: les teves depenen del model, l'entitat financera i les condicions que negociïs. El que sí que es manté sempre és l'ordre de magnitud: el lísing avança deducció fiscal enfront de la compra, i el rènting canvia part d'aquest estalvi per no haver de gestionar res.
+
+## La conclusió, sense embuts
+
+- **Compra**: té sentit si et sobra tresoreria i et quedaràs el cotxe molts anys (més de 6-7). És l'opció amb menys cost financer, però la que més caixa immobilitza des del primer dia.
+- **Lísing**: té sentit si vols quedar-te el cotxe a mitjà termini i t'interessa avançar deducció fiscal els primers anys. Exigeix capacitat d'endeutament i una mica de gestió (assegurança i manteniment van pel teu compte).
+- **Rènting**: té sentit si canvies de cotxe cada 3-4 anys i prefereixes una quota fixa sense sorpreses ni paperassa, a canvi d'un cost total una mica més alt.
+
+Si el cotxe tindrà ús privat del soci o administrador, calcula primer la retribució en espècie (vist més amunt): en molts casos redueix l'estalvi fiscal prou perquè l'elecció entre compra, lísing i rènting deixi de ser el més rellevant de la decisió.
+
+## Necessites veure-ho amb els números reals de la teva SL?
+
+Escriu-nos sense compromís a [contacto@asesoriamadal.es](mailto:contacto@asesoriamadal.es) i ho modelem amb tu abans que signis res.

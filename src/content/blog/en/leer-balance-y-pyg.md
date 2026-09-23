@@ -5,6 +5,7 @@ title: 'How to read your balance sheet and P&L without being an accountant'
 description: 'Two documents, two different questions: what you have and what you owe, and whether the business is actually making money.'
 cat: finanzas
 date: 2026-09-17
+updatedDate: 2026-09-23
 ---
 
 ## Two different snapshots of the same business
@@ -34,6 +35,39 @@ On the balance sheet: whether your current assets (what you can turn into cash w
 
 On the P&L: whether the operating result (before interest and tax) is positive. A business can show a final profit thanks to a one-off item (selling an asset, for example) and still have a structural problem in its core activity — the operating result is what tells you whether the "day-to-day" business actually works.
 
+## A simple example, with both documents at once
+
+Imagine a quarter with these numbers:
+
+**P&L for the quarter**
+
+| Item | Amount |
+|---|---|
+| Sales revenue | €12,000 |
+| Direct cost of goods sold | −€3,000 |
+| **Gross margin** | **€9,000** |
+| Overheads (rent, accounting, marketing...) | −€4,000 |
+| **Operating result** | **€5,000** |
+| Financial expenses | −€200 |
+| Result before tax | €4,800 |
+| Tax (approx.) | −€960 |
+| **Net result for the period** | **€3,840** |
+
+**Balance sheet at quarter-end**
+
+| Assets | | Liabilities + Equity | |
+|---|---|---|---|
+| Cash | €2,000 | Suppliers | €1,200 |
+| Accounts receivable (unpaid invoices) | €3,500 | Loan | €2,000 |
+| IT equipment | €1,500 | Equity | €3,800 |
+| **Total assets** | **€7,000** | **Total** | **€7,000** |
+
+The quarter closes with €3,840 in profit — good news on paper. But the balance sheet shows the other side: of that €7,000 in assets, only €2,000 is actually cash; €3,500 is invoices issued and still unpaid. If that client is slow to pay, the business could run into a liquidity problem next month even though the P&L says it was profitable. That's exactly the kind of combined reading these two documents allow, which neither one gives you on its own.
+
 ## From numbers to decisions
 
-Reading these two documents is the first step; what actually adds value is understanding what they're telling you about your specific business — that's why we don't just hand you your tax filings, we explain your balance sheet and P&L with judgement, not just deliver them. Write to us at [contacto@asesoriamadal.es](mailto:contacto@asesoriamadal.es) if you'd like to go through yours together.
+Reading these two documents is the first step; what actually adds value is understanding what they're telling you about your specific business — that's why we don't just hand you your tax filings, we explain your balance sheet and P&L with judgement, not just deliver them.
+
+## Want us to go through yours together?
+
+Email us, no strings attached, at [contacto@asesoriamadal.es](mailto:contacto@asesoriamadal.es) and we'll take a look together.

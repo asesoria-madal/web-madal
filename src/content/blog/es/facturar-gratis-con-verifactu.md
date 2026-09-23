@@ -5,6 +5,7 @@ title: 'No, no necesitas pagar ningún programa para cumplir con Verifactu'
 description: 'Lo que las plataformas de facturación no te cuentan: Hacienda ofrece una alternativa gratuita.'
 cat: fiscalidad
 date: 2026-08-21
+updatedDate: 2026-09-23
 sources:
   - label: 'Real Decreto 1007/2023 — Reglamento que desarrolla Verifactu'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2023-24840'
@@ -28,7 +29,20 @@ No es un secreto ni un truco: es una previsión de la propia norma, precisamente
 
 ## Dónde se queda corta
 
-La letra pequeña importa. Tal y como está pensada, la herramienta de Hacienda solo admite facturas completas, con todos los datos del destinatario, no simplificadas (tipo ticket), y no está pensada para gestionar catálogos de productos, facturación recurrente automática, varios usuarios, ni integración con tu banco o con tu contabilidad.
+La letra pequeña importa. Tal y como está pensada, la herramienta de Hacienda solo admite facturas completas, con todos los datos del destinatario, no simplificadas (tipo ticket), y no está pensada para gestionar catálogos de productos, facturación recurrente automática, varios usuarios, ni integración con tu banco o con tu contabilidad. Si facturas poco y a pocos clientes, no lo vas a notar. Si facturas mucho, sí.
+
+## La comparación, resumida
+
+| | App gratuita de Hacienda | Plataforma de pago |
+|---|---|---|
+| Coste | 0 € | Cuota mensual (según el plan) |
+| Cumple con Verifactu | Sí | Sí |
+| Facturas simplificadas (tipo ticket) | No | Sí |
+| Facturación recurrente automática | No | Sí |
+| Presupuestos que se convierten en factura | No | Sí, en la mayoría |
+| Conciliación bancaria e integración con tu contabilidad | No | Sí, en la mayoría |
+| Varios usuarios | No | Sí, en la mayoría |
+| Ideal para | Pocas facturas al mes, sin complicaciones | Volumen alto o necesidad de automatizar |
 
 ## Cuándo sí compensa pagar por una plataforma
 
@@ -37,3 +51,7 @@ Pagar tiene sentido cuando lo que compras no es "poder facturar", sino tiempo: f
 ## Nuestra recomendación
 
 No vendemos ni cobramos comisión por ningún programa de facturación, así que te lo decimos sin filtro: si estás empezando y facturas pocas veces al mes, la app gratuita de Hacienda cumple de sobra. Si tu volumen crece o necesitas automatizar, entonces sí vale la pena mirar una plataforma de pago, pero como decisión para ahorrar tiempo, no como un requisito legal que no existe.
+
+## ¿No sabes cuál te conviene?
+
+Escríbenos sin compromiso a [contacto@asesoriamadal.es](mailto:contacto@asesoriamadal.es) y te damos nuestra opinión honesta, sin venderte nada.

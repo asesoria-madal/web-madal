@@ -5,7 +5,7 @@ title: 'What expenses self-employed workers in Spain can deduct (and how to prov
 description: 'The list of deductible expenses is not the hard part. Proving them is.'
 cat: fiscalidad
 date: 2026-08-19
-updatedDate: 2026-08-20
+updatedDate: 2026-09-23
 sources:
   - label: 'Ley 35/2006 (IRPF Act) — deductibility of expenses that are necessary and documented for the business'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2006-20764'
@@ -38,4 +38,20 @@ Meals and client entertainment are deductible, but with limits and only if direc
 
 It is rarely over-deducting. The usual mistake is not keeping invoices properly, or paying in cash for something that should have a bank trail. Hacienda tends to question whether you can prove an expense more than whether the expense itself makes sense.
 
+## What proves (and doesn't prove) an expense
+
+| Proof | Does it count for the deduction? |
+|---|---|
+| Full invoice in your name (with your NIF) | Yes |
+| Simplified invoice (receipt) | No, except for very small amounts with no alternative |
+| Bizum receipt or transfer, with no invoice | No, on its own |
+| Cash payment over €1,000 | No: on top of needing the invoice, it breaks the legal cash-payment limit |
+| Invoice + traceable payment (card or transfer) | Yes, the strongest combination |
+
+## Before writing off an expense
+
 If you're unsure about a specific expense, it's better to ask before deducting it than to risk it being questioned later. We review it with you case by case.
+
+## Unsure about a specific expense?
+
+Email us, no strings attached, at [contacto@asesoriamadal.es](mailto:contacto@asesoriamadal.es) and we'll look at it together.

@@ -5,7 +5,7 @@ title: 'Com es calcula l''IRPF trimestral i com estimar-lo'
 description: 'D''on surt la xifra del model 130, amb un exemple.'
 cat: fiscalidad
 date: 2026-08-19
-updatedDate: 2026-08-20
+updatedDate: 2026-09-23
 sources:
   - label: 'Reglament de l’IRPF (Real Decreto 439/2007), arts. 109-110 — càlcul i exempció del pagament fraccionat'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2007-6820'
@@ -35,4 +35,8 @@ El model 130 és un pagament a compte, no el càlcul definitiu del teu IRPF. L'a
 
 ## Com estimar-lo tu mateix
 
-Si portes al dia el teu registre d'ingressos i despeses, pots aplicar el 20% a l'acumulat de l'any i restar el que ja has pagat en trimestres anteriors per tenir una xifra orientativa abans que arribi la data de presentació. De totes maneres, nosaltres el calculem i el presentem per tu cada trimestre; si vols veure-ho venir amb antelació, ho revisem junts abans de la data límit.
+Si portes al dia el teu registre d'ingressos i despeses, pots aplicar el 20% a l'acumulat de l'any i restar el que ja has pagat en trimestres anteriors per tenir una xifra orientativa abans que arribi la data de presentació. De totes maneres, nosaltres el calculem i el presentem per tu cada trimestre.
+
+## Vols veure-ho venir amb antelació?
+
+Escriu-nos sense compromís a [contacto@asesoriamadal.es](mailto:contacto@asesoriamadal.es) i ho revisem junts abans de la data límit.

@@ -5,6 +5,7 @@ title: 'Muntar una SL per CIRCE o per la via tradicional: què canvia de veritat
 description: 'Mateix resultat legal, però aranzels i terminis molt diferents segons quins estatuts facis servir.'
 cat: fiscalidad
 date: 2026-08-21
+updatedDate: 2026-09-23
 sources:
   - label: 'Real Decreto-ley 13/2010, art. 5 — aranzels notarials i registrals reduïts amb estatuts tipus'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2010-18651'
@@ -41,6 +42,22 @@ La condició per accedir a aquesta via és que els estatuts siguin els estatuts 
 
 Un matís que es sol passar per alt: constituir per CIRCE no t'allibera de la quota d'autònoms. Si administraràs la SL i tens el control efectiu de la societat, el cas típic de qui fa el salt d'autònom a SL en solitari, amb el 100% o la majoria del capital, la Seguretat Social t'obliga a donar-te d'alta com a autònom societari al RETA i a pagar la quota, ja treguis els diners per nòmina, per factura o per dividends.
 
+## Les dues vies, d'un cop d'ull
+
+| | CIRCE (estatuts tipus) | Via tradicional (estatuts a mida) |
+|---|---|---|
+| Notari i registrador | Els que gestioni el PAE o el sistema CIRCE | Els tries tu |
+| Estatuts | Model estàndard del Ministeri de Justícia, sense modificacions substancials | A mida, sense límit de clàusules |
+| Cost (capital ≤ 3.100 €) | 60 € notari + 40 € registrador | Preu lliure de mercat |
+| Cost (capital > 3.100 €) | 150 € notari + 100 € registrador | Preu lliure de mercat |
+| Termini | Dies (6 hores hàbils només per a la qualificació registral) | Diverses setmanes |
+| Diversos administradors, aportacions no dineràries, participacions desiguals | Sí, el model ho permet | Sí, sense restriccions |
+| Consell d'administració, objecte social fora de CNAE, clàusules d'arrossegament... | No | Sí |
+
 ## El que no canvia
 
 Triïs la via que triïs, el tràmit de constitució el porta un notari (i, si escau, el sistema CIRCE), no una gestoria. Nosaltres t'assessorem sobre quina via encaixa amb la teva situació abans de fer el pas, i ens encarreguem de la comptabilitat i la fiscalitat des del primer dia de vida de la societat.
+
+## No saps quina et convé?
+
+Escriu-nos sense compromís a [contacto@asesoriamadal.es](mailto:contacto@asesoriamadal.es) i ho veiem segons el teu cas.

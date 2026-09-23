@@ -5,7 +5,7 @@ title: 'How to read the tax forms we file on your behalf (SL)'
 description: 'Modelo 111, 115, 200, 202, 303, 390, 180, 190, 347 and 349, explained.'
 cat: fiscalidad
 date: 2026-08-19
-updatedDate: 2026-08-20
+updatedDate: 2026-09-23
 sources:
   - label: 'IRPF Regulation (Real Decreto 439/2007), art. 100 — 19% withholding on Modelo 115 (rent)'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2007-6820'
@@ -18,6 +18,24 @@ sources:
 Every quarter we send you a copy of the forms we've filed, and it's normal for them to raise questions: what each one is, why the amount is what it is. Here's a quick reference.
 
 > Note: forms starting with 1 relate to IRPF and withholdings, those starting with 2 relate to Corporate Tax, and those starting with 3 relate to VAT.
+
+## All the forms, at a glance
+
+| Form | What it declares | Frequency | Filed |
+|---|---|---|---|
+| 111 | Withholdings on employees and professionals | Quarterly | April, July, October and January |
+| 115 | Withholdings on rent | Quarterly | April, July, October and January |
+| 200 | Corporate Tax (annual settlement) | Annual | July |
+| 202 | Corporate Tax installment payments | 3 times a year | April, October and December |
+| 303 | Quarterly VAT return | Quarterly | April, July, October and January |
+| 390 | Annual VAT summary (informational) | Annual | January |
+| 180 | Annual summary of rent withholdings (informational) | Annual | January |
+| 190 | Annual summary of withholdings on employees and professionals (informational) | Annual | January |
+| 347 | Transactions with third parties &gt; €3,005.06 (informational) | Annual | February |
+| 232 | Related-party transactions and tax havens (informational) | Annual, only if it applies | Varies, we'll let you know if it applies to you |
+| 349 | Intra-community transactions (informational) | Monthly, quarterly or annual depending on volume | Varies, we'll let you know if it applies to you |
+
+Below is the detail on each one: what it means, where the amount comes from, and when it doesn't affect you.
 
 ## Modelo 111: withholdings on employees and professionals
 
@@ -70,3 +88,7 @@ This is an informational return (nothing extra is paid) covering purchases and s
 All of these forms are built from your income and expense ledger, which in turn comes from the invoices you issue and receive. That's why we insist you send us every invoice, not just the ones that seem relevant to you. Any expense without an invoice can't enter the calculation.
 
 If a particular quarter's amount surprises you, ask us directly about that form: we can always break down where the figure comes from.
+
+## Got a question about one of these?
+
+Email us, no strings attached, at [contacto@asesoriamadal.es](mailto:contacto@asesoriamadal.es) and we'll explain it.

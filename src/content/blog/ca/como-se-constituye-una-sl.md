@@ -5,7 +5,7 @@ title: 'Com es constitueix una SL: passos, capital social i terminis'
 description: 'El tràmit passa per un notari, però convé saber què hi ha darrere.'
 cat: fiscalidad
 date: 2026-08-19
-updatedDate: 2026-08-20
+updatedDate: 2026-09-23
 sources:
   - label: 'Ley 18/2022, de creación y crecimiento de empresas — capital social mínim d’1 €'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2022-15818'
@@ -21,6 +21,19 @@ Constituir una SL no és tan ràpid com donar-te d'alta com a autònom, però ta
 
 Des de la reforma de la Llei de creació i creixement d'empreses, una SL es pot constituir amb un capital social mínim d'1 €, en lloc dels 3.000 € que calien abans. La condició: mentre el capital social estigui per sota de 3.000 €, la societat ha de destinar el 20% del benefici de cada exercici a una reserva legal fins arribar a aquesta xifra, i els socis responen solidàriament per la diferència entre el capital aportat i els 3.000 € si la societat es liquida amb deutes. A la pràctica, segueix sent raonable aportar una mica més d'1 € si el negoci necessitarà solvència real des del principi.
 
+## Un exemple de com funciona la reserva legal
+
+Constitueixes la teva SL amb 100 € de capital social. El primer any, la societat guanya 8.000 € de benefici.
+
+| | Import |
+|---|---|
+| Benefici de l'exercici | 8.000 € |
+| 20% a reserva legal (obligatori fins a sumar 3.000 €) | 1.600 € |
+| Reserva legal acumulada després del primer any | 1.700 € (100 € de capital + 1.600 €) |
+| Resta repartible entre socis (si es decideix repartir) | 6.400 € |
+
+Aquest 20% obligatori es continua destinant a reserva legal cada any fins que, entre capital i reserves, s'arriba als 3.000 €; a partir d'aquí deixa de ser obligatori. Amb beneficis com els de l'exemple, s'hi arriba en menys de dos anys. El capital social baix no és "diners perduts": és una obligació d'estalvi forçós al principi, no un cost.
+
 ## Els passos del tràmit
 
 1. **Certificació de denominació social**, al Registre Mercantil Central, confirma que el nom que vols per a la teva SL no el té ja una altra empresa.
@@ -29,6 +42,8 @@ Des de la reforma de la Llei de creació i creixement d'empreses, una SL es pot 
 4. **Obtenció del NIF provisional** i alta censal a Hisenda (model 036).
 5. **Inscripció al Registre Mercantil** de la teva província, que és el que dona a la societat la seva personalitat jurídica plena.
 
+Amb estatuts tipus i capital fins a 3.100 €, els passos 3 i 5 costen 60 € de notari i 40 € de registrador; per sobre d'aquesta xifra, o amb estatuts a mida, el cost puja. Ho desenvolupem amb la comparació completa a [CIRCE o via tradicional: què canvia de veritat](/ca/blog/montar-sl-circe-o-tradicional).
+
 ## Quant es triga
 
 Si es fan servir estatuts tipus estandarditzats a través del sistema de tramitació telemàtica (CIRCE), el procés es pot resoldre en qüestió de dies. Amb estatuts a mida, redactats per a les necessitats concretes de la societat, el més habitual són diverses setmanes, perquè cada pas depèn de l'anterior i del notari i el registre escollits.
@@ -36,3 +51,7 @@ Si es fan servir estatuts tipus estandarditzats a través del sistema de tramita
 ## El que no canvia
 
 El tràmit de constitució en si el porta un notari, no una gestoria. Nosaltres no constituïm SL, però t'assessorem sobre què encaixa amb la teva situació abans de fer el pas, i ens encarreguem de la comptabilitat i la fiscalitat des del primer dia de vida de la societat.
+
+## Estàs valorant fer el pas?
+
+Escriu-nos sense compromís a [contacto@asesoriamadal.es](mailto:contacto@asesoriamadal.es) i ho veiem junts.

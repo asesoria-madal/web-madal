@@ -5,7 +5,7 @@ title: 'How quarterly IRPF is calculated, and how to estimate it'
 description: 'Where the Modelo 130 figure comes from, with an example.'
 cat: fiscalidad
 date: 2026-08-19
-updatedDate: 2026-08-20
+updatedDate: 2026-09-23
 sources:
   - label: 'IRPF Regulation (Real Decreto 439/2007), arts. 109-110 — how the fractioned payment and its exemption work'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2007-6820'
@@ -35,4 +35,8 @@ Modelo 130 is a payment on account, not the final calculation of your IRPF. The 
 
 ## How to estimate it yourself
 
-If you keep your income and expense records up to date, you can apply 20% to the year's accumulated total and subtract what's already been paid in previous quarters to get a rough figure before the filing deadline arrives. Either way, we calculate and file it for you every quarter, and if you want to see it coming in advance, we go through it together before the deadline.
+If you keep your income and expense records up to date, you can apply 20% to the year's accumulated total and subtract what's already been paid in previous quarters to get a rough figure before the filing deadline arrives. Either way, we calculate and file it for you every quarter.
+
+## Want to see it coming in advance?
+
+Email us, no strings attached, at [contacto@asesoriamadal.es](mailto:contacto@asesoriamadal.es) and we'll go through it together before the deadline.

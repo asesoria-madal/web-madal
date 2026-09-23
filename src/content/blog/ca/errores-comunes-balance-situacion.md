@@ -5,9 +5,10 @@ title: 'Errors comuns en el balanç: d''interpretació i de confecció'
 description: 'Els que més veiem, amb exemples, en dos blocs: com es llegeix malament i com es fa malament.'
 cat: contabilidad
 date: 2026-08-24
+updatedDate: 2026-09-23
 ---
 
-Ja vam explicar [què és un balanç de situació](/blog/balance-de-situacion) i per què val la pena mirar-lo cada trimestre. Però un balanç només aporta valor si està ben fet i ben llegit — i a la pràctica veiem fallar les dues coses, per separat. Aquí van els errors més habituals de cada tipus.
+Ja vam explicar [què és un balanç de situació](/ca/blog/balance-de-situacion) i per què val la pena mirar-lo cada trimestre. Però un balanç només aporta valor si està ben fet i ben llegit — i a la pràctica veiem fallar les dues coses, per separat. Aquí van els errors més habituals de cada tipus.
 
 ## Errors d'interpretació
 
@@ -29,6 +30,14 @@ Aquests són fallades en construir el balanç: si la base està malament, qualse
 - **Classificar malament corrent i no corrent.** Un préstec la propera anualitat del qual venç en els propers dotze mesos ha de passar a passiu corrent per aquesta part; deixar-ho tot en no corrent maquilla la liquiditat real del negoci.
 - **Oblidar amortitzacions i provisions.** L'equipament, els vehicles o el programari es deprecien amb l'ús i el temps; no reflectir-ho al balanç infla el valor de l'actiu per sobre del que realment val avui.
 
+## Un exemple de l'error d'interpretació més freqüent
+
+Una botiga online tanca el trimestre amb 15.000 € de benefici al compte de resultats. El propietari, mirant només aquesta xifra, decideix repartir-se 10.000 € i reinvertir la resta. Però el seu balanç diu una altra cosa: dels 18.000 € d'actiu corrent, 13.000 € són factures a clients pendents de cobrament i només 5.000 € són al banc. Si retira 10.000 € que no té a caixa, no pot pagar els proveïdors aquell mes, encara que el negoci, sobre el paper, vagi bé. És exactament l'error d'interpretació que expliquem més amunt, amb xifres concretes.
+
 ## Per què separem les dues coses
 
 Un balanç mal confeccionat dona lloc a una interpretació errònia encara que qui el llegeixi sigui molt curós — i un balanç perfectament confeccionat continua sense servir de res si ningú el llegeix bé. Per això no ens limitem a presentar impostos: preparem el balanç amb cura i després ens asseiem amb tu a explicar-te què diu, perquè les dues parts del procés quedin cobertes.
+
+## Vols que revisem el teu?
+
+Escriu-nos sense compromís a [contacto@asesoriamadal.es](mailto:contacto@asesoriamadal.es) i ho veiem junts.

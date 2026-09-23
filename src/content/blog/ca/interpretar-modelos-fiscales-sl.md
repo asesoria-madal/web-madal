@@ -5,7 +5,7 @@ title: 'Com interpretar els models que presentem per tu (SL)'
 description: 'Models 111, 115, 200, 202, 303, 390, 180, 190, 347 i 349, explicats.'
 cat: fiscalidad
 date: 2026-08-19
-updatedDate: 2026-08-20
+updatedDate: 2026-09-23
 sources:
   - label: 'Reglamento del IRPF (Real Decreto 439/2007), art. 100 — retenció del 19% al model 115 (lloguers)'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2007-6820'
@@ -18,6 +18,24 @@ sources:
 Cada trimestre t'enviem còpia dels models presentats, i és habitual que generin dubtes: què és cadascun, per què l'import és aquest i no un altre. Aquí va la referència ràpida.
 
 > Nota: els models que comencen per 1 estan associats a l'IRPF i retencions, els que comencen per 2 a Societats, i els que comencen per 3 a l'IVA.
+
+## Tots els models, d'un cop d'ull
+
+| Model | Què declara | Periodicitat | Es presenta |
+|---|---|---|---|
+| 111 | Retencions a treballadors i professionals | Trimestral | Abril, juliol, octubre i gener |
+| 115 | Retencions de lloguer | Trimestral | Abril, juliol, octubre i gener |
+| 200 | Impost de Societats (ajust anual) | Anual | Juliol |
+| 202 | Pagament fraccionat de l'Impost de Societats | 3 vegades l'any | Abril, octubre i desembre |
+| 303 | IVA trimestral | Trimestral | Abril, juliol, octubre i gener |
+| 390 | Resum anual d'IVA (informatiu) | Anual | Gener |
+| 180 | Resum anual de retencions de lloguer (informatiu) | Anual | Gener |
+| 190 | Resum anual de retencions a treballadors i professionals (informatiu) | Anual | Gener |
+| 347 | Operacions amb tercers &gt; 3.005,06 € (informatiu) | Anual | Febrer |
+| 232 | Operacions vinculades i paradisos fiscals (informatiu) | Anual, només si aplica | Variable, t'avisem si et toca |
+| 349 | Operacions intracomunitàries (informatiu) | Mensual, trimestral o anual segons volum | Variable, t'avisem si et toca |
+
+A sota tens el detall de cadascun: què significa, d'on surt l'import i en quins casos no t'afecta.
 
 ## Model 111 - Retencions a treballadors i professionals
 
@@ -70,3 +88,7 @@ Aquí es compara l'IVA que has repercutit en les teves factures emeses amb l'IVA
 Tots aquests models es construeixen a partir del teu llibre registre d'ingressos i despeses, que alhora surt de les factures que emets i reps. Per això insistim que ens facis arribar totes les factures, no només les que a tu et semblen rellevants. Qualsevol despesa sense factura no pot entrar en el càlcul.
 
 Si un trimestre concret et sorprèn l'import, pregunta'ns directament per aquest model: sempre podem desglossar-te d'on surt la xifra.
+
+## T'ha sorgit un dubte amb algun?
+
+Escriu-nos sense compromís a [contacto@asesoriamadal.es](mailto:contacto@asesoriamadal.es) i t'ho expliquem.

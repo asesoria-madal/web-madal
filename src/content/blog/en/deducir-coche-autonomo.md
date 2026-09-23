@@ -12,6 +12,7 @@ sources:
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2007-6820'
   - label: 'Ley 37/1992 (VAT Act), art. 95, sections Tres and Cuatro — presumed deduction of 50% (or 100%) of the input VAT on the vehicle and its running costs'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-1992-28740'
+updatedDate: 2026-09-23
 ---
 
 It's one of the most frequent questions, and the answer tends to disappoint: for income tax (IRPF), most self-employed workers can't deduct anything for the car; for VAT, half. They are two taxes with different rules, and it's worth handling them separately.
@@ -46,6 +47,23 @@ In every case you need a complete invoice in your name and the vehicle registere
 
 To defend exclusive business use for income tax, or a percentage above 50% for VAT, it helps to have the vehicle sign-written, an insurance policy that declares professional use, a separate car for private use, and a log of visits or mileage. None of this guarantees the deduction, but it counts if Hacienda asks.
 
+## A worked example
+
+Car worth €20,000 + VAT (€4,200) = €24,200, with €1,200 + VAT (€252) in fuel per year.
+
+| | Activity outside the exceptions list (mixed use, the most common case) | Activity on the list (taxi, sales rep...) |
+|---|---|---|
+| Income-tax deduction on the purchase | €0 — not exclusively business-use | Full depreciation under the tables |
+| Income-tax deduction on annual fuel | €0 | €1,200 in full |
+| Deductible VAT on the purchase | €2,100 (50% of €4,200) | €4,200 (100%) |
+| Deductible VAT on annual fuel | €126 (50% of €252) | €252 (100%) |
+
+For most self-employed workers, the entire saving from "buying a car to write it off" comes down to that €2,100 of VAT on the purchase and 50% of the VAT on fuel: nothing on income tax. If your activity is on the exceptions list, the calculation changes completely.
+
 ## Before buying a car "to write it off"
 
-Run the real numbers: for most self-employed workers the saving is limited to 50% of the VAT on the purchase and on maintenance, not the whole car. If your activity fits one of the exceptions, it's a different story. We review it with you based on your case, and if you want to see the rest of the expenses you can deduct without so many caveats, it's all in [what expenses you can deduct as self-employed](/en/blog/gastos-deducibles-autonomos). And if the car will belong to a limited company (SL) rather than to you as a sole trader, the rules are different: we cover that in [a car for your company (SL): buy, long-term rental or leasing](/en/blog/coche-sl-renting-leasing-compra).
+Run the real numbers: for most self-employed workers the saving is limited to 50% of the VAT on the purchase and on maintenance, not the whole car. If your activity fits one of the exceptions, it's a different story. If you want to see the rest of the expenses you can deduct without so many caveats, it's all in [what expenses you can deduct as self-employed](/en/blog/gastos-deducibles-autonomos). And if the car will belong to a limited company (SL) rather than to you as a sole trader, the rules are different: we cover that in [a car for your company (SL): buy, long-term rental or leasing](/en/blog/coche-sl-renting-leasing-compra).
+
+## Questions about your specific case?
+
+Email us, no strings attached, at [contacto@asesoriamadal.es](mailto:contacto@asesoriamadal.es) and we'll review it together.

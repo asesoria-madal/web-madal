@@ -12,6 +12,7 @@ sources:
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2007-6820'
   - label: 'Ley 37/1992 del IVA, art. 95, apdos. Tres i Cuatro — presumpció de deducció del 50% (o del 100%) de les quotes suportades del vehicle i de les seves despeses'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-1992-28740'
+updatedDate: 2026-09-23
 ---
 
 És una de les preguntes que més es repeteix, i la resposta sol decebre: per a l'IRPF, la majoria d'autònoms no pot deduir res del cotxe; per a l'IVA, la meitat. Són dos impostos amb regles diferents, i convé tractar-los per separat.
@@ -46,6 +47,23 @@ En tots els casos cal una factura completa al teu nom i que el vehicle figuri co
 
 Per defensar l'afectació exclusiva en IRPF, o un percentatge superior al 50% en IVA, ajuda tenir el vehicle retolat, una assegurança amb ús professional declarat, un altre cotxe per a ús particular, i un registre de visites o quilometratges. Res d'això garanteix la deducció, però suma si Hisenda pregunta.
 
+## Un exemple amb números
+
+Cotxe de 20.000 € + IVA (4.200 €) = 24.200 €, amb 1.200 € + IVA (252 €) de combustible a l'any.
+
+| | Activitat fora de la llista d'excepcions (ús mixt, el cas més habitual) | Activitat de la llista (taxi, agent comercial...) |
+|---|---|---|
+| Deducció en IRPF de la compra | 0 € — no està afecte exclusivament | Amortització íntegra segons taules |
+| Deducció en IRPF del combustible anual | 0 € | 1.200 € íntegres |
+| IVA deduïble de la compra | 2.100 € (50% de 4.200 €) | 4.200 € (100%) |
+| IVA deduïble del combustible anual | 126 € (50% de 252 €) | 252 € (100%) |
+
+Per a la majoria d'autònoms, tot l'estalvi de "comprar-se un cotxe per desgravar-lo" es queda en aquests 2.100 € d'IVA de la compra i en el 50% de l'IVA del combustible: res en IRPF. Si la teva activitat és a la llista d'excepcions, el càlcul canvia del tot.
+
 ## Abans de comprar-te un cotxe "per desgravar-lo"
 
-Fes el número real: per a la majoria d'autònoms l'estalvi es limita al 50% de l'IVA de la compra i del manteniment, no al cotxe sencer. Si la teva activitat encaixa en alguna de les excepcions, la cosa canvia. Ho revisem amb tu segons el teu cas, i si vols veure la resta de despeses que sí que pots deduir sense tant matís, ho tens a [quines despeses et pots deduir com a autònom](/ca/blog/gastos-deducibles-autonomos). I si el cotxe no serà teu com a autònom sinó d'una SL, les regles són unes altres: ho veiem a [cotxe per a una SL: compra, rènting o lísing](/ca/blog/coche-sl-renting-leasing-compra).
+Fes el número real: per a la majoria d'autònoms l'estalvi es limita al 50% de l'IVA de la compra i del manteniment, no al cotxe sencer. Si la teva activitat encaixa en alguna de les excepcions, la cosa canvia. Si vols veure la resta de despeses que sí que pots deduir sense tant matís, ho tens a [quines despeses et pots deduir com a autònom](/ca/blog/gastos-deducibles-autonomos). I si el cotxe no serà teu com a autònom sinó d'una SL, les regles són unes altres: ho veiem a [cotxe per a una SL: compra, rènting o lísing](/ca/blog/coche-sl-renting-leasing-compra).
+
+## Dubtes sobre el teu cas concret?
+
+Escriu-nos sense compromís a [contacto@asesoriamadal.es](mailto:contacto@asesoriamadal.es) i ho revisem junts.

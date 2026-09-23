@@ -5,7 +5,7 @@ title: 'Qué gastos te puedes deducir como autónomo (y cómo justificarlos)'
 description: 'La lista no es la parte difícil, la justificación sí.'
 cat: fiscalidad
 date: 2026-08-19
-updatedDate: 2026-08-20
+updatedDate: 2026-09-23
 sources:
   - label: 'Ley 35/2006 del IRPF — deducibilidad de gastos necesarios y justificados de la actividad'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2006-20764'
@@ -38,4 +38,20 @@ Las dietas y comidas con clientes son deducibles, pero con límites y solo si ha
 
 No suele ser deducir de más. El error habitual es no guardar bien las facturas, o pagar en efectivo algo que debería tener trazabilidad bancaria. Hacienda no suele discutir tanto el concepto del gasto como si puedes probarlo.
 
+## Qué prueba (y qué no prueba) un gasto
+
+| Justificante | ¿Vale para deducir? |
+|---|---|
+| Factura completa a tu nombre (con tu NIF) | Sí |
+| Factura simplificada (ticket) | No, salvo importes muy pequeños y sin alternativa |
+| Recibo de Bizum o transferencia, sin factura | No, por sí solo |
+| Pago en efectivo superior a 1.000 € | No: además de la factura, incumple el límite legal de pagos en efectivo |
+| Factura + pago rastreable (tarjeta o transferencia) | Sí, es la combinación más sólida |
+
+## Antes de dar por perdido un gasto
+
 Si tienes dudas sobre un gasto concreto, mejor preguntar antes de deducirlo que arriesgarte a que te lo cuestionen después, lo revisamos contigo caso por caso.
+
+## ¿Tienes dudas con un gasto concreto?
+
+Escríbenos sin compromiso a [contacto@asesoriamadal.es](mailto:contacto@asesoriamadal.es) y lo miramos juntos.

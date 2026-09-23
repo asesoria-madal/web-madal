@@ -5,6 +5,7 @@ title: 'Coche para una SL: ¿compra, renting o leasing?'
 description: 'La forma de financiarlo importa menos que si el coche tendrá uso privado del socio.'
 cat: fiscalidad
 date: 2026-09-06
+updatedDate: 2026-09-23
 draft: false
 sources:
   - label: 'Ley 27/2014 del Impuesto sobre Sociedades, art. 12 — amortización del inmovilizado'
@@ -41,6 +42,30 @@ En el renting pagas una cuota mensual que incluye el alquiler más servicios (se
 
 Compres, hagas leasing o renting, el IVA soportado del vehículo (y de su combustible y mantenimiento) se deduce al **50%** por presunción legal, salvo que pruebes mayor afectación o estés en la lista del 100% (taxi, autoescuela, comerciales, transporte, vigilancia). Lo explicamos en detalle en [cuánto te puedes desgravar del coche](/blog/deducir-coche-autonomo). Cambia el *cuándo* soportas ese IVA: de golpe en la compra, repartido en leasing, mes a mes en renting.
 
-## Cómo decidir en tu caso
+## Un ejemplo con números, a 4 años
 
-Con uso privado, lo primero es calcular la retribución en especie y ver qué queda de ahorro real. Sin uso privado, la elección depende de tu tesorería, de cuántos años vas a tener el coche y de si quieres el activo en balance: renting para olvidarte, leasing para adelantar deducción quedándotelo, compra si te sobra caja. Lo modelamos contigo con los números de tu SL antes de firmar nada.
+Coche 100% afecto a la actividad (sin uso privado, para aislar la comparación), valor 30.000 € + IVA (6.300 €) = 36.300 € de precio total.
+
+| | Compra | Leasing (4 años) | Renting (4 años) |
+|---|---|---|---|
+| Desembolso inicial | 36.300 € (o financiación aparte) | Sin entrada relevante | Sin entrada |
+| Cuota mensual aproximada | — | ≈ 750 € + IVA | ≈ 650 € + IVA (incluye seguro, mantenimiento, ITV) |
+| Qué te deduces en el Impuesto de Sociedades | Amortización según tablas: hasta el 16% anual → 4.800 €/año | Amortización acelerada: hasta el doble de tablas (32%) los primeros años → hasta 9.600 €/año | El 100% de la cuota (en la parte afecta) → ≈ 7.800 €/año |
+| Ahorro fiscal aproximado en IS (tipo 25%) | ≈ 1.200 €/año, constante durante varios años | ≈ 2.400 €/año en los primeros 2-3 años, luego menos | ≈ 1.950 €/año mientras dure el contrato |
+| IVA recuperable | 3.150 € (50% de 6.300 €) de golpe, en la compra | 50% del IVA de cada cuota, repartido en 4 años | 50% del IVA de cada cuota, repartido en 4 años |
+| ¿El coche queda en el balance de la SL? | Sí | Sí | No |
+| Seguro, mantenimiento, ITV | Los gestionas y pagas tú aparte | Los gestionas y pagas tú aparte | Incluidos en la cuota |
+
+Son cifras redondeadas para ilustrar el mecanismo, no una tabla de precios: los tuyos dependen del modelo, la entidad financiera y las condiciones que negocies. Lo que sí se mantiene siempre es el orden de magnitud: el leasing adelanta deducción fiscal frente a la compra, y el renting cambia parte de ese ahorro por no tener que gestionar nada.
+
+## La conclusión, sin rodeos
+
+- **Compra**: tiene sentido si te sobra tesorería y vas a quedarte el coche muchos años (más de 6-7). Es la opción con menos coste financiero, pero la que más caja inmoviliza desde el primer día.
+- **Leasing**: tiene sentido si quieres quedarte el coche a medio plazo y te interesa adelantar deducción fiscal en los primeros años. Exige capacidad de endeudamiento y algo de gestión (seguro, mantenimiento van por tu cuenta).
+- **Renting**: tiene sentido si cambias de coche cada 3-4 años y prefieres una cuota fija sin sorpresas ni papeleo, a cambio de un coste total algo mayor.
+
+Si el coche va a tener uso privado del socio o administrador, calcula primero la retribución en especie (ver arriba): en muchos casos reduce el ahorro fiscal lo bastante como para que la elección entre compra, leasing y renting deje de ser lo más relevante de la decisión.
+
+## ¿Necesitas verlo con los números reales de tu SL?
+
+Escríbenos sin compromiso a [contacto@asesoriamadal.es](mailto:contacto@asesoriamadal.es) y lo modelamos contigo antes de que firmes nada.

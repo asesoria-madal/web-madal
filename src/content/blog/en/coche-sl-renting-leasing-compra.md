@@ -5,6 +5,7 @@ title: 'A car for your company (SL): buy, long-term rental or leasing?'
 description: 'How you finance it matters less than whether the car will have personal use by the owner.'
 cat: fiscalidad
 date: 2026-09-06
+updatedDate: 2026-09-23
 draft: false
 sources:
   - label: 'Ley 27/2014 (Corporate Income Tax Act), art. 12 — depreciation of fixed assets'
@@ -41,6 +42,30 @@ With renting you pay a monthly fee that includes the rental plus services (insur
 
 Whether you buy, lease or rent, the input VAT on the vehicle (and on its fuel and maintenance) is deducted at **50%** by legal presumption, unless you prove greater business use or you're on the 100% list (taxi, driving school, sales reps, transport, security). We explain it in detail in [how much you can deduct for your car](/en/blog/deducir-coche-autonomo). What changes is *when* you bear that VAT: all at once on a purchase, spread out with a lease, month by month with renting.
 
-## How to decide in your case
+## A worked example, over 4 years
 
-With personal use, the first step is to work out the benefit in kind and see what real saving is left. Without personal use, the choice comes down to your cash position, how many years you'll keep the car, and whether you want the asset on your balance sheet: renting to forget about it, leasing to bring the deduction forward while keeping it, buying if you have cash to spare. We model it with you using your company's own numbers before you sign anything.
+Car 100% business-use (no personal use, to isolate the comparison), worth €30,000 + VAT (€6,300) = €36,300 total price.
+
+| | Buying | Leasing (4 years) | Renting (4 years) |
+|---|---|---|---|
+| Upfront outlay | €36,300 (or separate financing) | No significant deposit | No deposit |
+| Approximate monthly payment | — | ≈ €750 + VAT | ≈ €650 + VAT (includes insurance, maintenance, roadworthiness test) |
+| What you deduct for corporate tax | Depreciation under the tables: up to 16% a year → €4,800/year | Accelerated depreciation: up to double the table rate (32%) in the early years → up to €9,600/year | 100% of the fee (business-use portion) → ≈ €7,800/year |
+| Approximate tax saving on corporate tax (25% rate) | ≈ €1,200/year, steady for several years | ≈ €2,400/year in the first 2-3 years, then less | ≈ €1,950/year for the life of the contract |
+| Recoverable VAT | €3,150 (50% of €6,300) all at once, on purchase | 50% of the VAT on each payment, spread over 4 years | 50% of the VAT on each payment, spread over 4 years |
+| Does the car sit on the company's balance sheet? | Yes | Yes | No |
+| Insurance, maintenance, roadworthiness test | You arrange and pay for these separately | You arrange and pay for these separately | Included in the fee |
+
+These are rounded figures to show the mechanics, not a price list: yours will depend on the model, the finance provider and the terms you negotiate. What stays consistent is the order of magnitude: leasing brings the tax deduction forward compared with buying, and renting trades part of that saving for not having to manage anything.
+
+## The bottom line
+
+- **Buying**: makes sense if you have cash to spare and you'll keep the car for many years (more than 6-7). It's the option with the lowest financing cost, but the one that ties up the most cash from day one.
+- **Leasing**: makes sense if you want to keep the car in the medium term and care about bringing the tax deduction forward in the early years. It requires borrowing capacity and some admin (insurance and maintenance are on you).
+- **Renting**: makes sense if you change car every 3-4 years and prefer a fixed fee with no surprises or paperwork, in exchange for a somewhat higher total cost.
+
+If the car will have personal use by the owner or director, work out the benefit in kind first (see above): in many cases it shrinks the tax saving enough that the choice between buying, leasing and renting stops being the main part of the decision.
+
+## Want to see it with your company's real numbers?
+
+Email us, no strings attached, at [contacto@asesoriamadal.es](mailto:contacto@asesoriamadal.es) and we'll model it with you before you sign anything.

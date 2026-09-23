@@ -5,6 +5,7 @@ title: 'No, no cal pagar cap programa per complir amb Verifactu'
 description: 'El que les plataformes de facturació no et diuen: Hisenda ofereix una alternativa gratuïta.'
 cat: fiscalidad
 date: 2026-08-21
+updatedDate: 2026-09-23
 sources:
   - label: 'Real Decreto 1007/2023 — Reglament que desenvolupa Verifactu'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2023-24840'
@@ -30,6 +31,19 @@ No és cap secret ni cap truc: és una previsió de la mateixa norma, precisamen
 
 La lletra petita importa. Tal com està pensada, l'eina d'Hisenda només admet factures completes, amb totes les dades del destinatari, no simplificades (tipus tiquet), i no està pensada per gestionar catàlegs de productes, facturació recurrent automàtica, diversos usuaris, ni integració amb el teu banc o amb la teva comptabilitat. Si factures poc i a pocs clients, no ho notaràs. Si factures molt, sí.
 
+## La comparació, resumida
+
+| | App gratuïta d'Hisenda | Plataforma de pagament |
+|---|---|---|
+| Cost | 0 € | Quota mensual (segons el pla) |
+| Compleix amb Verifactu | Sí | Sí |
+| Factures simplificades (tipus tiquet) | No | Sí |
+| Facturació recurrent automàtica | No | Sí |
+| Pressupostos que es converteixen en factura | No | Sí, en la majoria |
+| Conciliació bancària i integració amb la teva comptabilitat | No | Sí, en la majoria |
+| Diversos usuaris | No | Sí, en la majoria |
+| Ideal per a | Poques factures al mes, sense complicacions | Volum alt o necessitat d'automatitzar |
+
 ## Quan sí que compensa pagar per una plataforma
 
 Pagar té sentit quan el que compres no és "poder facturar", sinó temps: facturació recurrent automatitzada, pressupostos que es converteixen en factura amb un clic, conciliació bancària, gestió de despeses i inventari, o que la teva gestoria es pugui connectar directament a les teves dades en lloc que les hi enviïs tu cada trimestre. A partir d'un cert volum, aquest temps estalviat val més que la quota mensual del programa.
@@ -37,3 +51,7 @@ Pagar té sentit quan el que compres no és "poder facturar", sinó temps: factu
 ## La nostra recomanació
 
 No venem ni cobrem comissió per cap programa de facturació, així que t'ho diem sense filtres: si estàs començant i factures poques vegades al mes, l'app gratuïta d'Hisenda compleix de sobres. Si el teu volum creix o necessites automatitzar, aleshores sí que val la pena mirar una plataforma de pagament, però com a decisió per estalviar temps, no com un requisit legal que no existeix.
+
+## No saps quina et convé?
+
+Escriu-nos sense compromís a [contacto@asesoriamadal.es](mailto:contacto@asesoriamadal.es) i et donem la nostra opinió honesta, sense vendre't res.

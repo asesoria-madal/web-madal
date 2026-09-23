@@ -5,7 +5,7 @@ title: 'Cómo emitir facturas correctamente: los datos que no pueden faltar'
 description: 'Una factura mal hecha no es deducible ni válida ante Hacienda.'
 cat: contabilidad
 date: 2026-08-19
-updatedDate: 2026-08-20
+updatedDate: 2026-09-23
 sources:
   - label: 'Real Decreto 1619/2012, Reglamento de facturación, art. 6 — contenido obligatorio de la factura'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2012-14696'
@@ -34,4 +34,21 @@ Una factura con un error de forma no es solo un detalle estético: puede dejar d
 
 Si facturas servicios profesionales a otra empresa o autónomo, por norma general debes incluir una retención de IRPF en la factura, con un tipo reducido durante los primeros años de alta como autónomo, si te corresponde. Es uno de los fallos más comunes al empezar, porque no es intuitivo que la retención vaya en tu propia factura de ingresos.
 
+## Un ejemplo de cómo queda el importe final
+
+Facturas 1.000 € de servicios profesionales a una empresa. Así se calcula lo que tu cliente te ingresa:
+
+| Concepto | Alta reciente (retención 7%) | A partir del 3er año (retención 15%) |
+|---|---|---|
+| Base imponible | 1.000 € | 1.000 € |
+| + IVA (21%) | +210 € | +210 € |
+| − Retención de IRPF | −70 € | −150 € |
+| **Total a cobrar** | **1.140 €** | **1.060 €** |
+
+El IVA lo cobras tú y lo ingresas después en el 303. La retención de IRPF, en cambio, no la cobras: la practica tu cliente y la ingresa él directamente en Hacienda a cuenta de tu IRPF. Si te la dejas fuera de la factura, no es que "ganes" ese dinero: es un error de forma que puede acabar generando un requerimiento.
+
 Cuando trabajas con nosotros, revisamos el formato de tus facturas antes de que se convierta en un problema con Hacienda, no después.
+
+## ¿Dudas con una factura concreta?
+
+Escríbenos sin compromiso a [contacto@asesoriamadal.es](mailto:contacto@asesoriamadal.es) y te lo revisamos.

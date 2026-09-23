@@ -5,7 +5,7 @@ title: 'Com emetre factures correctament: les dades que no poden faltar'
 description: 'Una factura mal feta no és deduïble ni vàlida davant d''Hisenda.'
 cat: contabilidad
 date: 2026-08-19
-updatedDate: 2026-08-20
+updatedDate: 2026-09-23
 sources:
   - label: 'Real Decreto 1619/2012, Reglamento de facturación, art. 6 — contingut obligatori de la factura'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2012-14696'
@@ -34,4 +34,21 @@ Una factura amb un error de forma no és només un detall estètic: pot deixar d
 
 Si factures serveis professionals a una altra empresa o autònom, per norma general has d'incloure una retenció d'IRPF a la factura, amb un tipus reduït durant els primers anys d'alta com a autònom, si et correspon. És un dels errors més comuns en començar, perquè no és intuïtiu que la retenció vagi a la teva pròpia factura d'ingressos.
 
+## Un exemple de com queda l'import final
+
+Factures 1.000 € de serveis professionals a una empresa. Així es calcula el que el teu client t'ingressa:
+
+| Concepte | Alta recent (retenció 7%) | A partir del 3r any (retenció 15%) |
+|---|---|---|
+| Base imposable | 1.000 € | 1.000 € |
+| + IVA (21%) | +210 € | +210 € |
+| − Retenció d'IRPF | −70 € | −150 € |
+| **Total a cobrar** | **1.140 €** | **1.060 €** |
+
+L'IVA el cobres tu i l'ingresses després al 303. La retenció d'IRPF, en canvi, no la cobres: la practica el teu client i la ingressa ell directament a Hisenda a compte del teu IRPF. Si te la deixes fora de la factura, no és que "guanyis" aquests diners: és un error de forma que pot acabar generant un requeriment.
+
 Quan treballes amb nosaltres, revisem el format de les teves factures abans que es converteixi en un problema amb Hisenda, no després.
+
+## Dubtes amb una factura concreta?
+
+Escriu-nos sense compromís a [contacto@asesoriamadal.es](mailto:contacto@asesoriamadal.es) i te la revisem.
