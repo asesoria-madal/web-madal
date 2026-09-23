@@ -4,7 +4,6 @@ import Footer from '../components/Footer.astro';
 import ContactSwitch from '../components/ContactSwitch.astro';
 import CookieConsent from '../components/CookieConsent.astro';
 import TrustBanner from '../components/TrustBanner.astro';
-import Analytics from '@vercel/analytics/astro';
 import SpeedInsights from '@vercel/speed-insights/astro';
 import { ClientRouter } from 'astro:transitions';
 import '../styles/global.css';
@@ -107,7 +106,6 @@ const ogLocale: Record<Locale, string> = { es: 'es_ES', ca: 'ca_ES', en: 'en_GB'
     )}
     <Footer lang={lang} />
     <CookieConsent lang={lang} />
-    <Analytics />
     <SpeedInsights />
   </body>
 </html>

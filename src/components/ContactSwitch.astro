@@ -37,7 +37,7 @@ const [emailLocal, emailDomain] = t.contact.email.split('@');
 </dialog>
 
 <script>
-  import { track } from '@vercel/analytics';
+  import { track } from '../scripts/analytics';
 
   // Se reengancha en "astro:page-load" (carga inicial + cada transición de
   // vista) porque este componente se repite en varios puntos de cada página
