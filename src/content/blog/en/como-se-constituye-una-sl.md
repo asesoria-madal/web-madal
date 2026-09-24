@@ -2,10 +2,10 @@
 lang: en
 slug: como-se-constituye-una-sl
 title: 'How an SL is set up: steps, share capital and timelines'
-description: 'The process goes through a notary, but it helps to know what is behind it.'
+description: 'Minimum capital, the 5 steps in the process, and how long it takes: the full guide, with a notary or through CIRCE.'
 cat: fiscalidad
 date: 2026-08-19
-updatedDate: 2026-09-23
+updatedDate: 2026-09-24
 sources:
   - label: 'Ley 18/2022, business creation and growth act — minimum share capital of €1'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2022-15818'
@@ -17,7 +17,7 @@ sources:
 
 Setting up an SL is not as fast as registering as self-employed, but it isn't the long, expensive process a lot of people imagine either.
 
-## Share capital is no longer the barrier it used to be
+## What's the minimum capital to set up an SL?
 
 Since the reform of the Ley de creación y crecimiento de empresas (Law on business creation and growth), an SL can be set up with a minimum share capital of €1, instead of the €3,000 that used to be required. The condition: while share capital stays below €3,000, the company must put 20% of each year's profit into a legal reserve until it reaches that figure, and the partners are jointly liable for the difference between the capital contributed and €3,000 if the company is wound up with debts. In practice, it's still reasonable to contribute more than €1 if the business is going to need real solvency from the start.
 
@@ -34,7 +34,7 @@ You set up your SL with €100 of share capital. In the first year, the company 
 
 That mandatory 20% keeps going into the legal reserve every year until, between capital and reserves, it reaches €3,000; after that it stops being mandatory. With profits like the ones in this example, it's reached in under two years. Low share capital isn't "money lost" — it's a forced-saving requirement at the start, not a cost.
 
-## The steps in the process
+## What are the steps to set up an SL?
 
 1. **Company name certificate**, from the Central Companies Registry (Registro Mercantil Central), confirms that the name you want for your SL isn't already taken by another company.
 2. **Opening a bank account** in the name of the company being formed, to deposit the share capital (with low amounts of capital, some notaries accept a declaration of liability instead of the bank certificate).

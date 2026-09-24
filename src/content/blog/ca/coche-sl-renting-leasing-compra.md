@@ -2,10 +2,10 @@
 lang: ca
 slug: coche-sl-renting-leasing-compra
 title: 'Cotxe per a una SL: compra, rènting o lísing?'
-description: 'La manera de finançar-lo importa menys que si el cotxe tindrà ús privat del soci.'
+description: "Comparem compra, rènting i lísing amb un exemple a 4 anys i xifres d'estalvi fiscal, per saber quina et convé segons el teu cas."
 cat: fiscalidad
 date: 2026-09-06
-updatedDate: 2026-09-23
+updatedDate: 2026-09-24
 draft: false
 sources:
   - label: 'Ley 27/2014 del Impuesto sobre Sociedades, art. 12 — amortització de l’immobilitzat'

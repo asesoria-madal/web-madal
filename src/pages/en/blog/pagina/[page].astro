@@ -25,6 +25,7 @@ const posts = entries
   active="blog"
   title={`Blog, page ${currentPage} · Asesoría Madal`}
   description="More articles about taxes for freelancers and small companies in Spain."
+  noindex={true}
 >
   <Blog lang="en" posts={posts} showFaq={false} pagination={{ current: currentPage, total, baseUrl: '/blog' }} />
 </Layout>

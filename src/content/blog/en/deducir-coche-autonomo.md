@@ -2,7 +2,7 @@
 lang: en
 slug: deducir-coche-autonomo
 title: 'How much can you deduct for your car as a self-employed worker?'
-description: 'For income tax, almost nothing; for VAT, half. They are two taxes with different rules.'
+description: 'The short answer: almost nothing for income tax, 50% for VAT. We explain why with a worked example and the exceptions where you can deduct the whole car.'
 cat: fiscalidad
 date: 2026-08-30
 sources:
@@ -12,7 +12,7 @@ sources:
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2007-6820'
   - label: 'Ley 37/1992 (VAT Act), art. 95, sections Tres and Cuatro — presumed deduction of 50% (or 100%) of the input VAT on the vehicle and its running costs'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-1992-28740'
-updatedDate: 2026-09-23
+updatedDate: 2026-09-24
 ---
 
 It's one of the most frequent questions, and the answer tends to disappoint: for income tax (IRPF), most self-employed workers can't deduct anything for the car; for VAT, half. They are two taxes with different rules, and it's worth handling them separately.

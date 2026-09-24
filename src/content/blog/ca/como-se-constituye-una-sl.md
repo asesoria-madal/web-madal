@@ -2,10 +2,10 @@
 lang: ca
 slug: como-se-constituye-una-sl
 title: 'Com es constitueix una SL: passos, capital social i terminis'
-description: 'El tràmit passa per un notari, però convé saber què hi ha darrere.'
+description: 'Capital mínim, els 5 passos del tràmit i quant trigues: la guia completa, amb notari o per CIRCE.'
 cat: fiscalidad
 date: 2026-08-19
-updatedDate: 2026-09-23
+updatedDate: 2026-09-24
 sources:
   - label: 'Ley 18/2022, de creación y crecimiento de empresas — capital social mínim d’1 €'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2022-15818'
@@ -17,7 +17,7 @@ sources:
 
 Constituir una SL no és tan ràpid com donar-te d'alta com a autònom, però tampoc és el procés llarg i car que molta gent s'imagina.
 
-## El capital social ja no és la barrera que era
+## Quin és el capital mínim per muntar una SL?
 
 Des de la reforma de la Llei de creació i creixement d'empreses, una SL es pot constituir amb un capital social mínim d'1 €, en lloc dels 3.000 € que calien abans. La condició: mentre el capital social estigui per sota de 3.000 €, la societat ha de destinar el 20% del benefici de cada exercici a una reserva legal fins arribar a aquesta xifra, i els socis responen solidàriament per la diferència entre el capital aportat i els 3.000 € si la societat es liquida amb deutes. A la pràctica, segueix sent raonable aportar una mica més d'1 € si el negoci necessitarà solvència real des del principi.
 
@@ -34,7 +34,7 @@ Constitueixes la teva SL amb 100 € de capital social. El primer any, la societ
 
 Aquest 20% obligatori es continua destinant a reserva legal cada any fins que, entre capital i reserves, s'arriba als 3.000 €; a partir d'aquí deixa de ser obligatori. Amb beneficis com els de l'exemple, s'hi arriba en menys de dos anys. El capital social baix no és "diners perduts": és una obligació d'estalvi forçós al principi, no un cost.
 
-## Els passos del tràmit
+## Quins són els passos per crear una SL?
 
 1. **Certificació de denominació social**, al Registre Mercantil Central, confirma que el nom que vols per a la teva SL no el té ja una altra empresa.
 2. **Obertura d'un compte bancari** a nom de la societat en constitució, per ingressar el capital social (amb capitals baixos, alguns notaris admeten una declaració de responsabilitat en lloc del certificat bancari).

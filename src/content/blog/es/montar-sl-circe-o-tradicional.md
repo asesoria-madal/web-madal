@@ -2,10 +2,10 @@
 lang: es
 slug: montar-sl-circe-o-tradicional
 title: 'Montar una SL por CIRCE o por la vía tradicional: qué cambia de verdad'
-description: 'Mismo resultado legal, pero aranceles y plazos muy distintos según qué estatutos uses.'
+description: 'CIRCE: 60-150 € y unos días. Vía tradicional: precio libre y varias semanas. Tabla comparativa para saber cuál te conviene.'
 cat: fiscalidad
 date: 2026-08-21
-updatedDate: 2026-09-23
+updatedDate: 2026-09-24
 sources:
   - label: 'Real Decreto-ley 13/2010, art. 5 — aranceles notariales y registrales reducidos con estatutos tipo'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2010-18651'

@@ -2,10 +2,10 @@
 lang: en
 slug: coche-sl-renting-leasing-compra
 title: 'A car for your company (SL): buy, long-term rental or leasing?'
-description: 'How you finance it matters less than whether the car will have personal use by the owner.'
+description: 'We compare buying, renting and leasing with a 4-year example and real tax-saving figures, so you know which fits your case.'
 cat: fiscalidad
 date: 2026-09-06
-updatedDate: 2026-09-23
+updatedDate: 2026-09-24
 draft: false
 sources:
   - label: 'Ley 27/2014 (Corporate Income Tax Act), art. 12 — depreciation of fixed assets'

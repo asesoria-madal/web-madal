@@ -56,6 +56,20 @@ const breadcrumbLd = {
     { '@type': 'ListItem', position: 3, name: entry.data.title, item: articleUrl },
   ],
 };
+
+// FAQPage solo si el artículo tiene preguntas relacionadas (ver más abajo):
+// son las mismas que se muestran en pantalla en "Preguntas relacionadas",
+// nunca preguntas fuera de la página — así el marcado coincide con el
+// contenido visible, que es lo que exige Google para los datos estructurados.
+const faqLd = relatedFaqs.length > 0 ? {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: relatedFaqs.map((item) => ({
+    '@type': 'Question',
+    name: item.q,
+    acceptedAnswer: { '@type': 'Answer', text: item.a },
+  })),
+} : null;
 ---
 
 <div class="article-page">
@@ -137,6 +151,7 @@ const breadcrumbLd = {
 
 <script type="application/ld+json" is:inline set:html={JSON.stringify(articleLd)} />
 <script type="application/ld+json" is:inline set:html={JSON.stringify(breadcrumbLd)} />
+{faqLd && <script type="application/ld+json" is:inline set:html={JSON.stringify(faqLd)} />}
 
 <script>
   import { enhanceFaqAccordions } from '../../scripts/faqAccordion';

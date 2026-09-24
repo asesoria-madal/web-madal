@@ -2,10 +2,10 @@
 lang: en
 slug: montar-sl-circe-o-tradicional
 title: 'Setting up an SL through CIRCE or the traditional route: what actually changes'
-description: 'Same legal outcome, but very different fees and timelines depending on which bylaws you use.'
+description: 'CIRCE: €60-150 and a few days. Traditional route: freely negotiated price and several weeks. A comparison table to see which fits you.'
 cat: fiscalidad
 date: 2026-08-21
-updatedDate: 2026-09-23
+updatedDate: 2026-09-24
 sources:
   - label: 'Real Decreto-ley 13/2010, art. 5 — reduced notary and registry fees with standard bylaws'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2010-18651'

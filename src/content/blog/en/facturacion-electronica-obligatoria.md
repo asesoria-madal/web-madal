@@ -2,10 +2,10 @@
 lang: en
 slug: facturacion-electronica-obligatoria
 title: 'Mandatory electronic invoicing: what it is and how it differs from Verifactu'
-description: 'Two different rules that constantly get mixed up.'
+description: 'Who it applies to, from when, and how it differs from Verifactu: the two rules people mix up the most.'
 cat: fiscalidad
 date: 2026-08-19
-updatedDate: 2026-08-20
+updatedDate: 2026-09-24
 sources:
   - label: 'Ley 18/2022, business creation and growth act ("Crea y Crece")'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2022-15818'
@@ -19,11 +19,15 @@ It's very common to mix up two obligations that aren't the same thing: Verifactu
 
 Verifactu requires the software you invoice with to record every invoice in a way that can't be altered without leaving a trace. It's an obligation on the software you use, not on the format you send the invoice to your client in. We explain it with specific dates in [Verifactu: what it is and when it affects you](/en/blog/verifactu-2026).
 
-## Mandatory electronic invoicing (Ley Crea y Crece)
+## What mandatory electronic invoicing is (Ley Crea y Crece)
 
 This is a different rule: the Ley 18/2022 on business creation and growth requires companies and self-employed workers to issue and receive invoices between each other in a structured electronic format, not just any PDF, but a file a computer system can read and interpret without manual intervention, and to be able to report the status of that invoice (paid, pending, rejected).
 
-## Why the timeline still raises doubts
+## Who it applies to
+
+Every company and self-employed worker that invoices another company or self-employed worker (B2B transactions). It doesn't affect invoices you issue to individuals, and it has nothing to do with whether you use invoicing software or not — that's what Verifactu regulates, not this rule.
+
+## When it becomes mandatory
 
 The regulation that develops this obligation, Royal Decree 238/2026, of 25 March, has already been approved and published. It sets a 12-month timeline for companies with annual turnover above €8 million, and 24 months for the rest of companies and self-employed workers. What isn't settled yet is when that countdown actually starts: it depends on the final publication of a technical Ministerial Order that, as of now, is still pending final approval. Until that order is published, the exact deadline that applies to you isn't fully fixed. We'll confirm the current date with you as it gets closer to affecting you.
 

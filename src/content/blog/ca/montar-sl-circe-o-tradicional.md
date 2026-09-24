@@ -2,10 +2,10 @@
 lang: ca
 slug: montar-sl-circe-o-tradicional
 title: 'Muntar una SL per CIRCE o per la via tradicional: què canvia de veritat'
-description: 'Mateix resultat legal, però aranzels i terminis molt diferents segons quins estatuts facis servir.'
+description: 'CIRCE: 60-150 € i uns dies. Via tradicional: preu lliure i diverses setmanes. Taula comparativa per saber quina et convé.'
 cat: fiscalidad
 date: 2026-08-21
-updatedDate: 2026-09-23
+updatedDate: 2026-09-24
 sources:
   - label: 'Real Decreto-ley 13/2010, art. 5 — aranzels notarials i registrals reduïts amb estatuts tipus'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2010-18651'

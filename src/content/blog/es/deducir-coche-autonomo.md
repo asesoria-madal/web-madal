@@ -2,7 +2,7 @@
 lang: es
 slug: deducir-coche-autonomo
 title: '¿Cuánto te puedes desgravar del coche siendo autónomo?'
-description: 'En IRPF casi nunca; en IVA, la mitad. Son dos impuestos con reglas distintas.'
+description: 'La respuesta corta: en IRPF casi nunca, en IVA el 50%. Te lo explicamos con un ejemplo numérico y las excepciones donde sí puedes desgravarlo entero.'
 cat: fiscalidad
 date: 2026-08-30
 sources:
@@ -12,7 +12,7 @@ sources:
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2007-6820'
   - label: 'Ley 37/1992 del IVA, art. 95, apdos. Tres y Cuatro — presunción de deducción del 50% (o del 100%) de las cuotas soportadas del vehículo y de sus gastos'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-1992-28740'
-updatedDate: 2026-09-23
+updatedDate: 2026-09-24
 ---
 
 Es una de las preguntas que más se repite, y la respuesta suele decepcionar: para el IRPF, la mayoría de autónomos no puede deducir nada del coche; para el IVA, la mitad. Son dos impuestos con reglas distintas, y conviene tratarlos por separado.

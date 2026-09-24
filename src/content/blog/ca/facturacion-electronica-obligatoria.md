@@ -2,10 +2,10 @@
 lang: ca
 slug: facturacion-electronica-obligatoria
 title: 'Facturació electrònica obligatòria: què és i en què es diferencia de Verifactu'
-description: 'Dues normes diferents que es confonen constantment.'
+description: 'Qui hi està obligat, des de quan, i en què es diferencia de Verifactu: les dues normes que més es confonen.'
 cat: fiscalidad
 date: 2026-08-19
-updatedDate: 2026-08-20
+updatedDate: 2026-09-24
 sources:
   - label: 'Ley 18/2022, de creación y crecimiento de empresas ("Crea y Crece")'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2022-15818'
@@ -19,11 +19,15 @@ sources:
 
 Verifactu obliga que el programa amb què factures registri cada factura de manera que no es pugui alterar sense deixar rastre. És una obligació sobre el programari que fas servir, no sobre el format en què envies la factura al teu client. Ho expliquem amb dates concretes a [Verifactu: què és i quan t'afecta](/ca/blog/verifactu-2026).
 
-## La factura electrònica obligatòria (Llei Crea i Creix)
+## Què és la factura electrònica obligatòria (Llei Crea i Creix)
 
 Aquesta és una altra norma: la Llei 18/2022 de creació i creixement d'empreses obliga a emetre i rebre factures entre empreses i autònoms en un format electrònic estructurat, no un PDF qualsevol, sinó un arxiu que un sistema informàtic pot llegir i interpretar sense intervenció manual, i a poder informar de l'estat d'aquesta factura (pagada, pendent, rebutjada).
 
-## Per què el calendari encara genera dubtes
+## Qui hi està obligat
+
+Totes les empreses i autònoms que facturin a altres empreses o a altres autònoms (operacions B2B). No afecta les factures que emets a particulars, ni depèn de si fas servir o no un programa informàtic per facturar: això és el que regula Verifactu, no aquesta norma.
+
+## Quan és obligatòria
 
 El reglament que desenvolupa aquesta obligació, el Reial Decret 238/2026, de 25 de març, ja està aprovat i publicat. Fixa un calendari de 12 mesos per a les empreses amb una facturació anual superior a 8 milions d'euros, i de 24 mesos per a la resta d'empreses i autònoms. La part que encara no està tancada és quan comença a comptar aquest termini: depèn de la publicació definitiva d'una Ordre Ministerial tècnica que, a dia d'avui, continua pendent d'aprovació final. Fins que aquesta ordre es publiqui, la data límit exacta que t'afecta a tu no està fixada del tot. T'ho confirmem quan s'apropi el moment que t'afecti.
 

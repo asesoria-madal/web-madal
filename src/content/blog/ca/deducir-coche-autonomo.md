@@ -2,7 +2,7 @@
 lang: ca
 slug: deducir-coche-autonomo
 title: 'Quant et pots desgravar del cotxe sent autònom?'
-description: 'En IRPF gairebé mai; en IVA, la meitat. Són dos impostos amb regles diferents.'
+description: "La resposta curta: en IRPF gairebé mai, en IVA el 50%. T'ho expliquem amb un exemple numèric i les excepcions on sí que et pots desgravar el cotxe sencer."
 cat: fiscalidad
 date: 2026-08-30
 sources:
@@ -12,7 +12,7 @@ sources:
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2007-6820'
   - label: 'Ley 37/1992 del IVA, art. 95, apdos. Tres i Cuatro — presumpció de deducció del 50% (o del 100%) de les quotes suportades del vehicle i de les seves despeses'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-1992-28740'
-updatedDate: 2026-09-23
+updatedDate: 2026-09-24
 ---
 
 És una de les preguntes que més es repeteix, i la resposta sol decebre: per a l'IRPF, la majoria d'autònoms no pot deduir res del cotxe; per a l'IVA, la meitat. Són dos impostos amb regles diferents, i convé tractar-los per separat.
