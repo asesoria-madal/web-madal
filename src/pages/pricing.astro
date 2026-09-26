@@ -1,0 +1,18 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Pricing from '../components/pages/Pricing.astro';
+
+export const prerender = true;
+---
+
+<Layout
+  lang="es"
+  path="/pricing"
+  active="none"
+  title="Madal Pricing · Asesoría Madal"
+  description="Estrategia de precios para tu negocio, a partir de los datos que ya tiene tu balance."
+  noindex={true}
+  showCtaFinal={false}
+>
+  <Pricing />
+</Layout>

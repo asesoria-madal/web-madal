@@ -1,0 +1,934 @@
+---
+// Línea "Madal Pricing" (asesoría de precios) — fase 3 del roadmap, aún sin
+// validar con clientes reales. A propósito con una identidad visual propia
+// (fuentes + tono "tech") distinta del resto del sitio, pero reutilizando
+// los colores corporativos reales de global.css (los valores de abajo son
+// los mismos hex que --accent/--warm/--paper/--ink en modo oscuro) — nunca
+// paleta inventada. Ver web/CLAUDE.md antes de tocar la paleta.
+//
+// Página deliberadamente NO enlazada desde el nav (ver src/pages/pricing.astro,
+// noindex + active="none"): se comparte por link directo a 2-3 clientes de
+// prueba antes de decidir si entra en el menú.
+//
+// Pendiente de verdad, no placeholder cosmético: el Calendly de esta línea
+// todavía no existe — los botones de "Reservar diagnóstico" apuntan a
+// "#calendly-pendiente" (enlace inerte a propósito) hasta que se cree uno.
+const CALENDLY_PLACEHOLDER = '#calendly-pendiente';
+const MAILTO = 'mailto:contacto@asesoriamadal.es?subject=Madal%20Pricing';
+---
+
+<div class="madal-pricing">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;900&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap"
+  />
+
+  <nav class="nav">
+    <div class="nav-inner">
+      <div class="brand"><span class="dot"></span>MADAL<span style="color:var(--accent2)">·</span>PRICING <span class="sub">by Asesoría Madal</span></div>
+      <div class="navlinks" id="navlinks">
+        <a href="#pilares" data-nav="pilares">Pilares</a>
+        <a href="#proceso" data-nav="proceso">Proceso</a>
+        <a href="#conexion" data-nav="conexion">Conexión</a>
+        <a href="#planes" data-nav="planes">Planes</a>
+      </div>
+      <div class="status-live"><span class="sd"></span>DATOS DE TU BALANCE, EN VIVO</div>
+      <a class="btn btn-primary" href="#planes">Reservar diagnóstico</a>
+    </div>
+  </nav>
+
+  <div class="rail" id="rail" aria-hidden="true">
+    <div class="rail-dot" data-target="top"><span class="rail-label mono">00 · INICIO</span></div>
+    <div class="rail-line"></div>
+    <div class="rail-dot" data-target="ventaja"><span class="rail-label mono">01 · VENTAJA</span></div>
+    <div class="rail-line"></div>
+    <div class="rail-dot" data-target="pilares"><span class="rail-label mono">02 · PILARES</span></div>
+    <div class="rail-line"></div>
+    <div class="rail-dot" data-target="proceso"><span class="rail-label mono">03 · PROCESO</span></div>
+    <div class="rail-line"></div>
+    <div class="rail-dot" data-target="simulador"><span class="rail-label mono">04 · SIMULADOR</span></div>
+    <div class="rail-line"></div>
+    <div class="rail-dot" data-target="conexion"><span class="rail-label mono">05 · CONEXIÓN</span></div>
+    <div class="rail-line"></div>
+    <div class="rail-dot" data-target="planes"><span class="rail-label mono">06 · PLANES</span></div>
+  </div>
+
+  <header class="hero" id="top">
+    <div class="wrap hero-grid">
+      <div>
+        <div class="fig">FIG.00 — MADAL PRICING</div>
+        <h1>El plano<br />de tus <em>precios.</em></h1>
+        <p class="dek">Dejamos de fijar tarifas a ojo. Partimos de los datos que ya tiene tu balance y diseñamos tu estrategia de precios pieza a pieza — de tus costes reales hasta la experimentación continua.</p>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="#planes">Reservar diagnóstico →</a>
+          <a class="btn btn-ghost" href="#pilares">Ver los 5 pilares</a>
+        </div>
+        <p class="under mono">SIN ENCUESTAS · SIN ADIVINAR · 1ª LLAMADA GRATIS</p>
+      </div>
+
+      <div class="diagram" id="diagramWrap">
+        <div class="diagram-inner" id="diagramInner">
+          <svg viewBox="0 0 460 340" role="img" aria-label="Diagrama de los 5 pilares de Madal Pricing en forma de escalera ascendente. Cada bloque se puede pulsar para ir al detalle.">
+            <line x1="30" y1="24" x2="430" y2="24" class="dim-line" />
+            <line x1="30" y1="18" x2="30" y2="30" class="dim-line" />
+            <line x1="430" y1="18" x2="430" y2="30" class="dim-line" />
+            <text x="30" y="14" fill="var(--ink-dim)" font-size="9" letter-spacing="1">COSTE REAL</text>
+            <text x="360" y="14" fill="var(--ink-dim)" font-size="9" letter-spacing="1">EXPERIMENTACIÓN</text>
+
+            <g class="stair-hit" data-pillar="1" tabindex="0" role="button" aria-label="Pilar 1: unit economics">
+              <rect x="30" y="270" width="70" height="46" class="stair-rect on" fill="rgba(79,168,158,.09)" />
+              <text x="65" y="298" fill="var(--accent)" font-size="20" font-weight="600" text-anchor="middle">01</text>
+            </g>
+            <g class="stair-hit" data-pillar="2" tabindex="0" role="button" aria-label="Pilar 2: benchmarking de precios">
+              <rect x="106" y="240" width="70" height="76" class="stair-rect on" fill="rgba(79,168,158,.09)" />
+              <text x="141" y="283" fill="var(--accent)" font-size="20" font-weight="600" text-anchor="middle">02</text>
+            </g>
+            <g class="stair-hit" data-pillar="3" tabindex="0" role="button" aria-label="Pilar 3: price architecture">
+              <rect x="182" y="205" width="70" height="111" class="stair-rect on" fill="rgba(79,168,158,.09)" />
+              <text x="217" y="265" fill="var(--accent)" font-size="20" font-weight="600" text-anchor="middle">03</text>
+            </g>
+            <g class="stair-hit" data-pillar="4" tabindex="0" role="button" aria-label="Pilar 4: análisis de descuentos">
+              <rect x="258" y="150" width="70" height="166" class="stair-rect warm" fill="rgba(224,152,63,.09)" />
+              <text x="293" y="235" fill="var(--accent2)" font-size="20" font-weight="600" text-anchor="middle">04</text>
+            </g>
+            <g class="stair-hit" data-pillar="5" tabindex="0" role="button" aria-label="Pilar 5: experimentación">
+              <rect x="334" y="90" width="70" height="226" class="stair-rect warm" fill="rgba(224,152,63,.09)" />
+              <text x="369" y="205" fill="var(--accent2)" font-size="20" font-weight="600" text-anchor="middle">05</text>
+            </g>
+
+            <path class="sweep" d="M30,270 L100,270 L106,240 L176,240 L182,205 L252,205 L258,150 L328,150 L334,90 L404,90" fill="none" />
+            <line x1="30" y1="316" x2="404" y2="316" class="dim-line" stroke-dasharray="2 3" />
+          </svg>
+        </div>
+        <div class="diagram-caption">
+          <span>01 — UNIT ECONOMICS</span>
+          <span>05 — EXPERIMENTACIÓN</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section class="strip">
+    <div class="wrap">
+      <div class="strip-grid">
+        <div class="strip-cell reveal">
+          <div class="num mono"><span class="count" data-target="0" data-prefix="">0</span>€</div>
+          <div class="lbl">coste de partida</div>
+          <div class="tiny">el dato base ya sale de tu balance</div>
+        </div>
+        <div class="strip-cell reveal">
+          <div class="num mono"><span class="count" data-target="5">0</span></div>
+          <div class="lbl">pilares, no un informe suelto</div>
+          <div class="tiny">de tus costes a la experimentación</div>
+        </div>
+        <div class="strip-cell reveal">
+          <div class="num mono"><span class="count" data-target="1">0</span></div>
+          <div class="lbl">interlocutor, no una consultora</div>
+          <div class="tiny">la misma persona que lleva tu contabilidad</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="ventaja">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div class="fig">FIG.01 — LA VENTAJA</div>
+        <h2>El resto del mercado empieza de cero. Nosotros no.</h2>
+        <p>Miramos qué cobran las consultoras de pricing, las boutiques de SaaS y los freelance especializados. Todas arrancan levantando datos del cliente desde el minuto uno. Nosotros ya los tenemos.</p>
+      </div>
+      <div class="compare reveal">
+        <div class="compare-col market">
+          <h3>El mercado</h3>
+          <ul>
+            <li><span class="v">~400 €/día</span> tarifa media de un consultor de estrategia freelance en España (Malt, 2026), sin conocer tu negocio de antemano</li>
+            <li><span class="v">254–630 €/día</span> rango real según experiencia — no sabes cuál te toca hasta que ya has pagado</li>
+            <li><span class="v">80–250 €/hora</span> en consultoras de negocio generalistas, aparte de la fase de diagnóstico</li>
+            <li><span class="v">Semanas</span> de recogida de datos antes de empezar a analizar nada</li>
+          </ul>
+        </div>
+        <div class="compare-col us">
+          <h3>Madal Pricing</h3>
+          <ul>
+            <li><span class="v">0 €</span> la primera llamada: miramos tus números y te decimos qué se puede hacer, sin cobrarte nada</li>
+            <li><span class="v">300 € / 500 €</span> el diagnóstico completo (cliente de la gestoría / nuevo), el equivalente a una jornada de mercado — no menos</li>
+            <li><span class="v">0 semanas</span> de recogida de datos si ya eres cliente: tu balance ya está hecho</li>
+            <li><span class="v">1 interlocutor</span>, la misma persona que ya lleva tus cuentas</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="pilares">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div class="fig">FIG.02 — ARQUITECTURA</div>
+        <h2>Cinco pilares, en el orden en que dan resultado</h2>
+        <p>No vendemos un informe de precios y ya. Cada pilar se apoya en el anterior. Pulsa cada fila — o un bloque del plano de arriba — para ver por qué importa.</p>
+      </div>
+
+      <div class="group-tag core">Diagnóstico — con datos que ya tenemos</div>
+      <div class="pillars reveal" id="pillarList">
+        <div class="pillar on open" data-pillar="1">
+          <div class="idx mono">01</div>
+          <div>
+            <div class="pillar-head"><h3>Unit economics</h3><span class="chev mono">+</span></div>
+            <p class="desc">Cuánto te cuesta de verdad cada cliente, cada hora, cada unidad — y qué margen te deja realmente cada línea de tu negocio.</p>
+            <div class="pillar-detail"><p>Sin esto, cualquier descuento o pack nuevo es una apuesta a ciegas: es el número que hace que el resto de pilares tengan sentido.</p></div>
+          </div>
+          <div class="facts-col">ENTRADA<br /><strong>tu balance</strong></div>
+        </div>
+        <div class="pillar on" data-pillar="2">
+          <div class="idx mono">02</div>
+          <div>
+            <div class="pillar-head"><h3>Benchmarking de precios</h3><span class="chev mono">+</span></div>
+            <p class="desc">Dónde estás frente a tu sector y tu tamaño de negocio, con datos, no con la sensación de "cobro parecido a otros".</p>
+            <div class="pillar-detail"><p>No es para copiar a la competencia: es para saber si tu precio ya está donde debería o si estás dejando margen sobre la mesa.</p></div>
+          </div>
+          <div class="facts-col">ENTRADA<br /><strong>pilar 01 + sector</strong></div>
+        </div>
+        <div class="pillar on" data-pillar="3">
+          <div class="idx mono">03</div>
+          <div>
+            <div class="pillar-head"><h3>Price architecture</h3><span class="chev mono">+</span></div>
+            <p class="desc">Cómo montamos tus packs y niveles para que cada tramo cobre lo que de verdad vale, en vez de un precio único que no encaja con nadie.</p>
+            <div class="pillar-detail"><p>Aquí el número se convierte en catálogo: qué entra en cada pack, qué se cobra aparte, qué nivel empuja al cliente hacia arriba.</p></div>
+          </div>
+          <div class="facts-col">ENTRADA<br /><strong>pilar 01+02</strong></div>
+        </div>
+      </div>
+
+      <div class="group-tag recurring">Descuentos y experimentación — se venden sueltos, no en cascada</div>
+      <div class="pillars reveal" style="margin-bottom:0;">
+        <div class="pillar warm" data-pillar="4">
+          <div class="idx mono">04</div>
+          <div>
+            <div class="pillar-head"><h3>Análisis de descuentos</h3><span class="chev mono">+</span></div>
+            <p class="desc">Qué descuentos estás dando de verdad y qué le hacen a tu margen, no a tu volumen de ventas.</p>
+            <div class="pillar-detail"><p>La mayoría de negocios da más descuento del que cree. Se vende como pack suelto — incluye un cálculo ligero de tu margen real para que "qué le hace al margen" sea una cifra, no una sensación — con opción de convertirlo en seguimiento mensual si quieres vigilarlo mes a mes en vez de una foto puntual.</p></div>
+          </div>
+          <div class="facts-col">ENTRADA<br /><strong>ninguna</strong><br />vale por sí solo</div>
+        </div>
+        <div class="pillar warm" data-pillar="5">
+          <div class="idx mono">05</div>
+          <div>
+            <div class="pillar-head"><h3>Experimentación <span class="mono" style="font-size:11px;color:var(--accent2-strong);font-weight:600;">· PREMIUM</span></h3><span class="chev mono">+</span></div>
+            <p class="desc">Probamos cambios de precio de forma controlada durante un par de meses y medimos el efecto real, antes de aplicarlo a todo tu catálogo.</p>
+            <div class="pillar-detail"><p>Es el pack más completo: incluye el diagnóstico (01–02) y el análisis de descuentos (04) por dentro, y termina en un resultado medido, no en una recomendación sobre papel. No será el que más se venda — requiere volumen real para que el experimento sea fiable — pero es el que más valor deja cuando encaja.</p></div>
+          </div>
+          <div class="facts-col">ENTRADA<br /><strong>ninguna</strong><br />incluye 01+02+04</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="proceso">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div class="fig">FIG.03 — PROCESO</div>
+        <h2>De la primera llamada a un precio que se sostiene</h2>
+        <p>Cuatro pasos, sin letra pequeña: el primero no cuesta nada.</p>
+      </div>
+      <div class="process reveal">
+        <div class="proc-step">
+          <div class="n mono">PASO 00</div>
+          <h3>Llamada gratuita</h3>
+          <p>Miramos tus números y tu negocio sin coste ni compromiso. Si hay margen real de mejora, te decimos exactamente qué te podemos ofrecer.</p>
+          <span class="proc-arrow">→</span>
+        </div>
+        <div class="proc-step">
+          <div class="n mono">PASO 01</div>
+          <h3>Diagnóstico</h3>
+          <p>Aquí empieza el pago. Unit economics y benchmarking sobre tu balance real, con informe. Sales con un número: cuánto deberías estar cobrando hoy.</p>
+          <span class="proc-arrow">→</span>
+        </div>
+        <div class="proc-step">
+          <div class="n mono">PASO 02</div>
+          <h3>Rediseño</h3>
+          <p>Rehacemos tus packs y tarifas con esa arquitectura de precios, listos para publicar o presentar a tus clientes.</p>
+          <span class="proc-arrow">→</span>
+        </div>
+        <div class="proc-step">
+          <div class="n mono">PASO 03</div>
+          <h3>Gestión continua</h3>
+          <p>Seguimos midiendo descuentos y probando ajustes cada mes, para que el precio evolucione con tu negocio.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="simulador">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div class="fig">FIG.04 — SIMULADOR</div>
+        <h2>Mueve el dial, no adivines</h2>
+        <p>Un ejemplo simplificado de lo que suele pasar al ordenar precios con los pilares 01 y 02. No es un cálculo con tus datos reales — eso solo sale del diagnóstico.</p>
+      </div>
+      <div class="panel sim reveal" id="simPanel">
+        <span class="tl"></span><span class="tr"></span><span class="bl"></span><span class="br"></span>
+        <div class="sim-controls">
+          <div class="field">
+            <label>Tu margen actual<span class="val mono" id="marginVal">22%</span></label>
+            <input type="range" id="marginRange" min="5" max="45" value="22" step="1" />
+          </div>
+          <div class="field">
+            <label>Clientes o ventas al mes<span class="val mono" id="volVal">40</span></label>
+            <input type="range" id="volRange" min="5" max="150" value="40" step="5" />
+          </div>
+          <p class="sim-note">FIG.03A · Rango de mejora orientativo tras ordenar unit economics y benchmarking en negocios similares. Ejemplo ilustrativo, no un cálculo con tus datos.</p>
+        </div>
+        <div class="sim-result">
+          <div class="bar-row">
+            <div class="bl"><span>HOY</span><span class="v mono" id="hoyLabel">22%</span></div>
+            <div class="bar-track"><div class="bar-fill hoy" id="hoyBar" style="width:22%"></div></div>
+          </div>
+          <div class="bar-row">
+            <div class="bl"><span>CON PILARES 01–02 (EJEMPLO)</span><span class="v mono" id="conLabel">28%</span></div>
+            <div class="bar-track"><div class="bar-fill con" id="conBar" style="width:28%"></div></div>
+          </div>
+          <p class="sim-note" id="deltaNote">A este volumen, cada punto de margen mueve más de lo que parece a fin de mes.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="conexion">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div class="fig">FIG.05 — CONEXIÓN</div>
+        <h2>Una línea de Asesoría Madal, no una consultora aparte</h2>
+        <p>No empiezas de cero con nosotros porque no empiezas de cero con tu gestoría. Así se conecta según de dónde vengas.</p>
+      </div>
+      <div class="connect reveal">
+        <div class="connect-row">
+          <div class="who"><span class="tag">Ya eres cliente</span>De la gestoría, en cualquier plan</div>
+          <div class="arrow">→</div>
+          <div class="what">Diagnóstico a precio de cliente (300 €), porque tu balance ya está en nuestras manos.</div>
+        </div>
+        <div class="connect-row">
+          <div class="who"><span class="tag">Plan superior</span>Clientes en el tramo más alto de la gestoría</div>
+          <div class="arrow">→</div>
+          <div class="what">El diagnóstico entra dentro del valor de tu plan, sin coste adicional.</div>
+        </div>
+        <div class="connect-row">
+          <div class="who"><span class="tag">Aún no eres cliente</span>No trabajas todavía con Asesoría Madal</div>
+          <div class="arrow">→</div>
+          <div class="what">Llamada gratuita primero. Si compensa seguir, pagas el diagnóstico suelto (500 €) o pasas a la gestoría completa — lo que prefieras.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="planes">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div class="fig">FIG.06 — PLANES</div>
+        <h2>Empieza donde tiene sentido para tu negocio</h2>
+        <p>Cada plan corresponde a un tramo de pilares. Antes de pagar nada hay una llamada gratuita para ver tus números — se puede subir de plan cuando el negocio lo pida, no antes.</p>
+      </div>
+
+      <div class="plans reveal">
+        <div class="plan panel">
+          <span class="tl"></span><span class="tr"></span><span class="bl"></span><span class="br"></span>
+          <span class="tag mono">01 · Pilares 1–2</span>
+          <h3>Diagnóstico</h3>
+          <p class="scope mono">PAGO ÚNICO</p>
+          <ul>
+            <li>Unit economics de tu negocio</li>
+            <li>Benchmarking frente a tu sector</li>
+            <li>Informe + sesión de lectura de resultados</li>
+          </ul>
+          <div class="price">
+            <div style="display:flex;justify-content:space-between;"><span>Cliente de la gestoría</span><strong class="mono" style="color:var(--accent-strong)">300 €</strong></div>
+            <div style="display:flex;justify-content:space-between;margin-top:6px;"><span>Nuevo cliente</span><strong class="mono">500 €</strong></div>
+          </div>
+          <a class="btn btn-ghost" href={CALENDLY_PLACEHOLDER}>Empezar aquí</a>
+        </div>
+
+        <div class="plan panel featured">
+          <span class="tl"></span><span class="tr"></span><span class="bl"></span><span class="br"></span>
+          <span class="tag mono">02 · Pilares 1–3</span>
+          <h3>Diagnóstico + Arquitectura</h3>
+          <p class="scope mono">PAGO ÚNICO</p>
+          <ul>
+            <li>Todo lo del pack Diagnóstico</li>
+            <li>Arquitectura de packs y niveles</li>
+            <li>Tarifas listas para publicar</li>
+          </ul>
+          <div class="price">
+            <div style="display:flex;justify-content:space-between;"><span>Cliente de la gestoría</span><strong class="mono" style="color:var(--accent-strong)">900 €</strong></div>
+            <div style="display:flex;justify-content:space-between;margin-top:6px;"><span>Nuevo cliente</span><strong class="mono">1.200 €</strong></div>
+          </div>
+          <a class="btn btn-primary" href={CALENDLY_PLACEHOLDER}>Reservar diagnóstico</a>
+        </div>
+
+        <div class="plan panel">
+          <span class="tl"></span><span class="tr"></span><span class="bl"></span><span class="br"></span>
+          <span class="tag mono">03 · Pilares 1–2</span>
+          <h3>Seguimiento mensual</h3>
+          <p class="scope mono">MENSUAL · REQUIERE 01 O 02</p>
+          <ul>
+            <li>Recalculamos tu unit economics cada mes</li>
+            <li>Revisamos tu posición frente al mercado</li>
+            <li>Aviso si se mueve algo: costes o competencia</li>
+          </ul>
+          <div class="price">Para quien ya tiene el diagnóstico hecho<br /><strong>120 €/mes</strong></div>
+          <a class="btn btn-ghost" href={MAILTO}>Hablar con nosotros</a>
+        </div>
+
+        <div class="plan panel">
+          <span class="tl"></span><span class="tr"></span><span class="bl"></span><span class="br"></span>
+          <span class="tag mono">04 · Pilar 4</span>
+          <h3>Análisis de descuentos</h3>
+          <p class="scope mono">PAGO ÚNICO + OPCIÓN MENSUAL</p>
+          <ul>
+            <li>Cálculo rápido de tu margen real (versión ligera del pilar 01, solo lo necesario para esto)</li>
+            <li>Qué descuentos das de verdad, no los que crees</li>
+            <li>Qué le hacen esos descuentos a ese margen — cifra real, no sensación</li>
+            <li>Informe con el impacto — se compra suelto, sin depender de los packs 01–03</li>
+          </ul>
+          <div class="plan-addon">
+            <span class="lbl">+ Opción · Seguimiento mensual</span>
+            <p>Si quieres vigilarlo mes a mes en vez de una foto única: +60 €/mes.</p>
+          </div>
+          <div class="price">
+            <div style="display:flex;justify-content:space-between;"><span>Cliente de la gestoría</span><strong class="mono" style="color:var(--accent-strong)">250 €</strong></div>
+            <div style="display:flex;justify-content:space-between;margin-top:6px;"><span>Nuevo cliente</span><strong class="mono">400 €</strong></div>
+          </div>
+          <a class="btn btn-ghost" href={MAILTO}>Hablar con nosotros</a>
+        </div>
+
+        <div class="plan panel premium">
+          <span class="tl"></span><span class="tr"></span><span class="bl"></span><span class="br"></span>
+          <span class="tag mono">05 · Pilares 1–2–4–5</span>
+          <h3>Experimentación</h3>
+          <p class="scope mono">PROYECTO · ~2 MESES</p>
+          <ul>
+            <li>Análisis completo de unit economics + benchmarking</li>
+            <li>Análisis de descuentos incluido</li>
+            <li>~2 meses probando cambios de precio reales, medidos</li>
+            <li>Informe final con el resultado validado — no una recomendación sobre papel</li>
+          </ul>
+          <div class="plan-addon">
+            <span class="lbl">+ Después</span>
+            <p>Al terminar, puedes pasar al seguimiento mensual estándar (pack 03, 120 €/mes) para no perder lo aprendido.</p>
+          </div>
+          <div class="price">
+            <div style="display:flex;justify-content:space-between;"><span>Cliente de la gestoría</span><strong class="mono" style="color:var(--accent2-strong)">1.200 €</strong></div>
+            <div style="display:flex;justify-content:space-between;margin-top:6px;"><span>Nuevo cliente</span><strong class="mono">1.500 €</strong></div>
+          </div>
+          <a class="btn btn-primary" href={CALENDLY_PLACEHOLDER}>Reservar diagnóstico</a>
+        </div>
+      </div>
+      <p class="sim-note reveal" style="margin-top:22px;">FIG.06A · Precios calculados sobre la tarifa media real de consultoría de estrategia en España (~400 €/jornada, Malt 2026), ajustados a autónomos y pymes pequeñas — no al segmento boutique de pricing para SaaS. El pack 05, por horas reales de trabajo (~6–7 jornadas repartidas en 2 meses), valdría más a precio de mercado puro — se lanza en 1.200–1.500 € a propósito, como precio de entrada mientras construís casos reales; revisadlo al alza tras los primeros 2–3 proyectos. La primera llamada siempre es gratuita.</p>
+    </div>
+  </section>
+
+  <section class="cta-final" id="cta">
+    <div class="wrap">
+      <div class="panel cta-panel reveal">
+        <span class="tl"></span><span class="tr"></span><span class="bl"></span><span class="br"></span>
+        <div>
+          <div class="fig" style="margin-bottom:12px;">FIG.07 — SIGUIENTE PASO</div>
+          <h2>Tu balance ya tiene la primera respuesta.</h2>
+          <p>Reserva una llamada y te decimos, con tus propios números, si estás cobrando lo que deberías.</p>
+        </div>
+        <a class="btn btn-primary" href={CALENDLY_PLACEHOLDER} style="padding:14px 26px; font-size:14px;">Reservar diagnóstico →</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="foot-inner">
+      <span>MADAL PRICING — UNA LÍNEA DE ASESORÍA MADAL</span>
+      <span><a href="#ventaja">VENTAJA</a> · <a href="#pilares">PILARES</a> · <a href="#proceso">PROCESO</a> · <a href="#conexion">CONEXIÓN</a> · <a href="#planes">PLANES</a></span>
+    </div>
+  </footer>
+</div>
+
+<style>
+  .madal-pricing {
+    --bg: #211d18;
+    --bg-raised: #2b241d;
+    --bg-panel: #2b241d;
+    --bg-panel-2: #362d22;
+    --ink: #f2e9dc;
+    --ink-soft: #b8a88f;
+    --ink-dim: #8a7a60;
+    --line: #4a3f30;
+    --line-bright: #5f4f38;
+    --accent: #4fa89e;
+    --accent-strong: #6fc4b9;
+    --accent-soft: rgba(79, 168, 158, 0.14);
+    --accent2: #e0983f;
+    --accent2-strong: #f0b467;
+    --accent2-soft: rgba(224, 152, 63, 0.14);
+    color-scheme: dark;
+    background:
+      radial-gradient(1100px 520px at 10% -12%, rgba(79, 168, 158, 0.16), transparent 60%),
+      radial-gradient(900px 460px at 102% 4%, rgba(224, 152, 63, 0.1), transparent 55%),
+      var(--bg);
+    color: var(--ink);
+    font-family: 'IBM Plex Sans', ui-sans-serif, system-ui, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    padding-bottom: 40px;
+  }
+  .madal-pricing * { box-sizing: border-box; }
+  .madal-pricing h1, .madal-pricing h2, .madal-pricing h3 { font-family: 'Unbounded', 'IBM Plex Sans', sans-serif; font-weight: 700; text-wrap: balance; margin: 0; letter-spacing: -0.01em; }
+  .madal-pricing .mono { font-family: 'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace; }
+  .madal-pricing a { color: inherit; }
+  .madal-pricing img { max-width: 100%; }
+  .madal-pricing button { font: inherit; color: inherit; }
+
+  .madal-pricing .wrap { max-width: 1120px; margin-inline: auto; padding-inline: 24px; }
+  .madal-pricing section { padding-block: 96px; border-bottom: 1px solid var(--line); }
+  .madal-pricing section:last-of-type { border-bottom: none; }
+  @media (max-width: 720px) { .madal-pricing section { padding-block: 64px; } }
+
+  .madal-pricing .fig {
+    font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500;
+    letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent-strong);
+    display: flex; align-items: center; gap: 10px; margin-bottom: 18px;
+  }
+  .madal-pricing .fig::before { content: ''; width: 22px; height: 1px; background: var(--accent-strong); }
+
+  .madal-pricing .panel {
+    position: relative; border: 1px solid var(--line-bright);
+    background: var(--bg-panel); padding: 26px 26px 24px;
+  }
+  .madal-pricing .panel .tl, .madal-pricing .panel .tr, .madal-pricing .panel .bl, .madal-pricing .panel .br {
+    content: ''; position: absolute; width: 12px; height: 12px;
+    border: 1.5px solid var(--accent-strong); opacity: 0.75;
+  }
+  .madal-pricing .panel .tl { top: -1px; left: -1px; border-right: none; border-bottom: none; }
+  .madal-pricing .panel .tr { top: -1px; right: -1px; border-left: none; border-bottom: none; }
+  .madal-pricing .panel .bl { bottom: -1px; left: -1px; border-right: none; border-top: none; }
+  .madal-pricing .panel .br { bottom: -1px; right: -1px; border-left: none; border-top: none; }
+
+  .madal-pricing .reveal { opacity: 1; transform: none; transition: opacity 0.6s ease, transform 0.6s ease; }
+  @media (prefers-reduced-motion: no-preference) {
+    .madal-pricing .reveal { opacity: 0; transform: translateY(18px); }
+    .madal-pricing .reveal.in { opacity: 1; transform: none; }
+  }
+
+  /* Sticky justo debajo de la cabecera real del sitio (var(--header-h),
+     definida globalmente en global.css) — si usara top:0 se solaparía con
+     header.site, que también es sticky. */
+  .madal-pricing .nav {
+    position: sticky; top: var(--header-h, 76px); z-index: 30;
+    background: rgba(33, 29, 24, 0.88); backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line);
+  }
+  .madal-pricing .nav-inner {
+    max-width: 1120px; margin-inline: auto; padding: 16px 24px;
+    display: flex; align-items: center; justify-content: space-between; gap: 20px;
+  }
+  .madal-pricing .brand { display: flex; align-items: center; gap: 10px; font-family: 'Unbounded', sans-serif; font-weight: 700; font-size: 15px; letter-spacing: -0.01em; }
+  .madal-pricing .brand .dot { width: 8px; height: 8px; background: var(--accent); box-shadow: 0 0 10px var(--accent); flex-shrink: 0; border-radius: 50%; animation: madalPulse 2.4s ease-in-out infinite; }
+  @media (prefers-reduced-motion: reduce) { .madal-pricing .brand .dot { animation: none; } }
+  @keyframes madalPulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.45; } }
+  .madal-pricing .brand .sub { font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; font-weight: 500; color: var(--ink-dim); letter-spacing: 0.08em; text-transform: uppercase; margin-left: 2px; }
+  .madal-pricing .navlinks { display: flex; gap: 26px; font-size: 13.5px; color: var(--ink-soft); }
+  .madal-pricing .navlinks a { text-decoration: none; transition: color 0.15s; position: relative; padding-bottom: 3px; }
+  .madal-pricing .navlinks a::after { content: ''; position: absolute; left: 0; right: 100%; bottom: 0; height: 1px; background: var(--accent-strong); transition: right 0.25s ease; }
+  .madal-pricing .navlinks a:hover { color: var(--accent-strong); }
+  .madal-pricing .navlinks a.active { color: var(--ink); }
+  .madal-pricing .navlinks a.active::after { right: 0; }
+  @media (max-width: 760px) { .madal-pricing .navlinks { display: none; } }
+
+  .madal-pricing .status-live { display: flex; align-items: center; gap: 6px; font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; color: var(--ink-dim); letter-spacing: 0.06em; }
+  .madal-pricing .status-live .sd { width: 6px; height: 6px; border-radius: 50%; background: var(--accent-strong); box-shadow: 0 0 8px var(--accent-strong); }
+  @media (max-width: 900px) { .madal-pricing .status-live { display: none; } }
+
+  .madal-pricing .btn {
+    font-family: 'IBM Plex Mono', monospace; font-size: 13px; font-weight: 600;
+    letter-spacing: 0.03em; padding: 11px 20px; border: 1px solid transparent;
+    cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 8px;
+    transition: transform 0.15s, box-shadow 0.15s, background 0.15s; background: none;
+  }
+  .madal-pricing .btn-primary { background: var(--accent); color: #0e211d; }
+  .madal-pricing .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 0 0 1px var(--accent), 0 8px 24px -8px var(--accent); }
+  .madal-pricing .btn-ghost { border-color: var(--line-bright); color: var(--ink); }
+  .madal-pricing .btn-ghost:hover { border-color: var(--accent-strong); color: var(--accent-strong); }
+
+  .madal-pricing .rail {
+    position: fixed; right: 22px; top: 50%; transform: translateY(-50%); z-index: 25;
+    display: flex; flex-direction: column; align-items: center; gap: 0;
+  }
+  .madal-pricing .rail-dot {
+    width: 9px; height: 9px; border-radius: 50%; border: 1.5px solid var(--line-bright);
+    background: var(--bg-panel); cursor: pointer; transition: border-color 0.2s, background 0.2s, transform 0.2s;
+    position: relative;
+  }
+  .madal-pricing .rail-dot .rail-label {
+    position: absolute; right: 20px; top: 50%; transform: translateY(-50%);
+    font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.06em; color: var(--ink-dim);
+    white-space: nowrap; opacity: 0; transition: opacity 0.2s; pointer-events: none;
+  }
+  .madal-pricing .rail-dot:hover .rail-label { opacity: 1; }
+  .madal-pricing .rail-line { width: 1.5px; height: 26px; background: var(--line-bright); }
+  .madal-pricing .rail-dot.active { background: var(--accent); border-color: var(--accent); transform: scale(1.3); box-shadow: 0 0 10px var(--accent-soft); }
+  .madal-pricing .rail-dot.active .rail-label { opacity: 1; color: var(--accent-strong); }
+  @media (max-width: 980px) { .madal-pricing .rail { display: none; } }
+
+  .madal-pricing .hero { padding-top: 76px; padding-bottom: 70px; border-bottom: 1px solid var(--line); }
+  .madal-pricing .hero-grid { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 56px; align-items: center; }
+  @media (max-width: 900px) { .madal-pricing .hero-grid { grid-template-columns: 1fr; gap: 48px; } }
+
+  .madal-pricing .hero h1 { font-size: clamp(2.4rem, 5.6vw, 3.8rem); line-height: 1.04; color: var(--ink); }
+  .madal-pricing .hero h1 em { font-style: normal; color: var(--accent-strong); }
+  .madal-pricing .hero .dek { margin-top: 20px; max-width: 46ch; font-size: 1.08rem; color: var(--ink-soft); }
+  .madal-pricing .hero .cta-row { display: flex; gap: 14px; margin-top: 34px; flex-wrap: wrap; }
+  .madal-pricing .hero .under { margin-top: 22px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--ink-dim); letter-spacing: 0.02em; }
+
+  .madal-pricing .diagram { position: relative; perspective: 900px; }
+  .madal-pricing .diagram-inner { transition: transform 0.15s ease-out; transform-style: preserve-3d; }
+  .madal-pricing .diagram svg { width: 100%; height: auto; display: block; }
+  .madal-pricing .diagram-caption {
+    display: flex; justify-content: space-between; margin-top: 10px;
+    font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; color: var(--ink-dim);
+    letter-spacing: 0.08em; text-transform: uppercase;
+  }
+  .madal-pricing .dim-line { stroke: var(--ink-dim); stroke-width: 1; }
+  .madal-pricing .stair-rect { stroke: var(--line-bright); stroke-width: 1; transition: fill 0.2s, stroke 0.2s; }
+  .madal-pricing .stair-rect.on { stroke: var(--accent); }
+  .madal-pricing .stair-rect.warm { stroke: var(--accent2); }
+  .madal-pricing .stair-hit { cursor: pointer; }
+  .madal-pricing .stair-hit:hover .stair-rect { stroke-width: 1.8; }
+  .madal-pricing .stair-hit:hover .stair-rect.on { fill: rgba(79, 168, 158, 0.18); }
+  .madal-pricing .stair-hit:hover .stair-rect.warm { fill: rgba(224, 152, 63, 0.18); }
+  .madal-pricing .diagram text { font-family: 'IBM Plex Mono', monospace; }
+  .madal-pricing .sweep { stroke: var(--accent-strong); stroke-width: 1.4; stroke-dasharray: 620; stroke-dashoffset: 620; animation: madalDraw 1.6s ease-out 0.2s forwards; }
+  @media (prefers-reduced-motion: reduce) { .madal-pricing .sweep { animation: none; stroke-dashoffset: 0; } }
+  @keyframes madalDraw { to { stroke-dashoffset: 0; } }
+
+  .madal-pricing .strip-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); }
+  .madal-pricing .strip-cell { background: var(--bg-panel); padding: 28px 26px; }
+  .madal-pricing .strip-cell .num { font-family: 'IBM Plex Mono', monospace; font-size: 2.1rem; font-weight: 600; color: var(--accent-strong); font-variant-numeric: tabular-nums; }
+  .madal-pricing .strip-cell .lbl { margin-top: 8px; font-size: 14px; color: var(--ink-soft); }
+  .madal-pricing .strip-cell .tiny { margin-top: 4px; font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; color: var(--ink-dim); letter-spacing: 0.06em; text-transform: uppercase; }
+  @media (max-width: 720px) { .madal-pricing .strip-grid { grid-template-columns: 1fr; } }
+
+  .madal-pricing .section-head { max-width: 62ch; margin-bottom: 48px; }
+  .madal-pricing .section-head h2 { font-size: clamp(1.7rem, 3.4vw, 2.4rem); }
+  .madal-pricing .section-head p { margin-top: 14px; color: var(--ink-soft); font-size: 1.02rem; }
+
+  .madal-pricing .compare { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--line); border: 1px solid var(--line); }
+  @media (max-width: 720px) { .madal-pricing .compare { grid-template-columns: 1fr; } }
+  .madal-pricing .compare-col { background: var(--bg-panel); padding: 28px 30px; }
+  .madal-pricing .compare-col h3 { font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 18px; color: var(--ink-dim); font-weight: 600; }
+  .madal-pricing .compare-col.us { background: var(--bg-panel-2); }
+  .madal-pricing .compare-col.us h3 { color: var(--accent-strong); }
+  .madal-pricing .compare-col ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 16px; }
+  .madal-pricing .compare-col li { font-size: 0.93rem; color: var(--ink-dim); display: flex; gap: 11px; line-height: 1.5; }
+  .madal-pricing .compare-col.us li { color: var(--ink); }
+  .madal-pricing .compare-col li .v { font-family: 'IBM Plex Mono', monospace; font-weight: 600; color: var(--ink-soft); flex-shrink: 0; }
+  .madal-pricing .compare-col.us li .v { color: var(--accent-strong); }
+  .madal-pricing .compare-col.market li::before { content: '–'; color: var(--ink-dim); flex-shrink: 0; }
+  .madal-pricing .compare-col.us li::before { content: '✓'; color: var(--accent-strong); flex-shrink: 0; }
+
+  .madal-pricing .connect { display: flex; flex-direction: column; gap: 1px; background: var(--line); border: 1px solid var(--line); }
+  .madal-pricing .connect-row { background: var(--bg-panel); padding: 20px 26px; display: grid; grid-template-columns: 1.1fr auto 1.3fr; gap: 18px; align-items: center; }
+  @media (max-width: 720px) { .madal-pricing .connect-row { grid-template-columns: 1fr; text-align: left; } .madal-pricing .connect-row .arrow { display: none; } }
+  .madal-pricing .connect-row .who { font-size: 0.98rem; color: var(--ink); }
+  .madal-pricing .connect-row .who .tag { display: block; font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; color: var(--accent-strong); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 5px; }
+  .madal-pricing .connect-row .arrow { color: var(--ink-dim); font-family: 'IBM Plex Mono', monospace; font-size: 16px; }
+  .madal-pricing .connect-row .what { font-size: 0.92rem; color: var(--ink-soft); }
+
+  .madal-pricing .group-tag {
+    display: flex; align-items: center; gap: 10px; margin: 0 0 22px;
+    font-family: 'IBM Plex Mono', monospace; font-size: 11.5px; letter-spacing: 0.1em; text-transform: uppercase;
+  }
+  .madal-pricing .group-tag.core { color: var(--accent-strong); }
+  .madal-pricing .group-tag.recurring { color: var(--accent2-strong); }
+  .madal-pricing .group-tag::after { content: ''; flex: 1; height: 1px; background: var(--line-bright); }
+
+  .madal-pricing .pillars { display: flex; flex-direction: column; gap: 1px; background: var(--line); border: 1px solid var(--line); margin-bottom: 40px; }
+  .madal-pricing .pillar {
+    background: var(--bg-panel); padding: 22px 24px; display: grid;
+    grid-template-columns: 88px 1fr auto; gap: 22px; align-items: start;
+    cursor: pointer; transition: background 0.2s;
+  }
+  .madal-pricing .pillar:hover { background: var(--bg-panel-2); }
+  .madal-pricing .pillar.open { background: var(--bg-panel-2); }
+  @media (max-width: 720px) { .madal-pricing .pillar { grid-template-columns: 52px 1fr; } .madal-pricing .pillar .facts-col { display: none; } }
+  .madal-pricing .pillar .idx { font-family: 'IBM Plex Mono', monospace; font-size: 2rem; font-weight: 600; color: var(--ink-dim); font-variant-numeric: tabular-nums; }
+  .madal-pricing .pillar.on .idx { color: var(--accent); }
+  .madal-pricing .pillar.warm .idx { color: var(--accent2); }
+  .madal-pricing .pillar-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+  .madal-pricing .pillar h3 { font-size: 1.08rem; font-family: 'IBM Plex Sans', sans-serif; font-weight: 600; color: var(--ink); }
+  .madal-pricing .pillar p.desc { margin: 6px 0 0; color: var(--ink-soft); font-size: 0.94rem; max-width: 56ch; }
+  .madal-pricing .chev { font-family: 'IBM Plex Mono', monospace; font-size: 16px; color: var(--ink-dim); transition: transform 0.25s, color 0.2s; flex-shrink: 0; }
+  .madal-pricing .pillar.open .chev { transform: rotate(45deg); color: var(--accent-strong); }
+  .madal-pricing .pillar-detail { max-height: 0; overflow: hidden; opacity: 0; transition: max-height 0.35s ease, opacity 0.3s ease, margin-top 0.35s ease; }
+  .madal-pricing .pillar.open .pillar-detail { max-height: 160px; opacity: 1; margin-top: 12px; }
+  .madal-pricing .pillar-detail p { margin: 0; padding: 12px 14px; border-left: 2px solid var(--accent); background: rgba(79, 168, 158, 0.06); font-size: 0.9rem; color: var(--ink-soft); }
+  .madal-pricing .pillar.warm .pillar-detail p { border-left-color: var(--accent2); background: rgba(224, 152, 63, 0.06); }
+  .madal-pricing .pillar .facts-col { text-align: right; font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--ink-dim); line-height: 1.7; }
+  .madal-pricing .pillar .facts-col strong { color: var(--ink-soft); font-weight: 500; }
+
+  .madal-pricing .process { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); }
+  @media (max-width: 1000px) { .madal-pricing .process { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 820px) { .madal-pricing .process { grid-template-columns: 1fr; } }
+  .madal-pricing .proc-step { background: var(--bg-panel); padding: 30px 26px; position: relative; }
+  .madal-pricing .proc-step .n { font-family: 'IBM Plex Mono', monospace; color: var(--accent-strong); font-size: 12px; letter-spacing: 0.1em; }
+  .madal-pricing .proc-step h3 { margin-top: 14px; font-size: 1.12rem; }
+  .madal-pricing .proc-step p { margin-top: 10px; color: var(--ink-soft); font-size: 0.93rem; }
+  .madal-pricing .proc-arrow {
+    display: none; position: absolute; right: -11px; top: 50%; transform: translateY(-50%);
+    color: var(--accent-strong); font-size: 18px; z-index: 2;
+  }
+  @media (min-width: 821px) { .madal-pricing .proc-step:not(:last-child) .proc-arrow { display: block; } }
+
+  .madal-pricing .sim { display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
+  @media (max-width: 820px) { .madal-pricing .sim { grid-template-columns: 1fr; } }
+  .madal-pricing .sim-controls { padding: 30px 32px; border-right: 1px solid var(--line); }
+  .madal-pricing .sim-controls .field { margin-bottom: 26px; }
+  .madal-pricing .sim-controls .field:last-child { margin-bottom: 0; }
+  .madal-pricing .sim-controls label { display: flex; justify-content: space-between; font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--ink-soft); letter-spacing: 0.03em; margin-bottom: 10px; }
+  .madal-pricing .sim-controls label .val { color: var(--accent-strong); font-weight: 600; }
+  .madal-pricing input[type='range'] {
+    width: 100%; -webkit-appearance: none; appearance: none; height: 3px; background: var(--line-bright); outline: none; cursor: pointer;
+  }
+  .madal-pricing input[type='range']::-webkit-slider-thumb {
+    -webkit-appearance: none; appearance: none; width: 16px; height: 16px; border-radius: 50%;
+    background: var(--accent); border: 2px solid var(--bg); box-shadow: 0 0 0 1px var(--accent);
+  }
+  .madal-pricing input[type='range']::-moz-range-thumb {
+    width: 16px; height: 16px; border-radius: 50%; background: var(--accent); border: 2px solid var(--bg); box-shadow: 0 0 0 1px var(--accent);
+  }
+  .madal-pricing .sim-result { padding: 30px 32px; display: flex; flex-direction: column; justify-content: center; gap: 18px; }
+  .madal-pricing .bar-row { display: flex; flex-direction: column; gap: 6px; }
+  .madal-pricing .bar-row .bl { display: flex; justify-content: space-between; font-family: 'IBM Plex Mono', monospace; font-size: 11.5px; color: var(--ink-soft); letter-spacing: 0.03em; }
+  .madal-pricing .bar-row .bl .v { color: var(--ink); font-weight: 600; font-variant-numeric: tabular-nums; }
+  .madal-pricing .bar-track { height: 10px; background: var(--bg); border: 1px solid var(--line-bright); position: relative; }
+  .madal-pricing .bar-fill { height: 100%; background: var(--ink-dim); transition: width 0.35s ease; }
+  .madal-pricing .bar-fill.hoy { background: var(--ink-dim); }
+  .madal-pricing .bar-fill.con { background: linear-gradient(90deg, var(--accent), var(--accent-strong)); }
+  .madal-pricing .sim-note { font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; color: var(--ink-dim); line-height: 1.6; letter-spacing: 0.01em; margin-top: 4px; }
+
+  .madal-pricing .plans { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  @media (max-width: 900px) { .madal-pricing .plans { grid-template-columns: 1fr; } }
+  .madal-pricing .plan { display: flex; flex-direction: column; padding: 28px 26px; transition: transform 0.2s, border-color 0.2s; }
+  .madal-pricing .plan:hover { transform: translateY(-4px); border-color: var(--accent-strong); }
+  .madal-pricing .plan.featured { border-color: var(--accent); background: linear-gradient(180deg, var(--accent-soft), var(--bg-panel) 45%); }
+  .madal-pricing .plan.premium { border-color: var(--accent2); background: linear-gradient(180deg, var(--accent2-soft), var(--bg-panel) 45%); }
+  .madal-pricing .plan .tag {
+    align-self: flex-start; font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; font-weight: 600;
+    letter-spacing: 0.08em; text-transform: uppercase; padding: 4px 9px; border: 1px solid var(--line-bright); color: var(--ink-soft);
+  }
+  .madal-pricing .plan.featured .tag { border-color: var(--accent); color: var(--accent-strong); }
+  .madal-pricing .plan.premium .tag { border-color: var(--accent2); color: var(--accent2-strong); }
+  .madal-pricing .plan.premium .btn-primary { background: var(--accent2); color: #2b1706; }
+  .madal-pricing .plan.premium .btn-primary:hover { box-shadow: 0 0 0 1px var(--accent2), 0 8px 24px -8px var(--accent2); }
+  .madal-pricing .plan h3 { margin-top: 16px; font-size: 1.24rem; }
+  .madal-pricing .plan .scope { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--ink-dim); margin-top: 6px; letter-spacing: 0.03em; }
+  .madal-pricing .plan ul { list-style: none; padding: 0; margin: 20px 0 0; display: flex; flex-direction: column; gap: 10px; flex: 1; }
+  .madal-pricing .plan li { font-size: 0.92rem; color: var(--ink-soft); display: flex; gap: 9px; }
+  .madal-pricing .plan li::before { content: '—'; color: var(--accent-strong); flex-shrink: 0; }
+  .madal-pricing .plan .price { margin-top: 22px; font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: var(--ink); border-top: 1px solid var(--line); padding-top: 16px; }
+  .madal-pricing .plan .price strong { display: block; font-size: 15px; margin-bottom: 2px; }
+  .madal-pricing .plan-addon { margin-top: 18px; padding: 12px 14px; border-left: 2px solid var(--accent2); background: rgba(224, 152, 63, 0.08); }
+  .madal-pricing .plan-addon .lbl { font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--accent2-strong); }
+  .madal-pricing .plan-addon p { margin: 6px 0 0; font-size: 0.86rem; color: var(--ink-soft); line-height: 1.5; }
+  .madal-pricing .plan .btn { margin-top: 16px; justify-content: center; }
+
+  .madal-pricing .cta-final { text-align: left; padding-top: 0; }
+  .madal-pricing .cta-panel { padding: 56px 40px; display: flex; justify-content: space-between; align-items: center; gap: 32px; flex-wrap: wrap; }
+  .madal-pricing .cta-panel h2 { font-size: clamp(1.6rem, 3.2vw, 2.1rem); max-width: 20ch; }
+  .madal-pricing .cta-panel p { margin-top: 10px; color: var(--ink-soft); max-width: 44ch; }
+
+  .madal-pricing footer { padding: 36px 24px 8px; }
+  .madal-pricing .foot-inner {
+    max-width: 1120px; margin-inline: auto; display: flex; justify-content: space-between;
+    flex-wrap: wrap; gap: 14px; font-family: 'IBM Plex Mono', monospace; font-size: 11.5px; color: var(--ink-dim);
+    letter-spacing: 0.03em;
+  }
+  .madal-pricing .foot-inner a { text-decoration: none; color: var(--ink-dim); }
+  .madal-pricing .foot-inner a:hover { color: var(--accent-strong); }
+</style>
+
+<script>
+  // Reengancha en cada astro:page-load (carga inicial + transiciones de
+  // astro:transitions) — mismo patrón que ContactSwitch.astro, necesario
+  // porque Layout.astro usa <ClientRouter />.
+  function initMadalPricing() {
+    const root = document.querySelector('.madal-pricing');
+    if (!root) return;
+
+    const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // reveal on scroll
+    const revealEls = root.querySelectorAll('.reveal');
+    if ('IntersectionObserver' in window) {
+      const ro = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((en) => {
+            if (en.isIntersecting) {
+              en.target.classList.add('in');
+              ro.unobserve(en.target);
+            }
+          });
+        },
+        { threshold: 0.15, rootMargin: '0px 0px -60px 0px' },
+      );
+      revealEls.forEach((el) => ro.observe(el));
+    } else {
+      revealEls.forEach((el) => el.classList.add('in'));
+    }
+
+    // count-up
+    function animateCount(el: Element) {
+      const target = parseFloat(el.getAttribute('data-target') || '0') || 0;
+      if (reduceMotion) {
+        el.textContent = String(target);
+        return;
+      }
+      let start: number | null = null;
+      const dur = 900;
+      function step(ts: number) {
+        if (start === null) start = ts;
+        const p = Math.min(1, (ts - start) / dur);
+        const eased = 1 - Math.pow(1 - p, 3);
+        el.textContent = String(Math.round(target * eased));
+        if (p < 1) requestAnimationFrame(step);
+        else el.textContent = String(target);
+      }
+      requestAnimationFrame(step);
+    }
+    const counters = root.querySelectorAll('.count');
+    if ('IntersectionObserver' in window) {
+      const co = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((en) => {
+            if (en.isIntersecting) {
+              animateCount(en.target);
+              co.unobserve(en.target);
+            }
+          });
+        },
+        { threshold: 0.6 },
+      );
+      counters.forEach((c) => co.observe(c));
+    } else {
+      counters.forEach((c) => (c.textContent = c.getAttribute('data-target')));
+    }
+
+    // scrollspy: nav + rail
+    const sectionIds = ['top', 'ventaja', 'pilares', 'proceso', 'simulador', 'conexion', 'planes'];
+    const sections = sectionIds.map((id) => document.getElementById(id)).filter(Boolean) as HTMLElement[];
+    const navLinks = root.querySelectorAll('#navlinks a');
+    const railDots = root.querySelectorAll('.rail-dot');
+    function setActive(id: string) {
+      navLinks.forEach((a) => a.classList.toggle('active', a.getAttribute('data-nav') === id));
+      railDots.forEach((d) => d.classList.toggle('active', d.getAttribute('data-target') === id));
+    }
+    if ('IntersectionObserver' in window && sections.length) {
+      const spy = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((en) => {
+            if (en.isIntersecting) setActive(en.target.id);
+          });
+        },
+        { rootMargin: '-40% 0px -55% 0px', threshold: 0 },
+      );
+      sections.forEach((s) => spy.observe(s));
+    }
+    railDots.forEach((dot) => {
+      dot.addEventListener('click', () => {
+        const t = document.getElementById(dot.getAttribute('data-target') || '');
+        if (t) t.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
+      });
+    });
+
+    // pillar accordion
+    const pillars = root.querySelectorAll('.pillar');
+    function openPillar(num: string | null) {
+      pillars.forEach((p) => p.classList.toggle('open', p.getAttribute('data-pillar') === String(num)));
+    }
+    pillars.forEach((p) => {
+      p.addEventListener('click', () => {
+        const isOpen = p.classList.contains('open');
+        openPillar(isOpen ? null : p.getAttribute('data-pillar'));
+      });
+    });
+
+    // hero diagram: click a stair -> scroll to pillar + open it
+    root.querySelectorAll('.stair-hit').forEach((hit) => {
+      function go() {
+        const num = hit.getAttribute('data-pillar');
+        openPillar(num);
+        const target = root!.querySelector(`.pillar[data-pillar="${num}"]`);
+        if (target) target.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'center' });
+      }
+      hit.addEventListener('click', go);
+      hit.addEventListener('keydown', (e) => {
+        const ke = e as KeyboardEvent;
+        if (ke.key === 'Enter' || ke.key === ' ') {
+          ke.preventDefault();
+          go();
+        }
+      });
+    });
+
+    // hero diagram parallax tilt
+    const wrap = root.querySelector<HTMLElement>('#diagramWrap');
+    const inner = root.querySelector<HTMLElement>('#diagramInner');
+    if (wrap && inner && !reduceMotion && window.matchMedia('(pointer:fine)').matches) {
+      wrap.addEventListener('mousemove', (e) => {
+        const r = wrap.getBoundingClientRect();
+        const px = (e.clientX - r.left) / r.width - 0.5;
+        const py = (e.clientY - r.top) / r.height - 0.5;
+        inner.style.transform = `rotateX(${py * -6}deg) rotateY(${px * 8}deg)`;
+      });
+      wrap.addEventListener('mouseleave', () => {
+        inner.style.transform = 'rotateX(0) rotateY(0)';
+      });
+    }
+
+    // simulator
+    const marginRange = root.querySelector<HTMLInputElement>('#marginRange');
+    const volRange = root.querySelector<HTMLInputElement>('#volRange');
+    const marginVal = root.querySelector('#marginVal');
+    const volVal = root.querySelector('#volVal');
+    const hoyBar = root.querySelector<HTMLElement>('#hoyBar');
+    const conBar = root.querySelector<HTMLElement>('#conBar');
+    const hoyLabel = root.querySelector('#hoyLabel');
+    const conLabel = root.querySelector('#conLabel');
+    const deltaNote = root.querySelector('#deltaNote');
+
+    function upliftFor(margin: number) {
+      // Rango orientativo e ilustrativo: mejora decreciente cuanto mayor es ya el margen.
+      if (margin < 15) return 8;
+      if (margin < 25) return 6;
+      if (margin < 35) return 4;
+      return 2;
+    }
+    function updateSim() {
+      if (!marginRange || !volRange) return;
+      const margin = parseInt(marginRange.value, 10);
+      const vol = parseInt(volRange.value, 10);
+      const uplift = upliftFor(margin);
+      const withPricing = Math.min(60, margin + uplift);
+      if (marginVal) marginVal.textContent = margin + '%';
+      if (volVal) volVal.textContent = String(vol);
+      if (hoyBar) hoyBar.style.width = margin + '%';
+      if (conBar) conBar.style.width = withPricing + '%';
+      if (hoyLabel) hoyLabel.textContent = margin + '%';
+      if (conLabel) conLabel.textContent = withPricing + '%';
+      if (deltaNote)
+        deltaNote.textContent =
+          '+' + uplift + ' puntos de margen (ejemplo) sobre ' + vol + ' clientes/mes al mes es la diferencia que suele notarse antes en caja.';
+    }
+    if (marginRange && volRange) {
+      marginRange.addEventListener('input', updateSim);
+      volRange.addEventListener('input', updateSim);
+      updateSim();
+    }
+  }
+
+  document.addEventListener('astro:page-load', initMadalPricing);
+</script>
