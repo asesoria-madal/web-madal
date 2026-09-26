@@ -19,9 +19,10 @@ interface Props {
   showCtaFinal?: boolean;
   noindex?: boolean;
   minimalHeader?: boolean;
+  hideHeader?: boolean;
 }
 
-const { lang, path, active, title, description, showCtaFinal = true, noindex = false, minimalHeader = false } = Astro.props;
+const { lang, path, active, title, description, showCtaFinal = true, noindex = false, minimalHeader = false, hideHeader = false } = Astro.props;
 const t = useTranslations(lang);
 
 // localizedPath normaliza tanto si `path` llega con prefijo de idioma
@@ -92,7 +93,7 @@ const ogLocale: Record<Locale, string> = { es: 'es_ES', ca: 'ca_ES', en: 'en_GB'
     <script defer src="https://analytics.asesoriamadal.es/script.js" data-website-id="0e8413cc-33b1-4241-8947-32950b30b593"></script>
   </head>
   <body>
-    <Header lang={lang} path={path} active={active} minimal={minimalHeader} />
+    {!hideHeader && <Header lang={lang} path={path} active={active} minimal={minimalHeader} />}
     <slot />
     {showCtaFinal && <TrustBanner lang={lang} />}
     {showCtaFinal && (

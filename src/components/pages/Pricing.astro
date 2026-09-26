@@ -514,11 +514,10 @@ const MAILTO = 'mailto:contacto@asesoriamadal.es?subject=Madal%20Pricing';
     .madal-pricing .reveal.in { opacity: 1; transform: none; }
   }
 
-  /* Sticky justo debajo de la cabecera real del sitio (var(--header-h),
-     definida globalmente en global.css) — si usara top:0 se solaparía con
-     header.site, que también es sticky. */
+  /* header.site va oculto en esta página (hideHeader en Layout), así que
+     este nav puede pegarse arriba del todo sin dejar hueco ni solaparse. */
   .madal-pricing .nav {
-    position: sticky; top: var(--header-h, 76px); z-index: 30;
+    position: sticky; top: 0; z-index: 30;
     background: rgba(33, 29, 24, 0.88); backdrop-filter: blur(10px);
     border-bottom: 1px solid var(--line);
   }
