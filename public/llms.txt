@@ -20,7 +20,7 @@ Asesoría Madal es una gestoría online. Servicios actuales: alta de autónomos 
 ## Contacto
 
 - Email: contacto@asesoriamadal.es
-- Portal de clientes: https://asesoriamadal.es/portal
+- [Portal de clientes](https://asesoriamadal.es/portal): acceso de clientes para subir facturas y ver su documentación.
 
 ## Notas
 

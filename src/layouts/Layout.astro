@@ -20,9 +20,14 @@ interface Props {
   noindex?: boolean;
   minimalHeader?: boolean;
   hideHeader?: boolean;
+  /** Locales que realmente existen para esta ruta (por defecto, todos). Las
+   * páginas legales (aviso legal, privacidad, cookies) solo existen en
+   * castellano: sin esto, generábamos hreflang y un selector de idioma que
+   * apuntaban a /ca y /en devolviendo 404. */
+  localesAvailable?: Locale[];
 }
 
-const { lang, path, active, title, description, showCtaFinal = true, noindex = false, minimalHeader = false, hideHeader = false } = Astro.props;
+const { lang, path, active, title, description, showCtaFinal = true, noindex = false, minimalHeader = false, hideHeader = false, localesAvailable = locales } = Astro.props;
 const t = useTranslations(lang);
 
 // localizedPath normaliza tanto si `path` llega con prefijo de idioma
@@ -44,10 +49,12 @@ const ogLocale: Record<Locale, string> = { es: 'es_ES', ca: 'ca_ES', en: 'en_GB'
     <link rel="icon" href="/favicon.svg" />
 
     <link rel="canonical" href={canonicalUrl} />
-    {locales.map((l) => (
+    {localesAvailable.map((l) => (
       <link rel="alternate" hreflang={l} href={new URL(localizedPath(path, l), Astro.site)} />
     ))}
-    <link rel="alternate" hreflang="x-default" href={new URL(localizedPath(path, defaultLocale), Astro.site)} />
+    {localesAvailable.includes(defaultLocale) && (
+      <link rel="alternate" hreflang="x-default" href={new URL(localizedPath(path, defaultLocale), Astro.site)} />
+    )}
 
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Asesoría Madal" />
@@ -71,12 +78,26 @@ const ogLocale: Record<Locale, string> = { es: 'es_ES', ca: 'ca_ES', en: 'en_GB'
     <script type="application/ld+json" is:inline set:html={JSON.stringify({
       '@context': 'https://schema.org',
       '@type': 'AccountingService',
+      '@id': 'https://asesoriamadal.es/#organization',
       name: 'Asesoría Madal',
       url: 'https://asesoriamadal.es',
       logo: new URL('/brand/logo-am-claro.svg', Astro.site).toString(),
       email: 'contacto@asesoriamadal.es',
       areaServed: 'ES',
+      inLanguage: lang,
       description: 'Gestoría y asesoría 100% online para autónomos y pymes en España.',
+      sameAs: [
+        'https://www.linkedin.com/company/asesor%C3%ADa-madal',
+      ],
+    })} />
+
+    <script type="application/ld+json" is:inline set:html={JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'WebSite',
+      '@id': 'https://asesoriamadal.es/#website',
+      name: 'Asesoría Madal',
+      url: 'https://asesoriamadal.es/',
+      inLanguage: locales,
     })} />
 
     <script is:inline>

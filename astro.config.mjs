@@ -25,9 +25,15 @@ export default defineConfig({
     sitemap({
       // /solicitud no se indexa (llega solo por enlace directo); las páginas
       // de paginación del blog (/blog/pagina/N) llevan noindex porque no
-      // deben competir con los artículos, así que tampoco tiene sentido
-      // listarlas en el sitemap.
-      filter: (page) => !page.includes('/solicitud') && !page.includes('/pagina/'),
+      // deben competir con los artículos; aviso-legal/privacidad/cookies
+      // llevan noindex a propósito (ver Layout), así que tampoco tiene
+      // sentido listar ninguna de ellas en el sitemap.
+      filter: (page) =>
+        !page.includes('/solicitud') &&
+        !page.includes('/pagina/') &&
+        !page.includes('/aviso-legal') &&
+        !page.includes('/privacidad') &&
+        !page.includes('/cookies'),
     }),
   ],
   i18n: {

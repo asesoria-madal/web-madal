@@ -40,8 +40,8 @@ const articleLd = {
   datePublished: entry.data.date.toISOString(),
   dateModified: (entry.data.updatedDate ?? entry.data.date).toISOString(),
   inLanguage: lang,
-  author: { '@type': 'Organization', name: 'Asesoría Madal' },
-  publisher: { '@type': 'Organization', name: 'Asesoría Madal' },
+  author: { '@id': 'https://asesoriamadal.es/#organization' },
+  publisher: { '@id': 'https://asesoriamadal.es/#organization' },
   mainEntityOfPage: articleUrl,
 };
 
