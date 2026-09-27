@@ -21,6 +21,7 @@ const { entry } = Astro.props;
   active="blog"
   title={pageTitle(entry.data.title)}
   description={entry.data.description}
+  ogType="article"
 >
   <Articulo lang="ca" entry={entry} />
 </Layout>

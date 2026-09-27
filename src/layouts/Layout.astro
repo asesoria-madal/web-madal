@@ -25,9 +25,13 @@ interface Props {
    * castellano: sin esto, generábamos hreflang y un selector de idioma que
    * apuntaban a /ca y /en devolviendo 404. */
   localesAvailable?: Locale[];
+  /** "article" en los artículos del blog (así los enlaces compartidos en
+   * redes se ven como un artículo, no como un enlace genérico del sitio);
+   * "website" en el resto de páginas. */
+  ogType?: 'website' | 'article';
 }
 
-const { lang, path, active, title, description, showCtaFinal = true, noindex = false, minimalHeader = false, hideHeader = false, localesAvailable = locales } = Astro.props;
+const { lang, path, active, title, description, showCtaFinal = true, noindex = false, minimalHeader = false, hideHeader = false, localesAvailable = locales, ogType = 'website' } = Astro.props;
 const t = useTranslations(lang);
 
 // localizedPath normaliza tanto si `path` llega con prefijo de idioma
@@ -56,7 +60,7 @@ const ogLocale: Record<Locale, string> = { es: 'es_ES', ca: 'ca_ES', en: 'en_GB'
       <link rel="alternate" hreflang="x-default" href={new URL(localizedPath(path, defaultLocale), Astro.site)} />
     )}
 
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={ogType} />
     <meta property="og:site_name" content="Asesoría Madal" />
     <meta property="og:title" content={title} />
     {description && <meta property="og:description" content={description} />}

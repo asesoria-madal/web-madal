@@ -21,11 +21,11 @@ const t = useTranslations(lang);
     <div class="label-col"><p class="eyebrow">{t.equipo.formacion.eyebrow}</p></div>
     <div>
       <h2 class="section-title">{t.equipo.formacion.title}</h2>
-      <p class="section-sub">{t.equipo.formacion.sub}</p>
+      <p class="section-sub" set:html={t.equipo.formacion.sub} />
       <div class="feature-grid">
         {t.equipo.formacion.items.map((item) => (
           <div class="feature-card">
-            <h3>{item.title}</h3>
+            <h3 set:html={item.title} />
             <p>{item.desc}</p>
           </div>
         ))}
@@ -57,7 +57,7 @@ const t = useTranslations(lang);
         {t.equipo.metodo.steps.map((step, i) => (
           <div class="step">
             <span class="num">{i + 1}</span>
-            <div><h3>{step.title}</h3><p>{step.desc}</p></div>
+            <div><h3>{step.title}</h3><p set:html={step.desc} /></div>
           </div>
         ))}
       </div>
@@ -73,7 +73,7 @@ const t = useTranslations(lang);
         {t.equipo.confianza.items.map((item) => (
           <div class="feature-card">
             <h3>{item.title}</h3>
-            <p>{item.desc}</p>
+            <p set:html={item.desc} />
           </div>
         ))}
       </div>

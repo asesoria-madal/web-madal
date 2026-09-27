@@ -452,10 +452,10 @@ export const ui = {
       formacion: {
         eyebrow: 'Formación',
         title: 'Doble grado en Economía y Estadística',
-        sub: 'Los dos fundadores compartimos la misma base académica: el doble grado en Economía, por la Universitat de Barcelona, y Estadística, por la Universitat Politècnica de Catalunya. Es una combinación poco habitual en una gestoría, y es la que sostiene cómo miramos los números de un cliente.',
+        sub: 'Los dos fundadores compartimos la misma base académica: el doble grado en Economía, por la <a href="https://www.ub.edu" target="_blank" rel="noopener noreferrer">Universitat de Barcelona</a>, y Estadística, por la <a href="https://www.upc.edu" target="_blank" rel="noopener noreferrer">Universitat Politècnica de Catalunya</a>. Es una combinación poco habitual en una gestoría, y es la que sostiene cómo miramos los números de un cliente.',
         items: [
-          { title: 'Economía · Universitat de Barcelona', desc: 'La base para entender la fiscalidad, la normativa y el funcionamiento de una empresa, más allá del papeleo del día a día.' },
-          { title: 'Estadística · Universitat Politècnica de Catalunya', desc: 'La base para tratar los datos de un negocio con rigor: detectar patrones, construir indicadores y no quedarnos en la foto de un solo trimestre.' },
+          { title: 'Economía · <a href="https://www.ub.edu" target="_blank" rel="noopener noreferrer">Universitat de Barcelona</a>', desc: 'La base para entender la fiscalidad, la normativa y el funcionamiento de una empresa, más allá del papeleo del día a día.' },
+          { title: 'Estadística · <a href="https://www.upc.edu" target="_blank" rel="noopener noreferrer">Universitat Politècnica de Catalunya</a>', desc: 'La base para tratar los datos de un negocio con rigor: detectar patrones, construir indicadores y no quedarnos en la foto de un solo trimestre.' },
         ],
       },
       experiencia: {
@@ -471,7 +471,7 @@ export const ui = {
         eyebrow: 'Cómo trabajamos',
         title: 'Lo que hacemos distinto a una gestoría al uso',
         steps: [
-          { title: 'Rigor con fuentes oficiales', desc: 'Lo que te contamos, y lo que publicamos, se apoya en normativa de la Agencia Tributaria y el BOE, no en lo que hace la mayoría.' },
+          { title: 'Rigor con fuentes oficiales', desc: 'Lo que te contamos, y lo que publicamos, se apoya en normativa de la <a href="https://www.agenciatributaria.es" target="_blank" rel="noopener noreferrer">Agencia Tributaria</a> y el <a href="https://www.boe.es" target="_blank" rel="noopener noreferrer">BOE</a>, no en lo que hace la mayoría.' },
           { title: 'Un balance que se puede analizar', desc: 'Tus cuentas no son solo el papel que hay que presentar: son información que debería ayudarte a decidir.' },
           { title: 'Datos y tecnología, no solo un Excel', desc: 'La estadística no es un adorno en el currículum: la usamos para automatizar procesos y para mirar tu negocio con más perspectiva.' },
           { title: 'Trato directo, sin intermediarios', desc: 'Hablas con quien lleva tu contabilidad, no con un buzón general ni con un departamento que no te conoce.' },
@@ -482,7 +482,7 @@ export const ui = {
         title: 'Por qué puedes confiar en lo que publicamos',
         sub: 'Todo lo que escribimos sobre fiscalidad y contabilidad (en el blog, en las FAQs, en el simulador) sigue el mismo criterio.',
         items: [
-          { title: 'Fuentes oficiales, no de terceros', desc: 'Nos apoyamos en la normativa de la Agencia Tributaria y en el BOE, no en lo que dicen otros blogs sobre gestoría.' },
+          { title: 'Fuentes oficiales, no de terceros', desc: 'Nos apoyamos en la normativa de la <a href="https://www.agenciatributaria.es" target="_blank" rel="noopener noreferrer">Agencia Tributaria</a> y en el <a href="https://www.boe.es" target="_blank" rel="noopener noreferrer">BOE</a>, no en lo que dicen otros blogs sobre gestoría.' },
           { title: 'Contenido revisado y actualizado', desc: 'La normativa fiscal cambia. Cuando cambia algo relevante, actualizamos el contenido afectado en lugar de dejarlo desactualizado.' },
           { title: 'Información general no es asesoramiento', desc: 'Lo que lees aquí es información general. Tu caso concreto puede tener matices: para eso está la llamada, no el artículo.' },
         ],
@@ -1149,10 +1149,10 @@ export const ui = {
       formacion: {
         eyebrow: 'Formació',
         title: 'Doble grau en Economia i Estadística',
-        sub: 'Els dos fundadors compartim la mateixa base acadèmica: el doble grau en Economia, per la Universitat de Barcelona, i Estadística, per la Universitat Politècnica de Catalunya. És una combinació poc habitual en una gestoria, i és la que sosté com mirem els números d’un client.',
+        sub: 'Els dos fundadors compartim la mateixa base acadèmica: el doble grau en Economia, per la <a href="https://www.ub.edu" target="_blank" rel="noopener noreferrer">Universitat de Barcelona</a>, i Estadística, per la <a href="https://www.upc.edu" target="_blank" rel="noopener noreferrer">Universitat Politècnica de Catalunya</a>. És una combinació poc habitual en una gestoria, i és la que sosté com mirem els números d’un client.',
         items: [
-          { title: 'Economia · Universitat de Barcelona', desc: 'La base per entendre la fiscalitat, la normativa i el funcionament d’una empresa, més enllà del paperam del dia a dia.' },
-          { title: 'Estadística · Universitat Politècnica de Catalunya', desc: 'La base per tractar les dades d’un negoci amb rigor: detectar patrons, construir indicadors i no quedar-nos en la foto d’un sol trimestre.' },
+          { title: 'Economia · <a href="https://www.ub.edu" target="_blank" rel="noopener noreferrer">Universitat de Barcelona</a>', desc: 'La base per entendre la fiscalitat, la normativa i el funcionament d’una empresa, més enllà del paperam del dia a dia.' },
+          { title: 'Estadística · <a href="https://www.upc.edu" target="_blank" rel="noopener noreferrer">Universitat Politècnica de Catalunya</a>', desc: 'La base per tractar les dades d’un negoci amb rigor: detectar patrons, construir indicadors i no quedar-nos en la foto d’un sol trimestre.' },
         ],
       },
       experiencia: {
@@ -1168,7 +1168,7 @@ export const ui = {
         eyebrow: 'Com treballem',
         title: 'El que fem diferent d’una gestoria a l’ús',
         steps: [
-          { title: 'Rigor amb fonts oficials', desc: 'El que et contem, i el que publiquem, es recolza en normativa de l’Agència Tributària i el BOE, no en el que fa la majoria.' },
+          { title: 'Rigor amb fonts oficials', desc: 'El que et contem, i el que publiquem, es recolza en normativa de l’<a href="https://www.agenciatributaria.es" target="_blank" rel="noopener noreferrer">Agència Tributària</a> i el <a href="https://www.boe.es" target="_blank" rel="noopener noreferrer">BOE</a>, no en el que fa la majoria.' },
           { title: 'Un balanç que es pot analitzar', desc: 'Els teus comptes no són només el paper que cal presentar: són informació que t’hauria d’ajudar a decidir.' },
           { title: 'Dades i tecnologia, no només un Excel', desc: 'L’estadística no és un adorn al currículum: la fem servir per automatitzar processos i per mirar el teu negoci amb més perspectiva.' },
           { title: 'Tracte directe, sense intermediaris', desc: 'Parles amb qui porta la teva comptabilitat, no amb una bústia general ni amb un departament que no et coneix.' },
@@ -1179,7 +1179,7 @@ export const ui = {
         title: 'Per què pots confiar en el que publiquem',
         sub: 'Tot el que escrivim sobre fiscalitat i comptabilitat (al blog, a les FAQs, al simulador) segueix el mateix criteri.',
         items: [
-          { title: 'Fonts oficials, no de tercers', desc: 'Ens recolzem en la normativa de l’Agència Tributària i en el BOE, no en el que diuen altres blogs sobre gestoria.' },
+          { title: 'Fonts oficials, no de tercers', desc: 'Ens recolzem en la normativa de l’<a href="https://www.agenciatributaria.es" target="_blank" rel="noopener noreferrer">Agència Tributària</a> i en el <a href="https://www.boe.es" target="_blank" rel="noopener noreferrer">BOE</a>, no en el que diuen altres blogs sobre gestoria.' },
           { title: 'Contingut revisat i actualitzat', desc: 'La normativa fiscal canvia. Quan canvia alguna cosa rellevant, actualitzem el contingut afectat en comptes de deixar-lo desactualitzat.' },
           { title: 'Informació general no és assessorament', desc: 'El que llegeixes aquí és informació general. El teu cas concret pot tenir matisos: per a això hi ha la trucada, no l’article.' },
         ],
@@ -1846,10 +1846,10 @@ export const ui = {
       formacion: {
         eyebrow: 'Background',
         title: 'A joint degree in Economics and Statistics',
-        sub: 'Both founders share the same academic background: a joint degree in Economics, from the Universitat de Barcelona, and Statistics, from the Universitat Politècnica de Catalunya. It’s an unusual combination for an accounting firm, and it’s what shapes how we look at a client’s numbers.',
+        sub: 'Both founders share the same academic background: a joint degree in Economics, from the <a href="https://www.ub.edu" target="_blank" rel="noopener noreferrer">Universitat de Barcelona</a>, and Statistics, from the <a href="https://www.upc.edu" target="_blank" rel="noopener noreferrer">Universitat Politècnica de Catalunya</a>. It’s an unusual combination for an accounting firm, and it’s what shapes how we look at a client’s numbers.',
         items: [
-          { title: 'Economics · Universitat de Barcelona', desc: 'The basis for understanding tax rules, regulation and how a business actually works, beyond day-to-day paperwork.' },
-          { title: 'Statistics · Universitat Politècnica de Catalunya', desc: 'The basis for handling a business’s data rigorously: spotting patterns, building indicators, and not stopping at a single quarter’s snapshot.' },
+          { title: 'Economics · <a href="https://www.ub.edu" target="_blank" rel="noopener noreferrer">Universitat de Barcelona</a>', desc: 'The basis for understanding tax rules, regulation and how a business actually works, beyond day-to-day paperwork.' },
+          { title: 'Statistics · <a href="https://www.upc.edu" target="_blank" rel="noopener noreferrer">Universitat Politècnica de Catalunya</a>', desc: 'The basis for handling a business’s data rigorously: spotting patterns, building indicators, and not stopping at a single quarter’s snapshot.' },
         ],
       },
       experiencia: {
@@ -1865,7 +1865,7 @@ export const ui = {
         eyebrow: 'How we work',
         title: 'What we do differently from a typical accounting firm',
         steps: [
-          { title: 'Rigour, backed by official sources', desc: 'What we tell you, and what we publish, is based on Tax Agency and official gazette (BOE) regulation, not on what everyone else does.' },
+          { title: 'Rigour, backed by official sources', desc: 'What we tell you, and what we publish, is based on <a href="https://www.agenciatributaria.es" target="_blank" rel="noopener noreferrer">Tax Agency</a> and <a href="https://www.boe.es" target="_blank" rel="noopener noreferrer">official gazette (BOE)</a> regulation, not on what everyone else does.' },
           { title: 'A balance sheet you can actually read', desc: 'Your accounts aren’t just the paperwork you have to file: they’re information that should help you decide.' },
           { title: 'Data and technology, not just a spreadsheet', desc: 'Statistics isn’t a line on a CV: we use it to automate processes and to look at your business with more perspective.' },
           { title: 'Direct contact, no middlemen', desc: 'You talk to whoever handles your accounting, not a general inbox or a department that doesn’t know you.' },
@@ -1876,7 +1876,7 @@ export const ui = {
         title: 'Why you can trust what we publish',
         sub: 'Everything we write about tax and accounting (in the blog, the FAQs, the simulator) follows the same standard.',
         items: [
-          { title: 'Official sources, not second-hand ones', desc: 'We rely on Tax Agency regulation and the official gazette (BOE), not on what other accounting blogs say.' },
+          { title: 'Official sources, not second-hand ones', desc: 'We rely on <a href="https://www.agenciatributaria.es" target="_blank" rel="noopener noreferrer">Tax Agency</a> regulation and the <a href="https://www.boe.es" target="_blank" rel="noopener noreferrer">official gazette (BOE)</a>, not on what other accounting blogs say.' },
           { title: 'Reviewed and kept up to date', desc: 'Tax rules change. When something relevant changes, we update the affected content instead of leaving it outdated.' },
           { title: 'General information isn’t personal advice', desc: 'What you read here is general information. Your specific situation may have nuances: that’s what the call is for, not the article.' },
         ],
