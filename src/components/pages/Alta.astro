@@ -24,7 +24,7 @@ const p = t.altaPage;
         {p.autonomos.steps.map((step, i) => (
           <div class="step">
             <span class="num">{i + 1}</span>
-            <div><h3>{step.title}</h3><p>{step.desc}</p></div>
+            <div><h2>{step.title}</h2><p>{step.desc}</p></div>
           </div>
         ))}
       </div>
@@ -34,7 +34,7 @@ const p = t.altaPage;
   <div class="page view-block">
     <div class="alta-box">
       <div class="copy">
-        <h3>{p.timeline}</h3>
+        <h2>{p.timeline}</h2>
       </div>
       <div class="alta-box-cta">
         <a href={localizedPath('/simulador', lang)} class="btn btn-outline">{t.hero.ctaSim}</a>

@@ -85,7 +85,7 @@ const faqLd = relatedFaqs.length > 0 ? {
   <p class="article-meta">
     <span>{t.blog.publishedLabel} {publishedDate}</span>
     {updatedDate && updatedDate !== publishedDate && <span>· {t.blog.updatedLabel} {updatedDate}</span>}
-    <span>· <strong>{t.blog.reviewedBy}</strong></span>
+    <span>· <strong><a href={localizedPath('/equipo', lang)}>{t.blog.reviewedBy}</a></strong></span>
   </p>
   <div class="article-share">
     <button

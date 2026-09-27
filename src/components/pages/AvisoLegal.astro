@@ -1,42 +1,79 @@
 ---
-// Documento legal: solo en castellano de forma deliberada (ver nota en README).
-// LSSI (Ley de Servicios de la Sociedad de la Información) exige identificar
-// al titular de la web. Como es un autónomo (no una sociedad), el titular es
-// una persona física con su propio NIF, no un NIF de empresa.
+// Documento legal. Traducido a ca/en el 2026-09-27 a petición expresa del
+// titular (antes era solo castellano). Los hechos (NIF, domicilio, nombre)
+// no se traducen; sí el resto del texto. Es una traducción directa, sin
+// revisión legal formal en catalán/inglés — si algún día hay dudas sobre una
+// cláusula concreta, revisar contra el original en castellano.
 //
 // Cuando se constituya la SL: sustituir estos datos personales por la
 // denominación social, CIF, domicilio social y datos de inscripción en el
-// Registro Mercantil (Tomo, Folio, Hoja).
+// Registro Mercantil (Tomo, Folio, Hoja), en las tres versiones.
 //
 // Colegiación: ninguno de los socios está colegiado todavía. Si en el futuro
 // alguno se colegia (previsiblemente en el Colegio de Economistas de
 // Cataluña), la LSSI obliga a añadir aquí colegio, número de colegiado y
 // título oficial.
+import type { Locale } from '../../i18n/ui';
+import { localizedPath } from '../../i18n/utils';
+
+interface Props { lang: Locale }
+const { lang } = Astro.props;
+const privacidadHref = localizedPath('/privacidad', lang);
+
+const content: Record<Locale, { eyebrow: string; title: string; sections: { heading: string; html: string }[] }> = {
+  es: {
+    eyebrow: 'Legal',
+    title: 'Aviso legal',
+    sections: [
+      { heading: '1. Titular', html: 'Hugo Madrid Rodríguez, con NIF 23845033J, con domicilio a efectos de notificaciones en Carrer d\'Anna M. Martínez Sagí, 30, 08041 Barcelona, actuando bajo el nombre comercial "Asesoría Madal". Correo de contacto: <a href="mailto:contacto@asesoriamadal.es">contacto@asesoriamadal.es</a>.' },
+      { heading: '2. Objeto', html: 'Esta web informa sobre los servicios de gestoría y asesoría ofrecidos por el titular y permite solicitar un presupuesto orientativo y reservar una llamada informativa. No presta servicios de gestoría a través de la propia web: la relación contractual se formaliza fuera de ella, tras la llamada.' },
+      { heading: '3. Simulador de presupuesto', html: 'El resultado del simulador de presupuesto es meramente orientativo/estimativo y no constituye una oferta contractual vinculante hasta la confirmación formal del presupuesto por parte del equipo.' },
+      { heading: '4. Condiciones de uso', html: `El acceso a esta web no exige registro. El uso del simulador de precio y del formulario de contacto implica la aceptación de esta información legal y de la <a href="${privacidadHref}">política de privacidad</a>.` },
+      { heading: '5. Propiedad intelectual', html: 'Los textos, el diseño y los contenidos de esta web son propiedad del titular, salvo que se indique lo contrario. No está permitida su reproducción sin autorización.' },
+      { heading: '6. Legislación aplicable', html: 'Esta web se rige por la legislación española. Para la resolución de cualquier controversia, las partes se someten a los juzgados y tribunales de Barcelona.' },
+    ],
+  },
+  ca: {
+    eyebrow: 'Legal',
+    title: 'Avís legal',
+    sections: [
+      { heading: '1. Titular', html: 'Hugo Madrid Rodríguez, amb NIF 23845033J, amb domicili a efectes de notificacions a Carrer d\'Anna M. Martínez Sagí, 30, 08041 Barcelona, actuant sota el nom comercial "Asesoría Madal". Correu de contacte: <a href="mailto:contacto@asesoriamadal.es">contacto@asesoriamadal.es</a>.' },
+      { heading: '2. Objecte', html: 'Aquesta web informa sobre els serveis de gestoria i assessoria oferts pel titular i permet sol·licitar un pressupost orientatiu i reservar una trucada informativa. No presta serveis de gestoria a través de la mateixa web: la relació contractual es formalitza fora d\'ella, després de la trucada.' },
+      { heading: '3. Simulador de pressupost', html: 'El resultat del simulador de pressupost és merament orientatiu/estimatiu i no constitueix una oferta contractual vinculant fins a la confirmació formal del pressupost per part de l\'equip.' },
+      { heading: '4. Condicions d\'ús', html: `L'accés a aquesta web no exigeix registre. L'ús del simulador de preu i del formulari de contacte implica l'acceptació d'aquesta informació legal i de la <a href="${privacidadHref}">política de privacitat</a>.` },
+      { heading: '5. Propietat intel·lectual', html: 'Els textos, el disseny i els continguts d\'aquesta web són propietat del titular, llevat que s\'indiqui el contrari. No està permesa la seva reproducció sense autorització.' },
+      { heading: '6. Legislació aplicable', html: 'Aquesta web es regeix per la legislació espanyola. Per a la resolució de qualsevol controvèrsia, les parts se sotmeten als jutjats i tribunals de Barcelona.' },
+    ],
+  },
+  en: {
+    eyebrow: 'Legal',
+    title: 'Legal notice',
+    sections: [
+      { heading: '1. Owner', html: 'Hugo Madrid Rodríguez, with Spanish tax ID (NIF) 23845033J, with an address for notifications at Carrer d\'Anna M. Martínez Sagí, 30, 08041 Barcelona, Spain, trading as "Asesoría Madal". Contact email: <a href="mailto:contacto@asesoriamadal.es">contacto@asesoriamadal.es</a>.' },
+      { heading: '2. Purpose', html: 'This website provides information about the accounting and advisory services offered by the owner and lets you request an indicative quote and book an informational call. It does not provide accounting services through the website itself: the contractual relationship is formalised outside it, after the call.' },
+      { heading: '3. Price simulator', html: 'The result of the price simulator is purely indicative/estimated and does not constitute a binding contractual offer until the quote is formally confirmed by the team.' },
+      { heading: '4. Terms of use', html: `Access to this website does not require registration. Using the price simulator and the contact form implies acceptance of this legal notice and of the <a href="${privacidadHref}">privacy policy</a>.` },
+      { heading: '5. Intellectual property', html: 'The text, design and content of this website are the property of the owner, unless stated otherwise. Reproduction without authorisation is not permitted.' },
+      { heading: '6. Applicable law', html: 'This website is governed by Spanish law. Any dispute will be submitted to the courts of Barcelona, Spain.' },
+    ],
+  },
+};
+
+const c = content[lang];
 ---
 
 <div id="view-aviso-legal">
   <div class="page view-intro">
-    <p class="eyebrow">Legal</p>
-    <h1 class="section-title">Aviso legal</h1>
+    <p class="eyebrow">{c.eyebrow}</p>
+    <h1 class="section-title">{c.title}</h1>
   </div>
 
   <div class="page view-block legal-doc">
-    <h3>1. Titular</h3>
-    <p>Hugo Madrid Rodríguez, con NIF 23845033J, con domicilio a efectos de notificaciones en Carrer d'Anna M. Martínez Sagí, 30, 08041 Barcelona, actuando bajo el nombre comercial "Asesoría Madal". Correo de contacto: <a href="mailto:contacto@asesoriamadal.es">contacto@asesoriamadal.es</a>.</p>
-
-    <h3>2. Objeto</h3>
-    <p>Esta web informa sobre los servicios de gestoría y asesoría ofrecidos por el titular y permite solicitar un presupuesto orientativo y reservar una llamada informativa. No presta servicios de gestoría a través de la propia web: la relación contractual se formaliza fuera de ella, tras la llamada.</p>
-
-    <h3>3. Simulador de presupuesto</h3>
-    <p>El resultado del simulador de presupuesto es meramente orientativo/estimativo y no constituye una oferta contractual vinculante hasta la confirmación formal del presupuesto por parte del equipo.</p>
-
-    <h3>4. Condiciones de uso</h3>
-    <p>El acceso a esta web no exige registro. El uso del simulador de precio y del formulario de contacto implica la aceptación de esta información legal y de la <a href="/privacidad">política de privacidad</a>.</p>
-
-    <h3>5. Propiedad intelectual</h3>
-    <p>Los textos, el diseño y los contenidos de esta web son propiedad del titular, salvo que se indique lo contrario. No está permitida su reproducción sin autorización.</p>
-
-    <h3>6. Legislación aplicable</h3>
-    <p>Esta web se rige por la legislación española. Para la resolución de cualquier controversia, las partes se someten a los juzgados y tribunales de Barcelona.</p>
+    {c.sections.map((s) => (
+      <>
+        <h2>{s.heading}</h2>
+        <p set:html={s.html} />
+      </>
+    ))}
   </div>
 </div>

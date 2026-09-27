@@ -16,3 +16,11 @@ export function localizedPath(path: string, lang: Locale): string {
   if (lang === defaultLocale) return clean === '' ? '/' : clean;
   return `/${lang}${clean === '/' ? '' : clean}`;
 }
+
+// <title> de una página de contenido (p.ej. un artículo del blog): añade el
+// sufijo de marca solo si el resultado se queda dentro de la banda de 60
+// caracteres que espera Google, para no truncar títulos largos en el SERP.
+export function pageTitle(base: string, suffix = 'Asesoría Madal'): string {
+  const full = `${base} · ${suffix}`;
+  return full.length <= 60 ? full : base;
+}

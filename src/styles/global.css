@@ -844,7 +844,7 @@ section#como-trabajamos { background: var(--accent-tint); border-top-color: var(
   transition: transform 0.18s ease;
 }
 .process .step:hover .num { transform: scale(1.08); }
-.process .step h3 { font-size: 1.02rem; font-family: var(--font-body); font-weight: 600; }
+.process .step h2, .process .step h3 { font-size: 1.02rem; font-family: var(--font-body); font-weight: 600; }
 .process .step p { color: var(--ink-soft); font-size: 0.92rem; margin-top: 0.35rem; max-width: 60ch; }
 
 /* ---------- Pricing ---------- */
@@ -901,7 +901,7 @@ section#como-trabajamos { background: var(--accent-tint); border-top-color: var(
   flex-wrap: wrap;
 }
 .alta-box .copy { max-width: 46ch; }
-.alta-box h3 { font-family: var(--font-display); font-size: 1.2rem; }
+.alta-box h2, .alta-box h3 { font-family: var(--font-display); font-size: 1.2rem; }
 .alta-box p { font-size: 0.92rem; color: var(--ink-soft); margin-top: 0.5rem; }
 .alta-box .price { font-family: var(--font-mono); font-variant-numeric: tabular-nums; font-weight: 600; color: var(--warm); }
 .alta-box .price small { font-family: var(--font-body); font-weight: 500; color: var(--ink-soft); }
@@ -1024,7 +1024,7 @@ section#como-trabajamos { background: var(--accent-tint); border-top-color: var(
   .faq-columns { grid-template-columns: 1fr; gap: 0; }
 }
 .faq-group { margin-top: 1.8rem; }
-.faq-group h3 { font-family: var(--font-body); font-size: 0.95rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--warm); margin-bottom: 0.6rem; }
+.faq-group h2 { font-family: var(--font-body); font-size: 0.95rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--warm); margin-bottom: 0.6rem; }
 .faq-item { border-bottom: 1px solid var(--line); }
 .faq-item summary {
   padding: 0.95rem 0;
@@ -1124,7 +1124,7 @@ section#como-trabajamos { background: var(--accent-tint); border-top-color: var(
 
 /* ---------- Legal / privacidad ---------- */
 .legal-doc { max-width: 720px; }
-.legal-doc h3 { font-family: var(--font-display); font-size: 1.15rem; margin-top: 2rem; }
+.legal-doc h2 { font-family: var(--font-display); font-size: 1.15rem; margin-top: 2rem; }
 .legal-doc h3:first-child { margin-top: 0; }
 .legal-doc p, .legal-doc li { font-size: 0.95rem; color: var(--ink-soft); margin-top: 0.6rem; }
 .legal-doc ul { padding-left: 1.2rem; }
@@ -1521,7 +1521,7 @@ footer.site .foot-subtitle { margin-top: 1.6rem; }
 footer.site .wordmark { color: var(--footer-ink); }
 footer.site .wordmark span { color: #7fd6c9; }
 footer.site .foot-tagline { margin-top: 0.8rem; max-width: 26ch; font-size: 0.86rem; }
-footer.site h4 { font-family: var(--font-body); font-size: 0.76rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--footer-ink); margin-bottom: 0.9rem; }
+footer.site h3 { font-family: var(--font-body); font-size: 0.76rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--footer-ink); margin-top: 0; margin-bottom: 0.9rem; }
 footer.site .foot-nav, footer.site .foot-list { display: flex; flex-direction: column; gap: 0.65rem; list-style: none; margin: 0; padding: 0; }
 footer.site a { text-decoration: none; color: var(--footer-ink-soft); }
 footer.site a:hover { color: var(--footer-ink); }

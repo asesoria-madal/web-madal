@@ -46,7 +46,7 @@ const dashboardsCtaHref = `mailto:${EMAIL}?subject=${encodeURIComponent(dashboar
     <form id="portal-login-form" hidden class="portal-form-wrap">
       <p>{t.loginIntro}</p>
       <div class="portal-form">
-        <input type="email" id="portal-email" name="email" placeholder={t.emailPlaceholder} required autocomplete="email" />
+        <input type="email" id="portal-email" name="email" placeholder={t.emailPlaceholder} aria-label={t.emailLabel} required autocomplete="email" />
         <button type="submit" class="btn btn-primary">{t.sendLink}</button>
       </div>
       <p id="portal-login-msg" class="portal-msg" hidden></p>
@@ -222,7 +222,7 @@ const dashboardsCtaHref = `mailto:${EMAIL}?subject=${encodeURIComponent(dashboar
             <h2>{t.facturas.title}</h2>
             <p>{t.facturas.intro}</p>
             <form id="facturaForm" class="factura-upload">
-              <input type="file" id="facturaFile" accept="application/pdf" multiple required />
+              <input type="file" id="facturaFile" accept="application/pdf" multiple required aria-label={t.facturas.title} />
               <button type="submit" class="btn btn-primary">{t.facturas.submit}</button>
             </form>
             <p id="facturaMsg" class="portal-msg" hidden></p>

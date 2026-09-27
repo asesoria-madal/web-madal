@@ -1,0 +1,10 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import AvisoLegal from '../../components/pages/AvisoLegal.astro';
+
+export const prerender = true;
+---
+
+<Layout lang="en" path="/en/aviso-legal" active="none" title="Website legal notice · Asesoría Madal" description="Identification of who runs this website, what it's for, and the terms of use." noindex>
+  <AvisoLegal lang="en" />
+</Layout>

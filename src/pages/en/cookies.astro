@@ -1,0 +1,10 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Cookies from '../../components/pages/Cookies.astro';
+
+export const prerender = true;
+---
+
+<Layout lang="en" path="/en/cookies" active="none" title="Cookie policy · Asesoría Madal" description="What cookies this website uses, and how we measure visits and ad conversions." noindex>
+  <Cookies lang="en" />
+</Layout>

@@ -1,5 +1,7 @@
 ---
-// Documento legal: solo en castellano de forma deliberada (ver nota en README).
+// Documento legal. Traducido a ca/en el 2026-09-27 a petición expresa del
+// titular (antes era solo castellano); sin revisión legal formal en las
+// versiones catalana/inglesa.
 //
 // Texto escrito ya en su forma final, describiendo las cookies de Google
 // Ads como si el tracking estuviera activo — así queda listo para publicar
@@ -11,30 +13,77 @@
 // src/lib/ads-config.ts — no se le muestra a nadie un banner de un
 // seguimiento que todavía no existe. En cuanto se rellene ese ID con la
 // cuenta de Google Ads real, el banner empieza a aparecer solo.
+import type { Locale } from '../../i18n/ui';
+import { localizedPath } from '../../i18n/utils';
+
+interface Props { lang: Locale }
+const { lang } = Astro.props;
+const privacidadHref = localizedPath('/privacidad', lang);
+
+interface Section { heading: string; intro?: string; items?: string[]; outro?: string }
+const content: Record<Locale, { eyebrow: string; title: string; sections: Section[] }> = {
+  es: {
+    eyebrow: 'Legal',
+    title: 'Política de cookies',
+    sections: [
+      { heading: 'Qué cookies usamos', intro: 'No instalamos cookies para seguirte, mostrarte anuncios personalizados ni analizar tu comportamiento individual, salvo las de Google Ads descritas más abajo. El botón de reserva de llamada te lleva a Calendly en una ventana aparte, no está incrustado en la página.' },
+      { heading: 'Medición de visitas', intro: 'Usamos Umami, alojado en nuestro propio servidor, para saber cuántas visitas recibe la web y qué páginas se leen más. No usa cookies ni identificadores que permitan reconocerte entre visitas: los datos se agregan de forma anónima. Por eso no te pedimos consentimiento para esto.' },
+      { heading: 'Cookies de publicidad (Google Ads)', intro: 'Nos anunciamos en Google Ads y usamos su seguimiento de conversiones para saber qué visitas llegan desde nuestros anuncios. Estas cookies solo se instalan si aceptas el aviso que te mostramos al entrar en la web; si lo rechazas o lo ignoras, no se cargan.', items: [
+        '<strong>_gcl_au</strong>: mide qué anuncio te trajo a la web, para atribuir conversiones. Caduca a los 90 días.',
+        '<strong>_gcl_aw</strong>: registra que has hecho clic en un anuncio de Google, para poder contar la conversión si acabas contactando con nosotros. Caduca a los 90 días.',
+      ], outro: 'Puedes cambiar tu decisión en cualquier momento borrando estas cookies desde los ajustes de tu navegador; la próxima visita te volveremos a preguntar.' },
+      { heading: 'Más información', intro: `Para saber qué datos personales tratamos cuando usas el simulador o reservas una llamada, consulta la <a href="${privacidadHref}">política de privacidad</a>.` },
+    ],
+  },
+  ca: {
+    eyebrow: 'Legal',
+    title: 'Política de cookies',
+    sections: [
+      { heading: 'Quines cookies fem servir', intro: 'No instal·lem cookies per seguir-te, mostrar-te anuncis personalitzats ni analitzar el teu comportament individual, excepte les de Google Ads descrites més avall. El botó de reserva de trucada et porta a Calendly en una finestra a part, no està incrustat a la pàgina.' },
+      { heading: 'Mesura de visites', intro: 'Fem servir Umami, allotjat al nostre propi servidor, per saber quantes visites rep la web i quines pàgines es llegeixen més. No fa servir cookies ni identificadors que permetin reconèixer-te entre visites: les dades s\'agreguen de forma anònima. Per això no et demanem consentiment per a això.' },
+      { heading: 'Cookies de publicitat (Google Ads)', intro: 'Ens anunciem a Google Ads i fem servir el seu seguiment de conversions per saber quines visites arriben des dels nostres anuncis. Aquestes cookies només s\'instal·len si acceptes l\'avís que et mostrem en entrar a la web; si el rebutges o l\'ignores, no es carreguen.', items: [
+        '<strong>_gcl_au</strong>: mesura quin anunci et va portar a la web, per atribuir conversions. Caduca als 90 dies.',
+        '<strong>_gcl_aw</strong>: registra que has fet clic en un anunci de Google, per poder comptar la conversió si acabes contactant amb nosaltres. Caduca als 90 dies.',
+      ], outro: 'Pots canviar la teva decisió en qualsevol moment esborrant aquestes cookies des dels ajustos del teu navegador; la propera visita et tornarem a preguntar.' },
+      { heading: 'Més informació', intro: `Per saber quines dades personals tractem quan fas servir el simulador o reserves una trucada, consulta la <a href="${privacidadHref}">política de privacitat</a>.` },
+    ],
+  },
+  en: {
+    eyebrow: 'Legal',
+    title: 'Cookie policy',
+    sections: [
+      { heading: 'What cookies we use', intro: 'We don\'t set cookies to track you, show you personalised ads or analyse your individual behaviour, except for the Google Ads ones described below. The call-booking button takes you to Calendly in a separate window; it isn\'t embedded in the page.' },
+      { heading: 'Visit analytics', intro: 'We use Umami, hosted on our own server, to see how many visits the site gets and which pages are read the most. It doesn\'t use cookies or identifiers that let us recognise you across visits: the data is aggregated anonymously. That\'s why we don\'t ask for consent for this.' },
+      { heading: 'Advertising cookies (Google Ads)', intro: 'We advertise on Google Ads and use its conversion tracking to see which visits come from our ads. These cookies are only set if you accept the banner shown when you enter the site; if you reject or ignore it, they aren\'t loaded.', items: [
+        '<strong>_gcl_au</strong>: measures which ad brought you to the site, to attribute conversions. Expires after 90 days.',
+        '<strong>_gcl_aw</strong>: records that you clicked a Google ad, so the conversion can be counted if you end up contacting us. Expires after 90 days.',
+      ], outro: 'You can change your decision at any time by deleting these cookies from your browser settings; we\'ll ask again on your next visit.' },
+      { heading: 'More information', intro: `To find out what personal data we process when you use the simulator or book a call, see the <a href="${privacidadHref}">privacy policy</a>.` },
+    ],
+  },
+};
+
+const c = content[lang];
 ---
 
 <div id="view-cookies">
   <div class="page view-intro">
-    <p class="eyebrow">Legal</p>
-    <h1 class="section-title">Política de cookies</h1>
+    <p class="eyebrow">{c.eyebrow}</p>
+    <h1 class="section-title">{c.title}</h1>
   </div>
 
   <div class="page view-block legal-doc">
-    <h3>Qué cookies usamos</h3>
-    <p>No instalamos cookies para seguirte, mostrarte anuncios personalizados ni analizar tu comportamiento individual, salvo las de Google Ads descritas más abajo. El botón de reserva de llamada te lleva a Calendly en una ventana aparte, no está incrustado en la página.</p>
-
-    <h3>Medición de visitas</h3>
-    <p>Usamos Umami, alojado en nuestro propio servidor, para saber cuántas visitas recibe la web y qué páginas se leen más. No usa cookies ni identificadores que permitan reconocerte entre visitas: los datos se agregan de forma anónima. Por eso no te pedimos consentimiento para esto.</p>
-
-    <h3>Cookies de publicidad (Google Ads)</h3>
-    <p>Nos anunciamos en Google Ads y usamos su seguimiento de conversiones para saber qué visitas llegan desde nuestros anuncios. Estas cookies solo se instalan si aceptas el aviso que te mostramos al entrar en la web; si lo rechazas o lo ignoras, no se cargan.</p>
-    <ul>
-      <li><strong>_gcl_au</strong>: mide qué anuncio te trajo a la web, para atribuir conversiones. Caduca a los 90 días.</li>
-      <li><strong>_gcl_aw</strong>: registra que has hecho clic en un anuncio de Google, para poder contar la conversión si acabas contactando con nosotros. Caduca a los 90 días.</li>
-    </ul>
-    <p>Puedes cambiar tu decisión en cualquier momento borrando estas cookies desde los ajustes de tu navegador; la próxima visita te volveremos a preguntar.</p>
-
-    <h3>Más información</h3>
-    <p>Para saber qué datos personales tratamos cuando usas el simulador o reservas una llamada, consulta la <a href="/privacidad">política de privacidad</a>.</p>
+    {c.sections.map((s) => (
+      <>
+        <h2>{s.heading}</h2>
+        {s.intro && <p set:html={s.intro} />}
+        {s.items && (
+          <ul>
+            {s.items.map((item) => <li set:html={item} />)}
+          </ul>
+        )}
+        {s.outro && <p set:html={s.outro} />}
+      </>
+    ))}
   </div>
 </div>

@@ -16,7 +16,7 @@ const home = lang === 'es' ? '/' : `/${lang}/`;
         <p class="foot-tagline">{t.footer.tagline}</p>
       </div>
       <div>
-        <h4>{t.footer.navTitle}</h4>
+        <h3>{t.footer.navTitle}</h3>
         <nav class="foot-nav">
           <a href={home}>{t.nav.home}</a>
           <a href={localizedPath('/simulador', lang)}>{t.nav.simulador}</a>
@@ -28,12 +28,12 @@ const home = lang === 'es' ? '/' : `/${lang}/`;
         </nav>
       </div>
       <div>
-        <h4>{t.footer.contactTitle}</h4>
+        <h3>{t.footer.contactTitle}</h3>
         <ul class="foot-list">
           <li><a href="mailto:contacto@asesoriamadal.es">contacto@asesoriamadal.es</a></li>
-          <li><a href="#">{t.footer.contactCall}</a></li>
+          <li><a href="https://calendly.com/asesoriamadal4/" target="_blank" rel="noopener">{t.footer.contactCall}</a></li>
         </ul>
-        <h4 class="foot-subtitle">{t.footer.socialTitle}</h4>
+        <h3 class="foot-subtitle">{t.footer.socialTitle}</h3>
         <ul class="foot-list">
           <li>
             <a href="https://www.linkedin.com/company/asesor%C3%ADa-madal" target="_blank" rel="noopener noreferrer" class="foot-social">
@@ -46,7 +46,7 @@ const home = lang === 'es' ? '/' : `/${lang}/`;
         </ul>
       </div>
       <div>
-        <h4>{t.footer.whereTitle}</h4>
+        <h3>{t.footer.whereTitle}</h3>
         <ul class="foot-list">
           <li>{t.footer.whereBase}</li>
           <li>{t.footer.whereOnline}</li>
@@ -57,9 +57,9 @@ const home = lang === 'es' ? '/' : `/${lang}/`;
     <div class="foot-bottom">
       <p class="legal">{t.footer.legal}</p>
       <div class="foot-bottom-links">
-        <a href="/aviso-legal">{t.footer.avisoLegal}</a>
-        <a href="/privacidad">{t.footer.privacidad}</a>
-        <a href="/cookies">{t.footer.cookies}</a>
+        <a href={localizedPath('/aviso-legal', lang)}>{t.footer.avisoLegal}</a>
+        <a href={localizedPath('/privacidad', lang)}>{t.footer.privacidad}</a>
+        <a href={localizedPath('/cookies', lang)}>{t.footer.cookies}</a>
       </div>
     </div>
   </div>

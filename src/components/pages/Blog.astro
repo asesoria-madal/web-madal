@@ -63,7 +63,7 @@ const faqGroups: { key: string; label: string; items: readonly { q: string; a: s
         <div class="faq-columns">
           {faqGroups.map((group) => (
             <div class="faq-group" data-faq-group>
-              <h3>{group.label}</h3>
+              <h2>{group.label}</h2>
               {group.items.map((item, i) => (
                 <details class="faq-item" data-extra={i >= FAQ_VISIBLE_LIMIT ? 'true' : undefined} hidden={i >= FAQ_VISIBLE_LIMIT}>
                   <summary>{item.q}</summary>

@@ -1,40 +1,103 @@
 ---
-// Documento legal: solo en castellano de forma deliberada (ver nota en README).
-// Sigue el esquema habitual RGPD/LOPDGDD para una web pequeña en España.
-// Estructurado por canal de captación (finalidad + base legal + plazo de
-// conservación propios de cada uno), según indicación legal recibida.
+// Documento legal. Traducido a ca/en el 2026-09-27 a petición expresa del
+// titular (antes era solo castellano). Sigue el esquema habitual RGPD/LOPDGDD
+// para una web pequeña en España; estructurado por canal de captación
+// (finalidad + base legal + plazo de conservación propios de cada uno). Los
+// hechos no se traducen; el resto sí, sin revisión legal formal en
+// catalán/inglés — si hay dudas sobre una cláusula concreta, revisar contra
+// el original en castellano.
+import type { Locale } from '../../i18n/ui';
+import { localizedPath } from '../../i18n/utils';
+
+interface Props { lang: Locale }
+const { lang } = Astro.props;
+const cookiesHref = localizedPath('/cookies', lang);
+
+interface Section { heading: string; intro?: string; items?: string[]; outro?: string }
+const content: Record<Locale, { eyebrow: string; title: string; sections: Section[] }> = {
+  es: {
+    eyebrow: 'Legal',
+    title: 'Política de privacidad',
+    sections: [
+      { heading: '1. Quién es el responsable del tratamiento', intro: 'Hugo Madrid Rodríguez, con NIF 23845033J, actuando bajo el nombre comercial "Asesoría Madal", con domicilio en Carrer d\'Anna M. Martínez Sagí, 30, 08041 Barcelona, y correo de contacto <a href="mailto:contacto@asesoriamadal.es">contacto@asesoriamadal.es</a>.' },
+      { heading: '2. Qué datos tratamos, para qué, y durante cuánto tiempo', items: [
+        '<strong>Simulador de precio:</strong> el régimen fiscal, el volumen de facturas, si tienes empleados y si te interesa el reporting. Guardamos estas respuestas junto con un número de presupuesto, para poder atender tu caso si nos escribes con ese número y para saber qué perfiles de cliente nos visitan. Al final del simulador puedes dejarnos tu correo electrónico para que te contactemos: es opcional, y solo lo guardamos si marcas la casilla de aceptación de esta misma política, en el mismo paso en que lo escribes. <em>Base legal:</em> medidas precontractuales a petición del interesado (art. 6.1.b RGPD). <em>Conservación:</em> el tiempo necesario para enviarte la propuesta y su seguimiento.',
+        '<strong>Reserva de llamada:</strong> si reservas una llamada a través de nuestro calendario, tratamos tu nombre, correo y teléfono con la finalidad de contactar contigo y prepararla. Este dato lo recoge un proveedor externo (ver punto 4). <em>Base legal:</em> medidas precontractuales a petición del interesado (art. 6.1.b RGPD). <em>Conservación:</em> hasta la realización de la llamada y su seguimiento posterior.',
+        '<strong>Correo directo:</strong> si nos escribes a <a href="mailto:contacto@asesoriamadal.es">contacto@asesoriamadal.es</a>, tratamos los datos que incluyas en tu mensaje para responderte. <em>Base legal:</em> interés legítimo en atender consultas comerciales / medidas precontractuales (art. 6.1.b RGPD). <em>Conservación:</em> hasta resolver la consulta o, si no se formaliza una relación comercial, durante 6-12 meses.',
+        `<strong>Medición de visitas:</strong> usamos Umami, alojado en nuestro propio servidor, para contar visitas y páginas más leídas. No usa cookies ni te identifica individualmente: los datos son agregados. Más detalle en la <a href="${cookiesHref}">política de cookies</a>.`,
+      ] },
+      { heading: '3. Con quién compartimos los datos', items: [
+        '<strong>Vercel Inc.</strong>: alojamiento de la web. Empresa con sede en EE. UU., acogida al marco de transferencia de datos UE-EE. UU. (Data Privacy Framework).',
+        '<strong>Supabase</strong>: base de datos donde se guardan las respuestas del simulador. La instancia está alojada en servidores dentro de la Unión Europea.',
+        '<strong>Calendly LLC</strong>: gestión de la reserva de llamadas, cuando reserves una. Empresa con sede en EE. UU., acogida al marco de transferencia de datos UE-EE. UU. (Data Privacy Framework).',
+      ], outro: 'No vendemos ni cedemos tus datos a terceros con fines publicitarios.' },
+      { heading: '4. Tus derechos', intro: 'Puedes solicitar el acceso, rectificación, supresión, limitación, oposición y portabilidad de tus datos escribiendo a <a href="mailto:contacto@asesoriamadal.es">contacto@asesoriamadal.es</a>. También puedes presentar una reclamación ante la Agencia Española de Protección de Datos (aepd.es) si consideras que no hemos atendido tu solicitud correctamente.' },
+      { heading: '5. Cambios en esta política', intro: `Podemos actualizar este documento a medida que la empresa se constituya formalmente y se añadan nuevas herramientas (por ejemplo, al activar el seguimiento de conversiones de Google Ads — ver la <a href="${cookiesHref}">política de cookies</a>). Recomendamos revisarlo de vez en cuando.` },
+    ],
+  },
+  ca: {
+    eyebrow: 'Legal',
+    title: 'Política de privacitat',
+    sections: [
+      { heading: '1. Qui és el responsable del tractament', intro: 'Hugo Madrid Rodríguez, amb NIF 23845033J, actuant sota el nom comercial "Asesoría Madal", amb domicili a Carrer d\'Anna M. Martínez Sagí, 30, 08041 Barcelona, i correu de contacte <a href="mailto:contacto@asesoriamadal.es">contacto@asesoriamadal.es</a>.' },
+      { heading: '2. Quines dades tractem, per a què, i durant quant de temps', items: [
+        '<strong>Simulador de preu:</strong> el règim fiscal, el volum de factures, si tens empleats i si t\'interessa el reporting. Guardem aquestes respostes juntament amb un número de pressupost, per poder atendre el teu cas si ens escrius amb aquest número i per saber quins perfils de client ens visiten. Al final del simulador pots deixar-nos el teu correu electrònic perquè et contactem: és opcional, i només el guardem si marques la casella d\'acceptació d\'aquesta mateixa política, en el mateix pas en què l\'escrius. <em>Base legal:</em> mesures precontractuals a petició de la persona interessada (art. 6.1.b RGPD). <em>Conservació:</em> el temps necessari per enviar-te la proposta i el seu seguiment.',
+        '<strong>Reserva de trucada:</strong> si reserves una trucada a través del nostre calendari, tractem el teu nom, correu i telèfon amb la finalitat de contactar-te i preparar-la. Aquesta dada la recull un proveïdor extern (vegeu el punt 4). <em>Base legal:</em> mesures precontractuals a petició de la persona interessada (art. 6.1.b RGPD). <em>Conservació:</em> fins a la realització de la trucada i el seu seguiment posterior.',
+        '<strong>Correu directe:</strong> si ens escrius a <a href="mailto:contacto@asesoriamadal.es">contacto@asesoriamadal.es</a>, tractem les dades que incloguis en el teu missatge per respondre\'t. <em>Base legal:</em> interès legítim a atendre consultes comercials / mesures precontractuals (art. 6.1.b RGPD). <em>Conservació:</em> fins a resoldre la consulta o, si no es formalitza una relació comercial, durant 6-12 mesos.',
+        `<strong>Mesura de visites:</strong> fem servir Umami, allotjat al nostre propi servidor, per comptar visites i pàgines més llegides. No fa servir cookies ni t'identifica individualment: les dades són agregades. Més detall a la <a href="${cookiesHref}">política de cookies</a>.`,
+      ] },
+      { heading: '3. Amb qui compartim les dades', items: [
+        '<strong>Vercel Inc.</strong>: allotjament de la web. Empresa amb seu als EUA, acollida al marc de transferència de dades UE-EUA (Data Privacy Framework).',
+        '<strong>Supabase</strong>: base de dades on es guarden les respostes del simulador. La instància està allotjada en servidors dins de la Unió Europea.',
+        '<strong>Calendly LLC</strong>: gestió de la reserva de trucades, quan en reserves una. Empresa amb seu als EUA, acollida al marc de transferència de dades UE-EUA (Data Privacy Framework).',
+      ], outro: 'No venem ni cedim les teves dades a tercers amb finalitats publicitàries.' },
+      { heading: '4. Els teus drets', intro: 'Pots sol·licitar l\'accés, la rectificació, la supressió, la limitació, l\'oposició i la portabilitat de les teves dades escrivint a <a href="mailto:contacto@asesoriamadal.es">contacto@asesoriamadal.es</a>. També pots presentar una reclamació davant l\'Agència Espanyola de Protecció de Dades (aepd.es) si consideres que no hem atès la teva sol·licitud correctament.' },
+      { heading: '5. Canvis en aquesta política', intro: `Podem actualitzar aquest document a mesura que l'empresa es constitueixi formalment i s'afegeixin noves eines (per exemple, en activar el seguiment de conversions de Google Ads — vegeu la <a href="${cookiesHref}">política de cookies</a>). Recomanem revisar-lo de tant en tant.` },
+    ],
+  },
+  en: {
+    eyebrow: 'Legal',
+    title: 'Privacy policy',
+    sections: [
+      { heading: '1. Who is responsible for processing your data', intro: 'Hugo Madrid Rodríguez, with Spanish tax ID (NIF) 23845033J, trading as "Asesoría Madal", with an address at Carrer d\'Anna M. Martínez Sagí, 30, 08041 Barcelona, Spain, and contact email <a href="mailto:contacto@asesoriamadal.es">contacto@asesoriamadal.es</a>.' },
+      { heading: '2. What data we process, for what purpose, and for how long', items: [
+        '<strong>Price simulator:</strong> your tax regime, invoice volume, whether you have employees, and whether you\'re interested in reporting. We store these answers together with a quote number, so we can help with your case if you contact us with that number, and to understand what kind of client profiles visit us. At the end of the simulator you can leave us your email so we can contact you: this is optional, and we only store it if you tick the box accepting this same policy, at the same step where you type it in. <em>Legal basis:</em> pre-contractual measures at the data subject\'s request (Art. 6(1)(b) GDPR). <em>Retention:</em> for as long as needed to send you the proposal and follow up on it.',
+        '<strong>Call booking:</strong> if you book a call through our calendar, we process your name, email and phone number in order to contact you and prepare the call. This data is collected by an external provider (see point 4). <em>Legal basis:</em> pre-contractual measures at the data subject\'s request (Art. 6(1)(b) GDPR). <em>Retention:</em> until the call takes place and any subsequent follow-up.',
+        '<strong>Direct email:</strong> if you write to us at <a href="mailto:contacto@asesoriamadal.es">contacto@asesoriamadal.es</a>, we process the data you include in your message in order to reply. <em>Legal basis:</em> legitimate interest in handling business enquiries / pre-contractual measures (Art. 6(1)(b) GDPR). <em>Retention:</em> until the enquiry is resolved or, if no business relationship is formalised, for 6-12 months.',
+        `<strong>Visit analytics:</strong> we use Umami, hosted on our own server, to count visits and most-read pages. It doesn't use cookies and doesn't identify you individually: the data is aggregated. More detail in the <a href="${cookiesHref}">cookie policy</a>.`,
+      ] },
+      { heading: '3. Who we share your data with', items: [
+        '<strong>Vercel Inc.</strong>: hosts the website. A US-based company, certified under the EU-US Data Privacy Framework.',
+        '<strong>Supabase</strong>: the database where simulator responses are stored. The instance is hosted on servers within the European Union.',
+        '<strong>Calendly LLC</strong>: manages call bookings, whenever you book one. A US-based company, certified under the EU-US Data Privacy Framework.',
+      ], outro: 'We do not sell or share your data with third parties for advertising purposes.' },
+      { heading: '4. Your rights', intro: 'You can request access, rectification, erasure, restriction, objection and portability of your data by writing to <a href="mailto:contacto@asesoriamadal.es">contacto@asesoriamadal.es</a>. You can also file a complaint with the Spanish Data Protection Agency (AEPD, aepd.es) if you believe we have not handled your request correctly.' },
+      { heading: '5. Changes to this policy', intro: `We may update this document as the business is formally incorporated and new tools are added (for example, when Google Ads conversion tracking is switched on — see the <a href="${cookiesHref}">cookie policy</a>). We recommend checking it from time to time.` },
+    ],
+  },
+};
+
+const c = content[lang];
 ---
 
 <div id="view-privacidad">
   <div class="page view-intro">
-    <p class="eyebrow">Legal</p>
-    <h1 class="section-title">Política de privacidad</h1>
+    <p class="eyebrow">{c.eyebrow}</p>
+    <h1 class="section-title">{c.title}</h1>
   </div>
 
   <div class="page view-block legal-doc">
-    <h3>1. Quién es el responsable del tratamiento</h3>
-    <p>Hugo Madrid Rodríguez, con NIF 23845033J, actuando bajo el nombre comercial "Asesoría Madal", con domicilio en Carrer d'Anna M. Martínez Sagí, 30, 08041 Barcelona, y correo de contacto <a href="mailto:contacto@asesoriamadal.es">contacto@asesoriamadal.es</a>.</p>
-
-    <h3>2. Qué datos tratamos, para qué, y durante cuánto tiempo</h3>
-    <ul>
-      <li><strong>Simulador de precio:</strong> el régimen fiscal, el volumen de facturas, si tienes empleados y si te interesa el reporting. Guardamos estas respuestas junto con un número de presupuesto, para poder atender tu caso si nos escribes con ese número y para saber qué perfiles de cliente nos visitan. Al final del simulador puedes dejarnos tu correo electrónico para que te contactemos: es opcional, y solo lo guardamos si marcas la casilla de aceptación de esta misma política, en el mismo paso en que lo escribes. <em>Base legal:</em> medidas precontractuales a petición del interesado (art. 6.1.b RGPD). <em>Conservación:</em> el tiempo necesario para enviarte la propuesta y su seguimiento.</li>
-      <li><strong>Reserva de llamada:</strong> si reservas una llamada a través de nuestro calendario, tratamos tu nombre, correo y teléfono con la finalidad de contactar contigo y prepararla. Este dato lo recoge un proveedor externo (ver punto 4). <em>Base legal:</em> medidas precontractuales a petición del interesado (art. 6.1.b RGPD). <em>Conservación:</em> hasta la realización de la llamada y su seguimiento posterior.</li>
-      <li><strong>Correo directo:</strong> si nos escribes a <a href="mailto:contacto@asesoriamadal.es">contacto@asesoriamadal.es</a>, tratamos los datos que incluyas en tu mensaje para responderte. <em>Base legal:</em> interés legítimo en atender consultas comerciales / medidas precontractuales (art. 6.1.b RGPD). <em>Conservación:</em> hasta resolver la consulta o, si no se formaliza una relación comercial, durante 6-12 meses.</li>
-      <li><strong>Medición de visitas:</strong> usamos Umami, alojado en nuestro propio servidor, para contar visitas y páginas más leídas. No usa cookies ni te identifica individualmente: los datos son agregados. Más detalle en la <a href="/cookies">política de cookies</a>.</li>
-    </ul>
-
-    <h3>3. Con quién compartimos los datos</h3>
-    <ul>
-      <li><strong>Vercel Inc.</strong>: alojamiento de la web. Empresa con sede en EE. UU., acogida al marco de transferencia de datos UE-EE. UU. (Data Privacy Framework).</li>
-      <li><strong>Supabase</strong>: base de datos donde se guardan las respuestas del simulador. La instancia está alojada en servidores dentro de la Unión Europea.</li>
-      <li><strong>Calendly LLC</strong>: gestión de la reserva de llamadas, cuando reserves una. Empresa con sede en EE. UU., acogida al marco de transferencia de datos UE-EE. UU. (Data Privacy Framework).</li>
-    </ul>
-    <p>No vendemos ni cedemos tus datos a terceros con fines publicitarios.</p>
-
-    <h3>4. Tus derechos</h3>
-    <p>Puedes solicitar el acceso, rectificación, supresión, limitación, oposición y portabilidad de tus datos escribiendo a <a href="mailto:contacto@asesoriamadal.es">contacto@asesoriamadal.es</a>. También puedes presentar una reclamación ante la Agencia Española de Protección de Datos (aepd.es) si consideras que no hemos atendido tu solicitud correctamente.</p>
-
-    <h3>5. Cambios en esta política</h3>
-    <p>Podemos actualizar este documento a medida que la empresa se constituya formalmente y se añadan nuevas herramientas (por ejemplo, al activar el seguimiento de conversiones de Google Ads — ver la <a href="/cookies">política de cookies</a>). Recomendamos revisarlo de vez en cuando.</p>
+    {c.sections.map((s) => (
+      <>
+        <h2>{s.heading}</h2>
+        {s.intro && <p set:html={s.intro} />}
+        {s.items && (
+          <ul>
+            {s.items.map((item) => <li set:html={item} />)}
+          </ul>
+        )}
+        {s.outro && <p set:html={s.outro} />}
+      </>
+    ))}
   </div>
 </div>

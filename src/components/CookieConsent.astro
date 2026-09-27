@@ -8,7 +8,7 @@
 // responde, no se carga nada.
 import { GOOGLE_ADS_CONVERSION_ID } from '../lib/ads-config';
 import type { Locale } from '../i18n/ui';
-import { useTranslations } from '../i18n/utils';
+import { useTranslations, localizedPath } from '../i18n/utils';
 
 interface Props {
   lang: Locale;
@@ -17,11 +17,12 @@ interface Props {
 const { lang } = Astro.props;
 const t = useTranslations(lang);
 const enabled = GOOGLE_ADS_CONVERSION_ID.length > 0;
+const cookiesHref = localizedPath('/cookies', lang);
 ---
 
 {enabled && (
   <div class="cookie-banner" id="cookieBanner" data-conversion-id={GOOGLE_ADS_CONVERSION_ID} hidden>
-    <p>{t.cookieBanner.text} <a href="/cookies">{t.cookieBanner.link}</a></p>
+    <p>{t.cookieBanner.text} <a href={cookiesHref}>{t.cookieBanner.link}</a></p>
     <div class="cookie-banner-actions">
       <button type="button" id="cookieReject" class="btn btn-outline">{t.cookieBanner.reject}</button>
       <button type="button" id="cookieAccept" class="btn btn-primary">{t.cookieBanner.accept}</button>

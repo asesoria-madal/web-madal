@@ -2,6 +2,7 @@
 import Layout from '../../layouts/Layout.astro';
 import Articulo from '../../components/pages/Articulo.astro';
 import { getCollection, type CollectionEntry } from 'astro:content';
+import { pageTitle } from '../../i18n/utils';
 
 export const prerender = true;
 
@@ -18,7 +19,7 @@ const { entry } = Astro.props;
   lang="es"
   path={`/blog/${entry.data.slug}`}
   active="blog"
-  title={`${entry.data.title} · Asesoría Madal`}
+  title={pageTitle(entry.data.title)}
   description={entry.data.description}
 >
   <Articulo lang="es" entry={entry} />

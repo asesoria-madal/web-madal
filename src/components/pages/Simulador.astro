@@ -1,5 +1,5 @@
 ---
-import { useTranslations } from '../../i18n/utils';
+import { useTranslations, localizedPath } from '../../i18n/utils';
 import type { Locale } from '../../i18n/ui';
 import ContactSwitch from '../ContactSwitch.astro';
 
@@ -11,6 +11,7 @@ const { lang, embedded = false } = Astro.props;
 const t = useTranslations(lang);
 const s = t.sim;
 const Heading = embedded ? 'h2' : 'h1';
+const privacidadHref = localizedPath('/privacidad', lang);
 
 // Quien nos pide que le demos de alta ahora elige plan igual que el resto
 // (antes se le asignaba Debut sin preguntar) — pero sigue siendo el plan
@@ -102,14 +103,14 @@ const debutTier = t.precios.autonomoTiers.find((tier) => tier.key === 'debut');
       <div class="wizard-step" data-step="actividad" hidden>
         <h3>{s.stepActividad.q}</h3>
         <p class="sim-field-hint">{s.stepActividad.hint}</p>
-        <input type="text" id="simActividadInput" class="sim-input" maxlength="100" placeholder={s.stepActividad.placeholder} />
+        <input type="text" id="simActividadInput" class="sim-input" maxlength="100" placeholder={s.stepActividad.placeholder} aria-label={s.stepActividad.q} />
         <button type="button" class="btn btn-primary sim-continue" id="simActividadContinue" disabled>{s.continue}</button>
       </div>
 
       <div class="wizard-step" data-step="fechaInicio" hidden>
         <h3>{s.stepFecha.q}</h3>
         <p class="sim-field-hint">{s.stepFecha.hint}</p>
-        <input type="date" id="simFechaInput" class="sim-input" />
+        <input type="date" id="simFechaInput" class="sim-input" aria-label={s.stepFecha.q} />
         <button type="button" class="btn btn-primary sim-continue" id="simFechaContinue" disabled>{s.continue}</button>
       </div>
 
@@ -117,10 +118,10 @@ const debutTier = t.precios.autonomoTiers.find((tier) => tier.key === 'debut');
         <h3>{s.email.qBefore}</h3>
         <p class="sim-field-hint">{s.email.hint}</p>
         <p class="sim-field-hint sim-no-ads">{s.email.noAds}</p>
-        <input type="email" id="simEmailInput" class="sim-input" placeholder={s.email.placeholder} autocomplete="email" />
+        <input type="email" id="simEmailInput" class="sim-input" placeholder={s.email.placeholder} autocomplete="email" aria-label={s.email.qBefore} />
         <label class="sim-consent">
           <input type="checkbox" id="simEmailConsent" />
-          <span>{s.email.consentPrefix} <a href="/privacidad" target="_blank" rel="noopener">{s.email.consentLink}</a></span>
+          <span>{s.email.consentPrefix} <a href={privacidadHref} target="_blank" rel="noopener">{s.email.consentLink}</a></span>
         </label>
         <p class="sim-consent-info">{s.email.consentInfo}</p>
         <p class="sim-field-error" id="simEmailError" hidden>{s.email.error}</p>
@@ -163,10 +164,10 @@ const debutTier = t.precios.autonomoTiers.find((tier) => tier.key === 'debut');
           <div id="simEmailAfterForm">
             <p class="sim-field-hint">{s.email.qAfter}</p>
             <p class="sim-field-hint sim-no-ads">{s.email.noAds}</p>
-            <input type="email" id="simEmailAfterInput" class="sim-input" placeholder={s.email.placeholder} autocomplete="email" />
+            <input type="email" id="simEmailAfterInput" class="sim-input" placeholder={s.email.placeholder} autocomplete="email" aria-label={s.email.qAfter} />
             <label class="sim-consent">
               <input type="checkbox" id="simEmailAfterConsent" />
-              <span>{s.email.consentPrefix} <a href="/privacidad" target="_blank" rel="noopener">{s.email.consentLink}</a></span>
+              <span>{s.email.consentPrefix} <a href={privacidadHref} target="_blank" rel="noopener">{s.email.consentLink}</a></span>
             </label>
             <p class="sim-consent-info">{s.email.consentInfo}</p>
             <p class="sim-field-error" id="simEmailAfterError" hidden>{s.email.error}</p>

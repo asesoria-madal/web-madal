@@ -17,7 +17,7 @@ Este README es el índice. La documentación de detalle está en:
 - **Astro 7** (`output: 'server'`), pero **todas las páginas se prerenderizan** (`export const prerender = true`). Solo los 4 endpoints de `src/pages/api/` corren por petición.
 - **Adapter `@astrojs/vercel`** → despliegue en Vercel, integrado con GitHub (push a `main` = deploy a producción).
 - **Supabase** (Postgres + Auth + Storage) para el simulador de precio, los formularios y el portal de clientes.
-- **i18n manual**: `es` (por defecto, sin prefijo de ruta), `ca`, `en`. Cada página existe como archivo aparte por idioma en `src/pages/`, `src/pages/ca/`, `src/pages/en/`. El portal, las páginas legales y los formularios existen **solo en castellano**.
+- **i18n manual**: `es` (por defecto, sin prefijo de ruta), `ca`, `en`. Cada página existe como archivo aparte por idioma en `src/pages/`, `src/pages/ca/`, `src/pages/en/`. Las páginas legales (aviso legal, privacidad, cookies) se tradujeron a ca/en el 2026-09-27 (traducción directa, sin revisión legal formal en catalán/inglés — ver comentario en cada componente). El portal también existe en los tres idiomas. Los formularios largos (`FormularioAlta`, `FormularioTraspaso`) siguen **solo en castellano** a propósito: se acceden por enlace directo a un cliente ya identificado, no desde el menú.
 - Sin Tailwind ni framework de UI: una sola hoja `src/styles/global.css` (~7 KB), inline en el `<head>`.
 
 ## Puesta en marcha en local
