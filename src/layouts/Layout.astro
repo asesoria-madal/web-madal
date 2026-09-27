@@ -123,6 +123,13 @@ const ogLocale: Record<Locale, string> = { es: 'es_ES', ca: 'ca_ES', en: 'en_GB'
       url: 'https://asesoriamadal.es',
       logo: new URL('/brand/logo-am-claro.svg', Astro.site).toString(),
       email: 'contacto@asesoriamadal.es',
+      // Solo localidad, a propósito: no se publica la dirección completa
+      // (la de /aviso-legal es solo a efectos de notificaciones legales).
+      address: {
+        '@type': 'PostalAddress',
+        addressLocality: 'Barcelona',
+        addressCountry: 'ES',
+      },
       areaServed,
       // Rango real de los planes publicados en la home (Debut 35€ a
       // Expansión 200€/mes, todos + IVA) — no un valor inventado.
