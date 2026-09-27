@@ -31,7 +31,7 @@ const debutTier = t.precios.autonomoTiers.find((tier) => tier.key === 'debut');
       <div class="wizard-progress" id="wizardProgress"></div>
 
       <div class="wizard-step" data-step="regimen">
-        <h3>{s.stepRegimen.q}</h3>
+        <h2>{s.stepRegimen.q}</h2>
         <div class="card-options">
           {s.stepRegimen.options.map((opt) => (
             <button type="button" class="option-card" data-field="regimen" data-value={opt.value}>{opt.label}</button>
@@ -40,7 +40,7 @@ const debutTier = t.precios.autonomoTiers.find((tier) => tier.key === 'debut');
       </div>
 
       <div class="wizard-step" data-step="altaEstado" hidden>
-        <h3>{s.stepAlta.q}</h3>
+        <h2>{s.stepAlta.q}</h2>
         <div class="card-options">
           {s.stepAlta.options.map((opt) => (
             <button type="button" class="option-card" data-field="alta" data-value={opt.value}>{opt.label}</button>
@@ -49,7 +49,7 @@ const debutTier = t.precios.autonomoTiers.find((tier) => tier.key === 'debut');
       </div>
 
       <div class="wizard-step" data-step="facturas" hidden>
-        <h3>{s.stepFacturas.q}</h3>
+        <h2>{s.stepFacturas.q}</h2>
         <div class="card-options card-options-vertical" data-facturas-options="autonomo" hidden>
           {t.precios.autonomoTiers.map((tier) => (
             <button type="button" class="option-card option-card-tier" data-field="facturas" data-value={tier.key}>
@@ -83,7 +83,7 @@ const debutTier = t.precios.autonomoTiers.find((tier) => tier.key === 'debut');
       </div>
 
       <div class="wizard-step" data-step="reporting" hidden>
-        <h3>{s.stepReporting.q}</h3>
+        <h2>{s.stepReporting.q}</h2>
         <div class="card-options">
           {s.stepReporting.options.map((opt) => (
             <button type="button" class="option-card" data-field="reporting" data-value={opt.value}>{opt.label}</button>
@@ -92,7 +92,7 @@ const debutTier = t.precios.autonomoTiers.find((tier) => tier.key === 'debut');
       </div>
 
       <div class="wizard-step" data-step="certificado" hidden>
-        <h3>{s.stepCertificado.q}</h3>
+        <h2>{s.stepCertificado.q}</h2>
         <div class="card-options">
           {s.stepCertificado.options.map((opt) => (
             <button type="button" class="option-card" data-field="certificado" data-value={opt.value}>{opt.label}</button>
@@ -101,21 +101,21 @@ const debutTier = t.precios.autonomoTiers.find((tier) => tier.key === 'debut');
       </div>
 
       <div class="wizard-step" data-step="actividad" hidden>
-        <h3>{s.stepActividad.q}</h3>
+        <h2>{s.stepActividad.q}</h2>
         <p class="sim-field-hint">{s.stepActividad.hint}</p>
         <input type="text" id="simActividadInput" class="sim-input" maxlength="100" placeholder={s.stepActividad.placeholder} aria-label={s.stepActividad.q} />
         <button type="button" class="btn btn-primary sim-continue" id="simActividadContinue" disabled>{s.continue}</button>
       </div>
 
       <div class="wizard-step" data-step="fechaInicio" hidden>
-        <h3>{s.stepFecha.q}</h3>
+        <h2>{s.stepFecha.q}</h2>
         <p class="sim-field-hint">{s.stepFecha.hint}</p>
         <input type="date" id="simFechaInput" class="sim-input" aria-label={s.stepFecha.q} />
         <button type="button" class="btn btn-primary sim-continue" id="simFechaContinue" disabled>{s.continue}</button>
       </div>
 
       <div class="wizard-step" data-step="email" hidden>
-        <h3>{s.email.qBefore}</h3>
+        <h2>{s.email.qBefore}</h2>
         <p class="sim-field-hint">{s.email.hint}</p>
         <p class="sim-field-hint sim-no-ads">{s.email.noAds}</p>
         <input type="email" id="simEmailInput" class="sim-input" placeholder={s.email.placeholder} autocomplete="email" aria-label={s.email.qBefore} />

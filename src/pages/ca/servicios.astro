@@ -5,6 +5,6 @@ import Servicios from '../../components/pages/Servicios.astro';
 export const prerender = true;
 ---
 
-<Layout lang="ca" path="/ca/servicios" active="servicios" title="Els nostres serveis · Asesoría Madal" description="Tot el que oferim, en una sola pàgina. Molt aviat.">
+<Layout lang="ca" path="/ca/servicios" active="servicios" title="Els nostres serveis · Asesoría Madal" description="Tot el que oferim, en una sola pàgina. Molt aviat." breadcrumbs={[{ name: 'Els nostres serveis', path: '/servicios' }]}>
   <Servicios lang="ca" />
 </Layout>

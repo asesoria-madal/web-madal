@@ -34,6 +34,14 @@ export default defineConfig({
         !page.includes('/aviso-legal') &&
         !page.includes('/privacidad') &&
         !page.includes('/cookies'),
+      // Sin esto el sitemap no llevaba <lastmod> en ninguna URL. Usamos la
+      // fecha de este build: es un dato real (cuándo se generó este HTML
+      // exacto), no inventado, aunque no distinga qué páginas cambiaron de
+      // verdad de las que no.
+      serialize(item) {
+        item.lastmod = new Date().toISOString();
+        return item;
+      },
     }),
   ],
   i18n: {

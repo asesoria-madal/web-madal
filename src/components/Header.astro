@@ -67,7 +67,7 @@ const localeCode: Record<Locale, string> = { es: 'ES', ca: 'CA', en: 'EN' };
             <div class="services-menu-card">
               {serviciosMenuItems.map((item) => (
                 <a href={item.href} class="services-menu-item" aria-label={item.title}>
-                  <span class="services-menu-title">{item.title}</span>
+                  <span class="services-menu-title">{item.title}</span>{' '}
                   <span class="services-menu-desc">{item.desc}</span>
                 </a>
               ))}
@@ -129,7 +129,7 @@ const localeCode: Record<Locale, string> = { es: 'ES', ca: 'CA', en: 'EN' };
         <div class="mobile-services-menu">
           {serviciosMenuItems.map((item) => (
             <a href={item.href} class="mobile-services-item" aria-label={item.title}>
-              <span class="services-menu-title">{item.title}</span>
+              <span class="services-menu-title">{item.title}</span>{' '}
               <span class="services-menu-desc">{item.desc}</span>
             </a>
           ))}

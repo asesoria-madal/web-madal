@@ -10,6 +10,6 @@ const posts = entries.slice(0, BLOG_PAGE_SIZE).map((e) => toPostPreview(e, 'en')
 const total = totalBlogPages(entries.length);
 ---
 
-<Layout lang="en" path="/en/blog" active="blog" title="Freelancer & small business tax blog · Asesoría Madal" description="Articles and frequently asked questions about taxes for freelancers and small companies in Spain.">
+<Layout lang="en" path="/en/blog" active="blog" title="Freelancer & small business tax blog · Asesoría Madal" description="Articles and frequently asked questions about taxes for freelancers and small companies in Spain." breadcrumbs={[{ name: 'FAQs', path: '/blog' }]}>
   <Blog lang="en" posts={posts} pagination={{ current: 1, total, baseUrl: '/blog' }} />
 </Layout>

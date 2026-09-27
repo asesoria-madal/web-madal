@@ -5,6 +5,6 @@ import Simulador from '../../components/pages/Simulador.astro';
 export const prerender = true;
 ---
 
-<Layout lang="en" path="/en/simulador" active="simulador" title="Price simulator · Asesoría Madal" description="Answer four questions to find out how much Asesoría Madal would cost for your business.">
+<Layout lang="en" path="/en/simulador" active="simulador" title="Price simulator · Asesoría Madal" description="Answer four questions to find out how much Asesoría Madal would cost for your business." breadcrumbs={[{ name: 'Price simulator', path: '/simulador' }]}>
   <Simulador lang="en" />
 </Layout>

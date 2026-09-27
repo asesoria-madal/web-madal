@@ -29,10 +29,34 @@ interface Props {
    * redes se ven como un artículo, no como un enlace genérico del sitio);
    * "website" en el resto de páginas. */
   ogType?: 'website' | 'article';
+  /** Solo con ogType="article": fechas ISO de publicación/actualización,
+   * las mismas que ya usa el JSON-LD del artículo (Articulo.astro). */
+  articlePublishedTime?: string;
+  articleModifiedTime?: string;
+  /** Migas de pan (BreadcrumbList) para páginas de un solo nivel bajo Inicio
+   * (alta, servicios, equipo, portal, simulador, blog). `path` es la ruta
+   * sin prefijo de idioma (p.ej. "/alta"); Inicio se antepone solo. Los
+   * artículos del blog ya generan su propio BreadcrumbList de 3 niveles en
+   * Articulo.astro y no usan este prop. */
+  breadcrumbs?: { name: string; path: string }[];
 }
 
-const { lang, path, active, title, description, showCtaFinal = true, noindex = false, minimalHeader = false, hideHeader = false, localesAvailable = locales, ogType = 'website' } = Astro.props;
+const { lang, path, active, title, description, showCtaFinal = true, noindex = false, minimalHeader = false, hideHeader = false, localesAvailable = locales, ogType = 'website', articlePublishedTime, articleModifiedTime, breadcrumbs } = Astro.props;
 const t = useTranslations(lang);
+
+const breadcrumbLd = breadcrumbs && breadcrumbs.length > 0 ? {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: t.blog.breadcrumbHome, item: new URL(localizedPath('/', lang), Astro.site).toString() },
+    ...breadcrumbs.map((b, i) => ({
+      '@type': 'ListItem',
+      position: i + 2,
+      name: b.name,
+      item: new URL(localizedPath(b.path, lang), Astro.site).toString(),
+    })),
+  ],
+} : null;
 
 // localizedPath normaliza tanto si `path` llega con prefijo de idioma
 // (p.ej. "/ca/servicios") como sin él, así que sirve tal cual para calcular
@@ -61,6 +85,8 @@ const ogLocale: Record<Locale, string> = { es: 'es_ES', ca: 'ca_ES', en: 'en_GB'
     )}
 
     <meta property="og:type" content={ogType} />
+    {ogType === 'article' && articlePublishedTime && <meta property="article:published_time" content={articlePublishedTime} />}
+    {ogType === 'article' && articleModifiedTime && <meta property="article:modified_time" content={articleModifiedTime} />}
     <meta property="og:site_name" content="Asesoría Madal" />
     <meta property="og:title" content={title} />
     {description && <meta property="og:description" content={description} />}
@@ -88,6 +114,9 @@ const ogLocale: Record<Locale, string> = { es: 'es_ES', ca: 'ca_ES', en: 'en_GB'
       logo: new URL('/brand/logo-am-claro.svg', Astro.site).toString(),
       email: 'contacto@asesoriamadal.es',
       areaServed: 'ES',
+      // Rango real de los planes publicados en la home (Debut 35€ a
+      // Expansión 200€/mes, todos + IVA) — no un valor inventado.
+      priceRange: '35–200 €/mes + IVA',
       inLanguage: lang,
       description: 'Gestoría y asesoría 100% online para autónomos y pymes en España.',
       sameAs: [
@@ -103,6 +132,8 @@ const ogLocale: Record<Locale, string> = { es: 'es_ES', ca: 'ca_ES', en: 'en_GB'
       url: 'https://asesoriamadal.es/',
       inLanguage: locales,
     })} />
+
+    {breadcrumbLd && <script type="application/ld+json" is:inline set:html={JSON.stringify(breadcrumbLd)} />}
 
     <script is:inline>
       // Aplicamos el tema guardado antes de pintar, para evitar el parpadeo

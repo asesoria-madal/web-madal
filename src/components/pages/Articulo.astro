@@ -37,6 +37,10 @@ const articleLd = {
   '@type': 'Article',
   headline: entry.data.title,
   description: entry.data.description,
+  // El artículo no tiene imagen propia todavía: reutilizamos el mismo logo
+  // que ya sirve como og:image de esta página en vez de dejar el campo
+  // vacío o inventar una imagen que no existe.
+  image: [new URL('/brand/logo-largo-claro.png', Astro.site).toString()],
   datePublished: entry.data.date.toISOString(),
   dateModified: (entry.data.updatedDate ?? entry.data.date).toISOString(),
   inLanguage: lang,

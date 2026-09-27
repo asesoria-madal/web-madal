@@ -22,6 +22,8 @@ const { entry } = Astro.props;
   title={pageTitle(entry.data.title)}
   description={entry.data.description}
   ogType="article"
+  articlePublishedTime={entry.data.date.toISOString()}
+  articleModifiedTime={(entry.data.updatedDate ?? entry.data.date).toISOString()}
 >
   <Articulo lang="en" entry={entry} />
 </Layout>

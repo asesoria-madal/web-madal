@@ -1139,7 +1139,7 @@ section#como-trabajamos { background: var(--accent-tint); border-top-color: var(
 .step-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--line); transition: background-color 0.15s ease; }
 .step-dot.active { background: var(--accent); }
 .step-dot.done { background: var(--accent); opacity: 0.45; }
-.wizard-step h3 { font-family: var(--font-display); font-size: 1.35rem; margin-bottom: 1.4rem; }
+.wizard-step h2 { font-family: var(--font-display); font-size: 1.35rem; margin-bottom: 1.4rem; }
 .card-options { display: flex; flex-direction: column; gap: 0.8rem; }
 @media (min-width: 560px) { .card-options { flex-direction: row; flex-wrap: wrap; justify-content: center; } }
 .option-card {

@@ -5,6 +5,6 @@ import Portal from '../../components/pages/Portal.astro';
 export const prerender = true;
 ---
 
-<Layout lang="en" path="/en/portal" active="none" title="Client area · Asesoría Madal" description="Access your client area with an email link, no password." showCtaFinal={false}>
+<Layout lang="en" path="/en/portal" active="none" title="Client area · Asesoría Madal" description="Access your client area with an email link, no password." showCtaFinal={false} breadcrumbs={[{ name: 'Client area', path: '/portal' }]}>
   <Portal lang="en" />
 </Layout>
