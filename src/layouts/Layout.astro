@@ -44,6 +44,16 @@ interface Props {
 const { lang, path, active, title, description, showCtaFinal = true, noindex = false, minimalHeader = false, hideHeader = false, localesAvailable = locales, ogType = 'website', articlePublishedTime, articleModifiedTime, breadcrumbs } = Astro.props;
 const t = useTranslations(lang);
 
+// Toda España EXCEPTO Canarias, Navarra y País Vasco (tienen regímenes
+// fiscales propios) — coincide con el texto visible del footer/home. No
+// tocar sin comprobar antes que el texto visible sigue diciendo lo mismo.
+const areaServed = [
+  'Andalucía', 'Aragón', 'Principado de Asturias', 'Islas Baleares', 'Cantabria',
+  'Castilla-La Mancha', 'Castilla y León', 'Cataluña', 'Extremadura', 'Galicia',
+  'Comunidad de Madrid', 'Región de Murcia', 'La Rioja', 'Comunitat Valenciana',
+  'Ceuta', 'Melilla',
+].map((name) => ({ '@type': 'State', name }));
+
 const breadcrumbLd = breadcrumbs && breadcrumbs.length > 0 ? {
   '@context': 'https://schema.org',
   '@type': 'BreadcrumbList',
@@ -113,7 +123,7 @@ const ogLocale: Record<Locale, string> = { es: 'es_ES', ca: 'ca_ES', en: 'en_GB'
       url: 'https://asesoriamadal.es',
       logo: new URL('/brand/logo-am-claro.svg', Astro.site).toString(),
       email: 'contacto@asesoriamadal.es',
-      areaServed: 'ES',
+      areaServed,
       // Rango real de los planes publicados en la home (Debut 35€ a
       // Expansión 200€/mes, todos + IVA) — no un valor inventado.
       priceRange: '35–200 €/mes + IVA',
