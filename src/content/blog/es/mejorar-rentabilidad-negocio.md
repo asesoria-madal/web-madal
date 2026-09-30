@@ -2,27 +2,36 @@
 lang: es
 slug: mejorar-rentabilidad-negocio
 title: 'Cómo mejorar la rentabilidad de tu negocio, no solo cumplir con Hacienda'
-description: 'Lo que tu balance y tu cuenta de resultados ya te están diciendo.'
+description: 'Facturas más que nunca y te queda menos dinero en la cuenta. Cinco cosas concretas que puedes revisar esta semana.'
 cat: contabilidad
 date: 2026-08-19
+updatedDate: 2026-09-30
 ---
 
-Presentar impuestos a tiempo es el mínimo. La contabilidad, bien mirada, también te dice si el negocio va bien o solo parece que va bien porque hay caja en la cuenta. Esa es la diferencia entre una gestoría que cumple y una que además asesora.
+Facturas más que nunca... ¿y por qué te queda menos dinero en la cuenta? Es la trampa de obsesionarse con la facturación y olvidarse del margen. Presentar impuestos a tiempo es el mínimo; la contabilidad, bien mirada, te dice si el negocio gana dinero de verdad o solo lo parece porque hoy hay caja en la cuenta. Aquí van cinco cosas concretas que puedes revisar esta semana, no teoría.
 
-## Empieza por separar margen de facturación
+## 1. Deja de mirar la facturación bruta, mira el margen por producto o servicio
 
-Facturar más no siempre significa ganar más. Lo que importa es el margen: ingresos menos el coste directo de generar esos ingresos. Un negocio puede crecer en facturación y perder margen al mismo tiempo si los costes crecen más rápido.
+Calcula el margen directo de cada producto o servicio que vendes: ingreso menos coste directo de generarlo. Si vender más te cuesta más horas, más stock o más subcontratación de lo que ganas con esa venta, estás financiando a tus clientes, no ganando dinero. Haz la cuenta línea por línea al menos una vez: casi siempre hay uno o dos productos/servicios que en realidad no compensan tal y como los tienes precificados.
 
-## Vigila los gastos fijos frente a los variables
+## 2. Conoce tu punto de equilibrio exacto
 
-Los gastos fijos siguen ahí aunque un mes factures menos, alquiler, cuota de autónomos, suscripciones, personal. Identificarlos y revisarlos con regularidad te dice cuánto necesitas facturar como mínimo cada mes para no perder dinero, algo que muchas veces nadie se ha parado a calcular.
+Separa tus costes fijos (alquiler, cuota de autónomos, suscripciones, personal) de los variables, y calcula cuántas ventas necesitas cada mes solo para no perder dinero, antes de empezar a ganarlo. Un negocio rentable sobre el papel puede quebrar por falta de caja si nadie se ha parado a calcular este número.
 
-## Mira el negocio cada mes, no solo cada trimestre
+## 3. Control mensual, no sorpresas en el trimestre
 
-La periodicidad trimestral existe por obligación fiscal, no porque sea la mejor cadencia para gestionar un negocio. Revisar tu cuenta de resultados mes a mes permite detectar una desviación cuando todavía es pequeña, en vez de descubrirla tres meses después.
+La periodicidad trimestral existe por obligación fiscal, no porque sea la mejor cadencia para gestionar un negocio. Revisa tus números el día 1 de cada mes: así corriges una desviación de costes o una fuga de caja cuando todavía es pequeña, antes de que se convierta en un agujero.
 
-## El balance también cuenta una historia
+## 4. No confundas beneficio contable con dinero en el banco
 
-Más allá del beneficio del mes, el balance de situación te dice si el negocio se sostiene de verdad o vive mes a mes de la caja que entra. Lo explicamos en [qué es un balance de situación](/blog/balance-de-situacion).
+Controla tus plazos de cobro y tu fondo de maniobra. Un negocio puede tener beneficio en la cuenta de resultados y aun así quedarse sin liquidez si los clientes tardan en pagar o si el dinero está inmovilizado en stock. El balance de situación es el documento que enseña esa otra cara — lo explicamos en [qué es un balance de situación](/blog/balance-de-situacion).
 
-Estamos trabajando en llevar esto un paso más allá con informes automatizados, para que ver estos números no dependa de pedirlos expresamente. Mientras tanto, si quieres entender qué te dicen tus cuentas más allá del cumplimiento fiscal, es justo el tipo de conversación que tenemos con nuestros clientes.
+## 5. Revisa precios y proveedores al menos una vez al año
+
+Los costes de proveedores suben aunque tú no toques tus precios, y ahí es donde el margen se erosiona sin que se note mes a mes. Repasa una vez al año si tus precios siguen cubriendo tus costes actuales (no los de cuando los pusiste) y si tus proveedores siguen siendo competitivos o simplemente los tienes por inercia.
+
+## No es cuánto facturas, es cuánto te queda
+
+Si quieres ganar más este año, la solución casi nunca es "conseguir más clientes como sea", sino optimizar el margen de los que ya tienes. En Asesoría Madal no solo presentamos tus impuestos: analizamos tus números mes a mes para que tu negocio sea rentable de verdad, no solo sobre el papel.
+
+Estamos trabajando en llevar esto un paso más allá con informes automatizados, para que ver estos números no dependa de pedirlos expresamente. Mientras tanto, si quieres saber exactamente cuánto te queda limpio por cada venta, escríbenos sin compromiso a [contacto@asesoriamadal.es](mailto:contacto@asesoriamadal.es) y lo vemos juntos.
