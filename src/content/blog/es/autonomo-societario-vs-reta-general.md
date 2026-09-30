@@ -39,6 +39,6 @@ El autónomo societario cotiza en el mismo régimen (RETA) que cualquier otro au
 
 Si te das de alta en el tramo equivocado (por ejemplo, como autónomo general cuando en realidad te corresponde societario, o al revés), la Seguridad Social puede exigir la diferencia de cotización con retroactividad cuando lo detecte — que puede ser bastante después del hecho, con el disgusto añadido de una regularización inesperada. No es un matiz administrativo menor: cambia cuánto pagas cada mes desde el primer día.
 
-## Antes de constituir la SL, revisa esto contigo
+## Antes de constituir la SL, revisa esto con nosotros
 
 Si estás valorando pasar a SL o ya tienes una y no tienes claro si te toca alta como societario, es de las primeras cosas que revisamos en una consulta: quién administra, qué porcentaje tiene cada socio y qué implica exactamente para tu cotización. Escríbenos a [contacto@asesoriamadal.es](mailto:contacto@asesoriamadal.es) antes de que lo decida por ti una inspección.
