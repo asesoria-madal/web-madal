@@ -32,3 +32,5 @@ Et pot convenir si el teu negoci té poques despeses deduïbles i factura de for
 ## Com decidir-ho
 
 No hi ha una resposta única. Depèn de la teva activitat concreta, les teves despeses reals i quant factures. Els límits de facturació i les activitats permeses en mòduls canvien amb la normativa de cada any, així que abans de decidir-te confirma el teu cas concret amb nosaltres: ho revisem gratis a la primera trucada.
+
+Si estàs pensant a donar-te d'alta, tens [la guia completa de l'alta d'autònom](/blog/como-darse-de-alta-autonomo): quan, com i quant costa amb nosaltres.

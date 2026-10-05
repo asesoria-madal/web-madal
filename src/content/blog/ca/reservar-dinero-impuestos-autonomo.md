@@ -27,3 +27,5 @@ Un compte separat on transfereixes automàticament un percentatge cada vegada qu
 ## Reservar no és el mateix que planificar
 
 Apartar un percentatge et protegeix del pagament trimestral, però no resol la irregularitat d'ingressos al llarg de l'any. Si factures de forma molt desigual entre mesos, convé mirar també com repartir aquests ingressos per no arribar a final d'any amb sorpreses. A més, d'això depèn quanta reserva necessites realment en els mesos fluixos.
+
+Si estàs pensant a donar-te d'alta, tens [la guia completa de l'alta d'autònom](/blog/como-darse-de-alta-autonomo): quan, com i quant costa amb nosaltres.

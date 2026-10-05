@@ -23,3 +23,5 @@ If a gestoría gives you a flat price without asking about your tax regime, your
 ## How we do it
 
 We'd rather you know a rough price in a minute, with our simulator, by answering exactly those questions (regime, invoices, employees, whether you want reporting). It doesn't replace a real conversation, but it gives you an honest figure before you commit to anything.
+
+If you are thinking of registering, here is [the complete guide to registering as self-employed](/blog/como-darse-de-alta-autonomo): when, how and what it costs with us.

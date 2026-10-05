@@ -52,3 +52,5 @@ When you work with us, we review the format of your invoices before it becomes a
 ## Questions about a specific invoice?
 
 Email us, no strings attached, at [contacto@asesoriamadal.es](mailto:contacto@asesoriamadal.es) and we'll review it.
+
+If you are thinking of registering, here is [the complete guide to registering as self-employed](/blog/como-darse-de-alta-autonomo): when, how and what it costs with us.

@@ -32,3 +32,5 @@ Te puede convenir si tu negocio tiene pocos gastos deducibles y factura de forma
 ## Cómo decidir
 
 No hay una respuesta única. Depende de tu actividad concreta, tus gastos reales y cuánto factures. Los límites de facturación y las actividades permitidas en módulos cambian con la normativa de cada año, así que antes de decidirte confirma tu caso concreto con nosotros: lo revisamos gratis en la primera llamada.
+
+Si estás pensando en darte de alta, tienes [la guía completa del alta de autónomo](/blog/como-darse-de-alta-autonomo): cuándo, cómo y cuánto cuesta con nosotros.

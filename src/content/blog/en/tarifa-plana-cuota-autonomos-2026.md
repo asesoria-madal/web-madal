@@ -36,3 +36,5 @@ You choose your tier when registering (or when the flat rate ends) based on what
 ## Why guessing your tier is a bad idea
 
 A tier set well below what you'll actually earn can lead to a surcharge adjustment the following year; one set too high means overpaying every month for no reason. It's one of the first fiscal decisions a new self-employed person makes, and it's worth making with real numbers in front of you, not a guess — we review it for free on the first call, along with the rest of your situation (see [how much an online gestoría costs](/en/blog/precio-gestoria-online-2026)).
+
+If you are thinking of registering, here is [the complete guide to registering as self-employed](/blog/como-darse-de-alta-autonomo): when, how and what it costs with us.

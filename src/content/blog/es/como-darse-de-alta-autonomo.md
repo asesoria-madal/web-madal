@@ -21,12 +21,16 @@ Darse de alta como autónomo son en realidad dos trámites en dos organismos dis
 
 ## Cuándo tienes que darte de alta
 
-**Antes de empezar la actividad**, no después. En concreto:
+En teoría, **antes de empezar la actividad**: en Hacienda, antes de iniciarla o de hacer las primeras operaciones (compras para el negocio, primera factura); y en la Seguridad Social, pudiendo pedirla hasta 60 días antes de empezar.
 
-- **En Hacienda (alta censal, modelo 036 o 037):** antes de iniciar la actividad o de realizar las primeras operaciones (por ejemplo, comprar material para el negocio o emitir tu primera factura). Si vas a hacer gastos antes de facturar, se comunica como comienzo de actividad por adquisiciones previas, requisito para poder deducir ese IVA. Aquí eliges también el epígrafe del IAE, el régimen de IVA y el de IRPF.
-- **En la Seguridad Social (RETA):** puedes pedirla hasta 60 días antes de empezar, y debe estar hecha cuando empieces a trabajar por tu cuenta de forma habitual. Cotizas desde la fecha de alta, así que conviene ajustarla al día real de inicio: ni demasiado pronto (pagas cuota sin ingresar) ni demasiado tarde (ejerces sin cobertura).
+En la práctica, esto es complicado. Casi nadie sabe con exactitud cuándo "empieza" su actividad, muchos todavía no han facturado nada y otros tienen dudas razonables sobre si les compensa darse de alta ya. **No pasa nada por estar en esa situación: te ayudamos desde cero**, aunque aún no hayas emitido ninguna factura, y te asesoramos para que montes bien tu proyecto desde el principio: qué fecha de alta te conviene, qué régimen, qué cuota y cómo organizar tus facturas y gastos desde el primer día.
 
-Ejercer sin alta puede acarrear recargos y sanciones (en Hacienda, multa fija de 250 € por no presentar la declaración censal; en la Seguridad Social, alta de oficio y cuotas atrasadas con recargo). Si el alta en el RETA se presenta tarde, además, se cotiza desde el día 1 del mes y se pierde la tarifa plana. Y facturar sin estar censado te impide deducir correctamente el IVA y los gastos. Si dudas de si tu caso exige alta (ingresos esporádicos, actividad a tiempo parcial, trabajo por cuenta ajena a la vez), lo vemos en la primera llamada.
+Los dos trámites, en resumen:
+
+- **En Hacienda (alta censal, modelo 036 o 037):** aquí se fijan el epígrafe del IAE y los regímenes de IVA e IRPF. Si vas a hacer gastos antes de facturar, se comunica como comienzo de actividad por adquisiciones previas, requisito para poder deducir ese IVA.
+- **En la Seguridad Social (RETA):** cotizas desde la fecha de alta, así que conviene ajustarla al día real de inicio: ni demasiado pronto (pagas cuota sin ingresar) ni demasiado tarde. Un alta presentada tarde cotiza desde el día 1 del mes y pierde la tarifa plana.
+
+Lo que sí conviene evitar es trabajar o facturar durante meses sin alta, porque puede acarrear sanciones (en Hacienda, multa fija de 250 € por no presentar la declaración censal; en la Seguridad Social, alta de oficio y cuotas atrasadas con recargo) y te impide deducir correctamente el IVA y los gastos. Si tienes dudas de si tu caso exige alta (ingresos esporádicos, actividad a tiempo parcial, trabajo por cuenta ajena a la vez), lo vemos en la primera llamada.
 
 ## Decisiones que se toman al darse de alta
 
@@ -53,16 +57,10 @@ Normalmente **uno o dos días laborables** desde que tenemos tu documentación c
 
 **El alta no tiene tarifa aparte.** Va incluida en el plan **Debut**, pensado para autónomos que acaban de darse de alta o están a punto: **35 € + IVA al mes (42,35 € con IVA) durante el primer año**, con alcance fiscal y contable completo, la llamada de bienvenida y contacto por email y WhatsApp. A los 6 meses puedes revisar con nosotros si pasar al plan Esencial, y al terminar el año eliges el plan que mejor encaje.
 
-Tres aclaraciones para que no haya sorpresas:
-
-- Los planes tienen una permanencia de 12 meses, que coincide con el ejercicio fiscal completo, con renovación tácita salvo aviso previo.
-- La declaración de la renta no está incluida en la cuota mensual: tiene un coste aparte de 40 € + IVA.
-- La cuota de autónomo la pagas tú directamente a la Seguridad Social; no forma parte de nuestros honorarios.
-
 Si quieres una cifra ajustada a tu caso en un minuto, usa nuestro [simulador](/simulador) o mira [cuánto cuesta una gestoría online](/blog/precio-gestoria-online-2026).
 
 ## Cómo te acompañamos después del alta
 
 El alta es solo el principio. Con el plan Debut vigilamos tus notificaciones de la AEAT, presentamos tus modelos y mantenemos tu contabilidad al día, con tus documentos siempre disponibles en el portal. Y puedes preguntarnos cualquier duda por email o WhatsApp sin que sea una gestión aparte. Si más adelante tu negocio crece, te avisamos de cuándo conviene [pasar a SL](/blog/autonomo-vs-sl-cuando-pasar).
 
-¿Vas a empezar pronto? Reserva una llamada y lo dejamos todo listo antes de tu primer día.
+¿Vas a empezar pronto? Reserva una llamada y lo dejamos todo listo aunque todavía no hayas facturado nada.

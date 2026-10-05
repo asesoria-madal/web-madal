@@ -21,12 +21,16 @@ Registering as self-employed (*autónomo*) in Spain is really two procedures wit
 
 ## When you must register
 
-**Before you start the activity**, not after. Specifically:
+In theory, **before you start the activity**: with the Tax Agency, before starting it or making your first transactions (purchases for the business, first invoice); and with Social Security, where you can apply up to 60 days before you start.
 
-- **With the Tax Agency (census registration, form 036 or 037):** before starting the activity or carrying out your first transactions (for example, buying equipment for the business or issuing your first invoice). If you will spend money before invoicing, this is declared as start of activity through prior acquisitions, a requirement to deduct that VAT. This is also where you choose your IAE heading and your VAT and income tax regimes.
-- **With Social Security (RETA):** you can apply up to 60 days before you start, and it must be done by the time you begin working on your own account on a regular basis. You pay contributions from the registration date, so it is best to match it to your actual start day: not too early (paying a fee with no income) and not too late (working without cover).
+In practice, this is complicated. Hardly anyone knows exactly when their activity "starts", many have not invoiced anything yet, and others have fair doubts about whether registering now is worth it. **There is nothing wrong with being in that situation: we help you from scratch**, even if you have not issued a single invoice, and we advise you so you set up your project properly from the start: which registration date suits you, which regime, which contribution bracket, and how to organise your invoices and expenses from day one.
 
-Working without registration can lead to surcharges and penalties (with the Tax Agency, a fixed €250 fine for not filing the census declaration; with Social Security, registration by the authorities and back contributions with surcharge). If your RETA registration is filed late, you also pay contributions from day 1 of the month and lose the flat rate. And invoicing without being in the census prevents you from deducting VAT and expenses properly. If you are unsure whether your case requires registration (occasional income, part-time activity, being employed at the same time), we go through it on the first call.
+The two procedures, in short:
+
+- **With the Tax Agency (census registration, form 036 or 037):** this is where the IAE heading and the VAT and income tax regimes are set. If you will spend money before invoicing, it is declared as start of activity through prior acquisitions, a requirement to deduct that VAT.
+- **With Social Security (RETA):** you pay contributions from the registration date, so it is best to match it to your actual start day: not too early (paying a fee with no income) and not too late. A late registration pays contributions from day 1 of the month and loses the flat rate.
+
+What you should avoid is working or invoicing for months without registering, because it can lead to penalties (with the Tax Agency, a fixed €250 fine for not filing the census declaration; with Social Security, registration by the authorities and back contributions with surcharge) and prevents you from deducting VAT and expenses properly. If you are unsure whether your case requires registration (occasional income, part-time activity, being employed at the same time), we go through it on the first call.
 
 ## Decisions made at registration
 
@@ -53,16 +57,10 @@ Usually **one or two business days** from the moment we have your complete paper
 
 **Registration has no separate fee.** It is included in the **Debut** plan, designed for people who have just registered or are about to: **€35 + VAT per month (€42.35 with VAT) for the first year**, with full tax and accounting scope, the welcome call and email and WhatsApp contact. After 6 months you can review with us whether to move to the Esencial plan, and at the end of the year you choose the plan that fits best.
 
-Three clarifications so there are no surprises:
-
-- Plans have a 12-month minimum term, matching the full fiscal year, with tacit renewal unless you give notice.
-- Your annual income tax return is not included in the monthly fee: it costs €40 + VAT separately.
-- Your *autónomo* Social Security contribution is paid by you directly to Social Security; it is not part of our fees.
-
 For a figure tailored to your case in a minute, use our [simulator](/en/simulador) or see [how much an online gestoría costs](/blog/precio-gestoria-online-2026).
 
 ## How we support you after registration
 
 Registration is only the beginning. With the Debut plan we monitor your Tax Agency notifications, file your returns and keep your accounting up to date, with your documents always available in the portal. You can also ask us any question by email or WhatsApp without it being a separate service. If your business grows, we tell you when it makes sense to [move to an SL](/blog/autonomo-vs-sl-cuando-pasar).
 
-Starting soon? Book a call and we will have everything ready before your first day.
+Starting soon? Book a call and we will have everything ready even if you have not invoiced anything yet.

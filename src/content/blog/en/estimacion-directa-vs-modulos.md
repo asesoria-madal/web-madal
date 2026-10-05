@@ -32,3 +32,5 @@ It can suit you if your business has few deductible expenses and invoices consis
 ## How to decide
 
 There's no single answer. It depends on your specific business, your real expenses and how much you invoice. The turnover limits and the activities allowed under modules change with each year's regulations, so before deciding, confirm your specific case with us: we review it for free on the first call.
+
+If you are thinking of registering, here is [the complete guide to registering as self-employed](/blog/como-darse-de-alta-autonomo): when, how and what it costs with us.

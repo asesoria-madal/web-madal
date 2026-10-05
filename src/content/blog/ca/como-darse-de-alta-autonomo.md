@@ -21,12 +21,16 @@ Donar-se d'alta com a autònom són en realitat dos tràmits en dos organismes d
 
 ## Quan has de donar-te d'alta
 
-**Abans de començar l'activitat**, no després. En concret:
+En teoria, **abans de començar l'activitat**: a Hisenda, abans d'iniciar-la o de fer les primeres operacions (compres per al negoci, primera factura); i a la Seguretat Social, podent demanar-la fins a 60 dies abans de començar.
 
-- **A Hisenda (alta censal, model 036 o 037):** abans d'iniciar l'activitat o de fer les primeres operacions (per exemple, comprar material per al negoci o emetre la primera factura). Si faràs despeses abans de facturar, es comunica com a començament d'activitat per adquisicions prèvies, requisit per poder deduir aquest IVA. Aquí tries també l'epígraf de l'IAE, el règim d'IVA i el d'IRPF.
-- **A la Seguretat Social (RETA):** pots demanar-la fins a 60 dies abans de començar, i ha d'estar feta quan comencis a treballar pel teu compte de manera habitual. Cotitzes des de la data d'alta, així que convé ajustar-la al dia real d'inici: ni massa aviat (pagues quota sense ingressar) ni massa tard (exerceixes sense cobertura).
+A la pràctica, això és complicat. Gairebé ningú sap amb exactitud quan «comença» la seva activitat, molts encara no han facturat res i d'altres tenen dubtes raonables sobre si els compensa donar-se d'alta ja. **No passa res per estar en aquesta situació: t'ajudem des de zero**, encara que no hagis emès cap factura, i t'assessorem perquè munis bé el teu projecte des del principi: quina data d'alta et convé, quin règim, quina quota i com organitzar les teves factures i despeses des del primer dia.
 
-Exercir sense alta pot comportar recàrrecs i sancions (a Hisenda, multa fixa de 250 € per no presentar la declaració censal; a la Seguretat Social, alta d'ofici i quotes endarrerides amb recàrrec). Si l'alta al RETA es presenta tard, a més, es cotitza des del dia 1 del mes i es perd la tarifa plana. I facturar sense estar censat t'impedeix deduir correctament l'IVA i les despeses. Si dubtes de si el teu cas exigeix alta (ingressos esporàdics, activitat a temps parcial, treball per compte d'altri alhora), ho veiem a la primera trucada.
+Els dos tràmits, en resum:
+
+- **A Hisenda (alta censal, model 036 o 037):** aquí es fixen l'epígraf de l'IAE i els règims d'IVA i d'IRPF. Si faràs despeses abans de facturar, es comunica com a començament d'activitat per adquisicions prèvies, requisit per poder deduir aquest IVA.
+- **A la Seguretat Social (RETA):** cotitzes des de la data d'alta, així que convé ajustar-la al dia real d'inici: ni massa aviat (pagues quota sense ingressar) ni massa tard. Una alta presentada tard cotitza des del dia 1 del mes i perd la tarifa plana.
+
+El que sí convé evitar és treballar o facturar durant mesos sense alta, perquè pot comportar sancions (a Hisenda, multa fixa de 250 € per no presentar la declaració censal; a la Seguretat Social, alta d'ofici i quotes endarrerides amb recàrrec) i t'impedeix deduir correctament l'IVA i les despeses. Si tens dubtes de si el teu cas exigeix alta (ingressos esporàdics, activitat a temps parcial, treball per compte d'altri alhora), ho veiem a la primera trucada.
 
 ## Decisions que es prenen en donar-se d'alta
 
@@ -53,16 +57,10 @@ Normalment **un o dos dies laborables** des que tenim la teva documentació comp
 
 **L'alta no té tarifa a part.** Va inclosa al pla **Debut**, pensat per a autònoms que acaben de donar-se d'alta o hi estan a punt: **35 € + IVA al mes (42,35 € amb IVA) durant el primer any**, amb abast fiscal i comptable complet, la trucada de benvinguda i contacte per email i WhatsApp. Als 6 mesos pots revisar amb nosaltres si passar al pla Esencial, i en acabar l'any tries el pla que millor encaixi.
 
-Tres aclariments perquè no hi hagi sorpreses:
-
-- Els plans tenen una permanència de 12 mesos, que coincideix amb l'exercici fiscal complet, amb renovació tàcita tret d'avís previ.
-- La declaració de la renda no està inclosa a la quota mensual: té un cost a part de 40 € + IVA.
-- La quota d'autònom la pagues tu directament a la Seguretat Social; no forma part dels nostres honoraris.
-
 Si vols una xifra ajustada al teu cas en un minut, fes servir el nostre [simulador](/ca/simulador) o mira [quant costa una gestoria en línia](/blog/precio-gestoria-online-2026).
 
 ## Com t'acompanyem després de l'alta
 
 L'alta és només el principi. Amb el pla Debut vigilem les teves notificacions de l'AEAT, presentem els teus models i mantenim la teva comptabilitat al dia, amb els teus documents sempre disponibles al portal. I pots preguntar-nos qualsevol dubte per email o WhatsApp sense que sigui una gestió a part. Si més endavant el teu negoci creix, t'avisem de quan convé [passar a SL](/blog/autonomo-vs-sl-cuando-pasar).
 
-Començaràs aviat? Reserva una trucada i ho deixem tot a punt abans del teu primer dia.
+Començaràs aviat? Reserva una trucada i ho deixem tot a punt encara que encara no hagis facturat res.

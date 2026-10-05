@@ -36,3 +36,5 @@ Eliges el tramo al darte de alta (o al acabar la tarifa plana) según lo que est
 ## Por qué no conviene elegir el tramo "a ojo"
 
 Un tramo muy por debajo de lo que realmente vas a ganar puede derivar en una regularización con recargo al año siguiente; uno muy por encima significa pagar de más mes a mes sin necesidad. Es de las primeras decisiones fiscales que toma un autónomo nuevo, y conviene tomarla con cifras reales delante, no a ojo — lo revisamos gratis en la primera llamada, junto con el resto de tu situación (ver [cuánto cuesta una gestoría online](/blog/precio-gestoria-online-2026)).
+
+Si estás pensando en darte de alta, tienes [la guía completa del alta de autónomo](/blog/como-darse-de-alta-autonomo): cuándo, cómo y cuánto cuesta con nosotros.

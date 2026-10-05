@@ -52,3 +52,5 @@ Cuando trabajas con nosotros, revisamos el formato de tus facturas antes de que 
 ## ¿Dudas con una factura concreta?
 
 Escríbenos sin compromiso a [contacto@asesoriamadal.es](mailto:contacto@asesoriamadal.es) y te lo revisamos.
+
+Si estás pensando en darte de alta, tienes [la guía completa del alta de autónomo](/blog/como-darse-de-alta-autonomo): cuándo, cómo y cuánto cuesta con nosotros.

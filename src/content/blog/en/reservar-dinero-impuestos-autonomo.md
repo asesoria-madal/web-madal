@@ -27,3 +27,5 @@ A separate account you automatically transfer a percentage into every time you i
 ## Setting money aside is not the same as planning
 
 Setting aside a percentage protects you from the quarterly payment, but it doesn't solve uneven income through the year. If you invoice very unevenly month to month, it's also worth looking at how to spread that income out, so you don't reach year-end with surprises. On top of that, it's what determines how much of a reserve you actually need in the slow months.
+
+If you are thinking of registering, here is [the complete guide to registering as self-employed](/blog/como-darse-de-alta-autonomo): when, how and what it costs with us.

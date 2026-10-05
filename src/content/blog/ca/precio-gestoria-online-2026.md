@@ -23,3 +23,5 @@ Si una gestoria et dona un preu tancat sense preguntar-te pel teu règim, el teu
 ## Com ho fem nosaltres
 
 Preferim que sàpigues el preu orientatiu en un minut, amb el nostre simulador, responent exactament aquestes preguntes (règim, factures, empleats, si vols reporting). No substitueix una conversa real, però et dona una xifra honesta abans de comprometre't a res.
+
+Si estàs pensant a donar-te d'alta, tens [la guia completa de l'alta d'autònom](/blog/como-darse-de-alta-autonomo): quan, com i quant costa amb nosaltres.
