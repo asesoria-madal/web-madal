@@ -407,7 +407,7 @@ export const ui = {
       ],
       faqAutonomos: 'Autónomos',
       faqAutonomosItems: [
-        { q: '¿Cuánto tarda el alta como autónomo?', a: 'Un día laborable, si tienes la documentación lista.' },
+        { q: '¿Cuánto tarda el alta como autónomo?', a: 'Uno o dos días laborables, si tienes la documentación lista.', related: 'como-darse-de-alta-autonomo' },
         { q: '¿Módulos o estimación directa?', a: 'Generalmente se aplica estimación directa, sin embargo para actividades como hosteleria, restauración o comercio al por menor se pueden aplicar módulos. Contáctanos para ver qué régimen se adapta mejor a tu empresa.', related: 'estimacion-directa-vs-modulos' },
         { q: '¿La renta entra en la cuota?', a: 'No, la declaración de la renta no está incluida en la cuota mensual. Tiene un coste aparte de 40 € + IVA (48,40 € con IVA).' },
         { q: '¿Puedo elegir estar en módulos si mi actividad lo permite?', a: 'Sí, si tu actividad está entre las permitidas y no superas los límites de facturación.', related: 'estimacion-directa-vs-modulos' },
@@ -1104,7 +1104,7 @@ export const ui = {
       ],
       faqAutonomos: 'Autònoms',
       faqAutonomosItems: [
-        { q: 'Quant triga l’alta com a autònom?', a: 'Un dia laborable, si tens la documentació preparada.' },
+        { q: 'Quant triga l’alta com a autònom?', a: 'Un o dos dies laborables, si tens la documentació preparada.', related: 'como-darse-de-alta-autonomo' },
         { q: 'Mòduls o estimació directa?', a: 'Generalment s’aplica l’estimació directa, però per a activitats com hostaleria, restauració o comerç al detall es poden aplicar mòduls. Contacta’ns per veure quin règim s’adapta millor a la teva empresa.', related: 'estimacion-directa-vs-modulos' },
         { q: 'La renda entra a la quota?', a: 'No, la declaració de la renda no està inclosa a la quota mensual. Té un cost a part de 40 € + IVA (48,40 € amb IVA).' },
         { q: 'Puc estar en mòduls si la meva activitat ho permet?', a: 'Sí, si la teva activitat és de les permeses i no superes els límits de facturació.', related: 'estimacion-directa-vs-modulos' },
@@ -1801,7 +1801,7 @@ export const ui = {
       ],
       faqAutonomos: 'Freelancers',
       faqAutonomosItems: [
-        { q: 'How long does freelancer registration take?', a: 'One business day, if your paperwork is ready.' },
+        { q: 'How long does freelancer registration take?', a: 'One or two business days, if your paperwork is ready.', related: 'como-darse-de-alta-autonomo' },
         { q: 'Flat-rate or direct estimation regime?', a: 'Direct estimation usually applies, but for activities like hospitality, restaurants, or retail, the flat-rate (módulos) regime can apply instead. Get in touch and we’ll tell you which regime fits your business best.', related: 'estimacion-directa-vs-modulos' },
         { q: 'Is the annual income tax return included?', a: 'No, the annual income tax return is not included in the monthly fee. It costs €40 + VAT (€48.40 with VAT) separately.' },
         { q: 'Can I opt for the flat-rate (módulos) regime if my activity qualifies?', a: 'Yes, if your activity is on the allowed list and you stay under the invoicing limits.', related: 'estimacion-directa-vs-modulos' },
