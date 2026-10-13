@@ -43,3 +43,6 @@ Existeixen bonificacions en la cotització empresarial per a determinats col·le
 ## Primera contractació? Fes-ho amb xarxa
 
 Aquest és el moment en què més val la pena que algú revisi amb tu el CCC, el tipus de contracte correcte per al teu cas i el calendari d'altes abans que ningú posi un peu al teu negoci. Escriu-nos a [contacto@asesoriamadal.es](mailto:contacto@asesoriamadal.es) i ho veiem junts abans que signis res.
+
+
+Si qui t'ajuda és un familiar que conviu amb tu, potser no necessites un contracte: mira [l'alta com a autònom col·laborador](/ca/blog/alta-autonomo-colaborador).

@@ -43,3 +43,6 @@ There are reductions on employer contributions for certain groups or situations 
 ## Hiring for the first time? Do it with a safety net
 
 This is the point where it's most worth having someone review the CCC, the right type of contract for your case, and the registration timeline with you before anyone sets foot in your business. Write to us at [contacto@asesoriamadal.es](mailto:contacto@asesoriamadal.es) and we'll go through it together before you sign anything.
+
+
+If the person helping you is a relative who lives with you, you may not need a contract: see [registering as a collaborating family member](/en/blog/alta-autonomo-colaborador).

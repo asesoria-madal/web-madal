@@ -43,3 +43,6 @@ Existen bonificaciones en la cotización empresarial para determinados colectivo
 ## ¿Primera contratación? Hazlo con red
 
 Este es el momento en el que más merece la pena que alguien revise contigo el CCC, el tipo de contrato correcto para tu caso y el calendario de altas antes de que nadie ponga un pie en tu negocio. Escríbenos a [contacto@asesoriamadal.es](mailto:contacto@asesoriamadal.es) y lo vemos juntos antes de que firmes nada.
+
+
+Si quien te ayuda es un familiar que convive contigo, puede que no necesites un contrato: mira [el alta como autónomo colaborador](/blog/alta-autonomo-colaborador).
