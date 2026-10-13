@@ -4,6 +4,7 @@ import Footer from '../components/Footer.astro';
 import ContactSwitch from '../components/ContactSwitch.astro';
 import CookieConsent from '../components/CookieConsent.astro';
 import TrustBanner from '../components/TrustBanner.astro';
+import WhatsAppFloat from '../components/WhatsAppFloat.astro';
 import SpeedInsights from '@vercel/speed-insights/astro';
 import { ClientRouter } from 'astro:transitions';
 import '../styles/global.css';
@@ -20,6 +21,8 @@ interface Props {
   noindex?: boolean;
   minimalHeader?: boolean;
   hideHeader?: boolean;
+  /** Oculta el botón flotante de WhatsApp (área de clientes). */
+  hideWhatsapp?: boolean;
   /** Locales que realmente existen para esta ruta (por defecto, todos). Las
    * páginas legales (aviso legal, privacidad, cookies) solo existen en
    * castellano: sin esto, generábamos hreflang y un selector de idioma que
@@ -41,7 +44,7 @@ interface Props {
   breadcrumbs?: { name: string; path: string }[];
 }
 
-const { lang, path, active, title, description, showCtaFinal = true, noindex = false, minimalHeader = false, hideHeader = false, localesAvailable = locales, ogType = 'website', articlePublishedTime, articleModifiedTime, breadcrumbs } = Astro.props;
+const { lang, path, active, title, description, showCtaFinal = true, noindex = false, minimalHeader = false, hideHeader = false, hideWhatsapp = false, localesAvailable = locales, ogType = 'website', articlePublishedTime, articleModifiedTime, breadcrumbs } = Astro.props;
 const t = useTranslations(lang);
 
 // Toda España EXCEPTO Canarias, Navarra y País Vasco (tienen regímenes
@@ -181,6 +184,7 @@ const ogLocale: Record<Locale, string> = { es: 'es_ES', ca: 'ca_ES', en: 'en_GB'
       )}
     </main>
     <Footer lang={lang} />
+    {!hideWhatsapp && <WhatsAppFloat lang={lang} />}
     <CookieConsent lang={lang} />
     <SpeedInsights />
   </body>
