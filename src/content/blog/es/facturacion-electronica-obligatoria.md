@@ -5,7 +5,7 @@ title: 'Facturación electrónica obligatoria: qué es y en qué se diferencia d
 description: 'Quién está obligado, desde cuándo, y en qué se diferencia de Verifactu: las dos normas que más se confunden.'
 cat: fiscalidad
 date: 2026-08-19
-updatedDate: 2026-09-24
+updatedDate: 2026-10-13
 sources:
   - label: 'Ley 18/2022, de creación y crecimiento de empresas ("Crea y Crece")'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2022-15818'
@@ -29,7 +29,7 @@ Todas las empresas y autónomos que facturen a otras empresas o a otros autónom
 
 ## Cuándo es obligatoria
 
-El reglamento que desarrolla esta obligación, el Real Decreto 238/2026, de 25 de marzo, ya está aprobado y publicado. Fija un calendario de 12 meses para las empresas con una facturación anual superior a 8 millones de euros, y de 24 meses para el resto de empresas y autónomos. La parte que todavía no está cerrada es cuándo empieza a contar ese plazo: depende de la publicación definitiva de una Orden Ministerial técnica que, a día de hoy, sigue pendiente de aprobación final. Hasta que esa orden se publique, la fecha límite exacta que te afecta a ti no está fijada del todo. Te confirmamos la fecha vigente cuando se acerque el momento de que te afecte.
+El reglamento que desarrolla esta obligación, el Real Decreto 238/2026, de 25 de marzo, ya está aprobado y publicado. Fija un calendario de 12 meses para las empresas con una facturación anual superior a 8 millones de euros, y de 24 meses para el resto de empresas y autónomos. Ese plazo ya está en marcha: la Orden HAC/1028/2026, publicada el 5 de octubre de 2026, entró en vigor el 6 de octubre. Por tanto, la obligación empieza el **6 de octubre de 2027** para las empresas con más de 8 millones de euros de facturación y el **6 de octubre de 2028** para el resto de empresas y autónomos. Te confirmamos la fecha vigente cuando se acerque el momento de que te afecte.
 
 ## Qué puedes ir haciendo ya
 

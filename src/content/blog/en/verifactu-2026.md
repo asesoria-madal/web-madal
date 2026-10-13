@@ -5,7 +5,7 @@ title: 'Verifactu: what it is and when it affects you as a self-employed worker'
 description: 'The correct date, not the outdated one still circulating online.'
 cat: fiscalidad
 date: 2026-08-18
-updatedDate: 2026-08-20
+updatedDate: 2026-10-13
 sources:
   - label: 'Ley 58/2003, General Tributaria (art. 29.2.j) — legal basis for Verifactu'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2003-23186'
@@ -33,6 +33,10 @@ Royal Decree-Law 15/2025, of 2 December, postponed the timeline for the second t
 - **1 July 2027**, for self-employed workers and everyone else affected.
 
 Before that postponement, people were talking about July 2026, and that's the date still showing up in plenty of guides that haven't been updated in months. If you saw it somewhere, you didn't imagine it: it just became outdated in December 2025.
+
+### Notice: a possible third postponement (October 2028)
+
+On 5 October 2026, the Ministry of Finance announced its intention to postpone the pending obligations of Royal Decree 1007/2023 again, until **October 2028**, with a single date for companies and self-employed workers. This is only an announcement: until the rule amending the regulation is published in the BOE (Spain's official gazette), the dates in force remain those of 2027. We will update this article as soon as it is published.
 
 ## Who it actually affects
 

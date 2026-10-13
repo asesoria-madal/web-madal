@@ -5,7 +5,7 @@ title: 'Mandatory electronic invoicing: what it is and how it differs from Verif
 description: 'Who it applies to, from when, and how it differs from Verifactu: the two rules people mix up the most.'
 cat: fiscalidad
 date: 2026-08-19
-updatedDate: 2026-09-24
+updatedDate: 2026-10-13
 sources:
   - label: 'Ley 18/2022, business creation and growth act ("Crea y Crece")'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2022-15818'
@@ -29,7 +29,7 @@ Every company and self-employed worker that invoices another company or self-emp
 
 ## When it becomes mandatory
 
-The regulation that develops this obligation, Royal Decree 238/2026, of 25 March, has already been approved and published. It sets a 12-month timeline for companies with annual turnover above €8 million, and 24 months for the rest of companies and self-employed workers. What isn't settled yet is when that countdown actually starts: it depends on the final publication of a technical Ministerial Order that, as of now, is still pending final approval. Until that order is published, the exact deadline that applies to you isn't fully fixed. We'll confirm the current date with you as it gets closer to affecting you.
+The regulation that develops this obligation, Royal Decree 238/2026, of 25 March, has already been approved and published. It sets a 12-month timeline for companies with annual turnover above €8 million, and 24 months for the rest of companies and self-employed workers. That countdown is now running: Order HAC/1028/2026, published on 5 October 2026, came into force on 6 October. The obligation therefore starts on **6 October 2027** for companies with turnover above €8 million and on **6 October 2028** for all other companies and self-employed workers. We'll confirm the current date with you as it gets closer to affecting you.
 
 ## What you can do already
 

@@ -5,7 +5,7 @@ title: 'Verifactu: qué es y cuándo te afecta si eres autónomo'
 description: 'La fecha correcta, no la que sigue circulando desactualizada por internet.'
 cat: fiscalidad
 date: 2026-08-18
-updatedDate: 2026-08-20
+updatedDate: 2026-10-13
 sources:
   - label: 'Ley 58/2003, General Tributaria (art. 29.2.j) — base legal de Verifactu'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2003-23186'
@@ -33,6 +33,10 @@ El Real Decreto-ley 15/2025, de 2 de diciembre, aplazó el calendario por segund
 - **1 de julio de 2027**, para autónomos y el resto de obligados.
 
 Antes de ese aplazamiento se hablaba de julio de 2026, y esa es la fecha que todavía aparece en bastantes guías que llevan meses sin actualizarse. Si la has visto en algún sitio, no te la has inventado: es que quedó desfasada en diciembre de 2025.
+
+### Aviso: posible tercer aplazamiento (octubre de 2028)
+
+El 5 de octubre de 2026, el Ministerio de Hacienda anunció su intención de aplazar de nuevo las obligaciones pendientes del Real Decreto 1007/2023 hasta **octubre de 2028**, con una única fecha para sociedades y autónomos. Es solo un anuncio: hasta que se publique en el BOE la norma que modifique el reglamento, las fechas vigentes siguen siendo las de 2027. Actualizaremos este artículo en cuanto se publique.
 
 ## A quién afecta de verdad
 

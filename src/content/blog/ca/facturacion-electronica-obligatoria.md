@@ -5,7 +5,7 @@ title: 'Facturació electrònica obligatòria: què és i en què es diferencia 
 description: 'Qui hi està obligat, des de quan, i en què es diferencia de Verifactu: les dues normes que més es confonen.'
 cat: fiscalidad
 date: 2026-08-19
-updatedDate: 2026-09-24
+updatedDate: 2026-10-13
 sources:
   - label: 'Ley 18/2022, de creación y crecimiento de empresas ("Crea y Crece")'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2022-15818'
@@ -29,7 +29,7 @@ Totes les empreses i autònoms que facturin a altres empreses o a altres autòno
 
 ## Quan és obligatòria
 
-El reglament que desenvolupa aquesta obligació, el Reial Decret 238/2026, de 25 de març, ja està aprovat i publicat. Fixa un calendari de 12 mesos per a les empreses amb una facturació anual superior a 8 milions d'euros, i de 24 mesos per a la resta d'empreses i autònoms. La part que encara no està tancada és quan comença a comptar aquest termini: depèn de la publicació definitiva d'una Ordre Ministerial tècnica que, a dia d'avui, continua pendent d'aprovació final. Fins que aquesta ordre es publiqui, la data límit exacta que t'afecta a tu no està fixada del tot. T'ho confirmem quan s'apropi el moment que t'afecti.
+El reglament que desenvolupa aquesta obligació, el Reial Decret 238/2026, de 25 de març, ja està aprovat i publicat. Fixa un calendari de 12 mesos per a les empreses amb una facturació anual superior a 8 milions d'euros, i de 24 mesos per a la resta d'empreses i autònoms. Aquest termini ja està en marxa: l'Ordre HAC/1028/2026, publicada el 5 d'octubre de 2026, va entrar en vigor el 6 d'octubre. Per tant, l'obligació comença el **6 d'octubre de 2027** per a les empreses amb més de 8 milions d'euros de facturació i el **6 d'octubre de 2028** per a la resta d'empreses i autònoms. T'ho confirmem quan s'apropi el moment que t'afecti.
 
 ## Què pots anar fent ja
 
