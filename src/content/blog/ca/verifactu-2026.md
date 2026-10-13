@@ -34,9 +34,11 @@ El Reial Decret llei 15/2025, de 2 de desembre, va ajornar el calendari per sego
 
 Abans d'aquest ajornament es parlava de juliol de 2026, i aquesta és la data que encara apareix en força guies que fa mesos que no s'actualitzen. Si l'has vist en algun lloc, no te l'has inventat: és que va quedar desfasada al desembre de 2025.
 
-### Avís: possible tercer ajornament (octubre de 2028)
+<aside class="aviso">
 
-El 5 d'octubre de 2026, el Ministeri d'Hisenda va anunciar la seva intenció d'ajornar de nou les obligacions pendents del Reial Decret 1007/2023 fins a **octubre de 2028**, amb una única data per a societats i autònoms. És només un anunci: fins que es publiqui al BOE la norma que modifiqui el reglament, les dates vigents continuen sent les de 2027. Actualitzarem aquest article tan bon punt es publiqui.
+**Avís: possible tercer ajornament (octubre de 2028).** El 5 d'octubre de 2026, Hisenda va anunciar la seva intenció d'ajornar de nou Verifactu fins a octubre de 2028. És només un anunci: fins que es publiqui al BOE, les dates vigents continuen sent les de 2027. Ho expliquem a [Verifactu s'ajorna a octubre de 2028: què ha anunciat Hisenda i què continua vigent](/ca/blog/aplazamiento-verifactu-2028).
+
+</aside>
 
 ## A qui afecta de veritat
 

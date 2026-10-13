@@ -17,7 +17,7 @@ Si busques "facturació Verifactu" et trobaràs una allau d'anuncis de programes
 
 ## El que obliga Verifactu, exactament
 
-Verifactu (Real Decreto 1007/2023) exigeix que el programa amb què factures registri cada factura de manera que no es pugui alterar ni esborrar sense deixar rastre, amb petjada digital i, en molts casos, un codi QR verificable. És una obligació sobre el programari que fas servir, no sobre quant pagues per ell. Ho expliquem amb dates concretes a [Verifactu: què és i quan t'afecta](/ca/blog/verifactu-2026).
+Verifactu (Real Decreto 1007/2023) exigeix que el programa amb què factures registri cada factura de manera que no es pugui alterar ni esborrar sense deixar rastre, amb petjada digital i, en molts casos, un codi QR verificable. És una obligació sobre el programari que fas servir, no sobre quant pagues per ell. Ho expliquem amb dates concretes a [Verifactu: què és i quan t'afecta](/ca/blog/verifactu-2026). Hisenda ha anunciat un possible ajornament a octubre de 2028, encara sense publicar al BOE: [què se sap](/ca/blog/aplazamiento-verifactu-2028).
 
 ## L'alternativa gratuïta: l'aplicació de l'Agència Tributària
 

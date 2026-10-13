@@ -29,7 +29,7 @@ Todas las empresas y autónomos que facturen a otras empresas o a otros autónom
 
 ## Cuándo es obligatoria
 
-El reglamento que desarrolla esta obligación, el Real Decreto 238/2026, de 25 de marzo, ya está aprobado y publicado. Fija un calendario de 12 meses para las empresas con una facturación anual superior a 8 millones de euros, y de 24 meses para el resto de empresas y autónomos. Ese plazo ya está en marcha: la Orden HAC/1028/2026, publicada el 5 de octubre de 2026, entró en vigor el 6 de octubre. Por tanto, la obligación empieza el **6 de octubre de 2027** para las empresas con más de 8 millones de euros de facturación y el **6 de octubre de 2028** para el resto de empresas y autónomos. Te confirmamos la fecha vigente cuando se acerque el momento de que te afecte.
+El reglamento que desarrolla esta obligación, el Real Decreto 238/2026, de 25 de marzo, ya está aprobado y publicado. Fija un calendario de 12 meses para las empresas con una facturación anual superior a 8 millones de euros, y de 24 meses para el resto de empresas y autónomos. Ese plazo ya está en marcha: la Orden HAC/1028/2026, publicada el 5 de octubre de 2026, entró en vigor el 6 de octubre. Por tanto, la obligación empieza el **6 de octubre de 2027** para las empresas con más de 8 millones de euros de facturación y el **6 de octubre de 2028** para el resto de empresas y autónomos. Estas fechas no cambian por el posible aplazamiento de Verifactu: es otra norma (ver [Verifactu se aplaza a octubre de 2028](/blog/aplazamiento-verifactu-2028)).
 
 ## Qué puedes ir haciendo ya
 

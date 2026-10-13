@@ -29,7 +29,7 @@ Every company and self-employed worker that invoices another company or self-emp
 
 ## When it becomes mandatory
 
-The regulation that develops this obligation, Royal Decree 238/2026, of 25 March, has already been approved and published. It sets a 12-month timeline for companies with annual turnover above €8 million, and 24 months for the rest of companies and self-employed workers. That countdown is now running: Order HAC/1028/2026, published on 5 October 2026, came into force on 6 October. The obligation therefore starts on **6 October 2027** for companies with turnover above €8 million and on **6 October 2028** for all other companies and self-employed workers. We'll confirm the current date with you as it gets closer to affecting you.
+The regulation that develops this obligation, Royal Decree 238/2026, of 25 March, has already been approved and published. It sets a 12-month timeline for companies with annual turnover above €8 million, and 24 months for the rest of companies and self-employed workers. That countdown is now running: Order HAC/1028/2026, published on 5 October 2026, came into force on 6 October. The obligation therefore starts on **6 October 2027** for companies with turnover above €8 million and on **6 October 2028** for all other companies and self-employed workers. These dates do not change with the possible Verifactu postponement: it is a different rule (see [Verifactu postponed to October 2028](/en/blog/aplazamiento-verifactu-2028)).
 
 ## What you can do already
 

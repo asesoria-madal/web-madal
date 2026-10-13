@@ -34,9 +34,11 @@ El Real Decreto-ley 15/2025, de 2 de diciembre, aplazó el calendario por segund
 
 Antes de ese aplazamiento se hablaba de julio de 2026, y esa es la fecha que todavía aparece en bastantes guías que llevan meses sin actualizarse. Si la has visto en algún sitio, no te la has inventado: es que quedó desfasada en diciembre de 2025.
 
-### Aviso: posible tercer aplazamiento (octubre de 2028)
+<aside class="aviso">
 
-El 5 de octubre de 2026, el Ministerio de Hacienda anunció su intención de aplazar de nuevo las obligaciones pendientes del Real Decreto 1007/2023 hasta **octubre de 2028**, con una única fecha para sociedades y autónomos. Es solo un anuncio: hasta que se publique en el BOE la norma que modifique el reglamento, las fechas vigentes siguen siendo las de 2027. Actualizaremos este artículo en cuanto se publique.
+**Aviso: posible tercer aplazamiento (octubre de 2028).** El 5 de octubre de 2026, Hacienda anunció su intención de aplazar de nuevo Verifactu hasta octubre de 2028. Es solo un anuncio: hasta que se publique en el BOE, las fechas vigentes siguen siendo las de 2027. Lo explicamos en [Verifactu se aplaza a octubre de 2028: qué ha anunciado Hacienda y qué sigue vigente](/blog/aplazamiento-verifactu-2028).
+
+</aside>
 
 ## A quién afecta de verdad
 

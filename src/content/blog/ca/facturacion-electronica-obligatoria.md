@@ -29,7 +29,7 @@ Totes les empreses i autònoms que facturin a altres empreses o a altres autòno
 
 ## Quan és obligatòria
 
-El reglament que desenvolupa aquesta obligació, el Reial Decret 238/2026, de 25 de març, ja està aprovat i publicat. Fixa un calendari de 12 mesos per a les empreses amb una facturació anual superior a 8 milions d'euros, i de 24 mesos per a la resta d'empreses i autònoms. Aquest termini ja està en marxa: l'Ordre HAC/1028/2026, publicada el 5 d'octubre de 2026, va entrar en vigor el 6 d'octubre. Per tant, l'obligació comença el **6 d'octubre de 2027** per a les empreses amb més de 8 milions d'euros de facturació i el **6 d'octubre de 2028** per a la resta d'empreses i autònoms. T'ho confirmem quan s'apropi el moment que t'afecti.
+El reglament que desenvolupa aquesta obligació, el Reial Decret 238/2026, de 25 de març, ja està aprovat i publicat. Fixa un calendari de 12 mesos per a les empreses amb una facturació anual superior a 8 milions d'euros, i de 24 mesos per a la resta d'empreses i autònoms. Aquest termini ja està en marxa: l'Ordre HAC/1028/2026, publicada el 5 d'octubre de 2026, va entrar en vigor el 6 d'octubre. Per tant, l'obligació comença el **6 d'octubre de 2027** per a les empreses amb més de 8 milions d'euros de facturació i el **6 d'octubre de 2028** per a la resta d'empreses i autònoms. Aquestes dates no canvien pel possible ajornament de Verifactu: és una altra norma (vegeu [Verifactu s'ajorna a octubre de 2028](/ca/blog/aplazamiento-verifactu-2028)).
 
 ## Què pots anar fent ja
 

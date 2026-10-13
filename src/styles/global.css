@@ -960,6 +960,8 @@ section#como-trabajamos { background: var(--accent-tint); border-top-color: var(
 .article-body p { margin-bottom: 1.1rem; }
 .article-body ul { margin: 0 0 1.1rem 1.2rem; padding: 0; }
 .article-body li { margin-bottom: 0.5rem; }
+.article-body .aviso { margin: 1.5rem 0; padding: 1rem 1.2rem; border: 1px solid color-mix(in srgb, #c0564a 45%, var(--paper)); border-left: 4px solid #c0564a; border-radius: 8px; background: color-mix(in srgb, #c0564a 11%, var(--paper)); }
+.article-body .aviso p:last-child { margin-bottom: 0; }
 .article-body strong { color: var(--ink); }
 .article-body table { display: block; max-width: 100%; overflow-x: auto; border-collapse: collapse; margin: 1.5rem 0; font-size: 0.92rem; -webkit-overflow-scrolling: touch; }
 .article-body th, .article-body td { padding: 0.6rem 0.9rem; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }

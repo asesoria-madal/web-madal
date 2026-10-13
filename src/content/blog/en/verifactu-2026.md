@@ -34,9 +34,11 @@ Royal Decree-Law 15/2025, of 2 December, postponed the timeline for the second t
 
 Before that postponement, people were talking about July 2026, and that's the date still showing up in plenty of guides that haven't been updated in months. If you saw it somewhere, you didn't imagine it: it just became outdated in December 2025.
 
-### Notice: a possible third postponement (October 2028)
+<aside class="aviso">
 
-On 5 October 2026, the Ministry of Finance announced its intention to postpone the pending obligations of Royal Decree 1007/2023 again, until **October 2028**, with a single date for companies and self-employed workers. This is only an announcement: until the rule amending the regulation is published in the BOE (Spain's official gazette), the dates in force remain those of 2027. We will update this article as soon as it is published.
+**Notice: a possible third postponement (October 2028).** On 5 October 2026, the Ministry of Finance announced its intention to postpone Verifactu again, until October 2028. This is only an announcement: until it is published in the BOE (Spain's official gazette), the dates in force remain those of 2027. We explain it in [Verifactu postponed to October 2028: what the Tax Ministry announced and what still applies](/en/blog/aplazamiento-verifactu-2028).
+
+</aside>
 
 ## Who it actually affects
 

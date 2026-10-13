@@ -17,7 +17,7 @@ Search for "Verifactu invoicing" and you'll find a flood of ads for paid softwar
 
 ## What Verifactu actually requires
 
-Verifactu (Real Decreto 1007/2023) requires that the program you use to invoice records every invoice in a way that can't be altered or deleted without leaving a trace, with a digital fingerprint and, in many cases, a verifiable QR code. It's an obligation on the software you use, not on how much you pay for it. We cover the exact dates in [Verifactu: what it is and when it affects you](/en/blog/verifactu-2026).
+Verifactu (Real Decreto 1007/2023) requires that the program you use to invoice records every invoice in a way that can't be altered or deleted without leaving a trace, with a digital fingerprint and, in many cases, a verifiable QR code. It's an obligation on the software you use, not on how much you pay for it. We cover the exact dates in [Verifactu: what it is and when it affects you](/en/blog/verifactu-2026). The Tax Ministry has announced a possible postponement to October 2028, not yet published in the BOE: [what we know](/en/blog/aplazamiento-verifactu-2028).
 
 ## The free alternative: the Tax Agency's own application
 
