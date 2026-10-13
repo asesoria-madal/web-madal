@@ -15,6 +15,12 @@ sources:
 
 It's very common to mix up two obligations that aren't the same thing: Verifactu and mandatory electronic invoicing. They overlap in time and both talk about "digital invoicing," but they regulate different things.
 
+<aside class="aviso">
+
+**Notice: possible postponement of Verifactu to October 2028.** The Tax Ministry has announced it, but it is not in the BOE yet: until then the 2027 dates still apply. [What we know](/en/blog/aplazamiento-verifactu-2028).
+
+</aside>
+
 ## This is not Verifactu
 
 Verifactu requires the software you invoice with to record every invoice in a way that can't be altered without leaving a trace. It's an obligation on the software you use, not on the format you send the invoice to your client in. We explain it with specific dates in [Verifactu: what it is and when it affects you](/en/blog/verifactu-2026).

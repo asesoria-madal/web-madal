@@ -15,6 +15,12 @@ sources:
 
 Es muy habitual mezclar dos obligaciones que no son la misma cosa: Verifactu y la factura electrónica obligatoria. Coinciden en el tiempo y las dos hablan de "facturación digital", pero regulan cosas distintas.
 
+<aside class="aviso">
+
+**Aviso: posible aplazamiento de Verifactu a octubre de 2028.** Hacienda lo ha anunciado, pero aún no está en el BOE: hasta entonces siguen vigentes las fechas de 2027. [Qué se sabe](/blog/aplazamiento-verifactu-2028).
+
+</aside>
+
 ## Verifactu no es esto
 
 Verifactu obliga a que el programa con el que facturas registre cada factura de forma que no se pueda alterar sin dejar rastro. Es una obligación sobre el software que usas, no sobre el formato en el que le envías la factura a tu cliente. Lo explicamos con fechas concretas en [Verifactu: qué es y cuándo te afecta](/blog/verifactu-2026).

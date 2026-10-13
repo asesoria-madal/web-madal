@@ -15,6 +15,12 @@ sources:
 
 Si buscas "facturación Verifactu" te vas a encontrar una avalancha de anuncios de programas de pago. Es lógico: es su negocio. Pero la obligación legal no dice en ningún sitio que tengas que pagar una suscripción para cumplirla.
 
+<aside class="aviso">
+
+**Aviso: posible aplazamiento de Verifactu a octubre de 2028.** Hacienda lo ha anunciado, pero aún no está en el BOE: hasta entonces siguen vigentes las fechas de 2027. [Qué se sabe](/blog/aplazamiento-verifactu-2028).
+
+</aside>
+
 ## Lo que obliga Verifactu, exactamente
 
 Verifactu (Real Decreto 1007/2023) exige que el programa con el que facturas registre cada factura de forma que no se pueda alterar ni borrar sin dejar rastro, con huella digital y, en muchos casos, un código QR verificable. Es una obligación sobre el software que usas, no sobre cuánto pagas por él. Lo explicamos con fechas concretas en [Verifactu: qué es y cuándo te afecta](/blog/verifactu-2026). Hacienda ha anunciado un posible aplazamiento a octubre de 2028, aún sin publicar en el BOE: [qué se sabe](/blog/aplazamiento-verifactu-2028).

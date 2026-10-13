@@ -15,6 +15,12 @@ sources:
 
 És molt habitual barrejar dues obligacions que no són la mateixa cosa: Verifactu i la factura electrònica obligatòria. Coincideixen en el temps i totes dues parlen de "facturació digital", però regulen coses diferents.
 
+<aside class="aviso">
+
+**Avís: possible ajornament de Verifactu a octubre de 2028.** Hisenda l'ha anunciat, però encara no és al BOE: fins llavors continuen vigents les dates de 2027. [Què se sap](/ca/blog/aplazamiento-verifactu-2028).
+
+</aside>
+
 ## Verifactu no és això
 
 Verifactu obliga que el programa amb què factures registri cada factura de manera que no es pugui alterar sense deixar rastre. És una obligació sobre el programari que fas servir, no sobre el format en què envies la factura al teu client. Ho expliquem amb dates concretes a [Verifactu: què és i quan t'afecta](/ca/blog/verifactu-2026).
