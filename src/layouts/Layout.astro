@@ -158,11 +158,29 @@ const ogLocale: Record<Locale, string> = { es: 'es_ES', ca: 'ca_ES', en: 'en_GB'
     <script is:inline>
       // Aplicamos el tema guardado antes de pintar, para evitar el parpadeo
       // de cambiar de claro a oscuro (o viceversa) justo después de cargar.
+      //
+      // Con <ClientRouter /> Astro reemplaza los atributos de <html> en cada
+      // navegación por los del documento nuevo, que no trae data-theme: sin
+      // volver a aplicarlo, el tema elegido se perdía tras el primer clic en
+      // un enlace y la web caía al modo del sistema. Este script solo corre
+      // en la carga inicial, así que el listener de astro:after-swap
+      // persiste y lo reaplica tras cada transición. El evento "storage"
+      // sincroniza además el cambio entre pestañas abiertas.
       (function () {
-        var stored = localStorage.getItem('theme');
-        if (stored === 'dark' || stored === 'light') {
-          document.documentElement.setAttribute('data-theme', stored);
+        function applyStoredTheme() {
+          var stored = null;
+          try { stored = localStorage.getItem('theme'); } catch (e) {}
+          if (stored === 'dark' || stored === 'light') {
+            document.documentElement.setAttribute('data-theme', stored);
+          } else {
+            document.documentElement.removeAttribute('data-theme');
+          }
         }
+        applyStoredTheme();
+        document.addEventListener('astro:after-swap', applyStoredTheme);
+        window.addEventListener('storage', function (e) {
+          if (e.key === 'theme') applyStoredTheme();
+        });
       })();
     </script>
 
