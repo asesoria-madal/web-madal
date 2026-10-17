@@ -1,7 +1,7 @@
 ---
 lang: en
 slug: tarifa-plana-cuota-autonomos-2026
-title: 'Flat-rate social security for self-employed in Spain (2026): how much you pay and what happens after'
+title: 'Flat-rate social security for self-employed in Spain (2026): about €88/month, and what happens after'
 description: 'How long it lasts, the requirements, and how the tiered system works afterwards.'
 cat: fiscalidad
 date: 2026-09-21

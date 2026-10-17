@@ -10,7 +10,7 @@ updatedDate: 2026-09-23
 
 ## Dos fotos distintas del mismo negocio
 
-Balance y Cuenta de Pérdidas y Ganancias (PyG) no compiten entre sí: responden preguntas distintas. El balance es una **foto fija** en un momento concreto ("¿qué tienes y qué debes hoy?"). La PyG es una **película** de un periodo ("¿qué ha entrado y qué ha salido en estos meses, y qué queda de beneficio?"). Necesitas las dos para tener una idea real de cómo va tu negocio.
+Ya explicamos [qué es un balance de situación](/blog/balance-de-situacion) por separado; aquí vemos cómo leerlo junto con la PyG, que es donde de verdad se entiende el negocio. Balance y Cuenta de Pérdidas y Ganancias (PyG) no compiten entre sí: responden preguntas distintas. El balance es una **foto fija** en un momento concreto ("¿qué tienes y qué debes hoy?"). La PyG es una **película** de un periodo ("¿qué ha entrado y qué ha salido en estos meses, y qué queda de beneficio?"). Necesitas las dos para tener una idea real de cómo va tu negocio.
 
 ## El balance, en tres bloques
 

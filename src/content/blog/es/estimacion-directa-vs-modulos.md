@@ -29,6 +29,17 @@ Solo pueden acogerse ciertas actividades (sobre todo comercio, hostelería y alg
 
 Te puede convenir si tu negocio tiene pocos gastos deducibles y factura de forma consistente, porque acabas pagando menos que calculando el beneficio real.
 
+## Un ejemplo: un negocio que podría elegir cualquiera de los dos
+
+Imagina una papelería (comercio al por menor, una actividad que puede acogerse tanto a estimación directa como a módulos). Un trimestre factura 15.000 € y tiene 4.000 € de gastos deducibles justificados (compras, alquiler, suministros).
+
+- **En estimación directa**, tributa sobre el beneficio real: 15.000 € − 4.000 € = 11.000 €. El pago fraccionado trimestral del IRPF es el 20% de esa cifra: 2.200 € (antes de retenciones).
+- **En módulos**, no se mira la factura real, sino los índices de su epígrafe (metros del local, personal, consumo eléctrico...). Si esos índices le dieran, por ejemplo, un rendimiento neto trimestral estimado de 7.000 € — cifra ilustrativa: los índices reales cambian cada año y según el epígrafe exacto —, el pago sería el 20% de esa cifra menor: 1.400 €.
+
+En este trimestre concreto, módulos sale mejor porque los índices estiman un rendimiento inferior al beneficio real. Pero si ese mismo trimestre hubiera facturado solo 8.000 € con los mismos 4.000 € de gastos (beneficio real de 4.000 €), estimación directa habría sido la opción más barata, porque pagaría sobre un beneficio real menor que el estimado por módulos.
+
+La conclusión no es que uno sea siempre mejor: es que **el mismo negocio puede salir ganando con uno u otro según cómo le vaya ese periodo concreto**, y por eso conviene revisarlo con datos reales en vez de elegir por intuición.
+
 ## Cómo decidir
 
 No hay una respuesta única. Depende de tu actividad concreta, tus gastos reales y cuánto factures. Los límites de facturación y las actividades permitidas en módulos cambian con la normativa de cada año, así que antes de decidirte confirma tu caso concreto con nosotros: lo revisamos gratis en la primera llamada.

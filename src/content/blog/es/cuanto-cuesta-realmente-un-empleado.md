@@ -19,11 +19,32 @@ Cuando alguien piensa "voy a pagarle 1.500 € al mes", casi siempre se refiere 
 - **Salario neto**: lo que el trabajador recibe de verdad en su cuenta, después de restarle al bruto su propia cotización a la Seguridad Social (a cargo del trabajador) y la retención de IRPF.
 - **Coste empresa**: el bruto más las cotizaciones sociales que paga la empresa por tenerlo contratado (contingencias comunes, desempleo, Fondo de Garantía Salarial, formación profesional, y accidentes de trabajo según la actividad). Esta cifra suele quedar entre un 30% y un 33% por encima del bruto, aunque el porcentaje exacto depende del tipo de contrato y de la actividad — no lo des por fijo sin comprobar los tipos vigentes.
 
-## Un ejemplo con números redondos
+## Qué cotiza la empresa, por partida
 
-Si pactas un bruto de 1.500 €/mes:
-- El trabajador cotiza una parte pequeña de ese bruto (algo más del 6%) y paga su retención de IRPF — lo que le queda en la cuenta es bastante menos de 1.500 €.
-- La empresa, aparte de pagar ese bruto, añade sus propias cotizaciones — así que el coste real para ti puede rondar los 1.950-2.000 €/mes, no 1.500 €.
+Estos son los tipos generales a cargo de la empresa en régimen general con contrato indefinido — orientativos, hay que confirmar los vigentes en el momento de contratar:
+
+| Concepto | Tipo a cargo de la empresa |
+|---|---|
+| Contingencias comunes | 23,60% |
+| Desempleo | 5,50% |
+| FOGASA (Fondo de Garantía Salarial) | 0,20% |
+| Formación profesional | 0,60% |
+| Accidentes de trabajo | Variable según actividad (habitualmente 1,5%-3%) |
+| **Total aproximado** | **~31%-33% sobre el bruto** |
+
+El tipo de accidentes de trabajo es el que más varía: depende de la "tarifa de primas" de tu actividad concreta, así que el 31%-33% es una referencia para una actividad de riesgo bajo (oficina, servicios), no un número fijo para cualquier negocio.
+
+## Un ejemplo con varios sueldos
+
+Con un tipo aproximado del 32% a cargo de la empresa:
+
+| Salario bruto mensual | Cotización empresa (~32%) | Coste empresa aprox. |
+|---|---|---|
+| 1.500 € | 480 € | 1.980 €/mes |
+| 2.000 € | 640 € | 2.640 €/mes |
+| 3.000 € | 960 € | 3.960 €/mes |
+
+Y del lado del trabajador: cotiza una parte pequeña del bruto (algo más del 6%) y paga su retención de IRPF — lo que le queda en la cuenta es bastante menos que el bruto pactado, pero eso no afecta a lo que te cuesta a ti como empresa.
 
 Estos porcentajes cambian cada año (se revisan en los Presupuestos Generales del Estado y en la normativa de cotización), así que un cálculo real siempre debería hacerse con los tipos vigentes en el momento de contratar, no con una cifra que viste hace un tiempo.
 
