@@ -13,6 +13,13 @@ export default defineConfig({
   // (301) la variante con barra final a la que no la lleva, así que no
   // hace falta configurar la redirección aparte en Vercel.
   trailingSlash: 'never',
+  // El artículo "precio-gestoria-online-2026" (en) se publicó antes con este
+  // slug descriptivo en inglés; Google todavía tiene la URL vieja indexada
+  // y da 404 (visto en Search Console). Redirigimos para no perder ese
+  // rastro en vez de dejarlo roto.
+  redirects: {
+    '/en/blog/how-much-does-an-online-accounting-firm-cost-in-spain': '/en/blog/precio-gestoria-online-2026',
+  },
   adapter: vercel(),
   build: {
     // Una sola hoja de estilos global de ~7 KB para todo el sitio: meterla
