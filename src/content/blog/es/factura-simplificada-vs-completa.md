@@ -10,6 +10,10 @@ sources:
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2012-14696'
 ---
 
+## Qué es una factura simplificada
+
+Una factura simplificada (lo que habitualmente llamamos ticket) es un tipo de factura que indica el importe total y el tipo de IVA aplicado sin recoger los datos identificativos del destinatario. La normativa de facturación española solo permite emitirla hasta un importe fijado (actualmente en torno a 400 € IVA incluido) o en los supuestos concretos que marca el reglamento — fuera de esos casos, hace falta una factura completa.
+
 ## No es "cuál prefiero", es "cuál me corresponde"
 
 La factura simplificada (lo que coloquialmente llamamos ticket) no es una versión "más cómoda" de la factura completa que puedas elegir libremente: el Reglamento de facturación marca en qué casos concretos se puede emitir una factura simplificada en vez de una completa.

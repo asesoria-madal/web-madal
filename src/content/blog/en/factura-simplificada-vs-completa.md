@@ -10,6 +10,10 @@ sources:
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2012-14696'
 ---
 
+## What is a simplified invoice?
+
+A simplified invoice (commonly called a receipt) is a type of invoice that states the total amount and the VAT rate applied without listing the recipient's identifying details. Spanish invoicing law only allows it up to a set amount (currently around €400 including VAT) or in specific cases set out by the regulations — outside those, a full invoice is required.
+
 ## It's not "which one I prefer", it's "which one applies"
 
 A simplified invoice (what we colloquially call a receipt) isn't a "more convenient" version of a full invoice that you can freely choose: the invoicing regulations set out the specific cases where a simplified invoice can be issued instead of a full one.

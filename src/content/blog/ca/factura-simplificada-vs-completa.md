@@ -10,6 +10,10 @@ sources:
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2012-14696'
 ---
 
+## Què és una factura simplificada
+
+Una factura simplificada (el que habitualment anomenem tiquet) és un tipus de factura que indica l'import total i el tipus d'IVA aplicat sense recollir les dades identificatives del destinatari. La normativa de facturació espanyola només en permet l'emissió fins a un import fixat (actualment al voltant dels 400 € IVA inclòs) o en els supòsits concrets que marca el reglament — fora d'aquests casos, cal una factura completa.
+
 ## No és "quina prefereixo", és "quina em correspon"
 
 La factura simplificada (el que col·loquialment anomenem tiquet) no és una versió "més còmoda" de la factura completa que puguis triar lliurement: el Reglament de facturació marca en quins casos concrets es pot emetre una factura simplificada en comptes d'una completa.
