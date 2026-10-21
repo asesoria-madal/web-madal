@@ -107,7 +107,9 @@ Las políticas de `storage.objects` para `facturas` están creadas **a mano en e
 | `POST /api/alta-autonomo` | `alta_nuevos_autonomos` | Sí | Normaliza NIF a mayúsculas e IBAN sin espacios. |
 | `POST /api/traspaso` | `traspasos_nuevos` | Sí | Ídem; ramifica el insert según `tipo`. |
 
-Los cinco usan `getSupabaseAdmin()` y **degradan con gracia**: si Supabase no está configurado responden en éxito sin persistir (`{ persisted: false }`), para no romper la experiencia.
+Desde 2026-10-21 hay tres endpoints más, todos de facturación Verifactu vía BeeL (ver § "Facturación Verifactu (BeeL)" al final): `POST /api/emitir-factura`, `GET /api/factura-pdf` y `POST /api/beel-webhook`. **Estos tres no degradan en silencio**: sin `BEEL_API_KEY` responden 503, porque fingir que se ha emitido una factura sería peor que fallar. Los dos primeros exigen la sesión del cliente (`Authorization: Bearer <access_token>`); el tercero exige la firma de BeeL.
+
+Los cinco primeros usan `getSupabaseAdmin()` y **degradan con gracia**: si Supabase no está configurado responden en éxito sin persistir (`{ persisted: false }`), para no romper la experiencia.
 
 **Validación deliberadamente laxa** en todos: forma y longitud (`algo@algo.algo`, NIF de 9 caracteres, IBAN alfanumérico), no corrección real — Edurne revisa los datos a mano antes de tramitar. Los valores cerrados (`tipo_local`, `retencion_irpf`, `regimen`…) se validan en el endpoint y **no** llevan `CHECK` en SQL.
 
@@ -122,7 +124,16 @@ El cálculo del precio está **duplicado a propósito** entre `Simulador.astro` 
 | `PUBLIC_SUPABASE_URL` | No | Cliente browser (portal) |
 | `PUBLIC_SUPABASE_ANON_KEY` | No — segura de exponer | Cliente browser (portal) |
 
-No hay `.env.example`; estas cuatro son las que hacen falta para tener Supabase funcionando en local/Vercel.
+Estas cuatro son las que hacen falta para tener Supabase funcionando en local/Vercel. Las de facturación (todas solo servidor, ninguna con prefijo `PUBLIC_`):
+
+| Variable | Uso |
+|---|---|
+| `BEEL_API_KEY` | `beel_sk_test_…` (sandbox, sin efecto fiscal) o `beel_sk_live_…` (real). **Secreto.** |
+| `BEEL_DEFAULT_COMPANY_ID` | Company de sandbox que usan todos los clientes sin `clientes.beel_company_id`. **Se ignora con clave live** (ver `src/lib/beel.ts`). |
+| `BEEL_WEBHOOK_SECRET` | Secreto de la suscripción de webhooks; BeeL lo muestra una sola vez al crearla. |
+| `N8N_ALERT_WEBHOOK_URL`, `N8N_ALERT_TOKEN` | Opcionales. Webhook de n8n y token de cabecera `X-Alert-Token` para avisar de rechazos de la AEAT. |
+
+(`.env.example` está sin actualizar con estas cuatro: un hook del entorno bloqueó editarlo en la sesión que las añadió. Añadirlas a mano.)
 
 ## Notas para quien construya workflows de n8n
 
@@ -131,3 +142,25 @@ No hay `.env.example`; estas cuatro son las que hacen falta para tener Supabase 
 - Casos de uso ya definidos con tabla lista: (1) facturas Storage → Drive → `fecha_contabilizado` → borrado del Storage tras el margen de días; (2) envío y seguimiento de presupuestos por email; (3) onboarding de cliente nuevo tras firmar el presupuesto. No hace falta diseñar esquema para ninguno.
 - Vincula siempre **por NIF** (`clientes.id`), que es el identificador común a presupuestos, formularios y facturas.
 - Los rate limiters de los endpoints públicos son en memoria y por instancia de Vercel — si un workflow llama a estos endpoints HTTP en vez de ir directo a Supabase, ese límite no es fiable bajo carga ni es una autenticación real. Prefiere ir directo a Supabase.
+
+## Facturación Verifactu (BeeL)
+
+Añadida 2026-10-21. El cliente emite facturas desde el portal (panel "Emitir facturas"); **BeeL es quien numera, encadena el registro Verifactu, lo envía a la AEAT y genera el PDF**. Nosotros solo recogemos los datos, llamamos a su API y guardamos una copia.
+
+**Por qué BeeL y no un sistema propio**: construir el motor fiscal nos haría productores de un sistema informático de facturación (declaración responsable, huella encadenada, firma, envío a la AEAT, QR) con responsabilidad propia. Se delega eso y se construye solo la interfaz. Por la misma razón, **el PDF y el email de la factura son siempre los de BeeL**: según su documentación de cumplimiento, un software que renderiza su propio documento puede considerarse componente del sistema y necesitar su propia declaración responsable.
+
+**Flujo**
+1. `Portal.astro` → `POST /api/emitir-factura` con el `access_token` de la sesión y una `idempotencyKey` (uuid, se mantiene mientras el contenido del formulario no cambie, para que un reintento no emita dos facturas).
+2. El endpoint valida el token con Supabase Auth, saca el cliente de `clientes.auth_user_id` (nunca de un NIF enviado en el cuerpo), resuelve la company de BeeL y llama a `POST /v1/companies/{id}/invoices` con `issue_directly: true`.
+3. Guarda la copia en `facturas_emitidas` (upsert por `beel_invoice_id`). Si BeeL emitió pero Supabase falla, **no** devuelve error (la factura ya existe en la AEAT): lo deja en logs.
+4. La AEAT contesta en segundos/minutos → BeeL llama a `POST /api/beel-webhook` (firma HMAC-SHA256 en `BeeL-Signature`, ventana de 5 min) → se actualiza `verifactu_estado`. Si es `REJECTED`, se avisa al webhook de n8n `n8n-workflows/workflows/alerta-factura-rechazada.json`.
+5. "Ver PDF" → `GET /api/factura-pdf?id=` (solo facturas del propio cliente): pide a BeeL una URL firmada de 5 min y reenvía el PDF.
+
+**Tablas**: `facturas_emitidas` (RLS: el cliente solo lee las suyas; escribe solo la service role) y `clientes.beel_company_id`. SQL al final de `supabase/schema.sql`, bloque "ejecutar UNA VEZ" (con GRANT explícito).
+
+**Una company de BeeL = un NIF.** En esta fase de pruebas **todos los clientes comparten la company de sandbox** (`BEEL_DEFAULT_COMPANY_ID`), así que las facturas salen con el emisor de esa cuenta de prueba, no con el del cliente. Para producción hace falta una company por cliente (`POST /v1/accounts/{id}/companies`, con el NIF real del cliente, que debe existir en el censo de la AEAT incluso en sandbox) y rellenar `clientes.beel_company_id`. BeeL responde `CONTACT_SALES_REQUIRED` al crear un segundo NIF en el plan API sin precio acordado: **hay que cerrar el precio multi-NIF con BeeL antes de pasar a producción**.
+
+**Límites conocidos**
+- IVA solo 21/10/4 % y retención 0/7/15 %. El 0 % exige causa de exención y lo emite el equipo.
+- Solo facturas completas (`STANDARD`). No hay rectificativas desde el portal: una factura emitida no se edita ni se borra, se corrige con una rectificativa que hoy se haría desde BeeL.
+- El esquema exacto del `data` del webhook `verifactu.status.updated` no estaba publicado al escribir el receptor: asume `invoice_id` y `new_status` (con `id`/`status` de reserva) y registra en logs si no los encuentra. **Verificar con el primer evento real** (botón "Send test event" de BeeL no sirve: los de prueba se ignoran a propósito).

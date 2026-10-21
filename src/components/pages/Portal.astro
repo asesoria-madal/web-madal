@@ -64,6 +64,7 @@ const dashboardsCtaHref = `mailto:${EMAIL}?subject=${encodeURIComponent(dashboar
           <nav class="app-nav">
             <button type="button" class="app-nav-link active" data-panel="dashboards">{t.nav.dashboards}</button>
             <button type="button" class="app-nav-link" data-panel="facturas">{t.nav.facturas}</button>
+            <button type="button" class="app-nav-link" data-panel="emitir">{t.nav.emitir}</button>
             <button type="button" class="app-nav-link" data-panel="documentacion">{t.nav.documentacion}</button>
           </nav>
           <div class="app-sidebar-foot">
@@ -230,6 +231,41 @@ const dashboardsCtaHref = `mailto:${EMAIL}?subject=${encodeURIComponent(dashboar
             <ul id="facturaList" class="factura-list"></ul>
           </section>
 
+          <section class="app-panel" data-panel="emitir" hidden>
+            <h2>{t.emitir.title}</h2>
+            <p>{t.emitir.intro}</p>
+            <p id="emitirSandbox" class="portal-msg" hidden>{t.emitir.sandboxNote}</p>
+
+            <form id="emitirForm" class="emitir-form">
+              <div class="field-group">
+                <p class="field-group-label">{t.emitir.receptorGroup}</p>
+                <div class="emitir-grid">
+                  <label>{t.emitir.nombre}<input type="text" name="nombre" maxlength="150" required /></label>
+                  <label>{t.emitir.nif}<input type="text" name="nif" maxlength="9" required autocapitalize="characters" /></label>
+                  <label>{t.emitir.email}<input type="email" name="email" maxlength="254" /></label>
+                  <label>{t.emitir.direccion}<input type="text" name="direccion" maxlength="200" required /></label>
+                  <label>{t.emitir.cp}<input type="text" name="cp" inputmode="numeric" pattern="\d{5}" maxlength="5" required /></label>
+                  <label>{t.emitir.ciudad}<input type="text" name="ciudad" maxlength="100" required /></label>
+                  <label>{t.emitir.provincia}<input type="text" name="provincia" maxlength="100" required /></label>
+                </div>
+              </div>
+
+              <div class="field-group">
+                <p class="field-group-label">{t.emitir.lineasGroup}</p>
+                <div id="emitirLineas"></div>
+                <button type="button" id="emitirAddLinea" class="portal-logout">{t.emitir.addLinea}</button>
+              </div>
+
+              <label class="emitir-check"><input type="checkbox" id="emitirEnviar" /> {t.emitir.enviarEmail}</label>
+                      <button type="submit" class="btn btn-primary">{t.emitir.submit}</button>
+            </form>
+            <p id="emitirMsg" class="portal-msg" hidden></p>
+
+            <h3>{t.emitir.listTitle}</h3>
+            <p id="emitirEmpty" class="factura-empty" hidden>{t.emitir.empty}</p>
+            <ul id="emitirList" class="factura-list"></ul>
+          </section>
+
           <section class="app-panel" data-panel="documentacion" hidden>
             <h2>{t.doc.title}</h2>
 
@@ -341,6 +377,28 @@ const dashboardsCtaHref = `mailto:${EMAIL}?subject=${encodeURIComponent(dashboar
     max-width: 60vw;
   }
   .portal-admin-note { color: var(--ink-soft); font-size: 0.8rem; }
+
+  /* Emisión de facturas (panel "emitir"). Los inputs se crean desde el script,
+     por eso los selectores son :global. */
+  .emitir-form { display: grid; gap: 1.25rem; margin: 1.25rem 0 2rem; }
+  .emitir-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); gap: 0.75rem 1rem; }
+  .emitir-form :global(label) { display: grid; gap: 0.25rem; font-size: 0.85rem; color: var(--ink-soft); }
+  .emitir-form :global(input[type="text"]),
+  .emitir-form :global(input[type="email"]),
+  .emitir-form :global(input[type="number"]),
+  .emitir-form :global(select) {
+    font: inherit; color: var(--ink); background: var(--paper);
+    border: 1px solid var(--ink-soft); border-radius: 6px; padding: 0.5rem 0.6rem;
+  }
+  .emitir-form :global(.emitir-linea) {
+    display: grid; grid-template-columns: 2fr 0.7fr 1fr 0.8fr 1fr auto; gap: 0.75rem;
+    align-items: end; margin-bottom: 0.75rem;
+  }
+  .emitir-form .emitir-check { display: flex; align-items: center; gap: 0.5rem; font-size: 0.9rem; color: var(--ink); }
+  @media (max-width: 860px) {
+    .emitir-form :global(.emitir-linea) { grid-template-columns: 1fr 1fr; }
+    .emitir-form :global(.emitir-desc) { grid-column: 1 / -1; }
+  }
 </style>
 
 <script>
@@ -892,6 +950,7 @@ const dashboardsCtaHref = `mailto:${EMAIL}?subject=${encodeURIComponent(dashboar
       renderDocumentacionPanel(cliente.tipo_persona ?? null);
       renderFinanzasVisibilidadPorTipo(cliente.tipo_persona ?? null);
       renderFacturaList(cliente.id);
+      renderEmitidas(cliente.id);
     }
 
     let adminClientes: ClienteRow[] = [];
@@ -940,6 +999,7 @@ const dashboardsCtaHref = `mailto:${EMAIL}?subject=${encodeURIComponent(dashboar
 
       adminBar.hidden = false;
       facturaForm.hidden = true; // el admin no sube facturas en nombre del cliente
+      emitirForm.hidden = true; // ni emite facturas con el NIF del cliente
 
       if (adminClientes.length > 0) {
         adminClienteSelect.value = adminClientes[0].id;
@@ -948,6 +1008,194 @@ const dashboardsCtaHref = `mailto:${EMAIL}?subject=${encodeURIComponent(dashboar
       }
       showOnly(dashEl);
     }
+
+    // --- Emisión de facturas Verifactu (vía /api/emitir-factura → BeeL) ---
+    // El navegador nunca habla con BeeL: manda el access token de la sesión a
+    // nuestro endpoint, que valida quién es el cliente y emite con la clave
+    // del servidor. Una factura emitida no se edita ni se borra.
+    const emitirForm = document.getElementById('emitirForm') as HTMLFormElement;
+    const emitirLineasEl = document.getElementById('emitirLineas') as HTMLElement;
+    const emitirMsg = document.getElementById('emitirMsg') as HTMLElement;
+    const emitirList = document.getElementById('emitirList') as HTMLElement;
+    const emitirEmpty = document.getElementById('emitirEmpty') as HTMLElement;
+    const emitirSandbox = document.getElementById('emitirSandbox') as HTMLElement;
+    const E = I18N.emitir;
+
+    function crearLinea(): HTMLElement {
+      const div = document.createElement('div');
+      div.className = 'emitir-linea';
+      const opts = (vals: number[], fmt: (v: number) => string) =>
+        vals.map((v) => `<option value="${v}">${fmt(v)}</option>`).join('');
+      div.innerHTML = `
+        <label class="emitir-desc">${E.descripcion}<input type="text" data-f="descripcion" maxlength="300" required /></label>
+        <label>${E.cantidad}<input type="number" data-f="cantidad" min="0.01" step="any" value="1" required /></label>
+        <label>${E.precio}<input type="number" data-f="precio" min="0.01" step="0.01" required /></label>
+        <label>${E.iva}<select data-f="iva">${opts([21, 10, 4], (v) => `${v} %`)}</select></label>
+        <label>${E.irpf}<select data-f="irpf">${opts([0, 7, 15], (v) => (v === 0 ? E.irpfNone : `${v} %`))}</select></label>
+        <button type="button" class="portal-logout emitir-quitar">${E.removeLinea}</button>`;
+      div.querySelector('.emitir-quitar')!.addEventListener('click', () => {
+        // Siempre queda al menos un concepto.
+        if (emitirLineasEl.children.length > 1) div.remove();
+      });
+      return div;
+    }
+
+    function resetLineas() {
+      emitirLineasEl.innerHTML = '';
+      emitirLineasEl.appendChild(crearLinea());
+    }
+    resetLineas();
+    document.getElementById('emitirAddLinea')!.addEventListener('click', () => {
+      if (emitirLineasEl.children.length < 20) emitirLineasEl.appendChild(crearLinea());
+    });
+
+    async function renderEmitidas(clienteId: string) {
+      const { data, error } = await supabase!
+        .from('facturas_emitidas')
+        .select('id, numero, fecha_emision, receptor_nombre, total, verifactu_estado, sandbox')
+        .eq('cliente_id', clienteId)
+        .order('created_at', { ascending: false });
+
+      emitirList.innerHTML = '';
+      const rows = !error && data ? data : [];
+      emitirEmpty.hidden = rows.length > 0;
+      emitirSandbox.hidden = !rows.some((r) => r.sandbox);
+
+      rows.forEach((row) => {
+        const li = document.createElement('li');
+
+        const nombre = document.createElement('div');
+        nombre.className = 'factura-nombre';
+        nombre.textContent = `${row.numero} · ${row.receptor_nombre}${row.sandbox ? ` (${E.testBadge})` : ''}`;
+        li.appendChild(nombre);
+
+        const estado = row.verifactu_estado ? E.estados[row.verifactu_estado as string] ?? row.verifactu_estado : '—';
+        const meta = document.createElement('div');
+        meta.className = 'factura-meta';
+        meta.textContent = `${formatFecha(row.fecha_emision as string)} · ${formatEur(Number(row.total))} · ${E.aeatPrefix} ${estado}`;
+        li.appendChild(meta);
+
+        const pdf = document.createElement('button');
+        pdf.type = 'button';
+        pdf.className = 'factura-descargar';
+        pdf.textContent = E.pdf;
+        pdf.addEventListener('click', async () => {
+          // La pestaña se abre ya, dentro del clic, para que el bloqueador de
+          // popups no la cierre; se rellena cuando llega el PDF.
+          const win = window.open('', '_blank');
+          const {
+            data: { session },
+          } = await supabase!.auth.getSession();
+          try {
+            const res = await fetch(`/api/factura-pdf?id=${encodeURIComponent(row.id as string)}`, {
+              headers: { Authorization: `Bearer ${session?.access_token ?? ''}` },
+            });
+            if (!res.ok) throw new Error(String(res.status));
+            const url = URL.createObjectURL(await res.blob());
+            if (win) win.location.href = url;
+            else window.location.href = url;
+          } catch {
+            win?.close();
+            alert(E.pdfFail);
+          }
+        });
+        li.appendChild(pdf);
+
+        emitirList.appendChild(li);
+      });
+    }
+
+    // La clave de idempotencia se conserva mientras el contenido no cambie:
+    // si el envío falla por red y el cliente reintenta, BeeL devuelve la
+    // misma factura en vez de emitir otra con número nuevo. Si corrige algún
+    // dato, es otra petición y necesita otra clave.
+    let ultimaPeticion = '';
+    let ultimaClave = '';
+
+    emitirForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const {
+        data: { session },
+      } = await supabase!.auth.getSession();
+      if (!session || !currentClienteId) return;
+      const clienteId = currentClienteId;
+
+      const f = new FormData(emitirForm);
+      const val = (k: string) => String(f.get(k) ?? '').trim();
+      const email = val('email');
+      const enviarEmail = (document.getElementById('emitirEnviar') as HTMLInputElement).checked;
+
+      emitirMsg.hidden = false;
+      if (enviarEmail && !email) {
+        emitirMsg.className = 'portal-msg is-error';
+        emitirMsg.textContent = E.failGeneric;
+        return;
+      }
+
+      const lineas = Array.from(emitirLineasEl.children).map((div) => {
+        const g = (k: string) => (div.querySelector(`[data-f="${k}"]`) as HTMLInputElement).value;
+        return {
+          descripcion: g('descripcion').trim(),
+          cantidad: Number(g('cantidad')),
+          precio: Number(g('precio')),
+          iva: Number(g('iva')),
+          irpf: Number(g('irpf')),
+        };
+      });
+
+      const contenido = {
+        enviarEmail,
+        receptor: {
+          nombre: val('nombre'),
+          nif: val('nif').toUpperCase(),
+          ...(email ? { email } : {}),
+          direccion: val('direccion'),
+          codigoPostal: val('cp'),
+          ciudad: val('ciudad'),
+          provincia: val('provincia'),
+        },
+        lineas,
+      };
+      const huella = JSON.stringify(contenido);
+      if (huella !== ultimaPeticion) {
+        ultimaPeticion = huella;
+        ultimaClave = crypto.randomUUID();
+      }
+
+      emitirMsg.className = 'portal-msg';
+      emitirMsg.textContent = E.emitting;
+      const boton = emitirForm.querySelector('button[type="submit"]') as HTMLButtonElement;
+      boton.disabled = true;
+
+      try {
+        const res = await fetch('/api/emitir-factura', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${session.access_token}` },
+          body: JSON.stringify({ ...contenido, idempotencyKey: ultimaClave }),
+        });
+        const out = await res.json().catch(() => ({}));
+
+        if (res.ok) {
+          emitirMsg.className = 'portal-msg is-ok';
+          emitirMsg.textContent = tpl(E.ok, { numero: out.numero });
+          emitirForm.reset();
+          resetLineas();
+          ultimaPeticion = '';
+          renderEmitidas(clienteId);
+        } else if (res.status === 409) {
+          emitirMsg.className = 'portal-msg is-error';
+          emitirMsg.textContent = E.notEnabled;
+        } else {
+          emitirMsg.className = 'portal-msg is-error';
+          emitirMsg.textContent = out.code ? tpl(E.failDetail, { code: out.code }) : E.failGeneric;
+        }
+      } catch {
+        emitirMsg.className = 'portal-msg is-error';
+        emitirMsg.textContent = E.failGeneric;
+      } finally {
+        boton.disabled = false;
+      }
+    });
 
     async function renderForSession() {
       const {
@@ -988,6 +1236,7 @@ const dashboardsCtaHref = `mailto:${EMAIL}?subject=${encodeURIComponent(dashboar
 
       adminBar.hidden = true;
       facturaForm.hidden = false;
+      emitirForm.hidden = false;
       aplicarCliente(cliente as ClienteRow);
       showOnly(dashEl);
     }

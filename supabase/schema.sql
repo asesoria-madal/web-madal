@@ -825,3 +825,69 @@ create policy "admin ve todos los pendientes"
 -- insert into portal_admins (auth_user_id, nombre) values
 --   ('00000000-0000-0000-0000-000000000000', 'Hugo'),
 --   ('00000000-0000-0000-0000-000000000000', 'Edurne');
+
+
+-- =====================================================================
+-- FACTURACIÓN VERIFACTU VÍA BeeL (2026-10-21) — ejecutar UNA VEZ
+-- =====================================================================
+-- El cliente emite facturas desde el portal; el endpoint
+-- /api/emitir-factura las crea en BeeL (que numera, encadena el registro
+-- Verifactu, lo envía a la AEAT y genera el PDF) y guarda aquí una copia
+-- propia. Motivos de la copia: (1) el portal lista sin llamar a BeeL;
+-- (2) si algún día se cambia de proveedor, el histórico no se pierde;
+-- (3) n8n actualiza `verifactu_estado` desde el webhook de BeeL.
+--
+-- `clientes.beel_company_id`: id de la "company" (un NIF) del cliente en
+-- BeeL. NULL = el cliente aún no tiene empresa creada en BeeL. En la fase
+-- de pruebas todos los clientes comparten la company de sandbox (se
+-- resuelve en el endpoint con BEEL_DEFAULT_COMPANY_ID, no aquí), así que
+-- esta columna solo se rellena cuando haya una company real por cliente.
+alter table clientes add column if not exists beel_company_id text;
+
+create table if not exists facturas_emitidas (
+  id uuid primary key default gen_random_uuid(),
+  cliente_id text not null references clientes (id) on update cascade,
+  -- Id interno de la factura en BeeL (para pedir el PDF) y número oficial
+  -- ("F-2026-0001"), que es el que figura en el documento y en la AEAT.
+  beel_invoice_id text not null unique,
+  beel_company_id text not null,
+  numero text not null,
+  fecha_emision date not null,
+  receptor_nombre text not null,
+  receptor_nif text not null,
+  receptor_email text,
+  base_imponible numeric(12, 2) not null,
+  total_iva numeric(12, 2) not null,
+  total_irpf numeric(12, 2) not null default 0,
+  total numeric(12, 2) not null,
+  -- Estado del envío a la AEAT según BeeL: PENDING, ACCEPTED, REJECTED…
+  -- Se actualiza desde el webhook `verifactu.status.updated` (n8n).
+  verifactu_estado text,
+  -- Motivo de rechazo/aviso de la AEAT, si lo hay (mismo webhook).
+  verifactu_error_codigo text,
+  verifactu_error_mensaje text,
+  -- true si se emitió con una clave de pruebas (sandbox): sin efecto fiscal.
+  sandbox boolean not null default true,
+  created_at timestamptz not null default now()
+);
+
+create index if not exists facturas_emitidas_cliente_idx
+  on facturas_emitidas (cliente_id, created_at desc);
+
+alter table facturas_emitidas enable row level security;
+
+-- El cliente solo LEE las suyas. Nunca inserta ni edita desde el navegador:
+-- una factura emitida no se modifica (regla LIF-001 de BeeL) y la fila la
+-- escribe el endpoint con la service role.
+create policy "cliente ve sus facturas emitidas"
+  on facturas_emitidas for select
+  using (cliente_id in (select id from clientes where auth_user_id = auth.uid()));
+
+create policy "admin ve todas las facturas emitidas"
+  on facturas_emitidas for select
+  using (auth.uid() in (select auth_user_id from portal_admins));
+
+-- Desde el 30-oct-2026 Supabase no concede acceso automático a la Data API
+-- en tablas nuevas: GRANT explícito.
+grant select on facturas_emitidas to authenticated;
+grant all on facturas_emitidas to service_role;
