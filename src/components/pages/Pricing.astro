@@ -10,10 +10,9 @@
 // noindex + active="none"): se comparte por link directo a 2-3 clientes de
 // prueba antes de decidir si entra en el menú.
 //
-// Pendiente de verdad, no placeholder cosmético: el Calendly de esta línea
-// todavía no existe — los botones de "Reservar diagnóstico" apuntan a
-// "#calendly-pendiente" (enlace inerte a propósito) hasta que se cree uno.
-const CALENDLY_PLACEHOLDER = '#calendly-pendiente';
+// Los botones de "Reservar diagnóstico" usan el mismo enlace de reserva
+// (HubSpot Meetings) que el resto de la web.
+const BOOKING_URL = 'https://meetings-eu1.hubspot.com/asesoria-madal';
 const MAILTO = 'mailto:contacto@asesoriamadal.es?subject=Madal%20Pricing';
 ---
 
@@ -344,7 +343,7 @@ const MAILTO = 'mailto:contacto@asesoriamadal.es?subject=Madal%20Pricing';
             <div style="display:flex;justify-content:space-between;"><span>Cliente de la gestoría</span><strong class="mono" style="color:var(--accent-strong)">300 €</strong></div>
             <div style="display:flex;justify-content:space-between;margin-top:6px;"><span>Nuevo cliente</span><strong class="mono">500 €</strong></div>
           </div>
-          <a class="btn btn-ghost" href={CALENDLY_PLACEHOLDER}>Empezar aquí</a>
+          <a class="btn btn-ghost" href={BOOKING_URL}>Empezar aquí</a>
         </div>
 
         <div class="plan panel featured">
@@ -361,7 +360,7 @@ const MAILTO = 'mailto:contacto@asesoriamadal.es?subject=Madal%20Pricing';
             <div style="display:flex;justify-content:space-between;"><span>Cliente de la gestoría</span><strong class="mono" style="color:var(--accent-strong)">900 €</strong></div>
             <div style="display:flex;justify-content:space-between;margin-top:6px;"><span>Nuevo cliente</span><strong class="mono">1.200 €</strong></div>
           </div>
-          <a class="btn btn-primary" href={CALENDLY_PLACEHOLDER}>Reservar diagnóstico</a>
+          <a class="btn btn-primary" href={BOOKING_URL}>Reservar diagnóstico</a>
         </div>
 
         <div class="plan panel">
@@ -419,7 +418,7 @@ const MAILTO = 'mailto:contacto@asesoriamadal.es?subject=Madal%20Pricing';
             <div style="display:flex;justify-content:space-between;"><span>Cliente de la gestoría</span><strong class="mono" style="color:var(--accent2-strong)">1.200 €</strong></div>
             <div style="display:flex;justify-content:space-between;margin-top:6px;"><span>Nuevo cliente</span><strong class="mono">1.500 €</strong></div>
           </div>
-          <a class="btn btn-primary" href={CALENDLY_PLACEHOLDER}>Reservar diagnóstico</a>
+          <a class="btn btn-primary" href={BOOKING_URL}>Reservar diagnóstico</a>
         </div>
       </div>
       <p class="sim-note reveal" style="margin-top:22px;">FIG.06A · Precios calculados sobre la tarifa media real de consultoría de estrategia en España (~400 €/jornada, Malt 2026), ajustados a autónomos y pymes pequeñas — no al segmento boutique de pricing para SaaS. El pack 05, por horas reales de trabajo (~6–7 jornadas repartidas en 2 meses), valdría más a precio de mercado puro — se lanza en 1.200–1.500 € a propósito, como precio de entrada mientras construís casos reales; revisadlo al alza tras los primeros 2–3 proyectos. La primera llamada siempre es gratuita.</p>
@@ -435,7 +434,7 @@ const MAILTO = 'mailto:contacto@asesoriamadal.es?subject=Madal%20Pricing';
           <h2>Tu balance ya tiene la primera respuesta.</h2>
           <p>Reserva una llamada y te decimos, con tus propios números, si estás cobrando lo que deberías.</p>
         </div>
-        <a class="btn btn-primary" href={CALENDLY_PLACEHOLDER} style="padding:14px 26px; font-size:14px;">Reservar diagnóstico →</a>
+        <a class="btn btn-primary" href={BOOKING_URL} style="padding:14px 26px; font-size:14px;">Reservar diagnóstico →</a>
       </div>
     </div>
   </section>

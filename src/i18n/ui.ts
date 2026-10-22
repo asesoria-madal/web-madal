@@ -505,7 +505,7 @@ export const ui = {
         sub: 'Llevamos tu contabilidad y presentamos tus impuestos, como esperas de cualquier gestoría. Pero seguimos ahí después: puedes escribirnos, llamarnos o venir a vernos siempre que lo necesites, porque nos importa que tu negocio funcione, no solo que estés al día con Hacienda.',
         channels: [
           { title: 'Correo electrónico', desc: 'Escríbenos cuando te surja una duda. Te respondemos con criterio, no con una plantilla.', linkLabel: 'contacto@asesoriamadal.es', linkHref: 'mailto:contacto@asesoriamadal.es' },
-          { title: 'Llamada', desc: 'Si lo prefieres hablado, reserva un hueco y te llamamos.', linkLabel: 'Reservar llamada →', linkHref: 'https://calendly.com/asesoriamadal4/' },
+          { title: 'Llamada', desc: 'Si lo prefieres hablado, reserva un hueco y te llamamos.', linkLabel: 'Reservar llamada →', linkHref: 'https://meetings-eu1.hubspot.com/asesoria-madal' },
           { title: 'Presencial en Barcelona', desc: 'Si te va mejor en persona, escríbenos y acordamos un día para vernos.', linkLabel: 'contacto@asesoriamadal.es', linkHref: 'mailto:contacto@asesoriamadal.es' },
         ],
         detail: 'Te ayudamos a entender qué implica cada decisión, fiscal y financieramente, y a pensarla contigo cuando toca tomarla. No vamos a dirigir tu negocio por ti, pero tampoco vas a tener que esperar a la próxima declaración para hablar con nosotros.',
@@ -1246,7 +1246,7 @@ export const ui = {
         sub: 'Portem la teva comptabilitat i presentem els teus impostos, com esperes de qualsevol gestoria. Però continuem aquí després: pots escriure’ns, trucar-nos o venir a veure’ns sempre que ho necessitis, perquè ens importa que el teu negoci funcioni, no només que estiguis al dia amb Hisenda.',
         channels: [
           { title: 'Correu electrònic', desc: 'Escriu-nos quan et sorgeixi un dubte. Et responem amb criteri, no amb una plantilla.', linkLabel: 'contacto@asesoriamadal.es', linkHref: 'mailto:contacto@asesoriamadal.es' },
-          { title: 'Trucada', desc: 'Si ho prefereixes parlat, reserva una hora i et truquem.', linkLabel: 'Reservar trucada →', linkHref: 'https://calendly.com/asesoriamadal4/' },
+          { title: 'Trucada', desc: 'Si ho prefereixes parlat, reserva una hora i et truquem.', linkLabel: 'Reservar trucada →', linkHref: 'https://meetings-eu1.hubspot.com/asesoria-madal' },
           { title: 'Presencial a Barcelona', desc: 'Si t’ho passes millor en persona, escriu-nos i quedem un dia per veure’ns.', linkLabel: 'contacto@asesoriamadal.es', linkHref: 'mailto:contacto@asesoriamadal.es' },
         ],
         detail: 'T’ajudem a entendre què implica cada decisió, fiscalment i financerament, i a pensar-la amb tu quan toca prendre-la. No dirigirem el teu negoci per tu, però tampoc hauràs d’esperar a la propera declaració per parlar amb nosaltres.',
@@ -1989,7 +1989,7 @@ export const ui = {
         sub: 'We handle your accounting and file your taxes, like you’d expect from any accounting firm. But we stay involved after that: you can email us, call us, or come see us whenever you need to, because we care about your business working, not just about you staying compliant.',
         channels: [
           { title: 'Email', desc: 'Write to us whenever a question comes up. We reply with judgment, not a template.', linkLabel: 'contacto@asesoriamadal.es', linkHref: 'mailto:contacto@asesoriamadal.es' },
-          { title: 'Call', desc: 'If you’d rather talk it through, book a slot and we’ll call you.', linkLabel: 'Book a call →', linkHref: 'https://calendly.com/asesoriamadal4/' },
+          { title: 'Call', desc: 'If you’d rather talk it through, book a slot and we’ll call you.', linkLabel: 'Book a call →', linkHref: 'https://meetings-eu1.hubspot.com/asesoria-madal' },
           { title: 'In person in Barcelona', desc: 'If face to face works better for you, email us and we’ll arrange a day to meet.', linkLabel: 'contacto@asesoriamadal.es', linkHref: 'mailto:contacto@asesoriamadal.es' },
         ],
         detail: 'We help you understand what each decision means, tax-wise and financially, and think it through with you when it’s time to decide. We’re not going to run your business for you, but you won’t have to wait until your next tax return to talk to us either.',
