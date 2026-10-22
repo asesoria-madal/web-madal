@@ -901,3 +901,22 @@ grant all on facturas_emitidas to service_role;
 -- (la factura se emite igualmente en BeeL, pero no se guarda la copia).
 alter table facturas_emitidas add column if not exists tipo text not null default 'STANDARD';
 alter table facturas_emitidas alter column receptor_nif drop not null;
+
+-- Alta de facturación en BeeL (2026-10-22). Se rellena desde el panel de admin
+-- del portal (endpoints api/beel-cuenta y api/beel-activar), nunca a mano.
+--   beel_contratado       el cliente ha contratado la facturación con nosotros
+--                         (se marca en el alta; ver /api/alta-cliente).
+--   beel_account_id       cuenta gestionada del cliente en BeeL
+--                         (beel_company_id, ya existente, es su NIF/company).
+--   beel_estado           NULL            todavía sin cuenta en BeeL
+--                         'cuenta_test'   cuenta creada, NIF en test y
+--                                         documento de representación generado
+--                         'produccion'    representación firmada subida, NIF
+--                                         activo en PROD (aquí empieza a
+--                                         contar el NIF: 12 EUR/mes)
+--   beel_activado_prod_at fecha de activación en PROD (para repercutir el coste).
+-- Ejecutar ANTES de desplegar el código que usa estas columnas.
+alter table clientes add column if not exists beel_contratado boolean not null default false;
+alter table clientes add column if not exists beel_account_id text;
+alter table clientes add column if not exists beel_estado text;
+alter table clientes add column if not exists beel_activado_prod_at timestamptz;

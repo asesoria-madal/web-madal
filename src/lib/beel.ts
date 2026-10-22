@@ -41,7 +41,9 @@ export async function beelFetch(path: string, init: RequestInit & { idempotencyK
     ...rest,
     headers: {
       Authorization: `Bearer ${cfg.apiKey}`,
-      ...(rest.body ? { 'Content-Type': 'application/json' } : {}),
+      // Con FormData (subida de la representación firmada) no se fija el
+      // Content-Type: fetch añade solo el multipart con su boundary.
+      ...(rest.body && !(rest.body instanceof FormData) ? { 'Content-Type': 'application/json' } : {}),
       // Obligatoria en toda llamada que crea: si el navegador reintenta
       // (doble clic, red caída), BeeL devuelve la factura original en vez de
       // emitir otra con número nuevo.

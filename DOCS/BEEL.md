@@ -120,9 +120,22 @@ Para emitir en producción en nombre de un NIF, el titular debe firmar la repres
 - Variables de entorno: ver `ARQUITECTURA.md`, sección "Facturación Verifactu (BeeL)".
 - **Limitación actual:** todos los clientes emiten con la empresa de sandbox (emisor ficticio, sin efecto fiscal). Para producción hace falta una cuenta gestionada por cliente (ver `ALTA-CLIENTE-FACTURACION.md`).
 
-## 11. Pendiente de integrar (aún no hecho)
+## 11. Alta automatizada desde el portal (2026-10-22)
 
-- Endpoint interno (solo admin) que cree la cuenta gestionada y guarde `account_id` y `company_id` en `clientes`.
-- Flujo de representación en el portal (generar, descargar, subir firmado, estado, activar PROD).
-- Webhook `managed` de sandbox y de producción.
-- Bloquear la emisión en producción si el cliente no tiene representación firmada y NIF activo en PROD.
+Implementado, **sin probar contra BeeL** (a 22-oct-2026 los permisos `accounts:read/write` seguían bloqueados hasta que BeeL los active; sin ellos `POST /v1/accounts` devuelve `403 FEATURE_NOT_AVAILABLE`). Probar primero con clave de test.
+
+Flujo (detalle operativo en `ALTA-CLIENTE-FACTURACION.md`):
+1. Al dar de alta al cliente se marca `clientes.beel_contratado` (formulario de alta del portal de admin). `Onboarding` crea en HubSpot una tarea «Alta BeeL».
+2. Cuando hay NIF real y dirección fiscal: portal (modo admin) > cliente > panel «Facturación BeeL» > **crear cuenta** → `api/beel-cuenta.ts`: crea la cuenta gestionada (OPERATE, sin `email`, es decir sin titular ni enlace de reclamación), guarda `beel_account_id`/`beel_company_id`, estado `cuenta_test`, genera el documento de representación y avisa al webhook de n8n «BeeL representación al cliente», que se lo envía por email con las instrucciones de firma. Gratis.
+3. El cliente firma con su certificado y devuelve el PDF. El equipo lo sube en el mismo panel → `api/beel-activar.ts`: sube la representación, activa el NIF en PROD, activa Veri*Factu, comprueba `issuing-readiness` y guarda estado `produccion` + `beel_activado_prod_at`. **Solo con clave live** (con la de test también cobraría el NIF) y con casilla de aceptación del coste.
+
+Por qué la dirección la teclea el admin: BeeL exige dirección estructurada (calle, CP, ciudad, provincia) y los formularios de alta/traspaso solo guardan `domicilio_fiscal` como texto libre; parsearlo sería frágil.
+
+Variable nueva en Vercel: `N8N_BEEL_WEBHOOK_URL` (URL de producción del webhook de n8n; opcional: sin ella el panel ofrece el enlace de descarga para enviar el documento a mano). La autenticación reutiliza `N8N_ALERT_TOKEN` (cabecera `X-Alert-Token`, credencial Header Auth «Beel» de n8n).
+
+## 12. Pendiente
+
+- Webhook `managed` de sandbox y de producción (ver §8).
+- Bloquear la emisión en producción si el cliente no tiene `beel_estado = 'produccion'`.
+- Baja del cliente (`DELETE …/activations?environment=PROD` y terminar la gestión): sigue siendo manual, ver `ALTA-CLIENTE-FACTURACION.md`.
+- El esquema exacto de `PUT …/verifactu-configuration` solo documenta `enabled`; verificar con el primer alta real.

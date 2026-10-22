@@ -121,10 +121,49 @@ const dashboardsCtaHref = `mailto:${EMAIL}?subject=${encodeURIComponent(dashboar
               <label class="portal-alta-check">
                 <input type="checkbox" id="alta-reporting" /> {t.admin.alta.reporting}
               </label>
+              <label class="portal-alta-check">
+                <input type="checkbox" id="alta-beel" /> {t.admin.alta.beel}
+              </label>
             </div>
             <button type="submit" class="btn btn-primary" id="alta-submit">{t.admin.alta.submit}</button>
             <p id="alta-msg" class="portal-msg" hidden></p>
           </form>
+
+          <section id="portal-beel-panel" class="portal-alta-form" hidden>
+            <h3>{t.admin.beel.title}</h3>
+            <p id="beel-estado"></p>
+            <div id="beel-crear" hidden>
+              <div class="portal-alta-grid">
+                <label>{t.admin.beel.legalName}
+                  <input type="text" id="beel-legal" maxlength="255" autocomplete="off" />
+                </label>
+                <label>{t.admin.beel.street}
+                  <input type="text" id="beel-street" maxlength="255" autocomplete="off" />
+                </label>
+                <label>{t.admin.beel.postalCode}
+                  <input type="text" id="beel-cp" maxlength="5" inputmode="numeric" autocomplete="off" />
+                </label>
+                <label>{t.admin.beel.city}
+                  <input type="text" id="beel-city" maxlength="100" autocomplete="off" />
+                </label>
+                <label>{t.admin.beel.province}
+                  <input type="text" id="beel-province" maxlength="100" autocomplete="off" />
+                </label>
+              </div>
+              <button type="button" class="btn btn-primary" id="beel-crear-btn">{t.admin.beel.crear}</button>
+            </div>
+            <div id="beel-firmada" hidden>
+              <a id="beel-descargar" href="#" target="_blank" rel="noopener" hidden>{t.admin.beel.descargar}</a>
+              <label>{t.admin.beel.firmado}
+                <input type="file" id="beel-file" accept="application/pdf,.pdf" />
+              </label>
+              <label class="portal-alta-check">
+                <input type="checkbox" id="beel-coste" /> {t.admin.beel.costeAviso}
+              </label>
+              <button type="button" class="btn btn-primary" id="beel-activar-btn" disabled>{t.admin.beel.activar}</button>
+            </div>
+            <p id="beel-msg" class="portal-msg" hidden></p>
+          </section>
 
           <section class="app-panel" data-panel="dashboards">
             <h2>{t.dashboards.title}</h2>
@@ -942,6 +981,9 @@ const dashboardsCtaHref = `mailto:${EMAIL}?subject=${encodeURIComponent(dashboar
       tipo_persona: string | null;
       modelos: string[] | null;
       email?: string | null;
+      beel_contratado?: boolean;
+      beel_estado?: string | null;
+      beel_activado_prod_at?: string | null;
     };
 
     // Pinta el área de un cliente concreto. La usan los dos caminos: el
@@ -950,6 +992,7 @@ const dashboardsCtaHref = `mailto:${EMAIL}?subject=${encodeURIComponent(dashboar
     // cliente_id; en modo admin RLS las deja leer por la política
     // "admin ve todo".
     function aplicarCliente(cliente: ClienteRow) {
+      if (!adminBar.hidden) renderBeel(cliente);
       currentClienteId = cliente.id;
       nombreEl.textContent = cliente.nombre ?? '';
       renderReportingPanel(Boolean(cliente.reporting));
@@ -977,7 +1020,7 @@ const dashboardsCtaHref = `mailto:${EMAIL}?subject=${encodeURIComponent(dashboar
 
       const { data, error } = await supabase!
         .from('clientes')
-        .select('id, nombre, email, reporting, tipo_persona, modelos')
+        .select('id, nombre, email, reporting, tipo_persona, modelos, beel_contratado, beel_estado, beel_activado_prod_at')
         .order('nombre', { ascending: true });
 
       adminClientes = (!error && data ? data : []) as ClienteRow[];
@@ -1061,6 +1104,130 @@ const dashboardsCtaHref = `mailto:${EMAIL}?subject=${encodeURIComponent(dashboar
       showOnly(dashEl);
     }
 
+    // --- Panel BeeL del cliente seleccionado (solo admin) ---
+    // Paso 1: /api/beel-cuenta (crea cuenta + genera representación; gratis).
+    // Paso 2: /api/beel-activar (sube el PDF firmado y activa en PRODUCCIÓN: 12 €/mes).
+    const beelPanel = document.getElementById('portal-beel-panel') as HTMLElement;
+    const beelEstado = document.getElementById('beel-estado') as HTMLElement;
+    const beelCrear = document.getElementById('beel-crear') as HTMLElement;
+    const beelFirmada = document.getElementById('beel-firmada') as HTMLElement;
+    const beelDescargar = document.getElementById('beel-descargar') as HTMLAnchorElement;
+    const beelMsg = document.getElementById('beel-msg') as HTMLElement;
+    const beelFile = document.getElementById('beel-file') as HTMLInputElement;
+    const beelCoste = document.getElementById('beel-coste') as HTMLInputElement;
+    const beelCrearBtn = document.getElementById('beel-crear-btn') as HTMLButtonElement;
+    const beelActivarBtn = document.getElementById('beel-activar-btn') as HTMLButtonElement;
+    let beelCliente: ClienteRow | null = null;
+
+    function beelMensaje(texto: string) {
+      beelMsg.hidden = !texto;
+      beelMsg.textContent = texto;
+    }
+
+    function syncBeelActivar() {
+      beelActivarBtn.disabled = !(beelCoste.checked && beelFile.files && beelFile.files.length > 0);
+    }
+    beelCoste.addEventListener('change', syncBeelActivar);
+    beelFile.addEventListener('change', syncBeelActivar);
+
+    function renderBeel(cliente: ClienteRow) {
+      beelCliente = cliente;
+      beelMensaje('');
+      beelDescargar.hidden = true;
+      // Solo se ofrece para clientes que han contratado la facturación.
+      if (!cliente.beel_contratado) {
+        beelPanel.hidden = true;
+        return;
+      }
+      beelPanel.hidden = false;
+      const estado = cliente.beel_estado ?? null;
+      beelCrear.hidden = estado !== null;
+      beelFirmada.hidden = estado !== 'cuenta_test';
+      if (estado === 'cuenta_test') {
+        beelEstado.textContent = I18N.admin.beel.estadoTest;
+      } else if (estado === 'produccion') {
+        const fecha = cliente.beel_activado_prod_at ? new Date(cliente.beel_activado_prod_at).toLocaleDateString(LOCALE) : '';
+        beelEstado.textContent = tpl(I18N.admin.beel.estadoProd, { fecha });
+      } else {
+        beelEstado.textContent = I18N.admin.beel.sinCuenta;
+        (document.getElementById('beel-legal') as HTMLInputElement).value = (cliente as any).empresa ?? cliente.nombre ?? '';
+      }
+    }
+
+    async function beelLlamar(url: string, init: RequestInit) {
+      const {
+        data: { session },
+      } = await supabase!.auth.getSession();
+      const res = await fetch(url, {
+        ...init,
+        headers: { ...(init.headers as Record<string, string> | undefined), Authorization: `Bearer ${session?.access_token ?? ''}` },
+      });
+      const data = await res.json().catch(() => ({}));
+      return { ok: res.ok, data };
+    }
+
+    beelCrearBtn.addEventListener('click', async () => {
+      if (!beelCliente) return;
+      const val = (id: string) => (document.getElementById(id) as HTMLInputElement).value.trim();
+      beelCrearBtn.disabled = true;
+      beelMensaje(I18N.admin.beel.creating);
+      try {
+        const { ok, data } = await beelLlamar('/api/beel-cuenta', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            clienteId: beelCliente.id,
+            action: 'crear',
+            legalName: val('beel-legal'),
+            street: val('beel-street'),
+            postalCode: val('beel-cp'),
+            city: val('beel-city'),
+            province: val('beel-province'),
+          }),
+        });
+        if (!ok) {
+          beelMensaje(data.error || I18N.admin.beel.error);
+          return;
+        }
+        beelCliente.beel_estado = 'cuenta_test';
+        renderBeel(beelCliente);
+        beelMensaje(`${I18N.admin.beel.cuentaOk} ${data.avisoEnviado ? I18N.admin.beel.avisoSi : I18N.admin.beel.avisoNo}`);
+        if (data.downloadUrl) {
+          // La URL caduca en minutos: sirve para descargar ahora mismo.
+          beelDescargar.href = data.downloadUrl;
+          beelDescargar.hidden = false;
+        }
+      } catch {
+        beelMensaje(I18N.admin.beel.error);
+      } finally {
+        beelCrearBtn.disabled = false;
+      }
+    });
+
+    beelActivarBtn.addEventListener('click', async () => {
+      if (!beelCliente || !beelFile.files || beelFile.files.length === 0) return;
+      const form = new FormData();
+      form.append('clienteId', beelCliente.id);
+      form.append('file', beelFile.files[0]);
+      beelActivarBtn.disabled = true;
+      beelMensaje(I18N.admin.beel.activating);
+      try {
+        const { ok, data } = await beelLlamar('/api/beel-activar', { method: 'POST', body: form });
+        if (!ok) {
+          beelMensaje(data.error || I18N.admin.beel.error);
+          return;
+        }
+        beelCliente.beel_estado = 'produccion';
+        beelCliente.beel_activado_prod_at = new Date().toISOString();
+        renderBeel(beelCliente);
+        beelMensaje(I18N.admin.beel.activadoOk);
+      } catch {
+        beelMensaje(I18N.admin.beel.error);
+      } finally {
+        syncBeelActivar();
+      }
+    });
+
     // --- Alta manual de cliente (vía /api/alta-cliente) ---
     // Solo inserta la fila en `clientes`; el correo con el formulario, el
     // enlace de acceso y HubSpot los dispara n8n a partir de ese INSERT.
@@ -1105,6 +1272,7 @@ const dashboardsCtaHref = `mailto:${EMAIL}?subject=${encodeURIComponent(dashboar
             tipoPersona,
             tramitamosAlta: tipoPersona === 'autonomo' ? (document.getElementById('alta-tramitamos') as HTMLSelectElement).value === 'si' : undefined,
             reporting: (document.getElementById('alta-reporting') as HTMLInputElement).checked,
+            beelContratado: (document.getElementById('alta-beel') as HTMLInputElement).checked,
           }),
         });
         const data = await res.json().catch(() => ({}));

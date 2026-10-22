@@ -115,6 +115,16 @@ Los cinco primeros usan `getSupabaseAdmin()` y **degradan con gracia**: si Supab
 
 El cálculo del precio está **duplicado a propósito** entre `Simulador.astro` (front) y `api/presupuesto.ts` (back), para que coincidan. Si cambian las tarifas, hay que tocar los dos.
 
+### Alta de clientes: tres caminos, todos acaban en `clientes` + webhook `cliente-nuevo`
+
+Desde 2026-10-22 hay tres formas de que exista una fila en `clientes`; las tres disparan (por el trigger `AFTER INSERT`) el workflow n8n **Onboarding**, que manda el correo con el formulario, el enlace de acceso al portal (solo si hay email **y** NIF real) y crea contacto + tarea en HubSpot (ClickUp ya no se usa).
+
+1. **Alta manual desde el portal de admin** (`POST /api/alta-cliente`, exige sesion de `portal_admins`). Solo hace el INSERT; no envia nada por si mismo.
+2. **Respuesta a un presupuesto** (workflow `detectar_respuesta_presu`, lee la bandeja por IMAP): marca `presupuestos.respondido_at` y, si no hay ya un cliente con ese email, crea la ficha con **id provisional `PENDIENTE-<quote_code>`** (el simulador no pide NIF). `tipo_persona` y `alta_hecha` se derivan del presupuesto (`regimen = 'pyme'` -> `sl`; `alta = 'no'` -> `alta_hecha = true`). Sin NIF real no se manda enlace de acceso.
+3. **A mano en el Table Editor** (sigue funcionando).
+
+Cuando llega el formulario (alta o traspaso) con el NIF real, `Responden formulario` busca un cliente `PENDIENTE-%` con el mismo email y le pone el NIF como `id` (las FK de las tablas hijas son `on update cascade`) y, en ese momento, manda el enlace de acceso. Si el equipo da de alta a mano a alguien que ya tiene ficha provisional, `/api/alta-cliente` la sustituye (salvo que tenga facturas subidas).
+
 ## Variables de entorno
 
 | Variable | Server-only | Uso |

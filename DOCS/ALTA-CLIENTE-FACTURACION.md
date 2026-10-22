@@ -7,6 +7,10 @@ Supuestos:
 - Modelo de cuentas gestionadas de BeeL (ver `BEEL.md`, sección 2).
 - Quién lo hace: la persona de la asesoría que gestiona el alta; el cliente solo interviene en los pasos marcados como "cliente".
 
+## Atajo: alta automatizada desde el portal (2026-10-22)
+
+Las fases 2 a 4 de abajo se hacen ahora desde el portal en modo administrador, panel «Facturación BeeL» del cliente (no hace falta tocar la API a mano). Pasos: (1) marcar «Contrata la facturación» al crear al cliente; (2) con su NIF real y dirección fiscal, pulsar «Crear cuenta y generar representación» (se le envía solo el documento); (3) cuando devuelva el PDF firmado, subirlo y pulsar «Subir y activar en producción» (cuenta 12 €/mes desde ahí). Detalle técnico y limitaciones: `BEEL.md` §11. Lo que sigue describe lo mismo paso a paso, útil si algo falla y hay que hacerlo a mano.
+
 ## Fase 0. Decisión comercial (antes de empezar)
 1. Confirmar con el cliente que quiere emitir facturas desde el portal y cómo se le cobra (importe aparte, según decisión de los socios; Edurne decide si algún plan lo incluye).
 2. Explicarle que necesita **certificado electrónico de persona física** para firmar la representación una sola vez. Si no lo tiene, ver Fase 1.
