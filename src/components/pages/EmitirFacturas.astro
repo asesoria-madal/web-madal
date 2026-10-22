@@ -1,0 +1,762 @@
+---
+// Panel "Emitir facturas" del portal. Interfaz pensada a imagen de la de
+// BeeL (tipo de factura, cliente de una lista, conceptos con impuestos,
+// pago, totales en vivo) para que quien ya haya usado un programa de
+// facturación se sienta en casa. Pestañas: Facturas · Nueva factura ·
+// Recurrentes · Clientes.
+//
+// El navegador nunca habla con BeeL: manda el access token de la sesión de
+// Supabase a nuestros endpoints (api/emitir-factura, rectificar-factura,
+// facturacion/clientes, facturacion/recurrentes, factura-pdf), que validan
+// quién es el cliente y usan la clave de BeeL del servidor. La lista de
+// facturas emitidas se lee de Supabase (RLS: cada cliente ve las suyas).
+//
+// Textos en ui.ts (portal.emitir), viajan en el JSON del final.
+import { useTranslations } from '../../i18n/utils';
+import type { Locale } from '../../i18n/ui';
+
+interface Props { lang: Locale; }
+const { lang } = Astro.props;
+const t = useTranslations(lang).portal.emitir;
+---
+
+<div id="emitirRoot" class="emitir-root">
+  <h2>{t.title}</h2>
+  <p>{t.intro}</p>
+  <p id="emitirSandbox" class="portal-msg" hidden>{t.sandboxNote}</p>
+
+  <div class="emitir-tabs" role="tablist">
+    <button type="button" role="tab" class="is-active" data-etab="facturas">{t.tabs.facturas}</button>
+    <button type="button" role="tab" data-etab="nueva">{t.tabs.nueva}</button>
+    <button type="button" role="tab" data-etab="recurrentes">{t.tabs.recurrentes}</button>
+    <button type="button" role="tab" data-etab="clientes">{t.tabs.clientes}</button>
+  </div>
+
+  <!-- ============ Facturas emitidas ============ -->
+  <section data-epanel="facturas">
+    <h3>{t.listTitle}</h3>
+    <p id="emitirEmpty" class="factura-empty" hidden>{t.empty}</p>
+    <ul id="emitirList" class="factura-list"></ul>
+  </section>
+
+  <!-- ============ Nueva factura (única o recurrente) ============ -->
+  <section data-epanel="nueva" hidden>
+    <form id="emFactura" class="emitir-form">
+      <div class="field-group">
+        <p class="field-group-label">{t.tipoLabel}</p>
+        <div class="emitir-radios">
+          <label class="emitir-check"><input type="radio" name="tipo" value="STANDARD" checked /> {t.tipoStandard}</label>
+          <label class="emitir-check"><input type="radio" name="tipo" value="SIMPLIFIED" /> {t.tipoSimplified}</label>
+        </div>
+        <p id="emSimplNote" class="emitir-hint" hidden>{t.simplificadaNote}</p>
+      </div>
+
+      <div class="emitir-grid">
+        <label id="emFechaWrap">{t.fecha}<input type="date" name="fecha" /></label>
+        <label id="emClienteWrap">{t.cliente}
+          <span class="emitir-inline">
+            <select name="cliente" id="emClienteSel"></select>
+            <button type="button" class="portal-logout" id="emClienteNuevo">{t.nuevoCliente}</button>
+          </span>
+        </label>
+      </div>
+
+      <div class="field-group">
+        <p class="field-group-label">{t.conceptos}</p>
+        <div id="emLineas"></div>
+        <button type="button" id="emAddLinea" class="portal-logout">{t.addLinea}</button>
+        <label class="emitir-check"><input type="checkbox" id="emIvaIncl" /> {t.ivaIncluido}</label>
+        <p class="emitir-totales" id="emTotales"></p>
+      </div>
+
+      <div class="field-group">
+        <p class="field-group-label">{t.pagoGroup}</p>
+        <div class="emitir-grid">
+          <label>{t.metodo}
+            <select name="metodo" id="emMetodo">
+              <option value="">{t.metodoNinguno}</option>
+              {Object.entries(t.metodos).map(([k, v]) => <option value={k}>{v}</option>)}
+            </select>
+          </label>
+          <label>{t.iban}<input type="text" name="iban" maxlength="34" autocomplete="off" /></label>
+          <label>{t.swift}<input type="text" name="swift" maxlength="11" autocomplete="off" /></label>
+          <label>{t.plazo}<input type="number" name="plazo" min="0" max="365" step="1" /></label>
+        </div>
+        <label>{t.notas}<textarea name="notas" rows="2" maxlength="2000"></textarea></label>
+      </div>
+
+      <label class="emitir-check" id="emEnviarWrap"><input type="checkbox" id="emEnviar" /> {t.enviarEmail}</label>
+
+      <div class="field-group">
+        <label class="emitir-check"><input type="checkbox" id="emRepetir" /> {t.repetir}</label>
+        <div id="emRepetirCampos" class="emitir-grid" hidden>
+          <label>{t.recNombre}<input type="text" name="recNombre" maxlength="255" /></label>
+          <label>{t.recFrecuencia}
+            <select name="recFrecuencia">
+              {Object.entries(t.frecuencias).map(([k, v]) => <option value={k}>{v}</option>)}
+            </select>
+          </label>
+          <label>{t.recDia}<input type="number" name="recDia" min="1" max="31" step="1" value="1" /></label>
+          <label>{t.recInicio}<input type="date" name="recInicio" /></label>
+          <label>{t.recFin}
+            <select name="recFin" id="emRecFin">
+              <option value="NEVER">{t.finNunca}</option>
+              <option value="DATE">{t.finFecha}</option>
+              <option value="COUNT">{t.finNumero}</option>
+            </select>
+          </label>
+          <label id="emRecFinFechaWrap" hidden>{t.finFechaLabel}<input type="date" name="recFinFecha" /></label>
+          <label id="emRecFinNumWrap" hidden>{t.finNumeroLabel}<input type="number" name="recFinNum" min="2" max="600" step="1" /></label>
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-primary" id="emSubmit">{t.submit}</button>
+    </form>
+    <p id="emitirMsg" class="portal-msg" hidden></p>
+  </section>
+
+  <!-- ============ Recurrentes ============ -->
+  <section data-epanel="recurrentes" hidden>
+    <h3>{t.recTitle}</h3>
+    <p class="emitir-hint">{t.recIntro}</p>
+    <p id="recEmpty" class="factura-empty" hidden>{t.recEmpty}</p>
+    <ul id="recList" class="factura-list"></ul>
+    <p id="recMsg" class="portal-msg" hidden></p>
+  </section>
+
+  <!-- ============ Clientes ============ -->
+  <section data-epanel="clientes" hidden>
+    <h3>{t.cliTitle}</h3>
+    <button type="button" class="btn btn-primary" id="cliNuevoBtn">{t.nuevoCliente}</button>
+    <p id="cliEmpty" class="factura-empty" hidden>{t.cliEmpty}</p>
+    <ul id="cliList" class="factura-list"></ul>
+  </section>
+
+  <!-- Diálogo: nuevo cliente -->
+  <dialog id="emCliDialog" class="emitir-dialog">
+    <form id="emCliForm" class="emitir-form" method="dialog">
+      <h3>{t.nuevoCliente}</h3>
+      <div class="emitir-grid">
+        <label>{t.nombre}<input type="text" name="nombre" maxlength="120" required /></label>
+        <label>{t.nif}<input type="text" name="nif" maxlength="9" required autocapitalize="characters" /></label>
+        <label>{t.email}<input type="email" name="email" maxlength="254" /></label>
+        <label>{t.direccion}<input type="text" name="direccion" maxlength="200" required /></label>
+        <label>{t.cp}<input type="text" name="cp" inputmode="numeric" pattern="\d{5}" maxlength="5" required /></label>
+        <label>{t.ciudad}<input type="text" name="ciudad" maxlength="100" required /></label>
+        <label>{t.provincia}<input type="text" name="provincia" maxlength="100" required /></label>
+      </div>
+      <p id="emCliMsg" class="portal-msg" hidden></p>
+      <div class="emitir-inline">
+        <button type="submit" class="btn btn-primary">{t.cliSubmit}</button>
+        <button type="button" class="portal-logout" id="emCliCancel">{t.cancelar}</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- Diálogo: rectificar -->
+  <dialog id="emRectDialog" class="emitir-dialog">
+    <form id="emRectForm" class="emitir-form" method="dialog">
+      <h3>{t.rectTitle} <span id="emRectNumero"></span></h3>
+      <p class="emitir-hint">{t.rectIntro}</p>
+      <div class="emitir-grid">
+        <label>{t.rectTipo}
+          <select name="tipo" id="emRectTipo">
+            <option value="TOTAL">{t.rectTotal}</option>
+            <option value="PARTIAL">{t.rectParcial}</option>
+          </select>
+        </label>
+        <label>{t.rectCodigo}<select name="codigo" id="emRectCodigo"></select></label>
+      </div>
+      <label>{t.rectMotivo}<textarea name="motivo" rows="2" minlength="10" maxlength="1000" required></textarea></label>
+      <div id="emRectLineasWrap" hidden>
+        <p class="emitir-hint">{t.rectLineasNote}</p>
+        <div id="emRectLineas"></div>
+        <button type="button" id="emRectAdd" class="portal-logout">{t.addLinea}</button>
+        <label class="emitir-check"><input type="checkbox" id="emRectIvaIncl" /> {t.ivaIncluido}</label>
+      </div>
+      <p id="emRectMsg" class="portal-msg" hidden></p>
+      <div class="emitir-inline">
+        <button type="submit" class="btn btn-primary">{t.rectSubmit}</button>
+        <button type="button" class="portal-logout" id="emRectCancel">{t.cancelar}</button>
+      </div>
+    </form>
+  </dialog>
+</div>
+
+<script type="application/json" id="emitir-i18n" is:inline set:html={JSON.stringify(t)} />
+
+<style>
+  .emitir-tabs { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 1rem 0 1.25rem; border-bottom: 1px solid var(--ink-soft); }
+  .emitir-tabs button {
+    font: inherit; font-weight: 600; color: var(--ink-soft); background: none; border: 0;
+    border-bottom: 3px solid transparent; padding: 0.5rem 0.9rem; cursor: pointer;
+  }
+  .emitir-tabs button.is-active { color: var(--ink); border-bottom-color: var(--accent); }
+
+  .emitir-form { display: grid; gap: 1.25rem; margin: 0.5rem 0 2rem; }
+  .emitir-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr)); gap: 0.75rem 1rem; }
+  .emitir-form :global(label) { display: grid; gap: 0.25rem; font-size: 0.85rem; color: var(--ink-soft); }
+  .emitir-form :global(input[type="text"]),
+  .emitir-form :global(input[type="email"]),
+  .emitir-form :global(input[type="number"]),
+  .emitir-form :global(input[type="date"]),
+  .emitir-form :global(select),
+  .emitir-form :global(textarea) {
+    font: inherit; color: var(--ink); background: var(--paper);
+    border: 1px solid var(--ink-soft); border-radius: 6px; padding: 0.5rem 0.6rem; min-width: 0;
+  }
+  /* El panel del portal es estrecho (barra lateral + contenido): cada concepto
+     es una tarjeta con la descripción arriba y el resto en rejilla adaptable. */
+  .emitir-form :global(.emitir-linea) {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(6.5rem, 1fr)); gap: 0.6rem;
+    align-items: end; margin-bottom: 0.75rem; padding: 0.75rem;
+    border: 1px solid var(--ink-soft); border-radius: 8px;
+  }
+  .emitir-form :global(.emitir-desc) { grid-column: 1 / -1; }
+  .emitir-form :global(.emitir-exen) { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr)); gap: 0.6rem; }
+  .emitir-check { display: flex !important; align-items: center; gap: 0.5rem; font-size: 0.9rem !important; color: var(--ink) !important; }
+  .emitir-radios { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+  .emitir-inline { display: flex; gap: 0.5rem; align-items: center; }
+  .emitir-inline :global(select) { flex: 1; }
+  .emitir-hint { font-size: 0.85rem; color: var(--ink-soft); }
+  .emitir-totales { font-weight: 600; margin: 0.75rem 0 0; }
+
+  .emitir-root :global(.emitir-acciones) { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.4rem; }
+  .emitir-dialog {
+    max-width: min(46rem, 94vw); width: 100%; background: var(--paper); color: var(--ink);
+    border: 1px solid var(--ink-soft); border-radius: 10px; padding: 1.25rem;
+  }
+  .emitir-dialog::backdrop { background: rgb(0 0 0 / 0.45); }
+</style>
+
+<script>
+  import { getSupabaseBrowser } from '../../lib/supabaseClient';
+
+  const E = JSON.parse(document.getElementById('emitir-i18n')?.textContent || '{}');
+  const LOCALE = (document.querySelector('.portal-page') as HTMLElement | null)?.dataset.locale || 'es-ES';
+  const supabase = getSupabaseBrowser();
+
+  const $ = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;
+  const tpl = (s: string, v: Record<string, string | number>) => s.replace(/\{(\w+)\}/g, (_m, k) => String(v[k] ?? ''));
+  const eur = (v: number) => new Intl.NumberFormat(LOCALE, { style: 'currency', currency: 'EUR' }).format(v);
+  const fecha = (iso: string) => new Date(iso).toLocaleDateString(LOCALE, { day: '2-digit', month: '2-digit', year: 'numeric' });
+  const round2 = (n: number) => Math.round(n * 100) / 100;
+
+  if (supabase && $('emitirRoot')) init(supabase);
+
+  function init(sb: NonNullable<typeof supabase>) {
+    // ---- API del servidor --------------------------------------------------
+    async function api(path: string, method = 'GET', body?: unknown) {
+      const {
+        data: { session },
+      } = await sb.auth.getSession();
+      const res = await fetch(path, {
+        method,
+        headers: {
+          Authorization: `Bearer ${session?.access_token ?? ''}`,
+          ...(body ? { 'Content-Type': 'application/json' } : {}),
+        },
+        ...(body ? { body: JSON.stringify(body) } : {}),
+      });
+      const out = await res.json().catch(() => ({}));
+      return { ok: res.ok, status: res.status, out };
+    }
+
+    function mensaje(el: HTMLElement, ok: boolean | null, text: string) {
+      el.hidden = false;
+      el.className = ok === null ? 'portal-msg' : ok ? 'portal-msg is-ok' : 'portal-msg is-error';
+      el.textContent = text;
+    }
+    function mensajeError(el: HTMLElement, r: { status: number; out: any }) {
+      if (r.status === 409) return mensaje(el, false, E.notEnabled);
+      mensaje(el, false, r.out?.code ? tpl(E.failDetail, { code: r.out.code }) : E.failGeneric);
+    }
+
+    // ---- Pestañas ----------------------------------------------------------
+    const tabs = Array.from(document.querySelectorAll<HTMLElement>('[data-etab]'));
+    const panels = Array.from(document.querySelectorAll<HTMLElement>('[data-epanel]'));
+    function abrirTab(name: string) {
+      tabs.forEach((b) => b.classList.toggle('is-active', b.dataset.etab === name));
+      panels.forEach((p) => (p.hidden = p.dataset.epanel !== name));
+      if (name === 'nueva' || name === 'clientes') cargarClientes();
+      if (name === 'recurrentes') cargarRecurrentes();
+    }
+    tabs.forEach((b) => b.addEventListener('click', () => abrirTab(b.dataset.etab!)));
+
+    // ---- Editor de conceptos (lo usan la factura y la rectificativa) --------
+    function crearEditor(container: HTMLElement, opts: { negativas: boolean; ivaInclEl: HTMLInputElement; onChange?: () => void }) {
+      const optsHtml = (vals: number[], fmt: (v: number) => string) =>
+        vals.map((v) => `<option value="${v}">${fmt(v)}</option>`).join('');
+      const exenciones = Object.entries(E.exenciones as Record<string, string>)
+        .map(([k, v]) => `<option value="${k}">${v}</option>`)
+        .join('');
+
+      function nuevaLinea(): HTMLElement {
+        const div = document.createElement('div');
+        div.className = 'emitir-linea';
+        div.innerHTML = `
+          <label class="emitir-desc">${E.descripcion}<input type="text" data-f="descripcion" maxlength="300" required /></label>
+          <label>${E.cantidad}<input type="number" data-f="cantidad" ${opts.negativas ? '' : 'min="0.01"'} step="any" value="1" required /></label>
+          <label>${E.precio}<input type="number" data-f="precio" min="0" step="0.01" required /></label>
+          <label>${E.descuento}<input type="number" data-f="descuento" min="0" max="100" step="any" value="0" /></label>
+          <label>${E.iva}<select data-f="iva">${optsHtml([21, 10, 4], (v) => `${v} %`)}<option value="0">${E.exenta}</option></select></label>
+          <label>${E.irpf}<select data-f="irpf">${optsHtml([0, 7, 15, 19], (v) => (v === 0 ? E.irpfNone : `${v} %`))}</select></label>
+          <button type="button" class="portal-logout" data-quitar>${E.removeLinea}</button>
+          <div class="emitir-exen" data-exen hidden>
+            <label>${E.exencionMotivo}<select data-f="exencion">${exenciones}</select></label>
+            <label data-exen-texto hidden>${E.exencionTexto}<input type="text" data-f="exencionTexto" maxlength="500" /></label>
+          </div>`;
+        const sel = (k: string) => div.querySelector(`[data-f="${k}"]`) as HTMLInputElement;
+        const sync = () => {
+          const exenta = sel('iva').value === '0';
+          (div.querySelector('[data-exen]') as HTMLElement).hidden = !exenta;
+          (div.querySelector('[data-exen-texto]') as HTMLElement).hidden = !(exenta && sel('exencion').value === 'OTRO');
+          opts.onChange?.();
+        };
+        div.addEventListener('input', sync);
+        div.addEventListener('change', sync);
+        div.querySelector('[data-quitar]')!.addEventListener('click', () => {
+          // Siempre queda al menos un concepto.
+          if (container.children.length > 1) {
+            div.remove();
+            opts.onChange?.();
+          }
+        });
+        return div;
+      }
+
+      function reset() {
+        container.innerHTML = '';
+        container.appendChild(nuevaLinea());
+        opts.onChange?.();
+      }
+      // Alta inicial sin onChange: el editor todavía no existe para quien lo
+      // llama (los totales se pintan justo después de crearlo).
+      container.appendChild(nuevaLinea());
+
+      function leer() {
+        return Array.from(container.children).map((div) => {
+          const g = (k: string) => (div.querySelector(`[data-f="${k}"]`) as HTMLInputElement).value;
+          const iva = Number(g('iva'));
+          return {
+            descripcion: g('descripcion').trim(),
+            cantidad: Number(g('cantidad')),
+            precio: Number(g('precio')),
+            descuento: Number(g('descuento') || 0),
+            iva,
+            irpf: Number(g('irpf')),
+            ...(iva === 0 ? { exencion: g('exencion'), ...(g('exencion') === 'OTRO' ? { exencionTexto: g('exencionTexto').trim() } : {}) } : {}),
+          };
+        });
+      }
+
+      // Totales en vivo, solo orientativos (la cifra oficial la calcula
+      // BeeL): con "IVA incluido" el precio ya lleva IVA y se desglosa.
+      function totales() {
+        let base = 0, iva = 0, irpf = 0;
+        for (const l of leer()) {
+          const bruto = (Number.isFinite(l.cantidad) ? l.cantidad : 0) * (Number.isFinite(l.precio) ? l.precio : 0) * (1 - (l.descuento || 0) / 100);
+          const b = opts.ivaInclEl.checked ? bruto / (1 + l.iva / 100) : bruto;
+          base += b;
+          iva += b * (l.iva / 100);
+          irpf += b * (l.irpf / 100);
+        }
+        return { base: round2(base), iva: round2(iva), irpf: round2(irpf), total: round2(base + iva - irpf) };
+      }
+
+      return { add: () => container.children.length < 20 && (container.appendChild(nuevaLinea()), opts.onChange?.()), reset, leer, totales };
+    }
+
+    // ---- Facturas emitidas ---------------------------------------------------
+    const emitirList = $('emitirList');
+    const emitirEmpty = $('emitirEmpty');
+
+    async function renderEmitidas() {
+      const { data, error } = await sb
+        .from('facturas_emitidas')
+        .select('id, numero, tipo, fecha_emision, receptor_nombre, total, verifactu_estado, sandbox')
+        .order('created_at', { ascending: false });
+
+      emitirList.innerHTML = '';
+      const rows = !error && data ? data : [];
+      emitirEmpty.hidden = rows.length > 0;
+      $('emitirSandbox').hidden = !rows.some((r) => r.sandbox);
+
+      rows.forEach((row) => {
+        const li = document.createElement('li');
+        const nombre = document.createElement('div');
+        nombre.className = 'factura-nombre';
+        const tipoTxt = E.tipos[row.tipo as string] ?? '';
+        nombre.textContent = `${row.numero} · ${row.receptor_nombre || E.sinDestinatario}${row.sandbox ? ` (${E.testBadge})` : ''}`;
+        li.appendChild(nombre);
+
+        const estado = row.verifactu_estado ? E.estados[row.verifactu_estado as string] ?? row.verifactu_estado : '—';
+        const meta = document.createElement('div');
+        meta.className = 'factura-meta';
+        meta.textContent = `${tipoTxt} · ${fecha(row.fecha_emision as string)} · ${eur(Number(row.total))} · ${E.aeatPrefix} ${estado}`;
+        li.appendChild(meta);
+
+        const acciones = document.createElement('div');
+        acciones.className = 'emitir-acciones';
+
+        const pdf = document.createElement('button');
+        pdf.type = 'button';
+        pdf.className = 'factura-descargar';
+        pdf.textContent = E.pdf;
+        pdf.addEventListener('click', async () => {
+          // La pestaña se abre ya, dentro del clic, para que el bloqueador de
+          // popups no la cierre; se rellena cuando llega el PDF.
+          const win = window.open('', '_blank');
+          const {
+            data: { session },
+          } = await sb.auth.getSession();
+          try {
+            const res = await fetch(`/api/factura-pdf?id=${encodeURIComponent(row.id as string)}`, {
+              headers: { Authorization: `Bearer ${session?.access_token ?? ''}` },
+            });
+            if (!res.ok) throw new Error(String(res.status));
+            const url = URL.createObjectURL(await res.blob());
+            if (win) win.location.href = url;
+            else window.location.href = url;
+          } catch {
+            win?.close();
+            alert(E.pdfFail);
+          }
+        });
+        acciones.appendChild(pdf);
+
+        // Una rectificativa no se vuelve a rectificar desde el portal.
+        if (row.tipo !== 'CORRECTIVE') {
+          const rect = document.createElement('button');
+          rect.type = 'button';
+          rect.className = 'factura-descargar';
+          rect.textContent = E.rectificar;
+          rect.addEventListener('click', () => abrirRectificar(row.id as string, row.numero as string, row.tipo as string));
+          acciones.appendChild(rect);
+        }
+        li.appendChild(acciones);
+        emitirList.appendChild(li);
+      });
+    }
+
+    // ---- Clientes (de BeeL) --------------------------------------------------
+    const clienteSel = $<HTMLSelectElement>('emClienteSel');
+    let clientesCargados = false;
+
+    async function cargarClientes(forzar = false) {
+      if (clientesCargados && !forzar) return;
+      const r = await api('/api/facturacion/clientes');
+      if (!r.ok) {
+        clientesCargados = false;
+        return;
+      }
+      clientesCargados = true;
+      const lista: { id: string; nombre: string; nif: string | null; email: string | null; direccion: string }[] = r.out.clientes ?? [];
+
+      const previo = clienteSel.value;
+      clienteSel.innerHTML = `<option value="">${E.clientePlaceholder}</option>`;
+      lista.forEach((c) => {
+        const o = document.createElement('option');
+        o.value = c.id;
+        o.textContent = c.nif ? `${c.nombre} (${c.nif})` : c.nombre;
+        clienteSel.appendChild(o);
+      });
+      if (previo) clienteSel.value = previo;
+
+      const ul = $('cliList');
+      ul.innerHTML = '';
+      $('cliEmpty').hidden = lista.length > 0;
+      lista.forEach((c) => {
+        const li = document.createElement('li');
+        const n = document.createElement('div');
+        n.className = 'factura-nombre';
+        n.textContent = c.nombre;
+        const m = document.createElement('div');
+        m.className = 'factura-meta';
+        m.textContent = [c.nif, c.email, c.direccion].filter(Boolean).join(' · ');
+        li.append(n, m);
+        ul.appendChild(li);
+      });
+    }
+
+    const cliDialog = $<HTMLDialogElement>('emCliDialog');
+    const cliForm = $<HTMLFormElement>('emCliForm');
+    const cliMsg = $('emCliMsg');
+    let cliClave = '';
+    let cliDesdeFactura = false;
+
+    function abrirCliente(desdeFactura: boolean) {
+      cliDesdeFactura = desdeFactura;
+      cliForm.reset();
+      cliMsg.hidden = true;
+      cliClave = crypto.randomUUID();
+      cliDialog.showModal();
+    }
+    $('emClienteNuevo').addEventListener('click', () => abrirCliente(true));
+    $('cliNuevoBtn').addEventListener('click', () => abrirCliente(false));
+    $('emCliCancel').addEventListener('click', () => cliDialog.close());
+
+    cliForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const f = new FormData(cliForm);
+      const v = (k: string) => String(f.get(k) ?? '').trim();
+      mensaje(cliMsg, null, E.cliSaving);
+      const r = await api('/api/facturacion/clientes', 'POST', {
+        idempotencyKey: cliClave,
+        nombre: v('nombre'),
+        nif: v('nif').toUpperCase(),
+        ...(v('email') ? { email: v('email') } : {}),
+        direccion: v('direccion'),
+        codigoPostal: v('cp'),
+        ciudad: v('ciudad'),
+        provincia: v('provincia'),
+      });
+      if (!r.ok) return mensajeError(cliMsg, r);
+      cliDialog.close();
+      await cargarClientes(true);
+      if (cliDesdeFactura) clienteSel.value = r.out.id;
+    });
+
+    // ---- Nueva factura (única o recurrente) -----------------------------------
+    const form = $<HTMLFormElement>('emFactura');
+    const ivaIncl = $<HTMLInputElement>('emIvaIncl');
+    function refrescarTotales() {
+      const t = editor.totales();
+      $('emTotales').textContent = tpl(E.totales, { base: eur(t.base), iva: eur(t.iva), irpf: eur(t.irpf), total: eur(t.total) });
+    }
+    const editor = crearEditor($('emLineas'), { negativas: false, ivaInclEl: ivaIncl, onChange: refrescarTotales });
+    refrescarTotales();
+    $('emAddLinea').addEventListener('click', () => editor.add());
+    // `input` también salta al marcar "IVA incluido" y al escribir en cualquier concepto.
+    form.addEventListener('input', refrescarTotales);
+
+    const tipoActual = () => (form.querySelector('input[name="tipo"]:checked') as HTMLInputElement).value as 'STANDARD' | 'SIMPLIFIED';
+    const repetir = $<HTMLInputElement>('emRepetir');
+
+    function actualizarVista() {
+      const simple = tipoActual() === 'SIMPLIFIED';
+      $('emClienteWrap').hidden = simple;
+      $('emEnviarWrap').hidden = simple;
+      $('emSimplNote').hidden = !simple;
+      if (simple) ($('emEnviar') as HTMLInputElement).checked = false;
+      $('emFechaWrap').hidden = repetir.checked;
+      $('emRepetirCampos').hidden = !repetir.checked;
+      $('emSubmit').textContent = repetir.checked ? E.submitRecurrente : E.submit;
+      const fin = $<HTMLSelectElement>('emRecFin').value;
+      $('emRecFinFechaWrap').hidden = !repetir.checked || fin !== 'DATE';
+      $('emRecFinNumWrap').hidden = !repetir.checked || fin !== 'COUNT';
+    }
+    form.addEventListener('change', actualizarVista);
+    actualizarVista();
+
+    // La clave de idempotencia se conserva mientras el contenido no cambie:
+    // si el envío falla por red y el cliente reintenta, BeeL devuelve la
+    // misma factura en vez de emitir otra con número nuevo. Si corrige algún
+    // dato, es otra petición y necesita otra clave.
+    let ultimaPeticion = '';
+    let ultimaClave = '';
+    const clavePara = (contenido: unknown) => {
+      const huella = JSON.stringify(contenido);
+      if (huella !== ultimaPeticion) {
+        ultimaPeticion = huella;
+        ultimaClave = crypto.randomUUID();
+      }
+      return ultimaClave;
+    };
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const msg = $('emitirMsg');
+      const f = new FormData(form);
+      const v = (k: string) => String(f.get(k) ?? '').trim();
+      const tipo = tipoActual();
+
+      if (tipo === 'STANDARD' && !v('cliente')) return mensaje(msg, false, E.faltaCliente);
+
+      const metodo = v('metodo');
+      const pago = metodo
+        ? {
+            metodo,
+            ...(v('iban') ? { iban: v('iban') } : {}),
+            ...(v('swift') ? { swift: v('swift') } : {}),
+            ...(v('plazo') !== '' ? { plazoDias: Number(v('plazo')) } : {}),
+          }
+        : undefined;
+
+      const comun = {
+        tipo,
+        ...(tipo === 'STANDARD' ? { customerId: v('cliente') } : {}),
+        ivaIncluido: ivaIncl.checked,
+        ...(v('notas') ? { notas: v('notas') } : {}),
+        ...(pago ? { pago } : {}),
+        lineas: editor.leer(),
+      };
+
+      const esRecurrente = repetir.checked;
+      let ruta = '/api/emitir-factura';
+      let contenido: Record<string, unknown>;
+      if (esRecurrente) {
+        const modoFin = v('recFin');
+        if (!v('recNombre') || !v('recInicio')) return mensaje(msg, false, E.faltaRecurrente);
+        ruta = '/api/facturacion/recurrentes';
+        contenido = {
+          ...comun,
+          nombre: v('recNombre'),
+          frecuencia: v('recFrecuencia'),
+          diaMes: Number(v('recDia')),
+          fechaInicio: v('recInicio'),
+          enviarAuto: ($('emEnviar') as HTMLInputElement).checked,
+          fin:
+            modoFin === 'DATE'
+              ? { modo: 'DATE', fecha: v('recFinFecha') }
+              : modoFin === 'COUNT'
+                ? { modo: 'COUNT', numero: Number(v('recFinNum')) }
+                : { modo: 'NEVER' },
+        };
+      } else {
+        contenido = {
+          ...comun,
+          enviarEmail: ($('emEnviar') as HTMLInputElement).checked,
+          ...(v('fecha') ? { fechaOperacion: v('fecha') } : {}),
+        };
+      }
+
+      const clave = clavePara({ ruta, contenido });
+      mensaje(msg, null, esRecurrente ? E.creando : E.emitting);
+      const boton = $<HTMLButtonElement>('emSubmit');
+      boton.disabled = true;
+      try {
+        const r = await api(ruta, 'POST', { ...contenido, idempotencyKey: clave });
+        if (r.ok) {
+          mensaje(msg, true, esRecurrente ? E.okRecurrente : tpl(E.ok, { numero: r.out.numero }));
+          form.reset();
+          editor.reset();
+          actualizarVista();
+          ultimaPeticion = '';
+          if (esRecurrente) {
+            recurrentesCargadas = false;
+          } else {
+            renderEmitidas();
+          }
+        } else {
+          mensajeError(msg, r);
+        }
+      } catch {
+        mensaje(msg, false, E.failGeneric);
+      } finally {
+        boton.disabled = false;
+      }
+    });
+
+    // ---- Rectificar ------------------------------------------------------------
+    const rectDialog = $<HTMLDialogElement>('emRectDialog');
+    const rectForm = $<HTMLFormElement>('emRectForm');
+    const rectIvaIncl = $<HTMLInputElement>('emRectIvaIncl');
+    const rectEditor = crearEditor($('emRectLineas'), { negativas: true, ivaInclEl: rectIvaIncl });
+    $('emRectAdd').addEventListener('click', () => rectEditor.add());
+    let rectFacturaId = '';
+    let rectClave = '';
+
+    function actualizarRect() {
+      $('emRectLineasWrap').hidden = $<HTMLSelectElement>('emRectTipo').value !== 'PARTIAL';
+    }
+    $('emRectTipo').addEventListener('change', actualizarRect);
+
+    function abrirRectificar(id: string, numero: string, tipo: string) {
+      rectFacturaId = id;
+      rectClave = crypto.randomUUID();
+      rectForm.reset();
+      rectEditor.reset();
+      $('emRectMsg').hidden = true;
+      $('emRectNumero').textContent = numero;
+      // R5 es el único código válido para una simplificada, y solo para ella.
+      const codigos = tipo === 'SIMPLIFIED' ? ['R5'] : ['R1', 'R2', 'R3', 'R4'];
+      $('emRectCodigo').innerHTML = codigos.map((c) => `<option value="${c}">${E.codigos[c]}</option>`).join('');
+      actualizarRect();
+      rectDialog.showModal();
+    }
+    $('emRectCancel').addEventListener('click', () => rectDialog.close());
+
+    rectForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const msg = $('emRectMsg');
+      const f = new FormData(rectForm);
+      const tipo = String(f.get('tipo'));
+      mensaje(msg, null, E.emitting);
+      const r = await api('/api/rectificar-factura', 'POST', {
+        idempotencyKey: rectClave,
+        facturaId: rectFacturaId,
+        codigo: String(f.get('codigo')),
+        tipo,
+        motivo: String(f.get('motivo') ?? '').trim(),
+        ivaIncluido: rectIvaIncl.checked,
+        ...(tipo === 'PARTIAL' ? { lineas: rectEditor.leer() } : {}),
+      });
+      if (!r.ok) return mensajeError(msg, r);
+      rectDialog.close();
+      mensaje($('emitirMsg'), true, tpl(E.rectOk, { numero: r.out.numero }));
+      renderEmitidas();
+    });
+
+    // ---- Recurrentes -------------------------------------------------------------
+    let recurrentesCargadas = false;
+
+    async function cargarRecurrentes() {
+      if (recurrentesCargadas) return;
+      const r = await api('/api/facturacion/recurrentes');
+      if (!r.ok) return;
+      recurrentesCargadas = true;
+      const lista: any[] = r.out.recurrentes ?? [];
+      const ul = $('recList');
+      ul.innerHTML = '';
+      $('recEmpty').hidden = lista.length > 0;
+      lista.forEach((rec) => {
+        const li = document.createElement('li');
+        const n = document.createElement('div');
+        n.className = 'factura-nombre';
+        n.textContent = `${rec.nombre}${rec.cliente ? ` · ${rec.cliente}` : ''}`;
+        const m = document.createElement('div');
+        m.className = 'factura-meta';
+        const partes = [
+          E.frecuencias[rec.frecuencia] ?? rec.frecuencia,
+          E.recEstados[rec.estado] ?? rec.estado,
+          rec.importe !== null ? eur(Number(rec.importe)) : '',
+          rec.proxima && rec.estado === 'ACTIVE' ? tpl(E.recProxima, { fecha: fecha(rec.proxima) }) : '',
+          rec.fallando ? E.recFallando : '',
+        ].filter(Boolean);
+        m.textContent = partes.join(' · ');
+        li.append(n, m);
+
+        const acciones = document.createElement('div');
+        acciones.className = 'emitir-acciones';
+        const boton = (texto: string, estado: string, confirmar?: string) => {
+          const b = document.createElement('button');
+          b.type = 'button';
+          b.className = 'factura-descargar';
+          b.textContent = texto;
+          b.addEventListener('click', async () => {
+            if (confirmar && !confirm(confirmar)) return;
+            const res = await api('/api/facturacion/recurrentes', 'PUT', { id: rec.id, estado });
+            if (!res.ok) return mensajeError($('recMsg'), res);
+            recurrentesCargadas = false;
+            cargarRecurrentes();
+          });
+          acciones.appendChild(b);
+        };
+        if (rec.estado === 'ACTIVE') boton(E.recPausar, 'PAUSED');
+        if (rec.estado === 'PAUSED') boton(E.recReanudar, 'ACTIVE');
+        if (rec.estado !== 'COMPLETED') boton(E.recTerminar, 'COMPLETED', E.recTerminarConfirm);
+        li.appendChild(acciones);
+        ul.appendChild(li);
+      });
+    }
+
+    // ---- Arranque ---------------------------------------------------------------
+    renderEmitidas();
+    sb.auth.onAuthStateChange(() => {
+      clientesCargados = false;
+      recurrentesCargadas = false;
+      renderEmitidas();
+    });
+  }
+</script>

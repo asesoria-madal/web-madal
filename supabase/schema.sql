@@ -891,3 +891,13 @@ create policy "admin ve todas las facturas emitidas"
 -- en tablas nuevas: GRANT explícito.
 grant select on facturas_emitidas to authenticated;
 grant all on facturas_emitidas to service_role;
+
+-- Facturación: tipos de factura (ordinaria, simplificada, rectificativa).
+-- `tipo` usa los valores de BeeL (STANDARD, SIMPLIFIED, CORRECTIVE) y decide
+-- qué botones ofrece el portal (p. ej. "Rectificar" no sale en una
+-- rectificativa). Una factura simplificada no identifica al destinatario, así
+-- que `receptor_nif` pasa a admitir NULL. Ejecutar ANTES de desplegar el
+-- código que usa estas columnas: si no, el upsert de facturas_emitidas falla
+-- (la factura se emite igualmente en BeeL, pero no se guarda la copia).
+alter table facturas_emitidas add column if not exists tipo text not null default 'STANDARD';
+alter table facturas_emitidas alter column receptor_nif drop not null;
