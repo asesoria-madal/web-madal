@@ -17,6 +17,10 @@ const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 // Misma forma laxa que el resto de endpoints (NIF/NIE/CIF): longitud y forma,
 // no corrección fiscal.
 const NIF_PATTERN = /^[0-9A-Za-z][0-9]{7}[A-Za-z0-9]$/;
+// Teléfono: forma laxa (dígitos, espacios, +, paréntesis y guiones), sin validar prefijo.
+const TELEFONO_PATTERN = /^[+0-9 ()-]{6,20}$/;
+// Mismos valores que el desplegable de HubSpot (ver n8n-workflows/hubspot/setup-hubspot.mjs).
+const PLANES = ['debut', 'esencial', 'crece', 'total', 'sl'] as const;
 
 interface Body {
   nif: string;
@@ -30,6 +34,9 @@ interface Body {
   reporting: boolean;
   // Contrata la facturación (BeeL) con nosotros. Opcional: por defecto, no.
   beelContratado?: boolean;
+  // Opcionales. Se sincronizan con HubSpot (workflow n8n "Sync HubSpot").
+  telefono?: string;
+  plan?: (typeof PLANES)[number];
 }
 
 function isValid(body: unknown): body is Body {
@@ -43,6 +50,8 @@ function isValid(body: unknown): body is Body {
   if (b.tipoPersona === 'autonomo' && typeof b.tramitamosAlta !== 'boolean') return false;
   if (typeof b.reporting !== 'boolean') return false;
   if (b.beelContratado !== undefined && typeof b.beelContratado !== 'boolean') return false;
+  if (b.telefono !== undefined && (typeof b.telefono !== 'string' || !TELEFONO_PATTERN.test(b.telefono.trim()))) return false;
+  if (b.plan !== undefined && !(PLANES as readonly unknown[]).includes(b.plan)) return false;
   return true;
 }
 
@@ -112,6 +121,8 @@ export const POST: APIRoute = async ({ request }) => {
     alta_hecha: body.tipoPersona === 'autonomo' ? body.tramitamosAlta : null,
     reporting: body.reporting,
     beel_contratado: body.beelContratado === true,
+    telefono: body.telefono?.trim() || null,
+    plan: body.plan ?? null,
   });
 
   if (error) {

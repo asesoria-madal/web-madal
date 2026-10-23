@@ -106,6 +106,19 @@ const dashboardsCtaHref = `mailto:${EMAIL}?subject=${encodeURIComponent(dashboar
               <label>{t.admin.alta.email}
                 <input type="email" id="alta-email" maxlength="254" autocomplete="off" />
               </label>
+              <label>{t.admin.alta.telefono}
+                <input type="tel" id="alta-telefono" maxlength="20" autocomplete="off" />
+              </label>
+              <label>{t.admin.alta.plan}
+                <select id="alta-plan">
+                  <option value="">{t.admin.alta.planSinDefinir}</option>
+                  <option value="debut">Debut</option>
+                  <option value="esencial">Esencial</option>
+                  <option value="crece">Crece</option>
+                  <option value="total">Total</option>
+                  <option value="sl">SL</option>
+                </select>
+              </label>
               <label>{t.admin.alta.tipo}
                 <select id="alta-tipo">
                   <option value="autonomo">{t.admin.alta.tipoAutonomo}</option>
@@ -1269,6 +1282,8 @@ const dashboardsCtaHref = `mailto:${EMAIL}?subject=${encodeURIComponent(dashboar
             nombre: val('alta-nombre'),
             empresa: val('alta-empresa') || undefined,
             email: val('alta-email') || undefined,
+            telefono: val('alta-telefono') || undefined,
+            plan: val('alta-plan') || undefined,
             tipoPersona,
             tramitamosAlta: tipoPersona === 'autonomo' ? (document.getElementById('alta-tramitamos') as HTMLSelectElement).value === 'si' : undefined,
             reporting: (document.getElementById('alta-reporting') as HTMLInputElement).checked,

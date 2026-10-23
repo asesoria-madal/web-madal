@@ -920,3 +920,15 @@ alter table clientes add column if not exists beel_contratado boolean not null d
 alter table clientes add column if not exists beel_account_id text;
 alter table clientes add column if not exists beel_estado text;
 alter table clientes add column if not exists beel_activado_prod_at timestamptz;
+
+-- Sincronización con HubSpot (2026-10-23; ver n8n-workflows/hubspot/README.md).
+-- Se rellenan en el alta del portal de admin (api/alta-cliente) o a mano.
+--   plan                'debut' | 'esencial' | 'crece' | 'total' | 'sl' (el precio vive en la web, no aquí)
+--   telefono            contacto del cliente, formato libre
+--   hubspot_contact_id  lo escribe el workflow n8n "Sync HubSpot"; no tocar a mano
+--   hubspot_synced_at   idem: última sincronización, decide quién gana en plan/telefono
+alter table clientes add column if not exists plan text;
+alter table clientes add column if not exists telefono text;
+alter table clientes add column if not exists hubspot_contact_id text;
+create unique index if not exists clientes_hubspot_contact_idx on clientes (hubspot_contact_id);
+alter table clientes add column if not exists hubspot_synced_at timestamptz;

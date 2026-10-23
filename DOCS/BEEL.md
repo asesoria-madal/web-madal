@@ -60,7 +60,7 @@ Consecuencia: en sandbox el nivel de acceso se fija al crear la cuenta y no se p
 
 - Se crean en app.beel.es → Desarrolladores → Claves API → "Crear clave API". Hay un selector Test/Live.
 - La clave completa **solo se muestra una vez** al crearla.
-- Para cuentas gestionadas la clave necesita, además de companies, customers, invoices y webhooks, los permisos **`accounts:read` y `accounts:write`**. No vienen por defecto y en la interfaz aparecen **bloqueados con el texto "Requiere activación por BeeL"** hasta que BeeL los habilite para nuestra cuenta (estado a 22-oct-2026: la pantalla "Cuentas gestionadas" ya existe, pero estas casillas siguen bloqueadas; pendiente de que BeeL lo confirme).
+- Para cuentas gestionadas la clave necesita, además de companies, customers, invoices y webhooks, los permisos **`accounts:read` y `accounts:write`**. No vienen por defecto y en la interfaz aparecen **bloqueados con el texto "Requiere activación por BeeL"** hasta que BeeL los habilite para nuestra cuenta (estado a 22-oct-2026: la pantalla "Cuentas gestionadas" ya existe, pero estas casillas seguían bloqueadas). **BeeL confirmó por email (23-oct-2026) que ya están habilitados**: hay que crear una clave de test nueva (las anteriores no los tienen) y entonces deberían aparecer disponibles.
 - **Dónde guardar la clave:** solo en variables de entorno de servidor (Vercel). Nunca en el repo (es público) ni en el navegador. Al pasar a producción, crear una clave live nueva y rotar la de test.
 - Límites: 300 peticiones/min por clave (compartido por todas las cuentas); 1.000/min por IP; 5/min por IP en representación y emails. Sin límite por NIF.
 
@@ -70,6 +70,7 @@ Consecuencia: en sandbox el nivel de acceso se fija al crear la cuenta y no se p
 - `Idempotency-Key` obligatorio en las creaciones (usamos un uuid por intento).
 - **Nunca llamar a la API desde el navegador**: siempre desde servidor (`src/lib/beel.ts`).
 - Dirección del destinatario **obligatoria** (error `RECIPIENT_ADDRESS_REQUIRED`); el número de calle es opcional.
+- BeeL **no tiene NIF de prueba** (confirmado 23-oct-2026): la validación es contra el censo real, así que para probar hay que usar NIF reales (propios o de quien lo consienta). Lo habitual es montar la integración con datos reales y pasar a live sin rehacer nada. BeeL no manda presupuesto aparte: vale el precio pactado y los términos y condiciones aceptados al dar de alta la cuenta (si hace falta un presupuesto firmado, lo preparan a petición).
 - En sandbox el NIF debe existir en el censo de la AEAT. Si no, `422 NIF_VALIDATION_INVALID` y la cuenta no se crea. Comprobar antes con `POST /v1/nif/validate`.
 - En sandbox el email de factura solo se entrega a la dirección del titular de prueba.
 - El endpoint `/pdf` devuelve JSON con una `download_url` firmada que caduca a los 300 s, no el PDF directo. El portal lo gestiona en `src/pages/api/factura-pdf.ts`.
@@ -122,7 +123,9 @@ Para emitir en producción en nombre de un NIF, el titular debe firmar la repres
 
 ## 11. Alta automatizada desde el portal (2026-10-22)
 
-Implementado, **sin probar contra BeeL** (a 22-oct-2026 los permisos `accounts:read/write` seguían bloqueados hasta que BeeL los active; sin ellos `POST /v1/accounts` devuelve `403 FEATURE_NOT_AVAILABLE`). Probar primero con clave de test.
+Implementado, **sin probar contra BeeL** (los permisos `accounts:read/write` ya los habilitó BeeL el 23-oct-2026; con una clave sin ellos `POST /v1/accounts` devuelve `403 FEATURE_NOT_AVAILABLE`, así que hay que usar una clave de test nueva). Probar primero con clave de test y un NIF real consentido.
+
+**Probado contra el sandbox el 23-oct-2026** (mismas peticiones que hace `beel-cuenta.ts`, con el NIF de Hugo como `INDIVIDUAL`): `POST /v1/accounts` → 201 con `account_id` y `company_id`; `POST …/representation` → `PDF_GENERATED`; `GET …/representation/document` → `download_url` (300 s); `GET …/issuing-readiness` → `ready: true`. Falta probar el tramo del portal (Supabase, panel de admin, aviso a n8n) y todo lo de producción (subir representación firmada, activar PROD).
 
 Flujo (detalle operativo en `ALTA-CLIENTE-FACTURACION.md`):
 1. Al dar de alta al cliente se marca `clientes.beel_contratado` (formulario de alta del portal de admin). `Onboarding` crea en HubSpot una tarea «Alta BeeL».
@@ -138,4 +141,6 @@ Variable nueva en Vercel: `N8N_BEEL_WEBHOOK_URL` (URL de producción del webhook
 - Webhook `managed` de sandbox y de producción (ver §8).
 - Bloquear la emisión en producción si el cliente no tiene `beel_estado = 'produccion'`.
 - Baja del cliente (`DELETE …/activations?environment=PROD` y terminar la gestión): sigue siendo manual, ver `ALTA-CLIENTE-FACTURACION.md`.
-- El esquema exacto de `PUT …/verifactu-configuration` solo documenta `enabled`; verificar con el primer alta real.
+- `PUT …/verifactu-configuration`: confirmado en el OpenAPI (23-oct-2026) que el único campo es `enabled` (obligatorio, reemplazo completo) y que exige el permiso `configuration:write`. En live sin representación validada devuelve `422 VERIFACTU_REPRESENTATION_REQUIRED`. La clave de test creada el 23-oct (`Portal web test`) **no** lleva `configuration:*` ni `nif:validate`: la clave live debe incluirlos (`beel-activar.ts` los necesita).
+- Clientes SL (`entity_type: LEGAL_ENTITY`): para generar la representación BeeL exige la dirección completa del representante legal (`PROFILE_INCOMPLETE` con `error.details` si falta) y `beel-cuenta.ts` aún no envía `legal_representative`. Un `INDIVIDUAL` con `legal_form` o representante se rechaza. Probar primero con un autónomo (`INDIVIDUAL`); el flujo de SL queda por completar.
+- `GET …/representation/document` devuelve `download_url` de vida corta y la representación pasa por `NOT_STARTED → PDF_GENERATED → ACTIVE`.
