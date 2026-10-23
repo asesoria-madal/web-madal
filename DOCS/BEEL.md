@@ -118,6 +118,7 @@ Para emitir en producción en nombre de un NIF, el titular debe firmar la repres
 - Lo que genera una recurrente por sí sola (la factura de cada mes) **no se copia** a `facturas_emitidas`: no aparece en la pestaña Facturas y su estado Verifactu no se actualiza en el portal. Si hace falta, sincronizarlas desde el webhook (`verifactu.status.updated` + `GET invoices?…`).
 - En sandbox todos los clientes comparten la company, así que también comparten clientes y recurrentes (solo datos de prueba).
 - El administrador de la asesoría no ve este panel (antes veía la lista del cliente seleccionado).
+- **Solo emiten los clientes con `clientes.beel_contratado = true`** (2026-10-23): el portal oculta el panel "Facturas" al resto y `contextoFacturacion` (`src/lib/facturacion.ts`) devuelve 403. Antes, un cliente sin cuenta propia caía en `BEEL_DEFAULT_COMPANY_ID` (empresa de sandbox compartida) aunque no hubiera contratado nada. Siguen valiendo: la empresa por defecto solo con clave de test, y 409 "todavía no está activada" si no hay `beel_company_id` con clave live.
 - Variables de entorno: ver `ARQUITECTURA.md`, sección "Facturación Verifactu (BeeL)".
 - **Limitación actual:** todos los clientes emiten con la empresa de sandbox (emisor ficticio, sin efecto fiscal). Para producción hace falta una cuenta gestionada por cliente (ver `ALTA-CLIENTE-FACTURACION.md`).
 

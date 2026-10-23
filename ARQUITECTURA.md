@@ -23,11 +23,11 @@ Para tareas concretas hay guías aparte: **`DOCS/CONTENIDO.md`** (editar blog y 
 
 Ambos devuelven `null` si faltan sus variables de entorno, en vez de lanzar error — así la web sigue funcionando en "modo degradado" (ver abajo) mientras el proyecto de Supabase no esté configurado en ese entorno (ej. preview de Vercel sin secrets).
 
-**Si un workflow de n8n necesita leer/escribir en Supabase, usa el equivalente de la service role key**, nunca la anon key: RLS la bloqueará en casi todo lo que necesitarás hacer (marcar `fecha_contabilizado`, dar de alta clientes, leer presupuestos…).
+**Si un workflow de n8n necesita leer/escribir en Supabase, usa el equivalente de la service role key**, nunca la anon key: RLS la bloqueará en casi todo lo que necesitarás hacer (marcar `fecha_contabilizado`, dar de alta clientes…).
 
 ## La clave que lo une todo: el NIF
 
-**`clientes.id` es el NIF/NIE del cliente en texto, en mayúsculas** — no un uuid (migración del 2026-08-25). El motivo es precisamente n8n: con `id = NIF`, el workflow que da de alta al cliente al firmar el presupuesto y el que recibe las respuestas de los tres formularios pueden buscar/crear la fila directamente por NIF, sin lookup intermedio. La FK de `facturas_subidas` es `on update cascade`, así que corregir un NIF mal tecleado es un simple `update clientes set id = …`.
+**`clientes.id` es el NIF/NIE del cliente en texto, en mayúsculas** — no un uuid (migración del 2026-08-25). El motivo es precisamente n8n: con `id = NIF`, el workflow de onboarding y el que recibe las respuestas de los formularios pueden buscar/crear la fila directamente por NIF, sin lookup intermedio. La FK de `facturas_subidas` es `on update cascade`, así que corregir un NIF mal tecleado es un simple `update clientes set id = …`.
 
 **Pero las políticas RLS no usan `id`, usan `auth_user_id`** (columna aparte, uuid → `auth.users`). Se rellena sola vía el trigger `on_auth_user_created` → `vincular_cliente_nuevo()`, **solo en el primer login** de ese email. Consecuencia práctica documentada en `schema.sql`: si recreas una fila de `clientes` para un email que *ya* tenía cuenta de Auth, `auth_user_id` se queda en `null` para siempre y todo lo que dependa de RLS falla en silencio. Hay un backfill para eso al final del bloque de migración.
 
@@ -35,19 +35,15 @@ Ambos devuelven `null` si faltan sus variables de entorno, en vez de lanzar erro
 
 `schema.sql` se ejecuta **a mano en el SQL editor de Supabase**. No hay migraciones automáticas: es un archivo acumulativo con bloques marcados "ejecutar UNA VEZ".
 
-### `quote_counters` + `presupuestos` — simulador de precio (`/simulador`)
+### `quote_counters` + `presupuestos` — RETIRADO (2026-10-23)
 
-- `quote_counters(year, value)`: contador atómico por año vía la función `next_quote_number(p_year)`, que genera códigos únicos `CC-26-00001`, `CC-26-00002`…
-- `presupuestos`: una fila por cálculo hecho en el simulador. `email` y `privacy_accepted_at` son **opcionales** — solo se rellenan si el visitante decide dejar su correo y acepta la política de privacidad (RGPD art. 5.2). `alta`, `certificado`, `actividad` y `fecha_inicio` solo se rellenan en la rama del simulador para autónomos que aún no están dados de alta.
-- **Columnas de seguimiento para n8n**: `presupuesto_enviado_at` (al mandar el presupuesto por email), `recordatorio_enviado_at` (recordatorio a los 5 días sin respuesta) y `respondido_at`, que rellena automáticamente otro flujo de n8n leyendo la bandeja por IMAP y cruzando el remitente con esta tabla. Mientras `respondido_at` sea `null`, el presupuesto cuenta como "sin respuesta". El recordatorio **no** usa threading real por cabeceras (`In-Reply-To`/`References`): el nodo Send Email de n8n no las expone, así que se manda con el mismo asunto prefijado `Re:`, que Gmail agrupa igual.
-- RLS activada y **sin políticas** en ambas: solo la service role puede leer/escribir.
-- Si Supabase no está configurado, `api/presupuesto.ts` sigue funcionando en modo demo: devuelve un código `CC-26-DEMOxxxxx` sin persistir nada.
+El simulador de precio (`/simulador`, `/solicitud`, `api/presupuesto`) se eliminó por decisión de Hugo: el alta se hace siempre a mano desde el portal tras la primera llamada. **Ningún código usa ya estas tablas.** Siguen en Supabase hasta que alguien ejecute a mano `supabase/retirar-simulador.sql` (borra `presupuestos`, `quote_counters` y `next_quote_number`; es **irreversible** y contiene emails de leads: exportar antes si interesa). Antes de ejecutarlo, comprobar que los workflows de n8n `nuevo_presupuesto`, `recordatorio-presupuesto` y `detectar_respuesta_presu` están desactivados (ya archivados en `n8n-workflows/workflows/_retirados/`). Las definiciones se dejan en `schema.sql` solo para poder recrear la base desde cero.
 
 ### `alta_nuevos_autonomos` — formulario de alta
 
-Datos que Edurne necesita para tramitar el alta en Hacienda/Seguridad Social una vez el cliente ha aceptado el presupuesto. Página suelta (`/formulario-alta`), sin enlazar desde el menú: el enlace se manda al cliente tras la llamada de venta, con `?nif=…`, y ese valor llega en `nif_nie`. El vínculo con el presupuesto se hace **por NIF**, no por `quote_code` (esa columna se eliminó).
+Datos que Edurne necesita para tramitar el alta en Hacienda/Seguridad Social tras la llamada de venta. Página suelta (`/formulario-alta`), sin enlazar desde el menú: el enlace se manda al cliente tras la llamada de venta, con `?nif=…`, y ese valor llega en `nif_nie`. El vínculo con el cliente se hace **por NIF** (`clientes.id`); la columna `quote_code` se eliminó.
 
-`privacy_accepted_at` es obligatorio aquí (a diferencia de `presupuestos`): el formulario recoge NIF, IBAN y domicilio sí o sí.
+`privacy_accepted_at` es obligatorio aquí (a diferencia de otros formularios opcionales): el formulario recoge NIF, IBAN y domicilio sí o sí.
 
 ### `traspasos_nuevos` — clientes que vienen de otra gestoría
 
@@ -74,7 +70,8 @@ Este formulario **no sube archivos**. La documentación a pedir a la gestoría a
   | `'autonomo'` | `false` | Ya estaba de alta (traspaso) |
   | `'sl'` | — | SL; `alta_hecha` no aplica, se ignora |
 
-  El diseño previsto es un trigger `AFTER INSERT` sobre `clientes` que dispara un webhook `cliente-nuevo` de n8n. **Ese trigger no está en `schema.sql`** — si el workflow depende de él, hay que crearlo.
+  Un trigger `AFTER INSERT` sobre `clientes` (nombre `cliente-nuevo`, creado a mano en Supabase > Database > Triggers; **no está en `schema.sql`**) hace un POST al webhook de producción `https://n8n.asesoriamadal.es/webhook/cliente-nuevo` con una cabecera secreta. Esa cabecera debe coincidir en nombre y valor con la credencial Header Auth del nodo Webhook de n8n; si no, n8n responde 403 "Authorization data is wrong!" y no deja ninguna ejecución. Diagnóstico: `select status_code, left(content,100) from net._http_response order by created desc;`.
+- **Columnas añadidas el 2026-10-23** (todas con `add column if not exists` en `schema.sql`): `plan` (`debut|esencial|crece|total|sl`; el precio NO se guarda, vive en `ui.ts`), `telefono`, `idioma` (`es|ca|en`, `not null default 'es'`; decide el idioma de los correos automáticos de n8n), `hubspot_contact_id` (índice único) y `hubspot_synced_at` (los escribe solo el workflow `Sync HubSpot`; no tocar a mano). Columnas de facturación BeeL: `beel_contratado`, `beel_account_id`, `beel_company_id`, `beel_estado`, `beel_activado_prod_at` (ver `DOCS/BEEL.md`).
 - `modelos` (`text[]`, `not null default '{}'`, añadido 2026-08-26) — qué modelos fiscales presenta el cliente (130, 131, 111, 115, 303, 349, 202, 200, 347, 390, 190, 180; ver el comentario junto a la columna en `schema.sql` para el detalle de cada uno). Primer campo multivalor del esquema — se rellena a mano en el Table Editor, sin endpoint ni CHECK, igual que `alta_hecha`. Lo usa `src/lib/modelosFiscales.ts` para calcular, en `Portal.astro`, el stat "días hasta tu próxima presentación de impuestos" — visible para **todos** los clientes (no depende de `reporting`: es información básica de gestoría, no una funcionalidad de pago).
 - `visionwin_empresa_codigo` (`text`, nullable) — código de la empresa del cliente en Visionwin (el ERP de contabilidad). Se rellena **a mano** en el Table Editor cuando el equipo da de alta al cliente y le crea su empresa en Visionwin; ningún endpoint lo escribe. Es el flag de "cliente ya configurado en Visionwin": el workflow n8n **"Descarga de facturas"** solo baja una factura del Storage a la carpeta de Drive del cliente si este tiene **NIF Y `visionwin_empresa_codigo`** (nodo "¿Cliente listo?"); si falta alguno, la factura se queda en el Storage y se reintenta cada 12 h. **No** la usa la sincronización de dashboards (esa vincula por CIF contra `clientes.id`). Nota: una NOTA antigua de `schema.sql` decía que esta columna "ya no la usa nada" — se refería solo al sincronizador de dashboards; ya está corregida.
 - RLS: un cliente autenticado solo puede hacer `select` de su propia fila (`auth.uid() = auth_user_id`); sin políticas de insert/update/delete. **Admin** (2026-08-30): quien tenga fila en `portal_admins` (uuid de `auth.users`, alta a mano) tiene además `select` sobre **todas** las filas de `clientes`, `facturas_subidas` y las `dashboard_*` — políticas aditivas de solo lectura. `Portal.astro` lo detecta y muestra un selector de clientes en vez de la ficha propia. La política equivalente sobre `storage.objects` (bucket `facturas`) se crea a mano en el dashboard, como el resto de las de Storage.
@@ -101,29 +98,35 @@ Las políticas de `storage.objects` para `facturas` están creadas **a mano en e
 
 | Endpoint | Tabla | Rate limit | Notas |
 |---|---|---|---|
-| `POST /api/presupuesto` | `presupuestos` | 20 / 10 min / IP | Calcula el precio y genera el código vía `next_quote_number`. |
-| `PATCH /api/presupuesto` | `presupuestos` | 20 / 10 min / IP | Añade el email a un presupuesto ya generado, si el visitante cambia de opinión. 404 si el `quote_code` no existe. |
 | `POST /api/portal-login` | `clientes` (solo lectura) | 10 / 10 min / IP | Enlace mágico. Respuesta genérica siempre. |
+| `POST /api/alta-cliente` | `clientes` | — | Solo admin (`portal_admins`, validado con el token de sesión). Inserta la ficha con idioma, plan, teléfono, `alta_hecha`, `reporting` y `beel_contratado`; no envía nada, lo hace n8n a partir del INSERT. |
 | `POST /api/alta-autonomo` | `alta_nuevos_autonomos` | Sí | Normaliza NIF a mayúsculas e IBAN sin espacios. |
 | `POST /api/traspaso` | `traspasos_nuevos` | Sí | Ídem; ramifica el insert según `tipo`. |
 
-Desde 2026-10-21 hay tres endpoints más, todos de facturación Verifactu vía BeeL (ver § "Facturación Verifactu (BeeL)" al final): `POST /api/emitir-factura`, `GET /api/factura-pdf` y `POST /api/beel-webhook`. **Estos tres no degradan en silencio**: sin `BEEL_API_KEY` responden 503, porque fingir que se ha emitido una factura sería peor que fallar. Los dos primeros exigen la sesión del cliente (`Authorization: Bearer <access_token>`); el tercero exige la firma de BeeL.
+Desde 2026-10-21 hay tres endpoints más, todos de facturación Verifactu vía BeeL (ver § "Facturación Verifactu (BeeL)" al final): `POST /api/emitir-factura`, `GET /api/factura-pdf` y `POST /api/beel-webhook`. **Estos tres no degradan en silencio**: sin `BEEL_API_KEY` responden 503, porque fingir que se ha emitido una factura sería peor que fallar. Los dos primeros exigen la sesión del cliente (`Authorization: Bearer <access_token>`); el tercero exige la firma de BeeL. **Desde 2026-10-23 todos los endpoints de facturación (`emitir-factura`, `rectificar-factura`, `facturacion/*`, `factura-pdf`) exigen además `clientes.beel_contratado = true`** (403 si no): sin ese filtro, un cliente sin cuenta caía en la empresa por defecto de sandbox. El panel "Facturas" del portal tampoco se muestra a quien no lo tenga.
 
-Los cinco primeros usan `getSupabaseAdmin()` y **degradan con gracia**: si Supabase no está configurado responden en éxito sin persistir (`{ persisted: false }`), para no romper la experiencia.
+Los endpoints de formularios y login (`portal-login`, `alta-autonomo`, `traspaso`) usan `getSupabaseAdmin()` y **degradan con gracia**: si Supabase no está configurado responden en éxito sin persistir (`{ persisted: false }`), para no romper la experiencia.
 
 **Validación deliberadamente laxa** en todos: forma y longitud (`algo@algo.algo`, NIF de 9 caracteres, IBAN alfanumérico), no corrección real — Edurne revisa los datos a mano antes de tramitar. Los valores cerrados (`tipo_local`, `retencion_irpf`, `regimen`…) se validan en el endpoint y **no** llevan `CHECK` en SQL.
 
-El cálculo del precio está **duplicado a propósito** entre `Simulador.astro` (front) y `api/presupuesto.ts` (back), para que coincidan. Si cambian las tarifas, hay que tocar los dos.
+Los precios viven solo en `src/i18n/ui.ts` (sección `precios`): ya no hay simulador ni cálculo duplicado (retirado 2026-10-23).
 
-### Alta de clientes: tres caminos, todos acaban en `clientes` + webhook `cliente-nuevo`
+### Alta de clientes: dos caminos, ambos acaban en `clientes` + webhook `cliente-nuevo`
 
-Desde 2026-10-22 hay tres formas de que exista una fila en `clientes`; las tres disparan (por el trigger `AFTER INSERT`) el workflow n8n **Onboarding**, que manda el correo con el formulario, el enlace de acceso al portal (solo si hay email **y** NIF real) y crea contacto + tarea en HubSpot (ClickUp ya no se usa).
+Desde 2026-10-23 (el camino por presupuesto se retiró con el simulador) hay dos formas de que exista una fila en `clientes`; las dos disparan, por el trigger `AFTER INSERT`, el workflow n8n **Onboarding**:
 
-1. **Alta manual desde el portal de admin** (`POST /api/alta-cliente`, exige sesion de `portal_admins`). Solo hace el INSERT; no envia nada por si mismo.
-2. **Respuesta a un presupuesto** (workflow `detectar_respuesta_presu`, lee la bandeja por IMAP): marca `presupuestos.respondido_at` y, si no hay ya un cliente con ese email, crea la ficha con **id provisional `PENDIENTE-<quote_code>`** (el simulador no pide NIF). `tipo_persona` y `alta_hecha` se derivan del presupuesto (`regimen = 'pyme'` -> `sl`; `alta = 'no'` -> `alta_hecha = true`). Sin NIF real no se manda enlace de acceso.
-3. **A mano en el Table Editor** (sigue funcionando).
+1. **Alta manual desde el portal de admin** (`POST /api/alta-cliente`, exige sesión de `portal_admins`). Es el camino normal.
+2. **A mano en el Table Editor.**
 
-Cuando llega el formulario (alta o traspaso) con el NIF real, `Responden formulario` busca un cliente `PENDIENTE-%` con el mismo email y le pone el NIF como `id` (las FK de las tablas hijas son `on update cascade`) y, en ese momento, manda el enlace de acceso. Si el equipo da de alta a mano a alguien que ya tiene ficha provisional, `/api/alta-cliente` la sustituye (salvo que tenga facturas subidas).
+Qué hace **Onboarding** (todo en el idioma `clientes.idioma`; los formularios y la guía PDF solo existen en castellano y el correo en ca/en lo avisa):
+- Correo con el formulario (alta de autónomo, traspaso de autónomo o traspaso de SL según `tipo_persona` / `alta_hecha`); si la ficha está incompleta no se envía y se crea la tarea "Revisar alta incompleta".
+- Correo con el acceso al portal (magic link + guía PDF), solo si hay email **y** NIF real.
+- HubSpot, solo si hay email: contacto (upsert por email, con `firstname`/`lastname` separados), deal en el pipeline "Onboarding" (etapa "Formulario pendiente") y tarea asociada a contacto y deal.
+- Carpeta de Drive `<NIF>-<nombre>` con las subcarpetas 0-documentos, 1-contabilidad, 2-escrituras, 3-impuestos, 4-laboral, 5-mercantil y 9-otros bajo "Clientes" (solo con NIF real). El flujo de facturas localiza la carpeta por NIF (`name contains <NIF>`).
+
+Cuando el cliente envía el formulario (`alta_nuevos_autonomos` / `traspasos_nuevos`, cada tabla con su trigger y su webhook), `Responden formulario`: comprueba NIF y email contra `clientes`; si coinciden, manda confirmación al cliente, avisa a contacto@, mueve el deal a "Apoderamiento pendiente" (solo si sigue en "Formulario pendiente") y sube el txt de respuestas a `0-documentos` de la carpeta existente (la crea solo si no existe). Si el email no coincide o no hay cliente, solo avisa al equipo. Legado: ya no se crean fichas `PENDIENTE-…`; el workflow aún sabría renombrar una si existiera.
+
+**HubSpot** (`n8n-workflows/hubspot/README.md`): el workflow `Sync HubSpot` copia `clientes` a las propiedades del contacto (grupo "Cliente Madal"). Supabase manda en todo salvo `plan` y `telefono`, que se pueden editar en ambos lados (gana HubSpot solo si el contacto cambió después de `hubspot_synced_at`). Los pasos de las etapas del deal posteriores a "Apoderamiento pendiente" se mueven a mano.
 
 ## Variables de entorno
 

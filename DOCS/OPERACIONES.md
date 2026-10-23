@@ -33,7 +33,7 @@ Cuatro, todas de Supabase (panel de Supabase → Project Settings → API). Deta
 | `PUBLIC_SUPABASE_URL` | Ídem. |
 | `PUBLIC_SUPABASE_ANON_KEY` | Ídem. Segura de exponer. |
 
-En local van en `web/.env` (ver `.env.example`). Si faltan, la web arranca en **modo degradado**: formularios y simulador responden con éxito pero no persisten nada. Un deploy de preview sin estas variables se comporta igual.
+En local van en `web/.env` (ver `.env.example`). Si faltan, la web arranca en **modo degradado**: los formularios responden con éxito pero no persisten nada. Un deploy de preview sin estas variables se comporta igual.
 
 ## 4. Cambios de esquema en Supabase
 
@@ -48,7 +48,7 @@ Si algún día se recrea el proyecto de Supabase desde cero, esto hay que rehace
 - **Políticas RLS del Storage** (bucket `facturas`): creadas a mano en Supabase → Storage → Policies. En `schema.sql` solo están **como comentario**. Comprueban la carpeta del archivo contra el NIF del cliente vía subconsulta a `clientes`.
 - **Bucket `facturas`** (privado) y **`docs-publicos`** (público): se crean en el panel de Storage.
 - **Política de Storage para administradores** (lectura de las facturas de cualquier cliente): también a mano en el panel, equivalente a la que `schema.sql` define por SQL para las tablas.
-- **Trigger + webhook `cliente-nuevo`** (para el onboarding de n8n): **no está en `schema.sql`**. Es un `AFTER INSERT` sobre `clientes` previsto pero no creado. Si el workflow de onboarding lo necesita, hay que escribirlo.
+- **Triggers de Supabase hacia n8n** (creados a mano en Database > Triggers; **no están en `schema.sql`**): `cliente-nuevo` (AFTER INSERT en `clientes`, onboarding), uno en `alta_nuevos_autonomos` y otro en `traspasos_nuevos` (`Responden formulario`). Cada uno hace POST a un webhook de **producción** de `n8n.asesoriamadal.es` con una cabecera secreta que debe coincidir con la credencial Header Auth del nodo Webhook; si no coincide, n8n responde 403 y no deja ejecución (fallo silencioso). Diagnóstico en el SQL editor: `select status_code, left(content,100) from net._http_response order by created desc;`.
 - El trigger `on_auth_user_created` → `vincular_cliente_nuevo()` (que rellena `auth_user_id` en el primer login) **sí** está en `schema.sql`.
 
 ## 6. Pasos manuales del día a día (hasta que n8n los automatice)
@@ -57,7 +57,7 @@ Todos se hacen en el **Table Editor de Supabase**. Son exactamente las tareas qu
 
 | Cuándo | Qué hacer | Dónde |
 |---|---|---|
-| Cliente nuevo contratado | Crear su fila en `clientes` (un cliente no puede crearse a sí mismo). `id` = su NIF/NIE en mayúsculas. | Tabla `clientes` |
+| Cliente nuevo contratado | Alta desde `/portal` (modo admin) > "+ Alta de cliente" (NIF, nombre, email, teléfono, idioma, plan, tipo, ¿tramitamos alta?, reporting, BeeL). Si se hace en el Table Editor, `id` = NIF/NIE en mayúsculas. n8n hace el resto (correos, HubSpot, carpeta de Drive). | Portal / tabla `clientes` |
 | Al configurar al cliente | Rellenar `tipo_persona` (`autonomo`/`sl`), `reporting` (bool), `modelos` (array: `{130,303,...}`), y `alta_hecha` si es autónomo (`true` = le tramitamos el alta, `false` = ya estaba de alta). | Tabla `clientes` |
 | Al crear su empresa en Visionwin | Rellenar `visionwin_empresa_codigo`. Es el flag de "cliente listo": sin NIF **y** este código, el workflow de facturas no baja nada. | Tabla `clientes` |
 | Factura ya bajada a Drive | Marcar `fecha_contabilizado = now()` en su fila. "Contabilizada" (en Drive) y `storage_path = null` (borrada del Storage) son **pasos independientes**. | Tabla `facturas_subidas` |
@@ -66,7 +66,7 @@ Todos se hacen en el **Table Editor de Supabase**. Son exactamente las tareas qu
 ## 7. Trampas conocidas
 
 - **`auth_user_id` que se queda en `null` para siempre**: si borras y recreas una fila de `clientes` para un email que **ya** tenía cuenta de Auth (ya había hecho login alguna vez), el trigger no se vuelve a disparar y esa fila nunca recupera su `auth_user_id`. Todo lo que depende de RLS para ese cliente falla **en silencio**. Hay un backfill al final del bloque de migración de `schema.sql`; en caso de duda, ejecutarlo.
-- **El cálculo del precio está duplicado a propósito** entre `src/components/pages/Simulador.astro` (front) y `src/pages/api/presupuesto.ts` (back). Si cambian las tarifas, **hay que tocar los dos** o dejarán de cuadrar.
-- **Las columnas `*_at` son la cola de trabajo**, no errores: `fecha_contabilizado`, `presupuesto_enviado_at`, `respondido_at`, `apoderamiento_aeat_at`, etc. quedan `NULL` hasta que alguien (hoy a mano, mañana n8n) completa ese paso.
+- **Simulador retirado (2026-10-23)**: ya no hay cálculo de precios duplicado; los precios viven solo en `src/i18n/ui.ts`. Las tablas `presupuestos`/`quote_counters` se borran con `supabase/retirar-simulador.sql` (manual e irreversible; ver `ARQUITECTURA.md`).
+- **Las columnas `*_at` son la cola de trabajo**, no errores: `fecha_contabilizado`, `apoderamiento_aeat_at`, etc. quedan `NULL` hasta que alguien (hoy a mano, mañana n8n) completa ese paso.
 - **La validación de los formularios es laxa a propósito** (forma y longitud, no corrección real): Edurne revisa los datos a mano antes de tramitar. No añadir `CHECK` en SQL para los valores cerrados; se validan en el endpoint.
-- **Workflows de n8n contra Supabase**: usar siempre credenciales equivalentes a la **service role key**. La anon key la bloquea RLS en casi todo. Vincular por **NIF** (`clientes.id`), que es la clave común a presupuestos, formularios y facturas.
+- **Workflows de n8n contra Supabase**: usar siempre credenciales equivalentes a la **service role key**. La anon key la bloquea RLS en casi todo. Vincular por **NIF** (`clientes.id`), que es la clave común a formularios y facturas.

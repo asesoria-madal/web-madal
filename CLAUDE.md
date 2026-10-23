@@ -31,12 +31,12 @@ Tres gotchas de CSS que costaron tiempo de depurar en esta ronda, por si se repi
 Auditoría de diseño de toda la web (no solo la home) con el objetivo de que se sienta dinámica/memorable sin parecer una plantilla genérica de IA, manteniendo estrictamente la paleta y tipografía corporativas de arriba. Implementado directamente en el código real (no solo maquetas):
 
 - **Transiciones de página** nativas de Astro (`<ClientRouter />` en `Layout.astro`, `astro:transitions`), con el wordmark del header persistiendo visualmente entre navegaciones (`transition:name="wordmark"`).
-- **Cifras de precio animadas**: `src/scripts/countup.ts` — el precio del hero, la tabla de precios, la caja de alta y el resultado del simulador cuentan hasta su valor final al entrar en pantalla (o al calcularse). Respeta `prefers-reduced-motion`.
+- **Cifras de precio animadas**: `src/scripts/countup.ts` — el precio del hero, la tabla de precios, y la caja de alta cuentan hasta su valor final al entrar en pantalla. Respeta `prefers-reduced-motion`.
 - **FAQ con apertura animada**: `src/scripts/faqAccordion.ts` — los `<details>` nativos se quedan como fuente de verdad (accesibles, funcionan sin JS), solo se anima la transición de altura.
 - **Header sin iconografía emoji**: 🌙☀️🌐🇪🇸🇬🇧👤 sustituidos por SVGs propios de un color (`currentColor`) y una insignia de texto ES/CA/EN consistente para los tres idiomas.
 - **`/servicios#dashboards`**: ejemplo ilustrativo del mismo gráfico SVG que ya existe en el Portal (mismo trazo, mismas clases CSS `.finanzas-evo-*`), con datos fijos explícitamente etiquetados como "ejemplo ilustrativo, no son datos reales de ningún cliente" en los 3 idiomas — demuestra el reporting en vez de solo describirlo en texto.
 - **404 con personalidad**: "Esta página no cuadra en el balance" en vez de un 404 genérico.
-- **Fix necesario para que lo anterior no rompiera nada**: con `<ClientRouter />`, los scripts de componentes que aparecen en todas las páginas (Header, ContactSwitch, CookieConsent) o en páginas a las que se navega mucho desde otras (Simulador, buscador/FAQ de Blog, compartir/FAQ de Articulo) dejaban de reaccionar tras la primera transición si no se reenganchaban al evento `astro:page-load`. Están arreglados; **el resto de scripts del sitio (Portal, formularios largos) no se tocaron** — si en algún momento se navega a ellos vía transición de página desde otra ruta en vez de con carga completa, podrían necesitar el mismo arreglo.
+- **Fix necesario para que lo anterior no rompiera nada**: con `<ClientRouter />`, los scripts de componentes que aparecen en todas las páginas (Header, ContactSwitch, CookieConsent) o en páginas a las que se navega mucho desde otras (buscador/FAQ de Blog, compartir/FAQ de Articulo) dejaban de reaccionar tras la primera transición si no se reenganchaban al evento `astro:page-load`. Están arreglados; **el resto de scripts del sitio (Portal, formularios largos) no se tocaron** — si en algún momento se navega a ellos vía transición de página desde otra ruta en vez de con carga completa, podrían necesitar el mismo arreglo.
 
 **Pendiente de decidir (no implementado):** una sección de "prueba sin testimonios inventados" — mostrar un fragmento real anonimizado de un balance/PyG explicado, en vez de testimonios de clientes (que en este momento no existen y fabricarlos sería una práctica engañosa "lista negra" bajo la Ley de Competencia Desleal reformada en 2022 — riesgo legal real, no solo de estilo). Retomar cuando el usuario quiera definir el contenido concreto.
 
@@ -54,3 +54,14 @@ Consult these guides before working on related tasks:
 - [Adding or managing content](https://docs.astro.build/en/guides/content-collections/)
 - [Adding styles or using Tailwind](https://docs.astro.build/en/guides/styling/)
 - [Supporting multiple languages](https://docs.astro.build/en/guides/internationalization/)
+
+## Cambios de producto — 2026-10-23 (léelo antes de tocar el alta, la facturación o el simulador)
+
+Decisiones de Hugo, ya en producción:
+
+- **El simulador de precio y todo el camino de presupuestos se eliminaron**: páginas `/simulador` y `/solicitud` (es/ca/en), `api/presupuesto`, enlaces de cabecera/pie/home/alta/404/blog y textos legales. Los CTA que llevaban al simulador ahora abren la reserva de llamada (HubSpot Meetings, `https://meetings-eu1.hubspot.com/asesoria-madal`). Los precios viven solo en `src/i18n/ui.ts` (sección `precios`). Las tablas `presupuestos`/`quote_counters` se borran a mano con `supabase/retirar-simulador.sql` (irreversible). **No reintroducir el simulador ni flujos de presupuesto sin que Hugo lo pida.** (El bloque "simulador" de `Pricing.astro` es una demo ilustrativa de pricing y se conserva.)
+- **Alta de clientes**: siempre a mano desde `/portal` (modo admin) o en el Table Editor. El formulario pide, además, **teléfono, idioma (es/ca/en) y plan**; se guardan en `clientes` (`telefono`, `idioma`, `plan`) y los usan n8n y HubSpot. El idioma decide el idioma de los correos automáticos. Detalle del flujo en `ARQUITECTURA.md` (§ "Alta de clientes").
+- **"Emitir facturas" solo para clientes con `beel_contratado = true`**, en la interfaz y en el servidor (403). Ver `DOCS/BEEL.md`.
+- **n8n y HubSpot**: el onboarding crea contacto + deal ("Onboarding") + tarea en HubSpot, correos por idioma y la carpeta de Drive del cliente; `Responden formulario` confirma, avisa y mueve el deal; `Sync HubSpot` sincroniza `clientes` con HubSpot. Todo en el repo `n8n-workflows` (ver su `CLAUDE.md` y `hubspot/README.md`).
+- **Textos legales** (aviso legal, privacidad, cookies) editados para quitar el simulador: el aviso legal quedó con 5 secciones. Conviene una revisión con criterio jurídico.
+- Planes de prueba (alta y facturación) y la memoria de Claude viven fuera de este repo; si faltan, pedirlos a Hugo.
