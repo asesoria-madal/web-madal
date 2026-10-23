@@ -13,7 +13,7 @@ export const localeNames: Record<Locale, string> = {
 // nativa todavía) — pendiente de que alguien lo repase antes de tráfico real.
 export const ui = {
   es: {
-    nav: { home: 'Inicio', simulador: 'Simulador', alta: 'Altas', blog: 'FAQs', equipo: 'Quiénes somos', conocenos: 'Conócenos', servicios: 'Nuestros servicios' },
+    nav: { home: 'Inicio', alta: 'Altas', blog: 'FAQs', equipo: 'Quiénes somos', conocenos: 'Conócenos', servicios: 'Nuestros servicios' },
     header: { cta: 'Reservar llamada', portal: 'Área clientes', menu: 'Menú', closeMenu: 'Cerrar menú' },
     contact: {
       trigger: 'Contacta con nosotros',
@@ -47,8 +47,7 @@ export const ui = {
       priceSlAmount: 'desde 100 €',
       priceUnit: '/mes',
       priceClaim: 'Precios sin IVA. Incluye todas tus consultas y dudas, sin sorpresas ni letra pequeña.',
-      ctaSim: 'Simula tu precio',
-      ctaCall: 'Reservar llamada',
+      ctaCall: 'Reserva una llamada',
       trust: 'Toda España, excepto Canarias, Navarra y País Vasco (tienen regímenes fiscales propios).',
     },
 
@@ -85,7 +84,7 @@ export const ui = {
       sub: 'Precios sin IVA — el total con IVA va debajo de cada plan.',
       autonomoTitle: 'Autónomos',
       // Los tramos de facturación son orientativos: ayudan a elegir, pero no
-      // fuerzan ningún plan — el visitante elige libremente en el simulador.
+      // fuerzan ningún plan — el visitante elige libremente.
       autonomoTiers: [
         {
           key: 'debut',
@@ -227,7 +226,7 @@ export const ui = {
       desc: 'Nos encargamos del papeleo — con el plan Debut, el alta va incluida en tu cuota desde el primer mes, sin tarifas aparte.',
       price: 'Desde 35 € + IVA/mes',
       priceNote: 'Alta de autónomo incluida · plan Debut, el primer año',
-      link: 'Simular mi precio →',
+      link: 'Reservar mi llamada →',
     },
 
     altaPage: {
@@ -267,97 +266,6 @@ export const ui = {
         'Respuesta en menos de 24 horas',
         'Primera llamada de 20 minutos, sin compromiso',
       ],
-    },
-
-    sim: {
-      eyebrow: 'Simulador de precio',
-      title: '¿Cuánto te costaría con Asesoría Madal?',
-      sub: 'Tres preguntas y tienes tu presupuesto. Lo confirmamos en la llamada.',
-      stepRegimen: {
-        q: '¿Eres autónomo o tienes una SL/pyme?',
-        options: [
-          { value: 'autonomo', label: 'Autónomo' },
-          { value: 'pyme', label: 'SL o pyme' },
-        ],
-      },
-      stepAlta: {
-        q: '¿Ya estás dado de alta como autónomo?',
-        options: [
-          { value: 'si', label: 'Sí, estoy dado de alta' },
-          { value: 'no', label: 'No, quiero que me deis de alta' },
-        ],
-      },
-      recommendedLabel: 'Recomendado',
-      stepCertificado: {
-        q: '¿Tienes Certificado Digital o Cl@ve?',
-        options: [
-          { value: 'si', label: 'Sí' },
-          { value: 'no', label: 'No' },
-        ],
-      },
-      stepActividad: {
-        q: '¿A qué actividad te vas a dedicar?',
-        hint: 'Si conoces tu epígrafe o CNAE, indícalo. Si no, descríbenos brevemente en qué consiste tu actividad.',
-        placeholder: 'Ej.: Diseño gráfico freelance / CNAE 7410',
-      },
-      stepFecha: {
-        q: '¿Cuándo quieres empezar tu actividad?',
-        hint: 'Elige una fecha a partir de hoy. Es orientativa, la confirmamos en la llamada.',
-      },
-      continue: 'Continuar',
-      email: {
-        qBefore: '¿Quieres que te enviemos el presupuesto completo por email, y concretar una llamada para resolver tus dudas?',
-        qAfter: '¿Prefieres que te enviemos el presupuesto completo por email?',
-        hint: 'Te lo enviamos junto con tu número de presupuesto.',
-        noAds: 'Solo te enviaremos eso: no aprovechamos para mandarte publicidad ni nada más.',
-        placeholder: 'tu@email.com',
-        consentPrefix: 'He leído y acepto la',
-        consentLink: 'Política de Privacidad',
-        consentInfo: 'Responsable: Asesoría Madal · Finalidad: calcular y enviarte tu presupuesto · Legitimación: tu consentimiento · Destinatarios: nuestros proveedores de hosting y base de datos · Derechos: acceso, rectificación y supresión escribiendo a contacto@asesoriamadal.es. Más información en la Política de Privacidad.',
-        send: 'Enviar',
-        skip: 'Omitir',
-        success: '¡Gracias! Te avisaremos a ese correo.',
-        error: 'No hemos podido guardar tu correo. Prueba de nuevo o escríbenos directamente.',
-      },
-      // {plan} lo rellena Simulador.astro con el nombre del plan elegido
-      // (facturaLabels), para no duplicar el listado de planes aquí.
-      altaResult: {
-        note: 'Plan {plan} — nos encargamos de tu alta de autónomo (RETA + Hacienda).',
-        fromLabel: 'Desde el primer mes.',
-      },
-      stepFacturas: {
-        q: '¿Qué plan quieres?',
-        // Las tarjetas de planes (autónomo y SL) ya no salen de aquí: se
-        // pintan directamente desde t.precios.autonomoTiers/pymeTiers
-        // (mismo contenido que la tabla de precios de la home, con todo lo
-        // que incluye cada plan), para no duplicar el listado de
-        // funcionalidades en dos sitios.
-      },
-      stepReporting: {
-        q: '¿Quieres reporting y dashboards de tu negocio?',
-        options: [
-          { value: 'si', label: 'Sí' },
-          { value: 'no', label: 'No' },
-          { value: 'nose', label: 'No lo tengo claro' },
-        ],
-      },
-      resultEyebrow: 'Tu presupuesto',
-      priceUnit: 'al mes, IVA incluido',
-      quoteLabel: 'Presupuesto nº',
-      breakdownBaseAutonomo: 'Cuota base, autónomo',
-      breakdownBaseSl: 'Cuota base, SL y pymes',
-      breakdownReporting: 'Reporting y dashboards *',
-      breakdownReportingNose: 'Reporting y dashboards, opcional (no incluido en el total) *',
-      breakdownIva: 'IVA (21%)',
-      breakdownTotal: 'Total',
-      monthlyNote: 'Precio mensual.',
-      reportingExplain: '* A diferencia de otras gestorías, llevar una contabilidad enfocada al negocio y no solo a la presentación de impuestos nos permite hacer un seguimiento del estado de salud de tu empresa, para ayudarte a tomar mejores decisiones y no tener sustos financieros.',
-      ctaCall: 'Reservar llamada',
-      contactAlt: 'O escríbenos a',
-      restart: 'Volver a calcular',
-      back: '← Atrás',
-      error: 'No hemos podido generar tu número de presupuesto. Prueba de nuevo o escríbenos directamente.',
-      loading: 'Calculando…',
     },
 
     blog: {
@@ -481,7 +389,7 @@ export const ui = {
       confianza: {
         eyebrow: 'Rigor editorial',
         title: 'Por qué puedes confiar en lo que publicamos',
-        sub: 'Todo lo que escribimos sobre fiscalidad y contabilidad (en el blog, en las FAQs, en el simulador) sigue el mismo criterio.',
+        sub: 'Todo lo que escribimos sobre fiscalidad y contabilidad (en el blog, en las FAQs) sigue el mismo criterio.',
         items: [
           { title: 'Fuentes oficiales, no de terceros', desc: 'Nos apoyamos en la normativa de la <a href="https://www.agenciatributaria.es" target="_blank" rel="noopener noreferrer">Agencia Tributaria</a> y en el <a href="https://www.boe.es" target="_blank" rel="noopener noreferrer">BOE</a>, no en lo que dicen otros blogs sobre gestoría.' },
           { title: 'Contenido revisado y actualizado', desc: 'La normativa fiscal cambia. Cuando cambia algo relevante, actualizamos el contenido afectado en lugar de dejarlo desactualizado.' },
@@ -641,6 +549,7 @@ export const ui = {
           telefono: 'Teléfono',
           plan: 'Plan',
           planSinDefinir: 'Sin definir',
+          idioma: 'Idioma del cliente (para los correos)',
           submit: 'Crear cliente',
           sending: 'Creando…',
           ok: 'Cliente creado. Si tiene email, recibirá el formulario y el acceso al portal en unos segundos.',
@@ -895,7 +804,7 @@ export const ui = {
   },
 
   ca: {
-    nav: { home: 'Inici', simulador: 'Simulador', alta: 'Altes', blog: 'FAQs', equipo: 'Qui som', conocenos: 'Coneix-nos', servicios: 'Els nostres serveis' },
+    nav: { home: 'Inici', alta: 'Altes', blog: 'FAQs', equipo: 'Qui som', conocenos: 'Coneix-nos', servicios: 'Els nostres serveis' },
     header: { cta: 'Reserva una trucada', portal: 'Àrea clients', menu: 'Menú', closeMenu: 'Tanca el menú' },
     contact: {
       trigger: 'Contacta amb nosaltres',
@@ -925,7 +834,6 @@ export const ui = {
       priceSlAmount: 'des de 100 €',
       priceUnit: '/mes',
       priceClaim: 'Preus sense IVA. Inclou totes les teves consultes i dubtes, sense sorpreses ni lletra petita.',
-      ctaSim: 'Simula el teu preu',
       ctaCall: 'Reserva una trucada',
       trust: 'A tot Espanya, excepte Canàries, Navarra i el País Basc (tenen règims fiscals propis).',
     },
@@ -1103,7 +1011,7 @@ export const ui = {
       desc: 'Ens encarreguem del paperam — amb el pla Debut, l’alta va inclosa a la teva quota des del primer mes, sense tarifes a part.',
       price: 'Des de 35 € + IVA/mes',
       priceNote: 'Alta d’autònom inclosa · pla Debut, el primer any',
-      link: 'Simula el meu preu →',
+      link: 'Reservar la meva trucada →',
     },
 
     altaPage: {
@@ -1143,90 +1051,6 @@ export const ui = {
         'Resposta en menys de 24 hores',
         'Primera trucada de 20 minuts, sense compromís',
       ],
-    },
-
-    sim: {
-      eyebrow: 'Simulador de preu',
-      title: 'Quant et costaria amb Asesoría Madal?',
-      sub: 'Tres preguntes i tens el teu pressupost. Ho confirmem a la trucada.',
-      stepRegimen: {
-        q: 'Ets autònom o tens una SL/pime?',
-        options: [
-          { value: 'autonomo', label: 'Autònom' },
-          { value: 'pyme', label: 'SL o pime' },
-        ],
-      },
-      stepAlta: {
-        q: 'Ja estàs donat d’alta com a autònom?',
-        options: [
-          { value: 'si', label: 'Sí, estic donat d’alta' },
-          { value: 'no', label: 'No, vull que em doneu d’alta' },
-        ],
-      },
-      recommendedLabel: 'Recomanat',
-      stepCertificado: {
-        q: 'Tens Certificat Digital o Cl@ve?',
-        options: [
-          { value: 'si', label: 'Sí' },
-          { value: 'no', label: 'No' },
-        ],
-      },
-      stepActividad: {
-        q: 'A quina activitat et vols dedicar?',
-        hint: 'Si coneixes el teu epígraf o CNAE, indica’l. Si no, descriu-nos breument en què consisteix la teva activitat.',
-        placeholder: 'Ex.: Disseny gràfic freelance / CNAE 7410',
-      },
-      stepFecha: {
-        q: 'Quan vols començar la teva activitat?',
-        hint: 'Tria una data a partir d’avui. És orientativa, la confirmem a la trucada.',
-      },
-      continue: 'Continuar',
-      email: {
-        qBefore: 'Vols que t’enviem el pressupost complet per email, i concretar una trucada per resoldre els teus dubtes?',
-        qAfter: 'Prefereixes que t’enviem el pressupost complet per email?',
-        hint: 'T’ho enviem juntament amb el teu número de pressupost.',
-        noAds: 'Només t’enviarem això: no ho aprofitem per enviar-te publicitat ni res més.',
-        placeholder: 'elteu@email.com',
-        consentPrefix: 'He llegit i accepto la',
-        consentLink: 'Política de Privacitat',
-        consentInfo: 'Responsable: Asesoría Madal · Finalitat: calcular i enviar-te el teu pressupost · Legitimació: el teu consentiment · Destinataris: els nostres proveïdors d\'hosting i base de dades · Drets: accés, rectificació i supressió escrivint a contacto@asesoriamadal.es. Més informació a la Política de Privacitat.',
-        send: 'Enviar',
-        skip: 'Ometre',
-        success: 'Gràcies! T’avisarem a aquest correu.',
-        error: 'No hem pogut desar el teu correu. Torna-ho a provar o escriu-nos directament.',
-      },
-      altaResult: {
-        note: 'Pla {plan} — ens encarreguem de la teva alta d’autònom (RETA + Hisenda).',
-        fromLabel: 'Des del primer mes.',
-      },
-      stepFacturas: {
-        q: 'Quin pla vols?',
-      },
-      stepReporting: {
-        q: 'Vols reporting i dashboards del teu negoci?',
-        options: [
-          { value: 'si', label: 'Sí' },
-          { value: 'no', label: 'No' },
-          { value: 'nose', label: 'No ho tinc clar' },
-        ],
-      },
-      resultEyebrow: 'El teu pressupost',
-      priceUnit: 'al mes, IVA inclòs',
-      quoteLabel: 'Pressupost núm.',
-      breakdownBaseAutonomo: 'Quota base, autònom',
-      breakdownBaseSl: 'Quota base, SL i pimes',
-      breakdownReporting: 'Reporting i dashboards *',
-      breakdownReportingNose: 'Reporting i dashboards, opcional (no inclòs al total) *',
-      breakdownIva: 'IVA (21%)',
-      breakdownTotal: 'Total',
-      monthlyNote: 'Preu mensual.',
-      reportingExplain: '* A diferència d’altres gestories, portar una comptabilitat enfocada al negoci i no només a la presentació d’impostos ens permet fer un seguiment de l’estat de salut de la teva empresa, per ajudar-te a prendre millors decisions i no tenir ensurts financers.',
-      ctaCall: 'Reserva una trucada',
-      contactAlt: 'O escriu-nos a',
-      restart: 'Tornar a calcular',
-      back: '← Enrere',
-      error: 'No hem pogut generar el teu número de pressupost. Torna-ho a provar o escriu-nos directament.',
-      loading: 'Calculant…',
     },
 
     blog: {
@@ -1350,7 +1174,7 @@ export const ui = {
       confianza: {
         eyebrow: 'Rigor editorial',
         title: 'Per què pots confiar en el que publiquem',
-        sub: 'Tot el que escrivim sobre fiscalitat i comptabilitat (al blog, a les FAQs, al simulador) segueix el mateix criteri.',
+        sub: 'Tot el que escrivim sobre fiscalitat i comptabilitat (al blog, a les FAQs) segueix el mateix criteri.',
         items: [
           { title: 'Fonts oficials, no de tercers', desc: 'Ens recolzem en la normativa de l’<a href="https://www.agenciatributaria.es" target="_blank" rel="noopener noreferrer">Agència Tributària</a> i en el <a href="https://www.boe.es" target="_blank" rel="noopener noreferrer">BOE</a>, no en el que diuen altres blogs sobre gestoria.' },
           { title: 'Contingut revisat i actualitzat', desc: 'La normativa fiscal canvia. Quan canvia alguna cosa rellevant, actualitzem el contingut afectat en comptes de deixar-lo desactualitzat.' },
@@ -1510,6 +1334,7 @@ export const ui = {
           telefono: 'Teléfono',
           plan: 'Plan',
           planSinDefinir: 'Sin definir',
+          idioma: 'Idioma del cliente (para los correos)',
           submit: 'Crear cliente',
           sending: 'Creando…',
           ok: 'Cliente creado. Si tiene email, recibirá el formulario y el acceso al portal en unos segundos.',
@@ -1764,7 +1589,7 @@ export const ui = {
   },
 
   en: {
-    nav: { home: 'Home', simulador: 'Price simulator', alta: 'Registration', blog: 'FAQs', equipo: 'About us', conocenos: 'About us', servicios: 'Our services' },
+    nav: { home: 'Home', alta: 'Registration', blog: 'FAQs', equipo: 'About us', conocenos: 'About us', servicios: 'Our services' },
     header: { cta: 'Book a call', portal: 'Client area', menu: 'Menu', closeMenu: 'Close menu' },
     contact: {
       trigger: 'Contact us',
@@ -1794,7 +1619,6 @@ export const ui = {
       priceSlAmount: 'from €100',
       priceUnit: '/month',
       priceClaim: 'Prices exclude VAT. Includes every question and call you need, no surprises, no fine print.',
-      ctaSim: 'Get your price',
       ctaCall: 'Book a call',
       trust: 'All of Spain, except the Canary Islands, Navarre, and the Basque Country (they have their own regional tax systems).',
     },
@@ -1972,7 +1796,7 @@ export const ui = {
       desc: 'We handle the paperwork — with the Debut plan, registration is included in your fee from the first month, no separate charges.',
       price: 'From €35 + VAT/month',
       priceNote: 'Freelancer registration included · Debut plan, first year',
-      link: 'Get your price →',
+      link: 'Book my call →',
     },
 
     altaPage: {
@@ -2012,90 +1836,6 @@ export const ui = {
         'We reply within 24 hours',
         'First 20-minute call, no commitment',
       ],
-    },
-
-    sim: {
-      eyebrow: 'Price simulator',
-      title: 'How much would Asesoría Madal cost you?',
-      sub: 'Three questions and you get your quote. We confirm it on the call.',
-      stepRegimen: {
-        q: 'Are you a freelancer, or do you have an SL?',
-        options: [
-          { value: 'autonomo', label: 'Freelancer' },
-          { value: 'pyme', label: 'SL or small business' },
-        ],
-      },
-      stepAlta: {
-        q: 'Are you already registered as self-employed?',
-        options: [
-          { value: 'si', label: 'Yes, I’m already registered' },
-          { value: 'no', label: 'No, I need you to register me' },
-        ],
-      },
-      recommendedLabel: 'Recommended',
-      stepCertificado: {
-        q: 'Do you have a Digital Certificate or Cl@ve?',
-        options: [
-          { value: 'si', label: 'Yes' },
-          { value: 'no', label: 'No' },
-        ],
-      },
-      stepActividad: {
-        q: 'What activity are you going to carry out?',
-        hint: 'If you know your CNAE code, tell us. If not, briefly describe what your activity involves.',
-        placeholder: 'E.g.: Freelance graphic design / CNAE 7410',
-      },
-      stepFecha: {
-        q: 'When do you want to start your activity?',
-        hint: 'Pick a date from today onward. It’s tentative, we confirm it on the call.',
-      },
-      continue: 'Continue',
-      email: {
-        qBefore: 'Want us to email you the full quote, and set up a call to answer your questions?',
-        qAfter: 'Would you rather we email you the full quote?',
-        hint: 'We’ll send it along with your quote number.',
-        noAds: 'That’s all we’ll send — we won’t use it to email you marketing or anything else.',
-        placeholder: 'you@email.com',
-        consentPrefix: 'I’ve read and accept the',
-        consentLink: 'Privacy Policy',
-        consentInfo: 'Data controller: Asesoría Madal · Purpose: calculating and sending you your quote · Legal basis: your consent · Recipients: our hosting and database providers · Rights: access, rectification and erasure by writing to contacto@asesoriamadal.es. More information in the Privacy Policy.',
-        send: 'Send',
-        skip: 'Skip',
-        success: 'Thanks! We’ll reach out to that email.',
-        error: 'We couldn’t save your email. Try again or email us directly.',
-      },
-      altaResult: {
-        note: '{plan} plan — we handle your freelancer registration (Social Security + Tax Agency).',
-        fromLabel: 'From the first month onward.',
-      },
-      stepFacturas: {
-        q: 'Which plan do you want?',
-      },
-      stepReporting: {
-        q: 'Do you want reporting and dashboards for your business?',
-        options: [
-          { value: 'si', label: 'Yes' },
-          { value: 'no', label: 'No' },
-          { value: 'nose', label: 'Not sure yet' },
-        ],
-      },
-      resultEyebrow: 'Your quote',
-      priceUnit: 'per month, VAT included',
-      quoteLabel: 'Quote No.',
-      breakdownBaseAutonomo: 'Base fee, freelancer',
-      breakdownBaseSl: 'Base fee, SL and small businesses',
-      breakdownReporting: 'Reporting and dashboards *',
-      breakdownReportingNose: 'Reporting and dashboards, optional (not included in the total) *',
-      breakdownIva: 'VAT (21%)',
-      breakdownTotal: 'Total',
-      monthlyNote: 'Monthly price.',
-      reportingExplain: '* Unlike other accounting firms, keeping accounts focused on your business, not just on filing taxes, lets us track your company’s financial health, to help you make better decisions and avoid financial surprises.',
-      ctaCall: 'Book a call',
-      contactAlt: 'Or email us at',
-      restart: 'Recalculate',
-      back: '← Back',
-      error: 'We couldn’t generate your quote number. Try again or email us directly.',
-      loading: 'Calculating…',
     },
 
     blog: {
@@ -2221,7 +1961,7 @@ export const ui = {
       confianza: {
         eyebrow: 'Editorial rigour',
         title: 'Why you can trust what we publish',
-        sub: 'Everything we write about tax and accounting (in the blog, the FAQs, the simulator) follows the same standard.',
+        sub: 'Everything we write about tax and accounting (in the blog, the FAQs) follows the same standard.',
         items: [
           { title: 'Official sources, not second-hand ones', desc: 'We rely on <a href="https://www.agenciatributaria.es" target="_blank" rel="noopener noreferrer">Tax Agency</a> regulation and the <a href="https://www.boe.es" target="_blank" rel="noopener noreferrer">official gazette (BOE)</a>, not on what other accounting blogs say.' },
           { title: 'Reviewed and kept up to date', desc: 'Tax rules change. When something relevant changes, we update the affected content instead of leaving it outdated.' },
@@ -2381,6 +2121,7 @@ export const ui = {
           telefono: 'Teléfono',
           plan: 'Plan',
           planSinDefinir: 'Sin definir',
+          idioma: 'Idioma del cliente (para los correos)',
           submit: 'Crear cliente',
           sending: 'Creando…',
           ok: 'Cliente creado. Si tiene email, recibirá el formulario y el acceso al portal en unos segundos.',

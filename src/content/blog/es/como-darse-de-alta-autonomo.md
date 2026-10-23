@@ -57,7 +57,7 @@ Normalmente **uno o dos días laborables** desde que tenemos tu documentación c
 
 **El alta no tiene tarifa aparte.** Va incluida en el plan **Debut**, pensado para autónomos que acaban de darse de alta o están a punto: **35 € + IVA al mes (42,35 € con IVA) durante el primer año**, con alcance fiscal y contable completo, la llamada de bienvenida y contacto por email y WhatsApp. A los 6 meses puedes revisar con nosotros si pasar al plan Esencial, y al terminar el año eliges el plan que mejor encaje.
 
-Si quieres una cifra ajustada a tu caso en un minuto, usa nuestro [simulador](/simulador) o mira [cuánto cuesta una gestoría online](/blog/precio-gestoria-online-2026).
+Si quieres saber cuánto costaría en tu caso, consulta [nuestros planes y precios](/#precios) o mira [cuánto cuesta una gestoría online](/blog/precio-gestoria-online-2026).
 
 ## Cómo te acompañamos después del alta
 

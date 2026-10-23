@@ -2,7 +2,6 @@
 import { useTranslations, localizedPath } from '../../i18n/utils';
 import type { Locale } from '../../i18n/ui';
 import ContactSwitch from '../ContactSwitch.astro';
-import Simulador from './Simulador.astro';
 import { getSortedBlogPosts } from '../../lib/blog';
 
 interface Props { lang: Locale; }
@@ -67,7 +66,7 @@ function tierTintClass(index: number, total: number): string {
 
         <div class="hero-magnet">
           <div class="hero-magnet-inner">
-            <a href={localizedPath('/simulador', lang)} class="btn-circle">{t.hero.ctaSim}</a>
+            <a href="https://meetings-eu1.hubspot.com/asesoria-madal" target="_blank" rel="noopener" class="btn-circle">{t.hero.ctaCall}</a>
           </div>
         </div>
       </div>
@@ -77,10 +76,6 @@ function tierTintClass(index: number, total: number): string {
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"></path></svg>
     </div>
   </section>
-
-  <div class="sim-embed" id="simulador">
-    <Simulador lang={lang} embedded />
-  </div>
 
   <section class="section" id="como-trabajamos">
     <div class="label-col"><p class="eyebrow">{t.proceso.eyebrow}</p></div>
@@ -171,7 +166,7 @@ function tierTintClass(index: number, total: number): string {
         <div class="copy">
           <h3>{t.alta.title}</h3>
           <p>{t.alta.desc}</p>
-          <a href={localizedPath('/simulador', lang)} class="alta-link">{t.alta.link}</a>
+          <a href="https://meetings-eu1.hubspot.com/asesoria-madal" target="_blank" rel="noopener" class="alta-link">{t.alta.link}</a>
         </div>
         <div>
           <p class="price"><span data-countup>{t.alta.price}</span><br /><small>{t.alta.priceNote}</small></p>

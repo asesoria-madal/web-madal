@@ -640,7 +640,6 @@ section.section > .label-col { padding-top: 0.2rem; }
   section.section { grid-template-columns: 1fr; gap: 0.9rem; }
 }
 
-.sim-embed { border-top: 1px solid var(--line); }
 
 /* ---------- Hero ---------- */
 section.hero { border-top: none; padding: 3.6rem 0 3.2rem; display: block; position: relative; overflow: hidden; }

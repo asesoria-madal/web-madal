@@ -5,8 +5,8 @@ import ContactSwitch from './ContactSwitch.astro';
 
 interface Props {
   lang: Locale;
-  path: string; // pathname sin prefijo de idioma, p.ej. "/simulador"
-  active: 'home' | 'simulador' | 'blog' | 'equipo' | 'servicios' | 'alta' | 'none';
+  path: string; // pathname sin prefijo de idioma, p.ej. "/alta"
+  active: 'home' | 'blog' | 'equipo' | 'servicios' | 'alta' | 'none';
   // Para páginas sueltas sin enlazar (p.ej. formulario-alta): solo deja el
   // wordmark, el idioma y el tema — sin links de navegación, portal ni CTA
   // de contacto, porque quien llega ahí ya viene con un link directo y no
@@ -19,7 +19,6 @@ const t = useTranslations(lang);
 const home = lang === 'es' ? '/' : `/${lang}/`;
 const nav = [
   { key: 'home', href: lang === 'es' ? '/' : `/${lang}/`, label: t.nav.home },
-  { key: 'simulador', href: localizedPath('/simulador', lang), label: t.nav.simulador },
   { key: 'blog', href: localizedPath('/blog', lang), label: t.nav.blog },
 ];
 const equipoHref = localizedPath('/equipo', lang);

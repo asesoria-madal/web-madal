@@ -109,6 +109,13 @@ const dashboardsCtaHref = `mailto:${EMAIL}?subject=${encodeURIComponent(dashboar
               <label>{t.admin.alta.telefono}
                 <input type="tel" id="alta-telefono" maxlength="20" autocomplete="off" />
               </label>
+              <label>{t.admin.alta.idioma}
+                <select id="alta-idioma">
+                  <option value="es">Español</option>
+                  <option value="ca">Català</option>
+                  <option value="en">English</option>
+                </select>
+              </label>
               <label>{t.admin.alta.plan}
                 <select id="alta-plan">
                   <option value="">{t.admin.alta.planSinDefinir}</option>
@@ -1102,7 +1109,7 @@ const dashboardsCtaHref = `mailto:${EMAIL}?subject=${encodeURIComponent(dashboar
       // "unlinked", igual que antes.
       const { data: cliente } = await supabase!
         .from('clientes')
-        .select('id, nombre, reporting, tipo_persona, modelos')
+        .select('id, nombre, reporting, tipo_persona, modelos, beel_contratado')
         .maybeSingle();
 
       if (!cliente) {
@@ -1113,6 +1120,10 @@ const dashboardsCtaHref = `mailto:${EMAIL}?subject=${encodeURIComponent(dashboar
       adminBar.hidden = true;
       facturaForm.hidden = false;
       emitirRoot.hidden = false;
+      // "Emitir facturas" solo existe para quien ha contratado la facturación (BeeL).
+      const puedeEmitir = (cliente as ClienteRow).beel_contratado === true;
+      navLinks.forEach((l) => { if (l.dataset.panel === 'emitir') { l.hidden = !puedeEmitir; l.style.display = puedeEmitir ? '' : 'none'; } });
+      panels.forEach((p) => { if (p.dataset.panel === 'emitir' && !puedeEmitir) p.hidden = true; });
       aplicarCliente(cliente as ClienteRow);
       showOnly(dashEl);
     }
@@ -1284,6 +1295,7 @@ const dashboardsCtaHref = `mailto:${EMAIL}?subject=${encodeURIComponent(dashboar
             email: val('alta-email') || undefined,
             telefono: val('alta-telefono') || undefined,
             plan: val('alta-plan') || undefined,
+            idioma: val('alta-idioma') || 'es',
             tipoPersona,
             tramitamosAlta: tipoPersona === 'autonomo' ? (document.getElementById('alta-tramitamos') as HTMLSelectElement).value === 'si' : undefined,
             reporting: (document.getElementById('alta-reporting') as HTMLInputElement).checked,

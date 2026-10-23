@@ -1,3 +1,8 @@
+-- RETIRADO (2026-10-23): el simulador de precio se eliminó de la web. Las tablas
+-- `quote_counters` y `presupuestos` y la función next_quote_number de este bloque ya no
+-- se usan; se borran con supabase/retirar-simulador.sql (a mano, es irreversible). Se
+-- dejan definidas aquí solo para poder recrear la base desde cero sin romper nada.
+--
 -- Ejecutar una vez en el SQL editor de Supabase (proyecto nuevo).
 -- Guarda las respuestas del simulador de precio y genera un número de
 -- presupuesto único y secuencial por año (CC-26-00001, CC-26-00002, ...).
@@ -932,3 +937,8 @@ alter table clientes add column if not exists telefono text;
 alter table clientes add column if not exists hubspot_contact_id text;
 create unique index if not exists clientes_hubspot_contact_idx on clientes (hubspot_contact_id);
 alter table clientes add column if not exists hubspot_synced_at timestamptz;
+
+-- Idioma del cliente (2026-10-23): 'es' | 'ca' | 'en'. Se elige en el alta manual del portal
+-- y decide en qué idioma salen los correos automáticos de n8n (onboarding, etc.).
+-- Los clientes anteriores quedan en 'es' por el default.
+alter table clientes add column if not exists idioma text not null default 'es';

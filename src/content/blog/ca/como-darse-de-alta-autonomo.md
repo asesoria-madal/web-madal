@@ -57,7 +57,7 @@ Normalment **un o dos dies laborables** des que tenim la teva documentació comp
 
 **L'alta no té tarifa a part.** Va inclosa al pla **Debut**, pensat per a autònoms que acaben de donar-se d'alta o hi estan a punt: **35 € + IVA al mes (42,35 € amb IVA) durant el primer any**, amb abast fiscal i comptable complet, la trucada de benvinguda i contacte per email i WhatsApp. Als 6 mesos pots revisar amb nosaltres si passar al pla Esencial, i en acabar l'any tries el pla que millor encaixi.
 
-Si vols una xifra ajustada al teu cas en un minut, fes servir el nostre [simulador](/ca/simulador) o mira [quant costa una gestoria en línia](/blog/precio-gestoria-online-2026).
+Si vols saber quant costaria en el teu cas, consulta [els nostres plans i preus](/ca/#precios) o mira [quant costa una gestoria en línia](/blog/precio-gestoria-online-2026).
 
 ## Com t'acompanyem després de l'alta
 

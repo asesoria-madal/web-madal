@@ -3,6 +3,8 @@ import type { SupabaseClient } from '@supabase/supabase-js';
 export interface ClienteSesion {
   id: string; // NIF del cliente (clientes.id)
   beelCompanyId: string | null;
+  // Ha contratado la facturación con nosotros (clientes.beel_contratado).
+  beelContratado: boolean;
 }
 
 // Identifica al cliente que llama a un endpoint del portal a partir del
@@ -22,10 +24,14 @@ export async function clienteDesdeRequest(
 
   const { data: cliente } = await supabase
     .from('clientes')
-    .select('id, beel_company_id')
+    .select('id, beel_company_id, beel_contratado')
     .eq('auth_user_id', userData.user.id)
     .maybeSingle();
   if (!cliente) return null;
 
-  return { id: cliente.id as string, beelCompanyId: (cliente.beel_company_id as string | null) ?? null };
+  return {
+    id: cliente.id as string,
+    beelCompanyId: (cliente.beel_company_id as string | null) ?? null,
+    beelContratado: cliente.beel_contratado === true,
+  };
 }

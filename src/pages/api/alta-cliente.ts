@@ -21,6 +21,8 @@ const NIF_PATTERN = /^[0-9A-Za-z][0-9]{7}[A-Za-z0-9]$/;
 const TELEFONO_PATTERN = /^[+0-9 ()-]{6,20}$/;
 // Mismos valores que el desplegable de HubSpot (ver n8n-workflows/hubspot/setup-hubspot.mjs).
 const PLANES = ['debut', 'esencial', 'crece', 'total', 'sl'] as const;
+// Idioma del cliente: decide el idioma de los correos automáticos de n8n.
+const IDIOMAS = ['es', 'ca', 'en'] as const;
 
 interface Body {
   nif: string;
@@ -37,6 +39,8 @@ interface Body {
   // Opcionales. Se sincronizan con HubSpot (workflow n8n "Sync HubSpot").
   telefono?: string;
   plan?: (typeof PLANES)[number];
+  // Por defecto 'es'.
+  idioma?: (typeof IDIOMAS)[number];
 }
 
 function isValid(body: unknown): body is Body {
@@ -52,6 +56,7 @@ function isValid(body: unknown): body is Body {
   if (b.beelContratado !== undefined && typeof b.beelContratado !== 'boolean') return false;
   if (b.telefono !== undefined && (typeof b.telefono !== 'string' || !TELEFONO_PATTERN.test(b.telefono.trim()))) return false;
   if (b.plan !== undefined && !(PLANES as readonly unknown[]).includes(b.plan)) return false;
+  if (b.idioma !== undefined && !(IDIOMAS as readonly unknown[]).includes(b.idioma)) return false;
   return true;
 }
 
@@ -123,6 +128,7 @@ export const POST: APIRoute = async ({ request }) => {
     beel_contratado: body.beelContratado === true,
     telefono: body.telefono?.trim() || null,
     plan: body.plan ?? null,
+    idioma: body.idioma ?? 'es',
   });
 
   if (error) {

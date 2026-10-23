@@ -57,7 +57,7 @@ Usually **one or two business days** from the moment we have your complete paper
 
 **Registration has no separate fee.** It is included in the **Debut** plan, designed for people who have just registered or are about to: **€35 + VAT per month (€42.35 with VAT) for the first year**, with full tax and accounting scope, the welcome call and email and WhatsApp contact. After 6 months you can review with us whether to move to the Esencial plan, and at the end of the year you choose the plan that fits best.
 
-For a figure tailored to your case in a minute, use our [simulator](/en/simulador) or see [how much an online gestoría costs](/blog/precio-gestoria-online-2026).
+To find out what it would cost in your case, see [our plans and prices](/en/#precios) or see [how much an online gestoría costs](/blog/precio-gestoria-online-2026).
 
 ## How we support you after registration
 

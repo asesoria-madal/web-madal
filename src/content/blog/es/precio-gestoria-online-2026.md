@@ -22,6 +22,6 @@ Si una gestoría te da un precio cerrado sin preguntarte por tu régimen, tu vol
 
 ## Cómo lo hacemos nosotros
 
-Preferimos que sepas el precio orientativo en un minuto, con nuestro simulador, respondiendo justo a esas preguntas (régimen, facturas, empleados, si quieres reporting). No sustituye una conversación real, pero te da una cifra honesta antes de comprometerte a nada.
+Preferimos que sepas el precio con claridad antes de comprometerte: está publicado en [nuestros planes](/#precios), por tramos y sin letra pequeña. No sustituye una conversación real, pero te da una cifra honesta antes de comprometerte a nada.
 
 Si estás pensando en darte de alta, tienes [la guía completa del alta de autónomo](/blog/como-darse-de-alta-autonomo): cuándo, cómo y cuánto cuesta con nosotros.

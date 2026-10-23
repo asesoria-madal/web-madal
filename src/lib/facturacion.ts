@@ -51,6 +51,12 @@ export async function contextoFacturacion(request: Request): Promise<ContextoFac
     return json({ error: 'Demasiadas peticiones. Inténtalo de nuevo en unos minutos.' }, 429);
   }
 
+  // Solo emiten facturas los clientes que han contratado la facturación; sin esto,
+  // `resolveCompanyId` caería en la empresa por defecto de sandbox para cualquiera.
+  if (!cliente.beelContratado) {
+    return json({ error: 'La facturación no está contratada en tu cuenta. Escríbenos si quieres activarla.' }, 403);
+  }
+
   const companyId = resolveCompanyId(cliente.beelCompanyId);
   if (!companyId) {
     return json({ error: 'La facturación todavía no está activada para tu cuenta. Escríbenos y la activamos.' }, 409);

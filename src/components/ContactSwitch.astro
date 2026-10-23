@@ -3,7 +3,7 @@
 // nativo <dialog>, que ya se autocentra y trae backdrop/Escape gratis)
 // con el correo como opción principal y la llamada debajo como
 // alternativa — enlace de reserva de HubSpot Meetings.
-// Se reutiliza en cabecera, CTA final, home, alta y simulador para no
+// Se reutiliza en cabecera, CTA final, home y alta para no
 // repetir botones sueltos de llamada/correo en cada sitio.
 import type { Locale } from '../i18n/ui';
 import { useTranslations } from '../i18n/utils';
@@ -12,7 +12,7 @@ interface Props {
   lang: Locale;
   triggerClass?: string;
   // Superficie desde la que se muestra este botón (header, home_hero,
-  // cta_final, blog_nudge, alta, simulador, menu_movil…). Viaja en el
+  // cta_final, blog_nudge, alta, menu_movil…). Viaja en el
   // evento `contacto_click` de Vercel Analytics para poder comparar qué
   // sitio de la web genera más contactos. Solo visible en plan Pro.
   origen?: string;
