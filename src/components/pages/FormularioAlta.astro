@@ -164,6 +164,35 @@
       nifInput.value = nifParam;
       nifInput.readOnly = true;
     }
+    // El email con el que damos de alta al cliente también viaja en el enlace (?email=).
+    const emailParam = params.get('email');
+    if (emailParam) (document.getElementById('fEmail') as HTMLInputElement).value = emailParam;
+
+    // Si el servidor dice qué campo no valida (`field`), el aviso lo nombra.
+    const CAMPOS: Record<string, string> = {
+      identificacionDigital: 'Identificación digital',
+      nombreCompleto: 'Nombre y apellidos', nombreRazonSocial: 'Nombre o razón social',
+      nifNie: 'NIF / NIE', nifCif: 'NIF / CIF', email: 'Email', telefono: 'Teléfono',
+      domicilioFiscal: 'Domicilio fiscal', domicilioNotificaciones: 'Domicilio de notificaciones',
+      domicilioSocial: 'Domicilio social', iban: 'IBAN', epigrafesIae: 'Epígrafes IAE',
+      epigrafesIaeActuales: 'Epígrafes IAE actuales', fechaInicioActividad: 'Fecha de inicio de actividad',
+      fechaAltaActividad: 'Fecha de alta en la actividad', tipoLocal: 'Tipo de local',
+      domicilioLocal: 'Domicilio del local', regimenCotizacion: 'Régimen de cotización',
+      retencionIrpf: 'Retención de IRPF', regimenIvaActual: 'Régimen de IVA', regimenIrpfActual: 'Régimen de IRPF',
+      porcentajeRetencion: 'Porcentaje de retención', numeroTrabajadores: 'Número de trabajadores',
+      detalleRequerimientosAeat: 'Detalle de los requerimientos de la AEAT',
+      contactoGestoriaAnterior: 'Contacto de la gestoría anterior',
+      autorizaSolicitarHistorico: 'Autorización para solicitar el histórico', privacyAccepted: 'Política de privacidad',
+    };
+    const MENSAJE_GENERICO = errorEl.textContent;
+    async function mostrarError(res: Response | null) {
+      let campo = '';
+      try { campo = (await res?.json())?.field ?? ''; } catch { /* sin detalle */ }
+      errorEl.textContent = campo && CAMPOS[campo]
+        ? `Revisa el campo «${CAMPOS[campo]}»: falta o no tiene un formato válido.`
+        : MENSAJE_GENERICO;
+      errorEl.hidden = false;
+    }
 
     const tipoLocalWrap = document.getElementById('fDomicilioLocalWrap') as HTMLElement;
     const domicilioLocalInput = document.getElementById('fDomicilioLocal') as HTMLTextAreaElement;
@@ -249,7 +278,7 @@
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(body),
         });
-        if (!res.ok) throw new Error('bad response');
+        if (!res.ok) { await mostrarError(res); submitBtn.disabled = false; return; }
         track('formulario_enviado', { tipo: 'alta' });
         form.hidden = true;
         success.hidden = false;

@@ -44,40 +44,42 @@ function isNonEmptyString(v: unknown, maxLength: number): v is string {
   return typeof v === 'string' && v.trim().length > 0 && v.length <= maxLength;
 }
 
-function isValid(body: unknown): body is Body {
-  if (typeof body !== 'object' || body === null) return false;
+// Devuelve el nombre del primer campo que no valida (o null si todo está bien),
+// para poder decirle al cliente exactamente cuál corregir.
+function primerCampoInvalido(body: unknown): string | null {
+  if (typeof body !== 'object' || body === null) return 'datos';
   const b = body as Record<string, unknown>;
 
-  if (!IDENTIFICACION_VALUES.includes(b.identificacionDigital as string)) return false;
-  if (!isNonEmptyString(b.nombreCompleto, 150)) return false;
-  if (typeof b.nifNie !== 'string' || !NIF_NIE_PATTERN.test(b.nifNie.trim())) return false;
-  if (typeof b.email !== 'string' || !EMAIL_PATTERN.test(b.email) || b.email.length > 254) return false;
-  if (typeof b.telefono !== 'string' || !TELEFONO_PATTERN.test(b.telefono.trim())) return false;
-  if (!isNonEmptyString(b.domicilioFiscal, 300)) return false;
-  if (b.domicilioNotificaciones !== undefined && (typeof b.domicilioNotificaciones !== 'string' || b.domicilioNotificaciones.length > 300)) return false;
-  if (typeof b.iban !== 'string' || !IBAN_PATTERN.test(b.iban.trim().replace(/\s+/g, ''))) return false;
-  if (!isNonEmptyString(b.epigrafesIae, 500)) return false;
-  if (typeof b.fechaInicioActividad !== 'string' || !FECHA_PATTERN.test(b.fechaInicioActividad)) return false;
-  if (!TIPO_LOCAL_VALUES.includes(b.tipoLocal as string)) return false;
+  if (!IDENTIFICACION_VALUES.includes(b.identificacionDigital as string)) return 'identificacionDigital';
+  if (!isNonEmptyString(b.nombreCompleto, 150)) return 'nombreCompleto';
+  if (typeof b.nifNie !== 'string' || !NIF_NIE_PATTERN.test(b.nifNie.trim())) return 'nifNie';
+  if (typeof b.email !== 'string' || !EMAIL_PATTERN.test(b.email) || b.email.length > 254) return 'email';
+  if (typeof b.telefono !== 'string' || !TELEFONO_PATTERN.test(b.telefono.trim())) return 'telefono';
+  if (!isNonEmptyString(b.domicilioFiscal, 300)) return 'domicilioFiscal';
+  if (b.domicilioNotificaciones !== undefined && (typeof b.domicilioNotificaciones !== 'string' || b.domicilioNotificaciones.length > 300)) return 'domicilioNotificaciones';
+  if (typeof b.iban !== 'string' || !IBAN_PATTERN.test(b.iban.trim().replace(/\s+/g, ''))) return 'iban';
+  if (!isNonEmptyString(b.epigrafesIae, 500)) return 'epigrafesIae';
+  if (typeof b.fechaInicioActividad !== 'string' || !FECHA_PATTERN.test(b.fechaInicioActividad)) return 'fechaInicioActividad';
+  if (!TIPO_LOCAL_VALUES.includes(b.tipoLocal as string)) return 'tipoLocal';
   // El domicilio del local es obligatorio salvo que la actividad sea "sin local".
-  if (b.tipoLocal !== 'sin_local' && !isNonEmptyString(b.domicilioLocal, 300)) return false;
-  if (b.domicilioLocal !== undefined && (typeof b.domicilioLocal !== 'string' || b.domicilioLocal.length > 300)) return false;
-  if (typeof b.multiplesLocales !== 'boolean') return false;
-  if (b.detalleLocalesAdicionales !== undefined && (typeof b.detalleLocalesAdicionales !== 'string' || b.detalleLocalesAdicionales.length > 300)) return false;
-  if (typeof b.profesionColegiada !== 'boolean') return false;
+  if (b.tipoLocal !== 'sin_local' && !isNonEmptyString(b.domicilioLocal, 300)) return 'domicilioLocal';
+  if (b.domicilioLocal !== undefined && (typeof b.domicilioLocal !== 'string' || b.domicilioLocal.length > 300)) return 'domicilioLocal';
+  if (typeof b.multiplesLocales !== 'boolean') return 'multiplesLocales';
+  if (b.detalleLocalesAdicionales !== undefined && (typeof b.detalleLocalesAdicionales !== 'string' || b.detalleLocalesAdicionales.length > 300)) return 'detalleLocalesAdicionales';
+  if (typeof b.profesionColegiada !== 'boolean') return 'profesionColegiada';
   // El régimen de cotización solo tiene sentido (y solo se pregunta en el
   // formulario) cuando la profesión es colegiada.
   if (b.profesionColegiada) {
-    if (!REGIMEN_COTIZACION_VALUES.includes(b.regimenCotizacion as string)) return false;
+    if (!REGIMEN_COTIZACION_VALUES.includes(b.regimenCotizacion as string)) return 'regimenCotizacion';
   } else if (b.regimenCotizacion !== undefined) {
-    return false;
+    return 'regimenCotizacion';
   }
-  if (typeof b.operacionesIntracomunitarias !== 'boolean') return false;
-  if (!RETENCION_IRPF_VALUES.includes(b.retencionIrpf as string)) return false;
-  if (typeof b.tendraTrabajadores !== 'boolean') return false;
-  if (b.privacyAccepted !== true) return false;
+  if (typeof b.operacionesIntracomunitarias !== 'boolean') return 'operacionesIntracomunitarias';
+  if (!RETENCION_IRPF_VALUES.includes(b.retencionIrpf as string)) return 'retencionIrpf';
+  if (typeof b.tendraTrabajadores !== 'boolean') return 'tendraTrabajadores';
+  if (b.privacyAccepted !== true) return 'privacyAccepted';
 
-  return true;
+  return null;
 }
 
 function json(data: unknown, status = 200) {
@@ -104,16 +106,18 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
     return json({ error: 'Demasiadas peticiones. Inténtalo de nuevo en unos minutos.' }, 429);
   }
 
-  let body: unknown;
+  let raw: unknown;
   try {
-    body = await request.json();
+    raw = await request.json();
   } catch {
     return json({ error: 'JSON inválido' }, 400);
   }
 
-  if (!isValid(body)) {
-    return json({ error: 'Respuestas no válidas' }, 400);
+  const campoInvalido = primerCampoInvalido(raw);
+  if (campoInvalido) {
+    return json({ error: 'Respuestas no válidas', field: campoInvalido }, 400);
   }
+  const body = raw as Body;
 
   const supabase = getSupabaseAdmin();
   if (!supabase) {

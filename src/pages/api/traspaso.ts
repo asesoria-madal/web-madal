@@ -47,65 +47,67 @@ function isNonEmptyString(v: unknown, maxLength: number): v is string {
   return typeof v === 'string' && v.trim().length > 0 && v.length <= maxLength;
 }
 
-function isValid(body: unknown): body is Body {
-  if (typeof body !== 'object' || body === null) return false;
+// Devuelve el nombre del primer campo que no valida (o null si todo está bien),
+// para poder decirle al cliente exactamente cuál corregir.
+function primerCampoInvalido(body: unknown): string | null {
+  if (typeof body !== 'object' || body === null) return 'datos';
   const b = body as Record<string, unknown>;
 
-  if (!TIPO_VALUES.includes(b.tipo as string)) return false;
+  if (!TIPO_VALUES.includes(b.tipo as string)) return 'tipo';
   const isAutonomo = b.tipo === 'autonomo';
 
-  if (!IDENTIFICACION_VALUES.includes(b.identificacionDigital as string)) return false;
-  if (!isNonEmptyString(b.nombreRazonSocial, 150)) return false;
-  if (typeof b.nifCif !== 'string' || !NIF_CIF_PATTERN.test(b.nifCif.trim())) return false;
-  if (typeof b.email !== 'string' || !EMAIL_PATTERN.test(b.email) || b.email.length > 254) return false;
-  if (typeof b.telefono !== 'string' || !TELEFONO_PATTERN.test(b.telefono.trim())) return false;
-  if (!isNonEmptyString(b.domicilioFiscal, 300)) return false;
-  if (b.domicilioNotificaciones !== undefined && (typeof b.domicilioNotificaciones !== 'string' || b.domicilioNotificaciones.length > 300)) return false;
-  if (typeof b.iban !== 'string' || !IBAN_PATTERN.test(b.iban.trim().replace(/\s+/g, ''))) return false;
+  if (!IDENTIFICACION_VALUES.includes(b.identificacionDigital as string)) return 'identificacionDigital';
+  if (!isNonEmptyString(b.nombreRazonSocial, 150)) return 'nombreRazonSocial';
+  if (typeof b.nifCif !== 'string' || !NIF_CIF_PATTERN.test(b.nifCif.trim())) return 'nifCif';
+  if (typeof b.email !== 'string' || !EMAIL_PATTERN.test(b.email) || b.email.length > 254) return 'email';
+  if (typeof b.telefono !== 'string' || !TELEFONO_PATTERN.test(b.telefono.trim())) return 'telefono';
+  if (!isNonEmptyString(b.domicilioFiscal, 300)) return 'domicilioFiscal';
+  if (b.domicilioNotificaciones !== undefined && (typeof b.domicilioNotificaciones !== 'string' || b.domicilioNotificaciones.length > 300)) return 'domicilioNotificaciones';
+  if (typeof b.iban !== 'string' || !IBAN_PATTERN.test(b.iban.trim().replace(/\s+/g, ''))) return 'iban';
 
   // Domicilio social: obligatorio en SL, no se pregunta en autónomo.
-  if (!isAutonomo && !isNonEmptyString(b.domicilioSocial, 300)) return false;
-  if (isAutonomo && b.domicilioSocial !== undefined) return false;
+  if (!isAutonomo && !isNonEmptyString(b.domicilioSocial, 300)) return 'domicilioSocial';
+  if (isAutonomo && b.domicilioSocial !== undefined) return 'domicilioSocial';
 
   // Situación fiscal actual, exclusiva de autónomo — ver comentario en schema.sql.
   if (isAutonomo) {
-    if (typeof b.fechaAltaActividad !== 'string' || !FECHA_PATTERN.test(b.fechaAltaActividad)) return false;
-    if (!isNonEmptyString(b.epigrafesIaeActuales, 500)) return false;
-    if (!isNonEmptyString(b.regimenIvaActual, 100)) return false;
-    if (!isNonEmptyString(b.regimenIrpfActual, 100)) return false;
-    if (typeof b.facturaConRetencion !== 'boolean') return false;
+    if (typeof b.fechaAltaActividad !== 'string' || !FECHA_PATTERN.test(b.fechaAltaActividad)) return 'fechaAltaActividad';
+    if (!isNonEmptyString(b.epigrafesIaeActuales, 500)) return 'epigrafesIaeActuales';
+    if (!isNonEmptyString(b.regimenIvaActual, 100)) return 'regimenIvaActual';
+    if (!isNonEmptyString(b.regimenIrpfActual, 100)) return 'regimenIrpfActual';
+    if (typeof b.facturaConRetencion !== 'boolean') return 'facturaConRetencion';
     if (b.facturaConRetencion) {
-      if (typeof b.porcentajeRetencion !== 'number' || b.porcentajeRetencion < 0 || b.porcentajeRetencion > 100) return false;
+      if (typeof b.porcentajeRetencion !== 'number' || b.porcentajeRetencion < 0 || b.porcentajeRetencion > 100) return 'porcentajeRetencion';
     } else if (b.porcentajeRetencion !== undefined) {
-      return false;
+      return 'porcentajeRetencion';
     }
   } else {
     if (b.fechaAltaActividad !== undefined || b.epigrafesIaeActuales !== undefined || b.regimenIvaActual !== undefined ||
         b.regimenIrpfActual !== undefined || b.facturaConRetencion !== undefined || b.porcentajeRetencion !== undefined) {
-      return false;
+      return 'regimenIrpfActual';
     }
   }
 
-  if (typeof b.tieneTrabajadores !== 'boolean') return false;
+  if (typeof b.tieneTrabajadores !== 'boolean') return 'tieneTrabajadores';
   if (b.tieneTrabajadores) {
-    if (typeof b.numeroTrabajadores !== 'number' || !Number.isInteger(b.numeroTrabajadores) || b.numeroTrabajadores < 1) return false;
+    if (typeof b.numeroTrabajadores !== 'number' || !Number.isInteger(b.numeroTrabajadores) || b.numeroTrabajadores < 1) return 'numeroTrabajadores';
   } else if (b.numeroTrabajadores !== undefined) {
-    return false;
+    return 'numeroTrabajadores';
   }
-  if (typeof b.operacionesIntracomunitarias !== 'boolean') return false;
+  if (typeof b.operacionesIntracomunitarias !== 'boolean') return 'operacionesIntracomunitarias';
 
-  if (typeof b.tieneRequerimientosAeat !== 'boolean') return false;
+  if (typeof b.tieneRequerimientosAeat !== 'boolean') return 'tieneRequerimientosAeat';
   if (b.tieneRequerimientosAeat) {
-    if (!isNonEmptyString(b.detalleRequerimientosAeat, 500)) return false;
+    if (!isNonEmptyString(b.detalleRequerimientosAeat, 500)) return 'detalleRequerimientosAeat';
   } else if (b.detalleRequerimientosAeat !== undefined) {
-    return false;
+    return 'detalleRequerimientosAeat';
   }
-  if (!isNonEmptyString(b.contactoGestoriaAnterior, 300)) return false;
-  if (b.autorizaSolicitarHistorico !== true) return false;
+  if (!isNonEmptyString(b.contactoGestoriaAnterior, 300)) return 'contactoGestoriaAnterior';
+  if (b.autorizaSolicitarHistorico !== true) return 'autorizaSolicitarHistorico';
 
-  if (b.privacyAccepted !== true) return false;
+  if (b.privacyAccepted !== true) return 'privacyAccepted';
 
-  return true;
+  return null;
 }
 
 function json(data: unknown, status = 200) {
@@ -131,16 +133,18 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
     return json({ error: 'Demasiadas peticiones. Inténtalo de nuevo en unos minutos.' }, 429);
   }
 
-  let body: unknown;
+  let raw: unknown;
   try {
-    body = await request.json();
+    raw = await request.json();
   } catch {
     return json({ error: 'JSON inválido' }, 400);
   }
 
-  if (!isValid(body)) {
-    return json({ error: 'Respuestas no válidas' }, 400);
+  const campoInvalido = primerCampoInvalido(raw);
+  if (campoInvalido) {
+    return json({ error: 'Respuestas no válidas', field: campoInvalido }, 400);
   }
+  const body = raw as Body;
 
   const supabase = getSupabaseAdmin();
   if (!supabase) {
