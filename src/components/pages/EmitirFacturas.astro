@@ -277,7 +277,13 @@ const t = useTranslations(lang).portal.emitir;
     }
     function mensajeError(el: HTMLElement, r: { status: number; out: any }) {
       if (r.status === 409) return mensaje(el, false, E.notEnabled);
-      mensaje(el, false, r.out?.code ? tpl(E.failDetail, { code: r.out.code }) : E.failGeneric);
+      let texto = r.out?.code ? tpl(E.failDetail, { code: r.out.code }) : E.failGeneric;
+      // Un administrador que prueba necesita ver qué ha rechazado exactamente.
+      if (adminCliente()) {
+        const extra = r.out?.detail || (r.out?.code ? '' : r.out?.error);
+        if (extra) texto += ` [${r.status}] ${extra}`;
+      }
+      mensaje(el, false, texto);
     }
 
     // ---- Pestañas ----------------------------------------------------------
