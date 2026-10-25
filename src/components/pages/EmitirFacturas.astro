@@ -298,7 +298,9 @@ const t = useTranslations(lang).portal.emitir;
       else texto = code ? tpl(E.failDetail, { code }) : E.failGeneric;
       // Un administrador que prueba necesita ver qué ha rechazado exactamente.
       if (adminCliente()) {
-        const extra = [r.out?.detail || (code ? '' : r.out?.error), r.out?.details ? JSON.stringify(r.out.details) : '']
+        const d = r.out?.details;
+        const hayDetalles = d && (typeof d !== 'object' || Object.keys(d).length > 0);
+        const extra = [r.out?.detail || (code ? '' : r.out?.error), hayDetalles ? JSON.stringify(d) : '']
           .filter(Boolean)
           .join(' ');
         texto += ` [${r.status}${code ? ' ' + code : ''}]${extra ? ' ' + extra : ''}`;

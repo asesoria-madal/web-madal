@@ -39,9 +39,23 @@ export const POST: APIRoute = async ({ request }) => {
     return json({ error: 'No se han podido leer las facturas.' }, 500);
   }
 
+  // Al admin también le interesa el motivo de las rechazadas o aceptadas con
+  // avisos (definitivas, así que no se actualizan): se consultan las últimas.
+  let revisar: typeof filas = [];
+  if (admin) {
+    const { data } = await ctx.supabase
+      .from('facturas_emitidas')
+      .select('id, numero, beel_invoice_id, beel_company_id, verifactu_estado')
+      .eq('cliente_id', ctx.cliente.id)
+      .in('verifactu_estado', ['REJECTED', 'ACCEPTED_WITH_ERRORS'])
+      .order('created_at', { ascending: false })
+      .limit(5);
+    revisar = data ?? [];
+  }
+
   const actualizadas: { id: string; estado: string }[] = [];
   const diagnostico: Record<string, unknown>[] = [];
-  for (const f of filas ?? []) {
+  for (const f of [...(filas ?? []), ...(revisar ?? [])]) {
     let res: Response;
     try {
       res = await beelFetch(`/v1/companies/${f.beel_company_id}/invoices/${f.beel_invoice_id}`);
