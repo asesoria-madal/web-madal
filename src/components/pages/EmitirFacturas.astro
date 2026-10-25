@@ -24,6 +24,7 @@ const t = useTranslations(lang).portal.emitir;
   <h2>{t.title}</h2>
   <p>{t.intro}</p>
   <p id="emitirSandbox" class="portal-msg" hidden>{t.sandboxNote}</p>
+  <p id="emitirAdminNote" class="portal-msg" hidden>{t.adminNote}</p>
 
   <div class="emitir-tabs" role="tablist">
     <button type="button" role="tab" class="is-active" data-etab="facturas">{t.tabs.facturas}</button>
@@ -245,6 +246,12 @@ const t = useTranslations(lang).portal.emitir;
   if (supabase && $('emitirRoot')) init(supabase);
 
   function init(sb: NonNullable<typeof supabase>) {
+    // Cliente al que representa un administrador que prueba la facturación
+    // (lo fija Portal.astro al elegir cliente; vacío para un cliente normal).
+    // El servidor solo lo admite con la clave de test de BeeL.
+    const adminCliente = () => $('emitirRoot').dataset.adminCliente || '';
+    const cabeceraAdmin = (): Record<string, string> => (adminCliente() ? { 'X-Cliente-Admin': adminCliente() } : {});
+
     // ---- API del servidor --------------------------------------------------
     async function api(path: string, method = 'GET', body?: unknown) {
       const {
@@ -254,6 +261,7 @@ const t = useTranslations(lang).portal.emitir;
         method,
         headers: {
           Authorization: `Bearer ${session?.access_token ?? ''}`,
+          ...cabeceraAdmin(),
           ...(body ? { 'Content-Type': 'application/json' } : {}),
         },
         ...(body ? { body: JSON.stringify(body) } : {}),
@@ -372,10 +380,13 @@ const t = useTranslations(lang).portal.emitir;
     const emitirEmpty = $('emitirEmpty');
 
     async function renderEmitidas() {
-      const { data, error } = await sb
+      let consulta = sb
         .from('facturas_emitidas')
         .select('id, numero, tipo, fecha_emision, receptor_nombre, total, verifactu_estado, sandbox')
         .order('created_at', { ascending: false });
+      // Un administrador ve todas por RLS: se acota al cliente que representa.
+      if (adminCliente()) consulta = consulta.eq('cliente_id', adminCliente());
+      const { data, error } = await consulta;
 
       emitirList.innerHTML = '';
       const rows = !error && data ? data : [];
@@ -412,7 +423,7 @@ const t = useTranslations(lang).portal.emitir;
           } = await sb.auth.getSession();
           try {
             const res = await fetch(`/api/factura-pdf?id=${encodeURIComponent(row.id as string)}`, {
-              headers: { Authorization: `Bearer ${session?.access_token ?? ''}` },
+              headers: { Authorization: `Bearer ${session?.access_token ?? ''}`, ...cabeceraAdmin() },
             });
             if (!res.ok) throw new Error(String(res.status));
             const url = URL.createObjectURL(await res.blob());
@@ -752,10 +763,18 @@ const t = useTranslations(lang).portal.emitir;
     }
 
     // ---- Arranque ---------------------------------------------------------------
+    $('emitirAdminNote').hidden = !adminCliente();
     renderEmitidas();
     sb.auth.onAuthStateChange(() => {
       clientesCargados = false;
       recurrentesCargadas = false;
+      renderEmitidas();
+    });
+    // Un administrador cambió de cliente en el selector: todo lo cargado era del anterior.
+    $('emitirRoot').addEventListener('emitir:cliente', () => {
+      clientesCargados = false;
+      recurrentesCargadas = false;
+      $('emitirAdminNote').hidden = !adminCliente();
       renderEmitidas();
     });
   }

@@ -1,6 +1,6 @@
 import type { APIRoute } from 'astro';
 import { getSupabaseAdmin } from '../../lib/supabase';
-import { clienteDesdeRequest } from '../../lib/portalAuth';
+import { clienteParaFacturacion } from '../../lib/portalAuth';
 import { beelConfig, beelFetch } from '../../lib/beel';
 
 export const prerender = false;
@@ -16,7 +16,7 @@ export const GET: APIRoute = async ({ request, url }) => {
   const supabase = getSupabaseAdmin();
   if (!cfg || !supabase) return new Response('No disponible', { status: 503 });
 
-  const cliente = await clienteDesdeRequest(request, supabase);
+  const cliente = await clienteParaFacturacion(request, supabase, cfg.sandbox);
   if (!cliente) return new Response('Sesión no válida', { status: 401 });
 
   const id = url.searchParams.get('id') ?? '';

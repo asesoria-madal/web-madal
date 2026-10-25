@@ -5,7 +5,7 @@
 // company. Centralizarlo evita que un endpoint se olvide de un paso.
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { getSupabaseAdmin } from './supabase';
-import { clienteDesdeRequest, type ClienteSesion } from './portalAuth';
+import { clienteParaFacturacion, type ClienteSesion } from './portalAuth';
 import { beelConfig, resolveCompanyId } from './beel';
 
 export const UUID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
@@ -44,7 +44,7 @@ export async function contextoFacturacion(request: Request): Promise<ContextoFac
   const supabase = getSupabaseAdmin();
   if (!cfg || !supabase) return json({ error: 'La facturación no está disponible ahora mismo.' }, 503);
 
-  const cliente = await clienteDesdeRequest(request, supabase);
+  const cliente = await clienteParaFacturacion(request, supabase, cfg.sandbox);
   if (!cliente) return json({ error: 'Sesión no válida' }, 401);
 
   if (isRateLimited(cliente.id)) {

@@ -1012,7 +1012,18 @@ const dashboardsCtaHref = `mailto:${EMAIL}?subject=${encodeURIComponent(dashboar
     // cliente_id; en modo admin RLS las deja leer por la política
     // "admin ve todo".
     function aplicarCliente(cliente: ClienteRow) {
-      if (!adminBar.hidden) renderBeel(cliente);
+      if (!adminBar.hidden) {
+        renderBeel(cliente);
+        // El admin puede probar la facturación como el cliente elegido. El
+        // servidor solo lo acepta con la clave de test de BeeL (ver
+        // clienteParaFacturacion en lib/portalAuth.ts).
+        const puedeProbar = cliente.beel_contratado === true;
+        emitirRoot.hidden = !puedeProbar;
+        emitirRoot.dataset.adminCliente = puedeProbar ? cliente.id : '';
+        navLinks.forEach((l) => { if (l.dataset.panel === 'emitir') { l.hidden = !puedeProbar; l.style.display = puedeProbar ? '' : 'none'; } });
+        if (!puedeProbar) panels.forEach((p) => { if (p.dataset.panel === 'emitir') p.hidden = true; });
+        emitirRoot.dispatchEvent(new CustomEvent('emitir:cliente'));
+      }
       currentClienteId = cliente.id;
       nombreEl.textContent = cliente.nombre ?? '';
       renderReportingPanel(Boolean(cliente.reporting));
@@ -1070,7 +1081,6 @@ const dashboardsCtaHref = `mailto:${EMAIL}?subject=${encodeURIComponent(dashboar
 
       adminBar.hidden = false;
       facturaForm.hidden = true; // el admin no sube facturas en nombre del cliente
-      emitirRoot.hidden = true; // ni emite facturas con el NIF del cliente
 
       if (adminClientes.length > 0) {
         adminClienteSelect.value = adminClientes[0].id;
