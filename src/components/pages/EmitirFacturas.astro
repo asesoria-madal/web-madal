@@ -229,6 +229,11 @@ const t = useTranslations(lang).portal.emitir;
   .emitir-totales { font-weight: 600; margin: 0.75rem 0 0; }
 
   .emitir-root :global(.emitir-acciones) { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.4rem; }
+  /* Cada fila apila nombre, datos y botones. La regla común de .factura-list
+     (en fila, pensada para "Subir facturas") se partía distinto según lo largo
+     del texto en este panel estrecho. */
+  .emitir-root :global(.factura-list li) { flex-direction: column; align-items: flex-start; gap: 0.25rem; }
+  .emitir-root :global(.factura-nombre) { margin-right: 0; }
   /* Diagnóstico de BeeL, solo para el administrador que prueba. */
   .emitir-diag {
     font-size: 0.75rem; white-space: pre-wrap; word-break: break-word; max-height: 22rem; overflow: auto;
@@ -515,8 +520,10 @@ const t = useTranslations(lang).portal.emitir;
         pdf.addEventListener('click', () => abrirPdf(row.id as string));
         acciones.appendChild(pdf);
 
-        // Una rectificativa no se vuelve a rectificar desde el portal.
-        if (row.tipo !== 'CORRECTIVE') {
+        // Una rectificativa no se vuelve a rectificar desde el portal, y una
+        // rechazada no está registrada en Hacienda: no hay nada que rectificar
+        // (BeeL indica anularla y emitir otra; lo hace la asesoría).
+        if (row.tipo !== 'CORRECTIVE' && row.verifactu_estado !== 'REJECTED') {
           const rect = document.createElement('button');
           rect.type = 'button';
           rect.className = 'factura-descargar';
