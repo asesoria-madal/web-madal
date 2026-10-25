@@ -39,6 +39,7 @@ const t = useTranslations(lang).portal.emitir;
     <p id="emitirEmpty" class="factura-empty" hidden>{t.empty}</p>
     <p id="emitirListMsg" class="portal-msg" hidden></p>
     <ul id="emitirList" class="factura-list"></ul>
+    <pre id="emitirDiag" class="emitir-diag" hidden></pre>
   </section>
 
   <!-- ============ Nueva factura (única o recurrente) ============ -->
@@ -228,6 +229,11 @@ const t = useTranslations(lang).portal.emitir;
   .emitir-totales { font-weight: 600; margin: 0.75rem 0 0; }
 
   .emitir-root :global(.emitir-acciones) { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.4rem; }
+  /* Diagnóstico de BeeL, solo para el administrador que prueba. */
+  .emitir-diag {
+    font-size: 0.75rem; white-space: pre-wrap; word-break: break-word; max-height: 22rem; overflow: auto;
+    background: var(--paper); border: 1px dashed var(--ink-soft); border-radius: 6px; padding: 0.6rem; margin-top: 1rem;
+  }
   .emitir-dialog {
     max-width: min(46rem, 94vw); width: 100%; background: var(--paper); color: var(--ink);
     border: 1px solid var(--ink-soft); border-radius: 10px; padding: 1.25rem;
@@ -440,7 +446,30 @@ const t = useTranslations(lang).portal.emitir;
       }
     }
 
+    // Estado de Hacienda al día aunque falle el webhook: si hay facturas sin
+    // respuesta definitiva se le pide a BeeL (api/facturacion/sincronizar),
+    // como mucho cada 20 s. Al admin que prueba le devuelve un diagnóstico.
+    const SIN_RESPUESTA = ['PENDING', 'NOT_SUBMITTED'];
+    let ultimaSync = 0;
+    async function sincronizarEstados() {
+      ultimaSync = Date.now();
+      const r = await api('/api/facturacion/sincronizar', 'POST', {});
+      if (!r.ok) return;
+      const diag = $('emitirDiag');
+      if (adminCliente() && (r.out.diagnostico || r.out.empresa)) {
+        diag.textContent = `${E.diagTitulo}\n${JSON.stringify({ empresa: r.out.empresa, facturas: r.out.diagnostico }, null, 1)}`;
+        diag.hidden = false;
+      } else {
+        diag.hidden = true;
+      }
+      if ((r.out.actualizadas ?? []).length > 0) renderEmitidas();
+    }
+
+    // Cada pintado invalida los anteriores: al cambiar de cliente (admin) una
+    // respuesta lenta del cliente anterior no debe pintar encima.
+    let renderSeq = 0;
     async function renderEmitidas() {
+      const seq = ++renderSeq;
       let consulta = sb
         .from('facturas_emitidas')
         .select('id, numero, tipo, fecha_emision, receptor_nombre, total, verifactu_estado, sandbox')
@@ -448,11 +477,17 @@ const t = useTranslations(lang).portal.emitir;
       // Un administrador ve todas por RLS: se acota al cliente que representa.
       if (adminCliente()) consulta = consulta.eq('cliente_id', adminCliente());
       const { data, error } = await consulta;
+      if (seq !== renderSeq) return;
 
       emitirList.innerHTML = '';
       const rows = !error && data ? data : [];
       emitirEmpty.hidden = rows.length > 0;
       $('emitirSandbox').hidden = !rows.some((r) => r.sandbox);
+
+      const haySinRespuesta = rows.some((r) => !r.verifactu_estado || SIN_RESPUESTA.includes(r.verifactu_estado as string));
+      if ((haySinRespuesta || adminCliente()) && !$('emitirRoot').hidden && Date.now() - ultimaSync > 20_000) {
+        sincronizarEstados();
+      }
 
       rows.forEach((row) => {
         const li = document.createElement('li');
@@ -894,6 +929,8 @@ const t = useTranslations(lang).portal.emitir;
       $('emitirAdminNote').hidden = !adminCliente();
       emitirListMsg.hidden = true;
       $('emitirMsg').hidden = true;
+      $('emitirDiag').hidden = true;
+      ultimaSync = 0;
       if ($('emitirRoot').hidden) return;
       renderEmitidas();
       // Recarga la pestaña abierta para no enseñar datos del cliente anterior.
