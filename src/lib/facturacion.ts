@@ -70,9 +70,12 @@ export async function contextoFacturacion(request: Request): Promise<ContextoFac
 export async function errorBeel(res: Response, contexto: string) {
   const result = await res.json().catch(() => null);
   const code = result?.error?.code ?? 'BEEL_ERROR';
-  console.error(`BeeL ${contexto} error:`, res.status, code, result?.error?.message);
+  // `details` (VALIDATION_ERROR) dice qué campo ha fallado: se registra y se
+  // devuelve para que el portal pueda explicarlo.
+  const details = result?.error?.details ?? null;
+  console.error(`BeeL ${contexto} error:`, res.status, code, result?.error?.message, details ? JSON.stringify(details) : '');
   const status = res.status >= 400 && res.status < 500 ? 422 : 502;
-  return json({ error: 'No se ha podido completar la operación.', code, detail: result?.error?.message ?? null }, status);
+  return json({ error: 'No se ha podido completar la operación.', code, detail: result?.error?.message ?? null, details }, status);
 }
 
 // ---- Conceptos (líneas) ----------------------------------------------------

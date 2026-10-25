@@ -37,6 +37,7 @@ const t = useTranslations(lang).portal.emitir;
   <section data-epanel="facturas">
     <h3>{t.listTitle}</h3>
     <p id="emitirEmpty" class="factura-empty" hidden>{t.empty}</p>
+    <p id="emitirListMsg" class="portal-msg" hidden></p>
     <ul id="emitirList" class="factura-list"></ul>
   </section>
 
@@ -129,6 +130,7 @@ const t = useTranslations(lang).portal.emitir;
   <section data-epanel="clientes" hidden>
     <h3>{t.cliTitle}</h3>
     <button type="button" class="btn btn-primary" id="cliNuevoBtn">{t.nuevoCliente}</button>
+    <p id="cliListMsg" class="portal-msg" hidden></p>
     <p id="cliEmpty" class="factura-empty" hidden>{t.cliEmpty}</p>
     <ul id="cliList" class="factura-list"></ul>
   </section>
@@ -139,13 +141,16 @@ const t = useTranslations(lang).portal.emitir;
       <h3>{t.nuevoCliente}</h3>
       <div class="emitir-grid">
         <label>{t.nombre}<input type="text" name="nombre" maxlength="120" required /></label>
-        <label>{t.nif}<input type="text" name="nif" maxlength="9" required autocapitalize="characters" /></label>
+        <label>{t.pais}<select name="pais" id="emCliPais"><option value="ES">España</option></select></label>
+        <label>{t.tipoId}<select name="tipoId" id="emCliTipoId"></select></label>
+        <label>{t.numeroId}<input type="text" name="nif" maxlength="30" required autocapitalize="characters" autocomplete="off" /></label>
         <label>{t.email}<input type="email" name="email" maxlength="254" /></label>
         <label>{t.direccion}<input type="text" name="direccion" maxlength="200" required /></label>
-        <label>{t.cp}<input type="text" name="cp" inputmode="numeric" pattern="\d{5}" maxlength="5" required /></label>
+        <label>{t.cp}<input type="text" name="cp" id="emCliCp" inputmode="numeric" pattern="\d{5}" maxlength="5" required /></label>
         <label>{t.ciudad}<input type="text" name="ciudad" maxlength="100" required /></label>
-        <label>{t.provincia}<input type="text" name="provincia" maxlength="100" required /></label>
+        <label><span id="emCliProvLabel">{t.provincia}</span><input type="text" name="provincia" id="emCliProv" maxlength="100" required /></label>
       </div>
+      <p id="emCliHint" class="emitir-hint">{t.cliNifHint}</p>
       <p id="emCliMsg" class="portal-msg" hidden></p>
       <div class="emitir-inline">
         <button type="submit" class="btn btn-primary">{t.cliSubmit}</button>
@@ -275,13 +280,22 @@ const t = useTranslations(lang).portal.emitir;
       el.className = ok === null ? 'portal-msg' : ok ? 'portal-msg is-ok' : 'portal-msg is-error';
       el.textContent = text;
     }
+    // Texto del error: el de BeeL traducido si lo conocemos (E.errores), el
+    // campo que hay que corregir si lo rechazó nuestra validación, o el
+    // código tal cual como último recurso.
     function mensajeError(el: HTMLElement, r: { status: number; out: any }) {
       if (r.status === 409) return mensaje(el, false, E.notEnabled);
-      let texto = r.out?.code ? tpl(E.failDetail, { code: r.out.code }) : E.failGeneric;
+      const code: string | undefined = r.out?.code ?? undefined;
+      let texto: string;
+      if (code && E.errores?.[code]) texto = E.errores[code];
+      else if (r.out?.campo) texto = tpl(E.campoInvalido, { campo: E.campos?.[r.out.campo] ?? r.out.campo });
+      else texto = code ? tpl(E.failDetail, { code }) : E.failGeneric;
       // Un administrador que prueba necesita ver qué ha rechazado exactamente.
       if (adminCliente()) {
-        const extra = r.out?.detail || (r.out?.code ? '' : r.out?.error);
-        if (extra) texto += ` [${r.status}] ${extra}`;
+        const extra = [r.out?.detail || (code ? '' : r.out?.error), r.out?.details ? JSON.stringify(r.out.details) : '']
+          .filter(Boolean)
+          .join(' ');
+        texto += ` [${r.status}${code ? ' ' + code : ''}]${extra ? ' ' + extra : ''}`;
       }
       mensaje(el, false, texto);
     }
@@ -384,6 +398,47 @@ const t = useTranslations(lang).portal.emitir;
     // ---- Facturas emitidas ---------------------------------------------------
     const emitirList = $('emitirList');
     const emitirEmpty = $('emitirEmpty');
+    const emitirListMsg = $('emitirListMsg');
+    const esperar = (ms: number) => new Promise((r) => setTimeout(r, ms));
+
+    // BeeL genera el PDF unos segundos después de emitir: mientras tanto el
+    // servidor contesta 202 con `retryAfter` y aquí se reintenta (hasta ~30 s).
+    // Los errores se muestran en la página (no con alert(), que bloquea).
+    async function abrirPdf(facturaId: string) {
+      // La pestaña se abre ya, dentro del clic, para que el bloqueador de
+      // popups no la cierre; se rellena cuando llega el PDF.
+      const win = window.open('', '_blank');
+      mensaje(emitirListMsg, null, E.pdfCargando);
+      try {
+        for (let intento = 0; intento < 5; intento++) {
+          const {
+            data: { session },
+          } = await sb.auth.getSession();
+          const res = await fetch(`/api/factura-pdf?id=${encodeURIComponent(facturaId)}`, {
+            headers: { Authorization: `Bearer ${session?.access_token ?? ''}`, ...cabeceraAdmin() },
+          });
+          if (res.status === 202) {
+            const espera = await res.json().catch(() => ({}));
+            await esperar(Math.min(Number(espera.retryAfter) || 3, 10) * 1000);
+            continue;
+          }
+          if (!res.ok) {
+            win?.close();
+            return mensajeError(emitirListMsg, { status: res.status, out: await res.json().catch(() => ({})) });
+          }
+          const url = URL.createObjectURL(await res.blob());
+          if (win) win.location.href = url;
+          else window.location.href = url;
+          emitirListMsg.hidden = true;
+          return;
+        }
+        win?.close();
+        mensaje(emitirListMsg, false, E.pdfFail);
+      } catch {
+        win?.close();
+        mensaje(emitirListMsg, false, E.pdfFail);
+      }
+    }
 
     async function renderEmitidas() {
       let consulta = sb
@@ -420,26 +475,7 @@ const t = useTranslations(lang).portal.emitir;
         pdf.type = 'button';
         pdf.className = 'factura-descargar';
         pdf.textContent = E.pdf;
-        pdf.addEventListener('click', async () => {
-          // La pestaña se abre ya, dentro del clic, para que el bloqueador de
-          // popups no la cierre; se rellena cuando llega el PDF.
-          const win = window.open('', '_blank');
-          const {
-            data: { session },
-          } = await sb.auth.getSession();
-          try {
-            const res = await fetch(`/api/factura-pdf?id=${encodeURIComponent(row.id as string)}`, {
-              headers: { Authorization: `Bearer ${session?.access_token ?? ''}`, ...cabeceraAdmin() },
-            });
-            if (!res.ok) throw new Error(String(res.status));
-            const url = URL.createObjectURL(await res.blob());
-            if (win) win.location.href = url;
-            else window.location.href = url;
-          } catch {
-            win?.close();
-            alert(E.pdfFail);
-          }
-        });
+        pdf.addEventListener('click', () => abrirPdf(row.id as string));
         acciones.appendChild(pdf);
 
         // Una rectificativa no se vuelve a rectificar desde el portal.
@@ -465,8 +501,9 @@ const t = useTranslations(lang).portal.emitir;
       const r = await api('/api/facturacion/clientes');
       if (!r.ok) {
         clientesCargados = false;
-        return;
+        return mensajeError($('cliListMsg'), r);
       }
+      $('cliListMsg').hidden = true;
       clientesCargados = true;
       const lista: { id: string; nombre: string; nif: string | null; email: string | null; direccion: string }[] = r.out.clientes ?? [];
 
@@ -502,9 +539,69 @@ const t = useTranslations(lang).portal.emitir;
     let cliClave = '';
     let cliDesdeFactura = false;
 
+    // País e identificación. En España: NIF (lo comprueba Hacienda),
+    // pasaporte o DNI/NIE sin alta en Hacienda, con código postal de 5 cifras
+    // y provincia. Fuera: NIF-IVA (solo UE), pasaporte u otros documentos,
+    // con código postal libre y provincia opcional. Mismas reglas que
+    // api/facturacion/clientes.ts (y las de BeeL).
+    const PAISES = ('AD AE AF AG AI AL AM AO AQ AR AS AT AU AW AX AZ BA BB BD BE BF BG BH BI BJ BL BM BN BO BQ BR BS BT BV BW BY BZ CA CC ' +
+      'CD CF CG CH CI CK CL CM CN CO CR CU CV CW CX CY CZ DE DJ DK DM DO DZ EC EE EG EH ER ES ET FI FJ FK FM FO FR GA GB GD GE GF GG GH ' +
+      'GI GL GM GN GP GQ GR GS GT GU GW GY HK HM HN HR HT HU ID IE IL IM IN IO IQ IR IS IT JE JM JO JP KE KG KH KI KM KN KP KR KW KY KZ ' +
+      'LA LB LC LI LK LR LS LT LU LV LY MA MC MD ME MF MG MH MK ML MM MN MO MP MQ MR MS MT MU MV MW MX MY MZ NA NC NE NF NG NI NL NO NP ' +
+      'NR NU NZ OM PA PE PF PG PH PK PL PM PN PR PS PT PW PY QA RE RO RS RU RW SA SB SC SD SE SG SH SI SJ SK SL SM SN SO SR SS ST SV SX ' +
+      'SY SZ TC TD TF TG TH TJ TK TL TM TN TO TR TT TV TW TZ UA UG UM US UY UZ VA VC VE VG VI VN VU WF WS YE YT ZA ZM ZW').split(' ');
+    const PAISES_UE = 'AT BE BG CY CZ DE DK EE FI FR GR HR HU IE IT LT LU LV MT NL PL PT RO SE SI SK'.split(' ');
+    const paisSel = $<HTMLSelectElement>('emCliPais');
+    const tipoIdSel = $<HTMLSelectElement>('emCliTipoId');
+    const cpIn = $<HTMLInputElement>('emCliCp');
+    const provIn = $<HTMLInputElement>('emCliProv');
+    let nombrePais = (c: string) => c;
+    try {
+      const nombres = new Intl.DisplayNames([LOCALE], { type: 'region' });
+      nombrePais = (c) => nombres.of(c) ?? c;
+    } catch {
+      // Sin Intl.DisplayNames se ven los códigos ISO: sigue funcionando.
+    }
+    paisSel.innerHTML = '';
+    [...PAISES]
+      .sort((a, b) => (a === 'ES' ? -1 : b === 'ES' ? 1 : nombrePais(a).localeCompare(nombrePais(b), LOCALE)))
+      .forEach((c) => {
+        const o = document.createElement('option');
+        o.value = c;
+        o.textContent = nombrePais(c);
+        paisSel.appendChild(o);
+      });
+
+    function syncIdentificacion() {
+      const pais = paisSel.value || 'ES';
+      const espana = pais === 'ES';
+      const tipos = espana
+        ? ['NIF', 'PASSPORT', 'NOT_REGISTERED']
+        : [...(PAISES_UE.includes(pais) ? ['NIF_IVA'] : []), 'PASSPORT', 'COUNTRY_ID', 'RESIDENCE_CERTIFICATE', 'OTHER_DOCUMENT'];
+      const previo = tipoIdSel.value;
+      tipoIdSel.innerHTML = tipos.map((k) => `<option value="${k}">${E.tiposId[k]}</option>`).join('');
+      if (tipos.includes(previo)) tipoIdSel.value = previo;
+      if (espana) {
+        cpIn.pattern = '\\d{5}';
+        cpIn.maxLength = 5;
+        cpIn.inputMode = 'numeric';
+      } else {
+        cpIn.removeAttribute('pattern');
+        cpIn.maxLength = 12;
+        cpIn.inputMode = 'text';
+      }
+      provIn.required = espana;
+      $('emCliProvLabel').textContent = espana ? E.provincia : E.provinciaOpc;
+      $('emCliHint').hidden = tipoIdSel.value !== 'NIF';
+    }
+    paisSel.addEventListener('change', syncIdentificacion);
+    tipoIdSel.addEventListener('change', syncIdentificacion);
+
     function abrirCliente(desdeFactura: boolean) {
       cliDesdeFactura = desdeFactura;
       cliForm.reset();
+      paisSel.value = 'ES';
+      syncIdentificacion();
       cliMsg.hidden = true;
       cliClave = crypto.randomUUID();
       cliDialog.showModal();
@@ -521,14 +618,22 @@ const t = useTranslations(lang).portal.emitir;
       const r = await api('/api/facturacion/clientes', 'POST', {
         idempotencyKey: cliClave,
         nombre: v('nombre'),
-        nif: v('nif').toUpperCase(),
+        pais: v('pais') || 'ES',
+        tipoId: v('tipoId') || 'NIF',
+        nif: v('nif').replace(/\s/g, '').toUpperCase(),
         ...(v('email') ? { email: v('email') } : {}),
         direccion: v('direccion'),
         codigoPostal: v('cp'),
         ciudad: v('ciudad'),
-        provincia: v('provincia'),
+        ...(v('provincia') ? { provincia: v('provincia') } : {}),
       });
-      if (!r.ok) return mensajeError(cliMsg, r);
+      if (!r.ok) {
+        // Un rechazo (4xx) no ha creado nada: al corregir y reintentar es otra
+        // petición y necesita otra clave (BeeL rechaza la misma clave con otro
+        // contenido: IDEMPOTENCY_KEY_MISMATCH). Un fallo de red conserva la clave.
+        if (r.status < 500) cliClave = crypto.randomUUID();
+        return mensajeError(cliMsg, r);
+      }
       cliDialog.close();
       await cargarClientes(true);
       if (cliDesdeFactura) clienteSel.value = r.out.id;
@@ -709,9 +814,14 @@ const t = useTranslations(lang).portal.emitir;
         ivaIncluido: rectIvaIncl.checked,
         ...(tipo === 'PARTIAL' ? { lineas: rectEditor.leer() } : {}),
       });
-      if (!r.ok) return mensajeError(msg, r);
+      if (!r.ok) {
+        // Igual que en el alta de clientes: tras un rechazo, clave nueva.
+        if (r.status < 500) rectClave = crypto.randomUUID();
+        return mensajeError(msg, r);
+      }
       rectDialog.close();
-      mensaje($('emitirMsg'), true, tpl(E.rectOk, { numero: r.out.numero }));
+      // Se rectifica desde la lista de facturas: el aviso va ahí, que es lo que se ve.
+      mensaje(emitirListMsg, true, tpl(E.rectOk, { numero: r.out.numero }));
       renderEmitidas();
     });
 
@@ -721,7 +831,8 @@ const t = useTranslations(lang).portal.emitir;
     async function cargarRecurrentes() {
       if (recurrentesCargadas) return;
       const r = await api('/api/facturacion/recurrentes');
-      if (!r.ok) return;
+      if (!r.ok) return mensajeError($('recMsg'), r);
+      $('recMsg').hidden = true;
       recurrentesCargadas = true;
       const lista: any[] = r.out.recurrentes ?? [];
       const ul = $('recList');
@@ -781,7 +892,13 @@ const t = useTranslations(lang).portal.emitir;
       clientesCargados = false;
       recurrentesCargadas = false;
       $('emitirAdminNote').hidden = !adminCliente();
+      emitirListMsg.hidden = true;
+      $('emitirMsg').hidden = true;
+      if ($('emitirRoot').hidden) return;
       renderEmitidas();
+      // Recarga la pestaña abierta para no enseñar datos del cliente anterior.
+      const activa = tabs.find((b) => b.classList.contains('is-active'))?.dataset.etab;
+      if (activa) abrirTab(activa);
     });
   }
 </script>
