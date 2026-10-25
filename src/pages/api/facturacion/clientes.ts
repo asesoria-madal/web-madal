@@ -27,18 +27,22 @@ interface Body {
   provincia: string;
 }
 
-function isValid(body: unknown): body is Body {
-  if (typeof body !== 'object' || body === null) return false;
+// Devuelve el nombre del primer campo inválido, o null si todo está bien. El
+// nombre del campo viaja en el error: sin él, "datos no válidos" no deja saber
+// qué corregir (NIF extranjero, código postal...).
+function campoInvalido(body: unknown): string | null {
+  if (typeof body !== 'object' || body === null) return 'cuerpo';
   const b = body as Record<string, any>;
-  if (typeof b.idempotencyKey !== 'string' || !UUID_PATTERN.test(b.idempotencyKey)) return false;
+  if (typeof b.idempotencyKey !== 'string' || !UUID_PATTERN.test(b.idempotencyKey)) return 'idempotencyKey';
   // BeeL limita el nombre a 120 caracteres.
-  if (!str(b.nombre, 120)) return false;
-  if (typeof b.nif !== 'string' || !NIF_CIF_PATTERN.test(b.nif.trim())) return false;
-  if (!str(b.direccion, 200)) return false;
-  if (typeof b.codigoPostal !== 'string' || !CP_PATTERN.test(b.codigoPostal.trim())) return false;
-  if (!str(b.ciudad, 100) || !str(b.provincia, 100)) return false;
-  if (b.email !== undefined && (typeof b.email !== 'string' || !EMAIL_PATTERN.test(b.email) || b.email.length > 254)) return false;
-  return true;
+  if (!str(b.nombre, 120)) return 'nombre';
+  if (typeof b.nif !== 'string' || !NIF_CIF_PATTERN.test(b.nif.trim())) return 'nif';
+  if (!str(b.direccion, 200)) return 'direccion';
+  if (typeof b.codigoPostal !== 'string' || !CP_PATTERN.test(b.codigoPostal.trim())) return 'codigoPostal';
+  if (!str(b.ciudad, 100)) return 'ciudad';
+  if (!str(b.provincia, 100)) return 'provincia';
+  if (b.email !== undefined && (typeof b.email !== 'string' || !EMAIL_PATTERN.test(b.email) || b.email.length > 254)) return 'email';
+  return null;
 }
 
 export const GET: APIRoute = async ({ request, url }) => {
@@ -78,18 +82,20 @@ export const POST: APIRoute = async ({ request }) => {
   } catch {
     return json({ error: 'JSON inválido' }, 400);
   }
-  if (!isValid(body)) return json({ error: 'Datos del cliente no válidos' }, 400);
+  const invalido = campoInvalido(body);
+  if (invalido) return json({ error: `Datos del cliente no válidos (campo: ${invalido})` }, 400);
+  const b = body as Body;
 
   const payload = {
-    legal_name: body.nombre.trim(),
-    nif: body.nif.trim().toUpperCase(),
+    legal_name: b.nombre.trim(),
+    nif: b.nif.trim().toUpperCase(),
     address: {
-      street: body.direccion.trim(),
-      postal_code: body.codigoPostal.trim(),
-      city: body.ciudad.trim(),
-      province: body.provincia.trim(),
+      street: b.direccion.trim(),
+      postal_code: b.codigoPostal.trim(),
+      city: b.ciudad.trim(),
+      province: b.provincia.trim(),
     },
-    ...(body.email ? { email: body.email.trim() } : {}),
+    ...(b.email ? { email: b.email.trim() } : {}),
   };
 
   let res: Response;
@@ -97,7 +103,7 @@ export const POST: APIRoute = async ({ request }) => {
     res = await beelFetch(`/v1/companies/${ctx.companyId}/customers`, {
       method: 'POST',
       body: JSON.stringify(payload),
-      idempotencyKey: body.idempotencyKey,
+      idempotencyKey: b.idempotencyKey,
     });
   } catch {
     return json({ error: 'No se ha podido contactar con el servicio de facturación.' }, 502);
