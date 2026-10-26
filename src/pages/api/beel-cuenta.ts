@@ -46,9 +46,10 @@ function json(data: unknown, status = 200) {
 }
 
 // Dirección en el formato de BeeL, o null si falta algo. El número va aparte
-// y es obligatorio aunque la documentación de BeeL lo dé por opcional: sin él,
-// generar la representación falla con PROFILE_INCOMPLETE (address_number).
-// Comprobado en sandbox el 26-oct-2026. Sin número se escribe "s/n".
+// y lo exigimos nosotros ("s/n" si no tiene) para que la dirección quede
+// completa en el documento de representación. Hasta el 26-oct-2026 BeeL lo
+// exigía para generarlo (PROFILE_INCOMPLETE, address_number); lo corrigió y,
+// si falta, ahora declara "S/N". Mandarlo sigue funcionando igual.
 function direccion(body: Body) {
   const street = body.street?.trim();
   const number = body.number?.trim();
@@ -86,8 +87,12 @@ async function leer(res: Response): Promise<Leido> {
 // posterior, el panel necesita saberlo para mostrar el estado real.
 function fallo(paso: string, r: Leido, extra: Record<string, unknown> = {}) {
   console.error(`[beel-cuenta] ${paso} falló`, r.status, r.errorCode, r.errorMessage, r.errorDetails);
-  // BeeL nombra en `details` los campos que faltan o son inválidos.
-  const detalle = r.errorDetails && typeof r.errorDetails === 'object' ? ` ${JSON.stringify(r.errorDetails)}` : '';
+  // BeeL nombra en `details` los campos que faltan o son inválidos. A veces
+  // lo manda vacío ({}), y entonces no se añade nada.
+  const detalle =
+    r.errorDetails && typeof r.errorDetails === 'object' && Object.keys(r.errorDetails).length > 0
+      ? ` ${JSON.stringify(r.errorDetails)}`
+      : '';
   return json(
     { error: `BeeL rechazó el paso «${paso}»: ${r.errorCode ?? r.status}${r.errorMessage ? ' — ' + r.errorMessage : ''}${detalle}`, code: r.errorCode, ...extra },
     502,
@@ -157,6 +162,19 @@ export const POST: APIRoute = async ({ request }) => {
       return json(
         { error: 'Ese email ya tiene una cuenta en BeeL que no gestionamos nosotros. Pide al cliente otro email o habla con BeeL.', code: crear.errorCode },
         409,
+      );
+    }
+    // BeeL compara NIF y nombre con el censo de la AEAT (también en sandbox),
+    // y la AEAT responde igual si el NIF no existe que si el nombre de una
+    // persona física no coincide: no se pueden distinguir (BeeL, 26-oct-2026).
+    if (crear.errorCode === 'NIF_VALIDATION_INVALID') {
+      return json(
+        {
+          error:
+            'Hacienda no reconoce ese NIF con ese nombre. Revisa el NIF y, si es una persona física, que el nombre fiscal sea exactamente el de su DNI: BeeL no distingue entre un NIF que no está en el censo y un nombre que no coincide. No se ha creado nada.',
+          code: crear.errorCode,
+        },
+        422,
       );
     }
     if (!crear.ok) return fallo('crear cuenta', crear);

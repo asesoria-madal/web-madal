@@ -11,6 +11,11 @@ export const prerender = false;
 // Variables de entorno:
 //   BEEL_WEBHOOK_SECRET      secreto que BeeL devuelve UNA SOLA VEZ al crear la
 //                            suscripción (POST /v1/accounts/{id}/webhooks).
+//                            Cada suscripción es de un entorno: la creada con la
+//                            clave de test solo recibe eventos de Test, y la de
+//                            la live, solo de Live (BeeL, 26-oct-2026). Al pasar
+//                            BEEL_API_KEY a live hay que cambiar también este
+//                            secreto por el de la suscripción live.
 //   N8N_ALERT_WEBHOOK_URL    opcional; webhook de n8n al que se avisa cuando la
 //                            AEAT rechaza una factura (ver n8n-workflows/workflows/alerta-factura-rechazada.json).
 //   N8N_ALERT_TOKEN          valor de la cabecera X-Alert-Token que exige ese webhook.
@@ -93,7 +98,7 @@ export const POST: APIRoute = async ({ request }) => {
   const alertUrl = import.meta.env.N8N_ALERT_WEBHOOK_URL as string | undefined;
   if (newStatus === 'REJECTED' && fila && alertUrl) {
     try {
-      await fetch(alertUrl, {
+      const r = await fetch(alertUrl, {
         method: 'POST',
         // El webhook de n8n va protegido con Header Auth (convención de
         // n8n-workflows/CLAUDE.md): sin este token n8n responde 403.
@@ -108,6 +113,9 @@ export const POST: APIRoute = async ({ request }) => {
           error_mensaje: errorMessage,
         }),
       });
+      // fetch no lanza con un 4xx/5xx: sin esta línea, un token mal puesto
+      // (403) perdería los avisos sin dejar rastro.
+      if (!r.ok) console.error('beel-webhook: n8n rechazó el aviso de factura rechazada', r.status);
     } catch (e) {
       // El estado ya está guardado; un fallo del aviso no debe hacer que
       // BeeL reintente toda la entrega.

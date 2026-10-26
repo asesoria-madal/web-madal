@@ -121,10 +121,11 @@ export const POST: APIRoute = async ({ request }) => {
   }
   if (!isValid(body)) return json({ error: 'Datos de la factura recurrente no válidos' }, 400);
 
-  // La plantilla exige `series_id` (confirmado por BeeL, 26-oct-2026: no
-  // coge la predeterminada si se omite). Se usa la predeterminada del tipo.
-  // Listar las series exige el permiso `series:read` en la clave de API
-  // (DOCS/BEEL.md §5). BeeL también ofrece GET …/series/defaults.
+  // Se manda la serie predeterminada del tipo. Hasta el 26-oct-2026 BeeL
+  // exigía `series_id`; desde entonces es opcional (si falta usa la
+  // predeterminada y, si no hay, responde SERIES_DEFAULT_NOT_FOUND), y
+  // mandarla sigue funcionando igual. Listar las series exige el permiso
+  // `series:read` en la clave de API (DOCS/BEEL.md §5).
   let seriesRes: Response;
   try {
     seriesRes = await beelFetch(`/v1/companies/${ctx.companyId}/series`);
