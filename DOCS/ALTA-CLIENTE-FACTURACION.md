@@ -9,7 +9,7 @@ Supuestos:
 
 ## Atajo: alta automatizada desde el portal (2026-10-22)
 
-Las fases 2 a 4 de abajo se hacen ahora desde el portal en modo administrador, panel «Facturación BeeL» del cliente (no hace falta tocar la API a mano). Pasos: (1) marcar «Contrata la facturación» al crear al cliente; (2) con su NIF real, el nombre fiscal **tal como figura en su DNI o en el censo** (con otro nombre BeeL contesta `NIF_VALIDATION_INVALID`) y la dirección fiscal con el **número aparte** («s/n» si no tiene), pulsar «Crear cuenta y generar representación» (se le envía solo el documento); si BeeL pide completar la dirección (`PROFILE_INCOMPLETE`), el panel la vuelve a mostrar: rellenarla entera y pulsar «Generar de nuevo el documento y enviárselo al cliente», que también sirve para reenviarlo; (3) cuando devuelva el PDF firmado, subirlo y pulsar «Subir y activar en producción» (cuenta 12 €/mes desde ahí). No hace falta que el cliente esté dado de alta como autónomo para crear la cuenta en pruebas. Detalle técnico y limitaciones: `BEEL.md` §11. Lo que sigue describe lo mismo paso a paso, útil si algo falla y hay que hacerlo a mano.
+Las fases 2 a 4 de abajo se hacen ahora desde el portal en modo administrador, panel «Facturación BeeL» del cliente (no hace falta tocar la API a mano). Pasos: (1) marcar «Contrata la facturación» al crear al cliente; (2) con su NIF real, el nombre fiscal **tal como figura en su DNI o en el censo** (con otro nombre BeeL contesta `NIF_VALIDATION_INVALID`, igual que con un NIF que no existe; el panel lo explica) y la dirección fiscal con el **número aparte** («s/n» si no tiene), pulsar «Crear cuenta y generar representación» (se le envía solo el documento); si BeeL pide completar la dirección (`PROFILE_INCOMPLETE`), el panel la vuelve a mostrar: rellenarla entera y pulsar «Generar de nuevo el documento y enviárselo al cliente», que también sirve para reenviarlo; (3) cuando devuelva el PDF firmado, subirlo y pulsar «Subir y activar en producción» (cuenta 12 €/mes desde ahí). No hace falta que el cliente esté dado de alta como autónomo para crear la cuenta en pruebas. Detalle técnico y limitaciones: `BEEL.md` §11. Lo que sigue describe lo mismo paso a paso, útil si algo falla y hay que hacerlo a mano.
 
 ## Fase 0. Decisión comercial (antes de empezar)
 1. Confirmar con el cliente que quiere emitir facturas desde el portal y cómo se le cobra (importe aparte, según decisión de los socios; Edurne decide si algún plan lo incluye).
@@ -21,13 +21,13 @@ Las fases 2 a 4 de abajo se hacen ahora desde el portal en modo administrador, p
 3. Cl@ve **no** sirve y la asesoría **no** puede firmar como apoderada.
 
 ## Fase 2. Preparar datos y crear la cuenta gestionada (asesoría)
-1. Reunir: NIF, nombre o razón social exactos (los del DNI o el censo), dirección fiscal completa con el número de la calle aparte (obligatorio para generar la representación), email del cliente.
-2. Comprobar que el NIF existe en el censo de la AEAT con `POST /v1/nif/validate`. Un NIF no censado devuelve `422 NIF_VALIDATION_INVALID` y la cuenta no se crea.
+1. Reunir: NIF, nombre o razón social exactos (los del DNI o el censo), dirección fiscal completa con el número de la calle aparte («s/n» si no tiene; el portal lo pide así), email del cliente.
+2. NIF y nombre: al crear la cuenta, BeeL los compara con el censo de la AEAT (también en pruebas). Si no cuadran, responde `422 NIF_VALIDATION_INVALID` y no crea nada; no distingue entre un NIF que no está en el censo y un nombre de persona física que no coincide, así que hay que revisar los dos. (`POST /v1/nif/validate` en pruebas solo mira la sintaxis.)
 3. Crear la cuenta gestionada (`POST /v1/accounts`) con nivel de acceso **`OPERATE`** y `external_ref` = id del cliente en Supabase. (Lo hace el panel de admin, ver el atajo de arriba; a mano solo si el panel falla.)
 4. Guardar `account_id` y `company_id` en la ficha del cliente (`clientes.beel_company_id`).
 5. En este punto el NIF está en **test**: puede emitir facturas de prueba, sin efecto fiscal ni coste. No activar PROD todavía.
 
-> Orden confirmado por BeeL (26-oct-2026), que es el que sigue el botón «Subir y activar en producción»: subir la representación firmada con la clave live (la firma se valida ahí; si no vale, no cambia nada) → comprobar que está `ACTIVE` → activar el NIF en PROD (desde aquí se paga) → `PUT …/verifactu-configuration` con `enabled: true` (obligatorio: es lo que registra el NIF) → `issuing-readiness` con `ready` **y** `verifactu.ready`. El cliente no tiene que reclamar su cuenta de BeeL: solo firmar. Las cuentas se crean con su email como titular, sin que BeeL le escriba. Requisito previo: nuestra cuenta de BeeL en Live y la clave live creada. Ver `BEEL.md` §7.
+> Orden confirmado por BeeL (26-oct-2026), que es el que sigue el botón «Subir y activar en producción»: subir la representación firmada con la clave live (la firma se valida ahí; si no vale, no cambia nada) → comprobar que está `ACTIVE` → activar el NIF en PROD (desde aquí se paga) → `PUT …/verifactu-configuration` con `enabled: true` (obligatorio: es lo que registra el NIF) → `issuing-readiness` con `ready` **y** `verifactu.ready`. El cliente no tiene que reclamar su cuenta de BeeL: solo firmar. Las cuentas se crean con su email como titular, sin que BeeL le escriba. Requisito previo: nuestra cuenta de BeeL en Live y la clave live creada **sin elegir permisos** (así los tiene todos, incluido `configuration:write`; los permisos no se pueden añadir después). Y la suscripción de webhook live, que se crea con la clave live y `account_relationship: "managed"` por API, porque el panel de BeeL no deja elegirlo. Ver `BEEL.md` §5, §7 y §8.
 
 ## Fase 3. Representación Verifactu (asesoría + cliente)
 1. Generar el documento de representación (`POST …/representation`) y descargarlo.
@@ -37,7 +37,7 @@ Las fases 2 a 4 de abajo se hacen ahora desde el portal en modo administrador, p
 
 ## Fase 4. Activación en producción (asesoría)
 1. Activar el NIF en producción: `POST /v1/companies/{company_id}/activations` con `environment: "PROD"`. **Desde aquí empieza a contar el NIF (12 €/mes)**, emita o no.
-2. Activar Veri*Factu: `PUT …/verifactu-configuration` con `enabled: true`.
+2. Activar Veri*Factu: `PUT …/verifactu-configuration` con `enabled: true` (permiso `configuration:write` en la clave live).
 3. Comprobar `GET …/issuing-readiness`: deben estar a `true` tanto `ready` (el NIF puede emitir) como `verifactu.ready` (sus facturas pasarán el registro en la AEAT). Y `GET …/representation` debe dar `ACTIVE`.
 4. Dejar anotado en la ficha del cliente la fecha de activación (para la repercusión del coste).
 
