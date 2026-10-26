@@ -152,27 +152,36 @@ const dashboardsCtaHref = `mailto:${EMAIL}?subject=${encodeURIComponent(dashboar
           <section id="portal-beel-panel" class="portal-alta-form" hidden>
             <h3>{t.admin.beel.title}</h3>
             <p id="beel-estado"></p>
+            <!-- Datos fiscales: para crear la cuenta y, si BeeL lo pide
+                 (PROFILE_INCOMPLETE), para corregir la dirección de una ya creada. -->
+            <div id="beel-datos" class="portal-alta-grid" hidden>
+              <label id="beel-legal-wrap">{t.admin.beel.legalName}
+                <input type="text" id="beel-legal" maxlength="255" autocomplete="off" />
+              </label>
+              <label>{t.admin.beel.street}
+                <input type="text" id="beel-street" maxlength="255" autocomplete="off" />
+              </label>
+              <label>{t.admin.beel.number}
+                <input type="text" id="beel-number" maxlength="20" autocomplete="off" />
+              </label>
+              <label>{t.admin.beel.floor}
+                <input type="text" id="beel-floor" maxlength="50" autocomplete="off" />
+              </label>
+              <label>{t.admin.beel.postalCode}
+                <input type="text" id="beel-cp" maxlength="5" inputmode="numeric" autocomplete="off" />
+              </label>
+              <label>{t.admin.beel.city}
+                <input type="text" id="beel-city" maxlength="100" autocomplete="off" />
+              </label>
+              <label>{t.admin.beel.province}
+                <input type="text" id="beel-province" maxlength="100" autocomplete="off" />
+              </label>
+            </div>
             <div id="beel-crear" hidden>
-              <div class="portal-alta-grid">
-                <label>{t.admin.beel.legalName}
-                  <input type="text" id="beel-legal" maxlength="255" autocomplete="off" />
-                </label>
-                <label>{t.admin.beel.street}
-                  <input type="text" id="beel-street" maxlength="255" autocomplete="off" />
-                </label>
-                <label>{t.admin.beel.postalCode}
-                  <input type="text" id="beel-cp" maxlength="5" inputmode="numeric" autocomplete="off" />
-                </label>
-                <label>{t.admin.beel.city}
-                  <input type="text" id="beel-city" maxlength="100" autocomplete="off" />
-                </label>
-                <label>{t.admin.beel.province}
-                  <input type="text" id="beel-province" maxlength="100" autocomplete="off" />
-                </label>
-              </div>
               <button type="button" class="btn btn-primary" id="beel-crear-btn">{t.admin.beel.crear}</button>
             </div>
             <div id="beel-firmada" hidden>
+              <p id="beel-direccion-nota" hidden>{t.admin.beel.direccionNota}</p>
               <button type="button" class="portal-logout" id="beel-documento-btn">{t.admin.beel.documento}</button>
               <a id="beel-descargar" href="#" target="_blank" rel="noopener" hidden>{t.admin.beel.descargar}</a>
               <label>{t.admin.beel.firmado}
@@ -1153,6 +1162,9 @@ const dashboardsCtaHref = `mailto:${EMAIL}?subject=${encodeURIComponent(dashboar
     const beelCrearBtn = document.getElementById('beel-crear-btn') as HTMLButtonElement;
     const beelActivarBtn = document.getElementById('beel-activar-btn') as HTMLButtonElement;
     const beelDocumentoBtn = document.getElementById('beel-documento-btn') as HTMLButtonElement;
+    const beelDatos = document.getElementById('beel-datos') as HTMLElement;
+    const beelLegalWrap = document.getElementById('beel-legal-wrap') as HTMLElement;
+    const beelDireccionNota = document.getElementById('beel-direccion-nota') as HTMLElement;
     let beelCliente: ClienteRow | null = null;
 
     function beelMensaje(texto: string) {
@@ -1177,6 +1189,9 @@ const dashboardsCtaHref = `mailto:${EMAIL}?subject=${encodeURIComponent(dashboar
       }
       beelPanel.hidden = false;
       const estado = cliente.beel_estado ?? null;
+      beelDatos.hidden = estado !== null;
+      beelLegalWrap.hidden = false;
+      beelDireccionNota.hidden = true;
       beelCrear.hidden = estado !== null;
       beelFirmada.hidden = estado !== 'cuenta_test';
       if (estado === 'cuenta_test') {
@@ -1189,6 +1204,25 @@ const dashboardsCtaHref = `mailto:${EMAIL}?subject=${encodeURIComponent(dashboar
         (document.getElementById('beel-legal') as HTMLInputElement).value = (cliente as any).empresa ?? cliente.nombre ?? '';
       }
     }
+
+    // Cuenta ya creada a la que BeeL le pide completar la dirección para
+    // generar la representación: se vuelven a mostrar los campos (sin el
+    // nombre fiscal, que aquí no se cambia).
+    function pedirDireccion() {
+      beelDatos.hidden = false;
+      beelLegalWrap.hidden = true;
+      beelDireccionNota.hidden = false;
+    }
+
+    const valorBeel = (id: string) => (document.getElementById(id) as HTMLInputElement).value.trim();
+    const direccionBeel = () => ({
+      street: valorBeel('beel-street'),
+      number: valorBeel('beel-number'),
+      floor: valorBeel('beel-floor'),
+      postalCode: valorBeel('beel-cp'),
+      city: valorBeel('beel-city'),
+      province: valorBeel('beel-province'),
+    });
 
     async function beelLlamar(url: string, init: RequestInit) {
       const {
@@ -1204,22 +1238,13 @@ const dashboardsCtaHref = `mailto:${EMAIL}?subject=${encodeURIComponent(dashboar
 
     beelCrearBtn.addEventListener('click', async () => {
       if (!beelCliente) return;
-      const val = (id: string) => (document.getElementById(id) as HTMLInputElement).value.trim();
       beelCrearBtn.disabled = true;
       beelMensaje(I18N.admin.beel.creating);
       try {
         const { ok, data } = await beelLlamar('/api/beel-cuenta', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            clienteId: beelCliente.id,
-            action: 'crear',
-            legalName: val('beel-legal'),
-            street: val('beel-street'),
-            postalCode: val('beel-cp'),
-            city: val('beel-city'),
-            province: val('beel-province'),
-          }),
+          body: JSON.stringify({ clienteId: beelCliente.id, action: 'crear', legalName: valorBeel('beel-legal'), ...direccionBeel() }),
         });
         if (!ok) {
           // La cuenta puede haberse creado aunque falle un paso posterior (el
@@ -1227,6 +1252,7 @@ const dashboardsCtaHref = `mailto:${EMAIL}?subject=${encodeURIComponent(dashboar
           if (data.estado === 'cuenta_test') {
             beelCliente.beel_estado = 'cuenta_test';
             renderBeel(beelCliente);
+            if (data.code === 'PROFILE_INCOMPLETE') pedirDireccion();
           }
           beelMensaje(data.error || I18N.admin.beel.error);
           return;
@@ -1251,21 +1277,26 @@ const dashboardsCtaHref = `mailto:${EMAIL}?subject=${encodeURIComponent(dashboar
     }
 
     // Volver a generar el documento: el enlace caduca a los 5 minutos, o la
-    // generación falló al crear la cuenta. También se reenvía al cliente.
+    // generación falló al crear la cuenta. También se reenvía al cliente. Si
+    // se está corrigiendo la dirección (campos visibles), va con ella.
     beelDocumentoBtn.addEventListener('click', async () => {
       if (!beelCliente) return;
+      const corrigiendo = !beelDatos.hidden;
       beelDocumentoBtn.disabled = true;
       beelMensaje(I18N.admin.beel.creating);
       try {
         const { ok, data } = await beelLlamar('/api/beel-cuenta', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ clienteId: beelCliente.id, action: 'documento' }),
+          body: JSON.stringify({ clienteId: beelCliente.id, action: 'documento', ...(corrigiendo ? direccionBeel() : {}) }),
         });
         if (!ok) {
+          if (data.code === 'PROFILE_INCOMPLETE') pedirDireccion();
           beelMensaje(data.error || I18N.admin.beel.error);
           return;
         }
+        beelDatos.hidden = true;
+        beelDireccionNota.hidden = true;
         mostrarDocumento(data, I18N.admin.beel.documentoOk);
       } catch {
         beelMensaje(I18N.admin.beel.error);

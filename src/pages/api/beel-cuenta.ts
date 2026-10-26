@@ -28,11 +28,14 @@ interface Body {
   // 'documento': solo vuelve a generarlo y reenviarlo (el enlace caduca a los
   // 5 minutos, o la generación falló al crear la cuenta).
   action: 'crear' | 'documento';
-  // Solo para 'crear'. BeeL exige dirección estructurada y los formularios
-  // solo guardan el domicilio como texto libre, por eso la completa el admin.
+  // BeeL exige dirección estructurada y los formularios solo guardan el
+  // domicilio como texto libre, por eso la completa el admin. Obligatoria
+  // para 'crear'; con 'documento' solo se envía para corregir la dirección
+  // de una cuenta ya creada (PROFILE_INCOMPLETE al generar la representación).
   legalName?: string;
   street?: string;
   number?: string;
+  floor?: string;
   postalCode?: string;
   city?: string;
   province?: string;
@@ -41,6 +44,23 @@ interface Body {
 function json(data: unknown, status = 200) {
   return new Response(JSON.stringify(data), { status, headers: { 'Content-Type': 'application/json' } });
 }
+
+// Dirección en el formato de BeeL, o null si falta algo. El número va aparte
+// y es obligatorio aunque la documentación de BeeL lo dé por opcional: sin él,
+// generar la representación falla con PROFILE_INCOMPLETE (address_number).
+// Comprobado en sandbox el 26-oct-2026. Sin número se escribe "s/n".
+function direccion(body: Body) {
+  const street = body.street?.trim();
+  const number = body.number?.trim();
+  const floor = body.floor?.trim();
+  const postalCode = body.postalCode?.trim();
+  const city = body.city?.trim();
+  const province = body.province?.trim();
+  if (!street || !number || !city || !province || !postalCode || !CP_PATTERN.test(postalCode)) return null;
+  return { street, number, ...(floor ? { floor } : {}), postal_code: postalCode, city, province };
+}
+
+const FALTA_DIRECCION = 'Faltan datos de la dirección (calle, número, código postal de 5 cifras, ciudad y provincia).';
 
 type Leido = { ok: boolean; status: number; data: any; errorCode: string | null; errorMessage: string | null; errorDetails: unknown };
 
@@ -104,14 +124,9 @@ export const POST: APIRoute = async ({ request }) => {
   let companyId: string | null = (cliente.beel_company_id as string | null) ?? null;
 
   if (body.action === 'crear' && !cliente.beel_account_id) {
-    const street = body.street?.trim();
-    const city = body.city?.trim();
-    const province = body.province?.trim();
-    const postalCode = body.postalCode?.trim();
+    const address = direccion(body);
     const legalName = (body.legalName ?? '').trim() || (cliente.empresa as string | null) || (cliente.nombre as string);
-    if (!street || !city || !province || !postalCode || !CP_PATTERN.test(postalCode)) {
-      return json({ error: 'Faltan datos de la dirección (calle, código postal de 5 cifras, ciudad y provincia).' }, 400);
-    }
+    if (!address) return json({ error: FALTA_DIRECCION }, 400);
 
     // Sin `email` la cuenta nace sin titular ni enlace de reclamación: el
     // cliente factura desde nuestro portal y no necesita entrar en BeeL.
@@ -129,7 +144,7 @@ export const POST: APIRoute = async ({ request }) => {
             legal_name: legalName,
             entity_type: cliente.tipo_persona === 'sl' ? 'LEGAL_ENTITY' : 'INDIVIDUAL',
             ...(cliente.tipo_persona === 'sl' ? { legal_form: 'SL' } : {}),
-            address: { street, ...(body.number?.trim() ? { number: body.number.trim() } : {}), postal_code: postalCode, city, province },
+            address,
           },
         }),
       }),
@@ -155,6 +170,18 @@ export const POST: APIRoute = async ({ request }) => {
   // descarga solo dice REPRESENTATION_NOT_FOUND). La cuenta ya existe, así
   // que la respuesta lleva su estado para que el panel permita reintentarlo.
   const estado = (cliente.beel_estado as string | null) ?? 'cuenta_test';
+
+  // Corregir la dirección de una cuenta ya creada: se manda entera (BeeL no
+  // documenta si fusiona la dirección o la sustituye).
+  if (body.action === 'documento' && body.street !== undefined) {
+    const address = direccion(body);
+    if (!address) return json({ error: FALTA_DIRECCION, estado }, 400);
+    const patch = await leer(
+      await beelFetch(`/v1/companies/${companyId}`, { method: 'PATCH', body: JSON.stringify({ address }) }),
+    );
+    if (!patch.ok) return fallo('corregir la dirección', patch, { estado });
+  }
+
   const gen = await leer(await beelFetch(`/v1/companies/${companyId}/representation`, { method: 'POST' }));
   if (!gen.ok) console.warn('[beel-cuenta] generar representación', gen.status, gen.errorCode, gen.errorMessage, gen.errorDetails);
   const doc = await leer(await beelFetch(`/v1/companies/${companyId}/representation/document`));
