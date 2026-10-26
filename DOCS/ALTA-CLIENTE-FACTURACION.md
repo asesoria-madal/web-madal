@@ -9,7 +9,7 @@ Supuestos:
 
 ## Atajo: alta automatizada desde el portal (2026-10-22)
 
-Las fases 2 a 4 de abajo se hacen ahora desde el portal en modo administrador, panel «Facturación BeeL» del cliente (no hace falta tocar la API a mano). Pasos: (1) marcar «Contrata la facturación» al crear al cliente; (2) con su NIF real y dirección fiscal, pulsar «Crear cuenta y generar representación» (se le envía solo el documento); (3) cuando devuelva el PDF firmado, subirlo y pulsar «Subir y activar en producción» (cuenta 12 €/mes desde ahí). Detalle técnico y limitaciones: `BEEL.md` §11. Lo que sigue describe lo mismo paso a paso, útil si algo falla y hay que hacerlo a mano.
+Las fases 2 a 4 de abajo se hacen ahora desde el portal en modo administrador, panel «Facturación BeeL» del cliente (no hace falta tocar la API a mano). Pasos: (1) marcar «Contrata la facturación» al crear al cliente; (2) con su NIF real, el nombre fiscal **tal como figura en su DNI o en el censo** (con otro nombre BeeL contesta `NIF_VALIDATION_INVALID`) y la dirección fiscal con el **número aparte** («s/n» si no tiene), pulsar «Crear cuenta y generar representación» (se le envía solo el documento); si BeeL pide completar la dirección (`PROFILE_INCOMPLETE`), el panel la vuelve a mostrar: rellenarla entera y pulsar «Generar de nuevo el documento y enviárselo al cliente», que también sirve para reenviarlo; (3) cuando devuelva el PDF firmado, subirlo y pulsar «Subir y activar en producción» (cuenta 12 €/mes desde ahí). No hace falta que el cliente esté dado de alta como autónomo para crear la cuenta en pruebas. Detalle técnico y limitaciones: `BEEL.md` §11. Lo que sigue describe lo mismo paso a paso, útil si algo falla y hay que hacerlo a mano.
 
 ## Fase 0. Decisión comercial (antes de empezar)
 1. Confirmar con el cliente que quiere emitir facturas desde el portal y cómo se le cobra (importe aparte, según decisión de los socios; Edurne decide si algún plan lo incluye).
@@ -21,9 +21,9 @@ Las fases 2 a 4 de abajo se hacen ahora desde el portal en modo administrador, p
 3. Cl@ve **no** sirve y la asesoría **no** puede firmar como apoderada.
 
 ## Fase 2. Preparar datos y crear la cuenta gestionada (asesoría)
-1. Reunir: NIF, nombre o razón social, dirección fiscal completa (la dirección es obligatoria al emitir), email del cliente.
+1. Reunir: NIF, nombre o razón social exactos (los del DNI o el censo), dirección fiscal completa con el número de la calle aparte (obligatorio para generar la representación), email del cliente.
 2. Comprobar que el NIF existe en el censo de la AEAT con `POST /v1/nif/validate`. Un NIF no censado devuelve `422 NIF_VALIDATION_INVALID` y la cuenta no se crea.
-3. Crear la cuenta gestionada (`POST /v1/accounts`) con nivel de acceso **`OPERATE`** y `external_ref` = id del cliente en Supabase. (Por ahora se hace a mano o con script; está pendiente un endpoint interno de admin.)
+3. Crear la cuenta gestionada (`POST /v1/accounts`) con nivel de acceso **`OPERATE`** y `external_ref` = id del cliente en Supabase. (Lo hace el panel de admin, ver el atajo de arriba; a mano solo si el panel falla.)
 4. Guardar `account_id` y `company_id` en la ficha del cliente (`clientes.beel_company_id`).
 5. En este punto el NIF está en **test**: puede emitir facturas de prueba, sin efecto fiscal ni coste. No activar PROD todavía.
 
