@@ -190,9 +190,17 @@ export const POST: APIRoute = async ({ request }) => {
 
   // Aviso a n8n para que le llegue al cliente. La URL caduca en minutos, así
   // que n8n la descarga al momento. Un fallo aquí no invalida lo anterior.
+  // Si no se envía, `avisoMotivo` le dice al admin por qué (solo lo ve él).
   let avisoEnviado = false;
+  let avisoMotivo: string | null = null;
   const hook = import.meta.env.N8N_BEEL_WEBHOOK_URL as string | undefined;
-  if (hook && downloadUrl && cliente.email) {
+  if (!hook) {
+    avisoMotivo = 'falta N8N_BEEL_WEBHOOK_URL en Vercel';
+  } else if (!cliente.email) {
+    avisoMotivo = 'el cliente no tiene email';
+  } else if (!downloadUrl) {
+    avisoMotivo = 'BeeL no ha devuelto el enlace del documento';
+  } else {
     try {
       const r = await fetch(hook, {
         method: 'POST',
@@ -200,10 +208,19 @@ export const POST: APIRoute = async ({ request }) => {
         body: JSON.stringify({ cliente_id: cliente.id, nombre: cliente.nombre, email: cliente.email, download_url: downloadUrl }),
       });
       avisoEnviado = r.ok;
+      if (!r.ok) {
+        const pista =
+          r.status === 403 ? ': revisa N8N_ALERT_TOKEN y la credencial «Beel» de n8n'
+          : r.status === 404 ? ': ¿URL de pruebas (webhook-test) o workflow inactivo?'
+          : '';
+        avisoMotivo = `n8n ha respondido ${r.status}${pista}`;
+        console.error('[beel-cuenta] n8n rechazó el aviso', r.status);
+      }
     } catch (e) {
+      avisoMotivo = 'sin conexión con n8n';
       console.error('[beel-cuenta] no se pudo avisar a n8n', e);
     }
   }
 
-  return json({ ok: true, estado, companyId, downloadUrl: downloadUrl ?? null, avisoEnviado });
+  return json({ ok: true, estado, companyId, downloadUrl: downloadUrl ?? null, avisoEnviado, avisoMotivo });
 };

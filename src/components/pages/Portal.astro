@@ -1267,8 +1267,9 @@ const dashboardsCtaHref = `mailto:${EMAIL}?subject=${encodeURIComponent(dashboar
       }
     });
 
-    function mostrarDocumento(data: { avisoEnviado?: boolean; downloadUrl?: string | null }, prefijo: string) {
-      beelMensaje(`${prefijo} ${data.avisoEnviado ? I18N.admin.beel.avisoSi : I18N.admin.beel.avisoNo}`);
+    function mostrarDocumento(data: { avisoEnviado?: boolean; avisoMotivo?: string | null; downloadUrl?: string | null }, prefijo: string) {
+      const aviso = data.avisoEnviado ? I18N.admin.beel.avisoSi : `${I18N.admin.beel.avisoNo}${data.avisoMotivo ? ` (${data.avisoMotivo})` : ''}`;
+      beelMensaje(`${prefijo} ${aviso}`);
       if (data.downloadUrl) {
         // La URL caduca en minutos: sirve para descargar ahora mismo.
         beelDescargar.href = data.downloadUrl;
