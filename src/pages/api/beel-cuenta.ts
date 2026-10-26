@@ -128,8 +128,11 @@ export const POST: APIRoute = async ({ request }) => {
     const legalName = (body.legalName ?? '').trim() || (cliente.empresa as string | null) || (cliente.nombre as string);
     if (!address) return json({ error: FALTA_DIRECCION }, 400);
 
-    // Sin `email` la cuenta nace sin titular ni enlace de reclamación: el
-    // cliente factura desde nuestro portal y no necesita entrar en BeeL.
+    // Con el email del cliente la cuenta nace con titular, que es lo que pide
+    // la activación en producción (sin titular: 422 ACCOUNT_HAS_NO_HOLDER).
+    // BeeL no le escribe (`send_email` es false por defecto): el cliente
+    // sigue facturando desde nuestro portal sin entrar en BeeL. Cambiado el
+    // 26-oct-2026; antes se creaban sin email.
     const crear = await leer(
       await beelFetch('/v1/accounts', {
         method: 'POST',
@@ -137,6 +140,7 @@ export const POST: APIRoute = async ({ request }) => {
         body: JSON.stringify({
           display_name: legalName,
           external_ref: cliente.id,
+          ...(cliente.email ? { email: cliente.email } : {}),
           language: 'es',
           access_level: 'OPERATE',
           tax_profile: {
@@ -149,6 +153,12 @@ export const POST: APIRoute = async ({ request }) => {
         }),
       }),
     );
+    if (crear.errorCode === 'PROVISIONING_EMAIL_ALREADY_REGISTERED') {
+      return json(
+        { error: 'Ese email ya tiene una cuenta en BeeL que no gestionamos nosotros. Pide al cliente otro email o habla con BeeL.', code: crear.errorCode },
+        409,
+      );
+    }
     if (!crear.ok) return fallo('crear cuenta', crear);
 
     companyId = crear.data?.company_id ?? null;

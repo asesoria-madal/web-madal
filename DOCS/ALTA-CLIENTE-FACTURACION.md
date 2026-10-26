@@ -27,7 +27,7 @@ Las fases 2 a 4 de abajo se hacen ahora desde el portal en modo administrador, p
 4. Guardar `account_id` y `company_id` en la ficha del cliente (`clientes.beel_company_id`).
 5. En este punto el NIF está en **test**: puede emitir facturas de prueba, sin efecto fiscal ni coste. No activar PROD todavía.
 
-> Orden y comprobaciones que indica BeeL (26-oct-2026): activar PROD → generar, firmar y subir la representación con la clave live → comprobar que `GET …/representation` da `ACTIVE` y que `issuing-readiness` da `ready` **y** `verifactu.ready`. El portal sube la representación antes de activar (para no pagar el NIF si el PDF no vale) y está preguntado a BeeL si ese orden vale. Antes de la primera activación, comprobar que la cuenta de BeeL tiene tarjeta registrada (si no, `402 CHECKOUT_REQUIRED`) y que no salta `422 ACCOUNT_HAS_NO_HOLDER` (nuestras cuentas no tienen email de titular). Ver `BEEL.md` §7.
+> Orden y comprobaciones que indica BeeL (26-oct-2026): activar PROD → generar, firmar y subir la representación con la clave live → comprobar que `GET …/representation` da `ACTIVE` y que `issuing-readiness` da `ready` **y** `verifactu.ready`. El portal sube la representación antes de activar (para no pagar el NIF si el PDF no vale) y está preguntado a BeeL si ese orden vale. Las cuentas se crean con el email del cliente como titular (sin que BeeL le escriba), porque la activación en PROD lo exige (`422 ACCOUNT_HAS_NO_HOLDER`). Ver `BEEL.md` §7.
 
 ## Fase 3. Representación Verifactu (asesoría + cliente)
 1. Generar el documento de representación (`POST …/representation`) y descargarlo.
