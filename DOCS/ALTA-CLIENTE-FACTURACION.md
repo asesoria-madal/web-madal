@@ -27,6 +27,8 @@ Las fases 2 a 4 de abajo se hacen ahora desde el portal en modo administrador, p
 4. Guardar `account_id` y `company_id` en la ficha del cliente (`clientes.beel_company_id`).
 5. En este punto el NIF está en **test**: puede emitir facturas de prueba, sin efecto fiscal ni coste. No activar PROD todavía.
 
+> Orden y comprobaciones que indica BeeL (26-oct-2026): activar PROD → generar, firmar y subir la representación con la clave live → comprobar que `GET …/representation` da `ACTIVE` y que `issuing-readiness` da `ready` **y** `verifactu.ready`. El portal sube la representación antes de activar (para no pagar el NIF si el PDF no vale) y está preguntado a BeeL si ese orden vale. Antes de la primera activación, comprobar que la cuenta de BeeL tiene tarjeta registrada (si no, `402 CHECKOUT_REQUIRED`) y que no salta `422 ACCOUNT_HAS_NO_HOLDER` (nuestras cuentas no tienen email de titular). Ver `BEEL.md` §7.
+
 ## Fase 3. Representación Verifactu (asesoría + cliente)
 1. Generar el documento de representación (`POST …/representation`) y descargarlo.
 2. Enviarlo al cliente para que lo **firme electrónicamente con su certificado** (el PDF debe llevar firma válida).
@@ -36,7 +38,7 @@ Las fases 2 a 4 de abajo se hacen ahora desde el portal en modo administrador, p
 ## Fase 4. Activación en producción (asesoría)
 1. Activar el NIF en producción: `POST /v1/companies/{company_id}/activations` con `environment: "PROD"`. **Desde aquí empieza a contar el NIF (12 €/mes)**, emita o no.
 2. Activar Veri*Factu: `PUT …/verifactu-configuration` con `enabled: true`.
-3. Comprobar `GET …/issuing-readiness`: debe indicar que está listo para emitir.
+3. Comprobar `GET …/issuing-readiness`: deben estar a `true` tanto `ready` (el NIF puede emitir) como `verifactu.ready` (sus facturas pasarán el registro en la AEAT). Y `GET …/representation` debe dar `ACTIVE`.
 4. Dejar anotado en la ficha del cliente la fecha de activación (para la repercusión del coste).
 
 ## Fase 5. Primera factura y entrega al cliente
@@ -57,5 +59,5 @@ Las fases 2 a 4 de abajo se hacen ahora desde el portal en modo administrador, p
 - [ ] Cuenta gestionada creada con `OPERATE`; `account_id`/`company_id` guardados
 - [ ] Representación firmada y subida (clave live)
 - [ ] NIF activado en PROD y Veri*Factu activado
-- [ ] `issuing-readiness` correcto
+- [ ] `issuing-readiness` con `ready` y `verifactu.ready`; representación `ACTIVE`
 - [ ] Primera factura aceptada por la AEAT

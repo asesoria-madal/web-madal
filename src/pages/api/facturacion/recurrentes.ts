@@ -121,37 +121,27 @@ export const POST: APIRoute = async ({ request }) => {
   }
   if (!isValid(body)) return json({ error: 'Datos de la factura recurrente no válidos' }, 400);
 
-  // La plantilla lleva la serie. Se usa la predeterminada del tipo, igual que
-  // hace BeeL con una factura suelta sin `series_id`. Listar las series exige
-  // el permiso `series:read` en la clave de API; si la clave no lo tiene
-  // (INSUFFICIENT_SCOPE) se crea sin `series_id`: la documentación de BeeL
-  // dice que, si se omite, usa la serie por defecto (createCompanyRecurringInvoice,
-  // aunque el esquema lo marque como obligatorio). Lo correcto es dar el permiso
-  // a la clave (DOCS/BEEL.md).
+  // La plantilla exige `series_id` (confirmado por BeeL, 26-oct-2026: no
+  // coge la predeterminada si se omite). Se usa la predeterminada del tipo.
+  // Listar las series exige el permiso `series:read` en la clave de API
+  // (DOCS/BEEL.md §5). BeeL también ofrece GET …/series/defaults.
   let seriesRes: Response;
   try {
     seriesRes = await beelFetch(`/v1/companies/${ctx.companyId}/series`);
   } catch {
     return json({ error: 'No se ha podido contactar con el servicio de facturación.' }, 502);
   }
-  let serieId: string | null = null;
-  if (seriesRes.ok) {
-    const series = (await seriesRes.json().catch(() => null))?.data?.series ?? [];
-    const serie = series.find((s: any) => s.document_type === body.tipo && s.default_series && s.active);
-    if (!serie) return json({ error: 'No hay una serie de facturación predeterminada para este tipo.', code: 'SERIES_DEFAULT_NOT_FOUND' }, 422);
-    serieId = serie.id;
-  } else {
-    const fallo = await seriesRes.clone().json().catch(() => null);
-    if (fallo?.error?.code !== 'INSUFFICIENT_SCOPE') return errorBeel(seriesRes, 'recurrentes-series');
-    console.warn('[recurrentes] la clave de BeeL no tiene series:read: se crea la plantilla sin series_id');
-  }
+  if (!seriesRes.ok) return errorBeel(seriesRes, 'recurrentes-series');
+  const series = (await seriesRes.json().catch(() => null))?.data?.series ?? [];
+  const serie = series.find((s: any) => s.document_type === body.tipo && s.default_series && s.active);
+  if (!serie) return json({ error: 'No hay una serie de facturación predeterminada para este tipo.', code: 'SERIES_DEFAULT_NOT_FOUND' }, 422);
 
   const payload = {
     name: body.nombre.trim(),
     frequency: body.frecuencia,
     day_of_month: body.diaMes,
     start_date: body.fechaInicio,
-    ...(serieId ? { series_id: serieId } : {}),
+    series_id: serie.id,
     invoice_type: body.tipo,
     ...(body.customerId ? { customer_id: body.customerId } : {}),
     lines: body.lineas.map((l) => lineaARecurrente(l, body.ivaIncluido)),

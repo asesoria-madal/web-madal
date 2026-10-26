@@ -15,7 +15,13 @@ export const prerender = false;
 //    también se cobra, y no hay forma de firmar la representación en sandbox;
 //  - el panel de admin pide confirmación antes de llamar aquí.
 // Los pasos son secuenciales y se detiene en el primero que falla, diciendo
-// cuál; repetir la petición es seguro (cada paso de BeeL es idempotente).
+// cuál; repetir la petición es seguro (no resube una representación ya
+// enviada y BeeL no duplica la activación).
+//
+// Orden: aquí se sube la representación ANTES de activar PROD, para que no se
+// cobre el NIF si el PDF no es válido. BeeL documenta el orden inverso
+// (activar y luego subir); preguntado si este también vale (26-oct-2026). Si la
+// subida fallara por no estar activo en PROD, invertir los pasos 1 y 2.
 
 function json(data: unknown, status = 200) {
   return new Response(JSON.stringify(data), { status, headers: { 'Content-Type': 'application/json' } });
@@ -74,13 +80,20 @@ export const POST: APIRoute = async ({ request }) => {
   }
   const companyId = cliente.beel_company_id as string;
 
-  // 1) Representación firmada (multipart, campo `file`).
-  const envio = new FormData();
-  envio.append('file', file, file.name || 'representacion-firmada.pdf');
-  const submit = await leer(await beelFetch(`/v1/companies/${companyId}/representation/submit`, { method: 'POST', body: envio }));
-  if (!submit.ok) return fallo('subir representación firmada', submit);
+  // 1) Representación firmada (multipart, campo `file`). En un reintento (por
+  // ejemplo, si la comprobación final aún no daba listo) ya consta como
+  // enviada o activa y no se vuelve a subir.
+  const previa = await leer(await beelFetch(`/v1/companies/${companyId}/representation`));
+  const yaSubida = previa.ok && ['SUBMITTED', 'ACTIVE'].includes(previa.data?.status);
+  if (!yaSubida) {
+    const envio = new FormData();
+    envio.append('file', file, file.name || 'representacion-firmada.pdf');
+    const submit = await leer(await beelFetch(`/v1/companies/${companyId}/representation/submit`, { method: 'POST', body: envio }));
+    if (!submit.ok) return fallo('subir representación firmada', submit);
+  }
 
-  // 2) Activar el NIF en producción (aquí empieza a contar).
+  // 2) Activar el NIF en producción (aquí empieza a contar). Si ya estaba
+  // activo, BeeL responde 201 con `already_active: true` y no cobra dos veces.
   const activar = await leer(
     await beelFetch(`/v1/companies/${companyId}/activations`, {
       method: 'POST',
@@ -96,12 +109,25 @@ export const POST: APIRoute = async ({ request }) => {
   );
   if (!vf.ok) return fallo('activar Veri*Factu', vf);
 
-  // 4) Comprobación final: debe poder emitir.
+  // 4) Comprobación final. `ready` solo dice que el NIF puede emitir; si sus
+  // facturas pasarán el registro en la AEAT lo dice `verifactu.ready`
+  // (confirmado por BeeL, 26-oct-2026). Hacen falta los dos.
   const ready = await leer(await beelFetch(`/v1/companies/${companyId}/issuing-readiness`));
   if (!ready.ok) return fallo('comprobar que puede emitir', ready);
-  if (ready.data?.ready !== true) {
-    // NIF ya activo pero con algún bloqueo pendiente: se informa, no se da por bueno.
-    return json({ error: 'El NIF está activo pero BeeL indica que aún no puede emitir.', blockers: ready.data?.blockers ?? null }, 409);
+  if (ready.data?.ready !== true || ready.data?.verifactu?.ready !== true) {
+    // NIF ya activo pero con algún bloqueo pendiente (p. ej. la representación
+    // aún no está ACTIVE): se informa, no se da por bueno. Repetir más tarde
+    // es seguro: no vuelve a subir el PDF ni a cobrar el NIF.
+    const rep = await leer(await beelFetch(`/v1/companies/${companyId}/representation`));
+    return json(
+      {
+        error: 'El NIF está activo, pero BeeL indica que aún no puede emitir con Veri*Factu. Vuelve a pulsar el botón en unos minutos.',
+        blockers: ready.data?.blockers ?? null,
+        verifactu: ready.data?.verifactu ?? null,
+        representacion: rep.ok ? (rep.data?.status ?? null) : null,
+      },
+      409,
+    );
   }
 
   const { error } = await supabase
