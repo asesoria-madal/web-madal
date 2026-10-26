@@ -173,6 +173,7 @@ const dashboardsCtaHref = `mailto:${EMAIL}?subject=${encodeURIComponent(dashboar
               <button type="button" class="btn btn-primary" id="beel-crear-btn">{t.admin.beel.crear}</button>
             </div>
             <div id="beel-firmada" hidden>
+              <button type="button" class="portal-logout" id="beel-documento-btn">{t.admin.beel.documento}</button>
               <a id="beel-descargar" href="#" target="_blank" rel="noopener" hidden>{t.admin.beel.descargar}</a>
               <label>{t.admin.beel.firmado}
                 <input type="file" id="beel-file" accept="application/pdf,.pdf" />
@@ -1151,6 +1152,7 @@ const dashboardsCtaHref = `mailto:${EMAIL}?subject=${encodeURIComponent(dashboar
     const beelCoste = document.getElementById('beel-coste') as HTMLInputElement;
     const beelCrearBtn = document.getElementById('beel-crear-btn') as HTMLButtonElement;
     const beelActivarBtn = document.getElementById('beel-activar-btn') as HTMLButtonElement;
+    const beelDocumentoBtn = document.getElementById('beel-documento-btn') as HTMLButtonElement;
     let beelCliente: ClienteRow | null = null;
 
     function beelMensaje(texto: string) {
@@ -1220,21 +1222,55 @@ const dashboardsCtaHref = `mailto:${EMAIL}?subject=${encodeURIComponent(dashboar
           }),
         });
         if (!ok) {
+          // La cuenta puede haberse creado aunque falle un paso posterior (el
+          // documento de representación): se pasa a ese estado para reintentarlo.
+          if (data.estado === 'cuenta_test') {
+            beelCliente.beel_estado = 'cuenta_test';
+            renderBeel(beelCliente);
+          }
           beelMensaje(data.error || I18N.admin.beel.error);
           return;
         }
         beelCliente.beel_estado = 'cuenta_test';
         renderBeel(beelCliente);
-        beelMensaje(`${I18N.admin.beel.cuentaOk} ${data.avisoEnviado ? I18N.admin.beel.avisoSi : I18N.admin.beel.avisoNo}`);
-        if (data.downloadUrl) {
-          // La URL caduca en minutos: sirve para descargar ahora mismo.
-          beelDescargar.href = data.downloadUrl;
-          beelDescargar.hidden = false;
-        }
+        mostrarDocumento(data, I18N.admin.beel.cuentaOk);
       } catch {
         beelMensaje(I18N.admin.beel.error);
       } finally {
         beelCrearBtn.disabled = false;
+      }
+    });
+
+    function mostrarDocumento(data: { avisoEnviado?: boolean; downloadUrl?: string | null }, prefijo: string) {
+      beelMensaje(`${prefijo} ${data.avisoEnviado ? I18N.admin.beel.avisoSi : I18N.admin.beel.avisoNo}`);
+      if (data.downloadUrl) {
+        // La URL caduca en minutos: sirve para descargar ahora mismo.
+        beelDescargar.href = data.downloadUrl;
+        beelDescargar.hidden = false;
+      }
+    }
+
+    // Volver a generar el documento: el enlace caduca a los 5 minutos, o la
+    // generación falló al crear la cuenta. También se reenvía al cliente.
+    beelDocumentoBtn.addEventListener('click', async () => {
+      if (!beelCliente) return;
+      beelDocumentoBtn.disabled = true;
+      beelMensaje(I18N.admin.beel.creating);
+      try {
+        const { ok, data } = await beelLlamar('/api/beel-cuenta', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ clienteId: beelCliente.id, action: 'documento' }),
+        });
+        if (!ok) {
+          beelMensaje(data.error || I18N.admin.beel.error);
+          return;
+        }
+        mostrarDocumento(data, I18N.admin.beel.documentoOk);
+      } catch {
+        beelMensaje(I18N.admin.beel.error);
+      } finally {
+        beelDocumentoBtn.disabled = false;
       }
     });
 
