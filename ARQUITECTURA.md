@@ -99,7 +99,7 @@ Las políticas de `storage.objects` para `facturas` están creadas **a mano en e
 | Endpoint | Tabla | Rate limit | Notas |
 |---|---|---|---|
 | `POST /api/portal-login` | `clientes` (solo lectura) | 10 / 10 min / IP | Enlace mágico. Respuesta genérica siempre. |
-| `POST /api/alta-cliente` | `clientes` | — | Solo admin (`portal_admins`, validado con el token de sesión). Inserta la ficha con idioma, plan, teléfono, `alta_hecha`, `reporting` y `beel_contratado`; no envía nada, lo hace n8n a partir del INSERT. |
+| `POST /api/alta-cliente` | `clientes` | — | Solo admin (`portal_admins`, validado con el token de sesión). Inserta la ficha con idioma, plan, teléfono, `alta_hecha`, `reporting`, `beel_contratado` y `enviar_formulario`; no envía nada, lo hace n8n a partir del INSERT. |
 | `POST /api/alta-autonomo` | `alta_nuevos_autonomos` | Sí | Normaliza NIF a mayúsculas e IBAN sin espacios. |
 | `POST /api/traspaso` | `traspasos_nuevos` | Sí | Ídem; ramifica el insert según `tipo`. |
 
@@ -119,7 +119,7 @@ Desde 2026-10-23 (el camino por presupuesto se retiró con el simulador) hay dos
 2. **A mano en el Table Editor.**
 
 Qué hace **Onboarding** (todo en el idioma `clientes.idioma`; los formularios y la guía PDF solo existen en castellano y el correo en ca/en lo avisa):
-- Correo con el formulario (alta de autónomo, traspaso de autónomo o traspaso de SL según `tipo_persona` / `alta_hecha`); si la ficha está incompleta no se envía y se crea la tarea "Revisar alta incompleta".
+- Correo con el formulario (alta de autónomo, traspaso de autónomo o traspaso de SL según `tipo_persona` / `alta_hecha`); si la ficha está incompleta no se envía y se crea la tarea "Revisar alta incompleta". Tampoco se envía si `clientes.enviar_formulario = false` (casilla del alta manual, por defecto marcada; el resto del onboarding —acceso al portal, HubSpot, Drive— no cambia). Al no mandarse el formulario, el deal se queda en "Formulario pendiente" y hay que moverlo a mano.
 - Correo con el acceso al portal (magic link + guía PDF), solo si hay email **y** NIF real.
 - HubSpot, solo si hay email: contacto (upsert por email, con `firstname`/`lastname` separados), deal en el pipeline "Onboarding" (etapa "Formulario pendiente") y tarea asociada a contacto y deal.
 - Carpeta de Drive `<NIF>-<nombre>` con las subcarpetas 0-documentos, 1-contabilidad, 2-escrituras, 3-impuestos, 4-laboral, 5-mercantil y 9-otros bajo "Clientes" (solo con NIF real). El flujo de facturas localiza la carpeta por NIF (`name contains <NIF>`).

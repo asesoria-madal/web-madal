@@ -144,6 +144,9 @@ const dashboardsCtaHref = `mailto:${EMAIL}?subject=${encodeURIComponent(dashboar
               <label class="portal-alta-check">
                 <input type="checkbox" id="alta-beel" /> {t.admin.alta.beel}
               </label>
+              <label class="portal-alta-check">
+                <input type="checkbox" id="alta-formulario" checked /> {t.admin.alta.enviarFormulario}
+              </label>
             </div>
             <button type="submit" class="btn btn-primary" id="alta-submit">{t.admin.alta.submit}</button>
             <p id="alta-msg" class="portal-msg" hidden></p>
@@ -1378,6 +1381,7 @@ const dashboardsCtaHref = `mailto:${EMAIL}?subject=${encodeURIComponent(dashboar
             tramitamosAlta: tipoPersona === 'autonomo' ? (document.getElementById('alta-tramitamos') as HTMLSelectElement).value === 'si' : undefined,
             reporting: (document.getElementById('alta-reporting') as HTMLInputElement).checked,
             beelContratado: (document.getElementById('alta-beel') as HTMLInputElement).checked,
+            enviarFormulario: (document.getElementById('alta-formulario') as HTMLInputElement).checked,
           }),
         });
         const data = await res.json().catch(() => ({}));

@@ -942,3 +942,10 @@ alter table clientes add column if not exists hubspot_synced_at timestamptz;
 -- y decide en qué idioma salen los correos automáticos de n8n (onboarding, etc.).
 -- Los clientes anteriores quedan en 'es' por el default.
 alter table clientes add column if not exists idioma text not null default 'es';
+
+-- Correo del formulario en el onboarding (2026-10-27): casilla del alta manual del portal.
+-- true  = el workflow n8n "Onboarding" envía el correo con el formulario (comportamiento de siempre).
+-- false = solo sale el correo con el acceso al área de cliente.
+-- n8n lo lee del registro del webhook (nodo "Preparar caso"); si falta, se trata como true.
+-- Los clientes anteriores quedan en true por el default.
+alter table clientes add column if not exists enviar_formulario boolean not null default true;

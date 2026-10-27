@@ -41,6 +41,9 @@ interface Body {
   plan?: (typeof PLANES)[number];
   // Por defecto 'es'.
   idioma?: (typeof IDIOMAS)[number];
+  // false = n8n no envía el correo con el formulario, solo el del área de cliente.
+  // Por defecto true (comportamiento de siempre).
+  enviarFormulario?: boolean;
 }
 
 function isValid(body: unknown): body is Body {
@@ -57,6 +60,7 @@ function isValid(body: unknown): body is Body {
   if (b.telefono !== undefined && (typeof b.telefono !== 'string' || !TELEFONO_PATTERN.test(b.telefono.trim()))) return false;
   if (b.plan !== undefined && !(PLANES as readonly unknown[]).includes(b.plan)) return false;
   if (b.idioma !== undefined && !(IDIOMAS as readonly unknown[]).includes(b.idioma)) return false;
+  if (b.enviarFormulario !== undefined && typeof b.enviarFormulario !== 'boolean') return false;
   return true;
 }
 
@@ -129,6 +133,7 @@ export const POST: APIRoute = async ({ request }) => {
     telefono: body.telefono?.trim() || null,
     plan: body.plan ?? null,
     idioma: body.idioma ?? 'es',
+    enviar_formulario: body.enviarFormulario !== false,
   });
 
   if (error) {
