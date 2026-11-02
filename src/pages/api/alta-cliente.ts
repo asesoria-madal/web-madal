@@ -5,9 +5,11 @@ export const prerender = false;
 
 // Alta manual de un cliente desde el panel de administrador del portal.
 // Hace exactamente lo que hacía el equipo a mano en el Table Editor: insertar
-// la fila en `clientes`. Todo lo demás (correo con el formulario, enlace de
-// acceso al portal, contacto y tarea en HubSpot) lo dispara el workflow de n8n
+// la fila en `clientes`. Todo lo demás (correo con el formulario, contacto y
+// tarea en HubSpot, carpeta de Drive) lo dispara el workflow de n8n
 // "Onboarding" a partir de ese INSERT; este endpoint no envía nada por sí mismo.
+// El enlace de acceso al portal lo manda "Responden formulario" al recibir el
+// primer formulario, o "Onboarding" si enviar_formulario = false.
 //
 // Autorización: la service role se salta RLS, así que la comprobación real es
 // esta — el token de sesión se valida contra Supabase Auth y el usuario tiene
