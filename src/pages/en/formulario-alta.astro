@@ -1,0 +1,10 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import FormularioAlta from '../../components/pages/FormularioAlta.astro';
+
+export const prerender = true;
+---
+
+<Layout lang="en" path="/en/formulario-alta" active="none" title="Your registration details · Asesoría Madal" description="Form with the details we need to register you as self-employed in Spain." noindex showCtaFinal={false} minimalHeader localesAvailable={['es', 'en']}>
+  <FormularioAlta lang="en" />
+</Layout>

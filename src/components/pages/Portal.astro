@@ -1420,18 +1420,20 @@ const dashboardsCtaHref = `mailto:${EMAIL}?subject=${encodeURIComponent(dashboar
           return;
         }
         // Correo del formulario desmarcado = "se lo mando yo": se muestra el enlace
-        // del formulario que le toca, con NIF y email ya puestos (los formularios
-        // solo existen en castellano, de ahí la ruta sin prefijo de idioma).
+        // del formulario que le toca, con NIF y email ya puestos, en inglés si el
+        // cliente es en inglés (en catalán no hay formulario: va el castellano).
         const enviaFormulario = (document.getElementById('alta-formulario') as HTMLInputElement).checked;
         const emailAlta = val('alta-email');
         let enlaceFormulario = '';
         if (!enviaFormulario) {
+          const prefijo = val('alta-idioma') === 'en' ? '/en' : '';
           const ruta =
-            tipoPersona === 'sl'
+            prefijo +
+            (tipoPersona === 'sl'
               ? '/formulario-traspaso-sl'
               : (document.getElementById('alta-tramitamos') as HTMLSelectElement).value === 'si'
                 ? '/formulario-alta'
-                : '/formulario-traspaso-autonomo';
+                : '/formulario-traspaso-autonomo');
           // Ficha provisional (sin NIF): el enlace va solo con el email y el
           // cliente escribe su NIF en el formulario.
           const params = new URLSearchParams();

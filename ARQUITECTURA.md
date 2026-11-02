@@ -10,7 +10,7 @@ Para tareas concretas hay guías aparte: **`DOCS/CONTENIDO.md`** (editar blog y 
 
 - **Framework**: Astro 7 (`output: 'server'`), adapter `@astrojs/vercel`. Desplegado en **Vercel**, dominio `https://asesoriamadal.es`. Node ≥ 22.12.
 - **Todo se prerenderiza**: pese al `output: 'server'`, cada página lleva `export const prerender = true`. Solo los cuatro endpoints de `src/pages/api/` corren por petición (`prerender = false`).
-- **i18n**: `es` (por defecto, sin prefijo), `ca`, `en`. Rutas duplicadas a mano (sin middleware), misma lógica de backend en los tres. Las páginas legales, el portal y los tres formularios existen **solo en castellano**.
+- **i18n**: `es` (por defecto, sin prefijo), `ca`, `en`. Rutas duplicadas a mano (sin middleware), misma lógica de backend en los tres. Las páginas legales y el portal existen **solo en castellano**. Los tres formularios de cliente existen en castellano e **inglés** (`/en/formulario-…`, desde el 2026-11-02; textos en `src/i18n/formularios.ts`, mismo envío al servidor en los dos idiomas); en catalán no.
 - **Sitemap**: integración `@astrojs/sitemap`, excluye `/solicitud`.
 - No hay `.vercel/project.json` en el repo local (no está enlazado por CLI en esta máquina) — el proyecto de Vercel se gestiona desde su dashboard/integración con GitHub.
 
@@ -118,7 +118,7 @@ Desde 2026-10-23 (el camino por presupuesto se retiró con el simulador) hay dos
 1. **Alta manual desde el portal de admin** (`POST /api/alta-cliente`, exige sesión de `portal_admins`). Es el camino normal.
 2. **A mano en el Table Editor.**
 
-Qué hace **Onboarding** (todo en el idioma `clientes.idioma`; los formularios y la guía PDF solo existen en castellano y el correo en ca/en lo avisa):
+Qué hace **Onboarding** (todo en el idioma `clientes.idioma`; a un cliente en inglés se le enlaza el formulario en inglés; en catalán no hay formulario y el correo avisa de que va en castellano; la guía PDF solo existe en castellano):
 - Correo con el formulario (alta de autónomo, traspaso de autónomo o traspaso de SL según `tipo_persona` / `alta_hecha`); si la ficha está incompleta no se envía y se crea la tarea "Revisar alta incompleta". Tampoco se envía si `clientes.enviar_formulario = false` (casilla del alta manual, por defecto marcada; HubSpot y Drive no cambian). Al no mandarse el formulario, el deal se queda en "Formulario pendiente" y hay que moverlo a mano.
 - **No** manda el correo de acceso al portal (magic link + guía PDF): sale al recibir el primer formulario (ver abajo). Con `enviar_formulario = false` el equipo manda el formulario en un correo propio; el portal, al crear el cliente, muestra el enlace del formulario que le toca con `?nif=…&email=…` y un botón «Copiar». Motivo (decisión de Hugo, 2026-11-02): dos correos de bienvenida a la vez confundían sobre qué hacer primero; el portal no sirve de nada hasta tener el formulario; el magic link caduca en 1 h, así que conviene mandarlo cuando el cliente vaya a usarlo; y así se manda después de comprobar que el email del formulario coincide con el de la ficha.
 - HubSpot, solo si hay email: contacto (upsert por email, con `firstname`/`lastname` separados), deal en el pipeline "Onboarding" (etapa "Formulario pendiente") y tarea asociada a contacto y deal.

@@ -1,191 +1,174 @@
 ---
 // Mismo criterio que FormularioAlta.astro (formulario largo tradicional,
-// sin enlazar desde el menú, solo español) — ver comentarios ahí.
+// sin enlazar desde el menú, en castellano e inglés con los textos en
+// src/i18n/formularios.ts) — ver comentarios ahí.
 //
 // Un solo componente para los dos tipos (en vez de duplicar el formulario
 // entero): el prop `tipo` decide qué etiquetas y qué secciones de
 // "situación fiscal actual" se muestran, pero la estructura y el resto de
-// campos son los mismos. Las dos páginas (formulario-traspaso-autonomo y
-// formulario-traspaso-sl) son solo un wrapper de una línea con el `tipo`
-// correspondiente — ver schema.sql (tabla traspasos_nuevos) para el porqué
-// de compartir tabla también.
-interface Props { tipo: 'autonomo' | 'sl'; }
-const { tipo } = Astro.props;
-const isAutonomo = tipo === 'autonomo';
+// campos son los mismos. Las páginas (formulario-traspaso-autonomo y
+// formulario-traspaso-sl, y sus versiones /en/) son solo un wrapper de una
+// línea con el `tipo` y el idioma — ver schema.sql (tabla traspasos_nuevos)
+// para el porqué de compartir tabla también.
+import { CAMPOS, COMUNES, MSG_CAMPO, PRIVACIDAD_HREF, TRASPASO, type FormLang } from '../../i18n/formularios';
 
-const nombreLabel = isAutonomo ? 'Nombre y apellidos completos' : 'Razón social';
-const nifLabel = isAutonomo ? 'NIF / NIE' : 'CIF';
+interface Props { tipo: 'autonomo' | 'sl'; lang?: FormLang; }
+const { tipo, lang = 'es' } = Astro.props;
+const isAutonomo = tipo === 'autonomo';
+const t = { ...COMUNES[lang], ...TRASPASO[lang] };
+
+const nombreLabel = isAutonomo ? t.nombreAutonomo : t.nombreSl;
+const nifLabel = isAutonomo ? t.nifAutonomo : t.nifSl;
 
 // Documentación: listas informativas, no campos del formulario (no hay
 // subida de archivos montada — ver comentario en schema.sql). El equipo
 // hace el seguimiento real de estos documentos por email/Drive.
-const docsGestoriaAnterior = isAutonomo
-  ? ['Facturas emitidas y recibidas del ejercicio en curso', 'Libros de registro, si los llevaba la gestoría anterior']
-  : [
-      'Libros de registro de este año y el año anterior',
-      'Libro diario de este año y el año anterior',
-      'Sumas y saldos de este año y el año anterior',
-      'Registro de inmovilizado (para la amortización)',
-      'Balance y cuenta de Pérdidas y Ganancias del año anterior',
-      'Cuentas Anuales y legalización de libros de años anteriores',
-      'Todos los modelos presentados de este año y el año anterior (303, 200, 111, 115...)',
-      'Si tiene empleados: contratos, nóminas del año en curso, TC2/informes de cotización recientes',
-    ];
-const docsCliente = isAutonomo
-  ? ['Facturas emitidas y recibidas pendientes de contabilizar']
-  : ['Escrituras (todas las que tengáis)', 'Facturas emitidas y recibidas pendientes de contabilizar'];
+const docsGestoriaAnterior = isAutonomo ? t.docsGestoriaAutonomo : t.docsGestoriaSl;
+const docsCliente = isAutonomo ? t.docsClienteAutonomo : t.docsClienteSl;
 ---
 
 <div id="view-traspaso-form">
   <div class="page view-intro">
-    <p class="eyebrow">Traspaso de gestoría</p>
-    <h2 class="section-title">Tus datos para el traspaso{isAutonomo ? '' : ' de tu SL'}</h2>
-    <p class="section-sub">
-      Rellena este formulario con calma — con esto tenemos todo lo que necesitamos para continuar tu contabilidad y
-      fiscalidad sin cortes. Si algo no lo sabes seguro, indícalo y lo revisamos juntos.
-    </p>
-    <p class="field-hint">Los campos marcados con * son obligatorios.</p>
+    <p class="eyebrow">{t.eyebrow}</p>
+    <h2 class="section-title">{isAutonomo ? t.titleAutonomo : t.titleSl}</h2>
+    <p class="section-sub">{t.intro}</p>
+    <p class="field-hint">{t.obligatorios}</p>
   </div>
 
-  <form id="traspasoForm" class="alta-form page view-block" novalidate data-tipo={tipo}>
+  <form id="traspasoForm" class="alta-form page view-block" novalidate data-tipo={tipo} data-campos={JSON.stringify(CAMPOS[lang])} data-msg-campo={MSG_CAMPO[lang]}>
     <fieldset class="alta-section">
-      <legend>Identificación digital *</legend>
-      <p class="field-hint">Para gestionar tu traspaso necesitamos operar en tu nombre ante la Administración.</p>
+      <legend>{t.idDigital}</legend>
+      <p class="field-hint">{t.idDigitalHint}</p>
       <div class="radio-group" data-field="identificacionDigital">
-        <label class="radio-option"><input type="radio" name="identificacionDigital" value="certificado" /> Tengo certificado digital vigente</label>
-        <label class="radio-option"><input type="radio" name="identificacionDigital" value="clave_pin" /> Tengo Cl@ve PIN vigente</label>
-        <label class="radio-option"><input type="radio" name="identificacionDigital" value="ninguno" /> No tengo ninguno, o está caducado</label>
+        <label class="radio-option"><input type="radio" name="identificacionDigital" value="certificado" /> {t.certificado}</label>
+        <label class="radio-option"><input type="radio" name="identificacionDigital" value="clave_pin" /> {t.clavePin}</label>
+        <label class="radio-option"><input type="radio" name="identificacionDigital" value="ninguno" /> {t.ninguno}</label>
       </div>
     </fieldset>
 
     <fieldset class="alta-section">
-      <legend>Datos básicos</legend>
+      <legend>{t.basicos}</legend>
       <label class="field">{nombreLabel} * <input type="text" id="fNombreRazonSocial" maxlength="150" required /></label>
       <label class="field">{nifLabel} * <input type="text" id="fNifCif" maxlength="9" required /></label>
-      <label class="field">Email * <input type="email" id="fEmail" maxlength="254" required /></label>
-      <label class="field">Teléfono * <input type="tel" id="fTelefono" maxlength="20" required /></label>
-      <label class="field">Domicilio fiscal completo * <textarea id="fDomicilioFiscal" maxlength="300" rows="2" required></textarea></label>
+      <label class="field">{t.email} <input type="email" id="fEmail" maxlength="254" required /></label>
+      <label class="field">{t.telefono} <input type="tel" id="fTelefono" maxlength="20" required /></label>
+      <label class="field">{t.domFiscal} <textarea id="fDomicilioFiscal" maxlength="300" rows="2" required></textarea></label>
       {!isAutonomo && (
-        <label class="field">Domicilio social * <textarea id="fDomicilioSocial" maxlength="300" rows="2" required></textarea></label>
+        <label class="field">{t.domSocial} <textarea id="fDomicilioSocial" maxlength="300" rows="2" required></textarea></label>
       )}
-      <label class="field">Domicilio a efectos de notificaciones <span class="field-optional">(solo si es distinto al fiscal)</span>
+      <label class="field">{t.domNotif} <span class="field-optional">{t.soloSiDistinto}</span>
         <textarea id="fDomicilioNotif" maxlength="300" rows="2"></textarea>
       </label>
-      <label class="field">IBAN para el cobro de honorarios * <input type="text" id="fIban" maxlength="34" placeholder="ES00 0000 0000 0000 0000 0000" required /></label>
+      <label class="field">{t.iban} <input type="text" id="fIban" maxlength="34" placeholder="ES00 0000 0000 0000 0000 0000" required /></label>
     </fieldset>
 
     <fieldset class="alta-section">
-      <legend>Situación fiscal actual</legend>
-      <p class="field-hint">Cuéntanos cómo tienes la situación ahora mismo — no se trata de decidir nada, solo de que la sepamos.</p>
+      <legend>{t.situacion}</legend>
+      <p class="field-hint">{t.situacionHint}</p>
 
       {isAutonomo && (
         <>
-          <label class="field">Fecha de alta como autónomo * <input type="date" id="fFechaAlta" required /></label>
-          <label class="field">Epígrafe(s) IAE actuales * <textarea id="fEpigrafes" maxlength="500" rows="2" required></textarea></label>
+          <label class="field">{t.fechaAlta} <input type="date" id="fFechaAlta" required /></label>
+          <label class="field">{t.epigrafes} <textarea id="fEpigrafes" maxlength="500" rows="2" required></textarea></label>
 
           <div class="field-group">
-            <p class="field-group-label">Régimen de IVA actual *</p>
+            <p class="field-group-label">{t.regimenIva}</p>
             <div class="radio-group" data-field="regimenIva">
-              <label class="radio-option"><input type="radio" name="regimenIva" value="general" /> General</label>
-              <label class="radio-option"><input type="radio" name="regimenIva" value="recargo_equivalencia" /> Recargo de equivalencia</label>
-              <label class="radio-option"><input type="radio" name="regimenIva" value="simplificado" /> Simplificado</label>
-              <label class="radio-option"><input type="radio" name="regimenIva" value="exento" /> Exento</label>
-              <label class="radio-option"><input type="radio" name="regimenIva" value="otro" /> Otro</label>
+              <label class="radio-option"><input type="radio" name="regimenIva" value="general" /> {t.ivaGeneral}</label>
+              <label class="radio-option"><input type="radio" name="regimenIva" value="recargo_equivalencia" /> {t.ivaRecargo}</label>
+              <label class="radio-option"><input type="radio" name="regimenIva" value="simplificado" /> {t.ivaSimplificado}</label>
+              <label class="radio-option"><input type="radio" name="regimenIva" value="exento" /> {t.ivaExento}</label>
+              <label class="radio-option"><input type="radio" name="regimenIva" value="otro" /> {t.ivaOtro}</label>
             </div>
-            <input type="text" id="fRegimenIvaOtro" class="field-conditional-input" maxlength="100" placeholder="¿Cuál?" hidden />
+            <input type="text" id="fRegimenIvaOtro" class="field-conditional-input" maxlength="100" placeholder={t.cual} hidden />
           </div>
 
           <div class="field-group">
-            <p class="field-group-label">Régimen de IRPF actual *</p>
+            <p class="field-group-label">{t.regimenIrpf}</p>
             <div class="radio-group" data-field="regimenIrpf">
-              <label class="radio-option"><input type="radio" name="regimenIrpf" value="directa_normal" /> Estimación directa normal</label>
-              <label class="radio-option"><input type="radio" name="regimenIrpf" value="directa_simplificada" /> Estimación directa simplificada</label>
-              <label class="radio-option"><input type="radio" name="regimenIrpf" value="modulos" /> Módulos</label>
+              <label class="radio-option"><input type="radio" name="regimenIrpf" value="directa_normal" /> {t.irpfNormal}</label>
+              <label class="radio-option"><input type="radio" name="regimenIrpf" value="directa_simplificada" /> {t.irpfSimplificada}</label>
+              <label class="radio-option"><input type="radio" name="regimenIrpf" value="modulos" /> {t.irpfModulos}</label>
             </div>
           </div>
 
-          <label class="checkbox-option"><input type="checkbox" id="fFacturaRetencion" /> Facturo actualmente con retención de IRPF</label>
-          <label class="field" id="fPorcentajeRetencionWrap" hidden>¿Qué porcentaje aplicas? <input type="number" id="fPorcentajeRetencion" min="0" max="100" step="0.01" /></label>
+          <label class="checkbox-option"><input type="checkbox" id="fFacturaRetencion" /> {t.facturaRetencion}</label>
+          <label class="field" id="fPorcentajeRetencionWrap" hidden>{t.porcentaje} <input type="number" id="fPorcentajeRetencion" min="0" max="100" step="0.01" /></label>
         </>
       )}
 
-      <label class="checkbox-option"><input type="checkbox" id="fTrabajadores" /> Tengo trabajadores a mi cargo</label>
-      <label class="field" id="fNumeroTrabajadoresWrap" hidden>¿Cuántos? <input type="number" id="fNumeroTrabajadores" min="1" step="1" /></label>
+      <label class="checkbox-option"><input type="checkbox" id="fTrabajadores" /> {t.trabajadores}</label>
+      <label class="field" id="fNumeroTrabajadoresWrap" hidden>{t.cuantos} <input type="number" id="fNumeroTrabajadores" min="1" step="1" /></label>
 
-      <label class="checkbox-option"><input type="checkbox" id="fIntracomunitarias" /> Tengo operaciones intracomunitarias / estoy en el ROI</label>
+      <label class="checkbox-option"><input type="checkbox" id="fIntracomunitarias" /> {t.intracom}</label>
     </fieldset>
 
     <fieldset class="alta-section">
-      <legend>Continuidad con la gestoría anterior</legend>
-      <label class="checkbox-option"><input type="checkbox" id="fRequerimientos" /> Tengo requerimientos o procedimientos abiertos con la AEAT</label>
-      <label class="field" id="fDetalleRequerimientosWrap" hidden>Cuéntanos algo más <textarea id="fDetalleRequerimientos" maxlength="500" rows="2"></textarea></label>
+      <legend>{t.continuidad}</legend>
+      <label class="checkbox-option"><input type="checkbox" id="fRequerimientos" /> {t.requerimientos}</label>
+      <label class="field" id="fDetalleRequerimientosWrap" hidden>{t.requerimientosDetalle} <textarea id="fDetalleRequerimientos" maxlength="500" rows="2"></textarea></label>
 
-      <label class="field">Datos de contacto de tu gestoría anterior * <span class="field-optional">(para poder reclamar documentación si hace falta)</span>
+      <label class="field">{t.contactoGestoria} <span class="field-optional">{t.contactoGestoriaHint}</span>
         <textarea id="fContactoGestoria" maxlength="300" rows="2" required></textarea>
       </label>
 
       <div class="field-group">
-        <p class="field-group-label">Documentación que le vamos a pedir a tu gestoría anterior:</p>
+        <p class="field-group-label">{t.docsGestoriaTitulo}</p>
         <ul class="plain-list">
           {docsGestoriaAnterior.map((d) => <li>{d}</li>)}
         </ul>
-        <p class="field-hint">Nos ocupamos nosotros de pedirlo directamente, no tienes que hacer nada más que autorizarlo.</p>
+        <p class="field-hint">{t.docsGestoriaHint}</p>
       </div>
 
       <label class="checkbox-option">
         <input type="checkbox" id="fAutorizaHistorico" required />
-        Autorizo a Asesoría Madal a solicitar a mi gestoría anterior el histórico de facturación/contabilidad del ejercicio en curso *
+        {t.autoriza}
       </label>
 
       <div class="field-group">
-        <p class="field-group-label">Documentación que nos tendrás que aportar tú:</p>
+        <p class="field-group-label">{t.docsClienteTitulo}</p>
         <ul class="plain-list">
           {docsCliente.map((d) => <li>{d}</li>)}
         </ul>
-        <p class="field-hint">No hace falta que la mandes ahora — te contactamos para recogerla en cuanto arranquemos.</p>
+        <p class="field-hint">{t.docsClienteHint}</p>
       </div>
     </fieldset>
 
     <fieldset class="alta-section">
-      <legend>Recuerda</legend>
-      <p class="field-hint">
-        Hay trámites que tienes que hacer tú, no nosotros: revocar el apoderamiento a tu gestoría anterior en la
-        Sede Electrónica de la AEAT (si no lo haces, la anterior gestoría sigue viendo tus notificaciones), y
-        apoderarnos a nosotros en la AEAT y en la Seguridad Social (Sistema RED). Descarga estas guías con los
-        pasos exactos para apoderarnos:
-      </p>
+      <legend>{t.recuerda}</legend>
+      <p class="field-hint">{t.recuerdaHint}</p>
       <ul class="doc-list">
         <li>
           <a href="https://suslwmgqdzingeqhfrpw.supabase.co/storage/v1/object/public/docs-publicos/Pasos_Apoderamiento_Seguridad_Social.pdf" target="_blank" rel="noopener">
-            Pasos para el apoderamiento de la Seguridad Social (PDF)
+            {t.guiaSS}
           </a>
         </li>
         <li>
           <a href="https://suslwmgqdzingeqhfrpw.supabase.co/storage/v1/object/public/docs-publicos/Pasos_Apoderamiento_AEAT.pdf" target="_blank" rel="noopener">
-            Pasos para el apoderamiento de la AEAT (PDF)
+            {t.guiaAeat}
           </a>
         </li>
       </ul>
       <p class="field-hint">
-        Si ya nos has devuelto firmado el documento de protección de datos (RGPD), no hace falta que lo vuelvas a pasar. Si no lo tienes a mano, aquí lo tienes de nuevo:
-        <a href="https://suslwmgqdzingeqhfrpw.supabase.co/storage/v1/object/public/docs-publicos/RGPD.pdf" target="_blank" rel="noopener">Información de Protección de Datos (RGPD) (PDF)</a>.
+        {t.rgpdHint}
+        <a href="https://suslwmgqdzingeqhfrpw.supabase.co/storage/v1/object/public/docs-publicos/RGPD.pdf" target="_blank" rel="noopener">{t.rgpdLink}</a>.
       </p>
     </fieldset>
 
     <label class="consent">
       <input type="checkbox" id="fPrivacy" required />
-      <span>He leído y acepto la <a href="/privacidad" target="_blank" rel="noopener">Política de Privacidad</a> de Asesoría Madal para el tratamiento de estos datos. *</span>
+      <span>{t.privacyPre} <a href={PRIVACIDAD_HREF[lang]} target="_blank" rel="noopener">{t.privacyLink}</a> {t.privacyPost}</span>
     </label>
 
-    <p class="form-error" id="formError" hidden>Revisa que todos los campos obligatorios estén rellenos y con un formato válido (NIF/CIF, IBAN, email, teléfono).</p>
+    <p class="form-error" id="formError" hidden>{t.error}</p>
 
-    <button type="submit" class="btn btn-primary form-submit" id="formSubmit">Enviar mis datos</button>
+    <button type="submit" class="btn btn-primary form-submit" id="formSubmit">{t.enviar}</button>
   </form>
 
   <div class="page view-block form-success" id="formSuccess" hidden>
-    <p class="eyebrow">Recibido</p>
-    <h2 class="section-title">Gracias, ya tenemos tus datos</h2>
-    <p class="section-sub">Los estamos revisando y nos ponemos en contacto contigo en cuanto tramitemos el siguiente paso.</p>
+    <p class="eyebrow">{t.recibido}</p>
+    <h2 class="section-title">{t.gracias}</h2>
+    <p class="section-sub">{t.graciasSub}</p>
   </div>
 </div>
 
@@ -225,27 +208,16 @@ const docsCliente = isAutonomo
     if (emailParam && emailInput) emailInput.value = emailParam;
 
     // Si el servidor dice qué campo no valida (`field`), el aviso lo nombra.
-    const CAMPOS: Record<string, string> = {
-      identificacionDigital: 'Identificación digital',
-      nombreCompleto: 'Nombre y apellidos', nombreRazonSocial: 'Nombre o razón social',
-      nifNie: 'NIF / NIE', nifCif: 'NIF / CIF', email: 'Email', telefono: 'Teléfono',
-      domicilioFiscal: 'Domicilio fiscal', domicilioNotificaciones: 'Domicilio de notificaciones',
-      domicilioSocial: 'Domicilio social', iban: 'IBAN', epigrafesIae: 'Epígrafes IAE',
-      epigrafesIaeActuales: 'Epígrafes IAE actuales', fechaInicioActividad: 'Fecha de inicio de actividad',
-      fechaAltaActividad: 'Fecha de alta en la actividad', tipoLocal: 'Tipo de local',
-      domicilioLocal: 'Domicilio del local', regimenCotizacion: 'Régimen de cotización',
-      retencionIrpf: 'Retención de IRPF', regimenIvaActual: 'Régimen de IVA', regimenIrpfActual: 'Régimen de IRPF',
-      porcentajeRetencion: 'Porcentaje de retención', numeroTrabajadores: 'Número de trabajadores',
-      detalleRequerimientosAeat: 'Detalle de los requerimientos de la AEAT',
-      contactoGestoriaAnterior: 'Contacto de la gestoría anterior',
-      autorizaSolicitarHistorico: 'Autorización para solicitar el histórico', privacyAccepted: 'Política de privacidad',
-    };
+    // Nombres de campo y plantilla del aviso en el idioma de la página
+    // (src/i18n/formularios.ts), pasados como data-* del formulario.
+    const CAMPOS: Record<string, string> = JSON.parse(form.dataset.campos || '{}');
+    const MSG_CAMPO = form.dataset.msgCampo || '';
     const MENSAJE_GENERICO = errorEl.textContent;
     async function mostrarError(res: Response | null) {
       let campo = '';
       try { campo = (await res?.json())?.field ?? ''; } catch { /* sin detalle */ }
       errorEl.textContent = campo && CAMPOS[campo]
-        ? `Revisa el campo «${CAMPOS[campo]}»: falta o no tiene un formato válido.`
+        ? MSG_CAMPO.replace('{campo}', CAMPOS[campo])
         : MENSAJE_GENERICO;
       errorEl.hidden = false;
     }

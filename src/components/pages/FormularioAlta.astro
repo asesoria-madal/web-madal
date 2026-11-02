@@ -5,137 +5,137 @@
 // tradicional, agrupado por secciones, es más rápido de rellenar que un
 // wizard de una pregunta por pantalla.
 //
-// Página deliberadamente solo en español y sin enlazar desde el menú: se
-// manda el link directo al cliente ya identificado (español), así que no
-// hace falta el ca/en que sí tiene el resto del sitio público.
+// Sin enlazar desde el menú: se manda el link directo al cliente ya
+// identificado. Existe en castellano (/formulario-alta) e inglés
+// (/en/formulario-alta); los textos viven en src/i18n/formularios.ts. Lo que
+// se envía al servidor es igual en los dos idiomas.
+import { ALTA, CAMPOS, COMUNES, MSG_CAMPO, PRIVACIDAD_HREF, type FormLang } from '../../i18n/formularios';
+
+interface Props { lang?: FormLang; }
+const { lang = 'es' } = Astro.props;
+const t = { ...COMUNES[lang], ...ALTA[lang] };
 ---
 
 <div id="view-alta-form">
   <div class="page view-intro">
-    <p class="eyebrow">Alta de autónomo</p>
-    <h2 class="section-title">Tus datos para tramitar el alta</h2>
-    <p class="section-sub">
-      Rellena este formulario con calma — con esto tenemos todo lo que necesitamos para darte de alta en Hacienda y
-      Seguridad Social. Si algo no lo sabes seguro, indícalo y lo revisamos juntos.
-    </p>
-    <p class="field-hint">Los campos marcados con * son obligatorios.</p>
+    <p class="eyebrow">{t.eyebrow}</p>
+    <h2 class="section-title">{t.title}</h2>
+    <p class="section-sub">{t.intro}</p>
+    <p class="field-hint">{t.obligatorios}</p>
   </div>
 
-  <form id="altaForm" class="alta-form page view-block" novalidate>
+  <form id="altaForm" class="alta-form page view-block" novalidate data-campos={JSON.stringify(CAMPOS[lang])} data-msg-campo={MSG_CAMPO[lang]}>
     <fieldset class="alta-section">
-      <legend>Identificación digital *</legend>
-      <p class="field-hint">Para tramitar el alta necesitamos operar en tu nombre ante la Administración.</p>
+      <legend>{t.idDigital}</legend>
+      <p class="field-hint">{t.idDigitalHint}</p>
       <div class="radio-group" data-field="identificacionDigital">
-        <label class="radio-option"><input type="radio" name="identificacionDigital" value="certificado" /> Tengo certificado digital</label>
-        <label class="radio-option"><input type="radio" name="identificacionDigital" value="clave_pin" /> Tengo Cl@ve PIN</label>
-        <label class="radio-option"><input type="radio" name="identificacionDigital" value="ninguno" /> No tengo ninguno de los dos</label>
+        <label class="radio-option"><input type="radio" name="identificacionDigital" value="certificado" /> {t.certificado}</label>
+        <label class="radio-option"><input type="radio" name="identificacionDigital" value="clave_pin" /> {t.clavePin}</label>
+        <label class="radio-option"><input type="radio" name="identificacionDigital" value="ninguno" /> {t.ninguno}</label>
       </div>
     </fieldset>
 
     <fieldset class="alta-section">
-      <legend>Datos básicos</legend>
-      <label class="field">Nombre y apellidos completos * <input type="text" id="fNombre" maxlength="150" required /></label>
-      <label class="field">NIF / NIE * <input type="text" id="fNif" maxlength="9" placeholder="12345678A" required /></label>
-      <label class="field">Email * <input type="email" id="fEmail" maxlength="254" required /></label>
-      <label class="field">Teléfono * <input type="tel" id="fTelefono" maxlength="20" required /></label>
-      <label class="field">Domicilio fiscal completo * <textarea id="fDomicilioFiscal" maxlength="300" rows="2" required></textarea></label>
-      <label class="field">Domicilio a efectos de notificaciones <span class="field-optional">(solo si es distinto al fiscal)</span>
+      <legend>{t.basicos}</legend>
+      <label class="field">{t.nombre} <input type="text" id="fNombre" maxlength="150" required /></label>
+      <label class="field">{t.nif} <input type="text" id="fNif" maxlength="9" placeholder="12345678A" required /></label>
+      <label class="field">{t.email} <input type="email" id="fEmail" maxlength="254" required /></label>
+      <label class="field">{t.telefono} <input type="tel" id="fTelefono" maxlength="20" required /></label>
+      <label class="field">{t.domFiscal} <textarea id="fDomicilioFiscal" maxlength="300" rows="2" required></textarea></label>
+      <label class="field">{t.domNotif} <span class="field-optional">{t.soloSiDistinto}</span>
         <textarea id="fDomicilioNotif" maxlength="300" rows="2"></textarea>
       </label>
-      <label class="field">IBAN para la cuota de autónomo * <input type="text" id="fIban" maxlength="34" placeholder="ES00 0000 0000 0000 0000 0000" required /></label>
+      <label class="field">{t.iban} <input type="text" id="fIban" maxlength="34" placeholder="ES00 0000 0000 0000 0000 0000" required /></label>
     </fieldset>
 
     <fieldset class="alta-section">
-      <legend>Datos de la actividad económica</legend>
-      <label class="field">Epígrafe(s) IAE * <span class="field-optional">(el código exacto si lo conoces, o descríbenos todas las actividades que vas a hacer)</span>
+      <legend>{t.actividad}</legend>
+      <label class="field">{t.epigrafes} <span class="field-optional">{t.epigrafesHint}</span>
         <textarea id="fEpigrafes" maxlength="500" rows="3" required></textarea>
       </label>
-      <label class="field">Fecha real de inicio de actividad * <input type="date" id="fFechaInicio" required /></label>
+      <label class="field">{t.fechaInicio} <input type="date" id="fFechaInicio" required /></label>
 
       <div class="field-group">
-        <p class="field-group-label">¿Dónde vas a ejercer la actividad? *</p>
+        <p class="field-group-label">{t.dondeEjerces}</p>
         <div class="radio-group" data-field="tipoLocal">
-          <label class="radio-option"><input type="radio" name="tipoLocal" value="casa" /> Desde casa</label>
-          <label class="radio-option"><input type="radio" name="tipoLocal" value="oficina" /> En una oficina / local</label>
-          <label class="radio-option"><input type="radio" name="tipoLocal" value="sin_local" /> Sin local (actividad sin sede fija)</label>
+          <label class="radio-option"><input type="radio" name="tipoLocal" value="casa" /> {t.casa}</label>
+          <label class="radio-option"><input type="radio" name="tipoLocal" value="oficina" /> {t.oficina}</label>
+          <label class="radio-option"><input type="radio" name="tipoLocal" value="sin_local" /> {t.sinLocal}</label>
         </div>
-        <p class="field-hint">Ojo: según la actividad y el local, puede aplicarte la tasa de basuras — si tienes dudas lo miramos juntos.</p>
+        <p class="field-hint">{t.basurasHint}</p>
       </div>
 
-      <label class="field" id="fDomicilioLocalWrap">Dirección desde la que vas a ejercer la actividad *
-        <span class="field-optional">(tu domicilio si trabajas desde casa, o la dirección del local/oficina si tienes uno)</span>
+      <label class="field" id="fDomicilioLocalWrap">{t.domLocal}
+        <span class="field-optional">{t.domLocalHint}</span>
         <textarea id="fDomicilioLocal" maxlength="300" rows="2"></textarea>
       </label>
 
-      <label class="checkbox-option"><input type="checkbox" id="fMultiplesLocales" /> Voy a tener más de un local o centro de trabajo</label>
-      <label class="field" id="fDetalleLocalesWrap" hidden>Cuéntanos algo más de esos otros locales <textarea id="fDetalleLocales" maxlength="300" rows="2"></textarea></label>
+      <label class="checkbox-option"><input type="checkbox" id="fMultiplesLocales" /> {t.multiples}</label>
+      <label class="field" id="fDetalleLocalesWrap" hidden>{t.multiplesDetalle} <textarea id="fDetalleLocales" maxlength="300" rows="2"></textarea></label>
 
-      <label class="checkbox-option"><input type="checkbox" id="fColegiada" /> Es una profesión colegiada (abogado/a, arquitecto/a, médico/a...)</label>
+      <label class="checkbox-option"><input type="checkbox" id="fColegiada" /> {t.colegiada}</label>
       <div class="field-group" id="fRegimenCotizacionWrap" hidden>
-        <p class="field-group-label">¿Vas a cotizar por RETA o por la mutualidad alternativa del colegio? *</p>
+        <p class="field-group-label">{t.regimenCot}</p>
         <div class="radio-group" data-field="regimenCotizacion">
-          <label class="radio-option"><input type="radio" name="regimenCotizacion" value="reta" /> RETA</label>
-          <label class="radio-option"><input type="radio" name="regimenCotizacion" value="mutualidad" /> Mutualidad alternativa</label>
+          <label class="radio-option"><input type="radio" name="regimenCotizacion" value="reta" /> {t.reta}</label>
+          <label class="radio-option"><input type="radio" name="regimenCotizacion" value="mutualidad" /> {t.mutualidad}</label>
         </div>
       </div>
     </fieldset>
 
     <fieldset class="alta-section">
-      <legend>Datos de IVA</legend>
-      <label class="checkbox-option"><input type="checkbox" id="fIntracomunitarias" /> Voy a facturar operaciones intracomunitarias (con clientes o proveedores de otros países de la UE)</label>
+      <legend>{t.iva}</legend>
+      <label class="checkbox-option"><input type="checkbox" id="fIntracomunitarias" /> {t.intracom}</label>
     </fieldset>
 
     <fieldset class="alta-section">
-      <legend>Datos de IRPF</legend>
+      <legend>{t.irpf}</legend>
       <div class="field-group">
-        <p class="field-group-label">¿Vas a facturar con retención de IRPF? *</p>
+        <p class="field-group-label">{t.retencion}</p>
         <div class="radio-group" data-field="retencionIrpf">
-          <label class="radio-option"><input type="radio" name="retencionIrpf" value="si" /> Sí</label>
-          <label class="radio-option"><input type="radio" name="retencionIrpf" value="no" /> No</label>
-          <label class="radio-option"><input type="radio" name="retencionIrpf" value="no_sabe" /> No lo sé, lo miráis vosotros</label>
+          <label class="radio-option"><input type="radio" name="retencionIrpf" value="si" /> {t.si}</label>
+          <label class="radio-option"><input type="radio" name="retencionIrpf" value="no" /> {t.no}</label>
+          <label class="radio-option"><input type="radio" name="retencionIrpf" value="no_sabe" /> {t.noSabe}</label>
         </div>
       </div>
-      <label class="checkbox-option"><input type="checkbox" id="fTrabajadores" /> Voy a tener trabajadores a mi cargo</label>
+      <label class="checkbox-option"><input type="checkbox" id="fTrabajadores" /> {t.trabajadores}</label>
     </fieldset>
 
     <fieldset class="alta-section">
-      <legend>Recuerda</legend>
-      <p class="field-hint">
-        Tienes que apoderarnos para que podamos darte de alta y, en el futuro, seguir presentando tus impuestos.
-        Descarga estas guías con los pasos exactos:
-      </p>
+      <legend>{t.recuerda}</legend>
+      <p class="field-hint">{t.apoderarHint}</p>
       <ul class="doc-list">
         <li>
           <a href="https://suslwmgqdzingeqhfrpw.supabase.co/storage/v1/object/public/docs-publicos/Pasos_Apoderamiento_Seguridad_Social.pdf" target="_blank" rel="noopener">
-            Pasos para el apoderamiento de la Seguridad Social (PDF)
+            {t.guiaSS}
           </a>
         </li>
         <li>
           <a href="https://suslwmgqdzingeqhfrpw.supabase.co/storage/v1/object/public/docs-publicos/Pasos_Apoderamiento_AEAT.pdf" target="_blank" rel="noopener">
-            Pasos para el apoderamiento de la AEAT (PDF)
+            {t.guiaAeat}
           </a>
         </li>
       </ul>
       <p class="field-hint">
-        Si ya nos has devuelto firmado el documento de protección de datos (RGPD), no hace falta que lo vuelvas a pasar. Si no lo tienes a mano, aquí lo tienes de nuevo:
-        <a href="https://suslwmgqdzingeqhfrpw.supabase.co/storage/v1/object/public/docs-publicos/RGPD.pdf" target="_blank" rel="noopener">Información de Protección de Datos (RGPD) (PDF)</a>.
+        {t.rgpdHint}
+        <a href="https://suslwmgqdzingeqhfrpw.supabase.co/storage/v1/object/public/docs-publicos/RGPD.pdf" target="_blank" rel="noopener">{t.rgpdLink}</a>.
       </p>
     </fieldset>
 
     <label class="consent">
       <input type="checkbox" id="fPrivacy" required />
-      <span>He leído y acepto la <a href="/privacidad" target="_blank" rel="noopener">Política de Privacidad</a> de Asesoría Madal para el tratamiento de estos datos. *</span>
+      <span>{t.privacyPre} <a href={PRIVACIDAD_HREF[lang]} target="_blank" rel="noopener">{t.privacyLink}</a> {t.privacyPost}</span>
     </label>
 
-    <p class="form-error" id="formError" hidden>Revisa que todos los campos obligatorios estén rellenos y con un formato válido (NIF/NIE, IBAN, email, teléfono).</p>
+    <p class="form-error" id="formError" hidden>{t.error}</p>
 
-    <button type="submit" class="btn btn-primary form-submit" id="formSubmit">Enviar mis datos</button>
+    <button type="submit" class="btn btn-primary form-submit" id="formSubmit">{t.enviar}</button>
   </form>
 
   <div class="page view-block form-success" id="formSuccess" hidden>
-    <p class="eyebrow">Recibido</p>
-    <h2 class="section-title">Gracias, ya tenemos tus datos</h2>
-    <p class="section-sub">Los estamos revisando y nos ponemos en contacto contigo en cuanto tramitemos el siguiente paso.</p>
+    <p class="eyebrow">{t.recibido}</p>
+    <h2 class="section-title">{t.gracias}</h2>
+    <p class="section-sub">{t.graciasSub}</p>
   </div>
 </div>
 
@@ -169,27 +169,16 @@
     if (emailParam) (document.getElementById('fEmail') as HTMLInputElement).value = emailParam;
 
     // Si el servidor dice qué campo no valida (`field`), el aviso lo nombra.
-    const CAMPOS: Record<string, string> = {
-      identificacionDigital: 'Identificación digital',
-      nombreCompleto: 'Nombre y apellidos', nombreRazonSocial: 'Nombre o razón social',
-      nifNie: 'NIF / NIE', nifCif: 'NIF / CIF', email: 'Email', telefono: 'Teléfono',
-      domicilioFiscal: 'Domicilio fiscal', domicilioNotificaciones: 'Domicilio de notificaciones',
-      domicilioSocial: 'Domicilio social', iban: 'IBAN', epigrafesIae: 'Epígrafes IAE',
-      epigrafesIaeActuales: 'Epígrafes IAE actuales', fechaInicioActividad: 'Fecha de inicio de actividad',
-      fechaAltaActividad: 'Fecha de alta en la actividad', tipoLocal: 'Tipo de local',
-      domicilioLocal: 'Domicilio del local', regimenCotizacion: 'Régimen de cotización',
-      retencionIrpf: 'Retención de IRPF', regimenIvaActual: 'Régimen de IVA', regimenIrpfActual: 'Régimen de IRPF',
-      porcentajeRetencion: 'Porcentaje de retención', numeroTrabajadores: 'Número de trabajadores',
-      detalleRequerimientosAeat: 'Detalle de los requerimientos de la AEAT',
-      contactoGestoriaAnterior: 'Contacto de la gestoría anterior',
-      autorizaSolicitarHistorico: 'Autorización para solicitar el histórico', privacyAccepted: 'Política de privacidad',
-    };
+    // Nombres de campo y plantilla del aviso en el idioma de la página
+    // (src/i18n/formularios.ts), pasados como data-* del formulario.
+    const CAMPOS: Record<string, string> = JSON.parse(form.dataset.campos || '{}');
+    const MSG_CAMPO = form.dataset.msgCampo || '';
     const MENSAJE_GENERICO = errorEl.textContent;
     async function mostrarError(res: Response | null) {
       let campo = '';
       try { campo = (await res?.json())?.field ?? ''; } catch { /* sin detalle */ }
       errorEl.textContent = campo && CAMPOS[campo]
-        ? `Revisa el campo «${CAMPOS[campo]}»: falta o no tiene un formato válido.`
+        ? MSG_CAMPO.replace('{campo}', CAMPOS[campo])
         : MENSAJE_GENERICO;
       errorEl.hidden = false;
     }

@@ -1,0 +1,10 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import FormularioTraspaso from '../../components/pages/FormularioTraspaso.astro';
+
+export const prerender = true;
+---
+
+<Layout lang="en" path="/en/formulario-traspaso-sl" active="none" title="Your details for the switch · Asesoría Madal" description="Form with the details we need to take over your SL’s accounting." noindex showCtaFinal={false} minimalHeader localesAvailable={['es', 'en']}>
+  <FormularioTraspaso tipo="sl" lang="en" />
+</Layout>
