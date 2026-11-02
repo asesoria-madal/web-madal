@@ -27,7 +27,10 @@ const PLANES = ['debut', 'esencial', 'crece', 'total', 'sl'] as const;
 const IDIOMAS = ['es', 'ca', 'en'] as const;
 
 interface Body {
-  nif: string;
+  // Vacío = aún no lo tenemos: se crea una ficha provisional (PENDIENTE-…) que
+  // el workflow n8n "Responden formulario" pasa al NIF real cuando llega el
+  // formulario con el mismo email. Sin NIF el email es obligatorio.
+  nif?: string;
   nombre: string;
   empresa?: string;
   email?: string;
@@ -51,7 +54,9 @@ interface Body {
 function isValid(body: unknown): body is Body {
   if (typeof body !== 'object' || body === null) return false;
   const b = body as Record<string, unknown>;
-  if (typeof b.nif !== 'string' || !NIF_PATTERN.test(b.nif.trim())) return false;
+  const sinNif = b.nif === undefined || (typeof b.nif === 'string' && b.nif.trim() === '');
+  if (!sinNif && (typeof b.nif !== 'string' || !NIF_PATTERN.test(b.nif.trim()))) return false;
+  if (sinNif && (typeof b.email !== 'string' || b.email.trim() === '')) return false;
   if (typeof b.nombre !== 'string' || b.nombre.trim().length === 0 || b.nombre.length > 150) return false;
   if (b.empresa !== undefined && (typeof b.empresa !== 'string' || b.empresa.length > 150)) return false;
   if (b.email !== undefined && b.email !== '' && (typeof b.email !== 'string' || !EMAIL_PATTERN.test(b.email) || b.email.length > 254)) return false;
@@ -92,9 +97,10 @@ export const POST: APIRoute = async ({ request }) => {
   } catch {
     return json({ error: 'JSON inválido' }, 400);
   }
-  if (!isValid(body)) return json({ error: 'Revisa los datos: NIF, nombre, email y tipo son obligatorios y deben tener formato válido.' }, 400);
+  if (!isValid(body)) return json({ error: 'Revisa los datos: nombre y tipo son obligatorios; NIF y email deben tener formato válido, y sin NIF el email es obligatorio.' }, 400);
 
-  const id = body.nif.trim().toUpperCase();
+  const nif = body.nif?.trim().toUpperCase() || '';
+  const id = nif || `PENDIENTE-${crypto.randomUUID().slice(0, 8).toUpperCase()}`;
   const email = body.email?.trim().toLowerCase() || null;
 
   // Un cliente provisional (PENDIENTE-…) es el que crea n8n al detectar la

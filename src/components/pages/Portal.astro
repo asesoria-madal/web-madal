@@ -95,7 +95,7 @@ const dashboardsCtaHref = `mailto:${EMAIL}?subject=${encodeURIComponent(dashboar
           <form id="portal-alta-form" class="portal-alta-form" hidden novalidate>
             <div class="portal-alta-grid">
               <label>{t.admin.alta.nif}
-                <input type="text" id="alta-nif" required maxlength="12" autocomplete="off" />
+                <input type="text" id="alta-nif" maxlength="12" autocomplete="off" />
               </label>
               <label>{t.admin.alta.nombre}
                 <input type="text" id="alta-nombre" required maxlength="150" autocomplete="off" />
@@ -1432,7 +1432,10 @@ const dashboardsCtaHref = `mailto:${EMAIL}?subject=${encodeURIComponent(dashboar
               : (document.getElementById('alta-tramitamos') as HTMLSelectElement).value === 'si'
                 ? '/formulario-alta'
                 : '/formulario-traspaso-autonomo';
-          const params = new URLSearchParams({ nif: data.id });
+          // Ficha provisional (sin NIF): el enlace va solo con el email y el
+          // cliente escribe su NIF en el formulario.
+          const params = new URLSearchParams();
+          if (!String(data.id).startsWith('PENDIENTE-')) params.set('nif', data.id);
           if (emailAlta) params.set('email', emailAlta.toLowerCase());
           enlaceFormulario = `${window.location.origin}${ruta}?${params.toString()}`;
           altaMsg.textContent = I18N.admin.alta.okManual;
