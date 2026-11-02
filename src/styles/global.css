@@ -1533,9 +1533,10 @@ footer.site .foot-social { display: inline-flex; align-items: center; gap: 0.5re
 footer.site .foot-social:hover { color: #7fd6c9; }
 
 /* ---------- Formularios largos (alta, traspaso) ----------
-   Compartido entre FormularioAlta.astro y FormularioTraspaso.astro — vive
+   Compartido entre FormularioAlta.astro, FormularioTraspaso.astro y
+   FormularioAltaTrabajador.astro — vive
    aquí (global) en vez de en el <style> con scope de cada componente,
-   precisamente para que ambos lo reutilicen sin duplicar estas reglas. */
+   precisamente para que todos lo reutilicen sin duplicar estas reglas. */
 .alta-form { max-width: 640px; margin: 0 auto; display: flex; flex-direction: column; gap: 2rem; }
 .alta-section { border: 1px solid var(--line); border-radius: 12px; padding: 1.4rem 1.5rem; display: flex; flex-direction: column; gap: 1.1rem; }
 .alta-section legend {
@@ -1546,7 +1547,7 @@ footer.site .foot-social:hover { color: #7fd6c9; }
 }
 .field { display: flex; flex-direction: column; gap: 0.4rem; font-size: 0.9rem; font-weight: 600; color: var(--ink); }
 .field-optional { font-weight: 400; color: var(--ink-soft); }
-.field input, .field textarea {
+.field input, .field textarea, .field select {
   font-family: var(--font-body);
   font-size: 0.96rem;
   font-weight: 400;
@@ -1557,7 +1558,7 @@ footer.site .foot-social:hover { color: #7fd6c9; }
   color: var(--ink);
   resize: vertical;
 }
-.field input:focus, .field textarea:focus { outline: none; border-color: var(--accent); }
+.field input:focus, .field textarea:focus, .field select:focus { outline: none; border-color: var(--accent); }
 .field-hint { font-size: 0.82rem; color: var(--ink-soft); }
 .doc-list { display: flex; flex-direction: column; gap: 0.5rem; list-style: none; }
 .doc-list a { color: var(--accent); font-weight: 600; font-size: 0.92rem; text-decoration: underline; }

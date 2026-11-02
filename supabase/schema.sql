@@ -951,3 +951,105 @@ alter table clientes add column if not exists idioma text not null default 'es';
 -- n8n lo lee del registro del webhook (nodo "Preparar caso"); si falta, se trata como true.
 -- Los clientes anteriores quedan en true por el default.
 alter table clientes add column if not exists enviar_formulario boolean not null default true;
+
+-- ---------------------------------------------------------------------
+-- Formulario "alta de trabajador" (2026-11-02): /formulario-alta-trabajador.
+-- Lo rellena NUESTRO cliente (la empresa o el autónomo que contrata) con los
+-- datos que le pide a su trabajador; el enlace se manda a mano con
+-- ?nif=<NIF del cliente>&email=<su email>. Una fila por trabajador a dar de
+-- alta. Lo inserta api/alta-trabajador con la service role (sin políticas
+-- RLS para anon/authenticated: nadie más lee ni escribe esta tabla).
+--
+-- empresa_nif NO es una foreign key a clientes.id a propósito: el formulario
+-- no exige que el cliente ya esté en `clientes` (puede ser un cliente aún sin
+-- ficha, o un NIF provisional), y un insert rechazado perdería los datos. Se
+-- cruza a mano con clientes.id.
+--
+-- Datos sensibles: grado_discapacidad es un dato de salud (art. 9 RGPD) y el
+-- bloque del modelo 145 es situación familiar. Por eso la tabla no se expone a
+-- la Data API salvo a service_role (ver GRANT al final).
+--
+-- Columnas de valores cerrados (sexo, nivel_estudios, datos_145,
+-- situacion_familiar, tipo_contrato, jornada) sin CHECK en SQL: se validan en
+-- el endpoint, mismo criterio que alta_nuevos_autonomos.
+--
+-- Los documentos (DNI/NIE, permiso de trabajo, certificado de discapacidad,
+-- plan formativo) NO se suben aquí: se piden por correo y van a Drive.
+--
+-- tramitado_at: checklist del equipo, se marca a mano en el Table Editor al
+-- terminar el alta (igual que las columnas *_at de alta_nuevos_autonomos).
+create table if not exists altas_trabajadores (
+  id bigint generated always as identity primary key,
+  privacy_accepted_at timestamptz not null default now(),
+
+  -- Empresa (nuestro cliente)
+  empresa_nombre text not null,
+  empresa_nif text not null,
+  empresa_email text not null,
+  ccc text,                       -- código de cuenta de cotización; null = aún no tiene (lo solicitamos)
+  centro_trabajo text not null,
+  convenio text,                  -- null = no lo sabe, lo determina la gestoría
+
+  -- Trabajador
+  nombre_completo text not null,
+  nif_nie text not null,
+  fecha_nacimiento date not null,
+  sexo text not null,             -- 'mujer' | 'hombre'
+  nacionalidad text not null,
+  domicilio text not null,
+  telefono text not null,
+  email text not null,
+  nuss text,                      -- 12 dígitos; null = no tiene, se solicita en el alta
+  extracomunitario boolean not null default false,
+  vigencia_permiso date,          -- solo si extracomunitario
+  iban text not null,
+  nivel_estudios text not null,   -- 'sin_estudios' | 'primaria' | 'eso' | 'bachillerato' | 'fp_grado_medio' | 'fp_grado_superior' | 'universitarios' | 'master_doctorado'
+  titulacion text,
+  grado_discapacidad integer,     -- null = sin discapacidad >= 33 %
+
+  -- IRPF (modelo 145). datos_145 = 'no_facilita' -> resto null/false y se aplica la retención mínima
+  datos_145 text not null,        -- 'facilita' | 'no_facilita'
+  situacion_familiar text,        -- '1' | '2' | '3' (las tres situaciones del modelo 145)
+  detalle_descendientes text,
+  detalle_ascendientes text,
+  detalle_pensiones text,         -- pensión compensatoria / anualidades por alimentos, con importe anual
+  prestamo_vivienda_anterior_2013 boolean not null default false,
+  movilidad_geografica boolean not null default false,
+
+  -- Contrato
+  fecha_inicio date not null,
+  tipo_contrato text not null,    -- 'indefinido' | 'fijo_discontinuo' | 'temporal_produccion' | 'temporal_sustitucion' | 'formativo_alternancia' | 'formativo_practica'
+  fecha_fin date,                 -- obligatoria en temporal_produccion; opcional en sustitución
+  causa_temporal text,            -- obligatoria en temporales (mín. 30 caracteres)
+  tutor text,                     -- solo formativos
+  plan_formativo text,            -- solo formativos
+  jornada text not null,          -- 'completa' | 'parcial'
+  horas_semanales numeric(4,1),   -- obligatoria en parcial
+  distribucion_jornada text,      -- obligatoria en parcial
+  puesto text not null,
+  funciones text not null,
+  categoria text,
+  grupo_cotizacion integer,       -- 1..11; null = no lo sabe, lo asigna la gestoría
+  cno text,                       -- null = no lo sabe, lo asigna la gestoría
+
+  -- Retribución y condiciones
+  salario_bruto_anual numeric(12,2) not null,
+  complementos text,
+  numero_pagas integer not null,
+  pagas_prorrateadas boolean not null default false,
+  periodo_prueba text,
+  vacaciones text,
+  bonificaciones text,
+  observaciones text,
+
+  -- Checklist del equipo (no lo rellena el formulario)
+  tramitado_at timestamptz,
+
+  created_at timestamptz not null default now()
+);
+
+alter table altas_trabajadores enable row level security;
+
+-- Tabla nueva tras el 30-oct-2026: Supabase ya no da acceso automático a la
+-- Data API. Solo la service role (el endpoint y n8n); ni anon ni authenticated.
+grant all on altas_trabajadores to service_role;

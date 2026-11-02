@@ -55,6 +55,15 @@ Datos que Edurne necesita para tramitar el alta en Hacienda/Seguridad Social tra
 
 Este formulario **no sube archivos**. La documentación a pedir a la gestoría anterior y a aportar por el cliente se muestra como texto informativo, y el equipo la recoge por email/Drive.
 
+### `altas_trabajadores` — alta de un trabajador de un cliente (desde 2026-11-02)
+
+Página suelta `/formulario-alta-trabajador` (solo castellano, `noindex`, sin enlazar desde el menú). La rellena **nuestro cliente** (la empresa o el autónomo que contrata) con los datos que él mismo le pide a su trabajador: es el equivalente a pedírselos por correo, no un formulario para el trabajador. El enlace se manda a mano con `?nif=<NIF del cliente>&email=<su email>` (el NIF queda de solo lectura). Recoge empresa (CCC, centro de trabajo, convenio), trabajador (identificación, NUSS, permiso si es extracomunitario, IBAN, estudios, discapacidad), los datos del modelo 145, el contrato y la retribución. Lo que es decisión técnica de la gestoría (grupo de cotización, CNO, convenio, bonificaciones) se pregunta como opcional.
+
+- `empresa_nif` **no** es FK a `clientes.id` a propósito: un insert rechazado perdería los datos; se cruza a mano.
+- Datos sensibles (discapacidad = dato de salud; situación familiar): solo `service_role` tiene GRANT, ni `anon` ni `authenticated`.
+- No sube archivos: DNI/NIE, permiso de trabajo y certificado de discapacidad se piden por correo a contacto@ y van a Drive.
+- Sin automatización todavía: no hay trigger ni workflow de n8n; las filas se ven en el Table Editor y `tramitado_at` se marca a mano.
+
 ### `clientes` — portal de clientes (`/portal`)
 
 - Alta de cada fila la hace el equipo o un workflow (service role) — un cliente no puede crearse ni editarse a sí mismo.
@@ -102,10 +111,11 @@ Las políticas de `storage.objects` para `facturas` están creadas **a mano en e
 | `POST /api/alta-cliente` | `clientes` | — | Solo admin (`portal_admins`, validado con el token de sesión). Inserta la ficha con idioma, plan, teléfono, `alta_hecha`, `reporting`, `beel_contratado` y `enviar_formulario`; no envía nada, lo hace n8n a partir del INSERT. |
 | `POST /api/alta-autonomo` | `alta_nuevos_autonomos` | Sí | Normaliza NIF a mayúsculas e IBAN sin espacios. |
 | `POST /api/traspaso` | `traspasos_nuevos` | Sí | Ídem; ramifica el insert según `tipo`. |
+| `POST /api/alta-trabajador` | `altas_trabajadores` | Sí | Ídem; exige causa concreta (≥ 30 caracteres) en temporales, tutor y plan en formativos, horas y distribución en parcial, y NUSS salvo «no tiene». |
 
 Desde 2026-10-21 hay tres endpoints más, todos de facturación Verifactu vía BeeL (ver § "Facturación Verifactu (BeeL)" al final): `POST /api/emitir-factura`, `GET /api/factura-pdf` y `POST /api/beel-webhook`. **Estos tres no degradan en silencio**: sin `BEEL_API_KEY` responden 503, porque fingir que se ha emitido una factura sería peor que fallar. Los dos primeros exigen la sesión del cliente (`Authorization: Bearer <access_token>`); el tercero exige la firma de BeeL. **Desde 2026-10-23 todos los endpoints de facturación (`emitir-factura`, `rectificar-factura`, `facturacion/*`, `factura-pdf`) exigen además `clientes.beel_contratado = true`** (403 si no): sin ese filtro, un cliente sin cuenta caía en la empresa por defecto de sandbox. El panel "Facturas" del portal tampoco se muestra a quien no lo tenga.
 
-Los endpoints de formularios y login (`portal-login`, `alta-autonomo`, `traspaso`) usan `getSupabaseAdmin()` y **degradan con gracia**: si Supabase no está configurado responden en éxito sin persistir (`{ persisted: false }`), para no romper la experiencia.
+Los endpoints de formularios y login (`portal-login`, `alta-autonomo`, `traspaso`, `alta-trabajador`) usan `getSupabaseAdmin()` y **degradan con gracia**: si Supabase no está configurado responden en éxito sin persistir (`{ persisted: false }`), para no romper la experiencia.
 
 **Validación deliberadamente laxa** en todos: forma y longitud (`algo@algo.algo`, NIF de 9 caracteres, IBAN alfanumérico), no corrección real — Edurne revisa los datos a mano antes de tramitar. Los valores cerrados (`tipo_local`, `retencion_irpf`, `regimen`…) se validan en el endpoint y **no** llevan `CHECK` en SQL.
 
