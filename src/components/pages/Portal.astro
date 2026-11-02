@@ -150,6 +150,15 @@ const dashboardsCtaHref = `mailto:${EMAIL}?subject=${encodeURIComponent(dashboar
             </div>
             <button type="submit" class="btn btn-primary" id="alta-submit">{t.admin.alta.submit}</button>
             <p id="alta-msg" class="portal-msg" hidden></p>
+            <!-- Enlace del formulario ya personalizado (NIF + email), para mandarlo en un
+                 correo propio cuando se desmarca el correo automático del formulario. -->
+            <div id="alta-enlace" class="portal-alta-enlace" hidden>
+              <label for="alta-enlace-url">{t.admin.alta.enlaceLabel}</label>
+              <div class="portal-alta-enlace-row">
+                <input type="text" id="alta-enlace-url" readonly />
+                <button type="button" class="btn" id="alta-enlace-copiar">{t.admin.alta.copiar}</button>
+              </div>
+            </div>
           </form>
 
           <section id="portal-beel-panel" class="portal-alta-form" hidden>
@@ -477,6 +486,11 @@ const dashboardsCtaHref = `mailto:${EMAIL}?subject=${encodeURIComponent(dashboar
   }
   .portal-alta-form .portal-alta-check { display: flex; align-items: center; gap: 0.5rem; align-self: end; }
   .portal-alta-form button[type='submit'] { justify-self: start; }
+  .portal-alta-enlace { display: grid; gap: 0.35rem; }
+  .portal-alta-enlace[hidden] { display: none; }
+  .portal-alta-enlace-row { display: flex; gap: 0.5rem; }
+  .portal-alta-enlace-row input { flex: 1; min-width: 0; font-size: 0.85rem; }
+  .portal-alta-enlace-row button { padding: 0.4rem 0.9rem; font-size: 0.85rem; }
 
 </style>
 
@@ -1334,13 +1348,29 @@ const dashboardsCtaHref = `mailto:${EMAIL}?subject=${encodeURIComponent(dashboar
     });
 
     // --- Alta manual de cliente (vía /api/alta-cliente) ---
-    // Solo inserta la fila en `clientes`; el correo con el formulario, el
-    // enlace de acceso y HubSpot los dispara n8n a partir de ese INSERT.
+    // Solo inserta la fila en `clientes`; el correo con el formulario, HubSpot y
+    // Drive los dispara n8n (Onboarding) a partir de ese INSERT. El acceso al
+    // portal lo manda n8n (Responden formulario) al recibir el primer formulario.
     const altaToggle = document.getElementById('portal-alta-toggle') as HTMLButtonElement;
     const altaForm = document.getElementById('portal-alta-form') as HTMLFormElement;
     const altaMsg = document.getElementById('alta-msg') as HTMLElement;
     const altaTipo = document.getElementById('alta-tipo') as HTMLSelectElement;
     const altaTramitamosWrap = document.getElementById('alta-tramitamos-wrap') as HTMLElement;
+
+    const altaEnlace = document.getElementById('alta-enlace') as HTMLElement;
+    const altaEnlaceUrl = document.getElementById('alta-enlace-url') as HTMLInputElement;
+    const altaEnlaceCopiar = document.getElementById('alta-enlace-copiar') as HTMLButtonElement;
+    altaEnlaceCopiar.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(altaEnlaceUrl.value);
+      } catch {
+        // Sin permiso de portapapeles: se deja seleccionado para copiarlo a mano.
+        altaEnlaceUrl.select();
+        return;
+      }
+      altaEnlaceCopiar.textContent = I18N.admin.alta.copiado;
+      setTimeout(() => (altaEnlaceCopiar.textContent = I18N.admin.alta.copiar), 2000);
+    });
 
     function syncAltaTipo() {
       altaTramitamosWrap.hidden = altaTipo.value !== 'autonomo';
@@ -1389,8 +1419,29 @@ const dashboardsCtaHref = `mailto:${EMAIL}?subject=${encodeURIComponent(dashboar
           altaMsg.textContent = data.error || I18N.admin.alta.error;
           return;
         }
-        altaMsg.textContent = I18N.admin.alta.ok;
-        altaForm.reset();
+        // Correo del formulario desmarcado = "se lo mando yo": se muestra el enlace
+        // del formulario que le toca, con NIF y email ya puestos (los formularios
+        // solo existen en castellano, de ahí la ruta sin prefijo de idioma).
+        const enviaFormulario = (document.getElementById('alta-formulario') as HTMLInputElement).checked;
+        const emailAlta = val('alta-email');
+        let enlaceFormulario = '';
+        if (!enviaFormulario) {
+          const ruta =
+            tipoPersona === 'sl'
+              ? '/formulario-traspaso-sl'
+              : (document.getElementById('alta-tramitamos') as HTMLSelectElement).value === 'si'
+                ? '/formulario-alta'
+                : '/formulario-traspaso-autonomo';
+          const params = new URLSearchParams({ nif: data.id });
+          if (emailAlta) params.set('email', emailAlta.toLowerCase());
+          enlaceFormulario = `${window.location.origin}${ruta}?${params.toString()}`;
+          altaMsg.textContent = I18N.admin.alta.okManual;
+        } else {
+          altaMsg.textContent = I18N.admin.alta.ok;
+        }
+        altaForm.reset(); // vacía también el campo del enlace: se rellena justo después
+        altaEnlaceUrl.value = enlaceFormulario;
+        altaEnlace.hidden = !enlaceFormulario;
         syncAltaTipo();
         await renderAdmin(true);
         adminClienteSelect.value = data.id;

@@ -9,7 +9,7 @@ export const prerender = false;
 // tarea en HubSpot, carpeta de Drive) lo dispara el workflow de n8n
 // "Onboarding" a partir de ese INSERT; este endpoint no envía nada por sí mismo.
 // El enlace de acceso al portal lo manda "Responden formulario" al recibir el
-// primer formulario, o "Onboarding" si enviar_formulario = false.
+// primer formulario del cliente.
 //
 // Autorización: la service role se salta RLS, así que la comprobación real es
 // esta — el token de sesión se valida contra Supabase Auth y el usuario tiene
@@ -43,8 +43,8 @@ interface Body {
   plan?: (typeof PLANES)[number];
   // Por defecto 'es'.
   idioma?: (typeof IDIOMAS)[number];
-  // false = n8n no envía el correo con el formulario, solo el del área de cliente.
-  // Por defecto true (comportamiento de siempre).
+  // false = n8n no envía el correo con el formulario: lo manda el equipo a mano
+  // (el portal muestra el enlace al crear el cliente). Por defecto true.
   enviarFormulario?: boolean;
 }
 

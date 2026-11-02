@@ -945,7 +945,9 @@ alter table clientes add column if not exists idioma text not null default 'es';
 
 -- Correo del formulario en el onboarding (2026-10-27): casilla del alta manual del portal.
 -- true  = el workflow n8n "Onboarding" envía el correo con el formulario (comportamiento de siempre).
--- false = solo sale el correo con el acceso al área de cliente.
+-- false = no sale ningún correo en el alta: el formulario lo manda el equipo a mano (el portal
+--         muestra el enlace al crear el cliente). Desde el 2026-11-02 el acceso al área de
+--         cliente siempre lo manda "Responden formulario" al recibir el primer formulario.
 -- n8n lo lee del registro del webhook (nodo "Preparar caso"); si falta, se trata como true.
 -- Los clientes anteriores quedan en true por el default.
 alter table clientes add column if not exists enviar_formulario boolean not null default true;
