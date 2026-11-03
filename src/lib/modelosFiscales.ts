@@ -105,3 +105,42 @@ export function proximaPresentacion(modelos: string[], hoy: Date = new Date()): 
     modelos: delMismoDia.map((c) => ({ modelo: c.modelo, nombre: c.nombre })),
   };
 }
+
+/**
+ * Como `proximaPresentacion`, pero con las siguientes `cantidad` fechas
+ * límite en vez de solo la primera — para el calendario fiscal del portal
+ * (no solo "cuánto falta", sino "qué tienes por delante"). Mismo criterio
+ * de agrupar por fecha: varios modelos con la misma fecha límite cuentan
+ * como una sola entrada de la lista, no como varias.
+ */
+export function proximasPresentaciones(modelos: string[], cantidad: number, hoy: Date = new Date()): ProximaPresentacion[] {
+  const hoySinHora = new Date(hoy.getFullYear(), hoy.getMonth(), hoy.getDate());
+  const candidatas: Presentacion[] = [];
+
+  for (const codigo of modelos) {
+    const modelo = MODELOS_FISCALES[codigo];
+    if (!modelo) continue;
+    for (const anio of [hoySinHora.getFullYear(), hoySinHora.getFullYear() + 1]) {
+      for (const f of modelo.fechasLimite(anio)) {
+        if (f >= hoySinHora) candidatas.push({ modelo: codigo, nombre: modelo.nombre, fecha: f });
+      }
+    }
+  }
+
+  const porFecha = new Map<number, Presentacion[]>();
+  for (const c of candidatas) {
+    const key = c.fecha.getTime();
+    const grupo = porFecha.get(key);
+    if (grupo) grupo.push(c);
+    else porFecha.set(key, [c]);
+  }
+
+  return Array.from(porFecha.entries())
+    .sort(([a], [b]) => a - b)
+    .slice(0, cantidad)
+    .map(([fechaMs, grupo]) => ({
+      fecha: grupo[0].fecha,
+      dias: Math.round((fechaMs - hoySinHora.getTime()) / 86_400_000),
+      modelos: grupo.map((c) => ({ modelo: c.modelo, nombre: c.nombre })),
+    }));
+}

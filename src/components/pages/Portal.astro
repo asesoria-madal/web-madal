@@ -215,6 +215,10 @@ const dashboardsCtaHref = `mailto:${EMAIL}?subject=${encodeURIComponent(dashboar
                 <span class="portal-stat-label" id="stat-dias-impuesto-label">{t.dashboards.diasImpuestoLabel}</span>
               </div>
             </div>
+            <div id="calendario-fiscal" hidden>
+              <p class="field-group-label">{t.dashboards.calendarioTitle}</p>
+              <ul id="calendario-fiscal-list" class="calendario-fiscal-list"></ul>
+            </div>
             <div id="panel-reporting-off" hidden>
               <div class="portal-stats">
                 <div class="portal-stat">
@@ -498,7 +502,7 @@ const dashboardsCtaHref = `mailto:${EMAIL}?subject=${encodeURIComponent(dashboar
 
 <script>
   import { getSupabaseBrowser } from '../../lib/supabaseClient';
-  import { proximaPresentacion } from '../../lib/modelosFiscales';
+  import { proximaPresentacion, proximasPresentaciones } from '../../lib/modelosFiscales';
 
   // Textos que necesita este script (viajan serializados desde el servidor,
   // ya en el idioma de la página) y locale para formatear fechas/importes.
@@ -532,6 +536,8 @@ const dashboardsCtaHref = `mailto:${EMAIL}?subject=${encodeURIComponent(dashboar
   const proximoImpuestoEl = document.getElementById('proximo-impuesto') as HTMLElement;
   const statDiasImpuestoEl = document.getElementById('stat-dias-impuesto') as HTMLElement;
   const statDiasImpuestoLabelEl = document.getElementById('stat-dias-impuesto-label') as HTMLElement;
+  const calendarioFiscalEl = document.getElementById('calendario-fiscal') as HTMLElement;
+  const calendarioFiscalListEl = document.getElementById('calendario-fiscal-list') as HTMLElement;
 
   const finanzasEmptyEl = document.getElementById('finanzas-empty') as HTMLElement;
   const finanzasDatosEl = document.getElementById('finanzas-datos') as HTMLElement;
@@ -609,7 +615,13 @@ const dashboardsCtaHref = `mailto:${EMAIL}?subject=${encodeURIComponent(dashboar
   // información básica de gestoría, no una funcionalidad de pago. Se oculta
   // solo si el cliente todavía no tiene ningún modelo marcado en Supabase.
   function renderProximoImpuesto(modelos: string[]) {
-    const proxima = proximaPresentacion(modelos);
+    // Las próximas 4 fechas distintas: la primera es el stat grande de
+    // siempre ("días hasta..."), las 3 siguientes forman el calendario de
+    // debajo — así el cliente ve no solo lo más urgente, sino qué más tiene
+    // por delante sin tener que preguntarnos.
+    const proximas = proximasPresentaciones(modelos, 4);
+    const proxima = proximas[0] ?? null;
+
     proximoImpuestoEl.hidden = !proxima;
     if (proxima) {
       statDiasImpuestoEl.textContent = String(proxima.dias);
@@ -623,6 +635,23 @@ const dashboardsCtaHref = `mailto:${EMAIL}?subject=${encodeURIComponent(dashboar
           : codigos[0];
       const prefijo = codigos.length > 1 ? I18N.dashboards.diasHastaModeloPlur : I18N.dashboards.diasHastaModeloSing;
       statDiasImpuestoLabelEl.textContent = `${prefijo} ${listaModelos} (${fechaTexto})`;
+    }
+
+    const resto = proximas.slice(1);
+    calendarioFiscalEl.hidden = resto.length === 0;
+    calendarioFiscalListEl.innerHTML = '';
+    for (const item of resto) {
+      const fechaTexto = item.fecha.toLocaleDateString(LOCALE, { day: '2-digit', month: '2-digit', year: 'numeric' });
+      const nombres = item.modelos.map((m) => m.nombre).join(' · ');
+      const li = document.createElement('li');
+      li.className = 'calendario-fiscal-item';
+      const spanFecha = document.createElement('span');
+      spanFecha.className = 'calendario-fiscal-fecha';
+      spanFecha.textContent = fechaTexto;
+      const spanNombre = document.createElement('span');
+      spanNombre.textContent = nombres;
+      li.append(spanFecha, spanNombre);
+      calendarioFiscalListEl.appendChild(li);
     }
   }
 

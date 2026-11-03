@@ -1394,6 +1394,9 @@ body.portal-app .portal-box { margin-top: 0; }
 @media (max-width: 760px) { .app-main { padding: 1.8rem 1.4rem 3rem; } }
 .app-panel h2 { font-family: var(--font-display); font-size: 1.4rem; margin-bottom: 1.2rem; }
 
+.calendario-fiscal-list { list-style: none; margin: 0.6rem 0 0; padding: 0; display: flex; flex-direction: column; gap: 0.5rem; }
+.calendario-fiscal-item { display: flex; gap: 0.8rem; align-items: baseline; font-size: 0.92rem; }
+.calendario-fiscal-fecha { font-weight: 600; white-space: nowrap; }
 .factura-upload { margin-top: 1.4rem; display: flex; gap: 0.7rem; flex-wrap: wrap; align-items: center; }
 .factura-upload input[type="file"] { font-size: 0.9rem; color: var(--ink-soft); }
 /* El atributo "capture" solo tiene efecto en móvil; en un dispositivo con
