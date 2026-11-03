@@ -1396,6 +1396,12 @@ body.portal-app .portal-box { margin-top: 0; }
 
 .factura-upload { margin-top: 1.4rem; display: flex; gap: 0.7rem; flex-wrap: wrap; align-items: center; }
 .factura-upload input[type="file"] { font-size: 0.9rem; color: var(--ink-soft); }
+/* El atributo "capture" solo tiene efecto en móvil; en un dispositivo con
+   ratón (puntero fino) abrir la cámara no tiene sentido, así que el botón
+   de "hacer foto" se oculta ahí y solo queda el selector de archivo. */
+@media (pointer: fine) {
+  .factura-camera-btn { display: none; }
+}
 .factura-list { list-style: none; margin: 1.4rem 0 0; padding: 0; display: flex; flex-direction: column; gap: 0.5rem; }
 .factura-list li {
   display: flex;

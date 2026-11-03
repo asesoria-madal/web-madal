@@ -340,8 +340,10 @@ const dashboardsCtaHref = `mailto:${EMAIL}?subject=${encodeURIComponent(dashboar
             <h2>{t.facturas.title}</h2>
             <p>{t.facturas.intro}</p>
             <form id="facturaForm" class="factura-upload">
-              <input type="file" id="facturaFile" accept="application/pdf" multiple required aria-label={t.facturas.title} />
+              <input type="file" id="facturaFile" accept="application/pdf,image/jpeg,image/png,image/webp" multiple required aria-label={t.facturas.title} />
               <button type="submit" class="btn btn-primary">{t.facturas.submit}</button>
+              <button type="button" id="facturaCameraBtn" class="btn btn-outline factura-camera-btn">{t.facturas.cameraSubmit}</button>
+              <input type="file" id="facturaCamera" accept="image/*" capture="environment" hidden aria-label={t.facturas.cameraSubmit} />
             </form>
             <p id="facturaMsg" class="portal-msg" hidden></p>
             <p id="facturaEmpty" class="factura-empty" hidden>{t.facturas.empty}</p>
@@ -573,6 +575,8 @@ const dashboardsCtaHref = `mailto:${EMAIL}?subject=${encodeURIComponent(dashboar
   const facturaForm = document.getElementById('facturaForm') as HTMLFormElement;
   const emitirRoot = document.getElementById('emitirRoot') as HTMLElement;
   const facturaFile = document.getElementById('facturaFile') as HTMLInputElement;
+  const facturaCamera = document.getElementById('facturaCamera') as HTMLInputElement;
+  const facturaCameraBtn = document.getElementById('facturaCameraBtn') as HTMLButtonElement;
   const facturaMsg = document.getElementById('facturaMsg') as HTMLElement;
   const facturaEmpty = document.getElementById('facturaEmpty') as HTMLElement;
   const facturaList = document.getElementById('facturaList') as HTMLElement;
@@ -1491,12 +1495,12 @@ const dashboardsCtaHref = `mailto:${EMAIL}?subject=${encodeURIComponent(dashboar
       }
     });
 
-    facturaForm.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const files = Array.from(facturaFile.files ?? []);
+    const FACTURA_TIPOS_ACEPTADOS = ['application/pdf', 'image/jpeg', 'image/png', 'image/webp'];
+
+    async function subirFacturas(files: File[]) {
       if (files.length === 0) return;
 
-      if (files.some((f) => f.type !== 'application/pdf')) {
+      if (files.some((f) => !FACTURA_TIPOS_ACEPTADOS.includes(f.type))) {
         facturaMsg.hidden = false;
         facturaMsg.className = 'portal-msg is-error';
         facturaMsg.textContent = I18N.facturas.onlyPdf;
@@ -1534,7 +1538,7 @@ const dashboardsCtaHref = `mailto:${EMAIL}?subject=${encodeURIComponent(dashboar
         const timestamp = `${pad(now.getDate())}${pad(now.getMonth() + 1)}-${pad(now.getHours())}${pad(now.getMinutes())}`;
         const path = `${clienteId}/${clienteId}-${timestamp}-${file.name}`;
         const { error } = await supabase!.storage.from('facturas').upload(path, file, {
-          contentType: 'application/pdf',
+          contentType: file.type,
         });
 
         if (error) {
@@ -1571,6 +1575,16 @@ const dashboardsCtaHref = `mailto:${EMAIL}?subject=${encodeURIComponent(dashboar
 
       facturaForm.reset();
       renderFacturaList(clienteId);
+    }
+
+    facturaForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      void subirFacturas(Array.from(facturaFile.files ?? []));
+    });
+
+    facturaCameraBtn.addEventListener('click', () => facturaCamera.click());
+    facturaCamera.addEventListener('change', () => {
+      void subirFacturas(Array.from(facturaCamera.files ?? []));
     });
 
     async function logout() {
