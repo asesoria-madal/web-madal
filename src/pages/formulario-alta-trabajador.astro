@@ -1,10 +1,12 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import FormularioAltaTrabajador from '../components/pages/FormularioAltaTrabajador.astro';
+import { TRABAJADOR } from '../i18n/formularioTrabajador';
 
 export const prerender = true;
+const t = TRABAJADOR.es;
 ---
 
-<Layout lang="es" path="/formulario-alta-trabajador" active="none" title="Alta de trabajador · Asesoría Madal" description="Formulario con los datos que necesitamos para dar de alta a un trabajador." noindex showCtaFinal={false} minimalHeader localesAvailable={['es']}>
-  <FormularioAltaTrabajador />
+<Layout lang="es" path="/formulario-alta-trabajador" active="none" title={t.metaTitle} description={t.metaDesc} noindex showCtaFinal={false} minimalHeader localesAvailable={['es', 'ca', 'en']}>
+  <FormularioAltaTrabajador lang="es" />
 </Layout>

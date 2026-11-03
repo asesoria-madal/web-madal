@@ -1,0 +1,12 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import FormularioAltaTrabajador from '../../components/pages/FormularioAltaTrabajador.astro';
+import { TRABAJADOR } from '../../i18n/formularioTrabajador';
+
+export const prerender = true;
+const t = TRABAJADOR.en;
+---
+
+<Layout lang="en" path="/en/formulario-alta-trabajador" active="none" title={t.metaTitle} description={t.metaDesc} noindex showCtaFinal={false} minimalHeader localesAvailable={['es', 'ca', 'en']}>
+  <FormularioAltaTrabajador lang="en" />
+</Layout>

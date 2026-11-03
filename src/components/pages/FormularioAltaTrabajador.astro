@@ -9,274 +9,240 @@
 // sin enlazar desde el menú (noindex) y mandada por enlace directo, con
 // ?nif=<NIF de la empresa>&email=<email del cliente> para precargar la empresa.
 //
-// Solo en castellano por ahora, con los textos aquí mismo. Si se traduce, se
-// pasan a src/i18n/formularios.ts como los otros formularios.
+// Existe en castellano, catalán e inglés (/formulario-alta-trabajador,
+// /ca/..., /en/...); los textos viven en src/i18n/formularioTrabajador.ts. Lo
+// que se envía al servidor es igual en los tres idiomas.
 //
 // No sube archivos (como los otros formularios): la copia del DNI/NIE, el
 // permiso de trabajo o el certificado de discapacidad se piden por correo y se
 // guardan en Drive. Lo que es decisión técnica de la gestoría (grupo de
 // cotización, CNO, convenio, bonificaciones) se pregunta como opcional, "si lo
 // sabes": si no, lo decide Edurne.
-const PRIVACIDAD_HREF = '/privacidad';
-const EMAIL_CONTACTO = 'contacto@asesoriamadal.es';
+import { TRABAJADOR, type TrabajadorLang } from '../../i18n/formularioTrabajador';
 
-// Nombre visible de cada campo, para el aviso cuando el servidor dice cuál no
-// valida (`field` en la respuesta de /api/alta-trabajador).
-const CAMPOS: Record<string, string> = {
-  empresaNombre: 'Nombre o razón social de la empresa', empresaNif: 'NIF de la empresa',
-  empresaEmail: 'Email de contacto', ccc: 'Código de cuenta de cotización', centroTrabajo: 'Centro de trabajo',
-  convenio: 'Convenio colectivo',
-  nombreCompleto: 'Nombre y apellidos del trabajador', nifNie: 'DNI / NIE del trabajador',
-  fechaNacimiento: 'Fecha de nacimiento', sexo: 'Sexo', nacionalidad: 'Nacionalidad', domicilio: 'Domicilio',
-  telefono: 'Teléfono del trabajador', email: 'Email del trabajador', nuss: 'Número de la Seguridad Social',
-  vigenciaPermiso: 'Vigencia de la autorización de residencia y trabajo', iban: 'IBAN',
-  nivelEstudios: 'Nivel de estudios', titulacion: 'Titulación', gradoDiscapacidad: 'Grado de discapacidad',
-  datos145: 'Datos para el IRPF (modelo 145)', situacionFamiliar: 'Situación familiar',
-  detalleDescendientes: 'Hijos y descendientes', detalleAscendientes: 'Ascendientes a cargo',
-  detallePensiones: 'Pensión compensatoria / anualidades por alimentos',
-  fechaInicio: 'Fecha de inicio', tipoContrato: 'Tipo de contrato', fechaFin: 'Fecha de fin',
-  causaTemporal: 'Causa del contrato temporal', tutor: 'Tutor', planFormativo: 'Plan formativo',
-  jornada: 'Jornada', horasSemanales: 'Horas semanales', distribucionJornada: 'Distribución de la jornada',
-  puesto: 'Puesto', funciones: 'Funciones', categoria: 'Categoría profesional', grupoCotizacion: 'Grupo de cotización',
-  cno: 'Código de ocupación (CNO)', salarioBrutoAnual: 'Salario bruto anual', complementos: 'Complementos',
-  numeroPagas: 'Número de pagas', periodoPrueba: 'Periodo de prueba', vacaciones: 'Vacaciones',
-  bonificaciones: 'Bonificaciones', observaciones: 'Observaciones', privacyAccepted: 'Confirmación de privacidad',
-};
-const MSG_CAMPO = 'Revisa el campo «{campo}»: falta o no tiene un formato válido.';
+interface Props { lang?: TrabajadorLang; }
+const { lang = 'es' } = Astro.props;
+const t = TRABAJADOR[lang];
+const EMAIL_CONTACTO = 'contacto@asesoriamadal.es';
 ---
 
 <div id="view-trabajador-form">
   <div class="page view-intro">
-    <p class="eyebrow">Alta de trabajador</p>
-    <h2 class="section-title">Datos para dar de alta a tu trabajador</h2>
-    <p class="section-sub">Pídele estos datos a la persona que vas a contratar y rellénalos aquí. Con esto tramitamos su alta en la Seguridad Social, comunicamos el contrato y preparamos su nómina. Si algo no lo sabes seguro, indícalo en observaciones y lo revisamos juntos.</p>
-    <p class="field-hint">El alta en la Seguridad Social se tiene que hacer <strong>antes</strong> de que empiece a trabajar: envíanos el formulario con al menos 3 días hábiles de margen. Si es más justo, llámanos o escríbenos además de enviarlo.</p>
-    <p class="field-hint">Los campos marcados con * son obligatorios.</p>
+    <p class="eyebrow">{t.eyebrow}</p>
+    <h2 class="section-title">{t.title}</h2>
+    <p class="section-sub">{t.intro}</p>
+    <p class="field-hint">{t.plazoPre} <strong>{t.plazoStrong}</strong> {t.plazoPost}</p>
+    <p class="field-hint">{t.obligatorios}</p>
   </div>
 
-  <form id="trabajadorForm" class="alta-form page view-block" novalidate data-campos={JSON.stringify(CAMPOS)} data-msg-campo={MSG_CAMPO}>
+  <form
+    id="trabajadorForm"
+    class="alta-form page view-block"
+    novalidate
+    data-campos={JSON.stringify(t.campos)}
+    data-msg-campo={t.msgCampo}
+    data-fin-sustitucion={t.fechaFinSustitucion}
+    data-distribucion-parcial={t.distribucionHintParcial}
+  >
     <fieldset class="alta-section">
-      <legend>Tu empresa</legend>
-      <label class="field">Nombre o razón social * <input type="text" id="fEmpNombre" maxlength="150" required /></label>
-      <label class="field">NIF de la empresa o del autónomo * <input type="text" id="fEmpNif" maxlength="9" required /></label>
-      <label class="field">Email de contacto * <input type="email" id="fEmpEmail" maxlength="254" required /></label>
-      <label class="field">Código de cuenta de cotización (CCC) <span class="field-optional">(si es tu primer trabajador y aún no lo tienes, déjalo en blanco: lo solicitamos nosotros)</span>
+      <legend>{t.secEmpresa}</legend>
+      <label class="field">{t.empNombre} <input type="text" id="fEmpNombre" maxlength="150" required /></label>
+      <label class="field">{t.empNif} <input type="text" id="fEmpNif" maxlength="9" required /></label>
+      <label class="field">{t.empEmail} <input type="email" id="fEmpEmail" maxlength="254" required /></label>
+      <label class="field">{t.ccc} <span class="field-optional">{t.cccHint}</span>
         <input type="text" id="fCcc" maxlength="20" />
       </label>
-      <label class="field">Dirección del centro de trabajo * <textarea id="fCentro" maxlength="300" rows="2" required></textarea></label>
-      <label class="field">Convenio colectivo <span class="field-optional">(si lo sabes; si no, lo buscamos nosotros)</span>
+      <label class="field">{t.centro} <textarea id="fCentro" maxlength="300" rows="2" required></textarea></label>
+      <label class="field">{t.convenio} <span class="field-optional">{t.convenioHint}</span>
         <input type="text" id="fConvenio" maxlength="200" />
       </label>
     </fieldset>
 
     <fieldset class="alta-section">
-      <legend>Datos del trabajador</legend>
-      <label class="field">Nombre y apellidos * <input type="text" id="fNombre" maxlength="150" required /></label>
-      <label class="field">DNI / NIE * <input type="text" id="fNif" maxlength="9" placeholder="12345678A" required /></label>
-      <label class="field">Fecha de nacimiento * <input type="date" id="fFechaNacimiento" required /></label>
+      <legend>{t.secTrabajador}</legend>
+      <label class="field">{t.nombre} <input type="text" id="fNombre" maxlength="150" required /></label>
+      <label class="field">{t.nif} <input type="text" id="fNif" maxlength="9" placeholder="12345678A" required /></label>
+      <label class="field">{t.fechaNac} <input type="date" id="fFechaNacimiento" required /></label>
       <div class="field-group">
-        <p class="field-group-label">Sexo *</p>
+        <p class="field-group-label">{t.sexo}</p>
         <div class="radio-group" data-field="sexo">
-          <label class="radio-option"><input type="radio" name="sexo" value="mujer" /> Mujer</label>
-          <label class="radio-option"><input type="radio" name="sexo" value="hombre" /> Hombre</label>
+          <label class="radio-option"><input type="radio" name="sexo" value="mujer" /> {t.mujer}</label>
+          <label class="radio-option"><input type="radio" name="sexo" value="hombre" /> {t.hombre}</label>
         </div>
       </div>
-      <label class="field">Nacionalidad * <input type="text" id="fNacionalidad" maxlength="60" required /></label>
-      <label class="field">Domicilio completo * <textarea id="fDomicilio" maxlength="300" rows="2" required></textarea></label>
-      <label class="field">Teléfono * <input type="tel" id="fTelefono" maxlength="20" required /></label>
-      <label class="field">Email * <span class="field-optional">(para las notificaciones y las nóminas)</span>
+      <label class="field">{t.nacionalidad} <input type="text" id="fNacionalidad" maxlength="60" required /></label>
+      <label class="field">{t.domicilio} <textarea id="fDomicilio" maxlength="300" rows="2" required></textarea></label>
+      <label class="field">{t.telefono} <input type="tel" id="fTelefono" maxlength="20" required /></label>
+      <label class="field">{t.email} <span class="field-optional">{t.emailHint}</span>
         <input type="email" id="fEmail" maxlength="254" required />
       </label>
 
-      <label class="field" id="fNussWrap">Número de afiliación a la Seguridad Social (NUSS) * <span class="field-optional">(12 dígitos)</span>
+      <label class="field" id="fNussWrap">{t.nuss} <span class="field-optional">{t.nussHint}</span>
         <input type="text" id="fNuss" maxlength="20" inputmode="numeric" />
       </label>
-      <label class="checkbox-option"><input type="checkbox" id="fSinNuss" /> No tiene número de la Seguridad Social (lo solicitamos en el propio alta)</label>
+      <label class="checkbox-option"><input type="checkbox" id="fSinNuss" /> {t.sinNuss}</label>
 
-      <label class="checkbox-option"><input type="checkbox" id="fExtracomunitario" /> Es extranjero/a de fuera de la Unión Europea</label>
-      <label class="field" id="fVigenciaWrap" hidden>¿Hasta cuándo es válida su autorización de residencia y trabajo? * <input type="date" id="fVigencia" /></label>
+      <label class="checkbox-option"><input type="checkbox" id="fExtracomunitario" /> {t.extracom}</label>
+      <label class="field" id="fVigenciaWrap" hidden>{t.vigencia} <input type="date" id="fVigencia" /></label>
 
-      <label class="field">IBAN para la nómina * <input type="text" id="fIban" maxlength="34" placeholder="ES00 0000 0000 0000 0000 0000" required /></label>
+      <label class="field">{t.iban} <input type="text" id="fIban" maxlength="34" placeholder="ES00 0000 0000 0000 0000 0000" required /></label>
 
-      <label class="field">Nivel de estudios *
+      <label class="field">{t.estudios}
         <select id="fNivelEstudios" required>
-          <option value="">Elige una opción</option>
-          <option value="sin_estudios">Sin estudios</option>
-          <option value="primaria">Primaria</option>
-          <option value="eso">ESO o equivalente</option>
-          <option value="bachillerato">Bachillerato</option>
-          <option value="fp_grado_medio">FP de grado medio</option>
-          <option value="fp_grado_superior">FP de grado superior</option>
-          <option value="universitarios">Grado universitario</option>
-          <option value="master_doctorado">Máster o doctorado</option>
+          <option value="">{t.estudiosElige}</option>
+          {Object.entries(t.estudiosOpts).map(([value, label]) => <option value={value}>{label}</option>)}
         </select>
       </label>
-      <label class="field">Titulación <span class="field-optional">(opcional, p. ej. «Grado en Administración de Empresas»)</span>
+      <label class="field">{t.titulacion} <span class="field-optional">{t.titulacionHint}</span>
         <input type="text" id="fTitulacion" maxlength="150" />
       </label>
 
-      <label class="checkbox-option"><input type="checkbox" id="fDiscapacidad" /> Tiene reconocida una discapacidad igual o superior al 33 %</label>
-      <label class="field" id="fGradoWrap" hidden>Grado de discapacidad (%) * <input type="number" id="fGrado" min="33" max="100" step="1" /></label>
+      <label class="checkbox-option"><input type="checkbox" id="fDiscapacidad" /> {t.discapacidad}</label>
+      <label class="field" id="fGradoWrap" hidden>{t.grado} <input type="number" id="fGrado" min="33" max="100" step="1" /></label>
     </fieldset>
 
     <fieldset class="alta-section">
-      <legend>Situación personal y familiar (IRPF)</legend>
-      <p class="field-hint">Son los datos del modelo 145, que deciden cuánto IRPF se le retiene en la nómina. Si el trabajador prefiere no facilitarlos, se le aplica la retención mínima.</p>
+      <legend>{t.sec145}</legend>
+      <p class="field-hint">{t.hint145}</p>
       <div class="radio-group" data-field="datos145">
-        <label class="radio-option"><input type="radio" name="datos145" value="facilita" /> El trabajador facilita sus datos</label>
-        <label class="radio-option"><input type="radio" name="datos145" value="no_facilita" /> No los facilita (se aplica la retención mínima)</label>
+        <label class="radio-option"><input type="radio" name="datos145" value="facilita" /> {t.facilita}</label>
+        <label class="radio-option"><input type="radio" name="datos145" value="no_facilita" /> {t.noFacilita}</label>
       </div>
 
       <div id="f145Wrap" class="field-group" hidden>
-        <p class="field-group-label">Situación familiar *</p>
+        <p class="field-group-label">{t.situacion}</p>
         <div class="radio-group" data-field="situacionFamiliar">
-          <label class="radio-option"><input type="radio" name="situacionFamiliar" value="1" /> Soltero/a, viudo/a, divorciado/a o separado/a, con hijos menores de 18 años (o incapacitados judicialmente) que viven solo con él o ella</label>
-          <label class="radio-option"><input type="radio" name="situacionFamiliar" value="2" /> Casado/a, con un cónyuge que no gana más de 1.500 € al año</label>
-          <label class="radio-option"><input type="radio" name="situacionFamiliar" value="3" /> Otras situaciones</label>
+          <label class="radio-option"><input type="radio" name="situacionFamiliar" value="1" /> {t.sit1}</label>
+          <label class="radio-option"><input type="radio" name="situacionFamiliar" value="2" /> {t.sit2}</label>
+          <label class="radio-option"><input type="radio" name="situacionFamiliar" value="3" /> {t.sit3}</label>
         </div>
 
-        <label class="checkbox-option"><input type="checkbox" id="fDescendientes" /> Tiene hijos u otros descendientes menores de 25 años (o con discapacidad) que viven con él o ella</label>
-        <label class="field" id="fDescendientesWrap" hidden>Hijos y descendientes * <span class="field-optional">(año de nacimiento de cada uno, si alguno tiene discapacidad y si viven también con el otro progenitor)</span>
+        <label class="checkbox-option"><input type="checkbox" id="fDescendientes" /> {t.descendientes}</label>
+        <label class="field" id="fDescendientesWrap" hidden>{t.descendientesLabel} <span class="field-optional">{t.descendientesHint}</span>
           <textarea id="fDetalleDescendientes" maxlength="500" rows="3"></textarea>
         </label>
 
-        <label class="checkbox-option"><input type="checkbox" id="fAscendientes" /> Tiene a su cargo padres o abuelos mayores de 65 años (o con discapacidad) que viven con él o ella</label>
-        <label class="field" id="fAscendientesWrap" hidden>Ascendientes a cargo * <span class="field-optional">(año de nacimiento de cada uno y si alguno tiene discapacidad)</span>
+        <label class="checkbox-option"><input type="checkbox" id="fAscendientes" /> {t.ascendientes}</label>
+        <label class="field" id="fAscendientesWrap" hidden>{t.ascendientesLabel} <span class="field-optional">{t.ascendientesHint}</span>
           <textarea id="fDetalleAscendientes" maxlength="500" rows="2"></textarea>
         </label>
 
-        <label class="checkbox-option"><input type="checkbox" id="fPensiones" /> Paga una pensión compensatoria a su excónyuge o una pensión de alimentos a sus hijos fijada por un juez</label>
-        <label class="field" id="fPensionesWrap" hidden>Pensiones * <span class="field-optional">(qué paga y el importe anual de cada una)</span>
+        <label class="checkbox-option"><input type="checkbox" id="fPensiones" /> {t.pensiones}</label>
+        <label class="field" id="fPensionesWrap" hidden>{t.pensionesLabel} <span class="field-optional">{t.pensionesHint}</span>
           <textarea id="fDetallePensiones" maxlength="300" rows="2"></textarea>
         </label>
 
-        <label class="checkbox-option"><input type="checkbox" id="fPrestamo" /> Paga un préstamo de su vivienda habitual comprada antes de 2013 y se aplica la deducción por vivienda</label>
-        <label class="checkbox-option"><input type="checkbox" id="fMovilidad" /> Se ha cambiado de municipio de residencia para aceptar este trabajo</label>
+        <label class="checkbox-option"><input type="checkbox" id="fPrestamo" /> {t.prestamo}</label>
+        <label class="checkbox-option"><input type="checkbox" id="fMovilidad" /> {t.movilidad}</label>
       </div>
     </fieldset>
 
     <fieldset class="alta-section">
-      <legend>Contrato</legend>
-      <label class="field">Fecha de inicio * <input type="date" id="fFechaInicio" required /></label>
+      <legend>{t.secContrato}</legend>
+      <label class="field">{t.fechaInicio} <input type="date" id="fFechaInicio" required /></label>
 
       <div class="field-group">
-        <p class="field-group-label">Tipo de contrato *</p>
+        <p class="field-group-label">{t.tipo}</p>
         <div class="radio-group" data-field="tipoContrato">
-          <label class="radio-option"><input type="radio" name="tipoContrato" value="indefinido" /> Indefinido</label>
-          <label class="radio-option"><input type="radio" name="tipoContrato" value="fijo_discontinuo" /> Fijo discontinuo (trabajos de temporada o que se repiten)</label>
-          <label class="radio-option"><input type="radio" name="tipoContrato" value="temporal_produccion" /> Temporal por circunstancias de la producción (un aumento puntual de trabajo)</label>
-          <label class="radio-option"><input type="radio" name="tipoContrato" value="temporal_sustitucion" /> Temporal por sustitución (cubre a otra persona)</label>
-          <label class="radio-option"><input type="radio" name="tipoContrato" value="formativo_alternancia" /> Formativo: formación en alternancia (compagina trabajo y estudios)</label>
-          <label class="radio-option"><input type="radio" name="tipoContrato" value="formativo_practica" /> Formativo: para la obtención de práctica profesional (recién titulado)</label>
+          {Object.entries(t.tipos).map(([value, label]) => (
+            <label class="radio-option"><input type="radio" name="tipoContrato" value={value} /> {label}</label>
+          ))}
         </div>
       </div>
 
       <div id="fTemporalWrap" class="field-group" hidden>
-        <label class="field" id="fFechaFinWrap">Fecha de fin <span class="field-optional" id="fFechaFinHint"></span>
+        <label class="field" id="fFechaFinWrap">{t.fechaFin} <span class="field-optional" id="fFechaFinHint"></span>
           <input type="date" id="fFechaFin" />
         </label>
-        <label class="field">Causa concreta del contrato temporal * <span class="field-optional">(es lo que más revisa la Inspección: explica qué pasa exactamente y por qué es temporal. P. ej.: «Aumento de pedidos por la campaña de Navidad, del 1 de diciembre al 15 de enero» o «Sustituye a Ana López durante su baja por maternidad»)</span>
+        <label class="field">{t.causa} <span class="field-optional">{t.causaHint}</span>
           <textarea id="fCausaTemporal" maxlength="1000" rows="3"></textarea>
         </label>
       </div>
 
       <div id="fFormativoWrap" class="field-group" hidden>
-        <label class="field">Nombre del tutor o tutora en la empresa * <input type="text" id="fTutor" maxlength="150" /></label>
-        <label class="field">Plan formativo * <span class="field-optional">(qué va a aprender y cómo; si lo tienes en un documento, resúmelo y envíanoslo por correo)</span>
+        <label class="field">{t.tutor} <input type="text" id="fTutor" maxlength="150" /></label>
+        <label class="field">{t.plan} <span class="field-optional">{t.planHint}</span>
           <textarea id="fPlanFormativo" maxlength="1000" rows="3"></textarea>
         </label>
       </div>
 
       <div class="field-group">
-        <p class="field-group-label">Jornada *</p>
+        <p class="field-group-label">{t.jornada}</p>
         <div class="radio-group" data-field="jornada">
-          <label class="radio-option"><input type="radio" name="jornada" value="completa" /> Completa</label>
-          <label class="radio-option"><input type="radio" name="jornada" value="parcial" /> Parcial</label>
+          <label class="radio-option"><input type="radio" name="jornada" value="completa" /> {t.completa}</label>
+          <label class="radio-option"><input type="radio" name="jornada" value="parcial" /> {t.parcial}</label>
         </div>
       </div>
-      <label class="field" id="fHorasWrap">Horas semanales <span class="field-optional" id="fHorasHint">(si no las sabes, déjalo en blanco y aplicamos las del convenio)</span>
+      <label class="field" id="fHorasWrap">{t.horas} <span class="field-optional" id="fHorasHint">{t.horasHint}</span>
         <input type="number" id="fHoras" min="1" max="40" step="0.5" />
       </label>
-      <label class="field" id="fDistribucionWrap">Distribución de la jornada <span class="field-optional" id="fDistribucionHint">(días y horario, p. ej. «lunes a viernes de 9 a 14»)</span>
+      <label class="field" id="fDistribucionWrap">{t.distribucion} <span class="field-optional" id="fDistribucionHint">{t.distribucionHint}</span>
         <textarea id="fDistribucion" maxlength="500" rows="2"></textarea>
       </label>
 
-      <label class="field">Puesto * <input type="text" id="fPuesto" maxlength="150" placeholder="P. ej.: dependiente/a, administrativo/a, camarero/a" required /></label>
-      <label class="field">Funciones * <span class="field-optional">(qué va a hacer en su día a día)</span>
+      <label class="field">{t.puesto} <input type="text" id="fPuesto" maxlength="150" placeholder={t.puestoPh} required /></label>
+      <label class="field">{t.funciones} <span class="field-optional">{t.funcionesHint}</span>
         <textarea id="fFunciones" maxlength="1000" rows="3" required></textarea>
       </label>
-      <label class="field">Categoría profesional <span class="field-optional">(si la sabes, según el convenio)</span>
+      <label class="field">{t.categoria} <span class="field-optional">{t.categoriaHint}</span>
         <input type="text" id="fCategoria" maxlength="150" />
       </label>
-      <label class="field">Grupo de cotización <span class="field-optional">(si no lo sabes, lo asignamos nosotros)</span>
+      <label class="field">{t.grupo} <span class="field-optional">{t.grupoHint}</span>
         <select id="fGrupo">
-          <option value="">No lo sé</option>
-          <option value="1">1 · Ingenieros, licenciados y alta dirección</option>
-          <option value="2">2 · Ingenieros técnicos, peritos y ayudantes titulados</option>
-          <option value="3">3 · Jefes administrativos y de taller</option>
-          <option value="4">4 · Ayudantes no titulados</option>
-          <option value="5">5 · Oficiales administrativos</option>
-          <option value="6">6 · Subalternos</option>
-          <option value="7">7 · Auxiliares administrativos</option>
-          <option value="8">8 · Oficiales de primera y segunda</option>
-          <option value="9">9 · Oficiales de tercera y especialistas</option>
-          <option value="10">10 · Peones</option>
-          <option value="11">11 · Menores de 18 años</option>
+          <option value="">{t.grupoNoSe}</option>
+          {t.grupos.map((label, i) => <option value={String(i + 1)}>{i + 1} · {label}</option>)}
         </select>
       </label>
-      <label class="field">Código de ocupación (CNO) <span class="field-optional">(si no lo sabes, lo asignamos nosotros)</span>
+      <label class="field">{t.cno} <span class="field-optional">{t.cnoHint}</span>
         <input type="text" id="fCno" maxlength="20" />
       </label>
     </fieldset>
 
     <fieldset class="alta-section">
-      <legend>Retribución y condiciones</legend>
-      <label class="field">Salario bruto anual (€) * <input type="number" id="fSalario" min="1" step="0.01" required /></label>
-      <label class="field">Complementos <span class="field-optional">(pluses, comisiones, dietas… con su importe, si los hay)</span>
+      <legend>{t.secRetribucion}</legend>
+      <label class="field">{t.salario} <input type="number" id="fSalario" min="1" step="0.01" required /></label>
+      <label class="field">{t.complementos} <span class="field-optional">{t.complementosHint}</span>
         <textarea id="fComplementos" maxlength="500" rows="2"></textarea>
       </label>
-      <label class="field">Número de pagas al año * <input type="number" id="fPagas" min="12" max="16" step="1" placeholder="14" required /></label>
-      <label class="checkbox-option"><input type="checkbox" id="fProrrateadas" /> Las pagas extra van prorrateadas en la nómina mensual</label>
-      <label class="field">Periodo de prueba <span class="field-optional">(p. ej. «2 meses»; en blanco si no hay)</span>
+      <label class="field">{t.pagas} <input type="number" id="fPagas" min="12" max="16" step="1" placeholder="14" required /></label>
+      <label class="checkbox-option"><input type="checkbox" id="fProrrateadas" /> {t.prorrateadas}</label>
+      <label class="field">{t.prueba} <span class="field-optional">{t.pruebaHint}</span>
         <input type="text" id="fPrueba" maxlength="100" />
       </label>
-      <label class="field">Vacaciones <span class="field-optional">(días al año, solo si no son los del convenio)</span>
+      <label class="field">{t.vacaciones} <span class="field-optional">{t.vacacionesHint}</span>
         <input type="text" id="fVacaciones" maxlength="150" />
       </label>
-      <label class="field">Bonificaciones <span class="field-optional">(si crees que puede aplicarse alguna: edad, discapacidad, desempleo de larga duración, conversión de temporal a indefinido…; lo comprobamos nosotros)</span>
+      <label class="field">{t.bonif} <span class="field-optional">{t.bonifHint}</span>
         <textarea id="fBonificaciones" maxlength="500" rows="2"></textarea>
       </label>
-      <label class="field">Observaciones <span class="field-optional">(cualquier cosa que debamos saber)</span>
+      <label class="field">{t.observaciones} <span class="field-optional">{t.observacionesHint}</span>
         <textarea id="fObservaciones" maxlength="1000" rows="3"></textarea>
       </label>
     </fieldset>
 
     <fieldset class="alta-section">
-      <legend>Documentos</legend>
-      <p class="field-hint">Envíanos por correo a <a href={`mailto:${EMAIL_CONTACTO}`}>{EMAIL_CONTACTO}</a>, indicando el nombre del trabajador:</p>
+      <legend>{t.secDocs}</legend>
+      <p class="field-hint">{t.docsPre} <a href={`mailto:${EMAIL_CONTACTO}`}>{EMAIL_CONTACTO}</a>{t.docsPost}</p>
       <ul class="plain-list">
-        <li>Copia del DNI o NIE, por las dos caras.</li>
-        <li>Si es de fuera de la UE: su autorización de residencia y trabajo.</li>
-        <li>Si tiene discapacidad: el certificado del grado.</li>
-        <li>Si es un contrato formativo: el plan formativo, si lo tienes en un documento.</li>
+        {t.docs.map((d) => <li>{d}</li>)}
       </ul>
-      <p class="field-hint">Para tramitar el alta necesitamos estar autorizados a actuar en tu nombre ante la Seguridad Social y el SEPE. Si todavía no lo hemos hecho, te lo pedimos antes de la fecha de inicio.</p>
+      <p class="field-hint">{t.autorizacion}</p>
     </fieldset>
 
     <label class="consent">
       <input type="checkbox" id="fPrivacy" required />
-      <span>Confirmo que he informado al trabajador de que comunico sus datos a Asesoría Madal para gestionar su alta, su contrato y sus nóminas, y he leído la <a href={PRIVACIDAD_HREF} target="_blank" rel="noopener">Política de Privacidad</a>. *</span>
+      <span>{t.privacyPre} <a href={t.privacidadHref} target="_blank" rel="noopener">{t.privacyLink}</a>{t.privacyPost}</span>
     </label>
 
-    <p class="form-error" id="formError" hidden>Revisa los campos obligatorios: falta alguno o no tiene un formato válido.</p>
+    <p class="form-error" id="formError" hidden>{t.error}</p>
 
-    <button type="submit" class="btn btn-primary form-submit" id="formSubmit">Enviar los datos</button>
+    <button type="submit" class="btn btn-primary form-submit" id="formSubmit">{t.enviar}</button>
   </form>
 
   <div class="page view-block form-success" id="formSuccess" hidden>
-    <p class="eyebrow">Recibido</p>
-    <h2 class="section-title">Gracias, ya tenemos los datos</h2>
-    <p class="section-sub">Los revisamos y te escribimos si falta algo. Recuerda enviarnos los documentos por correo.</p>
+    <p class="eyebrow">{t.recibido}</p>
+    <h2 class="section-title">{t.gracias}</h2>
+    <p class="section-sub">{t.graciasSub}</p>
   </div>
 </div>
 
@@ -311,7 +277,7 @@ const MSG_CAMPO = 'Revisa el campo «{campo}»: falta o no tiene un formato vál
     if (emailParam) $<HTMLInputElement>('fEmpEmail').value = emailParam;
 
     // Aviso que nombra el campo que el servidor rechaza (mismo criterio que
-    // los otros formularios).
+    // los otros formularios), en el idioma de la página vía data-*.
     const CAMPOS: Record<string, string> = JSON.parse(form.dataset.campos || '{}');
     const MSG_CAMPO = form.dataset.msgCampo || '';
     const MENSAJE_GENERICO = errorEl.textContent;
@@ -358,9 +324,7 @@ const MSG_CAMPO = 'Revisa el campo «{campo}»: falta o no tiene un formato vál
       formativoWrap.hidden = !tipo.startsWith('formativo_');
       // En una sustitución muchas veces no se sabe cuándo vuelve la persona
       // sustituida, así que la fecha de fin solo es obligatoria por producción.
-      fechaFinHint.textContent = tipo === 'temporal_sustitucion'
-        ? '(si se sabe; si no, hasta que se reincorpore la persona sustituida)'
-        : '*';
+      fechaFinHint.textContent = tipo === 'temporal_sustitucion' ? (form.dataset.finSustitucion || '') : '*';
     }));
 
     // Jornada parcial: horas y distribución pasan a ser obligatorias (hay que
@@ -372,7 +336,7 @@ const MSG_CAMPO = 'Revisa el campo «{campo}»: falta o no tiene un formato vál
     form.querySelectorAll<HTMLInputElement>('[name="jornada"]').forEach((r) => r.addEventListener('change', () => {
       const parcial = radioValue('jornada') === 'parcial';
       horasHint.textContent = parcial ? '*' : HORAS_HINT_COMPLETA;
-      distribucionHint.textContent = parcial ? '* (días y horario de cada día: con jornada parcial hay que registrar las horas)' : DISTRIBUCION_HINT_COMPLETA;
+      distribucionHint.textContent = parcial ? (form.dataset.distribucionParcial || '*') : DISTRIBUCION_HINT_COMPLETA;
     }));
 
     form.addEventListener('submit', async function (e) {
