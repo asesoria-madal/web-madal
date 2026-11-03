@@ -62,7 +62,7 @@ Páginas sueltas `/formulario-alta-trabajador`, `/ca/formulario-alta-trabajador`
 - `empresa_nif` **no** es FK a `clientes.id` a propósito: un insert rechazado perdería los datos; se cruza a mano.
 - Datos sensibles (discapacidad = dato de salud; situación familiar): solo `service_role` tiene GRANT, ni `anon` ni `authenticated`.
 - No sube archivos: DNI/NIE, permiso de trabajo y certificado de discapacidad se piden por correo a contacto@ y van a Drive.
-- Sin automatización todavía: no hay trigger ni workflow de n8n; las filas se ven en el Table Editor y `tramitado_at` se marca a mano.
+- Aviso al equipo: el workflow n8n `Alta de trabajador` mira cada 5 minutos las filas con `notificado_at` null, manda el correo a contacto@ y las marca (sin trigger ni webhook). `tramitado_at` se marca a mano en el Table Editor al terminar el alta.
 
 ### `clientes` — portal de clientes (`/portal`)
 

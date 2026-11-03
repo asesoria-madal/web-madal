@@ -1053,3 +1053,9 @@ alter table altas_trabajadores enable row level security;
 -- Tabla nueva tras el 30-oct-2026: Supabase ya no da acceso automático a la
 -- Data API. Solo la service role (el endpoint y n8n); ni anon ni authenticated.
 grant all on altas_trabajadores to service_role;
+
+-- Aviso al equipo de cada alta de trabajador (2026-11-03): el workflow n8n
+-- "Alta de trabajador" mira cada 5 minutos las filas con notificado_at null,
+-- manda un correo a contacto@ y la marca. Se marca después de enviar: si el
+-- correo falla, se reintenta en la siguiente vuelta.
+alter table altas_trabajadores add column if not exists notificado_at timestamptz;
