@@ -519,6 +519,11 @@ export const ui = {
       logout: 'Cerrar sesión',
       greeting: 'Hola,',
       langLabel: 'Idioma',
+      dudaRapida: {
+        label: '¿Tienes una duda rápida?',
+        whatsapp: 'WhatsApp',
+        email: 'Email',
+      },
       nav: {
         dashboards: '📊 Dashboards y reporting',
         facturas: '📄 Subir facturas',
@@ -1360,6 +1365,11 @@ export const ui = {
       logout: 'Tanca la sessió',
       greeting: 'Hola,',
       langLabel: 'Idioma',
+      dudaRapida: {
+        label: 'Tens un dubte ràpid?',
+        whatsapp: 'WhatsApp',
+        email: 'Email',
+      },
       nav: {
         dashboards: '📊 Dashboards i reporting',
         facturas: '📄 Puja factures',
@@ -2203,6 +2213,11 @@ export const ui = {
       logout: 'Log out',
       greeting: 'Hi,',
       langLabel: 'Language',
+      dudaRapida: {
+        label: 'Have a quick question?',
+        whatsapp: 'WhatsApp',
+        email: 'Email',
+      },
       nav: {
         dashboards: '📊 Dashboards and reporting',
         facturas: '📄 Upload invoices',

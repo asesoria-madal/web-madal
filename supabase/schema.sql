@@ -938,6 +938,17 @@ alter table clientes add column if not exists hubspot_contact_id text;
 create unique index if not exists clientes_hubspot_contact_idx on clientes (hubspot_contact_id);
 alter table clientes add column if not exists hubspot_synced_at timestamptz;
 
+-- Contacto por WhatsApp (2026-11-03): no todos los planes lo incluyen (ver
+-- src/i18n/ui.ts, sección precios — los planes de autónomo sí, los de SL
+-- solo email), y puede haber excepciones puntuales por cliente. A propósito
+-- NO se deriva de `plan` en el código: la fuente real es una propiedad en
+-- HubSpot (grupo "Cliente Madal"), para que el equipo la pueda activar o
+-- desactivar por cliente sin tocar código. Pendiente: el workflow n8n "Sync
+-- HubSpot" todavía no la sincroniza (hacerlo igual que `plan`/`telefono`) ni
+-- existe la propiedad en HubSpot todavía. Hasta entonces, false por defecto
+-- y se rellena a mano si hace falta probarlo.
+alter table clientes add column if not exists contacto_whatsapp boolean not null default false;
+
 -- Idioma del cliente (2026-10-23): 'es' | 'ca' | 'en'. Se elige en el alta manual del portal
 -- y decide en qué idioma salen los correos automáticos de n8n (onboarding, etc.).
 -- Los clientes anteriores quedan en 'es' por el default.

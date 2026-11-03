@@ -1,6 +1,7 @@
 ---
 import type { Locale } from '../i18n/ui';
 import { GOOGLE_ADS_CONVERSION_ID, GOOGLE_ADS_WHATSAPP_LABEL } from '../lib/ads-config';
+import { WHATSAPP_NUMBER } from '../lib/contact';
 
 interface Props {
   lang: Locale;
@@ -8,11 +9,9 @@ interface Props {
 
 const { lang } = Astro.props;
 
-// Número de empresa en formato internacional, sin "+" ni espacios (formato
-// que exige wa.me). Sin mensaje precargado a propósito (decisión del
-// usuario). Es un simple enlace: no hay API ni token, y WhatsApp/Meta no
-// recibe nada hasta que la persona pulsa.
-const WHATSAPP_NUMBER = '34692844394';
+// Sin mensaje precargado a propósito (decisión del usuario). Es un simple
+// enlace: no hay API ni token, y WhatsApp/Meta no recibe nada hasta que la
+// persona pulsa.
 
 const labels: Record<Locale, string> = {
   es: 'Escríbenos por WhatsApp',

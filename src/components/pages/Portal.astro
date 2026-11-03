@@ -14,6 +14,7 @@
 import { useTranslations } from '../../i18n/utils';
 import type { Locale } from '../../i18n/ui';
 import EmitirFacturas from './EmitirFacturas.astro';
+import { WHATSAPP_NUMBER, CONTACT_EMAIL } from '../../lib/contact';
 
 interface Props { lang: Locale; }
 const { lang } = Astro.props;
@@ -22,7 +23,7 @@ const t = useTranslations(lang).portal;
 const localeTag: Record<Locale, string> = { es: 'es-ES', ca: 'ca-ES', en: 'en-GB' };
 const locale = localeTag[lang];
 
-const EMAIL = 'contacto@asesoriamadal.es';
+const EMAIL = CONTACT_EMAIL;
 
 // CTA de "quiero contratar dashboards" con asunto ya escrito: mismo texto en
 // el enlace y en el asunto del email, a propósito (distinguir en el buzón
@@ -69,6 +70,20 @@ const dashboardsCtaHref = `mailto:${EMAIL}?subject=${encodeURIComponent(dashboar
             <button type="button" class="app-nav-link" data-panel="documentacion">{t.nav.documentacion}</button>
           </nav>
           <div class="app-sidebar-foot">
+            <div id="duda-rapida" class="duda-rapida">
+              <p class="duda-rapida-label">{t.dudaRapida.label}</p>
+              <a
+                id="duda-rapida-whatsapp"
+                class="duda-rapida-link duda-rapida-whatsapp"
+                href={`https://wa.me/${WHATSAPP_NUMBER}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                hidden
+              >
+                {t.dudaRapida.whatsapp}
+              </a>
+              <a class="duda-rapida-link" href={`mailto:${EMAIL}`}>{t.dudaRapida.email}</a>
+            </div>
             <span>{t.greeting} <span id="portal-nombre"></span></span>
             <div class="app-lang" aria-label={t.langLabel}>
               <a href="/portal" class={lang === 'es' ? 'active' : ''} hreflang="es">ES</a>
@@ -502,7 +517,7 @@ const dashboardsCtaHref = `mailto:${EMAIL}?subject=${encodeURIComponent(dashboar
 
 <script>
   import { getSupabaseBrowser } from '../../lib/supabaseClient';
-  import { proximaPresentacion, proximasPresentaciones } from '../../lib/modelosFiscales';
+  import { proximasPresentaciones } from '../../lib/modelosFiscales';
 
   // Textos que necesita este script (viajan serializados desde el servidor,
   // ya en el idioma de la página) y locale para formatear fechas/importes.
@@ -538,6 +553,7 @@ const dashboardsCtaHref = `mailto:${EMAIL}?subject=${encodeURIComponent(dashboar
   const statDiasImpuestoLabelEl = document.getElementById('stat-dias-impuesto-label') as HTMLElement;
   const calendarioFiscalEl = document.getElementById('calendario-fiscal') as HTMLElement;
   const calendarioFiscalListEl = document.getElementById('calendario-fiscal-list') as HTMLElement;
+  const dudaRapidaWhatsappEl = document.getElementById('duda-rapida-whatsapp') as HTMLAnchorElement;
 
   const finanzasEmptyEl = document.getElementById('finanzas-empty') as HTMLElement;
   const finanzasDatosEl = document.getElementById('finanzas-datos') as HTMLElement;
@@ -609,6 +625,12 @@ const dashboardsCtaHref = `mailto:${EMAIL}?subject=${encodeURIComponent(dashboar
   function renderReportingPanel(hasReporting: boolean) {
     reportingOffEl.hidden = hasReporting;
     reportingOnEl.hidden = !hasReporting;
+  }
+
+  // El email está siempre disponible; el WhatsApp solo si `clientes.contacto_whatsapp`
+  // lo marca (no todos los planes lo incluyen — ver nota en schema.sql).
+  function renderDudaRapida(tieneWhatsapp: boolean) {
+    dudaRapidaWhatsappEl.hidden = !tieneWhatsapp;
   }
 
   // Independiente de `reporting`: saber cuándo toca presentar impuestos es
@@ -1064,6 +1086,7 @@ const dashboardsCtaHref = `mailto:${EMAIL}?subject=${encodeURIComponent(dashboar
       beel_contratado?: boolean;
       beel_estado?: string | null;
       beel_activado_prod_at?: string | null;
+      contacto_whatsapp?: boolean;
     };
 
     // Pinta el área de un cliente concreto. La usan los dos caminos: el
@@ -1092,6 +1115,7 @@ const dashboardsCtaHref = `mailto:${EMAIL}?subject=${encodeURIComponent(dashboar
       renderDocumentacionPanel(cliente.tipo_persona ?? null);
       renderFinanzasVisibilidadPorTipo(cliente.tipo_persona ?? null);
       renderFacturaList(cliente.id);
+      renderDudaRapida(Boolean(cliente.contacto_whatsapp));
     }
 
     let adminClientes: ClienteRow[] = [];
@@ -1111,7 +1135,7 @@ const dashboardsCtaHref = `mailto:${EMAIL}?subject=${encodeURIComponent(dashboar
 
       const { data, error } = await supabase!
         .from('clientes')
-        .select('id, nombre, email, reporting, tipo_persona, modelos, beel_contratado, beel_estado, beel_activado_prod_at')
+        .select('id, nombre, email, reporting, tipo_persona, modelos, beel_contratado, beel_estado, beel_activado_prod_at, contacto_whatsapp')
         .order('nombre', { ascending: true });
 
       adminClientes = (!error && data ? data : []) as ClienteRow[];
@@ -1179,7 +1203,7 @@ const dashboardsCtaHref = `mailto:${EMAIL}?subject=${encodeURIComponent(dashboar
       // "unlinked", igual que antes.
       const { data: cliente } = await supabase!
         .from('clientes')
-        .select('id, nombre, reporting, tipo_persona, modelos, beel_contratado')
+        .select('id, nombre, reporting, tipo_persona, modelos, beel_contratado, contacto_whatsapp')
         .maybeSingle();
 
       if (!cliente) {

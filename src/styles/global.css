@@ -1390,6 +1390,11 @@ body.portal-app .portal-box { margin-top: 0; }
 .app-sidebar-foot { margin-top: auto; display: flex; flex-direction: column; gap: 0.6rem; font-size: 0.88rem; color: var(--ink-soft); }
 @media (max-width: 760px) { .app-sidebar-foot { margin-top: 0; flex-direction: row; align-items: center; gap: 1rem; } }
 
+.duda-rapida { border-top: 1px solid var(--line); padding-top: 0.8rem; display: flex; flex-direction: column; gap: 0.4rem; }
+.duda-rapida-label { margin: 0; font-weight: 600; color: var(--ink); }
+.duda-rapida-link { display: inline-flex; align-items: center; gap: 0.3rem; }
+.duda-rapida-whatsapp { color: #25D366; font-weight: 600; }
+
 .app-main { padding: 2.4rem 2.2rem 3rem; max-width: 720px; }
 @media (max-width: 760px) { .app-main { padding: 1.8rem 1.4rem 3rem; } }
 .app-panel h2 { font-family: var(--font-display); font-size: 1.4rem; margin-bottom: 1.2rem; }
