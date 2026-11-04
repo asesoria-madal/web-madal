@@ -8,11 +8,9 @@ const { lang } = Astro.props;
 const t = useTranslations(lang);
 const s = t.servicios;
 
-// Mismo trazo que el gráfico real del área de cliente (ver Portal.astro,
-// renderEvolucion): tres polylines sobre un viewBox fijo, con un punto por
-// mes. Aquí, en vez de datos reales de Supabase, es un ejemplo fijo — la
-// promesa de "reporting y dashboards" se demuestra en vez de solo contarse
-// en texto, sin fabricar datos de ningún cliente real (por eso llevan el
+// Tres polylines sobre un viewBox fijo, con un punto por mes: un ejemplo fijo
+// de la evolución que el cliente ve en el programa de contabilidad, sin
+// fabricar datos de ningún cliente real (por eso llevan el
 // aviso "ejemplo ilustrativo" explícito, igual que el resto del sitio evita
 // prueba social inventada).
 const evoExample = [
@@ -74,7 +72,7 @@ const evoSeries = [
     </div>
   </section>
 
-  <section class="section" id="dashboards">
+  <section class="section" id="numeros">
     <div class="label-col"><p class="eyebrow">{s.dashboards.eyebrow}</p></div>
     <div>
       <h2 class="section-title">{s.dashboards.title}</h2>

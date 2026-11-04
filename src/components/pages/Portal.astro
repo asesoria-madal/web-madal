@@ -25,11 +25,6 @@ const locale = localeTag[lang];
 
 const EMAIL = CONTACT_EMAIL;
 
-// CTA de "quiero contratar dashboards" con asunto ya escrito: mismo texto en
-// el enlace y en el asunto del email, a propósito (distinguir en el buzón
-// estos leads de un "Contacta con nosotros" genérico).
-const dashboardsCtaSubject = t.dashboards.reportingCta;
-const dashboardsCtaHref = `mailto:${EMAIL}?subject=${encodeURIComponent(dashboardsCtaSubject)}`;
 ---
 
 <div class="portal-page" data-locale={locale}>
@@ -64,7 +59,8 @@ const dashboardsCtaHref = `mailto:${EMAIL}?subject=${encodeURIComponent(dashboar
         <aside class="app-sidebar">
           <a href="/" class="wordmark">Asesoría<span>Madal</span></a>
           <nav class="app-nav">
-            <button type="button" class="app-nav-link active" data-panel="dashboards">{t.nav.dashboards}</button>
+            <button type="button" class="app-nav-link active" data-panel="inicio">{t.nav.inicio}</button>
+            <button type="button" class="app-nav-link" data-panel="prevision">{t.nav.prevision}</button>
             <button type="button" class="app-nav-link" data-panel="facturas">{t.nav.facturas}</button>
             <button type="button" class="app-nav-link" data-panel="emitir">{t.nav.emitir}</button>
             <button type="button" class="app-nav-link" data-panel="documentacion">{t.nav.documentacion}</button>
@@ -95,12 +91,6 @@ const dashboardsCtaHref = `mailto:${EMAIL}?subject=${encodeURIComponent(dashboar
         </aside>
 
         <div class="app-main">
-          <div class="portal-externo">
-            <p class="portal-externo-title">{t.portalExterno.title}</p>
-            <p class="portal-externo-desc">{t.portalExterno.desc}</p>
-            <iframe src="https://portal.portaldespacho.com/acceso/frame" width="220" height="180" title={t.portalExterno.title}></iframe>
-          </div>
-
           <div id="portal-admin-bar" class="portal-admin-bar" hidden>
             <span class="portal-admin-tag">
               {t.admin.bannerPrefix} <strong id="portal-admin-cliente-nombre"></strong>
@@ -228,137 +218,16 @@ const dashboardsCtaHref = `mailto:${EMAIL}?subject=${encodeURIComponent(dashboar
             <p id="beel-msg" class="portal-msg" hidden></p>
           </section>
 
-          <section class="app-panel" data-panel="dashboards">
-            <h2>{t.dashboards.title}</h2>
-            <div id="proximo-impuesto" class="portal-stats" hidden>
-              <div class="portal-stat">
-                <span class="portal-stat-value" id="stat-dias-impuesto">—</span>
-                <span class="portal-stat-label" id="stat-dias-impuesto-label">{t.dashboards.diasImpuestoLabel}</span>
-              </div>
-            </div>
-            <div id="calendario-fiscal" hidden>
-              <p class="field-group-label">{t.dashboards.calendarioTitle}</p>
-              <ul id="calendario-fiscal-list" class="calendario-fiscal-list"></ul>
-            </div>
-            <div id="panel-reporting-off" hidden>
-              <div class="portal-stats">
-                <div class="portal-stat">
-                  <span class="portal-stat-value" id="stat-facturas-mes">—</span>
-                  <span class="portal-stat-label">{t.dashboards.facturasMes}</span>
-                </div>
-                <div class="portal-stat">
-                  <span class="portal-stat-value" id="stat-facturas-media">—</span>
-                  <span class="portal-stat-label">{t.dashboards.facturasMedia}</span>
-                </div>
-              </div>
-              <div class="portal-empty">
-                <p>{t.dashboards.reportingOffIntro}</p>
-                <ul class="finanzas-preview-list">
-                  {t.dashboards.reportingOffList.map((it) => (
-                    <li><strong>{it.strong}</strong>{it.rest}</li>
-                  ))}
-                </ul>
-                <p>{t.dashboards.reportingOffPrice}</p>
-              </div>
-              <a href={dashboardsCtaHref} class="btn btn-primary">{t.dashboards.reportingCta}</a>
-            </div>
-            <div id="panel-reporting-on" hidden>
-              <div id="finanzas-empty" class="portal-empty">
-                {t.dashboards.noData}
-              </div>
-              <div id="finanzas-datos" hidden>
-                <div class="finanzas-periodo-bar">
-                  <label for="finanzas-periodo-select">{t.dashboards.mesLabel}</label>
-                  <select id="finanzas-periodo-select"></select>
-                </div>
-                <p class="field-hint" id="finanzas-actualizado"></p>
+          <section class="app-panel" data-panel="inicio">
+            <h2>{t.portalExterno.title}</h2>
+            <p>{t.portalExterno.desc}</p>
+            <iframe class="portal-externo-frame" src="https://portal.portaldespacho.com/acceso/frame" width="220" height="180" title={t.portalExterno.title}></iframe>
+          </section>
 
-                <div class="portal-stats portal-stats-color">
-                  <div class="portal-stat">
-                    <span class="portal-stat-value is-good" id="stat-ingresos">—</span>
-                    <span class="portal-stat-label">{t.dashboards.ingresosMes}</span>
-                  </div>
-                  <div class="portal-stat">
-                    <span class="portal-stat-value is-bad" id="stat-gastos">—</span>
-                    <span class="portal-stat-label">{t.dashboards.gastosMes}</span>
-                  </div>
-                  <div class="portal-stat">
-                    <span class="portal-stat-value" id="stat-resultado">—</span>
-                    <span class="portal-stat-label">{t.dashboards.resultadoMes}</span>
-                  </div>
-                  <div class="portal-stat" id="tesoreria-card">
-                    <span class="portal-stat-value" id="stat-tesoreria">—</span>
-                    <span class="portal-stat-label">{t.dashboards.tesoreria}</span>
-                  </div>
-                </div>
-
-                <h3 class="finanzas-subtitle">{t.dashboards.evolucionTitle}</h3>
-                <div id="finanzas-evolucion" class="finanzas-evolucion"></div>
-                <div class="finanzas-evo-legend">
-                  <span><i class="dot" style="background:var(--accent)"></i> {t.dashboards.legendIngresos}</span>
-                  <span><i class="dot" style="background:var(--warm)"></i> {t.dashboards.legendGastos}</span>
-                  <span><i class="dot" style="background:var(--ink)"></i> {t.dashboards.legendBeneficio}</span>
-                </div>
-
-                <h3 class="finanzas-subtitle">{t.dashboards.acumuladoTitle}</h3>
-                <div class="portal-stats portal-stats-color">
-                  <div class="portal-stat">
-                    <span class="portal-stat-value is-good" id="stat-ingresos-ytd">—</span>
-                    <span class="portal-stat-label">{t.dashboards.ingresosAcum}</span>
-                  </div>
-                  <div class="portal-stat">
-                    <span class="portal-stat-value is-bad" id="stat-gastos-ytd">—</span>
-                    <span class="portal-stat-label">{t.dashboards.gastosAcum}</span>
-                  </div>
-                  <div class="portal-stat">
-                    <span class="portal-stat-value" id="stat-beneficio-ytd">—</span>
-                    <span class="portal-stat-label">{t.dashboards.beneficioAcum}</span>
-                  </div>
-                </div>
-
-                <h3 class="finanzas-subtitle">{t.dashboards.gastosTipoTitle}</h3>
-                <p id="gastosCategoriaEmpty" class="factura-empty" hidden>{t.dashboards.gastosTipoEmpty}</p>
-                <div id="gastosCategoriaList" class="finanzas-barlist"></div>
-
-                <h3 class="finanzas-subtitle">{t.dashboards.ivaTitle}</h3>
-                <div class="finanzas-detalle">
-                  <div class="finanzas-detalle-linea"><span>{t.dashboards.ivaRepercutido}</span><span id="iva-repercutido">—</span></div>
-                  <div class="finanzas-detalle-linea"><span>{t.dashboards.ivaSoportado}</span><span id="iva-soportado">—</span></div>
-                  <div class="finanzas-detalle-linea"><span>{t.dashboards.ivaCompensar}</span><span id="iva-compensar">—</span></div>
-                  <div class="finanzas-detalle-linea finanzas-detalle-total"><span id="iva-resultado-label">{t.dashboards.ivaResultado}</span><span id="iva-resultado-final">—</span></div>
-                </div>
-
-                <div id="modelo-130-section">
-                  <h3 class="finanzas-subtitle">{t.dashboards.m130Title}</h3>
-                  <div class="finanzas-detalle">
-                    <div class="finanzas-detalle-linea"><span>{t.dashboards.m130Ingresos}</span><span id="m130-ingresos">—</span></div>
-                    <div class="finanzas-detalle-linea"><span>{t.dashboards.m130Gastos}</span><span id="m130-gastos">—</span></div>
-                    <div class="finanzas-detalle-linea"><span>{t.dashboards.m130Rendimiento}</span><span id="m130-rendimiento">—</span></div>
-                    <div class="finanzas-detalle-linea"><span>{t.dashboards.m130Retenciones}</span><span id="m130-retenciones">—</span></div>
-                    <div class="finanzas-detalle-linea"><span>{t.dashboards.m130Anteriores}</span><span id="m130-anteriores">—</span></div>
-                    <div class="finanzas-detalle-linea finanzas-detalle-total"><span>{t.dashboards.m130Pago}</span><span id="m130-pago">—</span></div>
-                  </div>
-                </div>
-
-                <h3 class="finanzas-subtitle">{t.dashboards.pendientesTitle} <span class="finanzas-actual-tag">{t.dashboards.pendientesTag}</span></h3>
-                <div class="finanzas-pendientes">
-                  <div>
-                    <p class="field-group-label">{t.dashboards.cobrosTitle}</p>
-                    <p id="cobrosEmpty" class="factura-empty" hidden>{t.dashboards.cobrosEmpty}</p>
-                    <ul id="cobrosList" class="factura-list"></ul>
-                  </div>
-                  <div>
-                    <p class="field-group-label">{t.dashboards.pagosTitle}</p>
-                    <p id="pagosEmpty" class="factura-empty" hidden>{t.dashboards.pagosEmpty}</p>
-                    <ul id="pagosList" class="factura-list"></ul>
-                  </div>
-                </div>
-
-                <p class="field-hint finanzas-disclaimer">
-                  {t.dashboards.disclaimer}
-                </p>
-              </div>
-            </div>
+          <section class="app-panel" data-panel="prevision" hidden>
+            <h2>{t.prevision.title}</h2>
+            <p>{t.prevision.pronto}</p>
+            <p>{t.prevision.otraInfoPre}<a href={`mailto:${EMAIL}`}>{EMAIL}</a>{t.prevision.otraInfoPost}</p>
           </section>
 
           <section class="app-panel" data-panel="facturas" hidden>
@@ -368,7 +237,7 @@ const dashboardsCtaHref = `mailto:${EMAIL}?subject=${encodeURIComponent(dashboar
               <input type="file" id="facturaFile" accept="application/pdf,image/jpeg,image/png,image/webp" multiple required aria-label={t.facturas.title} />
               <button type="submit" class="btn btn-primary">{t.facturas.submit}</button>
               <button type="button" id="facturaCameraBtn" class="btn btn-outline factura-camera-btn">{t.facturas.cameraSubmit}</button>
-              <input type="file" id="facturaCamera" accept="image/*" capture="environment" hidden aria-label={t.facturas.cameraSubmit} />
+              <input type="file" id="facturaCamera" accept="image/*,.heic,.heif" capture="environment" hidden aria-label={t.facturas.cameraSubmit} />
             </form>
             <p id="facturaMsg" class="portal-msg" hidden></p>
             <p id="facturaEmpty" class="factura-empty" hidden>{t.facturas.empty}</p>
@@ -466,18 +335,7 @@ const dashboardsCtaHref = `mailto:${EMAIL}?subject=${encodeURIComponent(dashboar
     background: color-mix(in srgb, var(--accent) 12%, transparent);
   }
 
-  .portal-externo {
-    display: grid;
-    gap: 0.4rem;
-    padding: 1rem;
-    margin-bottom: 1.4rem;
-    border: 1px solid var(--accent);
-    border-radius: 10px;
-    background: color-mix(in srgb, var(--accent) 6%, transparent);
-  }
-  .portal-externo-title { font-weight: 600; margin: 0; }
-  .portal-externo-desc { color: var(--ink-soft); font-size: 0.9rem; margin: 0; }
-  .portal-externo iframe { border: none; border-radius: 6px; }
+  .portal-externo-frame { border: none; border-radius: 6px; display: block; margin-top: 0.75rem; }
 
   .portal-admin-bar {
     display: flex;
@@ -536,7 +394,6 @@ const dashboardsCtaHref = `mailto:${EMAIL}?subject=${encodeURIComponent(dashboar
 
 <script>
   import { getSupabaseBrowser } from '../../lib/supabaseClient';
-  import { proximasPresentaciones } from '../../lib/modelosFiscales';
 
   // Textos que necesita este script (viajan serializados desde el servidor,
   // ya en el idioma de la página) y locale para formatear fechas/importes.
@@ -562,49 +419,7 @@ const dashboardsCtaHref = `mailto:${EMAIL}?subject=${encodeURIComponent(dashboar
   const adminClienteSelect = document.getElementById('portal-admin-cliente-select') as HTMLSelectElement;
   const adminClienteNombre = document.getElementById('portal-admin-cliente-nombre') as HTMLElement;
 
-  const reportingOffEl = document.getElementById('panel-reporting-off') as HTMLElement;
-  const reportingOnEl = document.getElementById('panel-reporting-on') as HTMLElement;
-  const statFacturasMesEl = document.getElementById('stat-facturas-mes') as HTMLElement;
-  const statFacturasMediaEl = document.getElementById('stat-facturas-media') as HTMLElement;
-
-  const proximoImpuestoEl = document.getElementById('proximo-impuesto') as HTMLElement;
-  const statDiasImpuestoEl = document.getElementById('stat-dias-impuesto') as HTMLElement;
-  const statDiasImpuestoLabelEl = document.getElementById('stat-dias-impuesto-label') as HTMLElement;
-  const calendarioFiscalEl = document.getElementById('calendario-fiscal') as HTMLElement;
-  const calendarioFiscalListEl = document.getElementById('calendario-fiscal-list') as HTMLElement;
   const dudaRapidaWhatsappEl = document.getElementById('duda-rapida-whatsapp') as HTMLAnchorElement;
-
-  const finanzasEmptyEl = document.getElementById('finanzas-empty') as HTMLElement;
-  const finanzasDatosEl = document.getElementById('finanzas-datos') as HTMLElement;
-  const finanzasPeriodoSelectEl = document.getElementById('finanzas-periodo-select') as HTMLSelectElement;
-  const finanzasActualizadoEl = document.getElementById('finanzas-actualizado') as HTMLElement;
-  const statIngresosEl = document.getElementById('stat-ingresos') as HTMLElement;
-  const statGastosEl = document.getElementById('stat-gastos') as HTMLElement;
-  const statResultadoEl = document.getElementById('stat-resultado') as HTMLElement;
-  const statTesoreriaEl = document.getElementById('stat-tesoreria') as HTMLElement;
-  const tesoreriaCardEl = document.getElementById('tesoreria-card') as HTMLElement;
-  const modelo130SectionEl = document.getElementById('modelo-130-section') as HTMLElement;
-  const statIngresosYtdEl = document.getElementById('stat-ingresos-ytd') as HTMLElement;
-  const statGastosYtdEl = document.getElementById('stat-gastos-ytd') as HTMLElement;
-  const statBeneficioYtdEl = document.getElementById('stat-beneficio-ytd') as HTMLElement;
-  const finanzasEvolucionEl = document.getElementById('finanzas-evolucion') as HTMLElement;
-  const gastosCategoriaEmptyEl = document.getElementById('gastosCategoriaEmpty') as HTMLElement;
-  const gastosCategoriaListEl = document.getElementById('gastosCategoriaList') as HTMLElement;
-  const ivaRepercutidoEl = document.getElementById('iva-repercutido') as HTMLElement;
-  const ivaSoportadoEl = document.getElementById('iva-soportado') as HTMLElement;
-  const ivaCompensarEl = document.getElementById('iva-compensar') as HTMLElement;
-  const ivaResultadoLabelEl = document.getElementById('iva-resultado-label') as HTMLElement;
-  const ivaResultadoFinalEl = document.getElementById('iva-resultado-final') as HTMLElement;
-  const m130IngresosEl = document.getElementById('m130-ingresos') as HTMLElement;
-  const m130GastosEl = document.getElementById('m130-gastos') as HTMLElement;
-  const m130RendimientoEl = document.getElementById('m130-rendimiento') as HTMLElement;
-  const m130RetencionesEl = document.getElementById('m130-retenciones') as HTMLElement;
-  const m130AnterioresEl = document.getElementById('m130-anteriores') as HTMLElement;
-  const m130PagoEl = document.getElementById('m130-pago') as HTMLElement;
-  const cobrosEmptyEl = document.getElementById('cobrosEmpty') as HTMLElement;
-  const cobrosListEl = document.getElementById('cobrosList') as HTMLElement;
-  const pagosEmptyEl = document.getElementById('pagosEmpty') as HTMLElement;
-  const pagosListEl = document.getElementById('pagosList') as HTMLElement;
 
   const docPresentacionAutonomoEl = document.getElementById('doc-presentacion-autonomo') as HTMLElement;
   const docPresentacionSlEl = document.getElementById('doc-presentacion-sl') as HTMLElement;
@@ -641,59 +456,10 @@ const dashboardsCtaHref = `mailto:${EMAIL}?subject=${encodeURIComponent(dashboar
     });
   });
 
-  function renderReportingPanel(hasReporting: boolean) {
-    reportingOffEl.hidden = hasReporting;
-    reportingOnEl.hidden = !hasReporting;
-  }
-
   // El email está siempre disponible; el WhatsApp solo si `clientes.contacto_whatsapp`
   // lo marca (no todos los planes lo incluyen — ver nota en schema.sql).
   function renderDudaRapida(tieneWhatsapp: boolean) {
     dudaRapidaWhatsappEl.hidden = !tieneWhatsapp;
-  }
-
-  // Independiente de `reporting`: saber cuándo toca presentar impuestos es
-  // información básica de gestoría, no una funcionalidad de pago. Se oculta
-  // solo si el cliente todavía no tiene ningún modelo marcado en Supabase.
-  function renderProximoImpuesto(modelos: string[]) {
-    // Las próximas 4 fechas distintas: la primera es el stat grande de
-    // siempre ("días hasta..."), las 3 siguientes forman el calendario de
-    // debajo — así el cliente ve no solo lo más urgente, sino qué más tiene
-    // por delante sin tener que preguntarnos.
-    const proximas = proximasPresentaciones(modelos, 4);
-    const proxima = proximas[0] ?? null;
-
-    proximoImpuestoEl.hidden = !proxima;
-    if (proxima) {
-      statDiasImpuestoEl.textContent = String(proxima.dias);
-      const fechaTexto = proxima.fecha.toLocaleDateString(LOCALE, { day: '2-digit', month: '2-digit', year: 'numeric' });
-      // Varios modelos suelen compartir la misma fecha (130/111/303 se
-      // presentan el mismo día): se listan todos, no solo el primero.
-      const codigos = proxima.modelos.map((m) => m.modelo);
-      const listaModelos =
-        codigos.length > 1
-          ? `${codigos.slice(0, -1).join(', ')} ${I18N.dashboards.joinY} ${codigos[codigos.length - 1]}`
-          : codigos[0];
-      const prefijo = codigos.length > 1 ? I18N.dashboards.diasHastaModeloPlur : I18N.dashboards.diasHastaModeloSing;
-      statDiasImpuestoLabelEl.textContent = `${prefijo} ${listaModelos} (${fechaTexto})`;
-    }
-
-    const resto = proximas.slice(1);
-    calendarioFiscalEl.hidden = resto.length === 0;
-    calendarioFiscalListEl.innerHTML = '';
-    for (const item of resto) {
-      const fechaTexto = item.fecha.toLocaleDateString(LOCALE, { day: '2-digit', month: '2-digit', year: 'numeric' });
-      const nombres = item.modelos.map((m) => m.nombre).join(' · ');
-      const li = document.createElement('li');
-      li.className = 'calendario-fiscal-item';
-      const spanFecha = document.createElement('span');
-      spanFecha.className = 'calendario-fiscal-fecha';
-      spanFecha.textContent = fechaTexto;
-      const spanNombre = document.createElement('span');
-      spanNombre.textContent = nombres;
-      li.append(spanFecha, spanNombre);
-      calendarioFiscalListEl.appendChild(li);
-    }
   }
 
   // tipo_persona: 'autonomo' | 'sl' | null (todavía sin marcar por el equipo).
@@ -703,37 +469,6 @@ const dashboardsCtaHref = `mailto:${EMAIL}?subject=${encodeURIComponent(dashboar
     docPresentacionPendienteEl.hidden = tipoPersona === 'autonomo' || tipoPersona === 'sl';
   }
 
-  // Tesorería no aplica a autónomos (mezcla caja personal/negocio, no es una
-  // métrica útil para ellos); modelo 130 es pago fraccionado de IRPF, no
-  // aplica a SL (tributan por Impuesto de Sociedades, modelo 202). Si
-  // tipo_persona todavía no está marcado (null), se muestran ambos por
-  // defecto en vez de ocultar información sin saber a quién aplica.
-  function renderFinanzasVisibilidadPorTipo(tipoPersona: string | null) {
-    tesoreriaCardEl.hidden = tipoPersona === 'autonomo';
-    modelo130SectionEl.hidden = tipoPersona === 'sl';
-  }
-
-  // "Media de facturas al mes" se calcula solo sobre los meses en los que
-  // ya hay al menos una factura subida (no desde el alta del cliente): así
-  // un cliente recién incorporado sin histórico no arranca con una media
-  // engañosamente baja por meses sin actividad todavía.
-  function renderFacturaStats(rows: { fecha_subida: string }[]) {
-    const now = new Date();
-    const mesActualKey = `${now.getFullYear()}-${now.getMonth()}`;
-    const mesesConFacturas = new Set<string>();
-    let facturasEsteMes = 0;
-
-    rows.forEach((row) => {
-      const fecha = new Date(row.fecha_subida);
-      const key = `${fecha.getFullYear()}-${fecha.getMonth()}`;
-      mesesConFacturas.add(key);
-      if (key === mesActualKey) facturasEsteMes++;
-    });
-
-    statFacturasMesEl.textContent = String(facturasEsteMes);
-    statFacturasMediaEl.textContent = rows.length > 0 ? (rows.length / mesesConFacturas.size).toFixed(1) : '0';
-  }
-
   const supabase = getSupabaseBrowser();
 
   if (!supabase) {
@@ -741,10 +476,6 @@ const dashboardsCtaHref = `mailto:${EMAIL}?subject=${encodeURIComponent(dashboar
   } else {
     function formatFecha(iso: string) {
       return new Date(iso).toLocaleDateString(LOCALE, { day: '2-digit', month: '2-digit', year: 'numeric' });
-    }
-
-    function formatEur(v: number) {
-      return new Intl.NumberFormat(LOCALE, { style: 'currency', currency: 'EUR' }).format(v);
     }
 
     // Id interno de clientes (no el auth.uid() de la sesión) — es lo que
@@ -761,7 +492,6 @@ const dashboardsCtaHref = `mailto:${EMAIL}?subject=${encodeURIComponent(dashboar
       facturaList.innerHTML = '';
       const rows = !error && data ? data : [];
       facturaEmpty.hidden = rows.length > 0;
-      renderFacturaStats(rows);
 
       rows.forEach((row) => {
         const li = document.createElement('li');
@@ -804,303 +534,10 @@ const dashboardsCtaHref = `mailto:${EMAIL}?subject=${encodeURIComponent(dashboar
       });
     }
 
-    type Pendiente = { nombre: string | null; fecha_vencimiento: string | null; importe: number };
-
-    function renderPendienteList(listEl: HTMLElement, emptyEl: HTMLElement, rows: Pendiente[]) {
-      listEl.innerHTML = '';
-      emptyEl.hidden = rows.length > 0;
-
-      rows.forEach((row) => {
-        const li = document.createElement('li');
-
-        const nombre = document.createElement('div');
-        nombre.className = 'factura-nombre';
-        nombre.textContent = row.nombre || I18N.dashboards.sinNombre;
-        li.appendChild(nombre);
-
-        const meta = document.createElement('div');
-        meta.className = 'factura-meta';
-        const fecha = row.fecha_vencimiento
-          ? `${I18N.dashboards.vencePrefix} ${formatFecha(row.fecha_vencimiento)}`
-          : I18N.dashboards.sinVencimiento;
-        meta.textContent = `${fecha} · ${formatEur(row.importe ?? 0)}`;
-        li.appendChild(meta);
-
-        listEl.appendChild(li);
-      });
-    }
-
-    const CATEGORIA_COLORS = ['var(--accent)', 'var(--warm)', 'var(--accent-strong)', 'color-mix(in srgb, var(--accent) 50%, var(--warm) 50%)'];
-
-    // Para importes donde positivo = "toca pagar" (IVA a pagar, por ejemplo).
-    function setSigno(el: HTMLElement, valor: number) {
-      el.classList.toggle('is-bad', valor > 0);
-      el.classList.toggle('is-good', valor <= 0);
-    }
-
-    // Para importes donde positivo = bueno (beneficio, tesorería a favor).
-    function setSignoInvertido(el: HTMLElement, valor: number) {
-      el.classList.toggle('is-good', valor >= 0);
-      el.classList.toggle('is-bad', valor < 0);
-    }
-
-    const SVG_NS = 'http://www.w3.org/2000/svg';
-
-    // Grafico de lineas (ingresos/gastos/beneficio) en SVG a mano, sin
-    // libreria: tres <polyline> sobre un viewBox fijo, con un punto <circle>
-    // por mes (con su valor exacto como title, al pasar el raton) y una
-    // linea de base en cero si el rango de valores la cruza (para que un
-    // beneficio negativo se vea claramente por debajo de la linea).
-    function renderEvolucion(rows: { periodo: string; ingresos: number; gastos: number }[]) {
-      finanzasEvolucionEl.innerHTML = '';
-      if (rows.length === 0) {
-        const p = document.createElement('p');
-        p.className = 'factura-empty';
-        p.textContent = I18N.dashboards.evolucionEmpty;
-        finanzasEvolucionEl.appendChild(p);
-        return;
-      }
-
-      const puntos = rows.map((r) => ({ periodo: r.periodo, ingresos: r.ingresos, gastos: r.gastos, beneficio: r.ingresos - r.gastos }));
-      const valores = puntos.flatMap((p) => [p.ingresos, p.gastos, p.beneficio]);
-      const W = 640;
-      const H = 200;
-      const PAD_X = 20;
-      const PAD_Y = 18;
-      const max = Math.max(...valores, 0);
-      const min = Math.min(...valores, 0);
-      const rango = Math.max(max - min, 1);
-      const stepX = puntos.length > 1 ? (W - PAD_X * 2) / (puntos.length - 1) : 0;
-      const x = (i: number) => PAD_X + i * stepX;
-      const y = (v: number) => H - PAD_Y - ((v - min) / rango) * (H - PAD_Y * 2);
-
-      const svg = document.createElementNS(SVG_NS, 'svg');
-      svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
-      svg.setAttribute('class', 'finanzas-evo-svg');
-      svg.setAttribute('preserveAspectRatio', 'none');
-
-      if (min < 0 && max > 0) {
-        const baseline = document.createElementNS(SVG_NS, 'line');
-        baseline.setAttribute('x1', String(PAD_X));
-        baseline.setAttribute('x2', String(W - PAD_X));
-        baseline.setAttribute('y1', String(y(0)));
-        baseline.setAttribute('y2', String(y(0)));
-        baseline.setAttribute('class', 'finanzas-evo-baseline');
-        svg.appendChild(baseline);
-      }
-
-      const series: { valores: number[]; color: string }[] = [
-        { valores: puntos.map((p) => p.ingresos), color: 'var(--accent)' },
-        { valores: puntos.map((p) => p.gastos), color: 'var(--warm)' },
-        { valores: puntos.map((p) => p.beneficio), color: 'var(--ink)' },
-      ];
-
-      series.forEach((s) => {
-        const polyline = document.createElementNS(SVG_NS, 'polyline');
-        polyline.setAttribute('points', s.valores.map((v, i) => `${x(i)},${y(v)}`).join(' '));
-        polyline.setAttribute('class', 'finanzas-evo-line');
-        polyline.setAttribute('style', `stroke:${s.color}`);
-        svg.appendChild(polyline);
-
-        s.valores.forEach((v, i) => {
-          const circle = document.createElementNS(SVG_NS, 'circle');
-          circle.setAttribute('cx', String(x(i)));
-          circle.setAttribute('cy', String(y(v)));
-          circle.setAttribute('r', '3.5');
-          circle.setAttribute('style', `fill:${s.color}`);
-          const title = document.createElementNS(SVG_NS, 'title');
-          title.textContent = formatEur(v);
-          circle.appendChild(title);
-          svg.appendChild(circle);
-        });
-      });
-
-      finanzasEvolucionEl.appendChild(svg);
-
-      const labels = document.createElement('div');
-      labels.className = 'finanzas-evo-labels';
-      puntos.forEach((p) => {
-        const span = document.createElement('span');
-        span.textContent = new Date(p.periodo).toLocaleDateString(LOCALE, { month: 'short', year: '2-digit' });
-        labels.appendChild(span);
-      });
-      finanzasEvolucionEl.appendChild(labels);
-    }
-
-    function renderGastosCategoria(rows: { categoria: string; importe: number }[]) {
-      gastosCategoriaListEl.innerHTML = '';
-      gastosCategoriaEmptyEl.hidden = rows.length > 0;
-      if (rows.length === 0) return;
-
-      const ordenado = [...rows].sort((a, b) => b.importe - a.importe);
-      const max = Math.max(...ordenado.map((r) => r.importe), 1);
-
-      ordenado.forEach((row, i) => {
-        const wrap = document.createElement('div');
-        wrap.className = 'finanzas-bar-row';
-
-        const label = document.createElement('div');
-        label.className = 'finanzas-bar-label';
-        const nombre = document.createElement('span');
-        nombre.textContent = row.categoria;
-        const amt = document.createElement('span');
-        amt.className = 'amt';
-        amt.textContent = formatEur(row.importe);
-        label.appendChild(nombre);
-        label.appendChild(amt);
-        wrap.appendChild(label);
-
-        const track = document.createElement('div');
-        track.className = 'finanzas-bar-track';
-        const fill = document.createElement('div');
-        fill.className = 'finanzas-bar-fill';
-        fill.style.width = `${Math.max(2, (row.importe / max) * 100)}%`;
-        fill.style.background = CATEGORIA_COLORS[i % CATEGORIA_COLORS.length];
-        track.appendChild(fill);
-        wrap.appendChild(track);
-
-        gastosCategoriaListEl.appendChild(wrap);
-      });
-    }
-
-    type PeriodoRow = {
-      periodo: string;
-      ingresos: number;
-      gastos: number;
-      tesoreria: number;
-      iva_repercutido: number;
-      iva_soportado: number;
-      iva_a_compensar: number;
-      pago_fraccionado_130_anteriores: number;
-      pago_fraccionado_130: number;
-      ingresos_ytd: number;
-      gastos_ytd: number;
-      retenciones_soportadas_ytd: number;
-      sincronizado_at: string;
-    };
-
-    // Pinta los paneles que dependen del mes elegido en el desplegable: KPIs
-    // del mes, IVA y 130 (estos dos usan los campos *_ytd/*_a_compensar tal
-    // como se guardaron en esa fila — cada fila de dashboard_periodos ya
-    // lleva su propio acumulado del año calculado en su momento, asi que
-    // elegir un mes antiguo enseña el acumulado tal como estaba entonces,
-    // no el de hoy) y los gastos por categoria (desde el 1 de enero del año
-    // de ese periodo hasta ese mismo periodo, no mas alla).
-    async function pintarPeriodo(clienteId: string, row: PeriodoRow) {
-      const actualizado = new Date(row.sincronizado_at);
-      finanzasActualizadoEl.textContent = `${I18N.dashboards.updatedPrefix} ${actualizado.toLocaleDateString(LOCALE, { day: '2-digit', month: '2-digit', year: 'numeric' })}`;
-
-      const ingresos = Number(row.ingresos) || 0;
-      const gastos = Number(row.gastos) || 0;
-      const resultado = ingresos - gastos;
-      const tesoreria = Number(row.tesoreria) || 0;
-      statIngresosEl.textContent = formatEur(ingresos);
-      statGastosEl.textContent = formatEur(gastos);
-      statResultadoEl.textContent = formatEur(resultado);
-      statTesoreriaEl.textContent = formatEur(tesoreria);
-      setSignoInvertido(statResultadoEl, resultado);
-      setSignoInvertido(statTesoreriaEl, tesoreria);
-
-      const ingresosYtd = Number(row.ingresos_ytd) || 0;
-      const gastosYtd = Number(row.gastos_ytd) || 0;
-      const beneficioYtd = ingresosYtd - gastosYtd;
-      statIngresosYtdEl.textContent = formatEur(ingresosYtd);
-      statGastosYtdEl.textContent = formatEur(gastosYtd);
-      statBeneficioYtdEl.textContent = formatEur(beneficioYtd);
-      setSignoInvertido(statBeneficioYtdEl, beneficioYtd);
-
-      const ivaRepercutido = Number(row.iva_repercutido) || 0;
-      const ivaSoportado = Number(row.iva_soportado) || 0;
-      const ivaCompensar = Number(row.iva_a_compensar) || 0;
-      const ivaResultadoFinal = ivaRepercutido - ivaSoportado - ivaCompensar;
-      ivaRepercutidoEl.textContent = formatEur(ivaRepercutido);
-      ivaSoportadoEl.textContent = formatEur(ivaSoportado);
-      ivaCompensarEl.textContent = formatEur(ivaCompensar);
-      ivaResultadoLabelEl.textContent = ivaResultadoFinal >= 0 ? I18N.dashboards.ivaResultadoPagar : I18N.dashboards.ivaResultadoDevolver;
-      ivaResultadoFinalEl.textContent = formatEur(ivaResultadoFinal);
-      setSigno(ivaResultadoFinalEl, ivaResultadoFinal);
-
-      const rendimientoNeto = ingresosYtd - gastosYtd;
-      m130IngresosEl.textContent = formatEur(ingresosYtd);
-      m130GastosEl.textContent = formatEur(gastosYtd);
-      m130RendimientoEl.textContent = formatEur(rendimientoNeto);
-      m130RetencionesEl.textContent = formatEur(Number(row.retenciones_soportadas_ytd) || 0);
-      m130AnterioresEl.textContent = formatEur(Number(row.pago_fraccionado_130_anteriores) || 0);
-      m130PagoEl.textContent = formatEur(Number(row.pago_fraccionado_130) || 0);
-
-      const anioIniStr = `${new Date(row.periodo).getFullYear()}-01-01`;
-      const { data: gastosCategoria } = await supabase!
-        .from('dashboard_gastos_categoria')
-        .select('categoria, importe')
-        .eq('cliente_id', clienteId)
-        .gte('periodo', anioIniStr)
-        .lte('periodo', row.periodo);
-
-      const acumuladoCategoria = new Map<string, number>();
-      ((gastosCategoria ?? []) as { categoria: string; importe: number }[]).forEach((r) => {
-        acumuladoCategoria.set(r.categoria, (acumuladoCategoria.get(r.categoria) ?? 0) + (Number(r.importe) || 0));
-      });
-      renderGastosCategoria(Array.from(acumuladoCategoria, ([categoria, importe]) => ({ categoria, importe })));
-    }
-
-    // El desplegable de mes y el grafico de evolucion usan los ultimos 12
-    // meses de dashboard_periodos — el sincronizador manda un upsert por mes
-    // cada vez que corre, asi que el historico se va acumulando solo. Los
-    // cobros/pagos pendientes NO dependen del mes elegido (esa tabla no
-    // guarda historico, siempre es el estado actual — ver comentario en
-    // schema.sql), asi que se cargan una sola vez aqui.
-    async function renderFinanzas(clienteId: string) {
-      const { data: periodos } = await supabase!
-        .from('dashboard_periodos')
-        .select(
-          'periodo, ingresos, gastos, tesoreria, iva_repercutido, iva_soportado, iva_a_compensar, pago_fraccionado_130_anteriores, pago_fraccionado_130, ingresos_ytd, gastos_ytd, retenciones_soportadas_ytd, sincronizado_at'
-        )
-        .eq('cliente_id', clienteId)
-        .order('periodo', { ascending: false })
-        .limit(12);
-
-      const rows = (periodos ?? []) as PeriodoRow[];
-      const ultimo = rows.length > 0 ? rows[0] : null;
-      finanzasEmptyEl.hidden = ultimo !== null;
-      finanzasDatosEl.hidden = ultimo === null;
-      if (!ultimo) return;
-
-      finanzasPeriodoSelectEl.innerHTML = '';
-      rows.forEach((row) => {
-        const option = document.createElement('option');
-        option.value = row.periodo;
-        option.textContent = new Date(row.periodo).toLocaleDateString(LOCALE, { month: 'long', year: 'numeric' });
-        finanzasPeriodoSelectEl.appendChild(option);
-      });
-      finanzasPeriodoSelectEl.value = ultimo.periodo;
-      finanzasPeriodoSelectEl.onchange = () => {
-        const seleccionado = rows.find((r) => r.periodo === finanzasPeriodoSelectEl.value);
-        if (seleccionado) pintarPeriodo(clienteId, seleccionado);
-      };
-
-      renderEvolucion(
-        [...rows].reverse().map((r) => ({ periodo: r.periodo, ingresos: Number(r.ingresos) || 0, gastos: Number(r.gastos) || 0 }))
-      );
-
-      await pintarPeriodo(clienteId, ultimo);
-
-      const { data: pendientes } = await supabase!
-        .from('dashboard_pendientes')
-        .select('tipo, nombre, fecha_vencimiento, importe')
-        .eq('cliente_id', clienteId)
-        .order('fecha_vencimiento', { ascending: true });
-
-      const pendRows = (pendientes ?? []) as (Pendiente & { tipo: string })[];
-      renderPendienteList(cobrosListEl, cobrosEmptyEl, pendRows.filter((r) => r.tipo === 'cobro'));
-      renderPendienteList(pagosListEl, pagosEmptyEl, pendRows.filter((r) => r.tipo === 'pago'));
-    }
-
     type ClienteRow = {
       id: string;
       nombre: string;
-      reporting: boolean;
       tipo_persona: string | null;
-      modelos: string[] | null;
       email?: string | null;
       beel_contratado?: boolean;
       beel_estado?: string | null;
@@ -1128,11 +565,7 @@ const dashboardsCtaHref = `mailto:${EMAIL}?subject=${encodeURIComponent(dashboar
       }
       currentClienteId = cliente.id;
       nombreEl.textContent = cliente.nombre ?? '';
-      renderReportingPanel(Boolean(cliente.reporting));
-      renderProximoImpuesto(cliente.modelos ?? []);
-      if (cliente.reporting) renderFinanzas(cliente.id);
       renderDocumentacionPanel(cliente.tipo_persona ?? null);
-      renderFinanzasVisibilidadPorTipo(cliente.tipo_persona ?? null);
       renderFacturaList(cliente.id);
       renderDudaRapida(Boolean(cliente.contacto_whatsapp));
     }
@@ -1154,7 +587,7 @@ const dashboardsCtaHref = `mailto:${EMAIL}?subject=${encodeURIComponent(dashboar
 
       const { data, error } = await supabase!
         .from('clientes')
-        .select('id, nombre, email, reporting, tipo_persona, modelos, beel_contratado, beel_estado, beel_activado_prod_at, contacto_whatsapp')
+        .select('id, nombre, email, tipo_persona, beel_contratado, beel_estado, beel_activado_prod_at, contacto_whatsapp')
         .order('nombre', { ascending: true });
 
       adminClientes = (!error && data ? data : []) as ClienteRow[];
@@ -1222,7 +655,7 @@ const dashboardsCtaHref = `mailto:${EMAIL}?subject=${encodeURIComponent(dashboar
       // "unlinked", igual que antes.
       const { data: cliente } = await supabase!
         .from('clientes')
-        .select('id, nombre, reporting, tipo_persona, modelos, beel_contratado, contacto_whatsapp')
+        .select('id, nombre, tipo_persona, beel_contratado, contacto_whatsapp')
         .maybeSingle();
 
       if (!cliente) {
@@ -1569,20 +1002,59 @@ const dashboardsCtaHref = `mailto:${EMAIL}?subject=${encodeURIComponent(dashboar
 
     const FACTURA_TIPOS_ACEPTADOS = ['application/pdf', 'image/jpeg', 'image/png', 'image/webp'];
 
-    async function subirFacturas(files: File[]) {
-      if (files.length === 0) return;
+    const FACTURA_TIPO_POR_EXTENSION: Record<string, string> = { pdf: 'application/pdf', jpg: 'image/jpeg', jpeg: 'image/jpeg', png: 'image/png', webp: 'image/webp' };
 
-      if (files.some((f) => !FACTURA_TIPOS_ACEPTADOS.includes(f.type))) {
+    // Algunos móviles entregan la foto sin tipo o en HEIC: el tipo se deduce de
+    // la extensión y lo que el navegador sepa decodificar se pasa a JPEG.
+    async function normalizarFactura(file: File): Promise<File | null> {
+      if (FACTURA_TIPOS_ACEPTADOS.includes(file.type)) return file;
+      const ext = file.name.split('.').pop()?.toLowerCase() ?? '';
+      const tipo = FACTURA_TIPO_POR_EXTENSION[ext];
+      if (tipo) return new File([file], file.name, { type: tipo });
+      if (!file.type.startsWith('image/') && !/^(heic|heif)$/.test(ext)) return null;
+      try {
+        const imagen = await createImageBitmap(file);
+        const canvas = document.createElement('canvas');
+        canvas.width = imagen.width;
+        canvas.height = imagen.height;
+        canvas.getContext('2d')!.drawImage(imagen, 0, 0);
+        const jpeg = await new Promise<Blob | null>((resolve) => canvas.toBlob(resolve, 'image/jpeg', 0.9));
+        if (!jpeg) return null;
+        return new File([jpeg], file.name.replace(/\.[^.]*$/, '') + '.jpg', { type: 'image/jpeg' });
+      } catch {
+        return null;
+      }
+    }
+
+    // Storage rechaza claves con tildes y símbolos raros.
+    function nombreParaStorage(nombre: string): string {
+      return nombre.normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-zA-Z0-9._-]+/g, '_');
+    }
+
+    async function subirFacturas(originales: File[]) {
+      if (originales.length === 0) return;
+
+      const mostrarError = (texto: string) => {
         facturaMsg.hidden = false;
         facturaMsg.className = 'portal-msg is-error';
-        facturaMsg.textContent = I18N.facturas.onlyPdf;
+        facturaMsg.textContent = texto;
+        facturaForm.reset();
+      };
+
+      const normalizadas = await Promise.all(originales.map(normalizarFactura));
+      if (normalizadas.some((f) => f === null)) {
+        mostrarError(I18N.facturas.onlyPdf);
         return;
       }
+      const files = normalizadas as File[];
 
       const {
         data: { session },
       } = await supabase!.auth.getSession();
-      if (!session || !currentClienteId) return;
+      if (!session || !currentClienteId) {
+        mostrarError(I18N.facturas.failAll);
+        return;
+      }
       const clienteId = currentClienteId;
 
       facturaMsg.hidden = false;
@@ -1602,18 +1074,21 @@ const dashboardsCtaHref = `mailto:${EMAIL}?subject=${encodeURIComponent(dashboar
         // prefijar el propio nombre de archivo — mismo id que cliente_id en
         // facturas_subidas, para que carpeta y archivo sean identificables a
         // mano (Drive, revisión manual) en vez de un uid opaco. El timestamp
-        // (día/mes-hora/minuto, hora local del navegador) evita que dos
-        // subidas del mismo archivo choquen de nombre — se usan guiones en
-        // vez de barras porque "/" en la ruta de Storage crearía subcarpetas.
+        // (día/mes-hora/minuto/segundo, hora local del navegador) y el sufijo
+        // aleatorio evitan que dos subidas choquen de nombre: el iPhone llama
+        // image.jpg a todas las fotos — se usan guiones en vez de barras
+        // porque "/" en la ruta de Storage crearía subcarpetas.
         const now = new Date();
         const pad = (n: number) => String(n).padStart(2, '0');
-        const timestamp = `${pad(now.getDate())}${pad(now.getMonth() + 1)}-${pad(now.getHours())}${pad(now.getMinutes())}`;
-        const path = `${clienteId}/${clienteId}-${timestamp}-${file.name}`;
+        const timestamp = `${pad(now.getDate())}${pad(now.getMonth() + 1)}-${pad(now.getHours())}${pad(now.getMinutes())}${pad(now.getSeconds())}`;
+        const sufijo = crypto.randomUUID().slice(0, 4);
+        const path = `${clienteId}/${clienteId}-${timestamp}-${sufijo}-${nombreParaStorage(file.name)}`;
         const { error } = await supabase!.storage.from('facturas').upload(path, file, {
           contentType: file.type,
         });
 
         if (error) {
+          console.error('facturas upload error:', error);
           fallos++;
           continue;
         }

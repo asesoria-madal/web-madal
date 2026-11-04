@@ -1404,10 +1404,10 @@ body.portal-app .portal-box { margin-top: 0; }
 .calendario-fiscal-fecha { font-weight: 600; white-space: nowrap; }
 .factura-upload { margin-top: 1.4rem; display: flex; gap: 0.7rem; flex-wrap: wrap; align-items: center; }
 .factura-upload input[type="file"] { font-size: 0.9rem; color: var(--ink-soft); }
-/* El atributo "capture" solo tiene efecto en móvil; en un dispositivo con
-   ratón (puntero fino) abrir la cámara no tiene sentido, así que el botón
-   de "hacer foto" se oculta ahí y solo queda el selector de archivo. */
-@media (pointer: fine) {
+/* El atributo "capture" solo tiene efecto en móvil. El botón de "hacer foto" se
+   oculta solo si no hay ninguna pantalla táctil: mirar únicamente el puntero
+   principal lo escondía en móviles que declaran un puntero fino (con lápiz). */
+@media not (any-pointer: coarse) {
   .factura-camera-btn { display: none; }
 }
 .factura-list { list-style: none; margin: 1.4rem 0 0; padding: 0; display: flex; flex-direction: column; gap: 0.5rem; }

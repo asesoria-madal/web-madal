@@ -31,6 +31,6 @@ You don't need a complex system to get started: a spreadsheet with these three c
 
 What matters isn't today's balance, but the lowest projected balance in the coming months. If the forecast shows that in a given month the balance will be very tight or negative, you have time to react (negotiate terms with a supplier, bring forward a payment, apply for a credit line) if you spot it weeks in advance — you don't have that room if you find out on the day itself.
 
-## This is exactly what good reporting should show you on its own
+## And to avoid nasty surprises with your taxes
 
-A well-built cash flow forecast, kept up to date with your real figures, is one of the tools with the most practical impact a small business can have — and it's one of the things we want to be able to automate for you with dashboards further down the line. In the meantime, we can build you a template for your real situation. Write to us at [contacto@asesoriamadal.es](mailto:contacto@asesoriamadal.es).
+A well-built cash flow forecast, kept up to date with your real figures, is one of the tools with the most practical impact a small business can have. With us you can already see your income, expenses and outstanding receipts and payments in the software we use for your accounting, and very soon a forecast of what you’ll pay in your upcoming taxes too. If you like, we can also build you a template for your real situation. Write to us at [contacto@asesoriamadal.es](mailto:contacto@asesoriamadal.es).

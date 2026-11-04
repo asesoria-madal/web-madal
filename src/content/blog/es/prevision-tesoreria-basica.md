@@ -31,6 +31,6 @@ No hace falta un sistema complejo para empezar: una hoja de cálculo con estas t
 
 Lo importante no es el saldo de hoy, sino el saldo mínimo previsto en los próximos meses. Si la previsión muestra que en un mes concreto el saldo va a quedar muy ajustado o en negativo, tienes tiempo de reaccionar (negociar un plazo con un proveedor, adelantar un cobro, pedir una línea de crédito) si lo ves con semanas de antelación — no tienes ese margen si te enteras el mismo día.
 
-## Esto es justo lo que un buen reporting debería mostrarte solo
+## Y para no llevarte sustos con los impuestos
 
-Una previsión de tesorería bien hecha, actualizada con tus datos reales, es de las herramientas con más impacto práctico que puede tener un negocio pequeño — y es una de las cosas que queremos poder automatizarte con dashboards más adelante. Mientras tanto, podemos montarte una plantilla con tu caso real. Escríbenos a [contacto@asesoriamadal.es](mailto:contacto@asesoriamadal.es).
+Una previsión de tesorería bien hecha, actualizada con tus datos reales, es de las herramientas con más impacto práctico que puede tener un negocio pequeño. Con nosotros ya tienes a la vista tus ingresos, gastos y cobros y pagos pendientes en el programa con el que llevamos tu contabilidad, y muy pronto también la previsión de lo que pagarás en tus próximos impuestos. Si quieres, podemos montarte además una plantilla con tu caso real. Escríbenos a [contacto@asesoriamadal.es](mailto:contacto@asesoriamadal.es).

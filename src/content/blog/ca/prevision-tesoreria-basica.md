@@ -31,6 +31,6 @@ No cal un sistema complex per començar: un full de càlcul amb aquestes tres co
 
 L'important no és el saldo d'avui, sinó el saldo mínim previst en els propers mesos. Si la previsió mostra que en un mes concret el saldo quedarà molt ajustat o en negatiu, tens temps de reaccionar (negociar un termini amb un proveïdor, avançar un cobrament, demanar una línia de crèdit) si ho veus amb setmanes d'antelació — no tens aquest marge si te n'assabentes el mateix dia.
 
-## Això és exactament el que un bon reporting t'hauria de mostrar sol
+## I per no endur-te ensurts amb els impostos
 
-Una previsió de tresoreria ben feta, actualitzada amb les teves dades reals, és de les eines amb més impacte pràctic que pot tenir un negoci petit — i és una de les coses que volem poder-te automatitzar amb dashboards més endavant. Mentrestant, et podem muntar una plantilla amb el teu cas real. Escriu-nos a [contacto@asesoriamadal.es](mailto:contacto@asesoriamadal.es).
+Una previsió de tresoreria ben feta, actualitzada amb les teves dades reals, és de les eines amb més impacte pràctic que pot tenir un negoci petit. Amb nosaltres ja tens a la vista els teus ingressos, despeses i cobraments i pagaments pendents al programa amb el qual portem la teva comptabilitat, i molt aviat també la previsió del que pagaràs en els teus propers impostos. Si vols, a més et podem muntar una plantilla amb el teu cas real. Escriu-nos a [contacto@asesoriamadal.es](mailto:contacto@asesoriamadal.es).
