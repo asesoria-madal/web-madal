@@ -318,7 +318,7 @@ alter table clientes add column if not exists alta_hecha boolean;
 -- escriba este campo. Sirve para dos cosas: (1) que el portal solo muestre
 -- "próximos impuestos a pagar" de los modelos que le tocan a cada cliente
 -- (a alguien sin retenciones de alquiler no se le avisa del 115), y (2) de
--- base para una futura sincronización con Visionwin (ver ARQUITECTURA.md),
+-- base para una futura sincronización con Cegid (ver ARQUITECTURA.md),
 -- que sabrá qué estimar por cliente a partir de esta misma lista.
 --
 -- Primer campo multivalor del esquema: se usa text[] (no jsonb) porque es
@@ -333,27 +333,27 @@ alter table clientes add column if not exists alta_hecha boolean;
 -- 200 (Impuesto de Sociedades anual, solo SL).
 alter table clientes add column if not exists modelos text[] not null default '{}';
 
--- visionwin_empresa_codigo: código de la empresa del cliente en Visionwin
--- (el ERP de contabilidad). Se rellena A MANO en el Table Editor cuando el
--- equipo da de alta al cliente y le crea su empresa en Visionwin — no hay
--- endpoint ni automatización que lo escriba, igual que alta_hecha/modelos.
+-- cegid_empresa_codigo: código de la empresa del cliente en Cegid (el ERP de
+-- contabilidad). Columna renombrada en producción el 2026-11-04. Lo escribe
+-- el workflow n8n "Acceso Cegid" cuando el equipo rellena «Código Cegid» en
+-- el deal de HubSpot, y también se puede poner a mano en el Table Editor.
 --
--- Para qué se usa: es el flag de "cliente ya configurado en Visionwin".
+-- Para qué se usa: es el flag de "cliente ya configurado en Cegid".
 -- El workflow n8n "Descarga de facturas" solo baja una factura del Storage
 -- a la carpeta de Drive del cliente si este ya tiene NIF Y
--- visionwin_empresa_codigo (nodo "¿Cliente listo?"). Si falta alguno de
+-- cegid_empresa_codigo (nodo "¿Cliente listo?"). Si falta alguno de
 -- los dos, la factura se queda en el Storage y se reintenta cada 12 h
 -- hasta que el equipo complete el alta — deliberado: no se archiva en
--- Drive la factura de un cliente que todavía no está montado en Visionwin.
+-- Drive la factura de un cliente que todavía no está montado en Cegid.
 --
 -- NO lo usa la sincronización de dashboards (dashboard_periodos, etc.):
--- esa vincula cada empresa de Visionwin con su cliente comparando el CIF
+-- esa vincula cada empresa del programa de contabilidad anterior con su cliente comparando el CIF
 -- de EMPRESA.DBF (normalizado) directamente contra clientes.id, que desde
 -- la migración a NIF ES el NIF. Una nota anterior de este archivo (y del
 -- bloque dashboard_periodos, más abajo) decía que la columna "ya no la usa
 -- nada": eso valía solo para ese sincronizador — el pipeline de facturas
 -- sí la usa.
-alter table clientes add column if not exists visionwin_empresa_codigo text;
+alter table clientes add column if not exists cegid_empresa_codigo text;
 
 alter table clientes enable row level security;
 
@@ -619,14 +619,14 @@ create policy "cliente registra su propia subida"
   );
 
 -- fecha_descargado / drive_file_id / drive_carpeta_pendientes_id: estados
--- del pipeline de contabilización automática (OCR de Visionwin). El
+-- del pipeline de contabilización automática (OCR del programa de contabilidad). El
 -- ciclo de una fila es:
 --   fecha_subida        -> el cliente sube la factura desde el portal
 --   fecha_descargado     -> n8n la baja de Storage y la sube a la carpeta
 --                           de Drive del cliente correspondiente
 --                           (1-contabilidad/<año>/<trimestre>/Pendientes),
 --                           solo si el cliente ya tiene NIF y
---                           visionwin_empresa_codigo asignados. Guarda a
+--                           cegid_empresa_codigo asignados. Guarda a
 --                           la vez drive_file_id (el archivo subido) y
 --                           drive_carpeta_pendientes_id (la carpeta
 --                           Pendientes en la que se dejó), para poder
@@ -635,8 +635,8 @@ create policy "cliente registra su propia subida"
 --   fecha_contabilizado  -> un segundo workflow detecta que
 --                           drive_file_id ya no vive en
 --                           drive_carpeta_pendientes_id (alguien lo
---                           movió a Contabilizadas tras pasar el OCR de
---                           Visionwin) y marca la fecha sola.
+--                           movió a Contabilizadas tras pasar el OCR del
+--                           programa de contabilidad) y marca la fecha sola.
 -- Los tres quedan NULL hasta completar ese paso — no hace falta editarlos
 -- a mano en el Table Editor.
 --
@@ -653,18 +653,19 @@ alter table facturas_subidas add column if not exists drive_carpeta_pendientes_i
 -- dashboard_periodos / dashboard_pendientes
 -- ---------------------------------------------------------------------
 -- Alimentadas una vez por semana por el sincronizador Java que lee los
--- .DBF de Visionwin (contabilidad@SOB-MARIO) y hace upsert aquí con la
--- service role key — no hay política de insert/update/delete, igual que
--- el resto de tablas de este proyecto.
+-- .DBF del programa de contabilidad anterior (contabilidad@SOB-MARIO) y hace
+-- upsert aquí con la service role key — no hay política de insert/update/delete,
+-- igual que el resto de tablas de este proyecto. Retirado el 2026-11-04: los
+-- clientes ven esa información en Cegid, así que no se va a rehacer contra él.
 --
 -- cliente_id es "text", igual que clientes.id — que desde la migración a
 -- NIF (ver más arriba) es directamente el NIF/CIF del cliente en
--- mayúsculas. El vínculo entre cada empresa de Visionwin y su cliente en
+-- mayúsculas. El vínculo entre cada empresa de ese programa y su cliente en
 -- Supabase se hace comparando el CIF de EMPRESA.DBF (normalizado:
 -- trim + mayúsculas) directamente contra clientes.id — este sincronizador
--- no necesita la columna clientes.visionwin_empresa_codigo. (Esa columna
--- sí sigue viva y en uso, pero para otra cosa: es el flag manual de
--- "cliente ya configurado en Visionwin" que usa el workflow "Descarga de
+-- no necesita la columna clientes.cegid_empresa_codigo. (Esa columna
+-- sí sigue viva y en uso, pero para otra cosa: es el flag de
+-- "cliente ya configurado en Cegid" que usa el workflow "Descarga de
 -- facturas" — ver la nota junto a la columna, más arriba.)
 --
 -- "on update cascade" por el mismo motivo que en facturas_subidas: si se
@@ -699,7 +700,7 @@ alter table dashboard_periodos add column if not exists iva_a_compensar numeric;
 alter table dashboard_periodos add column if not exists ingresos_ytd numeric;
 alter table dashboard_periodos add column if not exists gastos_ytd numeric;
 -- pago_fraccionado_130_anteriores (2026-08-26, segunda vuelta del mismo día):
--- suma de M130CAB.DBF (modelo 130 ya presentado en Visionwin) de trimestres
+-- suma de M130CAB.DBF (modelo 130 ya presentado en el programa anterior) de trimestres
 -- anteriores del mismo ejercicio — se resta del 20% acumulado para no pedir
 -- de más al cliente lo que ya pagó en un trimestre previo.
 alter table dashboard_periodos add column if not exists pago_fraccionado_130_anteriores numeric;
@@ -731,7 +732,7 @@ create policy "cliente ve sus propios gastos por categoria"
   on dashboard_gastos_categoria for select
   using (cliente_id in (select id from clientes where auth_user_id = auth.uid()));
 
--- No hay ids estables en COBROS.DBF/PAGOS.DBF de Visionwin, así que cada
+-- No hay ids estables en COBROS.DBF/PAGOS.DBF del programa anterior, así que cada
 -- sincronización borra y reinserta de golpe todas las filas del cliente
 -- (ver SupabaseSync.java) — esta tabla siempre refleja el estado exacto
 -- del último sync, no un histórico.

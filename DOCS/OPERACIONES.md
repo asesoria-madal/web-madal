@@ -59,7 +59,7 @@ Todos se hacen en el **Table Editor de Supabase**. Son exactamente las tareas qu
 |---|---|---|
 | Cliente nuevo contratado | Alta desde `/portal` (modo admin) > "+ Alta de cliente" (NIF, nombre, email, teléfono, idioma, plan, tipo, ¿tramitamos alta?, reporting, BeeL). Si se hace en el Table Editor, `id` = NIF/NIE en mayúsculas. n8n hace el resto (correos, HubSpot, carpeta de Drive). | Portal / tabla `clientes` |
 | Al configurar al cliente | Rellenar `tipo_persona` (`autonomo`/`sl`), `reporting` (bool), `modelos` (array: `{130,303,...}`), y `alta_hecha` si es autónomo (`true` = le tramitamos el alta, `false` = ya estaba de alta). | Tabla `clientes` |
-| Al crear su empresa en Visionwin | Rellenar `visionwin_empresa_codigo`. Es el flag de "cliente listo": sin NIF **y** este código, el workflow de facturas no baja nada. | Tabla `clientes` |
+| Al crear su empresa en Cegid y enviarle las credenciales | Rellenar «Código Cegid» en el deal. El workflow `Acceso Cegid` lo guarda en `cegid_empresa_codigo` y manda al cliente el correo de acceso. Es el flag de "cliente listo": sin NIF **y** este código, el workflow de facturas no baja nada. | Deal de HubSpot |
 | Factura ya bajada a Drive | Marcar `fecha_contabilizado = now()` en su fila. "Contabilizada" (en Drive) y `storage_path = null` (borrada del Storage) son **pasos independientes**. | Tabla `facturas_subidas` |
 | Nuevo administrador del portal | Añadir su `auth_user_id` (uuid de `auth.users`) a `portal_admins`. Bloque `ejecutar UNA VEZ` cerca del final de `schema.sql`. | SQL editor |
 
