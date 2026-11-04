@@ -121,12 +121,13 @@ Los endpoints de formularios y login (`portal-login`, `alta-autonomo`, `traspaso
 
 Los precios viven solo en `src/i18n/ui.ts` (sección `precios`): ya no hay simulador ni cálculo duplicado (retirado 2026-10-23).
 
-### Alta de clientes: dos caminos, ambos acaban en `clientes` + webhook `cliente-nuevo`
+### Alta de clientes: tres caminos, todos acaban en `clientes` + webhook `cliente-nuevo`
 
-Desde 2026-10-23 (el camino por presupuesto se retiró con el simulador) hay dos formas de que exista una fila en `clientes`; las dos disparan, por el trigger `AFTER INSERT`, el workflow n8n **Onboarding**:
+Desde 2026-10-23 (el camino por presupuesto se retiró con el simulador) hay tres formas de que exista una fila en `clientes`; las tres disparan, por el trigger `AFTER INSERT`, el workflow n8n **Onboarding**:
 
 1. **Alta manual desde el portal de admin** (`POST /api/alta-cliente`, exige sesión de `portal_admins`). Es el camino normal.
 2. **A mano en el Table Editor.**
+3. **Automática, si el formulario de alta o traspaso llega antes que el alta** (desde 2026-11-04): la crea `Responden formulario` con los datos del formulario y `enviar_formulario = false`. El idioma sale de la página del formulario (columna `idioma` de `alta_nuevos_autonomos` y `traspasos_nuevos`: `es` o `en`). Plan, reporting y BeeL se completan a mano: el equipo recibe el aviso «Ficha creada desde el formulario, revísala». Como en este camino no sale el correo de bienvenida de Onboarding, el cliente no recibe por ahí los datos de la transferencia de la primera mensualidad.
 
 Qué hace **Onboarding** (todo en el idioma `clientes.idioma`; a un cliente en inglés se le enlaza el formulario en inglés; en catalán no hay formulario y el correo avisa de que va en castellano; la guía PDF solo existe en castellano):
 - Correo con el formulario (alta de autónomo, traspaso de autónomo o traspaso de SL según `tipo_persona` / `alta_hecha`); si la ficha está incompleta no se envía y se crea la tarea "Revisar alta incompleta". Tampoco se envía si `clientes.enviar_formulario = false` (casilla del alta manual, por defecto marcada; HubSpot y Drive no cambian). Al no mandarse el formulario, el deal se queda en "Formulario pendiente" y hay que moverlo a mano.
@@ -134,7 +135,7 @@ Qué hace **Onboarding** (todo en el idioma `clientes.idioma`; a un cliente en i
 - HubSpot, solo si hay email: contacto (upsert por email, con `firstname`/`lastname` separados), deal en el pipeline "Onboarding" (etapa "Formulario pendiente") y tarea asociada a contacto y deal.
 - Carpeta de Drive `<NIF>-<nombre>` con las subcarpetas 0-documentos, 1-contabilidad, 2-escrituras, 3-impuestos, 4-laboral, 5-mercantil y 9-otros bajo "Clientes" (solo con NIF real). El flujo de facturas localiza la carpeta por NIF (`name contains <NIF>`).
 
-Cuando el cliente envía el formulario (`alta_nuevos_autonomos` / `traspasos_nuevos`, cada tabla con su trigger y su webhook), `Responden formulario`: comprueba NIF y email contra `clientes`; si coinciden, manda confirmación al cliente y, si es el primer formulario de ese NIF, el correo de acceso al portal con la guía; avisa a contacto@, mueve el deal a "Apoderamiento pendiente" (solo si sigue en "Formulario pendiente") y sube el txt de respuestas a `0-documentos` de la carpeta existente (la crea solo si no existe). Si el email no coincide o no hay cliente, solo avisa al equipo. Legado: ya no se crean fichas `PENDIENTE-…`; el workflow aún sabría renombrar una si existiera.
+Cuando el cliente envía el formulario (`alta_nuevos_autonomos` / `traspasos_nuevos`, cada tabla con su trigger y su webhook), `Responden formulario`: comprueba NIF y email contra `clientes` y, si el NIF no tiene ficha, la crea (salvo que el email ya sea de otra ficha o el NIF no tenga forma válida; entonces solo avisa al equipo). Si coinciden, manda **un solo correo al cliente**: con el primer formulario de ese NIF, el de acceso al portal (confirma la recepción, enlace válido 1 h y cómo pedir otro, apoderamiento, guía adjunta); con los siguientes, una confirmación. Avisa a contacto@, mueve el deal a "Apoderamiento pendiente" (solo si sigue en "Formulario pendiente") y sube el txt de respuestas a `0-documentos` de la carpeta existente (la crea solo si no existe). Si el email no coincide con el de la ficha, solo avisa al equipo. Legado: ya no se crean fichas `PENDIENTE-…` de forma automática; el workflow las renombra si existen.
 
 **HubSpot** (`n8n-workflows/hubspot/README.md`): el workflow `Sync HubSpot` copia `clientes` a las propiedades del contacto (grupo "Cliente Madal"). Supabase manda en todo salvo `plan` y `telefono`, que se pueden editar en ambos lados (gana HubSpot solo si el contacto cambió después de `hubspot_synced_at`). Los pasos de las etapas del deal posteriores a "Apoderamiento pendiente" se mueven a mano.
 
