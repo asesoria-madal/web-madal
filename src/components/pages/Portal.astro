@@ -1052,7 +1052,7 @@ const EMAIL = CONTACT_EMAIL;
         data: { session },
       } = await supabase!.auth.getSession();
       if (!session || !currentClienteId) {
-        mostrarError(I18N.facturas.failAll);
+        mostrarError(`${I18N.facturas.failAll} (${!session ? 'no session' : 'no client'})`);
         return;
       }
       const clienteId = currentClienteId;
@@ -1067,6 +1067,7 @@ const EMAIL = CONTACT_EMAIL;
       // paralelo) para no saturar la conexión con varios PDFs a la vez.
       let subidas = 0;
       let fallos = 0;
+      let ultimoError = '';
 
       for (const file of files) {
         // La ruta en Storage usa el NIF del cliente tanto para la carpeta
@@ -1089,6 +1090,7 @@ const EMAIL = CONTACT_EMAIL;
 
         if (error) {
           console.error('facturas upload error:', error);
+          ultimoError = error.message;
           fallos++;
           continue;
         }
@@ -1114,10 +1116,10 @@ const EMAIL = CONTACT_EMAIL;
         facturaMsg.textContent = subidas > 1 ? tpl(I18N.facturas.okMany, { n: subidas }) : I18N.facturas.okOne;
       } else if (subidas > 0) {
         facturaMsg.className = 'portal-msg is-error';
-        facturaMsg.textContent = tpl(I18N.facturas.partial, { ok: subidas, fail: fallos });
+        facturaMsg.textContent = `${tpl(I18N.facturas.partial, { ok: subidas, fail: fallos })} (${ultimoError})`;
       } else {
         facturaMsg.className = 'portal-msg is-error';
-        facturaMsg.textContent = I18N.facturas.failAll;
+        facturaMsg.textContent = `${I18N.facturas.failAll} (${ultimoError})`;
       }
 
       facturaForm.reset();
