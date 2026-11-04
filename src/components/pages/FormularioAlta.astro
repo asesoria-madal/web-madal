@@ -24,7 +24,7 @@ const t = { ...COMUNES[lang], ...ALTA[lang] };
     <p class="field-hint">{t.obligatorios}</p>
   </div>
 
-  <form id="altaForm" class="alta-form page view-block" novalidate data-campos={JSON.stringify(CAMPOS[lang])} data-msg-campo={MSG_CAMPO[lang]}>
+  <form id="altaForm" class="alta-form page view-block" novalidate data-lang={lang} data-campos={JSON.stringify(CAMPOS[lang])} data-msg-campo={MSG_CAMPO[lang]}>
     <fieldset class="alta-section">
       <legend>{t.idDigital}</legend>
       <p class="field-hint">{t.idDigitalHint}</p>
@@ -246,6 +246,7 @@ const t = { ...COMUNES[lang], ...ALTA[lang] };
         retencionIrpf,
         tendraTrabajadores: (document.getElementById('fTrabajadores') as HTMLInputElement).checked,
         privacyAccepted: (document.getElementById('fPrivacy') as HTMLInputElement).checked,
+        idioma: form.dataset.lang,
       };
 
       const domicilioNotif = (document.getElementById('fDomicilioNotif') as HTMLTextAreaElement).value.trim();

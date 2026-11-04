@@ -963,6 +963,12 @@ alter table clientes add column if not exists idioma text not null default 'es';
 -- Los clientes anteriores quedan en true por el default.
 alter table clientes add column if not exists enviar_formulario boolean not null default true;
 
+-- Idioma de la página del formulario (2026-11-04): 'es' | 'en' (no hay formularios en catalán).
+-- Si el formulario llega antes que el alta manual, el workflow n8n "Responden formulario" crea la
+-- ficha en `clientes` y usa este dato como clientes.idioma. Las filas anteriores quedan en 'es'.
+alter table alta_nuevos_autonomos add column if not exists idioma text not null default 'es';
+alter table traspasos_nuevos add column if not exists idioma text not null default 'es';
+
 -- ---------------------------------------------------------------------
 -- Formulario "alta de trabajador" (2026-11-02): /formulario-alta-trabajador.
 -- Lo rellena NUESTRO cliente (la empresa o el autónomo que contrata) con los

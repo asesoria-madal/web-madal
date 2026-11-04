@@ -167,6 +167,8 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
     contacto_gestoria_anterior: body.contactoGestoriaAnterior.trim(),
     autoriza_solicitar_historico: body.autorizaSolicitarHistorico,
     privacy_accepted_at: new Date().toISOString(),
+    // Idioma de la página del formulario: si aún no hay ficha, n8n la crea con este idioma.
+    idioma: (raw as { idioma?: unknown }).idioma === 'en' ? 'en' : 'es',
   };
 
   if (body.domicilioNotificaciones) insertRow.domicilio_notificaciones = body.domicilioNotificaciones.trim();

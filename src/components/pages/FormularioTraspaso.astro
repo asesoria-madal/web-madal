@@ -35,7 +35,7 @@ const docsCliente = isAutonomo ? t.docsClienteAutonomo : t.docsClienteSl;
     <p class="field-hint">{t.obligatorios}</p>
   </div>
 
-  <form id="traspasoForm" class="alta-form page view-block" novalidate data-tipo={tipo} data-campos={JSON.stringify(CAMPOS[lang])} data-msg-campo={MSG_CAMPO[lang]}>
+  <form id="traspasoForm" class="alta-form page view-block" novalidate data-tipo={tipo} data-lang={lang} data-campos={JSON.stringify(CAMPOS[lang])} data-msg-campo={MSG_CAMPO[lang]}>
     <fieldset class="alta-section">
       <legend>{t.idDigital}</legend>
       <p class="field-hint">{t.idDigitalHint}</p>
@@ -286,6 +286,7 @@ const docsCliente = isAutonomo ? t.docsClienteAutonomo : t.docsClienteSl;
         contactoGestoriaAnterior: el<HTMLTextAreaElement>('fContactoGestoria')!.value.trim(),
         autorizaSolicitarHistorico: !!el<HTMLInputElement>('fAutorizaHistorico')?.checked,
         privacyAccepted: !!el<HTMLInputElement>('fPrivacy')?.checked,
+        idioma: form.dataset.lang,
       };
 
       const domicilioNotif = el<HTMLTextAreaElement>('fDomicilioNotif')?.value.trim();
