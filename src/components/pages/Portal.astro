@@ -95,6 +95,12 @@ const dashboardsCtaHref = `mailto:${EMAIL}?subject=${encodeURIComponent(dashboar
         </aside>
 
         <div class="app-main">
+          <div class="portal-externo">
+            <p class="portal-externo-title">{t.portalExterno.title}</p>
+            <p class="portal-externo-desc">{t.portalExterno.desc}</p>
+            <iframe src="https://portal.portaldespacho.com/acceso/frame" width="220" height="180" title={t.portalExterno.title}></iframe>
+          </div>
+
           <div id="portal-admin-bar" class="portal-admin-bar" hidden>
             <span class="portal-admin-tag">
               {t.admin.bannerPrefix} <strong id="portal-admin-cliente-nombre"></strong>
@@ -459,6 +465,19 @@ const dashboardsCtaHref = `mailto:${EMAIL}?subject=${encodeURIComponent(dashboar
     color: var(--accent);
     background: color-mix(in srgb, var(--accent) 12%, transparent);
   }
+
+  .portal-externo {
+    display: grid;
+    gap: 0.4rem;
+    padding: 1rem;
+    margin-bottom: 1.4rem;
+    border: 1px solid var(--accent);
+    border-radius: 10px;
+    background: color-mix(in srgb, var(--accent) 6%, transparent);
+  }
+  .portal-externo-title { font-weight: 600; margin: 0; }
+  .portal-externo-desc { color: var(--ink-soft); font-size: 0.9rem; margin: 0; }
+  .portal-externo iframe { border: none; border-radius: 6px; }
 
   .portal-admin-bar {
     display: flex;

@@ -519,6 +519,10 @@ export const ui = {
       logout: 'Cerrar sesión',
       greeting: 'Hola,',
       langLabel: 'Idioma',
+      portalExterno: {
+        title: 'Portal de documentación y facturas',
+        desc: 'Sube aquí tus facturas y encuentra tu documentación contable, fiscal y laboral.',
+      },
       dudaRapida: {
         label: '¿Tienes una duda rápida?',
         whatsapp: 'WhatsApp',
@@ -1365,6 +1369,10 @@ export const ui = {
       logout: 'Tanca la sessió',
       greeting: 'Hola,',
       langLabel: 'Idioma',
+      portalExterno: {
+        title: 'Portal de documentació i factures',
+        desc: 'Puja aquí les teves factures i troba la teva documentació comptable, fiscal i laboral.',
+      },
       dudaRapida: {
         label: 'Tens un dubte ràpid?',
         whatsapp: 'WhatsApp',
@@ -2213,6 +2221,10 @@ export const ui = {
       logout: 'Log out',
       greeting: 'Hi,',
       langLabel: 'Language',
+      portalExterno: {
+        title: 'Documents and invoices portal',
+        desc: 'Upload your invoices here and find your accounting, tax and payroll documents.',
+      },
       dudaRapida: {
         label: 'Have a quick question?',
         whatsapp: 'WhatsApp',
