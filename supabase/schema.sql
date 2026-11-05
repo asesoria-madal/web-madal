@@ -950,6 +950,19 @@ alter table clientes add column if not exists hubspot_synced_at timestamptz;
 -- y se rellena a mano si hace falta probarlo.
 alter table clientes add column if not exists contacto_whatsapp boolean not null default false;
 
+-- Revisión del plan Debut a los 6 y 11 meses (2026-11-05; workflows n8n
+-- "Debut: revisar facturación 6 meses" y "Debut: aviso cambio a Esencial 11
+-- meses"). Ambos miden el plazo desde `clientes.created_at` y solo avisan a
+-- clientes con plan='debut' y tipo_persona='autonomo'; se marcan DESPUÉS de
+-- mandar el correo a contacto@, para no repetirlo si el cliente cambia de
+-- plan o nunca se revisa. No los rellena ningún endpoint ni se borran al
+-- cambiar de plan — si un cliente vuelve a Debut, hay que vaciarlos a mano
+-- para que se vuelva a avisar.
+--   debut_aviso_6m_enviado_at   aviso de "revisar si ha facturado más de 12.500 €"
+--   debut_aviso_11m_enviado_at  aviso de "el mes que viene pasa a Esencial, con el borrador para el cliente"
+alter table clientes add column if not exists debut_aviso_6m_enviado_at timestamptz;
+alter table clientes add column if not exists debut_aviso_11m_enviado_at timestamptz;
+
 -- Idioma del cliente (2026-10-23): 'es' | 'ca' | 'en'. Se elige en el alta manual del portal
 -- y decide en qué idioma salen los correos automáticos de n8n (onboarding, etc.).
 -- Los clientes anteriores quedan en 'es' por el default.
