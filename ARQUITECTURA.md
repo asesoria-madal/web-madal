@@ -64,6 +64,14 @@ Páginas sueltas `/formulario-alta-trabajador`, `/ca/formulario-alta-trabajador`
 - No sube archivos: DNI/NIE, permiso de trabajo y certificado de discapacidad se piden por correo a contacto@ y van a Drive.
 - Aviso al equipo: el workflow n8n `Alta de trabajador` mira cada 5 minutos las filas con `notificado_at` null, manda el correo a contacto@ y las marca (sin trigger ni webhook). `tramitado_at` se marca a mano en el Table Editor al terminar el alta.
 
+### `seguimiento_negocios` — dedup de avisos de seguimiento comercial (desde 2026-11-05)
+
+No es una ficha de cliente: es solo el registro de qué avisos ya se mandaron para cada **negocio (deal) de HubSpot** que todavía no es cliente, por `hubspot_deal_id` (clave primaria, texto — el id numérico de HubSpot como string). Existe porque ese lead no tiene fila en `clientes` todavía, así que el dedup no puede ir ahí como en el resto de avisos.
+
+- La escribe y la lee solo el workflow n8n **"Seguimiento de negocios"**: lee los negocios abiertos del pipeline "Venta" de HubSpot (API, solo lectura — nunca escribe propiedades en HubSpot, es un CRM compartido con Hugo) y cruza contra esta tabla para saber en qué aviso está cada uno.
+- `aviso_1_at` / `aviso_2_at` / `aviso_3_at` (`timestamptz`, nullable): se rellenan, en ese orden, DESPUÉS de mandar el correo correspondiente a contacto@ (no antes, para reintentar si falla ese envío) — mismo patrón que `debut_aviso_*_enviado_at`.
+- No tiene RLS más allá de `service_role` (ni `anon` ni `authenticated` tienen grant): no la usa el portal ni ningún endpoint, es de uso interno de n8n.
+
 ### `clientes` — portal de clientes (`/portal`)
 
 - Alta de cada fila la hace el equipo o un workflow (service role) — un cliente no puede crearse ni editarse a sí mismo.

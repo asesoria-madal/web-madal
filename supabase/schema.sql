@@ -1120,3 +1120,20 @@ grant all on altas_trabajadores to service_role;
 -- manda un correo a contacto@ y la marca. Se marca después de enviar: si el
 -- correo falla, se reintenta en la siguiente vuelta.
 alter table altas_trabajadores add column if not exists notificado_at timestamptz;
+
+-- Seguimiento de negocios de HubSpot sin respuesta (2026-11-05; workflow n8n
+-- "Seguimiento de negocios"): son leads en el pipeline "Venta" de HubSpot (no
+-- clientes todavía, no viven en `clientes`), así que el dedup no puede ir en
+-- esa tabla. Se guarda aquí, por id de negocio de HubSpot, en vez de escribir
+-- propiedades nuevas en HubSpot (que es un recurso compartido con Hugo y el
+-- CRM comercial) para no tocar su esquema.
+create table if not exists seguimiento_negocios (
+  hubspot_deal_id text primary key,
+  aviso_1_at timestamptz,  -- primer aviso (negocio sin contacto hace >= 3 días)
+  aviso_2_at timestamptz,  -- segundo aviso (7 días después del primero)
+  aviso_3_at timestamptz,  -- tercer y último aviso (7 días después del segundo, solo entre semana)
+  created_at timestamptz not null default now()
+);
+
+alter table seguimiento_negocios enable row level security;
+grant all on seguimiento_negocios to service_role;
