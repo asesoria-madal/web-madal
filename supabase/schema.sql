@@ -950,14 +950,32 @@ alter table clientes add column if not exists hubspot_synced_at timestamptz;
 -- y se rellena a mano si hace falta probarlo.
 alter table clientes add column if not exists contacto_whatsapp boolean not null default false;
 
+-- Fecha real de alta de actividad (2026-11-05): a diferencia de
+-- `created_at` (cuándo se creó la FICHA en nuestro sistema, es decir cuándo
+-- empezó a ser cliente nuestro), esta es la fecha de alta en el RETA/
+-- Hacienda del autónomo, o de constitución si es SL — la fecha que de
+-- verdad cuenta para contar "6 meses"/"11 meses" de actividad en los
+-- avisos del plan Debut (ver más abajo). Mismo nombre y sentido que
+-- `traspasos_nuevos.fecha_alta_actividad` (la fecha que el cliente ya
+-- declaró si viene de otra gestoría) — a propósito, aunque hoy no se copia
+-- automáticamente de ahí a `clientes`. Para un alta nueva que tramitamos
+-- nosotros (`alta_hecha = true`), no hay ningún formulario que la recoja
+-- todavía: el equipo la rellena a mano en el Table Editor en cuanto RETA/
+-- Hacienda confirma el alta. NULL hasta entonces — los workflows que la
+-- usan caen entonces a `created_at` como aproximación (ver más abajo).
+alter table clientes add column if not exists fecha_alta_actividad date;
+
 -- Revisión del plan Debut a los 6 y 11 meses (2026-11-05; workflows n8n
 -- "Debut: revisar facturación 6 meses" y "Debut: aviso cambio a Esencial 11
--- meses"). Ambos miden el plazo desde `clientes.created_at` y solo avisan a
--- clientes con plan='debut' y tipo_persona='autonomo'; se marcan DESPUÉS de
--- mandar el correo a contacto@, para no repetirlo si el cliente cambia de
--- plan o nunca se revisa. No los rellena ningún endpoint ni se borran al
--- cambiar de plan — si un cliente vuelve a Debut, hay que vaciarlos a mano
--- para que se vuelva a avisar.
+-- meses"). Ambos miden el plazo desde `coalesce(fecha_alta_actividad,
+-- created_at)` — la fecha real de alta de actividad si ya se rellenó a
+-- mano, si no la fecha de alta como cliente (aproximación, hasta que se
+-- rellene la real) — y solo avisan a clientes con plan='debut' y
+-- tipo_persona='autonomo'; se marcan DESPUÉS de mandar el correo a
+-- contacto@, para no repetirlo si el cliente cambia de plan o nunca se
+-- revisa. No los rellena ningún endpoint ni se borran al cambiar de plan —
+-- si un cliente vuelve a Debut, hay que vaciarlos a mano para que se
+-- vuelva a avisar.
 --   debut_aviso_6m_enviado_at   aviso de "revisar si ha facturado más de 12.500 €"
 --   debut_aviso_11m_enviado_at  aviso de "el mes que viene pasa a Esencial, con el borrador para el cliente"
 alter table clientes add column if not exists debut_aviso_6m_enviado_at timestamptz;
@@ -1090,3 +1108,34 @@ grant all on altas_trabajadores to service_role;
 -- manda un correo a contacto@ y la marca. Se marca después de enviar: si el
 -- correo falla, se reintenta en la siguiente vuelta.
 alter table altas_trabajadores add column if not exists notificado_at timestamptz;
+
+-- ---------------------------------------------------------------------
+-- Encuestas de satisfacción (2026-11-05)
+-- ---------------------------------------------------------------------
+-- A los 6 meses, al año y luego cada año desde `clientes.created_at`, el
+-- workflow n8n "Encuesta de satisfacción" manda un correo (en el idioma del
+-- cliente) pidiendo una valoración de 1 a 5 estrellas y un comentario
+-- opcional. El cliente responde sin iniciar sesión en /encuesta?id=<uuid>
+-- (mismo patrón que los formularios de alta/traspaso: enlace directo, no
+-- navegable). La fila la crea n8n DESPUÉS de mandar el correo (si el envío
+-- falla, no queda fila y se reintenta en la siguiente vuelta); el endpoint
+-- `api/encuesta.ts` solo puede rellenar `estrellas`/`comentario`/
+-- `respondida_at` de una fila que ya exista, nunca crear una nueva.
+create table if not exists encuestas_satisfaccion (
+  id uuid primary key default gen_random_uuid(),
+  cliente_id text not null references clientes (id) on delete cascade on update cascade,
+  meses_desde_alta integer not null, -- 6, 12, 24, 36... (6 y luego cada 12)
+  idioma text not null,              -- idioma en el que se mandó el correo (clientes.idioma en ese momento)
+  estrellas smallint check (estrellas between 1 and 5),
+  comentario text,
+  enviada_at timestamptz not null default now(),
+  respondida_at timestamptz,
+  unique (cliente_id, meses_desde_alta)
+);
+
+alter table encuestas_satisfaccion enable row level security;
+
+-- Igual que altas_trabajadores: sin políticas para anon/authenticated. El
+-- endpoint usa la service role; el "acceso" del cliente es solo conocer el
+-- uuid de su fila (que le llega por correo), no una sesión ni RLS.
+grant all on encuestas_satisfaccion to service_role;
