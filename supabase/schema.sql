@@ -981,6 +981,18 @@ alter table clientes add column if not exists fecha_alta_actividad date;
 alter table clientes add column if not exists debut_aviso_6m_enviado_at timestamptz;
 alter table clientes add column if not exists debut_aviso_11m_enviado_at timestamptz;
 
+-- Correo de "qué tal con nosotros" (2026-11-05; workflow n8n "Opinión del
+-- cliente"): a los 6 meses, al año y luego cada año desde `created_at`, se
+-- manda un correo en el idioma del cliente pidiendo su opinión del
+-- servicio (sin formulario ni tabla propia: el cliente contesta
+-- directamente al correo). Para no repetirlo, esta columna guarda el
+-- último hito (en meses: 6, 12, 24, 36...) ya avisado; el workflow solo
+-- manda el siguiente hito cuando `opinion_aviso_meses` es null o menor que
+-- el hito que toca hoy, y lo actualiza DESPUÉS de enviar. Si un cliente se
+-- da de baja y vuelve, hay que vaciarla a mano si se quiere que empiece a
+-- contar de cero.
+alter table clientes add column if not exists opinion_aviso_meses integer;
+
 -- Idioma del cliente (2026-10-23): 'es' | 'ca' | 'en'. Se elige en el alta manual del portal
 -- y decide en qué idioma salen los correos automáticos de n8n (onboarding, etc.).
 -- Los clientes anteriores quedan en 'es' por el default.
