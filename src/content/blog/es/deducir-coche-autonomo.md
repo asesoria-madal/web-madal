@@ -3,6 +3,7 @@ lang: es
 slug: deducir-coche-autonomo
 title: 'Desgravar el coche siendo autónomo: 50% del IVA y cuándo el 100% (2026)'
 description: 'La respuesta corta: en IRPF casi nunca, en IVA el 50%. Te lo explicamos con un ejemplo numérico y las excepciones donde sí puedes desgravarlo entero.'
+seoTitle: "Desgravar el coche siendo autónomo: IVA al 50% o al 100%"
 cat: fiscalidad
 date: 2026-08-30
 sources:

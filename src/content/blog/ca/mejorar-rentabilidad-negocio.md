@@ -3,6 +3,8 @@ lang: ca
 slug: mejorar-rentabilidad-negocio
 title: 'Com millorar la rendibilitat del teu negoci, no només complir amb Hisenda'
 description: 'El que el teu balanç i el teu compte de resultats ja t''estan dient.'
+seoTitle: "Com millorar la rendibilitat del teu negoci: cinc claus"
+seoDescription: "El que el teu balanç i el teu compte de resultats ja t'estan dient: marge, punt d'equilibri, control mensual, caixa, preus i proveïdors."
 cat: contabilidad
 date: 2026-08-19
 ---

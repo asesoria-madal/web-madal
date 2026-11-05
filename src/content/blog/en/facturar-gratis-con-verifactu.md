@@ -3,6 +3,8 @@ lang: en
 slug: facturar-gratis-con-verifactu
 title: 'No, you don''t need to pay for any software to comply with Verifactu'
 description: 'What invoicing platforms won''t tell you: the Spanish Tax Agency offers a free alternative.'
+seoTitle: "You don't need paid software to comply with Verifactu"
+seoDescription: "What invoicing platforms won't tell you: the Spanish Tax Agency offers a free app to comply with Verifactu. Where it falls short and when paying is worth it."
 cat: fiscalidad
 date: 2026-08-21
 updatedDate: 2026-09-23

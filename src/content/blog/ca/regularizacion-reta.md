@@ -3,6 +3,7 @@ lang: ca
 slug: regularizacion-reta
 title: 'La regularització del RETA: per què arriba gairebé 2 anys tard (i com evitar l''ensurt cada any)'
 description: 'Cotitzes per una previsió d''ingressos, i la Seguretat Social et quadra els comptes quan Hisenda tanca la teva declaració — amb retard.'
+seoTitle: "Regularització del RETA: per què arriba gairebé 2 anys tard"
 cat: laboral
 date: 2026-09-23
 sources:

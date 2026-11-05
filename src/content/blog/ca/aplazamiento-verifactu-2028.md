@@ -3,6 +3,7 @@ lang: ca
 slug: aplazamiento-verifactu-2028
 title: 'Verifactu s’ajorna a octubre de 2028: què ha anunciat Hisenda i què continua vigent'
 description: 'Hisenda ha anunciat un tercer ajornament de Verifactu. Encara no és al BOE: quines dates continuen vigents i què fer mentrestant.'
+seoTitle: "Verifactu s'ajorna a octubre de 2028: què continua vigent"
 cat: fiscalidad
 date: 2026-10-13
 sources:

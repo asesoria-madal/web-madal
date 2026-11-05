@@ -3,6 +3,7 @@ lang: ca
 slug: facturacion-electronica-obligatoria
 title: 'Facturació electrònica obligatòria: què és i en què es diferencia de Verifactu'
 description: 'Qui hi està obligat, des de quan, i en què es diferencia de Verifactu: les dues normes que més es confonen.'
+seoTitle: "Factura electrònica obligatòria i Verifactu: les diferències"
 cat: fiscalidad
 date: 2026-08-19
 updatedDate: 2026-10-13

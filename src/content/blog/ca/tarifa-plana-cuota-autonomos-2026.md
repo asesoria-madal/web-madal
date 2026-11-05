@@ -3,6 +3,8 @@ lang: ca
 slug: tarifa-plana-cuota-autonomos-2026
 title: 'Tarifa plana d''autònoms el 2026: quant pagues i què passa quan s''acaba'
 description: 'Quant dura, quins requisits demana i com funciona el sistema de trams després.'
+seoTitle: "Tarifa plana d'autònoms 2026: quant pagues i quan s'acaba"
+seoDescription: "Quant dura la tarifa plana d'autònoms, quins requisits demana i com funciona el sistema de trams després, per no triar el teu tram a ull."
 cat: fiscalidad
 date: 2026-09-21
 updatedDate: 2026-09-21

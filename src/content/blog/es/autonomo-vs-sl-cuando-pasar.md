@@ -3,6 +3,7 @@ lang: es
 slug: autonomo-vs-sl-cuando-pasar
 title: 'Autónomo vs. SL: cuándo conviene dar el salto'
 description: 'No hay una cifra fijada por ley, pero sí señales claras para decidir cuándo dar el salto.'
+seoDescription: "No hay una cifra fijada por ley para pasar de autónomo a SL. Estas son las señales para decidirlo: beneficio, riesgo, impuestos y lo que necesitas cada mes."
 cat: fiscalidad
 date: 2026-08-19
 updatedDate: 2026-09-17

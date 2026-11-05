@@ -3,6 +3,7 @@ lang: ca
 slug: calculo-irpf-trimestral
 title: 'Com es calcula l''IRPF trimestral i com estimar-lo'
 description: 'D''on surt la xifra del model 130, amb un exemple.'
+seoDescription: "Què calcula el model 130, d'on surt la xifra del pagament trimestral d'IRPF, quan no cal presentar-lo i com estimar-lo tu mateix, amb un exemple."
 cat: fiscalidad
 date: 2026-08-19
 updatedDate: 2026-09-23

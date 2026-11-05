@@ -3,6 +3,7 @@ lang: en
 slug: calculo-irpf-trimestral
 title: 'How quarterly IRPF is calculated, and how to estimate it'
 description: 'Where the Modelo 130 figure comes from, with an example.'
+seoDescription: "What Modelo 130 calculates, where the quarterly income tax figure comes from, when you don't need to file it and how to estimate it yourself, with an example."
 cat: fiscalidad
 date: 2026-08-19
 updatedDate: 2026-09-23

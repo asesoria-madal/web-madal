@@ -88,7 +88,7 @@ No es una ficha de cliente: es solo el registro de qué avisos ya se mandaron pa
   | `'sl'` | — | SL; `alta_hecha` no aplica, se ignora |
 
   Un trigger `AFTER INSERT` sobre `clientes` (nombre `cliente-nuevo`, creado a mano en Supabase > Database > Triggers; **no está en `schema.sql`**) hace un POST al webhook de producción `https://n8n.asesoriamadal.es/webhook/cliente-nuevo` con una cabecera secreta. Esa cabecera debe coincidir en nombre y valor con la credencial Header Auth del nodo Webhook de n8n; si no, n8n responde 403 "Authorization data is wrong!" y no deja ninguna ejecución. Diagnóstico: `select status_code, left(content,100) from net._http_response order by created desc;`.
-- **Columnas añadidas el 2026-10-23** (todas con `add column if not exists` en `schema.sql`): `plan` (`debut|esencial|crece|total|sl`; el precio NO se guarda, vive en `ui.ts`), `telefono`, `idioma` (`es|ca|en`, `not null default 'es'`; decide el idioma de los correos automáticos de n8n), `hubspot_contact_id` (índice único) y `hubspot_synced_at` (los escribe solo el workflow `Sync HubSpot`; no tocar a mano). Columnas de facturación BeeL: `beel_contratado`, `beel_account_id`, `beel_company_id`, `beel_estado`, `beel_activado_prod_at` (ver `DOCS/BEEL.md`).
+- **Columnas añadidas el 2026-10-23** (todas con `add column if not exists` en `schema.sql`): `plan` (`debut|esencial|crece|total|sl`; el precio NO se guarda, vive en `ui.ts`), `telefono`, `idioma` (`es|ca|en`, `not null default 'es'`; decide el idioma de los correos automáticos de n8n), `hubspot_contact_id` (índice único) y `hubspot_synced_at` (los escribe solo el workflow `Sync HubSpot`; no tocar a mano).
 - `modelos` (`text[]`, `not null default '{}'`, añadido 2026-08-26) — qué modelos fiscales presenta el cliente (130, 131, 111, 115, 303, 349, 202, 200, 347, 390, 190, 180; ver el comentario junto a la columna en `schema.sql` para el detalle de cada uno). Primer campo multivalor del esquema — se rellena a mano en el Table Editor, sin endpoint ni CHECK, igual que `alta_hecha`. Lo usa `src/lib/modelosFiscales.ts` para calcular, en `Portal.astro`, el stat "días hasta tu próxima presentación de impuestos" — visible para **todos** los clientes (no depende de `reporting`: es información básica de gestoría, no una funcionalidad de pago).
 - `cegid_empresa_codigo` (`text`, nullable; renombrada en producción el 2026-11-04) — código de la empresa del cliente en Cegid (el ERP de contabilidad). Lo escribe el workflow n8n **"Acceso Cegid"** cuando el equipo rellena «Código Cegid» en el deal de HubSpot; también se puede poner a mano en el Table Editor. Ningún endpoint lo escribe. Es el flag de "cliente ya configurado en Cegid": el workflow n8n **"Descarga de facturas"** solo baja una factura del Storage a la carpeta de Drive del cliente si este tiene **NIF Y `cegid_empresa_codigo`** (nodo "¿Cliente listo?"); si falta alguno, la factura se queda en el Storage y se reintenta cada 12 h. **No** la usa la sincronización de dashboards (esa vincula por CIF contra `clientes.id`). Nota: una NOTA antigua de `schema.sql` decía que esta columna "ya no la usa nada" — se refería solo al sincronizador de dashboards; ya está corregida.
 - `fecha_alta_actividad` (`date`, nullable, añadida 2026-11-05) — fecha real de alta en el RETA/Hacienda (autónomo) o de constitución (SL), **distinta** de `created_at` (cuándo se creó la ficha, es decir cuándo empezó a ser cliente nuestro). Ningún formulario de alta nueva la recoge todavía: el equipo la rellena a mano en el Table Editor en cuanto RETA/Hacienda confirma. Mismo nombre que `traspasos_nuevos.fecha_alta_actividad` (la que el cliente ya declara si viene de otra gestoría), pero **no se copia automáticamente** de esa tabla a `clientes` todavía — pendiente.
@@ -119,12 +119,10 @@ Las políticas de `storage.objects` para `facturas` están creadas **a mano en e
 | Endpoint | Tabla | Rate limit | Notas |
 |---|---|---|---|
 | `POST /api/portal-login` | `clientes` (solo lectura) | 10 / 10 min / IP | Enlace mágico. Respuesta genérica siempre. |
-| `POST /api/alta-cliente` | `clientes` | — | Solo admin (`portal_admins`, validado con el token de sesión). Inserta la ficha con idioma, plan, teléfono, `alta_hecha`, `reporting`, `beel_contratado` y `enviar_formulario`; no envía nada, lo hace n8n a partir del INSERT. |
+| `POST /api/alta-cliente` | `clientes` | — | Solo admin (`portal_admins`, validado con el token de sesión). Inserta la ficha con idioma, plan, teléfono, `alta_hecha`, `reporting` y `enviar_formulario`; no envía nada, lo hace n8n a partir del INSERT. |
 | `POST /api/alta-autonomo` | `alta_nuevos_autonomos` | Sí | Normaliza NIF a mayúsculas e IBAN sin espacios. |
 | `POST /api/traspaso` | `traspasos_nuevos` | Sí | Ídem; ramifica el insert según `tipo`. |
 | `POST /api/alta-trabajador` | `altas_trabajadores` | Sí | Ídem; exige causa concreta (≥ 30 caracteres) en temporales, tutor y plan en formativos, horas y distribución en parcial, y NUSS salvo «no tiene». |
-
-Desde 2026-10-21 hay tres endpoints más, todos de facturación Verifactu vía BeeL (ver § "Facturación Verifactu (BeeL)" al final): `POST /api/emitir-factura`, `GET /api/factura-pdf` y `POST /api/beel-webhook`. **Estos tres no degradan en silencio**: sin `BEEL_API_KEY` responden 503, porque fingir que se ha emitido una factura sería peor que fallar. Los dos primeros exigen la sesión del cliente (`Authorization: Bearer <access_token>`); el tercero exige la firma de BeeL. **Desde 2026-10-23 todos los endpoints de facturación (`emitir-factura`, `rectificar-factura`, `facturacion/*`, `factura-pdf`) exigen además `clientes.beel_contratado = true`** (403 si no): sin ese filtro, un cliente sin cuenta caía en la empresa por defecto de sandbox. El panel "Facturas" del portal tampoco se muestra a quien no lo tenga.
 
 Los endpoints de formularios y login (`portal-login`, `alta-autonomo`, `traspaso`, `alta-trabajador`) usan `getSupabaseAdmin()` y **degradan con gracia**: si Supabase no está configurado responden en éxito sin persistir (`{ persisted: false }`), para no romper la experiencia.
 
@@ -138,7 +136,7 @@ Desde 2026-10-23 (el camino por presupuesto se retiró con el simulador) hay tre
 
 1. **Alta manual desde el portal de admin** (`POST /api/alta-cliente`, exige sesión de `portal_admins`). Es el camino normal.
 2. **A mano en el Table Editor.**
-3. **Automática, si el formulario de alta o traspaso llega antes que el alta** (desde 2026-11-04): la crea `Responden formulario` con los datos del formulario y `enviar_formulario = false`. El idioma sale de la página del formulario (columna `idioma` de `alta_nuevos_autonomos` y `traspasos_nuevos`: `es` o `en`). Plan, reporting y BeeL se completan a mano: el equipo recibe el aviso «Ficha creada desde el formulario, revísala». Como en este camino no sale el correo de bienvenida de Onboarding, el cliente no recibe por ahí los datos de la transferencia de la primera mensualidad.
+3. **Automática, si el formulario de alta o traspaso llega antes que el alta** (desde 2026-11-04): la crea `Responden formulario` con los datos del formulario y `enviar_formulario = false`. El idioma sale de la página del formulario (columna `idioma` de `alta_nuevos_autonomos` y `traspasos_nuevos`: `es` o `en`). Plan y reporting se completan a mano: el equipo recibe el aviso «Ficha creada desde el formulario, revísala». Como en este camino no sale el correo de bienvenida de Onboarding, el cliente no recibe por ahí los datos de la transferencia de la primera mensualidad.
 
 Qué hace **Onboarding** (todo en el idioma `clientes.idioma`; a un cliente en inglés se le enlaza el formulario en inglés; en catalán no hay formulario y el correo avisa de que va en castellano; la guía PDF solo existe en castellano):
 - Correo con el formulario (alta de autónomo, traspaso de autónomo o traspaso de SL según `tipo_persona` / `alta_hecha`); si la ficha está incompleta no se envía y se crea la tarea "Revisar alta incompleta". Tampoco se envía si `clientes.enviar_formulario = false` (casilla del alta manual, por defecto marcada; HubSpot y Drive no cambian). Al no mandarse el formulario, el deal se queda en "Formulario pendiente" y hay que moverlo a mano.
@@ -146,7 +144,7 @@ Qué hace **Onboarding** (todo en el idioma `clientes.idioma`; a un cliente en i
 - HubSpot, solo si hay email: contacto (upsert por email, con `firstname`/`lastname` separados), deal en el pipeline "Onboarding" (etapa "Formulario pendiente") y tarea asociada a contacto y deal.
 - Carpeta de Drive `<NIF>-<nombre>` con las subcarpetas 0-documentos, 1-contabilidad, 2-escrituras, 3-impuestos, 4-laboral, 5-mercantil y 9-otros bajo "Clientes" (solo con NIF real). El flujo de facturas localiza la carpeta por NIF (`name contains <NIF>`).
 
-Cuando el cliente envía el formulario (`alta_nuevos_autonomos` / `traspasos_nuevos`, cada tabla con su trigger y su webhook), `Responden formulario`: comprueba NIF y email contra `clientes` y, si el NIF no tiene ficha, la crea (salvo que el email ya sea de otra ficha o el NIF no tenga forma válida; entonces solo avisa al equipo). Si coinciden, manda **un solo correo al cliente**: con el primer formulario de ese NIF, el de acceso al portal (confirma la recepción, enlace válido 1 h y cómo pedir otro, apoderamiento, guía adjunta); con los siguientes, una confirmación. Avisa a contacto@, mueve el deal a "Apoderamiento pendiente" (solo si sigue en "Formulario pendiente") y sube el txt de respuestas a `0-documentos` de la carpeta existente (la crea solo si no existe). Si el email no coincide con el de la ficha, solo avisa al equipo. Legado: ya no se crean fichas `PENDIENTE-…` de forma automática; el workflow las renombra si existen.
+Cuando el cliente envía el formulario (`alta_nuevos_autonomos` / `traspasos_nuevos`, cada tabla con su trigger y su webhook), `Responden formulario`: comprueba NIF y email contra `clientes` y, si el NIF no tiene ficha, la crea (salvo que el email ya sea de otra ficha o el NIF no tenga forma válida; entonces solo avisa al equipo). Si coinciden, manda **un solo correo al cliente**: con el primer formulario de ese NIF, el de acceso al portal (confirma la recepción y da los próximos pasos: apoderamiento o certificado digital, mandato SEPA de GoCardless y acceso, con enlace válido 1 h y cómo pedir otro; guía adjunta); con los siguientes, una confirmación. Avisa a contacto@, mueve el deal a "Apoderamiento pendiente" (solo si sigue en "Formulario pendiente") y sube el txt de respuestas a `0-documentos` de la carpeta existente (la crea solo si no existe). Si el email no coincide con el de la ficha, solo avisa al equipo. Legado: ya no se crean fichas `PENDIENTE-…` de forma automática; el workflow las renombra si existen.
 
 **HubSpot** (`n8n-workflows/hubspot/README.md`): el workflow `Sync HubSpot` copia `clientes` a las propiedades del contacto (grupo "Cliente Madal"). Supabase manda en todo salvo `plan` y `telefono`, que se pueden editar en ambos lados (gana HubSpot solo si el contacto cambió después de `hubspot_synced_at`). Los pasos de las etapas del deal posteriores a "Apoderamiento pendiente" se mueven a mano.
 
@@ -159,16 +157,7 @@ Cuando el cliente envía el formulario (`alta_nuevos_autonomos` / `traspasos_nue
 | `PUBLIC_SUPABASE_URL` | No | Cliente browser (portal) |
 | `PUBLIC_SUPABASE_ANON_KEY` | No — segura de exponer | Cliente browser (portal) |
 
-Estas cuatro son las que hacen falta para tener Supabase funcionando en local/Vercel. Las de facturación (todas solo servidor, ninguna con prefijo `PUBLIC_`):
-
-| Variable | Uso |
-|---|---|
-| `BEEL_API_KEY` | `beel_sk_test_…` (sandbox, sin efecto fiscal) o `beel_sk_live_…` (real). **Secreto.** |
-| `BEEL_DEFAULT_COMPANY_ID` | Company de sandbox que usan todos los clientes sin `clientes.beel_company_id`. **Se ignora con clave live** (ver `src/lib/beel.ts`). |
-| `BEEL_WEBHOOK_SECRET` | Secreto de la suscripción de webhooks; BeeL lo muestra una sola vez al crearla. |
-| `N8N_ALERT_WEBHOOK_URL`, `N8N_ALERT_TOKEN` | Opcionales. Webhook de n8n y token de cabecera `X-Alert-Token` para avisar de rechazos de la AEAT. |
-
-(`.env.example` está sin actualizar con estas cuatro: un hook del entorno bloqueó editarlo en la sesión que las añadió. Añadirlas a mano.)
+Estas cuatro son las que hacen falta para tener Supabase funcionando en local/Vercel.
 
 ## Notas para quien construya workflows de n8n
 
@@ -177,25 +166,3 @@ Estas cuatro son las que hacen falta para tener Supabase funcionando en local/Ve
 - Casos de uso ya definidos con tabla lista: (1) facturas Storage → Drive → `fecha_contabilizado` → borrado del Storage tras el margen de días; (2) envío y seguimiento de presupuestos por email; (3) onboarding de cliente nuevo tras firmar el presupuesto. No hace falta diseñar esquema para ninguno.
 - Vincula siempre **por NIF** (`clientes.id`), que es el identificador común a presupuestos, formularios y facturas.
 - Los rate limiters de los endpoints públicos son en memoria y por instancia de Vercel — si un workflow llama a estos endpoints HTTP en vez de ir directo a Supabase, ese límite no es fiable bajo carga ni es una autenticación real. Prefiere ir directo a Supabase.
-
-## Facturación Verifactu (BeeL)
-
-Añadida 2026-10-21. El cliente emite facturas desde el portal (panel "Emitir facturas"); **BeeL es quien numera, encadena el registro Verifactu, lo envía a la AEAT y genera el PDF**. Nosotros solo recogemos los datos, llamamos a su API y guardamos una copia.
-
-**Por qué BeeL y no un sistema propio**: construir el motor fiscal nos haría productores de un sistema informático de facturación (declaración responsable, huella encadenada, firma, envío a la AEAT, QR) con responsabilidad propia. Se delega eso y se construye solo la interfaz. Por la misma razón, **el PDF y el email de la factura son siempre los de BeeL**: según su documentación de cumplimiento, un software que renderiza su propio documento puede considerarse componente del sistema y necesitar su propia declaración responsable.
-
-**Flujo**
-1. `Portal.astro` → `POST /api/emitir-factura` con el `access_token` de la sesión y una `idempotencyKey` (uuid, se mantiene mientras el contenido del formulario no cambie, para que un reintento no emita dos facturas).
-2. El endpoint valida el token con Supabase Auth, saca el cliente de `clientes.auth_user_id` (nunca de un NIF enviado en el cuerpo), resuelve la company de BeeL y llama a `POST /v1/companies/{id}/invoices` con `issue_directly: true`.
-3. Guarda la copia en `facturas_emitidas` (upsert por `beel_invoice_id`). Si BeeL emitió pero Supabase falla, **no** devuelve error (la factura ya existe en la AEAT): lo deja en logs.
-4. La AEAT contesta en segundos/minutos → BeeL llama a `POST /api/beel-webhook` (firma HMAC-SHA256 en `BeeL-Signature`, ventana de 5 min) → se actualiza `verifactu_estado`. Si es `REJECTED`, se avisa al webhook de n8n `n8n-workflows/workflows/alerta-factura-rechazada.json`.
-5. "Ver PDF" → `GET /api/factura-pdf?id=` (solo facturas del propio cliente): pide a BeeL una URL firmada de 5 min y reenvía el PDF.
-
-**Tablas**: `facturas_emitidas` (RLS: el cliente solo lee las suyas; escribe solo la service role) y `clientes.beel_company_id`. SQL al final de `supabase/schema.sql`, bloque "ejecutar UNA VEZ" (con GRANT explícito).
-
-**Una company de BeeL = un NIF.** En esta fase de pruebas **todos los clientes comparten la company de sandbox** (`BEEL_DEFAULT_COMPANY_ID`), así que las facturas salen con el emisor de esa cuenta de prueba, no con el del cliente. Para producción hace falta una company por cliente (`POST /v1/accounts/{id}/companies`, con el NIF real del cliente, que debe existir en el censo de la AEAT incluso en sandbox) y rellenar `clientes.beel_company_id`. BeeL responde `CONTACT_SALES_REQUIRED` al crear un segundo NIF en el plan API sin precio acordado: **hay que cerrar el precio multi-NIF con BeeL antes de pasar a producción**.
-
-**Límites conocidos**
-- IVA solo 21/10/4 % y retención 0/7/15 %. El 0 % exige causa de exención y lo emite el equipo.
-- Solo facturas completas (`STANDARD`). No hay rectificativas desde el portal: una factura emitida no se edita ni se borra, se corrige con una rectificativa que hoy se haría desde BeeL.
-- El esquema exacto del `data` del webhook `verifactu.status.updated` no estaba publicado al escribir el receptor: asume `invoice_id` y `new_status` (con `id`/`status` de reserva) y registra en logs si no los encuentra. **Verificar con el primer evento real** (botón "Send test event" de BeeL no sirve: los de prueba se ignoran a propósito).

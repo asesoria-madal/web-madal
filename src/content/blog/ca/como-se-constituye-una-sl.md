@@ -3,6 +3,7 @@ lang: ca
 slug: como-se-constituye-una-sl
 title: 'Com es constitueix una SL: passos, capital social i terminis'
 description: 'Capital mínim, els 5 passos del tràmit i quant trigues: la guia completa, amb notari o per CIRCE.'
+seoDescription: "Capital mínim, reserva legal, els 5 passos del tràmit i quant trigues a constituir una SL: la guia completa, amb notari o per CIRCE."
 cat: fiscalidad
 date: 2026-08-19
 updatedDate: 2026-09-24

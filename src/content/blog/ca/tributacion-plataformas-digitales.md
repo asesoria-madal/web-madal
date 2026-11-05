@@ -3,6 +3,7 @@ lang: ca
 slug: tributacion-plataformas-digitales
 title: 'Com tributen els ingressos de plataformes digitals (Vinted, Wallapop, Airbnb): què és el DAC7'
 description: 'Des que les plataformes informen Hisenda de les teves vendes, la pregunta ja no és "si se n''assabenten", sinó com tributa cada cas.'
+seoTitle: "Com tributen Vinted, Wallapop o Airbnb: què és el DAC7"
 cat: fiscalidad
 date: 2026-10-18
 sources:

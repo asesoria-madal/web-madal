@@ -3,6 +3,7 @@ lang: en
 slug: autonomo-vs-sl-cuando-pasar
 title: 'Self-employed vs. SL: when it makes sense to switch'
 description: 'There is no legal threshold, but there are clear signs to decide by.'
+seoDescription: "There is no legal threshold for moving from self-employed to an SL. These are the signs to decide by: profit, risk, tax and what you need each month."
 cat: fiscalidad
 date: 2026-08-19
 updatedDate: 2026-09-17

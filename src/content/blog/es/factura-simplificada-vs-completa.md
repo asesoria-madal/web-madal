@@ -3,6 +3,7 @@ lang: es
 slug: factura-simplificada-vs-completa
 title: 'Factura simplificada (ticket) vs. factura completa: cuándo puedes usar cada una'
 description: 'No es una cuestión de preferencia — la ley marca cuándo un ticket basta y cuándo hace falta una factura completa.'
+seoTitle: "Factura simplificada vs. completa: cuándo usar cada una"
 cat: contabilidad
 date: 2026-10-04
 sources:

@@ -39,8 +39,6 @@ interface Body {
   // (clientes.alta_hecha = true), false = ya estaba dado de alta (traspaso).
   tramitamosAlta?: boolean;
   reporting: boolean;
-  // Contrata la facturación (BeeL) con nosotros. Opcional: por defecto, no.
-  beelContratado?: boolean;
   // Opcionales. Se sincronizan con HubSpot (workflow n8n "Sync HubSpot").
   telefono?: string;
   plan?: (typeof PLANES)[number];
@@ -63,7 +61,6 @@ function isValid(body: unknown): body is Body {
   if (b.tipoPersona !== 'autonomo' && b.tipoPersona !== 'sl') return false;
   if (b.tipoPersona === 'autonomo' && typeof b.tramitamosAlta !== 'boolean') return false;
   if (typeof b.reporting !== 'boolean') return false;
-  if (b.beelContratado !== undefined && typeof b.beelContratado !== 'boolean') return false;
   if (b.telefono !== undefined && (typeof b.telefono !== 'string' || !TELEFONO_PATTERN.test(b.telefono.trim()))) return false;
   if (b.plan !== undefined && !(PLANES as readonly unknown[]).includes(b.plan)) return false;
   if (b.idioma !== undefined && !(IDIOMAS as readonly unknown[]).includes(b.idioma)) return false;
@@ -137,7 +134,6 @@ export const POST: APIRoute = async ({ request }) => {
     tipo_persona: body.tipoPersona,
     alta_hecha: body.tipoPersona === 'autonomo' ? body.tramitamosAlta : null,
     reporting: body.reporting,
-    beel_contratado: body.beelContratado === true,
     telefono: body.telefono?.trim() || null,
     plan: body.plan ?? null,
     idioma: body.idioma ?? 'es',

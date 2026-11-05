@@ -3,6 +3,8 @@ lang: en
 slug: mejorar-rentabilidad-negocio
 title: 'How to improve your business profitability, not just stay compliant with Hacienda'
 description: 'What your balance sheet and profit and loss account are already telling you.'
+seoTitle: "How to improve your business profitability: five keys"
+seoDescription: "What your balance sheet and profit and loss account are already telling you: margin, break-even point, monthly control, cash, prices and suppliers."
 cat: contabilidad
 date: 2026-08-19
 ---

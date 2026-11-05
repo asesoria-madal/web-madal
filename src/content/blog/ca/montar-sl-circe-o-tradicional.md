@@ -3,6 +3,7 @@ lang: ca
 slug: montar-sl-circe-o-tradicional
 title: 'Muntar una SL per CIRCE o per la via tradicional: què canvia de veritat'
 description: 'CIRCE: 60-150 € i uns dies. Via tradicional: preu lliure i diverses setmanes. Taula comparativa per saber quina et convé.'
+seoTitle: "Muntar una SL per CIRCE o per via tradicional: què canvia"
 cat: fiscalidad
 date: 2026-08-21
 updatedDate: 2026-09-24

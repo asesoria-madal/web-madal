@@ -3,6 +3,7 @@ lang: es
 slug: estimacion-directa-vs-modulos
 title: 'Estimación directa vs. módulos: cuál te conviene'
 description: 'Las diferencias reales, con ejemplos.'
+seoDescription: "Estimación directa o módulos: qué cambia en tu IRPF como autónomo, cuánto pagas según tu negocio y cómo decidir, con un ejemplo comparando los dos sistemas."
 cat: fiscalidad
 date: 2026-08-18
 updatedDate: 2026-08-20

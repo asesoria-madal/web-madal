@@ -3,6 +3,7 @@ lang: en
 slug: interpretar-modelos-fiscales-sl
 title: 'How to read the tax forms we file on your behalf (SL)'
 description: 'Modelo 111, 115, 200, 202, 303, 390, 180, 190, 347 and 349, explained.'
+seoDescription: "What each tax form a limited company files means (Modelo 111, 115, 200, 202, 303, 390, 180, 190, 347 and 349) and why the amount is what it is."
 cat: fiscalidad
 date: 2026-08-19
 updatedDate: 2026-09-23

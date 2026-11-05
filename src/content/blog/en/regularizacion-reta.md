@@ -3,6 +3,7 @@ lang: en
 slug: regularizacion-reta
 title: 'RETA adjustments: why they arrive almost 2 years late (and how to avoid the yearly shock)'
 description: 'You pay contributions based on projected income, and social security squares the numbers once the tax office closes your tax return — with a delay.'
+seoTitle: "RETA adjustments: why they arrive almost 2 years late"
 cat: laboral
 date: 2026-09-23
 sources:

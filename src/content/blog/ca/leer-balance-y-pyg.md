@@ -3,6 +3,8 @@ lang: ca
 slug: leer-balance-y-pyg
 title: 'Com llegir el teu balanç i el teu compte de resultats sense ser economista'
 description: 'Dos documents, dues preguntes diferents: què tens i què deus, i si el negoci guanya diners de debò.'
+seoTitle: "Llegir el balanç i el compte de resultats sense ser economista"
+seoDescription: "Dos documents, dues preguntes diferents: què tens i què deus, i si el negoci guanya diners de debò. Com llegir-los junts, amb un exemple senzill."
 cat: finanzas
 date: 2026-09-17
 updatedDate: 2026-09-23

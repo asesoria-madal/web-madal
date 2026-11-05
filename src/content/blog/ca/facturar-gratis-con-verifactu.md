@@ -3,6 +3,7 @@ lang: ca
 slug: facturar-gratis-con-verifactu
 title: 'No, no cal pagar cap programa per complir amb Verifactu'
 description: 'El que les plataformes de facturació no et diuen: Hisenda ofereix una alternativa gratuïta.'
+seoDescription: "El que les plataformes de facturació no et diuen: Hisenda ofereix una aplicació gratuïta per complir Verifactu. On es queda curta i quan compensa pagar."
 cat: fiscalidad
 date: 2026-08-21
 updatedDate: 2026-09-23

@@ -34,13 +34,16 @@ export default defineConfig({
       // de paginación del blog (/blog/pagina/N) llevan noindex porque no
       // deben competir con los artículos; aviso-legal/privacidad/cookies
       // llevan noindex a propósito (ver Layout), así que tampoco tiene
-      // sentido listar ninguna de ellas en el sitemap.
+      // sentido listar ninguna de ellas en el sitemap. Lo mismo con los
+      // formularios y /pricing, que también llevan noindex.
       filter: (page) =>
         !page.includes('/solicitud') &&
         !page.includes('/pagina/') &&
         !page.includes('/aviso-legal') &&
         !page.includes('/privacidad') &&
-        !page.includes('/cookies'),
+        !page.includes('/cookies') &&
+        !page.includes('/formulario-') &&
+        !/\/pricing\/?$/.test(page),
       // Sin esto el sitemap no llevaba <lastmod> en ninguna URL. Usamos la
       // fecha de este build: es un dato real (cuándo se generó este HTML
       // exacto), no inventado, aunque no distinga qué páginas cambiaron de

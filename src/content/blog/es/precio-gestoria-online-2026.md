@@ -3,6 +3,7 @@ lang: es
 slug: precio-gestoria-online-2026
 title: 'Cuánto cuesta una gestoría online en 2026'
 description: 'Qué determina el precio y qué mirar antes de elegir.'
+seoDescription: "Qué factores suben o bajan el precio de una gestoría online, por qué desconfiar de un precio único para todos y qué preguntar antes de contratar."
 cat: contabilidad
 date: 2026-08-18
 ---

@@ -3,6 +3,7 @@ lang: en
 slug: deducir-gastos-vivienda-teletrabajo
 title: 'Can you deduct rent, electricity or phone if you work from home?'
 description: 'Yes, but only the proportional part: here is how it is calculated.'
+seoDescription: "Yes, but only the proportional part. Which home expenses you can deduct when working from home, how each one is calculated and what you need to support it."
 cat: fiscalidad
 date: 2026-08-19
 updatedDate: 2026-09-23

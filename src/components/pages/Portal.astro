@@ -13,7 +13,6 @@
 // del final; las fechas e importes se formatean con `locale` (data-locale).
 import { useTranslations } from '../../i18n/utils';
 import type { Locale } from '../../i18n/ui';
-import EmitirFacturas from './EmitirFacturas.astro';
 import { WHATSAPP_NUMBER, CONTACT_EMAIL } from '../../lib/contact';
 
 interface Props { lang: Locale; }
@@ -62,7 +61,6 @@ const EMAIL = CONTACT_EMAIL;
             <button type="button" class="app-nav-link active" data-panel="inicio">{t.nav.inicio}</button>
             <button type="button" class="app-nav-link" data-panel="prevision">{t.nav.prevision}</button>
             <button type="button" class="app-nav-link" data-panel="facturas">{t.nav.facturas}</button>
-            <button type="button" class="app-nav-link" data-panel="emitir">{t.nav.emitir}</button>
             <button type="button" class="app-nav-link" data-panel="documentacion">{t.nav.documentacion}</button>
           </nav>
           <div class="app-sidebar-foot">
@@ -153,9 +151,6 @@ const EMAIL = CONTACT_EMAIL;
                 <input type="checkbox" id="alta-reporting" /> {t.admin.alta.reporting}
               </label>
               <label class="portal-alta-check">
-                <input type="checkbox" id="alta-beel" /> {t.admin.alta.beel}
-              </label>
-              <label class="portal-alta-check">
                 <input type="checkbox" id="alta-formulario" checked /> {t.admin.alta.enviarFormulario}
               </label>
             </div>
@@ -171,52 +166,6 @@ const EMAIL = CONTACT_EMAIL;
               </div>
             </div>
           </form>
-
-          <section id="portal-beel-panel" class="portal-alta-form" hidden>
-            <h3>{t.admin.beel.title}</h3>
-            <p id="beel-estado"></p>
-            <!-- Datos fiscales: para crear la cuenta y, si BeeL lo pide
-                 (PROFILE_INCOMPLETE), para corregir la dirección de una ya creada. -->
-            <div id="beel-datos" class="portal-alta-grid" hidden>
-              <label id="beel-legal-wrap">{t.admin.beel.legalName}
-                <input type="text" id="beel-legal" maxlength="255" autocomplete="off" />
-              </label>
-              <label>{t.admin.beel.street}
-                <input type="text" id="beel-street" maxlength="255" autocomplete="off" />
-              </label>
-              <label>{t.admin.beel.number}
-                <input type="text" id="beel-number" maxlength="20" autocomplete="off" />
-              </label>
-              <label>{t.admin.beel.floor}
-                <input type="text" id="beel-floor" maxlength="50" autocomplete="off" />
-              </label>
-              <label>{t.admin.beel.postalCode}
-                <input type="text" id="beel-cp" maxlength="5" inputmode="numeric" autocomplete="off" />
-              </label>
-              <label>{t.admin.beel.city}
-                <input type="text" id="beel-city" maxlength="100" autocomplete="off" />
-              </label>
-              <label>{t.admin.beel.province}
-                <input type="text" id="beel-province" maxlength="100" autocomplete="off" />
-              </label>
-            </div>
-            <div id="beel-crear" hidden>
-              <button type="button" class="btn btn-primary" id="beel-crear-btn">{t.admin.beel.crear}</button>
-            </div>
-            <div id="beel-firmada" hidden>
-              <p id="beel-direccion-nota" hidden>{t.admin.beel.direccionNota}</p>
-              <button type="button" class="portal-logout" id="beel-documento-btn">{t.admin.beel.documento}</button>
-              <a id="beel-descargar" href="#" target="_blank" rel="noopener" hidden>{t.admin.beel.descargar}</a>
-              <label>{t.admin.beel.firmado}
-                <input type="file" id="beel-file" accept="application/pdf,.pdf" />
-              </label>
-              <label class="portal-alta-check">
-                <input type="checkbox" id="beel-coste" /> {t.admin.beel.costeAviso}
-              </label>
-              <button type="button" class="btn btn-primary" id="beel-activar-btn" disabled>{t.admin.beel.activar}</button>
-            </div>
-            <p id="beel-msg" class="portal-msg" hidden></p>
-          </section>
 
           <section class="app-panel" data-panel="inicio">
             <h2>{t.portalExterno.title}</h2>
@@ -242,10 +191,6 @@ const EMAIL = CONTACT_EMAIL;
             <p id="facturaMsg" class="portal-msg" hidden></p>
             <p id="facturaEmpty" class="factura-empty" hidden>{t.facturas.empty}</p>
             <ul id="facturaList" class="factura-list"></ul>
-          </section>
-
-          <section class="app-panel" data-panel="emitir" hidden>
-            <EmitirFacturas lang={lang} />
           </section>
 
           <section class="app-panel" data-panel="documentacion" hidden>
@@ -429,7 +374,6 @@ const EMAIL = CONTACT_EMAIL;
   const panels = Array.from(document.querySelectorAll<HTMLElement>('.app-panel'));
 
   const facturaForm = document.getElementById('facturaForm') as HTMLFormElement;
-  const emitirRoot = document.getElementById('emitirRoot') as HTMLElement;
   const facturaFile = document.getElementById('facturaFile') as HTMLInputElement;
   const facturaCamera = document.getElementById('facturaCamera') as HTMLInputElement;
   const facturaCameraBtn = document.getElementById('facturaCameraBtn') as HTMLButtonElement;
@@ -539,9 +483,6 @@ const EMAIL = CONTACT_EMAIL;
       nombre: string;
       tipo_persona: string | null;
       email?: string | null;
-      beel_contratado?: boolean;
-      beel_estado?: string | null;
-      beel_activado_prod_at?: string | null;
       contacto_whatsapp?: boolean;
     };
 
@@ -551,18 +492,6 @@ const EMAIL = CONTACT_EMAIL;
     // cliente_id; en modo admin RLS las deja leer por la política
     // "admin ve todo".
     function aplicarCliente(cliente: ClienteRow) {
-      if (!adminBar.hidden) {
-        renderBeel(cliente);
-        // El admin puede probar la facturación como el cliente elegido. El
-        // servidor solo lo acepta con la clave de test de BeeL (ver
-        // clienteParaFacturacion en lib/portalAuth.ts).
-        const puedeProbar = cliente.beel_contratado === true;
-        emitirRoot.hidden = !puedeProbar;
-        emitirRoot.dataset.adminCliente = puedeProbar ? cliente.id : '';
-        navLinks.forEach((l) => { if (l.dataset.panel === 'emitir') { l.hidden = !puedeProbar; l.style.display = puedeProbar ? '' : 'none'; } });
-        if (!puedeProbar) panels.forEach((p) => { if (p.dataset.panel === 'emitir') p.hidden = true; });
-        emitirRoot.dispatchEvent(new CustomEvent('emitir:cliente'));
-      }
       currentClienteId = cliente.id;
       nombreEl.textContent = cliente.nombre ?? '';
       renderDocumentacionPanel(cliente.tipo_persona ?? null);
@@ -587,7 +516,7 @@ const EMAIL = CONTACT_EMAIL;
 
       const { data, error } = await supabase!
         .from('clientes')
-        .select('id, nombre, email, tipo_persona, beel_contratado, beel_estado, beel_activado_prod_at, contacto_whatsapp')
+        .select('id, nombre, email, tipo_persona, contacto_whatsapp')
         .order('nombre', { ascending: true });
 
       adminClientes = (!error && data ? data : []) as ClienteRow[];
@@ -655,7 +584,7 @@ const EMAIL = CONTACT_EMAIL;
       // "unlinked", igual que antes.
       const { data: cliente } = await supabase!
         .from('clientes')
-        .select('id, nombre, tipo_persona, beel_contratado, contacto_whatsapp')
+        .select('id, nombre, tipo_persona, contacto_whatsapp')
         .maybeSingle();
 
       if (!cliente) {
@@ -665,196 +594,9 @@ const EMAIL = CONTACT_EMAIL;
 
       adminBar.hidden = true;
       facturaForm.hidden = false;
-      emitirRoot.hidden = false;
-      // "Emitir facturas" solo existe para quien ha contratado la facturación (BeeL).
-      const puedeEmitir = (cliente as ClienteRow).beel_contratado === true;
-      navLinks.forEach((l) => { if (l.dataset.panel === 'emitir') { l.hidden = !puedeEmitir; l.style.display = puedeEmitir ? '' : 'none'; } });
-      panels.forEach((p) => { if (p.dataset.panel === 'emitir' && !puedeEmitir) p.hidden = true; });
       aplicarCliente(cliente as ClienteRow);
       showOnly(dashEl);
     }
-
-    // --- Panel BeeL del cliente seleccionado (solo admin) ---
-    // Paso 1: /api/beel-cuenta (crea cuenta + genera representación; gratis).
-    // Paso 2: /api/beel-activar (sube el PDF firmado y activa en PRODUCCIÓN: 12 €/mes).
-    const beelPanel = document.getElementById('portal-beel-panel') as HTMLElement;
-    const beelEstado = document.getElementById('beel-estado') as HTMLElement;
-    const beelCrear = document.getElementById('beel-crear') as HTMLElement;
-    const beelFirmada = document.getElementById('beel-firmada') as HTMLElement;
-    const beelDescargar = document.getElementById('beel-descargar') as HTMLAnchorElement;
-    const beelMsg = document.getElementById('beel-msg') as HTMLElement;
-    const beelFile = document.getElementById('beel-file') as HTMLInputElement;
-    const beelCoste = document.getElementById('beel-coste') as HTMLInputElement;
-    const beelCrearBtn = document.getElementById('beel-crear-btn') as HTMLButtonElement;
-    const beelActivarBtn = document.getElementById('beel-activar-btn') as HTMLButtonElement;
-    const beelDocumentoBtn = document.getElementById('beel-documento-btn') as HTMLButtonElement;
-    const beelDatos = document.getElementById('beel-datos') as HTMLElement;
-    const beelLegalWrap = document.getElementById('beel-legal-wrap') as HTMLElement;
-    const beelDireccionNota = document.getElementById('beel-direccion-nota') as HTMLElement;
-    let beelCliente: ClienteRow | null = null;
-
-    function beelMensaje(texto: string) {
-      beelMsg.hidden = !texto;
-      beelMsg.textContent = texto;
-    }
-
-    function syncBeelActivar() {
-      beelActivarBtn.disabled = !(beelCoste.checked && beelFile.files && beelFile.files.length > 0);
-    }
-    beelCoste.addEventListener('change', syncBeelActivar);
-    beelFile.addEventListener('change', syncBeelActivar);
-
-    function renderBeel(cliente: ClienteRow) {
-      beelCliente = cliente;
-      beelMensaje('');
-      beelDescargar.hidden = true;
-      // Solo se ofrece para clientes que han contratado la facturación.
-      if (!cliente.beel_contratado) {
-        beelPanel.hidden = true;
-        return;
-      }
-      beelPanel.hidden = false;
-      const estado = cliente.beel_estado ?? null;
-      beelDatos.hidden = estado !== null;
-      beelLegalWrap.hidden = false;
-      beelDireccionNota.hidden = true;
-      beelCrear.hidden = estado !== null;
-      beelFirmada.hidden = estado !== 'cuenta_test';
-      if (estado === 'cuenta_test') {
-        beelEstado.textContent = I18N.admin.beel.estadoTest;
-      } else if (estado === 'produccion') {
-        const fecha = cliente.beel_activado_prod_at ? new Date(cliente.beel_activado_prod_at).toLocaleDateString(LOCALE) : '';
-        beelEstado.textContent = tpl(I18N.admin.beel.estadoProd, { fecha });
-      } else {
-        beelEstado.textContent = I18N.admin.beel.sinCuenta;
-        (document.getElementById('beel-legal') as HTMLInputElement).value = (cliente as any).empresa ?? cliente.nombre ?? '';
-      }
-    }
-
-    // Cuenta ya creada a la que BeeL le pide completar la dirección para
-    // generar la representación: se vuelven a mostrar los campos (sin el
-    // nombre fiscal, que aquí no se cambia).
-    function pedirDireccion() {
-      beelDatos.hidden = false;
-      beelLegalWrap.hidden = true;
-      beelDireccionNota.hidden = false;
-    }
-
-    const valorBeel = (id: string) => (document.getElementById(id) as HTMLInputElement).value.trim();
-    const direccionBeel = () => ({
-      street: valorBeel('beel-street'),
-      number: valorBeel('beel-number'),
-      floor: valorBeel('beel-floor'),
-      postalCode: valorBeel('beel-cp'),
-      city: valorBeel('beel-city'),
-      province: valorBeel('beel-province'),
-    });
-
-    async function beelLlamar(url: string, init: RequestInit) {
-      const {
-        data: { session },
-      } = await supabase!.auth.getSession();
-      const res = await fetch(url, {
-        ...init,
-        headers: { ...(init.headers as Record<string, string> | undefined), Authorization: `Bearer ${session?.access_token ?? ''}` },
-      });
-      const data = await res.json().catch(() => ({}));
-      return { ok: res.ok, data };
-    }
-
-    beelCrearBtn.addEventListener('click', async () => {
-      if (!beelCliente) return;
-      beelCrearBtn.disabled = true;
-      beelMensaje(I18N.admin.beel.creating);
-      try {
-        const { ok, data } = await beelLlamar('/api/beel-cuenta', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ clienteId: beelCliente.id, action: 'crear', legalName: valorBeel('beel-legal'), ...direccionBeel() }),
-        });
-        if (!ok) {
-          // La cuenta puede haberse creado aunque falle un paso posterior (el
-          // documento de representación): se pasa a ese estado para reintentarlo.
-          if (data.estado === 'cuenta_test') {
-            beelCliente.beel_estado = 'cuenta_test';
-            renderBeel(beelCliente);
-            if (data.code === 'PROFILE_INCOMPLETE') pedirDireccion();
-          }
-          beelMensaje(data.error || I18N.admin.beel.error);
-          return;
-        }
-        beelCliente.beel_estado = 'cuenta_test';
-        renderBeel(beelCliente);
-        mostrarDocumento(data, I18N.admin.beel.cuentaOk);
-      } catch {
-        beelMensaje(I18N.admin.beel.error);
-      } finally {
-        beelCrearBtn.disabled = false;
-      }
-    });
-
-    function mostrarDocumento(data: { avisoEnviado?: boolean; avisoMotivo?: string | null; downloadUrl?: string | null }, prefijo: string) {
-      const aviso = data.avisoEnviado ? I18N.admin.beel.avisoSi : `${I18N.admin.beel.avisoNo}${data.avisoMotivo ? ` (${data.avisoMotivo})` : ''}`;
-      beelMensaje(`${prefijo} ${aviso}`);
-      if (data.downloadUrl) {
-        // La URL caduca en minutos: sirve para descargar ahora mismo.
-        beelDescargar.href = data.downloadUrl;
-        beelDescargar.hidden = false;
-      }
-    }
-
-    // Volver a generar el documento: el enlace caduca a los 5 minutos, o la
-    // generación falló al crear la cuenta. También se reenvía al cliente. Si
-    // se está corrigiendo la dirección (campos visibles), va con ella.
-    beelDocumentoBtn.addEventListener('click', async () => {
-      if (!beelCliente) return;
-      const corrigiendo = !beelDatos.hidden;
-      beelDocumentoBtn.disabled = true;
-      beelMensaje(I18N.admin.beel.creating);
-      try {
-        const { ok, data } = await beelLlamar('/api/beel-cuenta', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ clienteId: beelCliente.id, action: 'documento', ...(corrigiendo ? direccionBeel() : {}) }),
-        });
-        if (!ok) {
-          if (data.code === 'PROFILE_INCOMPLETE') pedirDireccion();
-          beelMensaje(data.error || I18N.admin.beel.error);
-          return;
-        }
-        beelDatos.hidden = true;
-        beelDireccionNota.hidden = true;
-        mostrarDocumento(data, I18N.admin.beel.documentoOk);
-      } catch {
-        beelMensaje(I18N.admin.beel.error);
-      } finally {
-        beelDocumentoBtn.disabled = false;
-      }
-    });
-
-    beelActivarBtn.addEventListener('click', async () => {
-      if (!beelCliente || !beelFile.files || beelFile.files.length === 0) return;
-      const form = new FormData();
-      form.append('clienteId', beelCliente.id);
-      form.append('file', beelFile.files[0]);
-      beelActivarBtn.disabled = true;
-      beelMensaje(I18N.admin.beel.activating);
-      try {
-        const { ok, data } = await beelLlamar('/api/beel-activar', { method: 'POST', body: form });
-        if (!ok) {
-          beelMensaje(data.error || I18N.admin.beel.error);
-          return;
-        }
-        beelCliente.beel_estado = 'produccion';
-        beelCliente.beel_activado_prod_at = new Date().toISOString();
-        renderBeel(beelCliente);
-        beelMensaje(I18N.admin.beel.activadoOk);
-      } catch {
-        beelMensaje(I18N.admin.beel.error);
-      } finally {
-        syncBeelActivar();
-      }
-    });
 
     // --- Alta manual de cliente (vía /api/alta-cliente) ---
     // Solo inserta la fila en `clientes`; el correo con el formulario, HubSpot y
@@ -919,7 +661,6 @@ const EMAIL = CONTACT_EMAIL;
             tipoPersona,
             tramitamosAlta: tipoPersona === 'autonomo' ? (document.getElementById('alta-tramitamos') as HTMLSelectElement).value === 'si' : undefined,
             reporting: (document.getElementById('alta-reporting') as HTMLInputElement).checked,
-            beelContratado: (document.getElementById('alta-beel') as HTMLInputElement).checked,
             enviarFormulario: (document.getElementById('alta-formulario') as HTMLInputElement).checked,
           }),
         });

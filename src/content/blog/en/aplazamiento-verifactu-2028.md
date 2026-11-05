@@ -3,6 +3,7 @@ lang: en
 slug: aplazamiento-verifactu-2028
 title: 'Verifactu postponed to October 2028: what the Tax Ministry announced and what still applies'
 description: 'The Ministry of Finance has announced a third postponement of Verifactu. It is not in the BOE yet: which dates still apply and what to do meanwhile.'
+seoTitle: "Verifactu postponed to October 2028: what still applies"
 cat: fiscalidad
 date: 2026-10-13
 sources:

@@ -14,6 +14,10 @@ const blog = defineCollection({
     slug: z.string(),
     title: z.string(),
     description: z.string(),
+    // Solo para buscadores (<title> y meta description): el título visible (H1 y tarjetas)
+    // y la descripción de las tarjetas siguen siendo title y description.
+    seoTitle: z.string().optional(),
+    seoDescription: z.string().optional(),
     cat: z.enum(['fiscalidad', 'contabilidad', 'laboral', 'finanzas']),
     date: z.coerce.date(),
     // Fecha de la última revisión de contenido. Opcional: si no se indica,

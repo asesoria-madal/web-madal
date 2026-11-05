@@ -3,6 +3,8 @@ lang: en
 slug: gastos-deducibles-autonomos
 title: 'What expenses self-employed workers in Spain can deduct (and how to prove them)'
 description: 'The list of deductible expenses is not the hard part. Proving them is.'
+seoTitle: "What self-employed workers in Spain can deduct and prove"
+seoDescription: "Which expenses you can deduct as self-employed in Spain and how to prove them. The list isn't the hard part: it's having each one supported if Hacienda checks."
 cat: fiscalidad
 date: 2026-08-19
 updatedDate: 2026-09-23

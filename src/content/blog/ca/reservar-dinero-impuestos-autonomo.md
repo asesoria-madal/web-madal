@@ -3,6 +3,8 @@ lang: ca
 slug: reservar-dinero-impuestos-autonomo
 title: 'Quin percentatge dels teus ingressos hauries de reservar cada mes per a impostos'
 description: 'Una guia pràctica per no quedar-te curt en el pagament trimestral.'
+seoTitle: "Quant reservar cada mes per a impostos sent autònom"
+seoDescription: "Una guia pràctica per no quedar-te curt en el pagament trimestral: per què cal una reserva, una referència orientativa i com fer-ho sense complicar-te."
 cat: fiscalidad
 date: 2026-08-19
 ---
