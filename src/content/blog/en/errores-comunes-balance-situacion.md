@@ -3,6 +3,8 @@ lang: en
 slug: errores-comunes-balance-situacion
 title: 'Common balance sheet mistakes: reading it wrong and building it wrong'
 description: 'The ones we see most often, with examples, in two groups: misreading it and misbuilding it.'
+seoTitle: "Common balance sheet mistakes: misreading and misbuilding it"
+seoDescription: "The most common balance sheet mistakes, with examples, in two groups: how it gets misread and how it gets built wrong in the first place."
 cat: contabilidad
 date: 2026-08-24
 updatedDate: 2026-09-23

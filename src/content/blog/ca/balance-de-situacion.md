@@ -3,6 +3,7 @@ lang: ca
 slug: balance-de-situacion
 title: 'Què és un balanç de situació'
 description: 'I per què val la pena mirar-lo cada trimestre.'
+seoDescription: "Què és el balanç de situació, què mostra i per què val la pena mirar-lo cada trimestre, amb un exemple numèric fàcil de seguir."
 cat: contabilidad
 date: 2026-08-18
 ---

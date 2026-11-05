@@ -3,6 +3,7 @@ lang: es
 slug: regularizacion-reta
 title: 'La regularización del RETA: por qué te llega casi 2 años tarde (y cómo evitar el susto cada año)'
 description: 'Cotizas por una previsión de ingresos, y la Seguridad Social te cuadra las cuentas cuando Hacienda cierra tu declaración — con retraso.'
+seoTitle: "Regularización del RETA: por qué llega casi 2 años tarde"
 cat: laboral
 date: 2026-09-23
 sources:

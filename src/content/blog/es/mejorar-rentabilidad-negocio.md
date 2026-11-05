@@ -3,6 +3,7 @@ lang: es
 slug: mejorar-rentabilidad-negocio
 title: 'Cómo mejorar la rentabilidad de tu negocio, no solo cumplir con Hacienda'
 description: 'Facturas más que nunca y te queda menos dinero en la cuenta. Cinco cosas concretas que puedes revisar esta semana.'
+seoTitle: "Cómo mejorar la rentabilidad de tu negocio: cinco claves"
 cat: contabilidad
 date: 2026-08-19
 updatedDate: 2026-09-30

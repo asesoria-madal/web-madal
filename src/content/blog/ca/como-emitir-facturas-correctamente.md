@@ -3,6 +3,7 @@ lang: ca
 slug: como-emitir-facturas-correctamente
 title: 'Com emetre factures correctament: les dades que no poden faltar'
 description: 'Una factura mal feta no és deduïble ni vàlida davant d''Hisenda.'
+seoDescription: "Les dades obligatòries d'una factura, els errors més freqüents i quan aplicar retenció d'IRPF. Una factura mal feta pot deixar de ser vàlida."
 cat: contabilidad
 date: 2026-08-19
 updatedDate: 2026-09-23

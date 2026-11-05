@@ -3,6 +3,8 @@ lang: es
 slug: deducir-gastos-vivienda-teletrabajo
 title: '¿Puedes deducirte el alquiler, la luz o el teléfono si trabajas desde casa?'
 description: 'Sí, pero solo la parte proporcional: así se calcula.'
+seoTitle: "Deducir alquiler, luz y teléfono si trabajas desde casa"
+seoDescription: "Sí, pero solo la parte proporcional. Qué gastos de la vivienda puedes deducir si trabajas desde casa, cómo se calcula cada uno y qué hace falta para justificarlo."
 cat: fiscalidad
 date: 2026-08-19
 updatedDate: 2026-09-23

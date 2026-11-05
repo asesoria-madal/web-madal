@@ -3,6 +3,7 @@ lang: en
 slug: balance-de-situacion
 title: 'What a balance sheet is'
 description: 'And why it''s worth checking every quarter.'
+seoDescription: "What a balance sheet is, what it shows and why it's worth checking every quarter rather than only the income statement, with a worked example."
 cat: contabilidad
 date: 2026-08-18
 ---

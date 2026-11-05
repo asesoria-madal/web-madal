@@ -3,6 +3,7 @@ lang: ca
 slug: interpretar-modelos-fiscales-sl
 title: 'Com interpretar els models que presentem per tu (SL)'
 description: 'Models 111, 115, 200, 202, 303, 390, 180, 190, 347 i 349, explicats.'
+seoDescription: "Què és cada model fiscal que presenta una SL (111, 115, 200, 202, 303, 390, 180, 190, 347 i 349) i per què l'import és aquest: guia de referència ràpida."
 cat: fiscalidad
 date: 2026-08-19
 updatedDate: 2026-09-23

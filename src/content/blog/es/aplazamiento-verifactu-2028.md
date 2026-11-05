@@ -3,6 +3,7 @@ lang: es
 slug: aplazamiento-verifactu-2028
 title: 'Verifactu se aplaza a octubre de 2028: qué ha anunciado Hacienda y qué sigue vigente'
 description: 'Hacienda ha anunciado un tercer aplazamiento de Verifactu. Todavía no está en el BOE: qué fechas siguen vigentes y qué hacer mientras tanto.'
+seoTitle: "Verifactu se aplaza a octubre de 2028: qué sigue vigente"
 cat: fiscalidad
 date: 2026-10-13
 sources:

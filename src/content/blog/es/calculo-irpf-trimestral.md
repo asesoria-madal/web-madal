@@ -3,6 +3,7 @@ lang: es
 slug: calculo-irpf-trimestral
 title: 'Cómo se calcula el IRPF trimestral y cómo estimarlo'
 description: 'De dónde sale la cifra del modelo 130, con un ejemplo.'
+seoDescription: "Qué calcula el modelo 130, de dónde sale la cifra del pago trimestral de IRPF, cuándo no hace falta presentarlo y cómo estimarlo tú mismo, con un ejemplo."
 cat: fiscalidad
 date: 2026-08-19
 updatedDate: 2026-09-23

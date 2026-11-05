@@ -3,6 +3,8 @@ lang: es
 slug: cuanto-cuesta-realmente-un-empleado
 title: 'Cuánto cuesta realmente un empleado: coste empresa vs. salario neto'
 description: 'El salario que ve tu empleado en su nómina no es ni de lejos lo que te cuesta a ti cada mes.'
+seoTitle: "Cuánto cuesta un empleado: coste empresa vs. salario neto"
+seoDescription: "El salario de la nómina no es lo que te cuesta un empleado. Qué cotiza la empresa a la Seguridad Social y cuánto suma, con un ejemplo con varios sueldos."
 cat: laboral
 date: 2026-10-07
 sources:

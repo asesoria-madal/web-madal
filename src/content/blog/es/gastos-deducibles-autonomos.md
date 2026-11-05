@@ -3,6 +3,7 @@ lang: es
 slug: gastos-deducibles-autonomos
 title: 'Qué gastos te puedes deducir como autónomo (y cómo justificarlos)'
 description: 'La lista no es la parte difícil, la justificación sí.'
+seoDescription: "Qué gastos puedes deducirte como autónomo y cómo justificarlos. La lista no es la parte difícil: lo es que el gasto esté bien justificado si Hacienda lo revisa."
 cat: fiscalidad
 date: 2026-08-19
 updatedDate: 2026-09-23

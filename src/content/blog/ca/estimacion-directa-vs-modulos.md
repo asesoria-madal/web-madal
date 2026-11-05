@@ -3,6 +3,7 @@ lang: ca
 slug: estimacion-directa-vs-modulos
 title: 'Estimació directa vs. mòduls: quin et convé'
 description: 'Les diferències reals, amb exemples.'
+seoDescription: "Estimació directa o mòduls: què canvia en el teu IRPF com a autònom, quant pagues segons el teu negoci i com decidir, amb un exemple que compara els dos sistemes."
 cat: fiscalidad
 date: 2026-08-18
 updatedDate: 2026-08-20

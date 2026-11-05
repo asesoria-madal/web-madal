@@ -3,6 +3,7 @@ lang: es
 slug: errores-comunes-balance-situacion
 title: 'Errores comunes en el balance: de interpretación y de confección'
 description: 'Los que más vemos, con ejemplos, en dos bloques: cómo se lee mal y cómo se hace mal.'
+seoDescription: "Los errores más habituales con el balance de situación, con ejemplos y en dos bloques: cómo se interpreta mal y cómo se confecciona mal."
 cat: contabilidad
 date: 2026-08-24
 updatedDate: 2026-09-23

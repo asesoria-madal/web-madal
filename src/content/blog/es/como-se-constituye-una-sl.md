@@ -3,6 +3,7 @@ lang: es
 slug: como-se-constituye-una-sl
 title: 'Cómo se constituye una SL: pasos, capital social y plazos'
 description: 'Capital mínimo, los 5 pasos del trámite y cuánto tardas: la guía completa, con notario o por CIRCE.'
+seoDescription: "Capital mínimo, reserva legal, los 5 pasos del trámite y cuánto tardas en constituir una SL: la guía completa, con notario o por CIRCE."
 cat: fiscalidad
 date: 2026-08-19
 updatedDate: 2026-09-24

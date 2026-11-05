@@ -3,6 +3,7 @@ lang: en
 slug: leer-balance-y-pyg
 title: 'How to read your balance sheet and P&L without being an accountant'
 description: 'Two documents, two different questions: what you have and what you owe, and whether the business is actually making money.'
+seoTitle: "How to read your balance sheet and P&L: no accounting needed"
 cat: finanzas
 date: 2026-09-17
 updatedDate: 2026-09-23

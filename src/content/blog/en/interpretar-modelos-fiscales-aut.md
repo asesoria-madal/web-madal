@@ -3,6 +3,7 @@ lang: en
 slug: interpretar-modelos-fiscales-aut
 title: 'How to read the tax forms we file on your behalf (Self-employed)'
 description: 'Modelo 100, 111, 115, 130, 303, 390, 180, 190, 347 and 349, explained.'
+seoDescription: "What each tax form a self-employed worker files means (Modelo 100, 111, 115, 130, 303, 390, 180, 190, 347 and 349) and why the amount is what it is."
 cat: fiscalidad
 date: 2026-08-19
 updatedDate: 2026-08-20

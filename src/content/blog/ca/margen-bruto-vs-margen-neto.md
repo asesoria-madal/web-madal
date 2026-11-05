@@ -3,6 +3,8 @@ lang: ca
 slug: margen-bruto-vs-margen-neto
 title: 'Marge brut vs. marge net: per què facturar molt no és el mateix que guanyar diners'
 description: 'Dos negocis poden facturar el mateix i un guanyar diners de debò mentre l''altre a penes sobreviu.'
+seoTitle: "Marge brut vs. marge net: facturar no és guanyar diners"
+seoDescription: "Dos negocis poden facturar el mateix i un guanyar diners de debò mentre l'altre a penes sobreviu. Què és el marge brut i el net i per què importen per decidir."
 cat: finanzas
 date: 2026-10-20
 ---

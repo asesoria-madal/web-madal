@@ -3,6 +3,7 @@ lang: es
 slug: tributacion-plataformas-digitales
 title: 'Cómo tributan los ingresos de plataformas digitales (Vinted, Wallapop, Airbnb): qué es DAC7'
 description: 'Desde que las plataformas informan a Hacienda de tus ventas, la pregunta ya no es "si se enteran", sino cómo tributa cada caso.'
+seoTitle: "Cómo tributan Vinted, Wallapop o Airbnb: qué es DAC7"
 cat: fiscalidad
 date: 2026-10-18
 sources:

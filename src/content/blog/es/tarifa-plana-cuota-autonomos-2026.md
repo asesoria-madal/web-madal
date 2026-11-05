@@ -3,6 +3,8 @@ lang: es
 slug: tarifa-plana-cuota-autonomos-2026
 title: 'Tarifa plana de autónomos en 2026: cuánto pagas y qué pasa cuando se acaba'
 description: 'Cuánto dura, qué requisitos pide y cómo funciona el sistema de tramos después.'
+seoTitle: "Tarifa plana de autónomos 2026: cuánto pagas y cuándo acaba"
+seoDescription: "Cuánto dura la tarifa plana de autónomos, qué requisitos pide y cómo funciona el sistema de tramos después, para no elegir tu tramo a ojo."
 cat: fiscalidad
 date: 2026-09-21
 updatedDate: 2026-09-21

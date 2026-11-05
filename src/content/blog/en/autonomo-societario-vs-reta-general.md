@@ -3,6 +3,7 @@ lang: en
 slug: autonomo-societario-vs-reta-general
 title: 'Company-director self-employed status vs. standard RETA: when a partner in a limited company has to register as self-employed'
 description: 'Having a limited company doesn''t get you out of registering as self-employed if you work in it and control it — and you pay contributions differently.'
+seoTitle: "Company-director self-employment: when SL partners register"
 cat: laboral
 date: 2026-09-30
 sources:

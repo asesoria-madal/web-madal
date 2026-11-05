@@ -3,6 +3,7 @@ lang: en
 slug: montar-sl-circe-o-tradicional
 title: 'Setting up an SL through CIRCE or the traditional route: what actually changes'
 description: 'CIRCE: €60-150 and a few days. Traditional route: freely negotiated price and several weeks. A comparison table to see which fits you.'
+seoTitle: "Setting up an SL via CIRCE or the traditional route"
 cat: fiscalidad
 date: 2026-08-21
 updatedDate: 2026-09-24

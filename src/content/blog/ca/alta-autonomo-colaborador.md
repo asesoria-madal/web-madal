@@ -3,6 +3,7 @@ lang: ca
 slug: alta-autonomo-colaborador
 title: 'Alta com a autònom col·laborador: contractar (sense contractar) un familiar'
 description: 'Si un familiar t''ajuda al negoci de manera habitual, hi ha una figura específica per a això — i no és un contracte laboral.'
+seoTitle: "Autònom col·laborador: com donar d'alta un familiar"
 cat: laboral
 date: 2026-10-13
 sources:

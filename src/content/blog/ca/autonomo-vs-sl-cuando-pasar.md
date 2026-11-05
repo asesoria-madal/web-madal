@@ -3,6 +3,7 @@ lang: ca
 slug: autonomo-vs-sl-cuando-pasar
 title: 'Autònom vs. SL: quan convé fer el salt'
 description: 'No hi ha una xifra fixada per llei, però sí senyals clars per decidir.'
+seoDescription: "No hi ha cap xifra fixada per llei per passar d'autònom a SL. Aquests són els senyals per decidir-ho: benefici, risc, impostos i el que necessites cada mes."
 cat: fiscalidad
 date: 2026-08-19
 updatedDate: 2026-09-17

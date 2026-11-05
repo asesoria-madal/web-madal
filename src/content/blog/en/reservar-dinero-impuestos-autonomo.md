@@ -3,6 +3,8 @@ lang: en
 slug: reservar-dinero-impuestos-autonomo
 title: 'What percentage of your income you should set aside each month for taxes'
 description: 'A practical guide to not coming up short on your quarterly payment.'
+seoTitle: "How much to set aside each month for tax as self-employed"
+seoDescription: "A practical guide to not coming up short on your quarterly payment: why you need a reserve, a rough benchmark and how to do it without complications."
 cat: fiscalidad
 date: 2026-08-19
 ---

@@ -3,6 +3,7 @@ lang: en
 slug: precio-gestoria-online-2026
 title: 'How much an online gestoría costs in 2026'
 description: 'What determines the price, and what to check before choosing.'
+seoDescription: "What pushes the price of an online accounting firm up or down, why to be wary of a single price for everyone and what to ask before signing up."
 cat: contabilidad
 date: 2026-08-18
 ---

@@ -3,6 +3,7 @@ lang: en
 slug: deducir-coche-autonomo
 title: 'Deducting your car as self-employed in Spain: 50% VAT, and when it''s 100% (2026)'
 description: 'The short answer: almost nothing for income tax, 50% for VAT. We explain why with a worked example and the exceptions where you can deduct the whole car.'
+seoTitle: "Deducting your car as self-employed in Spain: 50% or 100% VAT"
 cat: fiscalidad
 date: 2026-08-30
 sources:

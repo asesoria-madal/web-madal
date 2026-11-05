@@ -3,6 +3,8 @@ lang: en
 slug: verifactu-2026
 title: 'Verifactu: what it is and when it affects you as a self-employed worker'
 description: 'The correct date, not the outdated one still circulating online.'
+seoTitle: "Verifactu: what it is and when it affects the self-employed"
+seoDescription: "What Verifactu is, who it really affects and what to do now: the correct date, not the outdated one still circulating online."
 cat: fiscalidad
 date: 2026-08-18
 updatedDate: 2026-10-13

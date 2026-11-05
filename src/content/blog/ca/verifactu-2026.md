@@ -3,6 +3,7 @@ lang: ca
 slug: verifactu-2026
 title: 'Verifactu: què és i quan t’afecta si ets autònom'
 description: 'La data correcta, no la que encara circula desactualitzada per internet.'
+seoDescription: "Què és Verifactu, a qui afecta de debò i què fer ara: la data correcta, no la que encara circula desactualitzada per internet."
 cat: fiscalidad
 date: 2026-08-18
 updatedDate: 2026-10-13

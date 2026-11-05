@@ -3,6 +3,7 @@ lang: ca
 slug: errores-comunes-balance-situacion
 title: 'Errors comuns en el balanç: d''interpretació i de confecció'
 description: 'Els que més veiem, amb exemples, en dos blocs: com es llegeix malament i com es fa malament.'
+seoDescription: "Els errors més habituals amb el balanç de situació, amb exemples i en dos blocs: com s'interpreta malament i com es confecciona malament."
 cat: contabilidad
 date: 2026-08-24
 updatedDate: 2026-09-23

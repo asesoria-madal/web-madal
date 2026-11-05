@@ -3,6 +3,8 @@ lang: ca
 slug: deducir-gastos-vivienda-teletrabajo
 title: 'Et pots deduir el lloguer, la llum o el telèfon si treballes des de casa?'
 description: 'Sí, però només la part proporcional: així es calcula.'
+seoTitle: "Deduir lloguer, llum i telèfon si treballes des de casa"
+seoDescription: "Sí, però només la part proporcional. Quines despeses de l'habitatge pots deduir si treballes des de casa, com es calcula cadascuna i què cal per justificar-ho."
 cat: fiscalidad
 date: 2026-08-19
 updatedDate: 2026-09-23

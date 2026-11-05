@@ -3,6 +3,7 @@ lang: en
 slug: alta-autonomo-colaborador
 title: 'Registering a collaborating family member: hiring (without hiring) a relative'
 description: 'If a family member helps you in the business on a regular basis, there is a specific status for that — and it is not an employment contract.'
+seoTitle: "Collaborating family member: registering a relative"
 cat: laboral
 date: 2026-10-13
 sources:

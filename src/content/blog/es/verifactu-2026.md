@@ -3,6 +3,7 @@ lang: es
 slug: verifactu-2026
 title: 'Verifactu: qué es y cuándo te afecta si eres autónomo'
 description: 'La fecha correcta, no la que sigue circulando desactualizada por internet.'
+seoDescription: "Qué es Verifactu, a quién afecta de verdad y qué hacer ahora: la fecha correcta, no la que sigue circulando desactualizada por internet."
 cat: fiscalidad
 date: 2026-08-18
 updatedDate: 2026-10-13

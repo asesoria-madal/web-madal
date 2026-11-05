@@ -3,6 +3,7 @@ lang: en
 slug: estimacion-directa-vs-modulos
 title: 'Direct estimation vs. modules: which suits you'
 description: 'The real differences, with examples.'
+seoDescription: "Direct assessment or modules: what changes in your income tax as self-employed, what you pay depending on your business and how to decide, with a worked example."
 cat: fiscalidad
 date: 2026-08-18
 updatedDate: 2026-08-20

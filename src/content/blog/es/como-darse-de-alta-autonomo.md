@@ -3,6 +3,7 @@ lang: es
 slug: como-darse-de-alta-autonomo
 title: 'Cómo darse de alta como autónomo: cuándo, cómo y cuánto cuesta con nosotros'
 description: 'Cuándo tienes que darte de alta, qué trámites hay, cómo lo hacemos nosotros, cuánto tardamos y qué precio tiene.'
+seoTitle: "Alta de autónomo: cuándo, cómo y cuánto cuesta con nosotros"
 cat: fiscalidad
 date: 2026-10-05
 updatedDate: 2026-10-05

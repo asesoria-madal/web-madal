@@ -3,6 +3,7 @@ lang: es
 slug: montar-sl-circe-o-tradicional
 title: 'Montar una SL por CIRCE o por la vía tradicional: qué cambia de verdad'
 description: 'CIRCE: 60-150 € y unos días. Vía tradicional: precio libre y varias semanas. Tabla comparativa para saber cuál te conviene.'
+seoTitle: "Montar una SL por CIRCE o por vía tradicional: qué cambia"
 cat: fiscalidad
 date: 2026-08-21
 updatedDate: 2026-09-24

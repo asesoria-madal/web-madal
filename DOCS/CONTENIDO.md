@@ -129,3 +129,7 @@ npm run build
 Si una respuesta lleva comillas simples (`'`), escápalas (`\'`) o usa comillas dobles para el string. Un `astro check` en verde confirma que la sintaxis está bien.
 
 Luego commit + push a `main`.
+
+## Título y descripción para buscadores
+
+En el blog, `title` es el H1 y sale en las tarjetas, y `description` también sale en las tarjetas. Si hace falta un texto distinto solo para buscadores, usa los campos opcionales `seoTitle` (hasta unos 60 caracteres) y `seoDescription` (unos 120-160) del frontmatter: van al `<title>` y a la meta description, y no cambian nada de lo que se ve en la web. Deben decir solo lo que ya dice el artículo; si este cambia, revísalos.

@@ -3,6 +3,7 @@ lang: es
 slug: alta-autonomo-colaborador
 title: 'Alta como autónomo colaborador: contratar (sin contratar) a un familiar'
 description: 'Si un familiar te ayuda en el negocio de forma habitual, hay una figura específica para eso — y no es un contrato laboral.'
+seoTitle: "Autónomo colaborador: cómo dar de alta a un familiar"
 cat: laboral
 date: 2026-10-13
 sources:

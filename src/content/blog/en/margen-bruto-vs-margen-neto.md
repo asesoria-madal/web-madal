@@ -3,6 +3,7 @@ lang: en
 slug: margen-bruto-vs-margen-neto
 title: 'Gross margin vs. net margin: why billing a lot isn''t the same as making money'
 description: 'Two businesses can bill the same amount, and one actually makes money while the other barely survives.'
+seoTitle: "Gross vs. net margin: billing a lot isn't making money"
 cat: finanzas
 date: 2026-10-20
 ---

@@ -3,6 +3,8 @@ lang: ca
 slug: gastos-deducibles-autonomos
 title: 'Quines despeses et pots deduir com a autònom (i com justificar-les)'
 description: 'La llista no és la part difícil, la justificació sí.'
+seoTitle: "Despeses deduïbles d'autònoms: quines són i com justificar-les"
+seoDescription: "Quines despeses et pots deduir com a autònom i com justificar-les. La llista no és la part difícil: ho és que la despesa estigui ben justificada si Hisenda la revisa."
 cat: fiscalidad
 date: 2026-08-19
 updatedDate: 2026-09-23

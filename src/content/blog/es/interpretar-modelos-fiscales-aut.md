@@ -3,6 +3,7 @@ lang: es
 slug: interpretar-modelos-fiscales-aut
 title: 'Cómo interpretar los modelos que presentamos por ti (Autónomos)'
 description: 'Modelos 100, 111, 115, 130, 303, 390, 180, 190, 347 y 349, explicados.'
+seoDescription: "Qué es cada modelo fiscal que presenta un autónomo (100, 111, 115, 130, 303, 390, 180, 190, 347 y 349) y por qué el importe es ese: guía de referencia rápida."
 cat: fiscalidad
 date: 2026-08-19
 updatedDate: 2026-08-20
