@@ -1,0 +1,12 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Contacto from '../../components/pages/Contacto.astro';
+import { LEADS } from '../../i18n/leads';
+
+export const prerender = true;
+const m = LEADS.en.meta;
+---
+
+<Layout lang="en" path="/en/contacto" active="none" title={m.contactoTitle} description={m.contactoDesc} showCtaFinal={false} breadcrumbs={[{ name: LEADS.en.contacto.eyebrow, path: '/contacto' }]}>
+  <Contacto lang="en" />
+</Layout>

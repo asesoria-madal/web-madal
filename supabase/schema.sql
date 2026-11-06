@@ -1043,3 +1043,36 @@ create table if not exists seguimiento_negocios (
 
 alter table seguimiento_negocios enable row level security;
 grant all on seguimiento_negocios to service_role;
+
+-- Solicitudes de la web (2026-11-06; endpoint api/lead, formulario LeadForm.astro):
+-- contacto general y constitución de SL. Aparte de `clientes` porque quien escribe
+-- todavía no es cliente y no tiene NIF. Los valores cerrados se validan en el endpoint,
+-- sin CHECK, como en el resto. Los datos personales llevan constancia del
+-- consentimiento en privacy_accepted_at. Solo service role: no los ve el portal.
+-- notificado_at, alerta_24h_at y las columnas hubspot_* las rellena n8n. Lo de quien
+-- no llega a ser cliente se conserva hasta 12 meses (ver la política de privacidad).
+create table if not exists leads (
+  id uuid primary key default gen_random_uuid(),
+  tipo text not null,          -- 'contacto' | 'constituir_sl'
+  idioma text not null default 'es',
+  nombre text not null,
+  email text not null,
+  telefono text,
+  perfil text,                 -- contacto: 'empezar' | 'autonomo' | 'sl' | 'constituir_sl' | 'otra'
+  mensaje text,
+  comunidad text,              -- SL; Canarias, País Vasco y Navarra se rechazan: no constituimos allí
+  actividad text,
+  denominacion text,
+  plazo text,                  -- cuándo quiere empezar: 'ya' | 'este_mes' | '1_3_meses' | 'mas_adelante'
+  origen text,                 -- desde dónde se envió, p. ej. 'blog:<slug>'
+  pagina text,
+  privacy_accepted_at timestamptz not null,
+  notificado_at timestamptz,
+  alerta_24h_at timestamptz,
+  hubspot_contact_id text,
+  hubspot_deal_id text,
+  created_at timestamptz not null default now()
+);
+
+alter table leads enable row level security;
+grant all on leads to service_role;

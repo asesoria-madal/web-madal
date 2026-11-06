@@ -19,6 +19,7 @@ const home = lang === 'es' ? '/' : `/${lang}/`;
         <h3>{t.footer.navTitle}</h3>
         <nav class="foot-nav">
           <a href={home}>{t.nav.home}</a>
+          <a href={localizedPath('/constituir-sl', lang)}>{t.nav.sl}</a>
           <a href={localizedPath('/alta', lang)}>{t.nav.alta}</a>
           <a href={localizedPath('/blog', lang)}>{t.nav.blog}</a>
           <a href={localizedPath('/servicios', lang)}>{t.nav.servicios}</a>
@@ -29,6 +30,7 @@ const home = lang === 'es' ? '/' : `/${lang}/`;
       <div>
         <h3>{t.footer.contactTitle}</h3>
         <ul class="foot-list">
+          <li><a href={localizedPath('/contacto', lang)}>{t.nav.contacto}</a></li>
           <li><a href="mailto:contacto@asesoriamadal.es">contacto@asesoriamadal.es</a></li>
           <li><a href="https://meetings-eu1.hubspot.com/asesoria-madal" target="_blank" rel="noopener">{t.footer.contactCall}</a></li>
         </ul>

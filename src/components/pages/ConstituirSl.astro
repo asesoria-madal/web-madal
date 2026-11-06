@@ -1,0 +1,70 @@
+---
+import { LEADS } from '../../i18n/leads';
+import type { Locale } from '../../i18n/ui';
+import { localizedPath } from '../../i18n/utils';
+import LeadForm from '../LeadForm.astro';
+
+interface Props { lang: Locale; }
+const { lang } = Astro.props;
+const s = LEADS[lang].sl;
+---
+
+<div id="view-constituir-sl">
+  <section class="sl-hero">
+    <div class="page sl-hero-grid">
+      <div>
+        <p class="eyebrow">{s.eyebrow}</p>
+        <h1 class="section-title">{s.title}</h1>
+        <p class="section-sub">{s.intro}</p>
+        <div class="sl-hero-actions">
+          <a href="#empezar" class="btn btn-primary btn-stamp">{s.cta}</a>
+          <a href="https://meetings-eu1.hubspot.com/asesoria-madal" target="_blank" rel="noopener" class="btn btn-outline">{s.ctaLlamada}</a>
+        </div>
+      </div>
+      <div class="sl-ticket">
+        <h2>{s.precioTitle}</h2>
+        <dl>
+          {s.precio.map(([concepto, importe]) => (
+            <div class="sl-ticket-row"><dt>{concepto}</dt><dd>{importe}</dd></div>
+          ))}
+        </dl>
+        <p class="sl-ticket-nota">{s.precioNota}</p>
+        <p class="sl-ticket-nota">{s.capitalNota}</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="label-col"><p class="eyebrow">{s.porQueTitle}</p></div>
+    <div class="sl-porque">
+      {s.porQue.map(([titulo, desc]) => (
+        <div><h2>{titulo}</h2><p>{desc}</p></div>
+      ))}
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="label-col"><p class="eyebrow">{s.pasosTitle}</p></div>
+    <div class="process">
+      {s.pasos.map(([titulo, desc], i) => (
+        <div class="step">
+          <span class="num">{i + 1}</span>
+          <div><h2>{titulo}</h2><p>{desc}</p></div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="section" id="empezar">
+    <div class="label-col">
+      <p class="eyebrow">{s.formTitle}</p>
+      <p class="field-hint sl-ambito"><strong>{s.ambitoTitle}</strong><br />{s.ambito}</p>
+      <p class="field-hint"><strong>{s.guiaTitle}</strong></p>
+      {s.guias.map(([slug, titulo]) => <p class="field-hint"><a href={localizedPath(`/blog/${slug}`, lang)}>{titulo}</a></p>)}
+    </div>
+    <div>
+      <p class="section-sub">{s.formSub}</p>
+      <div class="lead-card"><LeadForm lang={lang} tipo="constituir_sl" origen="pagina_constituir_sl" /></div>
+    </div>
+  </section>
+</div>

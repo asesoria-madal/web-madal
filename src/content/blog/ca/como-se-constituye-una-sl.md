@@ -51,7 +51,7 @@ Si es fan servir estatuts tipus estandarditzats a través del sistema de tramita
 
 ## El que no canvia
 
-El tràmit de constitució en si el porta un notari, no una gestoria. Nosaltres no constituïm SL, però t'assessorem sobre què encaixa amb la teva situació abans de fer el pas, i ens encarreguem de la comptabilitat i la fiscalitat des del primer dia de vida de la societat.
+L'escriptura se signa davant notari, però el tràmit no l'has de portar tu: [constituïm la teva SL en menys d'una setmana](/ca/constituir-sl), amb la sol·licitud del nom inclosa. A més t'assessorem sobre què encaixa amb la teva situació abans de fer el pas, i ens encarreguem de la comptabilitat i la fiscalitat des del primer dia de vida de la societat.
 
 ## Estàs valorant fer el pas?
 

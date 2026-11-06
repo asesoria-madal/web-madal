@@ -57,7 +57,7 @@ Un matiz que se suele pasar por alto: constituir por CIRCE no te libra de la cuo
 
 ## Lo que no cambia
 
-Elijas la vía que elijas, el trámite de constitución en sí lo lleva un notario (y, en su caso, el sistema CIRCE), no una gestoría. Nosotros te asesoramos sobre qué vía encaja con tu situación antes de dar el paso, y nos encargamos de la contabilidad y la fiscalidad desde el primer día de vida de la sociedad.
+Elijas la vía que elijas, la escritura se firma ante notario, pero el trámite no tienes que llevarlo tú: [constituimos tu SL en menos de una semana](/constituir-sl), con la solicitud del nombre incluida. Además te asesoramos sobre qué vía encaja con tu situación antes de dar el paso, y nos encargamos de la contabilidad y la fiscalidad desde el primer día de vida de la sociedad.
 
 ## ¿No sabes cuál te conviene?
 

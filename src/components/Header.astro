@@ -30,6 +30,7 @@ const serviciosHref = localizedPath('/servicios', lang);
 // el resto a anclas de /servicios. El texto de cada item vive en
 // t.serviciosMenu (ui.ts), el href se calcula aquí porque depende de lang.
 const serviciosMenuItems = [
+  { ...t.serviciosMenu.sl, href: localizedPath('/constituir-sl', lang) },
   { ...t.serviciosMenu.alta, href: localizedPath('/alta', lang) },
   { ...t.serviciosMenu.gestoria, href: `${serviciosHref}#acompanamiento` },
   { ...t.serviciosMenu.dashboard, href: `${serviciosHref}#numeros` },

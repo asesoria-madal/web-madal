@@ -57,7 +57,7 @@ Un matís que es sol passar per alt: constituir per CIRCE no t'allibera de la qu
 
 ## El que no canvia
 
-Triïs la via que triïs, el tràmit de constitució el porta un notari (i, si escau, el sistema CIRCE), no una gestoria. Nosaltres t'assessorem sobre quina via encaixa amb la teva situació abans de fer el pas, i ens encarreguem de la comptabilitat i la fiscalitat des del primer dia de vida de la societat.
+Triïs la via que triïs, l'escriptura se signa davant notari, però el tràmit no l'has de portar tu: [constituïm la teva SL en menys d'una setmana](/ca/constituir-sl), amb la sol·licitud del nom inclosa. A més t'assessorem sobre quina via encaixa amb la teva situació abans de fer el pas, i ens encarreguem de la comptabilitat i la fiscalitat des del primer dia de vida de la societat.
 
 ## No saps quina et convé?
 

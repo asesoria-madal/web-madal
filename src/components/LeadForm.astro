@@ -1,0 +1,140 @@
+---
+// Formulario de captación. `constituir_sl` pide lo necesario para valorar la
+// constitución; `contacto` es el general, y `compact` lo reduce para los artículos.
+// Puede haber varios en una página: todo va por data-*, no por id.
+import { LEADS } from '../i18n/leads';
+import type { Locale } from '../i18n/ui';
+
+interface Props {
+  lang: Locale;
+  tipo?: 'contacto' | 'constituir_sl';
+  compact?: boolean;
+  origen: string;
+}
+const { lang, tipo = 'contacto', compact = false, origen } = Astro.props;
+const f = LEADS[lang].form;
+const s = LEADS[lang].sl;
+const esSl = tipo === 'constituir_sl';
+---
+
+<form class={`lead-form${compact ? ' lead-form-compact' : ''}`} data-lead-form data-tipo={tipo} data-origen={origen} data-idioma={lang} data-enviando={f.enviando} data-error={f.error} data-error-privacy={f.errorPrivacy} novalidate>
+  <label class="field">{f.nombre}<input type="text" name="nombre" maxlength="150" autocomplete="name" required /></label>
+  <label class="field">{f.email}<input type="email" name="email" maxlength="254" autocomplete="email" required /></label>
+
+  {!esSl && !compact && (
+    <label class="field">
+      <span>{f.telefono} <span class="field-optional">{f.opcional}</span></span>
+      <input type="tel" name="telefono" maxlength="20" autocomplete="tel" />
+    </label>
+  )}
+
+  {!esSl && !compact && (
+    <label class="field">
+      <span>{f.perfil} <span class="field-optional">{f.opcional}</span></span>
+      <select name="perfil">
+        <option value="">{f.perfilElige}</option>
+        {f.perfiles.map(([v, l]) => <option value={v}>{l}</option>)}
+      </select>
+    </label>
+  )}
+
+  {esSl && (
+    <>
+      <label class="field">
+        <span>{s.denominacion} <span class="field-optional">{f.opcional}</span></span>
+        <input type="text" name="denominacion" maxlength="150" />
+      </label>
+      <label class="field">{s.comunidad}
+        <select name="comunidad" required data-comunidad>
+          <option value="">{s.comunidadElige}</option>
+          {s.comunidades.map(([v, l]) => <option value={v}>{l}</option>)}
+        </select>
+      </label>
+      <p class="lead-excluida" data-excluida hidden>{s.excluida}</p>
+      <label class="field">{s.actividad}<textarea name="actividad" rows="2" maxlength="500" required></textarea></label>
+      <label class="field">
+        <span>{s.plazo} <span class="field-optional">{f.opcional}</span></span>
+        <select name="plazo"><option value="">{s.elige}</option>{s.plazoOpc.map(([v, l]) => <option value={v}>{l}</option>)}</select>
+      </label>
+    </>
+  )}
+
+  {!esSl && (
+    <label class="field">
+      <span>{f.mensaje} <span class="field-optional">{f.opcional}</span></span>
+      <textarea name="mensaje" rows={compact ? 2 : 3} maxlength="2000"></textarea>
+    </label>
+  )}
+
+  <label class="lead-web" aria-hidden="true">Web<input type="text" name="web" tabindex="-1" autocomplete="off" /></label>
+
+  <label class="consent">
+    <input type="checkbox" name="privacidad" required />
+    <span>{f.privacyPre} <a href={f.privacyHref} target="_blank" rel="noopener">{f.privacyLink}</a>.</span>
+  </label>
+
+  <p class="form-error" data-lead-error hidden></p>
+  <button type="submit" class="btn btn-primary form-submit" data-enviar={esSl ? s.enviar : f.enviar}>{esSl ? s.enviar : f.enviar}</button>
+</form>
+<div class="lead-ok" data-lead-ok hidden>
+  <p class="lead-ok-title">{f.okTitle}</p>
+  <p>{f.okText}</p>
+</div>
+
+<script>
+  import { track } from '../scripts/analytics';
+
+  const EXCLUIDAS = ['canarias', 'pais_vasco', 'navarra'];
+
+  function initLeadForms() {
+    document.querySelectorAll<HTMLFormElement>('form[data-lead-form]').forEach((form) => {
+      if (form.dataset.listo) return;
+      form.dataset.listo = '1';
+      const error = form.querySelector<HTMLElement>('[data-lead-error]')!;
+      const boton = form.querySelector<HTMLButtonElement>('button[type="submit"]')!;
+      const comunidad = form.querySelector<HTMLSelectElement>('[data-comunidad]');
+      const aviso = form.querySelector<HTMLElement>('[data-excluida]');
+      const mostrarError = (t: string) => { error.textContent = t; error.hidden = false; };
+
+      comunidad?.addEventListener('change', () => {
+        const fuera = EXCLUIDAS.includes(comunidad.value);
+        if (aviso) aviso.hidden = !fuera;
+        boton.disabled = fuera;
+      });
+
+      form.addEventListener('submit', async (ev) => {
+        ev.preventDefault();
+        error.hidden = true;
+        const privacidad = form.querySelector<HTMLInputElement>('[name="privacidad"]')!;
+        if (!form.checkValidity()) {
+          if (!privacidad.checked && Array.from(form.elements).every((el) => el === privacidad || !(el as HTMLInputElement).willValidate || (el as HTMLInputElement).validity.valid)) {
+            mostrarError(form.dataset.errorPrivacy!);
+          }
+          form.reportValidity();
+          return;
+        }
+        const datos = Object.fromEntries(new FormData(form).entries());
+        boton.disabled = true;
+        boton.textContent = form.dataset.enviando!;
+        try {
+          const res = await fetch('/api/lead', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ ...datos, privacidad: true, tipo: form.dataset.tipo, idioma: form.dataset.idioma, origen: form.dataset.origen, pagina: location.pathname }),
+          });
+          if (!res.ok) throw new Error(String(res.status));
+          track('lead_enviado', { tipo: form.dataset.tipo || '', origen: form.dataset.origen || '' });
+          form.hidden = true;
+          const ok = form.nextElementSibling as HTMLElement;
+          ok.hidden = false;
+          ok.scrollIntoView({ block: 'center' });
+        } catch {
+          mostrarError(form.dataset.error!);
+          boton.disabled = false;
+          boton.textContent = boton.dataset.enviar!;
+        }
+      });
+    });
+  }
+  document.addEventListener('astro:page-load', initLeadForms);
+</script>

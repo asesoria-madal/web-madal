@@ -51,7 +51,7 @@ Si se usan estatutos tipo estandarizados a través del sistema de tramitación t
 
 ## Lo que no cambia
 
-El trámite de constitución en sí lo lleva un notario, no una gestoría. Nosotros no constituimos SL, pero te asesoramos sobre qué encaja con tu situación antes de dar el paso, y nos encargamos de la contabilidad y la fiscalidad desde el primer día de vida de la sociedad.
+La escritura se firma ante notario, pero el trámite no tienes que llevarlo tú: [constituimos tu SL en menos de una semana](/constituir-sl), con la solicitud del nombre incluida. Además te asesoramos sobre qué encaja con tu situación antes de dar el paso, y nos encargamos de la contabilidad y la fiscalidad desde el primer día de vida de la sociedad.
 
 ## ¿Estás valorando dar el paso?
 

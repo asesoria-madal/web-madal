@@ -50,7 +50,7 @@ If standardized bylaws are used through the online processing system (CIRCE), th
 
 ## What does not change
 
-The incorporation process itself is handled by a notary, not by a gestoría. We do not set up SLs, but we advise you on what fits your situation before you take that step, and we take care of the accounting and taxes from the company's first day.
+The deed is signed before a notary, but you don't have to handle the process yourself: [we set up your SL in under a week](/en/constituir-sl), with the company name application included. We also advise you on what fits your situation before you take that step, and we take care of the accounting and taxes from the company's first day.
 
 ## Weighing up whether to take the step?
 

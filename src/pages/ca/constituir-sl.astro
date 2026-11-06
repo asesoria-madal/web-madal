@@ -1,0 +1,12 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ConstituirSl from '../../components/pages/ConstituirSl.astro';
+import { LEADS } from '../../i18n/leads';
+
+export const prerender = true;
+const m = LEADS.ca.meta;
+---
+
+<Layout lang="ca" path="/ca/constituir-sl" active="servicios" title={m.slTitle} description={m.slDesc} showCtaFinal={false} breadcrumbs={[{ name: m.slBreadcrumb, path: '/constituir-sl' }]}>
+  <ConstituirSl lang="ca" />
+</Layout>

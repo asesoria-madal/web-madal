@@ -1,0 +1,28 @@
+---
+import { LEADS } from '../../i18n/leads';
+import type { Locale } from '../../i18n/ui';
+import { localizedPath } from '../../i18n/utils';
+import LeadForm from '../LeadForm.astro';
+
+interface Props { lang: Locale; }
+const { lang } = Astro.props;
+const c = LEADS[lang].contacto;
+---
+
+<div id="view-contacto">
+  <div class="page view-intro">
+    <p class="eyebrow">{c.eyebrow}</p>
+    <h1 class="section-title">{c.title}</h1>
+    <p class="section-sub">{c.intro}</p>
+  </div>
+  <div class="page view-block lead-layout">
+    <div class="lead-card"><LeadForm lang={lang} origen="pagina_contacto" /></div>
+    <aside class="lead-aside">
+      <p>{c.aside}</p>
+      <p><a href="mailto:contacto@asesoriamadal.es">contacto@asesoriamadal.es</a></p>
+      <p><a href="https://meetings-eu1.hubspot.com/asesoria-madal" target="_blank" rel="noopener">{c.llamada}</a></p>
+      <p class="lead-aside-sl"><strong>{c.slPrompt}</strong><br /><a href={localizedPath('/constituir-sl', lang)}>{c.slLink}</a></p>
+      <p class="field-hint">{c.ambito}</p>
+    </aside>
+  </div>
+</div>

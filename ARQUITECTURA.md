@@ -64,6 +64,10 @@ Páginas sueltas `/formulario-alta-trabajador`, `/ca/formulario-alta-trabajador`
 - No sube archivos: DNI/NIE, permiso de trabajo y certificado de discapacidad se piden por correo a contacto@ y van a Drive.
 - Aviso al equipo: el workflow n8n `Alta de trabajador` mira cada 5 minutos las filas con `notificado_at` null, manda el correo a contacto@ y las marca (sin trigger ni webhook). `tramitado_at` se marca a mano en el Table Editor al terminar el alta.
 
+### `leads` — solicitudes de la web (desde 2026-11-06)
+
+Formulario de `/contacto` y de cada artículo (`tipo = 'contacto'`) y de `/constituir-sl` (`tipo = 'constituir_sl'`), mediante `POST /api/lead`. Es aparte de `clientes` porque quien escribe aún no es cliente ni tiene NIF. Sin esta tabla ejecutada en Supabase, el endpoint devuelve error. El endpoint rechaza constituir en Canarias, País Vasco y Navarra. Formulario de SL corto a propósito (decisión de Edurne, para que lo rellenen): nombre, correo, nombre deseado, comunidad, actividad y cuándo empezar. Solo `service_role`.
+
 ### `seguimiento_negocios` — dedup de avisos de seguimiento comercial (desde 2026-11-05)
 
 No es una ficha de cliente: es solo el registro de qué avisos ya se mandaron para cada **negocio (deal) de HubSpot** que todavía no es cliente, por `hubspot_deal_id` (clave primaria, texto — el id numérico de HubSpot como string). Existe porque ese lead no tiene fila en `clientes` todavía, así que el dedup no puede ir ahí como en el resto de avisos.

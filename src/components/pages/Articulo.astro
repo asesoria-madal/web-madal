@@ -1,4 +1,6 @@
 ---
+import { LEADS, SLUGS_SL } from '../../i18n/leads';
+import LeadForm from '../LeadForm.astro';
 import type { CollectionEntry } from 'astro:content';
 import { render } from 'astro:content';
 import type { Locale } from '../../i18n/ui';
@@ -29,6 +31,9 @@ const relatedPosts = getRelatedPosts(allPosts, entry, lang, 3);
 interface FaqItem { q: string; a: string; related?: string }
 const allFaqItems: FaqItem[] = [...t.blog.faqGeneralesItems, ...t.blog.faqAutonomosItems, ...t.blog.faqSlItems];
 const relatedFaqs = allFaqItems.filter((item) => item.related === entry.data.slug);
+
+const lead = LEADS[lang];
+const esSl = SLUGS_SL.includes(entry.data.slug);
 
 const articleUrl = new URL(localizedPath(`/blog/${entry.data.slug}`, lang), Astro.site).toString();
 
@@ -129,6 +134,12 @@ const faqLd = relatedFaqs.length > 0 ? {
     </div>
   )}
 
+  <div class="article-lead" id="escribenos">
+    <h2>{lead.form.compactTitle}</h2>
+    <p>{lead.form.compactSub}</p>
+    <LeadForm lang={lang} compact origen={`blog:${entry.data.slug}`} />
+  </div>
+
   {relatedPosts.length > 0 && (
     <div class="article-related">
       <h2>{t.blog.relatedArticlesTitle}</h2>
@@ -145,6 +156,12 @@ const faqLd = relatedFaqs.length > 0 ? {
     </div>
   )}
 </div>
+
+<aside class="article-side">
+  <h2>{esSl ? lead.blogSide.slTitle : lead.blogSide.title}</h2>
+  <p>{esSl ? lead.blogSide.slDesc : lead.blogSide.desc}</p>
+  <a class="btn btn-primary" href={esSl ? localizedPath('/constituir-sl', lang) : '#escribenos'}>{esSl ? lead.blogSide.slCta : lead.blogSide.cta}</a>
+</aside>
 
 <aside class="ask-float article-nudge" id="articleNudge" hidden>
   <button type="button" class="ask-float-close" id="articleNudgeClose" aria-label={t.blog.close}>✕</button>

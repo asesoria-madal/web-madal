@@ -57,7 +57,7 @@ One nuance that's easy to miss: incorporating through CIRCE doesn't get you out 
 
 ## What doesn't change
 
-Whichever route you choose, the incorporation itself is handled by a notary (and, where applicable, the CIRCE system), not a gestoría. We advise you on which route fits your situation before you take the step, and we handle the accounting and tax side from day one of the company's life.
+Whichever route you choose, the deed is signed before a notary, but you don't have to handle the process yourself: [we set up your SL in under a week](/en/constituir-sl), with the company name application included. We also advise you on which route fits your situation before you take the step, and we handle the accounting and tax side from day one of the company's life.
 
 ## Not sure which one fits you?
 
