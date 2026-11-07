@@ -160,7 +160,7 @@ const faqLd = relatedFaqs.length > 0 ? {
 <aside class="article-side">
   <h2>{esSl ? lead.blogSide.slTitle : lead.blogSide.title}</h2>
   <p>{esSl ? lead.blogSide.slDesc : lead.blogSide.desc}</p>
-  <a class="btn btn-primary" href={esSl ? localizedPath('/constituir-sl', lang) : '#escribenos'}>{esSl ? lead.blogSide.slCta : lead.blogSide.cta}</a>
+  <a class="btn btn-primary" data-umami-event="articulo_cta" data-umami-event-articulo={entry.data.slug} href={esSl ? localizedPath('/constituir-sl', lang) : '#escribenos'}>{esSl ? lead.blogSide.slCta : lead.blogSide.cta}</a>
 </aside>
 
 <aside class="ask-float article-nudge" id="articleNudge" hidden>

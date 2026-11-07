@@ -405,6 +405,7 @@ $("#btn-enviar").onclick = async () => {
   const msg = $("#envio-msg");
   const miss = faltan();
   if(miss.length){
+    track("formulario_incompleto", { tipo: "constitucion", idioma: LANG, faltan: miss.length, apartado: miss[0].sec || "" });
     marcarFaltan = true; marcar();
     msg.innerHTML = `<div class="warn" style="margin:0"><strong>${miss.length>1 ? tr("Faltan {n} datos obligatorios", { n: miss.length }) : tr("Falta 1 dato obligatorio")}</strong> ${tr("(marcados en rojo):")}<ul>${miss.slice(0,10).map(m=>`<li>${esc(m.label)}</li>`).join("")}${miss.length>10?`<li>${tr("…y {n} más", { n: miss.length-10 })}</li>`:""}</ul><button type="button" class="btn sec small" style="margin-top:8px" id="ir-falta">${tr("Ir al primero")}</button></div>`;
     $("#ir-falta").onclick = () => miss[0].el.scrollIntoView({behavior:"smooth", block:"center"});
@@ -454,6 +455,11 @@ function initRender(){ admSig = "#"; certSig = "#"; fillStatic(); renderSocios()
 
 const had = load();
 bindStatic();
+// Una vez por navegador, para que volver a un formulario guardado no cuente como empezarlo otra vez.
+$("#form").addEventListener("input", () => {
+  try { if (localStorage.getItem("fc-empezado")) return; localStorage.setItem("fc-empezado", "1"); } catch (e) {}
+  track("formulario_empezado", { tipo: "constitucion", idioma: LANG });
+}, { once: true });
 bindDyn($("#socios"), "socios", renderSocios);
 bindDyn($("#admins-nuevos"), "adminsNuevos", renderAdmins);
 bindDyn($("#adm-ss"), "socios", ()=>{});

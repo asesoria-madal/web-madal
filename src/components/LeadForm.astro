@@ -100,6 +100,7 @@ const esSl = tipo === 'constituir_sl';
         const fuera = EXCLUIDAS.includes(comunidad.value);
         if (aviso) aviso.hidden = !fuera;
         boton.disabled = fuera;
+        if (fuera) track('comunidad_no_disponible', { comunidad: comunidad.value });
       });
 
       form.addEventListener('submit', async (ev) => {
