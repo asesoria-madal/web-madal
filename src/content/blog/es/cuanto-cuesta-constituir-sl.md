@@ -1,12 +1,11 @@
 ---
 lang: es
 slug: cuanto-cuesta-constituir-sl
-title: 'Cuánto cuesta constituir una SL en España en 2026'
-description: 'Notaría, Registro, nombre, gestoría y capital: qué pagas de verdad al crear una SL, con cifras, y qué no es un coste aunque lo parezca.'
+title: 'Cuánto cuesta constituir una SL en España en 2026: CIRCE o vía tradicional'
+description: 'Notaría, Registro, nombre, gestoría y capital: qué pagas al crear una SL por CIRCE y por la vía tradicional, y qué no es un coste aunque lo parezca.'
 seoTitle: 'Cuánto cuesta constituir una SL en España en 2026'
 cat: fiscalidad
 date: 2026-11-07
-draft: true
 sources:
   - label: 'Real Decreto-ley 13/2010, art. 5 — aranceles notariales y registrales con estatutos tipo'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2010-18651'
@@ -14,32 +13,24 @@ sources:
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2010-10544'
 ---
 
-Constituir una SL con estatutos tipo y poco capital cuesta bastante menos de lo que se suele pensar. Por la vía más habitual, los gastos fijos son unos cientos de euros. Lo que dispara algunas cifras que circulan es sumar el capital social, que no es un gasto, o los honorarios de un despacho.
+Lo que cuesta constituir una SL depende sobre todo de la vía: por CIRCE, con estatutos tipo, notaría y Registro tienen un importe fijado; por la vía tradicional, con estatutos a medida, no. Lo que dispara algunas cifras que circulan es sumar el capital social, que no es un gasto, o los honorarios de un despacho.
 
-## Los gastos de constituir una SL
+## Por CIRCE, con estatutos tipo
 
-| Concepto | Con estatutos tipo y hasta 3.100 € de capital | Con estatutos tipo y más de 3.100 € |
+Es la vía más habitual y la más barata. Notaría y Registro dependen del capital:
+
+| Concepto | Hasta 3.100 € de capital | Más de 3.100 € de capital |
 |---|---|---|
 | Notaría | 60 € + IVA | 150 € + IVA |
 | Registro Mercantil | 40 € + IVA | 100 € + IVA |
 | Certificado del nombre | Importe pequeño, según el Registro Mercantil Central | Igual |
 | Gestoría | Según quién lo lleve | Según quién lo lleve |
 
-Si necesitas estatutos a medida, notaría y Registro dejan de tener esos importes y pasas a precio de mercado. Te lo contamos en [CIRCE o vía tradicional](/blog/montar-sl-circe-o-tradicional).
+Para tramitar por CIRCE, un socio tiene que cargar 121 € en la [Cartera Virtual](/blog/cartera-virtual-circe). No es un gasto adicional: de ahí se descuenta el arancel del Registro y lo que sobra se puede recuperar. Eso sí, tienes que adelantarlo.
 
-## La gestoría: qué se paga y qué se debería incluir
+### Un ejemplo con nuestros precios
 
-Hay pocas gestorías que publiquen su precio, y por eso es difícil comparar. Cuando pidas presupuesto, pregunta si incluye el certificado del nombre, la preparación del DUE y la cita en notaría, y si los importes llevan IVA.
-
-## Lo que no es un coste
-
-**El capital social.** Puedes constituir desde 1 €, y ese dinero sigue siendo de la empresa. Con menos de 3.000 € tiene dos condiciones, que explicamos en [cómo constituir una SL](/blog/como-se-constituye-una-sl).
-
-**La Cartera Virtual.** Para tramitar por CIRCE, un socio tiene que cargar 121 € en la [Cartera Virtual](/blog/cartera-virtual-circe). No es un gasto adicional: de ahí se descuenta el arancel del Registro y lo que sobra se puede recuperar. Eso sí, tienes que adelantarlo.
-
-## Un ejemplo con nuestros precios
-
-Una SL con estatutos tipo y 3.000 € de capital, constituida con nosotros:
+Una SL por CIRCE, con estatutos tipo y 3.000 € de capital, constituida con nosotros:
 
 | | Sin IVA | Con IVA |
 |---|---|---|
@@ -49,6 +40,26 @@ Una SL con estatutos tipo y 3.000 € de capital, constituida con nosotros:
 | **Total de gastos** | **275 €** | **332,75 €** |
 
 A eso se suman los 3.000 € de capital, que siguen siendo de tu empresa.
+
+## Por la vía tradicional, con estatutos a medida
+
+Tiene sentido si necesitas algo que los estatutos tipo no permiten, como un consejo de administración o cláusulas específicas entre socios. Aquí no se aplican esos importes reducidos, y el coste depende de cada caso:
+
+| Concepto | Referencia orientativa |
+|---|---|
+| Notaría y Registro | Unos 200 a 350 € en total, según cifras que publican gestorías |
+| Redacción de estatutos y asesoramiento legal | Según el despacho. Con abogado, algunas comparativas hablan de 500 a 2.000 € en total |
+| Certificado del nombre | Importe pequeño, según el Registro Mercantil Central |
+
+Son cifras comerciales, no oficiales, así que tómalas como una orientación y pide siempre presupuesto. Te contamos cuándo compensa cada vía en [CIRCE o vía tradicional](/blog/montar-sl-circe-o-tradicional).
+
+## Qué preguntar al pedir presupuesto
+
+Pocas gestorías publican su precio, y por eso es difícil comparar. Pregunta si incluye el certificado del nombre, la preparación de la documentación y la cita en notaría, y si los importes llevan IVA.
+
+## Lo que no es un coste
+
+Puedes constituir desde 1 €, y el **capital social** sigue siendo dinero de la empresa. Con menos de 3.000 € tiene dos condiciones, que explicamos en [capital mínimo de una SL](/blog/capital-minimo-sl).
 
 ## Lo que viene después de constituirla
 

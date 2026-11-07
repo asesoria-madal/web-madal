@@ -51,6 +51,10 @@ Con estatutos tipo y capital hasta 3.100 €, los pasos 3 y 5 cuestan 60 € + I
 
 Si se usan estatutos tipo estandarizados a través del sistema de tramitación telemática (CIRCE), el proceso puede resolverse en cuestión de días. Con estatutos a medida, redactados para las necesidades concretas de la sociedad, lo habitual son varias semanas, porque cada paso depende del anterior y del notario y el registro elegidos.
 
+## Lo que cuesta y lo que debes decidir
+
+Te lo contamos con más detalle en [cuánto cuesta constituir una SL](/blog/cuanto-cuesta-constituir-sl), [capital mínimo de una SL](/blog/capital-minimo-sl) y [cómo elegir el nombre de tu SL](/blog/nombre-sl-denominacion-social).
+
 ## Lo que no cambia
 
 La escritura se firma ante notario, pero el trámite no tienes que llevarlo tú: [constituimos tu SL en menos de una semana](/constituir-sl), con la solicitud del nombre incluida. Además te asesoramos sobre qué encaja con tu situación antes de dar el paso, y nos encargamos de la contabilidad y la fiscalidad desde el primer día de vida de la sociedad.

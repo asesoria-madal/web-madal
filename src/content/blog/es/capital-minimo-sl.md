@@ -6,7 +6,6 @@ description: 'Una SL se puede crear con 1 €, pero con condiciones. Qué cambia
 seoTitle: 'Capital mínimo de una SL: ¿1 € o 3.000 €?'
 cat: fiscalidad
 date: 2026-11-07
-draft: true
 sources:
   - label: 'Real Decreto Legislativo 1/2010, Ley de Sociedades de Capital, art. 4 — capital mínimo, reserva legal y responsabilidad hasta 3.000 €'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2010-10544'
@@ -55,4 +54,4 @@ Es dinero de la empresa: puede usarse en la actividad, para pagar proveedores, e
 
 Depende de lo que necesite el negocio al arrancar y de lo que quieras arriesgar. Como regla sencilla, 3.000 € encaja si puedes aportarlos. Si no, se puede empezar con menos, siempre que entiendas las dos condiciones de arriba.
 
-Si tienes dudas, las vemos contigo antes de firmar. [Constituimos tu SL en menos de una semana](/constituir-sl), y puedes leer el proceso completo en [cómo constituir una SL](/blog/como-se-constituye-una-sl).
+Si tienes dudas, las vemos contigo antes de firmar. [Constituimos tu SL en menos de una semana](/constituir-sl), y puedes leer el proceso completo en [cómo constituir una SL](/blog/como-se-constituye-una-sl) y ver [cuánto cuesta](/blog/cuanto-cuesta-constituir-sl).

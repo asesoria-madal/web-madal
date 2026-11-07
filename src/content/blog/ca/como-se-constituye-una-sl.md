@@ -51,6 +51,10 @@ Amb estatuts tipus i capital fins a 3.100 €, els passos 3 i 5 costen 60 € + 
 
 Si es fan servir estatuts tipus estandarditzats a través del sistema de tramitació telemàtica (CIRCE), el procés es pot resoldre en qüestió de dies. Amb estatuts a mida, redactats per a les necessitats concretes de la societat, el més habitual són diverses setmanes, perquè cada pas depèn de l'anterior i del notari i el registre escollits.
 
+## El que costa i el que has de decidir
+
+T’ho expliquem amb més detall a [quant costa constituir una SL](/ca/blog/cuanto-cuesta-constituir-sl), [capital mínim d’una SL](/ca/blog/capital-minimo-sl) i [com triar el nom de la teva SL](/ca/blog/nombre-sl-denominacion-social).
+
 ## El que no canvia
 
 L'escriptura se signa davant notari, però el tràmit no l'has de portar tu: [constituïm la teva SL en menys d'una setmana](/ca/constituir-sl), amb la sol·licitud del nom inclosa. A més t'assessorem sobre què encaixa amb la teva situació abans de fer el pas, i ens encarreguem de la comptabilitat i la fiscalitat des del primer dia de vida de la societat.

@@ -6,7 +6,6 @@ description: 'Hasta cinco nombres, certificado del Registro Mercantil Central y 
 seoTitle: 'Nombre de una SL: cómo elegirlo y pedir la denominación'
 cat: fiscalidad
 date: 2026-11-07
-draft: true
 sources:
   - label: 'Registro Mercantil Central — denominaciones sociales'
     url: 'https://www.rmc.es/denominacionessociales.aspx'

@@ -50,6 +50,10 @@ With standard bylaws and up to €3,100 of capital, steps 3 and 5 cost €60 + V
 
 If standardized bylaws are used through the online processing system (CIRCE), the process can be resolved in a matter of days. With custom bylaws, drafted for the company's specific needs, it usually takes several weeks, because each step depends on the previous one and on the notary and registry chosen.
 
+## What it costs and what you need to decide
+
+We go into more detail in [how much it costs to set up an SL](/en/blog/cuanto-cuesta-constituir-sl), [minimum capital for an SL](/en/blog/capital-minimo-sl) and [how to choose your SL’s name](/en/blog/nombre-sl-denominacion-social).
+
 ## What does not change
 
 The deed is signed before a notary, but you don't have to handle the process yourself: [we set up your SL in under a week](/en/constituir-sl), with the company name application included. We also advise you on what fits your situation before you take that step, and we take care of the accounting and taxes from the company's first day.
