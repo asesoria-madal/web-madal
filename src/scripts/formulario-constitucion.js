@@ -1,4 +1,6 @@
 // Lógica del formulario de constitución de SL (ver FormularioConstitucion.astro).
+import { track } from './analytics';
+
 /* ======== CONFIGURACIÓN DE LA GESTORÍA ======== */
 const CONFIG = {
   gestoria: "Asesoría Madal",
@@ -415,6 +417,7 @@ $("#btn-enviar").onclick = async () => {
     const r = await fetch(CONFIG.endpoint, { method:"POST", headers:{"Content-Type":"application/json"},
       body: JSON.stringify({ lead, idioma: LANG, resumen: buildSummary(), datos: state, web: $("#fc-web").value }) });
     if(!r.ok) throw new Error("HTTP " + r.status);
+    track("formulario_enviado", { tipo: "constitucion", idioma: LANG });
     state.f._enviado = new Date().toLocaleString("es-ES"); save();
     msg.innerHTML = `<span class="ok-msg">${tr("✓ Enviado el {fecha}. Os contactaremos. Si cambiáis algo, podéis volver a enviarlo.", { fecha: state.f._enviado })}</span>`;
   } catch(e){
