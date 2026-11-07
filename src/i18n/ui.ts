@@ -19,7 +19,7 @@ export const ui = {
       trigger: 'Contacta con nosotros',
       emailLabel: 'Escríbenos por correo:',
       email: 'contacto@asesoriamadal.es',
-      guarantee: 'Te responderemos en menos de 24h garantizado',
+      guarantee: 'Te responderemos en unas 24 horas, en días laborables',
       orLabel: 'O si lo prefieres:',
       callLabel: 'Reserva una llamada',
       closing: 'Elige lo que te resulte más cómodo, correo o llamada: te atendemos con la misma cercanía.',
@@ -256,14 +256,14 @@ export const ui = {
       title: 'Habla con nosotros antes de decidir nada',
       ctaCall: 'Reservar llamada de 20 minutos',
       ctaMail: 'Escríbenos por correo',
-      fine: 'Sin compromiso · Respuesta en menos de 24 h',
+      fine: 'Sin compromiso · Respuesta en unas 24 horas, en días laborables',
     },
 
     trustBanner: {
       items: [
         'Precios públicos, sin letra pequeña',
         'Te explicamos tus impuestos, no solo los presentamos',
-        'Respuesta en menos de 24 horas',
+        'Respuesta en unas 24 horas, en días laborables',
         'Primera llamada de 20 minutos, sin compromiso',
       ],
     },
@@ -625,7 +625,7 @@ export const ui = {
       trigger: 'Contacta amb nosaltres',
       emailLabel: 'Escriu-nos per correu:',
       email: 'contacto@asesoriamadal.es',
-      guarantee: 'Et responem en menys de 24h garantit',
+      guarantee: 'Et respondrem en unes 24 hores, en dies laborables',
       orLabel: 'O si ho prefereixes:',
       callLabel: 'Reserva una trucada',
       closing: 'Tria el que et resulti més còmode, correu o trucada: t’atenem amb la mateixa proximitat.',
@@ -856,14 +856,14 @@ export const ui = {
       title: 'Parla amb nosaltres abans de decidir res',
       ctaCall: 'Reserva una trucada de 20 minuts',
       ctaMail: 'Escriu-nos per correu',
-      fine: 'Sense compromís · Resposta en menys de 24 h',
+      fine: 'Sense compromís · Resposta en unes 24 hores, en dies laborables',
     },
 
     trustBanner: {
       items: [
         'Preus públics, sense lletra petita',
         'T’expliquem els teus impostos, no només els presentem',
-        'Resposta en menys de 24 hores',
+        'Resposta en unes 24 hores, en dies laborables',
         'Primera trucada de 20 minuts, sense compromís',
       ],
     },
@@ -1225,7 +1225,7 @@ export const ui = {
       trigger: 'Contact us',
       emailLabel: 'Email us at:',
       email: 'contacto@asesoriamadal.es',
-      guarantee: 'We reply within 24h, guaranteed',
+      guarantee: 'We’ll reply in about 24 hours, on working days',
       orLabel: "Or if you'd rather:",
       callLabel: 'Book a call',
       closing: 'Pick whatever works best for you, email or a call: you get the same personal attention either way.',
@@ -1456,14 +1456,14 @@ export const ui = {
       title: 'Talk to us before deciding anything',
       ctaCall: 'Book a 20-minute call',
       ctaMail: 'Email us',
-      fine: 'No commitment · We reply within 24 h',
+      fine: 'No commitment · We reply in about 24 hours, on working days',
     },
 
     trustBanner: {
       items: [
         'Public pricing, no fine print',
         'We explain your taxes, not just file them',
-        'We reply within 24 hours',
+        'We reply in about 24 hours, on working days',
         'First 20-minute call, no commitment',
       ],
     },
