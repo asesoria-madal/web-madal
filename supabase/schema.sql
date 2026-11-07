@@ -1076,3 +1076,26 @@ create table if not exists leads (
 
 alter table leads enable row level security;
 grant all on leads to service_role;
+
+-- Formulario completo de constitución de SL (2026-11-07; endpoint api/constitucion,
+-- FormularioConstitucion.astro). Lleva datos personales de socios y administradores
+-- (DNI, IBAN, cónyuges), por eso solo service role. Cada envío es una fila: se puede
+-- corregir y reenviar. `resumen` es el texto legible y `datos` el formulario entero.
+-- notificado_at lo rellena n8n ("Formulario de constitución").
+create table if not exists constituciones_formulario (
+  id uuid primary key default gen_random_uuid(),
+  lead_id uuid references leads(id) on delete set null,
+  idioma text not null default 'es',
+  nombre text not null,
+  email text not null,
+  telefono text,
+  denominacion text,
+  resumen text not null,
+  datos jsonb not null,
+  privacy_accepted_at timestamptz not null,
+  notificado_at timestamptz,
+  created_at timestamptz not null default now()
+);
+
+alter table constituciones_formulario enable row level security;
+grant all on constituciones_formulario to service_role;

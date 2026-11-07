@@ -1,0 +1,10 @@
+---
+import Layout from '../layouts/Layout.astro';
+import FormularioConstitucion from '../components/pages/FormularioConstitucion.astro';
+
+export const prerender = true;
+---
+
+<Layout lang="es" path="/formulario-constitucion-sl" active="none" title="Datos para constituir tu SL · Asesoría Madal" description="Formulario con los datos que necesitamos para constituir tu SL." noindex showCtaFinal={false} minimalHeader hideWhatsapp>
+  <FormularioConstitucion lang="es" />
+</Layout>

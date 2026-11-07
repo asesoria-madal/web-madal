@@ -1,0 +1,98 @@
+---
+// Formulario completo de constitución de SL (texto y lógica de Edurne, 2026-11-07), en
+// castellano, catalán e inglés. Se llega por el enlace del correo (?lead=<id>), en el idioma
+// del lead, y eso permite asociar la respuesta a su negocio. El marcado está en
+// formulario-constitucion.html, los textos en i18n/formularioConstitucion.ts y la lógica en
+// scripts/formulario-constitucion.js; lo enviado va a /api/constitucion.
+import marcado from './formulario-constitucion.html?raw';
+import { textosConstitucion, traducirMarcado, type FormLang } from '../../i18n/formularioConstitucion';
+
+interface Props { lang?: FormLang; }
+const { lang = 'es' } = Astro.props;
+const privacidad = lang === 'es' ? '/privacidad' : `/${lang}/privacidad`;
+const html = traducirMarcado(marcado, lang).replace('{{PRIVACIDAD}}', privacidad);
+const textos = JSON.stringify(textosConstitucion(lang)).replace(/</g, '\\u003c');
+---
+
+<div id="fc" data-lang={lang} set:html={html}></div>
+<script type="application/json" id="fc-i18n" set:html={textos}></script>
+
+<script>
+  import '../../scripts/formulario-constitucion.js';
+</script>
+
+<style is:global>
+/* Formulario de constitución de SL. Va todo bajo #fc porque el marcado de socios y
+   administradores se genera por JavaScript y no recibe el ámbito de estilos de Astro. */
+#fc {
+  --bg: var(--paper); --card: var(--paper-raised); --muted: var(--ink-soft);
+  --accent-soft: var(--accent-tint); --warn-bg: var(--warm-soft); --warn-line: var(--warm);
+  --ok: var(--accent); --err: #b3261e; --radius: 10px;
+  background: var(--bg); color: var(--ink); font: 16px/1.5 var(--font-body);
+  header.top{background:var(--card);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:40}
+  .top-inner{max-width:980px;margin:0 auto;padding:12px 16px;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+  .top-inner h1{font-size:17px;margin:0;flex:1;min-width:200px}
+  .saved{font-size:13px;color:var(--muted)}
+  .saved.ok{color:var(--ok)}
+  .progress{height:4px;background:var(--line)}
+  .progress span{display:block;height:100%;background:var(--accent);width:0;transition:width .3s}
+  nav.steps{max-width:980px;margin:0 auto;padding:6px 16px 10px;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none}
+  nav.steps a{font-size:13px;white-space:nowrap;text-decoration:none;color:var(--muted);padding:4px 10px;border:1px solid var(--line);border-radius:20px;background:var(--bg)}
+  nav.steps a.done{color:var(--ok);border-color:var(--accent);background:var(--accent-tint)}
+  .fc-main{max-width:980px;margin:0 auto;padding:20px 16px 80px}
+  section.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:22px 20px;margin-bottom:22px;scroll-margin-top:110px}
+  section.card h2{margin:0 0 4px;font-size:20px}
+  section.card > p.lead{margin:0 0 16px;color:var(--muted);font-size:14.5px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px 16px}
+  .field{display:flex;flex-direction:column;gap:5px}
+  .field.full{grid-column:1/-1}
+  label.l{font-size:14px;font-weight:600}
+  label.l .req{color:var(--err)}
+  .hint{font-size:13px;color:var(--muted)}
+  input[type=text],input[type=email],input[type=tel],input[type=number],input[type=date],select,textarea{
+    font:inherit;padding:9px 11px;border:1px solid var(--line);border-radius:8px;background:var(--paper);color:var(--ink);width:100%}
+  textarea{min-height:80px;resize:vertical}
+  input:focus,select:focus,textarea:focus{outline:2px solid var(--accent);outline-offset:0;border-color:var(--accent)}
+  .opts{display:flex;flex-wrap:wrap;gap:8px}
+  .opts label{display:flex;gap:7px;align-items:center;padding:7px 12px;border:1px solid var(--line);border-radius:8px;cursor:pointer;font-size:14.5px;background:var(--paper)}
+  .opts label:has(input:checked){border-color:var(--accent);background:var(--accent-soft)}
+  .opts.col{flex-direction:column;align-items:stretch}
+  .note{border-left:4px solid var(--accent);background:var(--accent-soft);padding:10px 14px;border-radius:6px;font-size:14px;margin:4px 0 16px}
+  .warn{border-left:4px solid var(--warn-line);background:var(--warn-bg);padding:10px 14px;border-radius:6px;font-size:14px;margin:4px 0 16px}
+  .warn ul,.note ul{margin:6px 0 0;padding-left:20px}
+  .sub{border:1px solid var(--line);border-radius:var(--radius);padding:16px;margin:14px 0;background:var(--paper)}
+  .sub h3{margin:0 0 12px;font-size:16px;display:flex;justify-content:space-between;gap:10px;align-items:center}
+  .btn{font:inherit;font-size:14.5px;padding:9px 14px;border-radius:8px;border:1px solid var(--accent);background:var(--accent);color:var(--accent-ink);cursor:pointer}
+  .btn.sec{background:var(--paper);color:var(--accent)}
+  .btn.ghost{background:transparent;border-color:transparent;color:var(--err);padding:4px 8px;font-size:13px}
+  .btn.small{padding:6px 11px;font-size:13.5px}
+  .actions{display:flex;flex-wrap:wrap;gap:8px}
+  table.cap{width:100%;border-collapse:collapse;font-size:14.5px;margin-top:8px}
+  table.cap th,table.cap td{text-align:left;padding:8px;border-bottom:1px solid var(--line)}
+  table.cap td.n,table.cap th.n{text-align:right;font-variant-numeric:tabular-nums}
+  table.cap tfoot td{font-weight:700}
+  .err-msg{color:var(--err);font-size:13.5px;font-weight:600}
+  .ok-msg{color:var(--ok);font-size:13.5px;font-weight:600}
+  .hidden{display:none !important}
+  .missing input,.missing select,.missing textarea,input.missing{border-color:var(--err) !important;background:var(--warm-soft)}
+  .missing > label.l, .missing.den-row b{color:var(--err)}
+  .missing .opts label{border-color:var(--err)}
+  #print-view{display:none}
+  .den-row{display:grid;grid-template-columns:34px 1fr;gap:10px;align-items:center}
+  .den-row b{display:flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:50%;background:var(--accent-soft);color:var(--accent);font-size:14px}
+  .bar{position:fixed;bottom:0;left:0;right:0;background:var(--card);border-top:1px solid var(--line);z-index:20}
+  .bar .actions{max-width:980px;margin:0 auto;padding:10px 16px;justify-content:flex-end}
+  ul.check{list-style:none;padding:0;margin:0}
+  ul.check li{padding:4px 0}
+  @media (max-width:560px){section.card{padding:18px 14px}.top-inner h1{font-size:15px}}
+  
+  .fc-trampa { position: absolute; left: -9999px; height: 1px; overflow: hidden; }
+  .btn { text-transform: none; letter-spacing: normal; font-weight: 600; width: auto; box-shadow: none; transform: none; }
+  a { color: var(--accent); }
+}
+@media print {
+  body * { visibility: hidden; }
+  #print-view, #print-view * { visibility: visible; }
+  #fc #print-view { display: block; position: absolute; top: 0; left: 0; width: 100%; font: 12px/1.45 ui-monospace, Menlo, Consolas, monospace; white-space: pre-wrap; }
+}
+</style>

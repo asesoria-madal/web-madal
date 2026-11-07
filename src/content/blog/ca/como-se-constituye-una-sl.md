@@ -43,7 +43,7 @@ Aquest 20% obligatori es continua destinant a reserva legal cada any fins que, e
 4. **Obtenció del NIF provisional** i alta censal a Hisenda (model 036).
 5. **Inscripció al Registre Mercantil** de la teva província, que és el que dona a la societat la seva personalitat jurídica plena.
 
-Amb estatuts tipus i capital fins a 3.100 €, els passos 3 i 5 costen 60 € de notari i 40 € de registrador; per sobre d'aquesta xifra, o amb estatuts a mida, el cost puja. Ho desenvolupem amb la comparació completa a [CIRCE o via tradicional: què canvia de veritat](/ca/blog/montar-sl-circe-o-tradicional).
+Amb estatuts tipus i capital fins a 3.100 €, els passos 3 i 5 costen 60 € + IVA de notari i 40 € + IVA de registrador; per sobre d'aquesta xifra, o amb estatuts a mida, el cost puja. Ho desenvolupem amb la comparació completa a [CIRCE o via tradicional: què canvia de veritat](/ca/blog/montar-sl-circe-o-tradicional).
 
 ## Quant es triga
 

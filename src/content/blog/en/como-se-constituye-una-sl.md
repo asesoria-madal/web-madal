@@ -42,7 +42,7 @@ That mandatory 20% keeps going into the legal reserve every year until, between 
 4. **Getting a provisional NIF** and registering for tax purposes with Hacienda (Modelo 036).
 5. **Registration with the Companies Registry** (Registro Mercantil) for your province, which is what gives the company full legal personality.
 
-With standard bylaws and up to €3,100 of capital, steps 3 and 5 cost €60 for the notary and €40 for the registrar; above that, or with custom bylaws, the cost goes up. We cover the full comparison in [CIRCE or the traditional route: what actually changes](/en/blog/montar-sl-circe-o-tradicional).
+With standard bylaws and up to €3,100 of capital, steps 3 and 5 cost €60 + VAT for the notary and €40 + VAT for the registrar; above that, or with custom bylaws, the cost goes up. We cover the full comparison in [CIRCE or the traditional route: what actually changes](/en/blog/montar-sl-circe-o-tradicional).
 
 ## How long it takes
 

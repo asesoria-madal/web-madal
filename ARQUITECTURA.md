@@ -170,3 +170,7 @@ Estas cuatro son las que hacen falta para tener Supabase funcionando en local/Ve
 - Casos de uso ya definidos con tabla lista: (1) facturas Storage → Drive → `fecha_contabilizado` → borrado del Storage tras el margen de días; (2) envío y seguimiento de presupuestos por email; (3) onboarding de cliente nuevo tras firmar el presupuesto. No hace falta diseñar esquema para ninguno.
 - Vincula siempre **por NIF** (`clientes.id`), que es el identificador común a presupuestos, formularios y facturas.
 - Los rate limiters de los endpoints públicos son en memoria y por instancia de Vercel — si un workflow llama a estos endpoints HTTP en vez de ir directo a Supabase, ese límite no es fiable bajo carga ni es una autenticación real. Prefiere ir directo a Supabase.
+
+## Formulario de constitución de SL (2026-11-07)
+
+`/formulario-constitucion-sl` (es, ca, en) se envía por correo a quien pide constituir una SL, con `?lead=<id>`. Guarda en `constituciones_formulario` por `/api/constitucion`, solo con service role porque lleva DNI e IBAN. El workflow `Formulario de constitución` de n8n copia cada envío a la hoja de Drive `Constituciones SL`, de la que saldrá el DUE, avisa a contacto@ y pasa el negocio a Revisión. Se ve en el idioma del cliente, pero los valores se guardan siempre en castellano.

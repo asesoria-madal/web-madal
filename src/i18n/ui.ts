@@ -31,7 +31,7 @@ export const ui = {
     // El detalle completo de cada uno vive en `servicios` más abajo.
     serviciosMenu: {
       alta: { title: 'Alta de autónomo', desc: 'Te damos de alta en Hacienda y el RETA. Con el plan Debut, incluido en tu cuota desde el primer mes.' },
-      sl: { title: 'Constituir una SL', desc: 'Tu SL en menos de una semana, por 150 € + IVA más notaría y Registro. Solicitud del nombre incluida.' },
+      sl: { title: 'Constituir una SL', desc: 'Tu SL en menos de una semana, por 175 € + IVA más notaría y Registro. Solicitud del nombre incluida.' },
       gestoria: { title: 'Gestoría mensual', desc: 'Gestoría + acompañamiento: contabilidad, impuestos y trato cercano todo el año.' },
       dashboard: { title: 'Tus números y previsión', desc: 'Tu negocio siempre a la vista, información a medida y, muy pronto, lo que pagarás en tus próximos impuestos.' },
       estudio: { title: '¿Autónomo o SL?', desc: 'Un estudio que te dice, con cifras, qué estructura te sale más a cuenta.' },
@@ -331,7 +331,7 @@ export const ui = {
         { q: '¿Lleváis la contabilidad de una SL?', a: 'Sí.' },
         { q: '¿Gestionáis nóminas?', a: 'Sí que llevamos gestión laboral.' },
         { q: '¿Podéis con una SL que ya funciona?', a: 'Sí, nos encargamos del traspaso con tu gestoría actual.' },
-        { q: '¿Ayudáis a constituir una SL?', a: 'Sí. Constituimos tu SL en menos de una semana, por 150 € + IVA más 60 € de notaría y 40 € de Registro Mercantil, con la solicitud del nombre incluida. Esos importes de notaría y Registro son con estatutos tipo y hasta 3.100 € de capital. No lo hacemos en Canarias, País Vasco ni Navarra.', related: 'como-se-constituye-una-sl' },
+        { q: '¿Ayudáis a constituir una SL?', a: 'Sí. Constituimos tu SL en menos de una semana, por 175 € + IVA más 60 € + IVA de notaría y 40 € + IVA de Registro Mercantil, con la solicitud del nombre incluida. Esos importes de notaría y Registro son con estatutos tipo y hasta 3.100 € de capital. No lo hacemos en Canarias, País Vasco ni Navarra.', related: 'como-se-constituye-una-sl' },
         { q: '¿Con qué frecuencia debería revisar el balance de mi sociedad?', a: 'Trimestral es un buen ritmo: da tiempo a detectar un cambio de tendencia sin reaccionar tarde.', related: 'balance-de-situacion' },
         { q: '¿Qué diferencia hay entre el balance y la cuenta de resultados?', a: 'La cuenta de resultados resume el rendimiento neto (beneficio o pérdida) generado por tu actividad durante un ejercicio determinado. El balance refleja tu situación patrimonial en una fecha exacta, detallando bienes y obligaciones para medir la solvencia y riqueza real de tu negocio.', related: 'balance-de-situacion' },
         { q: '¿Cuánto capital social necesito para montar una SL?', a: 'Desde 1 €, aunque mientras esté por debajo de 3.000 € hay que reservar el 20% del beneficio cada año hasta llegar a esa cifra.', related: 'como-se-constituye-una-sl' },
@@ -633,7 +633,7 @@ export const ui = {
 
     serviciosMenu: {
       alta: { title: 'Alta d’autònom', desc: 'Et donem d’alta a Hisenda i al RETA. Amb el pla Debut, inclòs a la teva quota des del primer mes.' },
-      sl: { title: 'Constituir una SL', desc: 'La teva SL en menys d’una setmana, per 150 € + IVA més notaria i Registre. Sol·licitud del nom inclosa.' },
+      sl: { title: 'Constituir una SL', desc: 'La teva SL en menys d’una setmana, per 175 € + IVA més notaria i Registre. Sol·licitud del nom inclosa.' },
       gestoria: { title: 'Gestoria mensual', desc: 'Gestoria + acompanyament: comptabilitat, impostos i tracte proper tot l’any.' },
       dashboard: { title: 'Els teus números i previsió', desc: 'El teu negoci sempre a la vista, informació a mida i, molt aviat, el que pagaràs en els teus propers impostos.' },
       estudio: { title: 'Autònom o SL?', desc: 'Un estudi que et diu, amb xifres, quina estructura et surt més a compte.' },
@@ -931,7 +931,7 @@ export const ui = {
         { q: 'Porteu la comptabilitat d’una SL?', a: 'Sí.' },
         { q: 'Gestioneu nòmines?', a: 'Sí, portem gestió laboral.' },
         { q: 'Podeu amb una SL que ja funciona?', a: 'Sí, ens encarreguem del traspàs amb la teva gestoria actual.' },
-        { q: 'Ajudeu a constituir una SL?', a: 'Sí. Constituïm la teva SL en menys d’una setmana, per 150 € + IVA més 60 € de notaria i 40 € de Registre Mercantil, amb la sol·licitud del nom inclosa. Aquests imports de notaria i Registre són amb estatuts tipus i fins a 3.100 € de capital. No ho fem a Canàries, País Basc ni Navarra.', related: 'como-se-constituye-una-sl' },
+        { q: 'Ajudeu a constituir una SL?', a: 'Sí. Constituïm la teva SL en menys d’una setmana, per 175 € + IVA més 60 € + IVA de notaria i 40 € + IVA de Registre Mercantil, amb la sol·licitud del nom inclosa. Aquests imports de notaria i Registre són amb estatuts tipus i fins a 3.100 € de capital. No ho fem a Canàries, País Basc ni Navarra.', related: 'como-se-constituye-una-sl' },
         { q: 'Amb quina freqüència hauria de revisar el balanç de la meva societat?', a: 'Trimestral és un bon ritme: dona temps a detectar un canvi de tendència sense reaccionar tard.', related: 'balance-de-situacion' },
         { q: 'Quina diferència hi ha entre el balanç i el compte de resultats?', a: 'El compte de resultats resumeix el rendiment net (benefici o pèrdua) generat per la teva activitat durant un exercici determinat. El balanç reflecteix la teva situació patrimonial en una data exacta, detallant béns i obligacions per mesurar la solvència i riquesa real del teu negoci.', related: 'balance-de-situacion' },
         { q: 'Quin capital social necessito per muntar una SL?', a: 'Des d’1 €, tot i que mentre estigui per sota de 3.000 € cal reservar el 20% del benefici cada any fins arribar a aquesta xifra.', related: 'como-se-constituye-una-sl' },
@@ -1233,7 +1233,7 @@ export const ui = {
 
     serviciosMenu: {
       alta: { title: 'Freelancer registration', desc: 'We register you with the Tax Agency and Social Security (RETA). With the Debut plan, included in your fee from month one.' },
-      sl: { title: 'Set up an SL', desc: 'Your SL in under a week, for €150 + VAT plus notary and Registry fees. Company name application included.' },
+      sl: { title: 'Set up an SL', desc: 'Your SL in under a week, for €175 + VAT plus notary and Registry fees. Company name application included.' },
       gestoria: { title: 'Monthly accounting', desc: 'Accounting + ongoing support: bookkeeping, taxes and a close relationship all year round.' },
       dashboard: { title: 'Your numbers and forecast', desc: 'Your business always in view, tailored information and, very soon, what you will pay in your upcoming taxes.' },
       estudio: { title: 'Freelancer or company?', desc: 'A study that tells you, with figures, which structure works out cheaper for you.' },
@@ -1533,7 +1533,7 @@ export const ui = {
         { q: 'Do you handle accounting for an SL?', a: 'Yes.' },
         { q: 'Do you manage payroll?', a: 'Yes, we handle payroll and labor management.' },
         { q: 'Can you take over an SL that’s already running?', a: 'Yes, we handle the handover with your current accounting firm.' },
-        { q: 'Do you help incorporate an SL?', a: 'Yes. We set up your SL in under a week, for €150 + VAT plus €60 notary and €40 Commercial Registry fees, with the company name application included. Those notary and Registry amounts apply with standard articles and up to €3,100 of capital. We don’t do this in the Canary Islands, the Basque Country or Navarre.', related: 'como-se-constituye-una-sl' },
+        { q: 'Do you help incorporate an SL?', a: 'Yes. We set up your SL in under a week, for €175 + VAT plus €60 + VAT notary and €40 + VAT Commercial Registry fees, with the company name application included. Those notary and Registry amounts apply with standard articles and up to €3,100 of capital. We don’t do this in the Canary Islands, the Basque Country or Navarre.', related: 'como-se-constituye-una-sl' },
         { q: 'How often should I check my company’s balance sheet?', a: 'Quarterly is a good rhythm: enough time to spot a trend without reacting too late.', related: 'balance-de-situacion' },
         { q: 'What’s the difference between a balance sheet and a profit and loss statement?', a: 'The profit and loss statement summarizes the net result (profit or loss) generated by your business over a given period. The balance sheet reflects your financial position at a specific point in time, detailing assets and liabilities to measure your business’s real solvency and net worth.', related: 'balance-de-situacion' },
         { q: 'How much share capital do I need to set up an SL?', a: 'From €1, though while it stays below €3,000 you need to set aside 20% of profit each year until reaching that figure.', related: 'como-se-constituye-una-sl' },

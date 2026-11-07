@@ -30,7 +30,7 @@ CIRCE (Centro de Información y Red de Creación de Empresas) es el sistema del 
 
 La condición para acceder a esta vía es que los estatutos sean los estatutos tipo aprobados por el Ministerio de Justicia, sin modificaciones sustanciales. Eso permite bastante más de lo que se suele pensar: el modelo admite varios administradores (de dos a cinco solidarios, o dos mancomunados, además del administrador único), aportaciones no dinerarias y reparto de participaciones desigual entre socios. A cambio:
 
-- **Aranceles fijados por ley, no de mercado, pero solo hasta cierto capital.** Si el capital social no supera los 3.100 €, el notario cobra 60 € y el registrador 40 €. Si lo superas, aunque sigas dentro de CIRCE con estatutos tipo, pasas a pagar los 150 € y 100 € de la constitución telemática ordinaria (la vía tradicional, sin este tope legal, tiene precio libre). Cifras fijadas en el artículo 5 del Real Decreto-ley 13/2010.
+- **Aranceles fijados por ley, no de mercado, pero solo hasta cierto capital.** Si el capital social no supera los 3.100 €, el notario cobra 60 € + IVA y el registrador 40 € + IVA. Si lo superas, aunque sigas dentro de CIRCE con estatutos tipo, pasas a pagar los 150 € y 100 € de la constitución telemática ordinaria (la vía tradicional, sin este tope legal, tiene precio libre). Cifras fijadas en el artículo 5 del Real Decreto-ley 13/2010.
 - **Plazos de tramitación mucho más cortos.** El registro mercantil tiene un plazo legal de 6 horas hábiles para calificar e inscribir la sociedad de forma provisional una vez recibe la escritura, según el artículo 15 de la Ley 14/2013, de apoyo a los emprendedores. En la práctica, el proceso completo suele resolverse en cuestión de días, no de semanas.
 
 ## Cuándo conviene cada una
@@ -49,7 +49,7 @@ Un matiz que se suele pasar por alto: constituir por CIRCE no te libra de la cuo
 |---|---|---|
 | Notario y registrador | Los que gestione el PAE o el sistema CIRCE | Los eliges tú |
 | Estatutos | Modelo estándar del Ministerio de Justicia, sin modificaciones sustanciales | A medida, sin límite de cláusulas |
-| Coste (capital ≤ 3.100 €) | 60 € notario + 40 € registrador | Precio libre de mercado |
+| Coste (capital ≤ 3.100 €) | 60 € + IVA notario + 40 € + IVA registrador | Precio libre de mercado |
 | Coste (capital > 3.100 €) | 150 € notario + 100 € registrador | Precio libre de mercado |
 | Plazo | Días (6 horas hábiles solo para la calificación registral) | Varias semanas |
 | Varios administradores, aportaciones no dinerarias, participaciones desiguales | Sí, el modelo lo permite | Sí, sin restricciones |

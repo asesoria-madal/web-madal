@@ -43,7 +43,7 @@ Ese 20% obligatorio sigue destinándose a reserva legal cada año hasta que, ent
 4. **Obtención del NIF provisional** y alta censal en Hacienda (modelo 036).
 5. **Inscripción en el Registro Mercantil** de tu provincia, que es lo que da a la sociedad su personalidad jurídica plena.
 
-Con estatutos tipo y capital hasta 3.100 €, los pasos 3 y 5 cuestan 60 € de notario y 40 € de registrador; por encima de esa cifra, o con estatutos a medida, el coste sube. Lo desarrollamos con la comparación completa en [CIRCE o vía tradicional: qué cambia de verdad](/blog/montar-sl-circe-o-tradicional).
+Con estatutos tipo y capital hasta 3.100 €, los pasos 3 y 5 cuestan 60 € + IVA de notario y 40 € + IVA de registrador; por encima de esa cifra, o con estatutos a medida, el coste sube. Lo desarrollamos con la comparación completa en [CIRCE o vía tradicional: qué cambia de verdad](/blog/montar-sl-circe-o-tradicional).
 
 ## Cuánto se tarda
 

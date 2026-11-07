@@ -30,7 +30,7 @@ CIRCE (Centro de Información y Red de Creación de Empresas) és el sistema del
 
 La condició per accedir a aquesta via és que els estatuts siguin els estatuts tipus aprovats pel Ministeri de Justícia, sense modificacions substancials. Això permet força més del que es sol pensar: el model admet diversos administradors (de dos a cinc solidaris, o dos mancomunats, a més de l'administrador únic), aportacions no dineràries i repartiment de participacions desigual entre socis. A canvi:
 
-- **Aranzels fixats per llei, no de mercat, però només fins a cert capital.** Si el capital social no supera els 3.100 €, el notari cobra 60 € i el registrador 40 €. Si el superes, encara que segueixis dins de CIRCE amb estatuts tipus, passes a pagar els 150 € i 100 € de la constitució telemàtica ordinària (la via tradicional, sense aquest topall legal, té preu lliure). Xifres fixades a l'article 5 del Real Decreto-ley 13/2010.
+- **Aranzels fixats per llei, no de mercat, però només fins a cert capital.** Si el capital social no supera els 3.100 €, el notari cobra 60 € + IVA i el registrador 40 € + IVA. Si el superes, encara que segueixis dins de CIRCE amb estatuts tipus, passes a pagar els 150 € i 100 € de la constitució telemàtica ordinària (la via tradicional, sense aquest topall legal, té preu lliure). Xifres fixades a l'article 5 del Real Decreto-ley 13/2010.
 - **Terminis de tramitació molt més curts.** El registre mercantil té un termini legal de 6 hores hàbils per qualificar i inscriure la societat de forma provisional un cop rep l'escriptura, segons l'article 15 de la Ley 14/2013, de suport als emprenedors. A la pràctica, el procés complet sol resoldre's en qüestió de dies, no de setmanes.
 
 ## Quan convé cadascuna
@@ -49,7 +49,7 @@ Un matís que es sol passar per alt: constituir per CIRCE no t'allibera de la qu
 |---|---|---|
 | Notari i registrador | Els que gestioni el PAE o el sistema CIRCE | Els tries tu |
 | Estatuts | Model estàndard del Ministeri de Justícia, sense modificacions substancials | A mida, sense límit de clàusules |
-| Cost (capital ≤ 3.100 €) | 60 € notari + 40 € registrador | Preu lliure de mercat |
+| Cost (capital ≤ 3.100 €) | 60 € + IVA notari + 40 € + IVA registrador | Preu lliure de mercat |
 | Cost (capital > 3.100 €) | 150 € notari + 100 € registrador | Preu lliure de mercat |
 | Termini | Dies (6 hores hàbils només per a la qualificació registral) | Diverses setmanes |
 | Diversos administradors, aportacions no dineràries, participacions desiguals | Sí, el model ho permet | Sí, sense restriccions |

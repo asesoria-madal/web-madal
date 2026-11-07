@@ -30,7 +30,7 @@ CIRCE (Centro de Información y Red de Creación de Empresas) is the Ministry of
 
 The condition to use this route is that the bylaws must be the standard bylaws approved by the Ministry of Justice, without substantial changes. That allows for more than people usually assume: the template supports several administrators (two to five joint-and-several, or two acting jointly, besides a sole administrator), non-cash contributions and shares split unevenly between partners. In exchange:
 
-- **Fees set by law, not by the market, but only up to a certain capital.** If the share capital doesn't exceed €3,100, the notary charges €60 and the registrar €40. Above that, even if you stay within CIRCE using standard bylaws, you pay the €150 and €100 of ordinary telematic incorporation (the traditional route, with no such legal cap, has a freely negotiated price). Figures set out in article 5 of Real Decreto-ley 13/2010.
+- **Fees set by law, not by the market, but only up to a certain capital.** If the share capital doesn't exceed €3,100, the notary charges €60 + VAT and the registrar €40 + VAT. Above that, even if you stay within CIRCE using standard bylaws, you pay the €150 and €100 of ordinary telematic incorporation (the traditional route, with no such legal cap, has a freely negotiated price). Figures set out in article 5 of Real Decreto-ley 13/2010.
 - **Much shorter processing times.** The mercantile registry has a legal deadline of 6 business hours to qualify and provisionally register the company once it receives the deed, under article 15 of Ley 14/2013, on support for entrepreneurs. In practice, the whole process is usually resolved in days, not weeks.
 
 ## When each one makes sense
@@ -49,7 +49,7 @@ One nuance that's easy to miss: incorporating through CIRCE doesn't get you out 
 |---|---|---|
 | Notary and registrar | Whoever the PAE or the CIRCE system assigns | You choose them |
 | Bylaws | Standard Ministry of Justice template, no substantial changes | Custom, no limit on clauses |
-| Cost (capital ≤ €3,100) | €60 notary + €40 registrar | Freely negotiated market price |
+| Cost (capital ≤ €3,100) | €60 + VAT notary + €40 + VAT registrar | Freely negotiated market price |
 | Cost (capital > €3,100) | €150 notary + €100 registrar | Freely negotiated market price |
 | Timeline | Days (6 business hours just for registry review) | Several weeks |
 | Several administrators, non-cash contributions, uneven shares | Yes, the template allows it | Yes, with no restrictions |

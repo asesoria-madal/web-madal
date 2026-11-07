@@ -1,0 +1,10 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import FormularioConstitucion from '../../components/pages/FormularioConstitucion.astro';
+
+export const prerender = true;
+---
+
+<Layout lang="en" path="/formulario-constitucion-sl" active="none" title="Details to set up your SL · Asesoría Madal" description="Form with the details we need to set up your SL." noindex showCtaFinal={false} minimalHeader hideWhatsapp>
+  <FormularioConstitucion lang="en" />
+</Layout>

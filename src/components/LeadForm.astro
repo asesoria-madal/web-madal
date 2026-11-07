@@ -78,7 +78,7 @@ const esSl = tipo === 'constituir_sl';
 </form>
 <div class="lead-ok" data-lead-ok hidden>
   <p class="lead-ok-title">{f.okTitle}</p>
-  <p>{f.okText}</p>
+  <p>{esSl ? s.okText : f.okText}</p>
 </div>
 
 <script>

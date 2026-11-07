@@ -1,0 +1,392 @@
+<header class="top">
+  <div class="top-inner">
+    <h1 id="titulo">Constitución de SL — Datos para el trámite</h1>
+    <span class="saved" id="saved">Sin cambios</span>
+  </div>
+  <div class="progress"><span id="prog"></span></div>
+  <nav class="steps" id="steps">
+    <a href="#s-contacto" data-sec="s-contacto">1. Contacto</a>
+    <a href="#s-nombre" data-sec="s-nombre">2. Nombre</a>
+    <a href="#s-domicilio" data-sec="s-domicilio">3. Domicilio</a>
+    <a href="#s-actividad" data-sec="s-actividad">4. Actividad</a>
+    <a href="#s-socios" data-sec="s-socios">5. Socios</a>
+    <a href="#s-capital" data-sec="s-capital">6. Capital</a>
+    <a href="#s-admin" data-sec="s-admin">7. Administración</a>
+    <a href="#s-fiscal" data-sec="s-fiscal">8. Fiscal</a>
+    <a href="#s-otros" data-sec="s-otros">9. Notaría y otros</a>
+    <a href="#s-docs" data-sec="s-docs">10. Documentación</a>
+  </nav>
+</header>
+
+<div id="print-view"></div>
+<div class="fc-trampa" aria-hidden="true"><label>No rellenar este campo <input type="text" id="fc-web" tabindex="-1" autocomplete="off"></label></div>
+<div id="form" class="fc-main">
+
+<div class="note" style="margin-bottom:22px">
+  <strong>Antes de empezar.</strong> Este formulario <strong>se guarda solo</strong> en este navegador mientras escribís: podéis cerrarlo y volver más tarde desde el mismo ordenador y navegador.
+  Si queréis seguir en otro dispositivo o tener una copia de seguridad, usad <em>“Descargar copia”</em> y después <em>“Cargar copia”</em>.
+  Cuando terminéis, pulsad <em>“Enviar a Asesoría Madal”</em> y nos llegará directamente.
+  <ul>
+    <li>Los campos con * son obligatorios. Si no sabéis algo, elegid “No lo sé” cuando esté disponible: lo vemos juntos.</li>
+    <li><strong>Mientras dure el trámite no solicitéis por vuestra cuenta el NIF ni ninguna alta en Hacienda o Seguridad Social</strong>: el sistema CIRCE lo hace todo y un trámite paralelo puede bloquear el expediente.</li>
+  </ul>
+</div>
+
+<!-- 1. CONTACTO -->
+<section class="card" id="s-contacto">
+  <h2>1. Persona de contacto</h2>
+  <p class="lead">Quién rellena el formulario y con quién hablamos durante el trámite.</p>
+  <div class="grid">
+    <div class="field"><label class="l">Nombre y apellidos <span class="req">*</span></label><input type="text" name="c_nombre" data-req></div>
+    <div class="field"><label class="l">Email <span class="req">*</span></label><input type="email" name="c_email" data-req></div>
+    <div class="field"><label class="l">Teléfono <span class="req">*</span></label><input type="tel" name="c_tel" data-req></div>
+    <div class="field"><label class="l">Relación con la sociedad</label>
+      <select name="c_rol"><option value="">—</option><option>Futuro socio/a</option><option>Futuro administrador/a</option><option>Otra persona (asesor, familiar…)</option></select></div>
+  </div>
+</section>
+
+<!-- 2. NOMBRE -->
+<section class="card" id="s-nombre">
+  <h2>2. Nombre de la sociedad</h2>
+  <p class="lead">Indicad 5 nombres por orden de preferencia. Pediremos al Registro Mercantil Central que reserve el primero que esté libre.</p>
+  <div class="warn">
+    <strong>Importante:</strong> no es posible saber de antemano si el Registro aceptará o denegará un nombre. Para aumentar las posibilidades:
+    <ul>
+      <li>Buscad antes cada nombre en internet y en el buscador de denominaciones del Registro Mercantil Central (<strong>rmc.es</strong>).</li>
+      <li>Evitad nombres genéricos (“Servicios Integrales”, “Consulting”, “Global”, “Gestión”…): se deniegan con mucha frecuencia.</li>
+      <li>Usad palabras concretas, inventadas o combinadas, iniciales, o añadid números (por ejemplo “Brotalia 27”).</li>
+      <li>Nombres que se parecen mucho a uno ya existente (aunque cambie una letra o el idioma) también se suelen denegar.</li>
+      <li>No hace falta escribir “SL” ni “Sociedad Limitada”: se añade automáticamente.</li>
+    </ul>
+  </div>
+  <div class="grid" style="grid-template-columns:1fr">
+    <div class="den-row"><b>1</b><input type="text" name="den1" placeholder="Opción preferida" data-req></div>
+    <div class="den-row"><b>2</b><input type="text" name="den2" data-req></div>
+    <div class="den-row"><b>3</b><input type="text" name="den3" data-req></div>
+    <div class="den-row"><b>4</b><input type="text" name="den4" data-req></div>
+    <div class="den-row"><b>5</b><input type="text" name="den5" data-req></div>
+    <div class="field" style="margin-top:8px"><label class="l">Nombre comercial o marca (opcional)</label><input type="text" name="den_comercial"><span class="hint">Si el negocio se va a conocer con un nombre distinto al de la sociedad.</span></div>
+  </div>
+</section>
+
+<!-- 3. DOMICILIO -->
+<section class="card" id="s-domicilio">
+  <h2>3. Domicilio social y fiscal</h2>
+  <p class="lead">El domicilio social es la dirección oficial de la sociedad (aparece en la escritura y en las facturas).</p>
+  <div class="grid">
+    <div class="field full"><label class="l">Calle / vía <span class="req">*</span></label><input type="text" name="dom_via" data-req></div>
+    <div class="field"><label class="l">Número <span class="req">*</span></label><input type="text" name="dom_num" data-req></div>
+    <div class="field"><label class="l">Piso / puerta / local</label><input type="text" name="dom_piso"></div>
+    <div class="field"><label class="l">Código postal <span class="req">*</span></label><input type="text" name="dom_cp" inputmode="numeric" data-req></div>
+    <div class="field"><label class="l">Municipio <span class="req">*</span></label><input type="text" name="dom_mun" data-req></div>
+    <div class="field"><label class="l">Provincia <span class="req">*</span></label><input type="text" name="dom_prov" data-req></div>
+    <div class="field full"><label class="l">¿Qué es este domicilio? <span class="req">*</span></label>
+      <div class="opts" data-req-group="dom_tipo">
+        <label><input type="radio" name="dom_tipo" value="Local alquilado">Local / oficina alquilado</label>
+        <label><input type="radio" name="dom_tipo" value="Local en propiedad">Local / oficina en propiedad</label>
+        <label><input type="radio" name="dom_tipo" value="Vivienda de un socio">Vivienda de un socio</label>
+        <label><input type="radio" name="dom_tipo" value="Domiciliación / centro de negocios">Domiciliación / centro de negocios</label>
+        <label><input type="radio" name="dom_tipo" value="Otro">Otro</label>
+      </div>
+    </div>
+    <div class="field full"><label class="l">¿El domicilio fiscal es el mismo?</label>
+      <div class="opts">
+        <label><input type="radio" name="fis_igual" value="Sí">Sí, el mismo</label>
+        <label><input type="radio" name="fis_igual" value="No">No, es otro</label>
+      </div>
+    </div>
+    <div class="field full" data-if="fis_igual:No"><label class="l">Dirección fiscal completa</label><textarea name="fis_dir" placeholder="Calle, número, piso, CP, municipio, provincia"></textarea><span class="hint">El domicilio fiscal es donde se lleva la gestión y dirección efectiva del negocio.</span></div>
+  </div>
+</section>
+
+<!-- 4. ACTIVIDAD -->
+<section class="card" id="s-actividad">
+  <h2>4. Actividad</h2>
+  <p class="lead">Contadnos con vuestras palabras a qué se va a dedicar la sociedad. Con esto redactamos el objeto social y elegimos los códigos (CNAE e IAE).</p>
+  <div class="grid">
+    <div class="field full"><label class="l">Descripción de la actividad <span class="req">*</span></label><textarea name="act_desc" data-req placeholder="Ej.: tienda online de ropa de segunda mano y venta en mercadillos; también arreglos de costura."></textarea></div>
+    <div class="field full"><label class="l">Otras actividades que podríais hacer en el futuro</label><textarea name="act_futuro" placeholder="Conviene incluirlas ahora en el objeto social para no tener que modificar estatutos después."></textarea></div>
+    <div class="field"><label class="l">Código CNAE (si lo sabéis)</label><input type="text" name="act_cnae"></div>
+    <div class="field"><label class="l">Fecha prevista de inicio <span class="req">*</span></label><input type="date" name="act_inicio" data-req></div>
+    <div class="field full"><label class="l">¿Dónde se desarrollará la actividad? <span class="req">*</span></label>
+      <div class="opts" data-req-group="act_lugar">
+        <label><input type="checkbox" name="act_lugar" value="En el domicilio social">En el domicilio social</label>
+        <label><input type="checkbox" name="act_lugar" value="En otro local">En otro local</label>
+        <label><input type="checkbox" name="act_lugar" value="Online">Online</label>
+        <label><input type="checkbox" name="act_lugar" value="En casa / instalaciones del cliente">En casa / instalaciones del cliente</label>
+      </div>
+    </div>
+    <div class="field full"><label class="l">¿Es una actividad regulada o que necesita titulación, licencia o colegiación? <span class="req">*</span></label>
+      <span class="hint">Por ejemplo: sanitaria, transporte, inmobiliaria, seguridad, alimentación, profesiones colegiadas…</span>
+      <div class="opts" data-req-group="act_regulada">
+        <label><input type="radio" name="act_regulada" value="Sí">Sí</label>
+        <label><input type="radio" name="act_regulada" value="No">No</label>
+        <label><input type="radio" name="act_regulada" value="No lo sé">No lo sé</label>
+      </div>
+    </div>
+    <div class="field full" data-if="act_regulada:Sí"><label class="l">¿Cuál? ¿Quién tiene la titulación o licencia? <span class="req">*</span></label><textarea name="act_regulada_det" data-req></textarea></div>
+
+    <div class="field full"><label class="l">¿Alguna parte de la actividad está exenta de IVA? <span class="req">*</span></label>
+      <span class="hint">Son exentas, entre otras: servicios sanitarios, enseñanza y formación reglada, seguros, servicios financieros, alquiler de vivienda, algunas actividades culturales y deportivas.</span>
+      <div class="opts" data-req-group="exenta">
+        <label><input type="radio" name="exenta" value="No">No, todo lleva IVA</label>
+        <label><input type="radio" name="exenta" value="Toda la actividad">Sí, toda</label>
+        <label><input type="radio" name="exenta" value="Solo una parte">Solo una parte</label>
+        <label><input type="radio" name="exenta" value="No lo sé">No lo sé</label>
+      </div>
+    </div>
+    <div class="field" data-if="exenta:Toda la actividad|Solo una parte"><label class="l">Tipo de actividad exenta</label>
+      <select name="exenta_tipo"><option value="">—</option><option>Sanitaria / salud</option><option>Educación / formación</option><option>Seguros</option><option>Financiera</option><option>Alquiler de vivienda</option><option>Cultural / deportiva</option><option>Otra</option></select></div>
+    <div class="field" data-if="exenta:Solo una parte"><label class="l">% aproximado de ingresos exentos</label><input type="number" name="exenta_pct" min="0" max="100" placeholder="%"></div>
+    <div class="field full" data-if="exenta:Toda la actividad|Solo una parte"><label class="l">Explicadlo brevemente</label><textarea name="exenta_det"></textarea></div>
+  </div>
+</section>
+
+<!-- 5. SOCIOS -->
+<section class="card" id="s-socios">
+  <h2>5. Socios</h2>
+  <p class="lead">Añadid a todas las personas (o empresas) que serán socias y lo que aporta cada una. El capital total se calcula solo en el siguiente apartado.</p>
+  <div class="note">Si algún socio está casado, necesitamos su régimen económico matrimonial (gananciales, separación de bienes…): lo pide la notaría. En Cataluña normalmente es separación de bienes.</div>
+  <div id="socios"></div>
+  <div class="actions">
+    <button type="button" class="btn sec" id="add-socio">+ Añadir socio</button>
+    <span class="hint" id="num-socios" style="align-self:center"></span>
+  </div>
+</section>
+
+<!-- 6. CAPITAL -->
+<section class="card" id="s-capital">
+  <h2>6. Capital social</h2>
+  <p class="lead">Suma de lo que aporta cada socio. Se calcula con los importes del apartado anterior.</p>
+  <div id="cap-tabla"></div>
+  <div id="cap-aviso"></div>
+  <div class="grid" style="margin-top:14px">
+    <div class="field"><label class="l">Valor de cada participación (€)</label><input type="number" name="cap_nominal" min="0.01" step="0.01" placeholder="1"><span class="hint">Si no tenéis preferencia, dejadlo en 1 €.</span></div>
+    <div class="field full" data-if="hay_dinero:1"><label class="l">¿Cuándo se ingresará el dinero del capital? <span class="req">*</span></label>
+      <div class="opts col" data-req-group="cap_momento">
+        <label><input type="radio" name="cap_momento" value="Antes de la firma">Antes de la firma en notaría (necesitaremos el certificado bancario del ingreso)</label>
+        <label><input type="radio" name="cap_momento" value="Después de la constitución">Después de la constitución</label>
+        <label><input type="radio" name="cap_momento" value="No lo sé">No lo sé, aconsejadme</label>
+      </div>
+      <span class="hint">Si se ingresa después, no hace falta certificado bancario para firmar. No hay plazo para aportarlo, pero recomendamos hacerlo durante el primer año: hasta que esté todo aportado, los socios responden con su patrimonio personal de las deudas de la sociedad.</span>
+    </div>
+  </div>
+</section>
+
+<!-- 7. ADMINISTRACIÓN -->
+<section class="card" id="s-admin">
+  <h2>7. Administración</h2>
+  <p class="lead">Quién gestionará la sociedad y podrá firmar en su nombre.</p>
+  <div class="grid">
+    <div class="field full"><label class="l">Forma de administración <span class="req">*</span></label>
+      <div class="opts col" data-req-group="adm_tipo">
+        <label><input type="radio" name="adm_tipo" value="Administrador único">Administrador/a único/a — una sola persona decide y firma</label>
+        <label><input type="radio" name="adm_tipo" value="Administradores solidarios">Administradores solidarios — varias personas, cualquiera puede firmar sola</label>
+        <label><input type="radio" name="adm_tipo" value="Administradores mancomunados">Administradores mancomunados — varias personas, tienen que firmar conjuntamente</label>
+        <label><input type="radio" name="adm_tipo" value="Consejo de administración">Consejo de administración — de 3 a 12 miembros</label>
+      </div>
+    </div>
+    <div class="field full"><label class="l">¿Quién será administrador/a? Marcad entre los socios:</label>
+      <div class="opts" id="adm-socios"></div>
+    </div>
+  </div>
+  <div id="adm-ss"></div>
+  <p class="hint" style="margin:14px 0 6px">¿Alguna persona que no es socia será administradora? Añadidla aquí:</p>
+  <div id="admins-nuevos"></div>
+  <div class="actions"><button type="button" class="btn sec" id="add-admin">+ Añadir administrador/a que no es socio</button></div>
+  <div id="adm-check" style="margin-top:10px"></div>
+  <div class="grid" style="margin-top:14px">
+    <div class="field full"><label class="l">¿El cargo de administrador será retribuido?</label>
+      <div class="opts">
+        <label><input type="radio" name="adm_retrib" value="Sí">Sí</label>
+        <label><input type="radio" name="adm_retrib" value="No">No, gratuito</label>
+        <label><input type="radio" name="adm_retrib" value="No lo sé">No lo sé</label>
+      </div>
+      <div class="note" style="margin:6px 0 0"><strong>Recomendamos que el cargo sea gratuito.</strong> Si se pone retribuido en los estatutos, el administrador tendrá que cobrar su nómina aunque el negocio no vaya bien. Si es gratuito, más adelante se puede adaptar a la situación real de la empresa.</div>
+    </div>
+    <div class="field full" data-if="adm_retrib:Sí"><label class="l">¿Cómo y cuánto (aproximado)?</label><textarea name="adm_retrib_det"></textarea></div>
+  </div>
+</section>
+
+<!-- 8. FISCAL -->
+<section class="card" id="s-fiscal">
+  <h2>8. Datos fiscales y laborales</h2>
+  <p class="lead">Con esto damos de alta correctamente la sociedad en Hacienda (modelo censal) y en la Seguridad Social.</p>
+
+  <div class="sub">
+    <h3>Operaciones intracomunitarias (alta en el ROI)</h3>
+    <div class="note">Si la sociedad va a comprar o vender a empresas de otros países de la UE, necesita el alta en el Registro de Operadores Intracomunitarios. <strong>Ojo: también cuenta contratar servicios de empresas europeas</strong>, como publicidad en Google o Meta, software, plataformas o hosting facturados desde Irlanda u otro país UE.</div>
+    <div class="grid">
+      <div class="field full"><label class="l">¿Tendréis operaciones con empresas de otros países de la UE? <span class="req">*</span></label>
+        <div class="opts" data-req-group="roi">
+          <label><input type="radio" name="roi" value="Sí">Sí</label>
+          <label><input type="radio" name="roi" value="No">No</label>
+          <label><input type="radio" name="roi" value="No lo sé">No lo sé</label>
+        </div>
+      </div>
+      <div class="field full" data-if="roi:Sí|No lo sé"><label class="l">¿De qué tipo? (marcad todas las que apliquen)</label>
+        <div class="opts col">
+          <label><input type="checkbox" name="roi_tipo" value="Comprar mercancía a empresas UE">Comprar mercancía / productos a empresas de la UE</label>
+          <label><input type="checkbox" name="roi_tipo" value="Vender mercancía a empresas UE">Vender mercancía / productos a empresas de la UE</label>
+          <label><input type="checkbox" name="roi_tipo" value="Prestar servicios a empresas UE">Prestar servicios a empresas de la UE</label>
+          <label><input type="checkbox" name="roi_tipo" value="Contratar servicios a empresas UE (publicidad, software...)">Contratar servicios a empresas de la UE (Google Ads, Meta, software, hosting…)</label>
+          <label><input type="checkbox" name="roi_tipo" value="Vender online a particulares de otros países UE">Vender online a particulares de otros países de la UE</label>
+        </div>
+      </div>
+      <div class="field" data-if="roi:Sí|No lo sé"><label class="l">Países principales</label><input type="text" name="roi_paises"></div>
+      <div class="field" data-if="roi:Sí|No lo sé"><label class="l">Volumen anual aproximado (€)</label><input type="text" name="roi_volumen"></div>
+      <div class="field" data-if="roi:Sí|No lo sé"><label class="l">¿Desde cuándo?</label><input type="date" name="roi_fecha"></div>
+      <div class="field full"><label class="l">¿Y operaciones con países de fuera de la UE (importar / exportar)?</label>
+        <div class="opts">
+          <label><input type="radio" name="extra_ue" value="Sí">Sí</label>
+          <label><input type="radio" name="extra_ue" value="No">No</label>
+          <label><input type="radio" name="extra_ue" value="No lo sé">No lo sé</label>
+        </div>
+      </div>
+      <div class="field full" data-if="extra_ue:Sí"><label class="l">¿Qué y con qué países?</label><input type="text" name="extra_ue_det"></div>
+    </div>
+  </div>
+
+  <div class="sub">
+    <h3>Alquiler de local</h3>
+    <div class="grid">
+      <div class="field full"><label class="l">¿La sociedad alquilará un local u oficina? <span class="req">*</span></label>
+        <div class="opts" data-req-group="alq">
+          <label><input type="radio" name="alq" value="Sí">Sí</label>
+          <label><input type="radio" name="alq" value="Todavía no, más adelante">Más adelante</label>
+          <label><input type="radio" name="alq" value="No">No</label>
+        </div>
+      </div>
+      <div class="field full" data-if="alq:Sí"><div class="note" style="margin:0">Cuando el propietario es una persona física o una empresa, normalmente la sociedad tiene que retener un 19 % del alquiler y presentarlo trimestralmente (modelo 115). Por eso necesitamos estos datos.</div></div>
+      <div class="field" data-if="alq:Sí"><label class="l">El propietario es…</label>
+        <select name="arr_tipo"><option value="">—</option><option>Persona física</option><option>Empresa / sociedad</option><option>No lo sé</option></select></div>
+      <div class="field" data-if="alq:Sí"><label class="l">Nombre o razón social del propietario</label><input type="text" name="arr_nombre"></div>
+      <div class="field" data-if="alq:Sí"><label class="l">DNI / NIF del propietario</label><input type="text" name="arr_nif"></div>
+      <div class="field full" data-if="alq:Sí"><label class="l">Dirección del local</label><input type="text" name="alq_dir" placeholder="Si es el mismo domicilio social, escribid “el mismo”"></div>
+      <div class="field" data-if="alq:Sí"><label class="l">Referencia catastral</label><input type="text" name="alq_refcat"><span class="hint">Aparece en el contrato o en el recibo del IBI.</span></div>
+      <div class="field" data-if="alq:Sí"><label class="l">Renta mensual (sin IVA)</label><input type="text" name="alq_renta"></div>
+      <div class="field" data-if="alq:Sí"><label class="l">Inicio del contrato</label><input type="date" name="alq_inicio"></div>
+      <div class="field" data-if="alq:Sí"><label class="l">Uso</label>
+        <select name="alq_uso"><option value="">—</option><option>Oficina / despacho</option><option>Local comercial / tienda</option><option>Almacén / nave</option><option>Taller</option><option>Otro</option></select></div>
+      <div class="field" data-if="alq:Sí"><label class="l">Superficie aproximada (m²)</label><input type="text" name="alq_m2"></div>
+      <div class="field" data-if="alq:Sí"><label class="l">¿El contrato está ya a nombre de la sociedad?</label>
+        <select name="alq_titular"><option value="">—</option><option>Sí</option><option>No, está a nombre de un socio</option><option>Aún no está firmado</option></select></div>
+    </div>
+  </div>
+
+  <div class="sub">
+    <h3>Profesionales y retenciones</h3>
+    <div class="grid">
+      <div class="field full"><label class="l">¿La sociedad contratará a profesionales autónomos que le facturen? <span class="req">*</span></label>
+        <span class="hint">Abogados, diseñadores, consultores, arquitectos, formadores, programadores freelance… A sus facturas hay que practicarles retención de IRPF (modelo 111).</span>
+        <div class="opts" data-req-group="prof">
+          <label><input type="radio" name="prof" value="Sí">Sí</label>
+          <label><input type="radio" name="prof" value="No">No</label>
+          <label><input type="radio" name="prof" value="No lo sé">No lo sé</label>
+        </div>
+      </div>
+      <div class="field full" data-if="prof:Sí"><label class="l">¿Qué tipo de profesionales y con qué frecuencia?</label><input type="text" name="prof_det"></div>
+    </div>
+  </div>
+
+  <div class="sub">
+    <h3>Trabajadores</h3>
+    <div class="grid">
+      <div class="field full"><label class="l">¿Tendréis trabajadores contratados? <span class="req">*</span></label>
+        <div class="opts" data-req-group="trab">
+          <label><input type="radio" name="trab" value="Sí, desde el inicio">Sí, desde el inicio</label>
+          <label><input type="radio" name="trab" value="Más adelante">Más adelante</label>
+          <label><input type="radio" name="trab" value="No">No</label>
+        </div>
+      </div>
+      <div class="field" data-if="trab:Sí, desde el inicio|Más adelante"><label class="l">¿Cuántos, aproximadamente?</label><input type="number" name="trab_num" min="0"></div>
+      <div class="field" data-if="trab:Sí, desde el inicio|Más adelante"><label class="l">Fecha prevista de la primera contratación</label><input type="date" name="trab_fecha"></div>
+      <div class="field" data-if="trab:Sí, desde el inicio|Más adelante"><label class="l">Centro de trabajo</label><input type="text" name="trab_centro" placeholder="Dirección o “el domicilio social”"></div>
+    </div>
+  </div>
+
+  <div class="sub">
+    <h3>Previsión de negocio</h3>
+    <div class="grid">
+      <div class="field"><label class="l">Facturación prevista el primer año</label>
+        <select name="fact_estim"><option value="">—</option><option>Menos de 50.000 €</option><option>50.000 – 250.000 €</option><option>250.000 – 1.000.000 €</option><option>1 – 6 millones €</option><option>Más de 6 millones €</option><option>No lo sé</option></select></div>
+      <div class="field"><label class="l">Vuestros clientes serán…</label>
+        <select name="fact_clientes"><option value="">—</option><option>Empresas y autónomos</option><option>Particulares</option><option>Ambos</option></select></div>
+      <div class="field"><label class="l">Inversión inicial prevista (€)</label><input type="text" name="inversion"><span class="hint">Obras, maquinaria, mobiliario, vehículos… Afecta a si conviene pedir la devolución mensual del IVA.</span></div>
+      <div class="field full"><label class="l">¿Os interesa el criterio de caja del IVA (pagar el IVA cuando cobráis la factura)?</label>
+        <div class="opts">
+          <label><input type="radio" name="caja" value="Sí">Sí</label>
+          <label><input type="radio" name="caja" value="No">No</label>
+          <label><input type="radio" name="caja" value="No lo sé, aconsejadme">No lo sé, aconsejadme</label>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 9. NOTARÍA Y OTROS -->
+<section class="card" id="s-otros">
+  <h2>9. Notaría y otros datos</h2>
+  <div class="grid">
+    <div class="field"><label class="l">¿Tenéis notaría de preferencia?</label><input type="text" name="not_pref" placeholder="Nombre o “la que nos recomendéis”"></div>
+    <div class="field"><label class="l">Disponibilidad para la firma</label><input type="text" name="not_disp" placeholder="Días y franjas que os van bien"></div>
+    <div class="field"><label class="l">Estatutos</label>
+      <select name="estatutos"><option value="">—</option><option>Estatutos tipo (más rápido y económico)</option><option>Estatutos personalizados</option><option>Aconsejadme</option></select></div>
+    <div class="field"><label class="l">Ejercicio social</label>
+      <select name="ejercicio"><option value="">—</option><option>Año natural (1 enero – 31 diciembre)</option><option>Otro</option></select></div>
+    <div class="field full"><label class="l">¿Algún socio tiene certificado digital, DNI electrónico o Cl@ve? <span class="req">*</span></label>
+      <div class="opts" data-req-group="cert">
+        <label><input type="radio" name="cert" value="Sí">Sí</label>
+        <label><input type="radio" name="cert" value="No">No</label>
+        <label><input type="radio" name="cert" value="No lo sé">No lo sé</label>
+      </div>
+    </div>
+    <div class="field full" data-if="cert:No|No lo sé"><div class="warn" style="margin:0">Hará falta: un socio tiene que identificarse con certificado digital o Cl@ve para crear la Cartera Virtual del CIRCE. Sin ella no podemos empezar el trámite.</div></div>
+    <div class="field full" data-if="cert:Sí" id="cert-field"><label class="l">¿Quién? (marcad todos los que lo tengan) <span class="req">*</span></label><div class="opts" id="cert-quien"></div></div>
+
+    <div class="field full"><label class="l">Observaciones / dudas</label><textarea name="obs"></textarea></div>
+  </div>
+</section>
+
+<!-- 10. DOCUMENTACIÓN -->
+<section class="card" id="s-docs">
+  <h2>10. Documentación que nos tendréis que enviar</h2>
+  <p class="lead">Marcad lo que ya tengáis preparado. Los documentos se envían aparte (por email o en mano), no se suben aquí.</p>
+  <ul class="check">
+    <li><label><input type="checkbox" name="doc_cartera" value="Sí"> Cartera Virtual del CIRCE creada por un socio y con saldo (121 €). Sin ella no podemos empezar el trámite.</label></li>
+    <li><label><input type="checkbox" name="doc_dni" value="Sí"> DNI / NIE vigente (por las dos caras) de todos los socios y administradores</label></li>
+
+    <li data-if="alq:Sí"><label><input type="checkbox" name="doc_alq" value="Sí"> Contrato de alquiler (o borrador)</label></li>
+    <li data-if="hay_bienes:1"><label><input type="checkbox" name="doc_bienes" value="Sí"> Documentación y valoración de los bienes que se aportan (facturas, tasaciones, fichas técnicas…)</label></li>
+    <li data-if="hay_juridica:1"><label><input type="checkbox" name="doc_pj" value="Sí"> Escrituras de constitución de las sociedades socias, poderes de su representante y titular real</label></li>
+    <li data-if="hay_extranjero:1"><label><input type="checkbox" name="doc_ext" value="Sí"> NIE de socios o administradores extranjeros (y pasaporte)</label></li>
+    <li data-if="doc_cert_flag:1"><label><input type="checkbox" name="doc_banco" value="Sí"> Certificado bancario del ingreso del capital (os indicaremos cuándo, una vez reservado el nombre)</label></li>
+    <li data-if="doc_mandato_flag:1"><label><input type="checkbox" name="doc_mandato" value="Sí"> Mandato de domiciliación rellenado y firmado por cada administrador que no era autónomo (os lo enviamos nosotros)</label></li>
+  </ul>
+</section>
+
+<section class="card" id="s-fin">
+  <h2>Revisión y envío</h2>
+  <div id="resumen-check"></div>
+  <label style="display:flex;gap:8px;align-items:flex-start;margin-top:14px;font-size:14px">
+    <input type="checkbox" name="rgpd" value="Sí" style="margin-top:4px">
+    <span>Autorizo a <span id="rgpd-gestoria"></span> a tratar estos datos, incluidos los de las personas que figuran en el formulario (con su conocimiento), para tramitar la constitución de la sociedad, según la <a href="{{PRIVACIDAD}}" target="_blank" rel="noopener">política de privacidad</a>.</span>
+  </label>
+  <div class="actions" style="margin-top:12px">
+    <button type="button" class="btn" id="btn-enviar">Enviar a Asesoría Madal</button>
+    <button type="button" class="btn sec" id="btn-descargar">Descargar resumen</button>
+    <button type="button" class="btn sec" id="btn-print">Imprimir / guardar PDF</button>
+  </div>
+  <div id="envio-msg" style="margin-top:10px"></div>
+  <p class="hint" id="envio-hint" style="margin-top:6px"></p>
+</section>
+
+</div>
+
+<div class="bar">
+  <div class="actions">
+    <button type="button" class="btn sec small" id="btn-export">Descargar copia</button>
+    <label class="btn sec small" style="display:inline-flex;align-items:center">Cargar copia<input type="file" id="btn-import" accept=".json,application/json" hidden></label>
+    <button type="button" class="btn ghost small" id="btn-reset">Borrar todo</button>
+  </div>
+</div>
