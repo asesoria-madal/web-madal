@@ -11,6 +11,8 @@ sources:
     url: 'https://canalempresa.gencat.cat/es/detall/noticia/Ja-tens-disponible-la-Cartera-virtual-del-CIRCE-per-crear-la-teva-SL'
   - label: 'Spanish Association of Registrars — CIRCE online filing (in Spanish)'
     url: 'https://sede.registradores.org/sede/sede-corpme-web/registro-mercantil/presentacion-telematica/circe-presentacion'
+  - label: 'User guide to the Commercial Registry Virtual Wallet (May 2026, in Spanish)'
+    url: 'https://www.reicaz.es/wp-content/uploads/2026/05/Guia-de-usuario-Cartera-virtual-Registro-Mercantil.pdf'
 ---
 
 If you are setting up an SL through CIRCE, you first need to create the Virtual Wallet (*Cartera Virtual*). It is an online wallet where you leave a balance to pay the Commercial Registry fee. Without it, and without enough balance, the application cannot be submitted.
@@ -23,7 +25,7 @@ It is not a new cost. The Registry fee always had to be paid: the difference is 
 
 ## Who has to create it
 
-One of the partners, in their own name. Keep two things in mind:
+One of the partners, in their own name. It can be an individual or a company. Keep two things in mind:
 
 - **They need a digital certificate or Cl@ve** to identify themselves. If no partner has either, one has to be obtained first.
 - **Someone who is not a partner cannot create it for you.** The wallet has to be in a partner’s name.
@@ -43,9 +45,10 @@ You don’t spend the whole amount. The fee is deducted and you can ask for the 
 
 1. Go to the [Registrars’ website](https://sede.registradores.org/sede/sede-corpme-web/login) and open the Virtual Wallet (*Cartera Virtual*).
 2. Identify yourself with your digital certificate or Cl@ve.
-3. Enter the partner under **Facturación > Registro Mercantil Provincial > Datos de facturación**. If you don’t, the application will return an error.
-4. Top up the balance by card.
-5. Save the unique identifier the system gives you. It goes on the DUE, the document used to process the incorporation.
+3. Top up the balance by card.
+4. Save the unique identifier the system gives you.
+
+That identifier goes on the DUE, the document used to process the incorporation, together with the name of the partner who holds the wallet. They must match: when the DUE is submitted, the system checks that the wallet is valid and has enough balance, and returns an error if not.
 
 The Association of Registrars also has a [video with the steps](https://vimeo.com/1186864440).
 
@@ -53,11 +56,17 @@ The Association of Registrars also has a [video with the steps](https://vimeo.co
 
 Once the fee has been deducted, you can request a full or partial refund from the same Registrars’ website. The sources we consulted don’t give a specific timeframe for receiving it.
 
+## If you decide not to go ahead
+
+Neither the official guide nor the other sources we consulted cover this specific case. What the guide does say is that from the Registrars’ website you can recover the balance, in full or in part, and close the wallet. One of the advisory firms explaining it adds that the refund has no additional cost.
+
+For any question about your wallet, the Association of Registrars is who answers: here are its [contact channels](https://sede.registradores.org/sede/sede-corpme-web/informacion-y-ayuda/informacion-contacto).
+
 ## Mistakes that stop the process
 
 - Leaving it to the last minute without a digital certificate or Cl@ve.
 - Creating the wallet in the name of someone who is not a partner.
-- Not entering the partner in the billing details.
+- The partner named on the DUE not being the wallet holder.
 - Topping up less than needed.
 - Not saving the identifier, or not passing it to whoever prepares the DUE.
 

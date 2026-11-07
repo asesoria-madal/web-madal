@@ -11,6 +11,8 @@ sources:
     url: 'https://canalempresa.gencat.cat/ca/detall/noticia/Ja-tens-disponible-la-Cartera-virtual-del-CIRCE-per-crear-la-teva-SL'
   - label: 'Col·legi de Registradors — presentació telemàtica CIRCE'
     url: 'https://sede.registradores.org/sede/sede-corpme-web/registro-mercantil/presentacion-telematica/circe-presentacion'
+  - label: 'Guia d’usuari de la Cartera Virtual del Registre Mercantil (maig de 2026, en castellà)'
+    url: 'https://www.reicaz.es/wp-content/uploads/2026/05/Guia-de-usuario-Cartera-virtual-Registro-Mercantil.pdf'
 ---
 
 Si constituiràs una SL pel CIRCE, abans has de crear la Cartera Virtual. És un moneder en línia on deixes saldo per pagar l’aranzel del Registre Mercantil. Sense ella, i sense saldo suficient, el tràmit no es pot enviar.
@@ -23,7 +25,7 @@ No és un cost nou. L’aranzel del Registre ja s’havia de pagar: la diferènc
 
 ## Qui l’ha de crear
 
-Un dels socis, a nom seu. Tingues en compte dues coses:
+Un dels socis, a nom seu. Pot ser persona física o jurídica. Tingues en compte dues coses:
 
 - **Necessita certificat digital o Cl@ve** per identificar-se. Si cap soci no en té, primer cal aconseguir-ne un.
 - **No te la pot crear algú que no sigui soci.** La cartera ha d’estar a nom d’un soci.
@@ -43,9 +45,10 @@ El que carregues no es gasta sencer. Es descompta l’aranzel i pots demanar que
 
 1. Entra al [web de Registradors](https://sede.registradores.org/sede/sede-corpme-web/login) i accedeix a la Cartera Virtual.
 2. Identifica’t amb el certificat digital o Cl@ve.
-3. Indica la persona sòcia a **Facturación > Registro Mercantil Provincial > Datos de facturación**. Si no ho fas, el tràmit donarà error.
-4. Carrega el saldo amb targeta.
-5. Desa l’identificador únic que et dona el sistema. És la dada que es posa al DUE, el document amb què es tramita la constitució.
+3. Carrega el saldo amb targeta.
+4. Desa l’identificador únic que et dona el sistema.
+
+Aquest identificador es posa al DUE, el document amb què es tramita la constitució, juntament amb el nom del soci titular de la cartera. Han de coincidir: en enviar el DUE es comprova que la cartera sigui vàlida i tingui saldo, i si no, l’enviament dona error.
 
 El Col·legi de Registradors també té un [vídeo amb els passos](https://vimeo.com/1186864440).
 
@@ -53,11 +56,17 @@ El Col·legi de Registradors també té un [vídeo amb els passos](https://vimeo
 
 Un cop descomptat l’aranzel, pots demanar la devolució total o parcial des de la mateixa seu de Registradors. Les fonts que hem consultat no indiquen un termini concret per rebre-la.
 
+## Si al final no continues
+
+Ni la guia oficial ni les altres fonts que hem consultat tracten aquest cas en concret. El que sí indica la guia és que des de la seu de Registradors es pot recuperar el saldo, total o parcialment, i tancar la cartera. Una de les assessories que ho explica afegeix que la devolució no té cost addicional.
+
+Per a qualsevol dubte sobre la teva cartera, qui respon és el Col·legi de Registradors: aquí tens els seus [canals de contacte](https://sede.registradores.org/sede/sede-corpme-web/informacion-y-ayuda/informacion-contacto).
+
 ## Errors que aturen el tràmit
 
 - Esperar a l’últim moment sense tenir certificat digital ni Cl@ve.
 - Crear la cartera a nom d’algú que no és soci.
-- No indicar la persona sòcia a les dades de facturació.
+- Que el soci indicat al DUE no sigui el titular de la cartera.
 - Carregar menys saldo del necessari.
 - No desar l’identificador o no passar-lo a qui prepara el DUE.
 

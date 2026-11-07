@@ -11,6 +11,8 @@ sources:
     url: 'https://canalempresa.gencat.cat/es/detall/noticia/Ja-tens-disponible-la-Cartera-virtual-del-CIRCE-per-crear-la-teva-SL'
   - label: 'Colegio de Registradores — presentación telemática CIRCE'
     url: 'https://sede.registradores.org/sede/sede-corpme-web/registro-mercantil/presentacion-telematica/circe-presentacion'
+  - label: 'Guía de usuario de la Cartera Virtual del Registro Mercantil (mayo de 2026)'
+    url: 'https://www.reicaz.es/wp-content/uploads/2026/05/Guia-de-usuario-Cartera-virtual-Registro-Mercantil.pdf'
 ---
 
 Si vas a constituir una SL por CIRCE, necesitas crear antes la Cartera Virtual. Es un monedero online en el que dejas saldo para pagar el arancel del Registro Mercantil. Sin ella, y sin saldo suficiente, el trámite no se puede enviar.
@@ -23,7 +25,7 @@ No es un coste nuevo. El arancel del Registro ya había que pagarlo: la diferenc
 
 ## Quién tiene que crearla
 
-Uno de los socios, a su nombre. Ten en cuenta dos cosas:
+Uno de los socios, a su nombre. Puede ser persona física o jurídica. Ten en cuenta dos cosas:
 
 - **Necesita certificado digital o Cl@ve** para identificarse. Si ningún socio tiene ninguno de los dos, hay que conseguirlo primero.
 - **No puede crearla por ti alguien que no sea socio.** La cartera tiene que estar a nombre de un socio.
@@ -43,9 +45,10 @@ Lo que cargas no se gasta entero. Se descuenta el arancel y puedes pedir que te 
 
 1. Entra en la [web de Registradores](https://sede.registradores.org/sede/sede-corpme-web/login) y accede a la Cartera Virtual.
 2. Identifícate con tu certificado digital o Cl@ve.
-3. Indica a la persona socia en **Facturación > Registro Mercantil Provincial > Datos de facturación**. Si no lo haces, el trámite dará error.
-4. Carga el saldo con tarjeta.
-5. Guarda el identificador único que te da el sistema. Es el dato que se pone en el DUE, el documento con el que se tramita la constitución.
+3. Carga el saldo con tarjeta.
+4. Guarda el identificador único que te da el sistema.
+
+Ese identificador se pone en el DUE, el documento con el que se tramita la constitución, junto con el nombre del socio titular de la cartera. Tienen que coincidir: al enviar el DUE se comprueba que la cartera sea válida y tenga saldo, y si no, el envío da error.
 
 El Colegio de Registradores tiene también un [vídeo con los pasos](https://vimeo.com/1186864440).
 
@@ -53,11 +56,17 @@ El Colegio de Registradores tiene también un [vídeo con los pasos](https://vim
 
 Una vez descontado el arancel, puedes pedir la devolución total o parcial desde la misma sede de Registradores. Las fuentes que hemos consultado no indican un plazo concreto para recibirla.
 
+## Si al final no sigues adelante
+
+Ni la guía oficial ni las demás fuentes que hemos consultado tratan este caso en concreto. Lo que sí indica la guía es que desde la sede de Registradores se puede recuperar el saldo, total o parcialmente, y cerrar la cartera. Una de las asesorías que lo explica añade que la devolución no tiene coste adicional.
+
+Para cualquier duda sobre tu cartera, quien responde es el Colegio de Registradores: aquí tienes sus [canales de contacto](https://sede.registradores.org/sede/sede-corpme-web/informacion-y-ayuda/informacion-contacto).
+
 ## Errores que paran el trámite
 
 - Esperar al último momento sin tener certificado digital ni Cl@ve.
 - Crear la cartera a nombre de alguien que no es socio.
-- No indicar a la persona socia en los datos de facturación.
+- Que el socio indicado en el DUE no sea el titular de la cartera.
 - Cargar menos saldo del necesario.
 - No guardar el identificador o no pasárselo a quien prepara el DUE.
 
