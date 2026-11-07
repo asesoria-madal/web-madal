@@ -326,7 +326,7 @@ alter table clientes add column if not exists alta_hecha boolean;
 -- sin parsear JSON. Sigue el mismo criterio del resto del proyecto de no
 -- llevar CHECK en SQL para valores cerrados — los códigos válidos hoy son:
 -- 130, 131 (IRPF trimestral, estimación directa/módulos — mutuamente excluyentes)
--- 111 (retenciones IRPF), 115 (retenciones alquiler), 303 (IVA trimestral),
+-- 111 (retenciones IRPF), 115 (retenciones alquiler), 123 (retenciones capital mobiliario), 303 (IVA trimestral),
 -- 349 (operaciones intracomunitarias), 202 (pago fraccionado IS, solo SL),
 -- 347 (operaciones con terceros, anual), 390 (resumen anual IVA),
 -- 190 (resumen anual retenciones IRPF), 180 (resumen anual retenciones alquiler),

@@ -27,8 +27,14 @@ interface ModeloFiscal {
   fechasLimite: (anio: number) => Date[];
 }
 
+// Si el plazo acaba en sábado o domingo, pasa al lunes (Ley 39/2015, art. 30). Los festivos
+// no se contemplan porque dependen del calendario de cada año.
 function fecha(anio: number, mes: number, dia: number): Date {
-  return new Date(anio, mes - 1, dia);
+  const f = new Date(anio, mes - 1, dia);
+  const diaSemana = f.getDay();
+  if (diaSemana === 6) f.setDate(f.getDate() + 2);
+  if (diaSemana === 0) f.setDate(f.getDate() + 1);
+  return f;
 }
 
 // 1T/2T/3T dentro del año, 4T se presenta en enero del año siguiente.
@@ -37,6 +43,15 @@ const trimestralEstandar = (anio: number): Date[] => [
   fecha(anio, 7, 20),
   fecha(anio, 10, 20),
   fecha(anio + 1, 1, 30),
+];
+
+// Las retenciones del 4T vencen el 20 de enero, no el 30 como el IVA y el IRPF
+// (confirmado en el calendario de la AEAT y por Edurne, 2026-11-07).
+const retencionesTrimestrales = (anio: number): Date[] => [
+  fecha(anio, 4, 20),
+  fecha(anio, 7, 20),
+  fecha(anio, 10, 20),
+  fecha(anio + 1, 1, 20),
 ];
 
 // A diferencia del IRPF trimestral, el pago fraccionado de Sociedades tiene
@@ -50,8 +65,9 @@ const pagoFraccionadoIS = (anio: number): Date[] => [
 export const MODELOS_FISCALES: Record<string, ModeloFiscal> = {
   '130': { nombre: 'Modelo 130 — pago fraccionado IRPF (estimación directa)', fechasLimite: trimestralEstandar },
   '131': { nombre: 'Modelo 131 — pago fraccionado IRPF (módulos)', fechasLimite: trimestralEstandar },
-  '111': { nombre: 'Modelo 111 — retenciones IRPF', fechasLimite: trimestralEstandar },
-  '115': { nombre: 'Modelo 115 — retenciones de alquiler', fechasLimite: trimestralEstandar },
+  '111': { nombre: 'Modelo 111 — retenciones IRPF', fechasLimite: retencionesTrimestrales },
+  '115': { nombre: 'Modelo 115 — retenciones de alquiler', fechasLimite: retencionesTrimestrales },
+  '123': { nombre: 'Modelo 123 — retenciones de capital mobiliario', fechasLimite: retencionesTrimestrales },
   '303': { nombre: 'Modelo 303 — IVA trimestral', fechasLimite: trimestralEstandar },
   // Asume régimen trimestral (el habitual para nuestros clientes: aplica si
   // no se superan los 50.000 € de entregas/prestaciones intracomunitarias en
@@ -62,10 +78,10 @@ export const MODELOS_FISCALES: Record<string, ModeloFiscal> = {
   '349': { nombre: 'Modelo 349 — operaciones intracomunitarias (informativo)', fechasLimite: trimestralEstandar },
   '202': { nombre: 'Modelo 202 — pago fraccionado Impuesto de Sociedades', fechasLimite: pagoFraccionadoIS },
   '200': { nombre: 'Modelo 200 — Impuesto de Sociedades (anual)', fechasLimite: (anio) => [fecha(anio, 7, 25)] },
-  // Verificado: se presenta el 1 de marzo del año siguiente al ejercicio declarado.
+  // Se presenta en febrero del año siguiente: el último día de febrero, o el siguiente hábil.
   '347': {
     nombre: 'Modelo 347 — operaciones con terceras personas (informativo, no supone pago)',
-    fechasLimite: (anio) => [fecha(anio, 3, 1)],
+    fechasLimite: (anio) => [fecha(anio, 3, 0)],
   },
   '390': { nombre: 'Modelo 390 — resumen anual de IVA (informativo)', fechasLimite: (anio) => [fecha(anio, 1, 30)] },
   '190': { nombre: 'Modelo 190 — resumen anual de retenciones IRPF (informativo)', fechasLimite: (anio) => [fecha(anio, 1, 31)] },
@@ -74,8 +90,8 @@ export const MODELOS_FISCALES: Record<string, ModeloFiscal> = {
 
 /**
  * De entre los modelos indicados, la próxima fecha límite de presentación
- * (mira el año en curso y el siguiente, para no quedarse sin resultado en
- * diciembre) — con todos los modelos que comparten esa misma fecha, no solo
+ * (mira también el año anterior, porque los plazos del 4T caen en enero, y el
+ * siguiente, para no quedarse sin resultado en diciembre) — con todos los modelos que comparten esa misma fecha, no solo
  * el primero. Devuelve null si `modelos` está vacío o no contiene ningún
  * código reconocido.
  */
@@ -86,7 +102,7 @@ export function proximaPresentacion(modelos: string[], hoy: Date = new Date()): 
   for (const codigo of modelos) {
     const modelo = MODELOS_FISCALES[codigo];
     if (!modelo) continue;
-    for (const anio of [hoySinHora.getFullYear(), hoySinHora.getFullYear() + 1]) {
+    for (const anio of [hoySinHora.getFullYear() - 1, hoySinHora.getFullYear(), hoySinHora.getFullYear() + 1]) {
       for (const f of modelo.fechasLimite(anio)) {
         if (f >= hoySinHora) candidatas.push({ modelo: codigo, nombre: modelo.nombre, fecha: f });
       }
@@ -120,7 +136,7 @@ export function proximasPresentaciones(modelos: string[], cantidad: number, hoy:
   for (const codigo of modelos) {
     const modelo = MODELOS_FISCALES[codigo];
     if (!modelo) continue;
-    for (const anio of [hoySinHora.getFullYear(), hoySinHora.getFullYear() + 1]) {
+    for (const anio of [hoySinHora.getFullYear() - 1, hoySinHora.getFullYear(), hoySinHora.getFullYear() + 1]) {
       for (const f of modelo.fechasLimite(anio)) {
         if (f >= hoySinHora) candidatas.push({ modelo: codigo, nombre: modelo.nombre, fecha: f });
       }
