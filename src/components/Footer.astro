@@ -16,8 +16,8 @@ const home = lang === 'es' ? '/' : `/${lang}/`;
         <p class="foot-tagline">{t.footer.tagline}</p>
       </div>
       <div>
-        <h3>{t.footer.navTitle}</h3>
-        <nav class="foot-nav">
+        <h2>{t.footer.navTitle}</h2>
+        <nav class="foot-nav" aria-label={t.footer.navTitle}>
           <a href={home}>{t.nav.home}</a>
           <a href={localizedPath('/constituir-sl', lang)}>{t.nav.sl}</a>
           <a href={localizedPath('/alta', lang)}>{t.nav.alta}</a>
@@ -28,7 +28,7 @@ const home = lang === 'es' ? '/' : `/${lang}/`;
         </nav>
       </div>
       <div>
-        <h3>{t.footer.contactTitle}</h3>
+        <h2>{t.footer.contactTitle}</h2>
         <ul class="foot-list">
           <li><a href={localizedPath('/contacto', lang)}>{t.nav.contacto}</a></li>
           <li><a href="mailto:contacto@asesoriamadal.es">contacto@asesoriamadal.es</a></li>
@@ -47,7 +47,7 @@ const home = lang === 'es' ? '/' : `/${lang}/`;
         </ul>
       </div>
       <div>
-        <h3>{t.footer.whereTitle}</h3>
+        <h2>{t.footer.whereTitle}</h2>
         <ul class="foot-list">
           <li>{t.footer.whereBase}</li>
           <li>{t.footer.whereOnline}</li>

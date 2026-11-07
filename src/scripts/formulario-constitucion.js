@@ -238,7 +238,7 @@ function renderCapital(){
     const a = socioAporta(s), pct = total ? a/total*100 : 0;
     return `<tr><td>${esc(socioNombre(s,i))}</td><td>${esc(tr(s.aport||""))}</td><td class="n">${eur(a)}</td><td class="n">${pct.toLocaleString("es-ES",{maximumFractionDigits:2})} %</td><td class="n">${Math.floor(a/nominal).toLocaleString("es-ES")}</td></tr>`;
   }).join("");
-  $("#cap-tabla").innerHTML = `<div style="overflow-x:auto"><table class="cap"><thead><tr><th>${tr("Socio")}</th><th>${tr("Aportación")}</th><th class="n">${tr("Importe")}</th><th class="n">${tr("% capital")}</th><th class="n">${tr("Participaciones")}</th></tr></thead>
+  $("#cap-tabla").innerHTML = `<div style="overflow-x:auto" tabindex="0" role="region" aria-label="${esc(tr("Capital social total"))}"><table class="cap"><thead><tr><th>${tr("Socio")}</th><th>${tr("Aportación")}</th><th class="n">${tr("Importe")}</th><th class="n">${tr("% capital")}</th><th class="n">${tr("Participaciones")}</th></tr></thead>
     <tbody>${rows}</tbody><tfoot><tr><td colspan="2">${tr("Capital social total")}</td><td class="n">${eur(total)}</td><td class="n">100 %</td><td class="n">${Math.floor(total/nominal).toLocaleString("es-ES")}</td></tr></tfoot></table></div>
     <p class="hint">${tr("En dinero: {d} · En bienes: {b}", { d: eur(dinero), b: eur(total-dinero) })}</p>`;
   let av = "";
@@ -301,8 +301,8 @@ function sectionStatus(){
 }
 let marcarFaltan = false;
 function marcar(){
-  $$(".missing").forEach(el => el.classList.remove("missing"));
-  if(marcarFaltan) faltan().forEach(m => m.el && m.el.classList.add("missing"));
+  $$(".missing").forEach(el => { el.classList.remove("missing"); $$("input,select,textarea", el).forEach(c => c.removeAttribute("aria-invalid")); });
+  if(marcarFaltan) faltan().forEach(m => { if(!m.el) return; m.el.classList.add("missing"); $$("input,select,textarea", m.el).forEach(c => { if(c.type !== "radio" && c.type !== "checkbox") c.setAttribute("aria-invalid", "true"); }); });
 }
 const NOMBRES = {"s-contacto":"Contacto","s-nombre":"Nombre","s-domicilio":"Domicilio","s-actividad":"Actividad","s-socios":"Socios","s-capital":"Capital","s-admin":"Administración","s-fiscal":"Fiscal"};
 
@@ -314,7 +314,29 @@ function applyIf(){
   });
 }
 
+/* ---------- Accesibilidad: el marcado se genera por JavaScript, así que se enlaza aquí ---------- */
+let fcUid = 0;
+function vincularEtiquetas(){
+  $$("#fc .field").forEach(fl => {
+    const lab = $("label.l", fl); if(!lab) return;
+    if(!lab.id) lab.id = "fc-l" + (++fcUid);
+    const grupo = $(".opts", fl);
+    if(grupo){ grupo.setAttribute("role", "group"); grupo.setAttribute("aria-labelledby", lab.id); return; }
+    const control = $("input,select,textarea", fl); if(!control) return;
+    if(!control.id) control.id = "fc-c" + (++fcUid);
+    lab.htmlFor = control.id;
+    if(lab.textContent.includes("*")) control.setAttribute("aria-required", "true");
+  });
+  $$("#fc .den-row").forEach(row => {
+    const input = $("input", row);
+    input.setAttribute("aria-label", tr("Nombre opción {n}", { n: $("b", row).textContent }));
+    if(input.hasAttribute("data-req")) input.setAttribute("aria-required", "true");
+  });
+  $("#steps").setAttribute("aria-label", tr("Apartados del formulario"));
+}
+
 function refresh(){
+  vincularEtiquetas();
   renderCapital();
   renderAdmSocios();
   renderAdmSS();

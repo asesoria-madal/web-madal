@@ -44,6 +44,7 @@ const serviciosMenuItems = [
 // inconsistente. Con esta insignia tipográfica para los tres idiomas, el
 // selector deja de depender de iconografía prestada (como el resto del sitio).
 const localeCode: Record<Locale, string> = { es: 'ES', ca: 'CA', en: 'EN' };
+const temaLabel = { es: 'Cambiar entre tema claro y oscuro', ca: 'Canvia entre tema clar i fosc', en: 'Switch between light and dark theme' }[lang];
 ---
 
 <header class="site">
@@ -57,7 +58,7 @@ const localeCode: Record<Locale, string> = { es: 'ES', ca: 'CA', en: 'EN' };
       <a href={home} class="wordmark" transition:name="wordmark">Asesoría<span>Madal</span></a>
     </div>
     {!minimal && (
-      <nav class="primary">
+      <nav class="primary" aria-label={t.header.menu}>
         {nav.map((item) => (
           <a class={`navlink${active === item.key ? ' active' : ''}`} href={item.href}>{item.label}</a>
         ))}
@@ -78,12 +79,12 @@ const localeCode: Record<Locale, string> = { es: 'ES', ca: 'CA', en: 'EN' };
       </nav>
     )}
     <div class="header-right">
-      <button type="button" class="theme-toggle" aria-label="Cambiar entre tema claro y oscuro">
+      <button type="button" class="theme-toggle" aria-label={temaLabel}>
         <svg class="theme-icon-dark" width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16.5 12.3A7 7 0 0 1 7.7 3.5a7 7 0 1 0 8.8 8.8Z"/></svg>
         <svg class="theme-icon-light" width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><circle cx="10" cy="10" r="4"/><path d="M10 1.5v2.4M10 16.1v2.4M18.5 10h-2.4M3.9 10H1.5M15.9 4.1l-1.7 1.7M5.8 14.2l-1.7 1.7M15.9 15.9l-1.7-1.7M5.8 5.8 4.1 4.1"/></svg>
       </button>
       <details class="lang-switch">
-        <summary aria-label={localeNames[lang]}><span class="flag-badge" aria-hidden="true">{localeCode[lang]}</span></summary>
+        <summary aria-label={`${localeCode[lang]} · ${localeNames[lang]}`}><span class="flag-badge" aria-hidden="true">{localeCode[lang]}</span></summary>
         <div class="lang-menu">
           {locales.map((l) => (
             <a href={localizedPath(path, l)} class={l === lang ? 'active' : ''}>
@@ -95,7 +96,7 @@ const localeCode: Record<Locale, string> = { es: 'ES', ca: 'CA', en: 'EN' };
       </details>
       {!minimal && (
         <>
-          <a href={localizedPath('/portal', lang)} class="portal-link">
+          <a href={localizedPath('/portal', lang)} class="portal-link" aria-label={t.header.portal}>
             <svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="10" cy="6.5" r="3.3"/><path d="M3.8 17c1-3.6 4-5.6 6.2-5.6s5.2 2 6.2 5.6"/></svg>
             <span class="portal-link-label">{t.header.portal}</span>
           </a>
@@ -137,13 +138,13 @@ const localeCode: Record<Locale, string> = { es: 'ES', ca: 'CA', en: 'EN' };
       </div>
       <a class={`mobile-navlink${active === 'equipo' ? ' active' : ''}`} href={equipoHref}>{t.nav.conocenos}</a>
       <div class="mobile-menu-foot">
-        <button type="button" class="theme-toggle" aria-label="Cambiar entre tema claro y oscuro">
+        <button type="button" class="theme-toggle" aria-label={temaLabel}>
           <svg class="theme-icon-dark" width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16.5 12.3A7 7 0 0 1 7.7 3.5a7 7 0 1 0 8.8 8.8Z"/></svg>
           <svg class="theme-icon-light" width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><circle cx="10" cy="10" r="4"/><path d="M10 1.5v2.4M10 16.1v2.4M18.5 10h-2.4M3.9 10H1.5M15.9 4.1l-1.7 1.7M5.8 14.2l-1.7 1.7M15.9 15.9l-1.7-1.7M5.8 5.8 4.1 4.1"/></svg>
         </button>
         <div class="mobile-lang-links">
           {locales.map((l) => (
-            <a href={localizedPath(path, l)} class={`mobile-lang-link${l === lang ? ' active' : ''}`} aria-label={localeNames[l]}>
+            <a href={localizedPath(path, l)} class={`mobile-lang-link${l === lang ? ' active' : ''}`} aria-label={`${localeCode[l]} · ${localeNames[l]}`}>
               <span class="flag-badge" aria-hidden="true">{localeCode[l]}</span>
             </a>
           ))}

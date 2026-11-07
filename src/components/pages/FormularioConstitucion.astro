@@ -27,7 +27,7 @@ const textos = JSON.stringify(textosConstitucion(lang)).replace(/</g, '\\u003c')
 #fc {
   --bg: var(--paper); --card: var(--paper-raised); --muted: var(--ink-soft);
   --accent-soft: var(--accent-tint); --warn-bg: var(--warm-soft); --warn-line: var(--warm);
-  --ok: var(--accent); --err: #b3261e; --radius: 10px;
+  --ok: var(--accent); --err: var(--err-text); --radius: 10px;
   background: var(--bg); color: var(--ink); font: 16px/1.5 var(--font-body);
   header.top{background:var(--card);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:40}
   .top-inner{max-width:980px;margin:0 auto;padding:12px 16px;display:flex;gap:12px;align-items:center;flex-wrap:wrap}

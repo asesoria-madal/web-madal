@@ -5,6 +5,7 @@
 const FILAS: [string, string, string][] = [
   // Cabecera e introducción
   ['Constitución de SL — Datos para el trámite', 'Constitució de SL — Dades per al tràmit', 'SL incorporation — Details for the process'],
+  ['Apartados del formulario', 'Apartats del formulari', 'Form sections'],
   ['Sin cambios', 'Sense canvis', 'No changes'],
   ['1. Contacto', '1. Contacte', '1. Contact'],
   ['2. Nombre', '2. Nom', '2. Name'],

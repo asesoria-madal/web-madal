@@ -241,5 +241,12 @@ const faqLd = relatedFaqs.length > 0 ? {
   enhanceFaqAccordions();
   }
 
+  // Las tablas anchas se desplazan: sin foco no se podría hacerlo con el teclado.
+  function hacerTablasEnfocables() {
+    document.querySelectorAll<HTMLElement>('.article-body table').forEach((tabla) => {
+      if (tabla.scrollWidth > tabla.clientWidth) tabla.tabIndex = 0; else tabla.removeAttribute('tabindex');
+    });
+  }
   document.addEventListener('astro:page-load', initArticlePage);
+  document.addEventListener('astro:page-load', hacerTablasEnfocables);
 </script>
