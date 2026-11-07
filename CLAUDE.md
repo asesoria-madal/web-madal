@@ -65,3 +65,7 @@ Decisiones de Hugo, ya en producción:
 - **n8n y HubSpot**: el onboarding crea contacto + deal ("Onboarding") + tarea en HubSpot, correos por idioma y la carpeta de Drive del cliente; `Responden formulario` confirma, avisa y mueve el deal; `Sync HubSpot` sincroniza `clientes` con HubSpot. Todo en el repo `n8n-workflows` (ver su `CLAUDE.md` y `hubspot/README.md`).
 - **Textos legales** (aviso legal, privacidad, cookies) editados para quitar el simulador: el aviso legal quedó con 5 secciones. Conviene una revisión con criterio jurídico.
 - Planes de prueba (alta y facturación) y la memoria de Claude viven fuera de este repo; si faltan, pedirlos a Hugo.
+
+## Documentación de procesos
+
+Si un cambio en la web afecta a un proceso del negocio (formularios, correos, precios, plazos o pasos), actualiza también `../n8n-workflows/procesos/` y publícalo en Drive. Las instrucciones están en `../n8n-workflows/CLAUDE.md`.
