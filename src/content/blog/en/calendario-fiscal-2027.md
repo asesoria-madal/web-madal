@@ -6,7 +6,6 @@ description: 'All the 2027 deadlines, month by month: VAT, income tax, withholdi
 seoTitle: 'Spain tax calendar 2027 for freelancers and SLs'
 cat: fiscalidad
 date: 2026-11-07
-draft: true
 sources:
   - label: 'Spanish Tax Agency — Taxpayer calendar (the 2027 edition is not yet published; in Spanish)'
     url: 'https://sede.agenciatributaria.gob.es/Sede/presentacion-declaraciones-calendario-contribuyente.html'
@@ -35,6 +34,7 @@ If you're a freelancer or have a small SL, your year revolves around these quart
 
 | Until | Form | What it is | Who it affects |
 |---|---|---|---|
+| **1 January** | VeriFactu | Mandatory for companies, under the current rules | Companies invoicing with software |
 | **20 January** | 111, 115, 123 | Withholding for the fourth quarter of 2026 | Anyone paying salaries, professionals, rent or investment income |
 | **1 February** | 303 | VAT for the fourth quarter of 2026 | Freelancers and companies |
 | **1 February** | 130, 131 | Income tax advance payment for the fourth quarter of 2026 | Freelancers required to file it |
@@ -46,6 +46,7 @@ If you're a freelancer or have a small SL, your year revolves around these quart
 | **20 April** | 303, 130, 131, 111, 115, 123, 349 | First quarter | Depends on the form |
 | **20 April** | 202 | First corporate tax advance payment | Companies required to file it |
 | **April to June** | 100, 714 | 2026 income tax and wealth tax campaign. Dates not yet confirmed | Individuals |
+| **1 July** | VeriFactu | Mandatory for freelancers and everyone else, under the current rules | Anyone invoicing with software |
 | **20 July** | 303, 130, 131, 111, 115, 123, 349 | Second quarter | Depends on the form |
 | **26 July** | 200 | 2026 corporate tax, if the financial year matches the calendar year | Companies |
 | **20 October** | 303, 130, 131, 111, 115, 123, 349 | Third quarter | Depends on the form |
@@ -53,6 +54,10 @@ If you're a freelancer or have a small SL, your year revolves around these quart
 | **20 December** | 202 | Third corporate tax advance payment | Companies required to file it |
 
 This calendar is for those who file quarterly. If you file monthly, like large companies or those on the monthly refund register, your deadlines are different.
+
+## VeriFactu: 1 January and 1 July, unless the BOE changes it
+
+The Tax Agency has announced it will postpone VeriFactu to October 2028, but this is not yet in the BOE (Spain’s official gazette). Until it is published, the dates in force remain 1 January 2027 for companies and 1 July 2027 for everyone else. We explain it in [the VeriFactu postponement](/en/blog/aplazamiento-verifactu-2028).
 
 ## If you pay by direct debit, you have less time
 

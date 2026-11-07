@@ -6,7 +6,6 @@ description: 'Todos los plazos de 2027, mes a mes: IVA, IRPF, retenciones e Impu
 seoTitle: 'Calendario fiscal 2027 para autónomos y SL, mes a mes'
 cat: fiscalidad
 date: 2026-11-07
-draft: true
 sources:
   - label: 'Agencia Tributaria — Calendario del contribuyente (la edición de 2027 aún no está publicada)'
     url: 'https://sede.agenciatributaria.gob.es/Sede/presentacion-declaraciones-calendario-contribuyente.html'
@@ -35,6 +34,7 @@ Si eres autónomo o tienes una SL pequeña, tu año gira en torno a estos plazos
 
 | Hasta el | Modelo | Qué es | A quién afecta |
 |---|---|---|---|
+| **1 de enero** | VeriFactu | Obligatorio para sociedades, según la norma vigente | Sociedades que facturan con programa informático |
 | **20 de enero** | 111, 115, 123 | Retenciones del cuarto trimestre de 2026 | Quien paga nóminas, a profesionales, alquileres o capital mobiliario |
 | **1 de febrero** | 303 | IVA del cuarto trimestre de 2026 | Autónomos y sociedades |
 | **1 de febrero** | 130, 131 | Pago fraccionado de IRPF del cuarto trimestre de 2026 | Autónomos obligados a presentarlo |
@@ -46,6 +46,7 @@ Si eres autónomo o tienes una SL pequeña, tu año gira en torno a estos plazos
 | **20 de abril** | 303, 130, 131, 111, 115, 123, 349 | Primer trimestre | Según el modelo |
 | **20 de abril** | 202 | Primer pago fraccionado de Sociedades | Sociedades obligadas |
 | **Abril a junio** | 100, 714 | Campaña de la Renta y Patrimonio de 2026. Fechas aún sin confirmar | Personas físicas |
+| **1 de julio** | VeriFactu | Obligatorio para autónomos y el resto, según la norma vigente | Quien factura con programa informático |
 | **20 de julio** | 303, 130, 131, 111, 115, 123, 349 | Segundo trimestre | Según el modelo |
 | **26 de julio** | 200 | Impuesto de Sociedades de 2026, si el ejercicio coincide con el año natural | Sociedades |
 | **20 de octubre** | 303, 130, 131, 111, 115, 123, 349 | Tercer trimestre | Según el modelo |
@@ -53,6 +54,10 @@ Si eres autónomo o tienes una SL pequeña, tu año gira en torno a estos plazos
 | **20 de diciembre** | 202 | Tercer pago fraccionado de Sociedades | Sociedades obligadas |
 
 Este calendario es para quien presenta por trimestres. Si declaras cada mes, como las grandes empresas o quien está en el registro de devolución mensual, tus plazos son otros.
+
+## VeriFactu: 1 de enero y 1 de julio, mientras no cambie el BOE
+
+Hacienda ha anunciado que aplazará VeriFactu a octubre de 2028, pero todavía no está en el BOE. Mientras no se publique, siguen vigentes el 1 de enero de 2027 para sociedades y el 1 de julio de 2027 para el resto. Te lo explicamos en [el aplazamiento de VeriFactu](/blog/aplazamiento-verifactu-2028).
 
 ## Si domicilias el pago, tienes menos tiempo
 

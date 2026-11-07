@@ -6,7 +6,6 @@ description: 'Tots els terminis del 2027, mes a mes: IVA, IRPF, retencions i Imp
 seoTitle: 'Calendari fiscal 2027 per a autònoms i SL, mes a mes'
 cat: fiscalidad
 date: 2026-11-07
-draft: true
 sources:
   - label: 'Agència Tributària — Calendari del contribuent (l’edició del 2027 encara no està publicada)'
     url: 'https://sede.agenciatributaria.gob.es/Sede/presentacion-declaraciones-calendario-contribuyente.html'
@@ -35,6 +34,7 @@ Si ets autònom o tens una SL petita, el teu any gira al voltant d’aquests ter
 
 | Fins al | Model | Què és | A qui afecta |
 |---|---|---|---|
+| **1 de gener** | VeriFactu | Obligatori per a societats, segons la norma vigent | Societats que facturen amb programa informàtic |
 | **20 de gener** | 111, 115, 123 | Retencions del quart trimestre del 2026 | Qui paga nòmines, professionals, lloguers o capital mobiliari |
 | **1 de febrer** | 303 | IVA del quart trimestre del 2026 | Autònoms i societats |
 | **1 de febrer** | 130, 131 | Pagament fraccionat d’IRPF del quart trimestre del 2026 | Autònoms obligats a presentar-lo |
@@ -46,6 +46,7 @@ Si ets autònom o tens una SL petita, el teu any gira al voltant d’aquests ter
 | **20 d’abril** | 303, 130, 131, 111, 115, 123, 349 | Primer trimestre | Segons el model |
 | **20 d’abril** | 202 | Primer pagament fraccionat de Societats | Societats obligades |
 | **Abril a juny** | 100, 714 | Campanya de la Renda i Patrimoni del 2026. Dates encara sense confirmar | Persones físiques |
+| **1 de juliol** | VeriFactu | Obligatori per a autònoms i la resta, segons la norma vigent | Qui factura amb programa informàtic |
 | **20 de juliol** | 303, 130, 131, 111, 115, 123, 349 | Segon trimestre | Segons el model |
 | **26 de juliol** | 200 | Impost de Societats del 2026, si l’exercici coincideix amb l’any natural | Societats |
 | **20 d’octubre** | 303, 130, 131, 111, 115, 123, 349 | Tercer trimestre | Segons el model |
@@ -53,6 +54,10 @@ Si ets autònom o tens una SL petita, el teu any gira al voltant d’aquests ter
 | **20 de desembre** | 202 | Tercer pagament fraccionat de Societats | Societats obligades |
 
 Aquest calendari és per a qui presenta per trimestres. Si declares cada mes, com les grans empreses o qui és al registre de devolució mensual, els teus terminis són uns altres.
+
+## VeriFactu: 1 de gener i 1 de juliol, mentre no canviï el BOE
+
+Hisenda ha anunciat que ajornarà VeriFactu a l’octubre del 2028, però encara no és al BOE. Mentre no es publiqui, continuen vigents l’1 de gener del 2027 per a societats i l’1 de juliol del 2027 per a la resta. T’ho expliquem a [l’ajornament de VeriFactu](/ca/blog/aplazamiento-verifactu-2028).
 
 ## Si domicilies el pagament, tens menys temps
 
