@@ -1,12 +1,12 @@
 ---
 lang: es
 slug: como-se-constituye-una-sl
-title: 'Cómo se constituye una SL: pasos, capital social y plazos'
+title: 'Cómo constituir una SL en España: pasos, capital y plazos'
 description: 'Capital mínimo, los 5 pasos del trámite y cuánto tardas: la guía completa, con notario o por CIRCE.'
 seoDescription: "Capital mínimo, reserva legal, los 5 pasos del trámite y cuánto tardas en constituir una SL: la guía completa, con notario o por CIRCE."
 cat: fiscalidad
 date: 2026-08-19
-updatedDate: 2026-09-24
+updatedDate: 2026-11-07
 sources:
   - label: 'Ley 18/2022, de creación y crecimiento de empresas — capital social mínimo de 1 €'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2022-15818'
@@ -42,6 +42,8 @@ Ese 20% obligatorio sigue destinándose a reserva legal cada año hasta que, ent
 3. **Escritura pública ante notario**, donde se aprueban los estatutos de la sociedad.
 4. **Obtención del NIF provisional** y alta censal en Hacienda (modelo 036).
 5. **Inscripción en el Registro Mercantil** de tu provincia, que es lo que da a la sociedad su personalidad jurídica plena.
+
+Si tramitas por CIRCE, además, uno de los socios tiene que crear antes la [Cartera Virtual](/blog/cartera-virtual-circe): sin ella y sin saldo no se puede enviar el trámite.
 
 Con estatutos tipo y capital hasta 3.100 €, los pasos 3 y 5 cuestan 60 € + IVA de notario y 40 € + IVA de registrador; por encima de esa cifra, o con estatutos a medida, el coste sube. Lo desarrollamos con la comparación completa en [CIRCE o vía tradicional: qué cambia de verdad](/blog/montar-sl-circe-o-tradicional).
 

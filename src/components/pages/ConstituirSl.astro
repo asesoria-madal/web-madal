@@ -7,7 +7,27 @@ import LeadForm from '../LeadForm.astro';
 interface Props { lang: Locale; }
 const { lang } = Astro.props;
 const s = LEADS[lang].sl;
+const url = 'https://asesoriamadal.es' + localizedPath('/constituir-sl', lang);
+// Solo lo que se ve en la página: el precio de la gestión y las preguntas de abajo.
+const servicioLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: s.title,
+  serviceType: 'Constitución de sociedades limitadas',
+  url,
+  areaServed: { '@type': 'Country', name: 'España' },
+  provider: { '@type': 'AccountingService', name: 'Asesoría Madal', url: 'https://asesoriamadal.es' },
+  offers: { '@type': 'Offer', url, priceSpecification: { '@type': 'PriceSpecification', price: '175.00', priceCurrency: 'EUR', valueAddedTaxIncluded: false } },
+};
+const faqLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: s.faq.map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })),
+};
 ---
+
+<script type="application/ld+json" is:inline set:html={JSON.stringify(servicioLd)} />
+<script type="application/ld+json" is:inline set:html={JSON.stringify(faqLd)} />
 
 <div id="view-constituir-sl">
   <section class="sl-hero">
@@ -50,6 +70,18 @@ const s = LEADS[lang].sl;
         <div class="step">
           <span class="num">{i + 1}</span>
           <div><h2>{titulo}</h2><p>{desc}</p></div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="label-col"><p class="eyebrow">{s.faqTitle}</p></div>
+    <div class="sl-faq">
+      {s.faq.map(([q, a, slug]) => (
+        <div>
+          <h3>{q}</h3>
+          <p>{a}{slug && <> <a href={localizedPath(`/blog/${slug}`, lang)}>{s.faqLeer}</a></>}</p>
         </div>
       ))}
     </div>

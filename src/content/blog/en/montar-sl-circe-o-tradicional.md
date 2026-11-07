@@ -50,7 +50,7 @@ One nuance that's easy to miss: incorporating through CIRCE doesn't get you out 
 | Notary and registrar | Whoever the PAE or the CIRCE system assigns | You choose them |
 | Bylaws | Standard Ministry of Justice template, no substantial changes | Custom, no limit on clauses |
 | Cost (capital ≤ €3,100) | €60 + VAT notary + €40 + VAT registrar | Freely negotiated market price |
-| Cost (capital > €3,100) | €150 notary + €100 registrar | Freely negotiated market price |
+| Cost (capital > €3,100) | €150 + VAT notary + €100 + VAT registrar | Freely negotiated market price |
 | Timeline | Days (6 business hours just for registry review) | Several weeks |
 | Several administrators, non-cash contributions, uneven shares | Yes, the template allows it | Yes, with no restrictions |
 | Board of directors, business purpose outside CNAE, drag-along clauses... | No | Yes |

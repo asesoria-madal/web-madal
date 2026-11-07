@@ -1,11 +1,11 @@
 ---
 lang: en
 slug: como-se-constituye-una-sl
-title: 'How an SL is set up: steps, share capital and timelines'
+title: 'How to set up an SL in Spain: steps, capital and timing'
 description: 'Minimum capital, the 5 steps in the process, and how long it takes: the full guide, with a notary or through CIRCE.'
 cat: fiscalidad
 date: 2026-08-19
-updatedDate: 2026-09-24
+updatedDate: 2026-11-07
 sources:
   - label: 'Ley 18/2022, business creation and growth act — minimum share capital of €1'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2022-15818'
@@ -41,6 +41,8 @@ That mandatory 20% keeps going into the legal reserve every year until, between 
 3. **A public deed before a notary**, where the company's bylaws (estatutos) are approved.
 4. **Getting a provisional NIF** and registering for tax purposes with Hacienda (Modelo 036).
 5. **Registration with the Companies Registry** (Registro Mercantil) for your province, which is what gives the company full legal personality.
+
+If you file through CIRCE, one of the partners must also create the [Virtual Wallet](/en/blog/cartera-virtual-circe) first: without it and without enough balance, the application cannot be submitted.
 
 With standard bylaws and up to €3,100 of capital, steps 3 and 5 cost €60 + VAT for the notary and €40 + VAT for the registrar; above that, or with custom bylaws, the cost goes up. We cover the full comparison in [CIRCE or the traditional route: what actually changes](/en/blog/montar-sl-circe-o-tradicional).
 

@@ -1,12 +1,12 @@
 ---
 lang: ca
 slug: como-se-constituye-una-sl
-title: 'Com es constitueix una SL: passos, capital social i terminis'
+title: 'Com constituir una SL a Espanya: passos, capital i terminis'
 description: 'Capital mínim, els 5 passos del tràmit i quant trigues: la guia completa, amb notari o per CIRCE.'
 seoDescription: "Capital mínim, reserva legal, els 5 passos del tràmit i quant trigues a constituir una SL: la guia completa, amb notari o per CIRCE."
 cat: fiscalidad
 date: 2026-08-19
-updatedDate: 2026-09-24
+updatedDate: 2026-11-07
 sources:
   - label: 'Ley 18/2022, de creación y crecimiento de empresas — capital social mínim d’1 €'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2022-15818'
@@ -42,6 +42,8 @@ Aquest 20% obligatori es continua destinant a reserva legal cada any fins que, e
 3. **Escriptura pública davant notari**, on s'aproven els estatuts de la societat.
 4. **Obtenció del NIF provisional** i alta censal a Hisenda (model 036).
 5. **Inscripció al Registre Mercantil** de la teva província, que és el que dona a la societat la seva personalitat jurídica plena.
+
+Si tramites pel CIRCE, a més, un dels socis ha de crear abans la [Cartera Virtual](/ca/blog/cartera-virtual-circe): sense ella i sense saldo no es pot enviar el tràmit.
 
 Amb estatuts tipus i capital fins a 3.100 €, els passos 3 i 5 costen 60 € + IVA de notari i 40 € + IVA de registrador; per sobre d'aquesta xifra, o amb estatuts a mida, el cost puja. Ho desenvolupem amb la comparació completa a [CIRCE o via tradicional: què canvia de veritat](/ca/blog/montar-sl-circe-o-tradicional).
 

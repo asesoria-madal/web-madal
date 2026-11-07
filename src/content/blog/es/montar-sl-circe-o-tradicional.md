@@ -50,7 +50,7 @@ Un matiz que se suele pasar por alto: constituir por CIRCE no te libra de la cuo
 | Notario y registrador | Los que gestione el PAE o el sistema CIRCE | Los eliges tú |
 | Estatutos | Modelo estándar del Ministerio de Justicia, sin modificaciones sustanciales | A medida, sin límite de cláusulas |
 | Coste (capital ≤ 3.100 €) | 60 € + IVA notario + 40 € + IVA registrador | Precio libre de mercado |
-| Coste (capital > 3.100 €) | 150 € notario + 100 € registrador | Precio libre de mercado |
+| Coste (capital > 3.100 €) | 150 € + IVA notario + 100 € + IVA registrador | Precio libre de mercado |
 | Plazo | Días (6 horas hábiles solo para la calificación registral) | Varias semanas |
 | Varios administradores, aportaciones no dinerarias, participaciones desiguales | Sí, el modelo lo permite | Sí, sin restricciones |
 | Consejo de administración, objeto social fuera de CNAE, cláusulas de arrastre... | No | Sí |

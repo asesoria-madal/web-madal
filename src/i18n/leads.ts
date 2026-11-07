@@ -18,8 +18,8 @@ const es = {
   meta: {
     contactoTitle: 'Contacto · Asesoría Madal',
     contactoDesc: 'Cuéntanos qué necesitas y te respondemos en unas 24 horas, en días laborables. Gestoría y asesoría para autónomos y pymes.',
-    slTitle: 'Constituir una SL en menos de una semana · Asesoría Madal',
-    slDesc: 'Constituimos tu SL en menos de una semana por 175 € + IVA, más 60 € + IVA de notaría y 40 € + IVA de Registro Mercantil. Solicitud del nombre incluida.',
+    slTitle: 'Constituir una SL en España por 175 € + IVA · Asesoría Madal',
+    slDesc: 'Constituimos tu SL en España en menos de una semana por 175 € + IVA, más 60 € + IVA de notaría y 40 € + IVA de Registro Mercantil. Solicitud del nombre incluida.',
     slBreadcrumb: 'Constituir una SL',
   },
   contacto: {
@@ -56,8 +56,8 @@ const es = {
   },
   sl: {
     eyebrow: 'Constitución de SL',
-    title: 'Tu SL constituida en menos de una semana',
-    intro: 'Te olvidas del papeleo y empiezas a trabajar con tu empresa cuanto antes. Con los precios claros desde el principio y la solicitud del nombre incluida.',
+    title: 'Constituye tu SL en España en menos de una semana',
+    intro: 'Creamos tu sociedad limitada de principio a fin. Te olvidas del papeleo y empiezas a trabajar con tu empresa cuanto antes. Con los precios claros desde el principio y la solicitud del nombre incluida.',
     cta: 'Quiero constituir mi SL',
     ctaLlamada: 'Prefiero que me llaméis',
     precioTitle: 'Lo que cuesta',
@@ -74,6 +74,7 @@ const es = {
     pasosTitle: 'Cómo funciona',
     pasos: [
       ['Nos cuentas tu proyecto', 'Déjanos tus datos y te enviamos por correo el formulario completo. Lo revisamos en unas 24 horas, en días laborables.'],
+      ['Creas la Cartera Virtual', 'Un socio la crea con certificado digital o Cl@ve. Es obligatoria para tramitar por CIRCE, y te explicamos cómo hacerlo.'],
       ['Solicitamos el nombre', 'Lo pedimos por ti, con las opciones que prefieras.'],
       ['Preparamos el trámite y firmas', 'Lo tramitamos por la vía telemática CIRCE y firmas la escritura ante notario.'],
       ['Inscripción en el Registro', 'Tu SL queda inscrita en el Registro Mercantil y lista para empezar.'],
@@ -82,6 +83,9 @@ const es = {
     ambito: 'En toda España, excepto Canarias, País Vasco y Navarra.',
     guiaTitle: '¿Todavía lo estás valorando?',
     guias: [['cartera-virtual-circe', 'Cartera Virtual del CIRCE: qué es y cómo crearla'], ['como-se-constituye-una-sl', 'Cómo se constituye una SL'], ['montar-sl-circe-o-tradicional', 'CIRCE o vía tradicional']] as [string, string][],
+    faqTitle: "Preguntas frecuentes",
+    faqLeer: "Leer más",
+    faq: [["¿Cuánto cuesta constituir una SL con vosotros?","En total, 275 € + IVA con estatutos tipo y hasta 3.100 € de capital: 175 € + IVA de nuestra gestión, 60 € + IVA de notaría y 40 € + IVA de Registro Mercantil. La solicitud y el certificado del nombre están incluidos. El capital social no es un coste: es dinero de tu empresa.",""],["¿Cuánto se tarda en constituir una SL?","Menos de una semana desde que empezamos el trámite, con estatutos tipo y por la vía telemática CIRCE.","montar-sl-circe-o-tradicional"],["¿Cuál es el capital mínimo de una SL?","Desde 1 €. Mientras no llegue a 3.000 €, la sociedad tiene que destinar al menos el 20 % del beneficio a reserva legal y, si se liquida sin patrimonio suficiente, los socios responden de la diferencia hasta 3.000 €.","como-se-constituye-una-sl"],["¿Qué es la Cartera Virtual del CIRCE?","Un monedero online en el que un socio deja saldo, normalmente 121 € con tarjeta, para pagar el arancel del Registro. Lo que sobra se puede recuperar. Hace falta certificado digital o Cl@ve, y sin ella no se puede enviar el trámite.","cartera-virtual-circe"],["¿Cuántos nombres tengo que proponer?","Hasta cinco, por orden de preferencia. El Registro Mercantil Central reserva el primero que esté libre. Nosotros nos encargamos de pedirlo.",""],["¿Puedo constituir una SL si soy extranjero?","Sí. Los socios y administradores extranjeros necesitan NIE. Además, uno de los socios tiene que poder identificarse con certificado digital o Cl@ve para crear la Cartera Virtual.",""],["¿Lo hacéis en toda España?","En toda España, excepto Canarias, País Vasco y Navarra.",""],["¿Tengo que contratar la gestoría con vosotros?","No, no es obligatorio. Si la contratas, tienes un 25 % de descuento en la primera cuota del plan Equipo y un 50 % en la del plan Expansión.",""]] as [string, string, string][],
     formTitle: 'Empecemos',
     formSub: 'Solo necesitamos esto para empezar. Te enviaremos por correo el formulario con los datos de la sociedad.',
     okText: 'Te hemos enviado un correo con el formulario para los datos de la sociedad. Revisa también la carpeta de spam.',
@@ -102,6 +106,7 @@ const es = {
     desc: '175 € + IVA, más 60 € + IVA de notaría y 40 € + IVA de Registro Mercantil. Solicitud del nombre incluida.',
     cta: 'Ver cómo funciona',
     nota: 'Importes de notaría y Registro con estatutos tipo y hasta 3.100 € de capital.',
+    heroLink: '¿Vas a crear una empresa? Constituimos tu SL en menos de una semana',
   },
   blogSide: {
     title: '¿Tienes dudas sobre esto?',
@@ -119,8 +124,8 @@ const ca: Textos = {
   meta: {
     contactoTitle: 'Contacte · Asesoría Madal',
     contactoDesc: 'Explica’ns què necessites i et responem en unes 24 hores, en dies laborables. Gestoria i assessoria per a autònoms i pimes.',
-    slTitle: 'Constituir una SL en menys d’una setmana · Asesoría Madal',
-    slDesc: 'Constituïm la teva SL en menys d’una setmana per 175 € + IVA, més 60 € + IVA de notaria i 40 € + IVA de Registre Mercantil. Sol·licitud del nom inclosa.',
+    slTitle: 'Constituir una SL a Espanya per 175 € + IVA · Asesoría Madal',
+    slDesc: 'Constituïm la teva SL a Espanya en menys d’una setmana per 175 € + IVA, més 60 € + IVA de notaria i 40 € + IVA de Registre Mercantil. Sol·licitud del nom inclosa.',
     slBreadcrumb: 'Constituir una SL',
   },
   contacto: {
@@ -157,8 +162,8 @@ const ca: Textos = {
   },
   sl: {
     eyebrow: 'Constitució de SL',
-    title: 'La teva SL constituïda en menys d’una setmana',
-    intro: 'T’oblides de la paperassa i comences a treballar amb la teva empresa com més aviat millor. Amb els preus clars des del principi i la sol·licitud del nom inclosa.',
+    title: 'Constitueix la teva SL a Espanya en menys d’una setmana',
+    intro: 'Creem la teva societat limitada de principi a fi. T’oblides de la paperassa i comences a treballar amb la teva empresa com més aviat millor. Amb els preus clars des del principi i la sol·licitud del nom inclosa.',
     cta: 'Vull constituir la meva SL',
     ctaLlamada: 'Prefereixo que em truqueu',
     precioTitle: 'El que costa',
@@ -175,6 +180,7 @@ const ca: Textos = {
     pasosTitle: 'Com funciona',
     pasos: [
       ['Ens expliques el teu projecte', 'Deixa’ns les teves dades i t’enviem per correu el formulari complet. El revisem en unes 24 hores, en dies laborables.'],
+      ['Crees la Cartera Virtual', 'Un soci la crea amb certificat digital o Cl@ve. És obligatòria per tramitar pel CIRCE, i t’expliquem com fer-ho.'],
       ['Sol·licitem el nom', 'El demanem per tu, amb les opcions que prefereixis.'],
       ['Preparem el tràmit i signes', 'El tramitem per la via telemàtica CIRCE i signes l’escriptura davant notari.'],
       ['Inscripció al Registre', 'La teva SL queda inscrita al Registre Mercantil i a punt per començar.'],
@@ -183,6 +189,9 @@ const ca: Textos = {
     ambito: 'A tot Espanya, excepte Canàries, País Basc i Navarra.',
     guiaTitle: 'Encara t’ho estàs plantejant?',
     guias: [['cartera-virtual-circe', 'Cartera Virtual del CIRCE: què és i com crear-la'], ['como-se-constituye-una-sl', 'Com es constitueix una SL'], ['montar-sl-circe-o-tradicional', 'CIRCE o via tradicional']],
+    faqTitle: "Preguntes freqüents",
+    faqLeer: "Llegir-ne més",
+    faq: [["Quant costa constituir una SL amb vosaltres?","En total, 275 € + IVA amb estatuts tipus i fins a 3.100 € de capital: 175 € + IVA de la nostra gestió, 60 € + IVA de notaria i 40 € + IVA de Registre Mercantil. La sol·licitud i el certificat del nom estan inclosos. El capital social no és un cost: són diners de la teva empresa.",""],["Quant es triga a constituir una SL?","Menys d’una setmana des que comencem el tràmit, amb estatuts tipus i per la via telemàtica CIRCE.","montar-sl-circe-o-tradicional"],["Quin és el capital mínim d’una SL?","Des d’1 €. Mentre no arribi a 3.000 €, la societat ha de destinar almenys el 20 % del benefici a reserva legal i, si es liquida sense patrimoni suficient, els socis responen de la diferència fins a 3.000 €.","como-se-constituye-una-sl"],["Què és la Cartera Virtual del CIRCE?","Un moneder en línia on un soci deixa saldo, normalment 121 € amb targeta, per pagar l’aranzel del Registre. El que sobra es pot recuperar. Cal certificat digital o Cl@ve, i sense ella no es pot enviar el tràmit.","cartera-virtual-circe"],["Quants noms he de proposar?","Fins a cinc, per ordre de preferència. El Registre Mercantil Central reserva el primer que estigui lliure. Nosaltres ens encarreguem de demanar-lo.",""],["Puc constituir una SL si soc estranger?","Sí. Els socis i administradors estrangers necessiten NIE. A més, un dels socis s’ha de poder identificar amb certificat digital o Cl@ve per crear la Cartera Virtual.",""],["Ho feu a tot Espanya?","A tot Espanya, excepte Canàries, el País Basc i Navarra.",""],["He de contractar la gestoria amb vosaltres?","No, no és obligatori. Si la contractes, tens un 25 % de descompte en la primera quota del pla Equipo i un 50 % en la del pla Expansión.",""]] as [string, string, string][],
     formTitle: 'Comencem',
     formSub: 'Només necessitem això per començar. T’enviarem per correu el formulari amb les dades de la societat.',
     okText: 'T’hem enviat un correu amb el formulari per a les dades de la societat. Revisa també la carpeta de correu brossa.',
@@ -203,6 +212,7 @@ const ca: Textos = {
     desc: '175 € + IVA, més 60 € + IVA de notaria i 40 € + IVA de Registre Mercantil. Sol·licitud del nom inclosa.',
     cta: 'Mira com funciona',
     nota: 'Imports de notaria i Registre amb estatuts tipus i fins a 3.100 € de capital.',
+    heroLink: 'Crearàs una empresa? Constituïm la teva SL en menys d’una setmana',
   },
   blogSide: {
     title: 'Tens dubtes sobre això?',
@@ -218,8 +228,8 @@ const en: Textos = {
   meta: {
     contactoTitle: 'Contact · Asesoría Madal',
     contactoDesc: 'Tell us what you need and we’ll reply in about 24 hours, on working days. Accounting and advisory services for freelancers and small businesses.',
-    slTitle: 'Set up an SL in under a week · Asesoría Madal',
-    slDesc: 'We set up your SL in under a week for €175 + VAT, plus €60 + VAT notary and €40 + VAT Commercial Registry fees. Company name application included.',
+    slTitle: 'Set up an SL in Spain for €175 + VAT · Asesoría Madal',
+    slDesc: 'We set up your SL in Spain in under a week for €175 + VAT, plus €60 + VAT notary and €40 + VAT Commercial Registry fees. Company name application included.',
     slBreadcrumb: 'Set up an SL',
   },
   contacto: {
@@ -256,8 +266,8 @@ const en: Textos = {
   },
   sl: {
     eyebrow: 'SL incorporation',
-    title: 'Your SL set up in under a week',
-    intro: 'Forget the paperwork and start working with your company as soon as possible. With clear prices from the start and the company name application included.',
+    title: 'Set up your SL in Spain in under a week',
+    intro: 'We set up your limited company (SL) from start to finish. Forget the paperwork and start working with your company as soon as possible. With clear prices from the start and the company name application included.',
     cta: 'I want to set up my SL',
     ctaLlamada: 'I’d rather get a call',
     precioTitle: 'What it costs',
@@ -274,6 +284,7 @@ const en: Textos = {
     pasosTitle: 'How it works',
     pasos: [
       ['Tell us about your project', 'Leave your details and we’ll email you the full form. We review it in about 24 hours, on working days.'],
+      ['You create the Virtual Wallet', 'A partner creates it with a digital certificate or Cl@ve. It is required to file through CIRCE, and we explain how to do it.'],
       ['We apply for the name', 'We do it for you, with the options you prefer.'],
       ['We prepare it and you sign', 'We file it through the CIRCE online system and you sign the deed before a notary.'],
       ['Registration', 'Your SL is entered in the Commercial Registry and ready to start.'],
@@ -282,6 +293,9 @@ const en: Textos = {
     ambito: 'Across Spain, except the Canary Islands, the Basque Country and Navarre.',
     guiaTitle: 'Still thinking it over?',
     guias: [['cartera-virtual-circe', 'CIRCE Virtual Wallet: what it is and how to create it'], ['como-se-constituye-una-sl', 'How an SL is set up'], ['montar-sl-circe-o-tradicional', 'CIRCE or the traditional route']],
+    faqTitle: "Frequently asked questions",
+    faqLeer: "Read more",
+    faq: [["How much does it cost to set up an SL with you?","In total, €275 + VAT with standard articles and up to €3,100 of capital: €175 + VAT for our service, €60 + VAT for the notary and €40 + VAT for the Commercial Registry. The name application and certificate are included. Share capital is not a cost: it is your company’s money.",""],["How long does it take to set up an SL?","Under a week from when we start the process, with standard articles and through the CIRCE online route.","montar-sl-circe-o-tradicional"],["What is the minimum capital for an SL?","From €1. Until it reaches €3,000, the company must set aside at least 20% of its profit as a legal reserve and, if it is wound up without enough assets, the partners are liable for the difference up to €3,000.","como-se-constituye-una-sl"],["What is the CIRCE Virtual Wallet?","An online wallet where a partner leaves a balance, normally €121 by card, to pay the Registry fee. What is left can be recovered. It requires a digital certificate or Cl@ve, and the application cannot be submitted without it.","cartera-virtual-circe"],["How many names do I have to suggest?","Up to five, in order of preference. The Central Commercial Registry reserves the first one available. We take care of requesting it.",""],["Can I set up an SL if I am a foreigner?","Yes. Foreign partners and directors need an NIE. One of the partners must also be able to identify themselves with a digital certificate or Cl@ve to create the Virtual Wallet.",""],["Do you do this all over Spain?","All over Spain, except the Canary Islands, the Basque Country and Navarre.",""],["Do I have to hire your accounting service?","No, it isn’t mandatory. If you do, you get 25% off the first fee of the Equipo plan and 50% off the first fee of the Expansión plan.",""]] as [string, string, string][],
     formTitle: 'Let’s get started',
     formSub: 'This is all we need to get started. We’ll email you the form for the company details.',
     okText: 'We’ve sent you an email with the form for the company details. Please check your spam folder too.',
@@ -302,6 +316,7 @@ const en: Textos = {
     desc: '€175 + VAT, plus €60 + VAT notary and €40 + VAT Commercial Registry fees. Company name application included.',
     cta: 'See how it works',
     nota: 'Notary and Registry amounts with standard articles and up to €3,100 of capital.',
+    heroLink: 'Starting a company? We set up your SL in under a week',
   },
   blogSide: {
     title: 'Questions about this?',

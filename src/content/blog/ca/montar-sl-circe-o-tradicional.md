@@ -50,7 +50,7 @@ Un matís que es sol passar per alt: constituir per CIRCE no t'allibera de la qu
 | Notari i registrador | Els que gestioni el PAE o el sistema CIRCE | Els tries tu |
 | Estatuts | Model estàndard del Ministeri de Justícia, sense modificacions substancials | A mida, sense límit de clàusules |
 | Cost (capital ≤ 3.100 €) | 60 € + IVA notari + 40 € + IVA registrador | Preu lliure de mercat |
-| Cost (capital > 3.100 €) | 150 € notari + 100 € registrador | Preu lliure de mercat |
+| Cost (capital > 3.100 €) | 150 € + IVA notari + 100 € + IVA registrador | Preu lliure de mercat |
 | Termini | Dies (6 hores hàbils només per a la qualificació registral) | Diverses setmanes |
 | Diversos administradors, aportacions no dineràries, participacions desiguals | Sí, el model ho permet | Sí, sense restriccions |
 | Consell d'administració, objecte social fora de CNAE, clàusules d'arrossegament... | No | Sí |
