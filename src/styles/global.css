@@ -1526,6 +1526,20 @@ body.portal-app .portal-box { margin-top: 0; }
 .trust-banner-item::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
 @keyframes trustScroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 
+/* ---------- Cinta de entidades (debajo de la de garantías, sentido contrario) ---------- */
+/* banda blanca fija en ambos temas: los logos traen fondo claro */
+.entidades-banner { border-top: 1px solid var(--line); background: #fff; overflow: hidden; padding: 1.1rem 0; }
+.entidades-banner-track { display: flex; width: max-content; gap: 3.5rem; animation: entidadesScroll 45s linear infinite reverse; }
+.entidades-banner:hover .entidades-banner-track { animation-play-state: paused; }
+.entidad { display: flex; align-items: center; gap: 0.8rem; white-space: nowrap; color: #3a3a3a; }
+.entidad-ficha { display: flex; align-items: center; justify-content: center; min-height: 56px; }
+.entidad-ficha img { display: block; width: auto; max-width: none; }
+.entidad-texto { font-family: var(--font-display); font-weight: 700; font-size: 1rem; color: #1a1a1a; }
+.entidad-nota { font-family: var(--font-display); font-weight: 600; font-size: 0.92rem; }
+/* 3 copias del bloque: se desplaza un tercio para enlazar sin saltos */
+@keyframes entidadesScroll { from { transform: translateX(0); } to { transform: translateX(-33.3333%); } }
+.sr-only { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+
 /* ---------- Final CTA ---------- */
 section.cta-final { border-top: 1px solid var(--line); padding: 3.4rem 0; text-align: center; display: block; }
 section.cta-final h2 { font-size: clamp(1.6rem, 3.4vw, 2.3rem); max-width: 32ch; margin: 0 auto; }

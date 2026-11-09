@@ -1,0 +1,94 @@
+---
+// Cinta de entidades/avales con los que trabajamos, justo debajo de
+// TrustBanner y desplazándose en sentido contrario (animation-direction:
+// reverse en global.css).
+//
+// Los logos viven en public/avals/ (aportados por Hugo, 2026-11-09).
+// Todos tienen fondo blanco/claro, así que van sobre una "ficha" blanca
+// fija (también en modo oscuro) para que se vean bien.
+// Sistema RED no tiene logo en la carpeta: se queda como ficha de texto.
+// Hechos confirmados por Hugo: seguro de RC contratado con FIATC; colegiado
+// del Col·legi d'Economistes de Catalunya con el nº 17914.
+import type { Locale } from '../i18n/ui';
+
+interface Props { lang: Locale; }
+const { lang } = Astro.props;
+
+const labels: Record<Locale, string> = {
+  es: 'Avales y entidades con las que trabajamos',
+  ca: 'Avals i entitats amb què treballem',
+  en: 'Accreditations and organisations we work with',
+};
+
+type Entidad = {
+  nombre: string;
+  logo?: string;
+  ratio?: number; // ancho/alto de la imagen
+  h?: number; // alto en px (logos con mucho margen blanco, algo más grandes)
+  nota?: Record<Locale, string>;
+};
+
+const entidades: Entidad[] = [
+  {
+    nombre: "Col·legi d'Economistes de Catalunya",
+    logo: '/avals/logo-vector-col-legi-d-economistes-de-catalunya.jpg',
+    ratio: 630 / 330,
+    h: 64,
+    nota: { es: 'Colegiado nº 17914', ca: 'Col·legiat núm. 17914', en: 'Member no. 17914' },
+  },
+  {
+    nombre: 'FIATC Seguros',
+    logo: '/avals/fiatc-seguros.png',
+    ratio: 3669 / 977,
+    h: 40,
+    nota: {
+      es: 'Seguro de responsabilidad civil',
+      ca: 'Assegurança de responsabilitat civil',
+      en: 'Professional liability insurance',
+    },
+  },
+  {
+    nombre: 'Colaborador Social · Agencia Tributaria',
+    logo: '/avals/badge-aeat-colaborador-social.webp',
+    ratio: 1389 / 400,
+    h: 48,
+  },
+  {
+    nombre: lang === 'ca' ? 'Punt PAE' : 'Punto PAE',
+    logo: '/avals/Logo_RedPAE_grande.png',
+    ratio: 165 / 192,
+    h: 56,
+  },
+  {
+    nombre: 'ACCID · Associació Catalana de Comptabilitat i Direcció',
+    logo: '/avals/DISTINTIU%20SOCI%20cast.jpg',
+    ratio: 385 / 255,
+    h: 64,
+  },
+  {
+    nombre: 'ADECLA · Asociación del Club del Asesor',
+    logo: '/avals/logo-Adecla.webp',
+    ratio: 330 / 130,
+    h: 48,
+  },
+  { nombre: 'Sistema RED' },
+];
+---
+
+<div class="entidades-banner" role="group" aria-label={labels[lang]}>
+  <div class="entidades-banner-track" aria-hidden="true">
+    {[0, 1, 2].map(() => entidades.map((e) => (
+      <span class="entidad">
+        <span class="entidad-ficha">
+          {e.logo
+            ? <img src={e.logo} alt="" width={Math.round((e.h ?? 48) * (e.ratio ?? 3))} height={e.h ?? 48} style={`height:${e.h ?? 48}px`} loading="lazy" decoding="async" />
+            : <span class="entidad-texto">{e.nombre}</span>}
+        </span>
+        {e.nota && <span class="entidad-nota">{e.nota[lang]}</span>}
+      </span>
+    )))}
+  </div>
+  <p class="sr-only">
+    {entidades.map((e) => (e.nota ? `${e.nombre} (${e.nota[lang]})` : e.nombre)).join(', ')}
+  </p>
+</div>
