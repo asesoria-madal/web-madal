@@ -388,6 +388,32 @@ create trigger on_auth_user_created
   after insert on auth.users
   for each row execute function public.vincular_cliente_nuevo();
 
+-- El trigger anterior solo actúa al crear la cuenta. Si la ficha se crea o
+-- recrea cuando la cuenta ya existe, quedaba sin vínculo: el portal entraba por
+-- la política de email, pero Storage y facturas_subidas rechazaban la subida
+-- por RLS. Este la vincula al crear la ficha o cambiar su email (2026-11-04).
+create or replace function public.vincular_ficha_con_cuenta()
+returns trigger
+language plpgsql
+security definer set search_path = public
+as $$
+begin
+  if new.auth_user_id is null and new.email is not null then
+    select u.id into new.auth_user_id
+    from auth.users u
+    where lower(trim(u.email)) = lower(trim(new.email))
+      and not exists (select 1 from public.clientes c where c.auth_user_id = u.id and c.id <> new.id)
+    limit 1;
+  end if;
+  return new;
+end;
+$$;
+
+drop trigger if exists vincular_ficha_con_cuenta on public.clientes;
+create trigger vincular_ficha_con_cuenta
+  before insert or update of email on public.clientes
+  for each row execute function public.vincular_ficha_con_cuenta();
+
 -- ---------------------------------------------------------------------
 -- MIGRACIÓN para el proyecto de Supabase ya en marcha (la tabla clientes
 -- ya existía con id referenciando auth.users directamente, y ya tenía
