@@ -1,281 +1,104 @@
 ---
-// Formulario de una sola página (no wizard tipo Simulador.astro): aquí no
-// hay ramas de preguntas ni precio que calcular, solo muchos campos de
-// datos que Edurne necesita para tramitar el alta — un formulario largo
-// tradicional, agrupado por secciones, es más rápido de rellenar que un
-// wizard de una pregunta por pantalla.
-//
-// Sin enlazar desde el menú: se manda el link directo al cliente ya
-// identificado. Existe en castellano (/formulario-alta) e inglés
-// (/en/formulario-alta); los textos viven en src/i18n/formularios.ts. Lo que
-// se envía al servidor es igual en los dos idiomas.
-import { ALTA, CAMPOS, COMUNES, MSG_CAMPO, PRIVACIDAD_HREF, type FormLang } from '../../i18n/formularios';
+// Formulario de alta de autónomo (texto y lógica de Edurne, 2026-11-11), en castellano,
+// catalán e inglés. Mismo montaje que el de constitución: el marcado está en
+// formulario-alta-autonomo.html, los textos en i18n/formularioAltaAutonomo.ts y la lógica en
+// scripts/formulario-alta-autonomo.js; lo enviado va a /api/alta-autonomo. Los planes y sus
+// precios salen de ui.ts, para que no se desfasen de la web.
+import marcado from './formulario-alta-autonomo.html?raw';
+import { textosAltaAutonomo, traducirMarcadoAlta, type FormLang } from '../../i18n/formularioAltaAutonomo';
+import { useTranslations } from '../../i18n/utils';
 
 interface Props { lang?: FormLang; }
 const { lang = 'es' } = Astro.props;
-const t = { ...COMUNES[lang], ...ALTA[lang] };
+const esc = (v: string) => v.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
+const planes = useTranslations(lang).precios.autonomoTiers
+  .map((t) => `<label><input type="radio" name="plan" value="${esc(t.key)}">${esc(t.name)} · ${esc(t.amount)}${esc(t.unit)}</label>`)
+  .join('\n        ');
+const privacidad = lang === 'es' ? '/privacidad' : `/${lang}/privacidad`;
+const html = traducirMarcadoAlta(marcado, lang).replace('{{PRIVACIDAD}}', privacidad).replace('{{PLANES}}', planes);
+const textos = JSON.stringify(textosAltaAutonomo(lang)).replace(/</g, '\\u003c');
 ---
 
-<div id="view-alta-form">
-  <div class="page view-intro">
-    <p class="eyebrow">{t.eyebrow}</p>
-    <h1 class="section-title">{t.title}</h1>
-    <p class="section-sub">{t.intro}</p>
-    <p class="field-hint">{t.obligatorios}</p>
-  </div>
-
-  <form id="altaForm" class="alta-form page view-block" novalidate data-lang={lang} data-campos={JSON.stringify(CAMPOS[lang])} data-msg-campo={MSG_CAMPO[lang]}>
-    <fieldset class="alta-section">
-      <legend>{t.idDigital}</legend>
-      <p class="field-hint">{t.idDigitalHint}</p>
-      <div class="radio-group" data-field="identificacionDigital">
-        <label class="radio-option"><input type="radio" name="identificacionDigital" value="certificado" /> {t.certificado}</label>
-        <label class="radio-option"><input type="radio" name="identificacionDigital" value="clave_pin" /> {t.clavePin}</label>
-        <label class="radio-option"><input type="radio" name="identificacionDigital" value="ninguno" /> {t.ninguno}</label>
-      </div>
-    </fieldset>
-
-    <fieldset class="alta-section">
-      <legend>{t.basicos}</legend>
-      <label class="field">{t.nombre} <input type="text" id="fNombre" maxlength="150" required /></label>
-      <label class="field">{t.nif} <input type="text" id="fNif" maxlength="9" placeholder="12345678A" required /></label>
-      <label class="field">{t.email} <input type="email" id="fEmail" maxlength="254" required /></label>
-      <label class="field">{t.telefono} <input type="tel" id="fTelefono" maxlength="20" required /></label>
-      <label class="field">{t.domFiscal} <textarea id="fDomicilioFiscal" maxlength="300" rows="2" required></textarea></label>
-      <label class="field">{t.domNotif} <span class="field-optional">{t.soloSiDistinto}</span>
-        <textarea id="fDomicilioNotif" maxlength="300" rows="2"></textarea>
-      </label>
-      <label class="field">{t.iban} <input type="text" id="fIban" maxlength="34" placeholder="ES00 0000 0000 0000 0000 0000" required /></label>
-    </fieldset>
-
-    <fieldset class="alta-section">
-      <legend>{t.actividad}</legend>
-      <label class="field">{t.epigrafes} <span class="field-optional">{t.epigrafesHint}</span>
-        <textarea id="fEpigrafes" maxlength="500" rows="3" required></textarea>
-      </label>
-      <label class="field">{t.fechaInicio} <input type="date" id="fFechaInicio" required /></label>
-
-      <div class="field-group">
-        <p class="field-group-label">{t.dondeEjerces}</p>
-        <div class="radio-group" data-field="tipoLocal">
-          <label class="radio-option"><input type="radio" name="tipoLocal" value="casa" /> {t.casa}</label>
-          <label class="radio-option"><input type="radio" name="tipoLocal" value="oficina" /> {t.oficina}</label>
-          <label class="radio-option"><input type="radio" name="tipoLocal" value="sin_local" /> {t.sinLocal}</label>
-        </div>
-        <p class="field-hint">{t.basurasHint}</p>
-      </div>
-
-      <label class="field" id="fDomicilioLocalWrap">{t.domLocal}
-        <span class="field-optional">{t.domLocalHint}</span>
-        <textarea id="fDomicilioLocal" maxlength="300" rows="2"></textarea>
-      </label>
-
-      <label class="checkbox-option"><input type="checkbox" id="fMultiplesLocales" /> {t.multiples}</label>
-      <label class="field" id="fDetalleLocalesWrap" hidden>{t.multiplesDetalle} <textarea id="fDetalleLocales" maxlength="300" rows="2"></textarea></label>
-
-      <label class="checkbox-option"><input type="checkbox" id="fColegiada" /> {t.colegiada}</label>
-      <div class="field-group" id="fRegimenCotizacionWrap" hidden>
-        <p class="field-group-label">{t.regimenCot}</p>
-        <div class="radio-group" data-field="regimenCotizacion">
-          <label class="radio-option"><input type="radio" name="regimenCotizacion" value="reta" /> {t.reta}</label>
-          <label class="radio-option"><input type="radio" name="regimenCotizacion" value="mutualidad" /> {t.mutualidad}</label>
-        </div>
-      </div>
-    </fieldset>
-
-    <fieldset class="alta-section">
-      <legend>{t.iva}</legend>
-      <label class="checkbox-option"><input type="checkbox" id="fIntracomunitarias" /> {t.intracom}</label>
-    </fieldset>
-
-    <fieldset class="alta-section">
-      <legend>{t.irpf}</legend>
-      <div class="field-group">
-        <p class="field-group-label">{t.retencion}</p>
-        <div class="radio-group" data-field="retencionIrpf">
-          <label class="radio-option"><input type="radio" name="retencionIrpf" value="si" /> {t.si}</label>
-          <label class="radio-option"><input type="radio" name="retencionIrpf" value="no" /> {t.no}</label>
-          <label class="radio-option"><input type="radio" name="retencionIrpf" value="no_sabe" /> {t.noSabe}</label>
-        </div>
-      </div>
-      <label class="checkbox-option"><input type="checkbox" id="fTrabajadores" /> {t.trabajadores}</label>
-    </fieldset>
-
-    <fieldset class="alta-section">
-      <legend>{t.recuerda}</legend>
-      <p class="field-hint">{t.apoderarHint}</p>
-      <ul class="doc-list">
-        <li>
-          <a href="https://suslwmgqdzingeqhfrpw.supabase.co/storage/v1/object/public/docs-publicos/Pasos_Apoderamiento_Seguridad_Social.pdf" target="_blank" rel="noopener">
-            {t.guiaSS}
-          </a>
-        </li>
-        <li>
-          <a href="https://suslwmgqdzingeqhfrpw.supabase.co/storage/v1/object/public/docs-publicos/Pasos_Apoderamiento_AEAT.pdf" target="_blank" rel="noopener">
-            {t.guiaAeat}
-          </a>
-        </li>
-      </ul>
-      <p class="field-hint">
-        {t.rgpdHint}
-        <a href="https://suslwmgqdzingeqhfrpw.supabase.co/storage/v1/object/public/docs-publicos/RGPD.pdf" target="_blank" rel="noopener">{t.rgpdLink}</a>.
-      </p>
-    </fieldset>
-
-    <label class="consent">
-      <input type="checkbox" id="fPrivacy" required />
-      <span>{t.privacyPre} <a href={PRIVACIDAD_HREF[lang]} target="_blank" rel="noopener">{t.privacyLink}</a> {t.privacyPost}</span>
-    </label>
-
-    <p class="form-error" id="formError" hidden>{t.error}</p>
-
-    <button type="submit" class="btn btn-primary form-submit" id="formSubmit">{t.enviar}</button>
-  </form>
-
-  <div class="page view-block form-success" id="formSuccess" hidden>
-    <p class="eyebrow">{t.recibido}</p>
-    <h2 class="section-title">{t.gracias}</h2>
-    <p class="section-sub">{t.graciasSub}</p>
-  </div>
-</div>
+<div id="fa" data-lang={lang} set:html={html}></div>
+<script type="application/json" id="fa-i18n" set:html={textos}></script>
 
 <script>
-  import { track } from '../../scripts/analytics';
-
-  (function () {
-    const form = document.getElementById('altaForm') as HTMLFormElement | null;
-    if (!form) return;
-
-    const success = document.getElementById('formSuccess') as HTMLElement;
-    const errorEl = document.getElementById('formError') as HTMLElement;
-    const submitBtn = document.getElementById('formSubmit') as HTMLButtonElement;
-
-    const params = new URLSearchParams(window.location.search);
-
-    // El link de este formulario se manda ya personalizado con el NIF del
-    // cliente (?nif=..., añadido por el workflow de n8n al enviarlo — ver
-    // "Preparar mail"), que es el mismo id con el que se creó su fila en
-    // `clientes`. Se precarga en el campo NIF/NIE que ya existía y se deja
-    // de solo lectura para que no pueda desincronizarse del cliente al que
-    // está vinculado el envío.
-    const nifInput = document.getElementById('fNif') as HTMLInputElement;
-    const nifParam = params.get('nif');
-    if (nifParam) {
-      nifInput.value = nifParam;
-      nifInput.readOnly = true;
-    }
-    // El email con el que damos de alta al cliente también viaja en el enlace (?email=).
-    const emailParam = params.get('email');
-    if (emailParam) (document.getElementById('fEmail') as HTMLInputElement).value = emailParam;
-
-    // Si el servidor dice qué campo no valida (`field`), el aviso lo nombra.
-    // Nombres de campo y plantilla del aviso en el idioma de la página
-    // (src/i18n/formularios.ts), pasados como data-* del formulario.
-    const CAMPOS: Record<string, string> = JSON.parse(form.dataset.campos || '{}');
-    const MSG_CAMPO = form.dataset.msgCampo || '';
-    const MENSAJE_GENERICO = errorEl.textContent;
-    async function mostrarError(res: Response | null) {
-      let campo = '';
-      try { campo = (await res?.json())?.field ?? ''; } catch { /* sin detalle */ }
-      errorEl.textContent = campo && CAMPOS[campo]
-        ? MSG_CAMPO.replace('{campo}', CAMPOS[campo])
-        : MENSAJE_GENERICO;
-      errorEl.hidden = false;
-    }
-
-    const tipoLocalWrap = document.getElementById('fDomicilioLocalWrap') as HTMLElement;
-    const domicilioLocalInput = document.getElementById('fDomicilioLocal') as HTMLTextAreaElement;
-    form.querySelectorAll<HTMLInputElement>('[name="tipoLocal"]').forEach(function (radio) {
-      radio.addEventListener('change', function () {
-        const sinLocal = radio.value === 'sin_local' && radio.checked;
-        tipoLocalWrap.hidden = sinLocal;
-        if (sinLocal) domicilioLocalInput.value = '';
-      });
-    });
-
-    const multiplesLocales = document.getElementById('fMultiplesLocales') as HTMLInputElement;
-    const detalleLocalesWrap = document.getElementById('fDetalleLocalesWrap') as HTMLElement;
-    const detalleLocalesInput = document.getElementById('fDetalleLocales') as HTMLTextAreaElement;
-    multiplesLocales.addEventListener('change', function () {
-      detalleLocalesWrap.hidden = !multiplesLocales.checked;
-      if (!multiplesLocales.checked) detalleLocalesInput.value = '';
-    });
-
-    const colegiada = document.getElementById('fColegiada') as HTMLInputElement;
-    const regimenWrap = document.getElementById('fRegimenCotizacionWrap') as HTMLElement;
-    colegiada.addEventListener('change', function () {
-      regimenWrap.hidden = !colegiada.checked;
-      if (!colegiada.checked) {
-        form.querySelectorAll<HTMLInputElement>('[name="regimenCotizacion"]').forEach(function (r) { r.checked = false; });
-      }
-    });
-
-    function radioValue(name: string): string | undefined {
-      const checked = form?.querySelector<HTMLInputElement>(`[name="${name}"]:checked`);
-      return checked?.value;
-    }
-
-    form.addEventListener('submit', async function (e) {
-      e.preventDefault();
-      errorEl.hidden = true;
-
-      const identificacionDigital = radioValue('identificacionDigital');
-      const tipoLocal = radioValue('tipoLocal');
-      const retencionIrpf = radioValue('retencionIrpf');
-      const regimenCotizacion = colegiada.checked ? radioValue('regimenCotizacion') : undefined;
-
-      if (!identificacionDigital || !tipoLocal || !retencionIrpf || (colegiada.checked && !regimenCotizacion)) {
-        errorEl.hidden = false;
-        return;
-      }
-
-      const body: Record<string, unknown> = {
-        identificacionDigital,
-        nombreCompleto: (document.getElementById('fNombre') as HTMLInputElement).value.trim(),
-        nifNie: (document.getElementById('fNif') as HTMLInputElement).value.trim(),
-        email: (document.getElementById('fEmail') as HTMLInputElement).value.trim(),
-        telefono: (document.getElementById('fTelefono') as HTMLInputElement).value.trim(),
-        domicilioFiscal: (document.getElementById('fDomicilioFiscal') as HTMLTextAreaElement).value.trim(),
-        iban: (document.getElementById('fIban') as HTMLInputElement).value.trim(),
-        epigrafesIae: (document.getElementById('fEpigrafes') as HTMLTextAreaElement).value.trim(),
-        fechaInicioActividad: (document.getElementById('fFechaInicio') as HTMLInputElement).value,
-        tipoLocal,
-        multiplesLocales: multiplesLocales.checked,
-        profesionColegiada: colegiada.checked,
-        operacionesIntracomunitarias: (document.getElementById('fIntracomunitarias') as HTMLInputElement).checked,
-        retencionIrpf,
-        tendraTrabajadores: (document.getElementById('fTrabajadores') as HTMLInputElement).checked,
-        privacyAccepted: (document.getElementById('fPrivacy') as HTMLInputElement).checked,
-        idioma: form.dataset.lang,
-      };
-
-      const domicilioNotif = (document.getElementById('fDomicilioNotif') as HTMLTextAreaElement).value.trim();
-      if (domicilioNotif) body.domicilioNotificaciones = domicilioNotif;
-
-      if (tipoLocal !== 'sin_local') body.domicilioLocal = domicilioLocalInput.value.trim();
-
-      if (multiplesLocales.checked) {
-        const detalle = detalleLocalesInput.value.trim();
-        if (detalle) body.detalleLocalesAdicionales = detalle;
-      }
-
-      if (colegiada.checked) body.regimenCotizacion = regimenCotizacion;
-
-      submitBtn.disabled = true;
-      try {
-        const res = await fetch('/api/alta-autonomo', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(body),
-        });
-        if (!res.ok) { await mostrarError(res); submitBtn.disabled = false; return; }
-        track('formulario_enviado', { tipo: 'alta' });
-        form.hidden = true;
-        success.hidden = false;
-      } catch (err) {
-        errorEl.hidden = false;
-        submitBtn.disabled = false;
-      }
-    });
-  })();
+  import '../../scripts/formulario-alta-autonomo.js';
 </script>
+
+<style is:global>
+/* Mismos estilos que el formulario de constitución. Van bajo #fa y globales porque el
+   marcado se inserta con set:html y no recibe el ámbito de estilos de Astro. */
+#fa {
+  --bg: var(--paper); --card: var(--paper-raised); --muted: var(--ink-soft);
+  --accent-soft: var(--accent-tint); --warn-bg: var(--warm-soft); --warn-line: var(--warm);
+  --ok: var(--accent); --err: var(--err-text); --radius: 10px;
+  background: var(--bg); color: var(--ink); font: 16px/1.5 var(--font-body);
+  header.top{background:var(--card);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:40}
+  .top-inner{max-width:980px;margin:0 auto;padding:12px 16px;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+  .top-inner h1{font-size:17px;margin:0;flex:1;min-width:200px}
+  .saved{font-size:13px;color:var(--muted)}
+  .saved.ok{color:var(--ok)}
+  .progress{height:4px;background:var(--line)}
+  .progress span{display:block;height:100%;background:var(--accent);width:0;transition:width .3s}
+  nav.steps{max-width:980px;margin:0 auto;padding:6px 16px 10px;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none}
+  nav.steps a{font-size:13px;white-space:nowrap;text-decoration:none;color:var(--muted);padding:4px 10px;border:1px solid var(--line);border-radius:20px;background:var(--bg)}
+  nav.steps a.done{color:var(--ok);border-color:var(--accent);background:var(--accent-tint)}
+  .fa-main{max-width:980px;margin:0 auto;padding:20px 16px 80px}
+  section.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:22px 20px;margin-bottom:22px;scroll-margin-top:110px}
+  section.card h2{margin:0 0 4px;font-size:20px}
+  section.card > p.lead{margin:0 0 16px;color:var(--muted);font-size:14.5px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px 16px}
+  .field{display:flex;flex-direction:column;gap:5px}
+  .field.full{grid-column:1/-1}
+  label.l{font-size:14px;font-weight:600}
+  label.l .req{color:var(--err)}
+  .hint{font-size:13px;color:var(--muted)}
+  input[type=text],input[type=email],input[type=tel],input[type=number],input[type=date],select,textarea{
+    font:inherit;padding:9px 11px;border:1px solid var(--line);border-radius:8px;background:var(--paper);color:var(--ink);width:100%}
+  textarea{min-height:80px;resize:vertical}
+  input:focus,select:focus,textarea:focus{outline:2px solid var(--accent);outline-offset:0;border-color:var(--accent)}
+  .opts{display:flex;flex-wrap:wrap;gap:8px}
+  .opts label{display:flex;gap:7px;align-items:center;padding:7px 12px;border:1px solid var(--line);border-radius:8px;cursor:pointer;font-size:14.5px;background:var(--paper)}
+  .opts label:has(input:checked){border-color:var(--accent);background:var(--accent-soft)}
+  .opts.col{flex-direction:column;align-items:stretch}
+  .note{border-left:4px solid var(--accent);background:var(--accent-soft);padding:10px 14px;border-radius:6px;font-size:14px;margin:4px 0 16px}
+  .warn{border-left:4px solid var(--warn-line);background:var(--warn-bg);padding:10px 14px;border-radius:6px;font-size:14px;margin:4px 0 16px}
+  .warn ul,.note ul{margin:6px 0 0;padding-left:20px}
+  .sub{border:1px solid var(--line);border-radius:var(--radius);padding:16px;margin:14px 0;background:var(--paper)}
+  .sub h3{margin:0 0 12px;font-size:16px;display:flex;justify-content:space-between;gap:10px;align-items:center}
+  .btn{font:inherit;font-size:14.5px;padding:9px 14px;border-radius:8px;border:1px solid var(--accent);background:var(--accent);color:var(--accent-ink);cursor:pointer}
+  .btn.sec{background:var(--paper);color:var(--accent)}
+  .btn.ghost{background:transparent;border-color:transparent;color:var(--err);padding:4px 8px;font-size:13px}
+  .btn.small{padding:6px 11px;font-size:13.5px}
+  .actions{display:flex;flex-wrap:wrap;gap:8px}
+  table.cap{width:100%;border-collapse:collapse;font-size:14.5px;margin-top:8px}
+  table.cap th,table.cap td{text-align:left;padding:8px;border-bottom:1px solid var(--line)}
+  table.cap td.n,table.cap th.n{text-align:right;font-variant-numeric:tabular-nums}
+  table.cap tfoot td{font-weight:700}
+  .err-msg{color:var(--err);font-size:13.5px;font-weight:600}
+  .ok-msg{color:var(--ok);font-size:13.5px;font-weight:600}
+  .hidden{display:none !important}
+  .missing input,.missing select,.missing textarea,input.missing{border-color:var(--err) !important;background:var(--warm-soft)}
+  .missing > label.l, .missing.den-row b{color:var(--err)}
+  .missing .opts label{border-color:var(--err)}
+  #print-view{display:none}
+  .den-row{display:grid;grid-template-columns:34px 1fr;gap:10px;align-items:center}
+  .den-row b{display:flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:50%;background:var(--accent-soft);color:var(--accent);font-size:14px}
+  .bar{position:fixed;bottom:0;left:0;right:0;background:var(--card);border-top:1px solid var(--line);z-index:20}
+  .bar .actions{max-width:980px;margin:0 auto;padding:10px 16px;justify-content:flex-end}
+  ul.check{list-style:none;padding:0;margin:0}
+  ul.check li{padding:4px 0}
+  @media (max-width:560px){section.card{padding:18px 14px}.top-inner h1{font-size:15px}}
+  
+  .nota-p{margin:6px 0 0}
+  .fa-trampa { position: absolute; left: -9999px; height: 1px; overflow: hidden; }
+  .btn { text-transform: none; letter-spacing: normal; font-weight: 600; width: auto; box-shadow: none; transform: none; }
+  a { color: var(--accent); }
+}
+@media print {
+  body * { visibility: hidden; }
+  #print-view, #print-view * { visibility: visible; }
+  #fa #print-view { display: block; position: absolute; top: 0; left: 0; width: 100%; font: 12px/1.45 ui-monospace, Menlo, Consolas, monospace; white-space: pre-wrap; }
+}
+</style>

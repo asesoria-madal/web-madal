@@ -945,6 +945,23 @@ alter table clientes add column if not exists enviar_formulario boolean not null
 alter table alta_nuevos_autonomos add column if not exists idioma text not null default 'es';
 alter table traspasos_nuevos add column if not exists idioma text not null default 'es';
 
+-- Formulario de alta de autónomo nuevo (2026-11-11, en es/ca/en): pregunta mucho más que las
+-- columnas de arriba. Todas las respuestas van en `respuestas` (el estado del formulario tal
+-- cual, valores en castellano) y el texto legible en `resumen`; las columnas de siempre se
+-- siguen rellenando desde ellas en /api/alta-autonomo, para no romper lo que las lee.
+--   sera_cliente: true si quiere que le llevemos la gestoría después del alta, false si solo
+--                 quiere el alta. Decide si "Responden formulario" le manda el enlace de
+--                 GoCardless (solo a quien será cliente).
+--   plan:         'debut' | 'esencial' | 'crece' | 'total' | null (no lo sabe o no será cliente).
+--   mandato_ss_enviado_at: cuándo el workflow n8n "Mandato Seguridad Social" le mandó el
+--                 mandato de domiciliación de la cuota (TC 1/15-3). Solo se envía a filas con
+--                 `respuestas` (las del formulario nuevo).
+alter table alta_nuevos_autonomos add column if not exists respuestas jsonb;
+alter table alta_nuevos_autonomos add column if not exists resumen text;
+alter table alta_nuevos_autonomos add column if not exists sera_cliente boolean;
+alter table alta_nuevos_autonomos add column if not exists plan text;
+alter table alta_nuevos_autonomos add column if not exists mandato_ss_enviado_at timestamptz;
+
 -- ---------------------------------------------------------------------
 -- Formulario "alta de trabajador" (2026-11-02): /formulario-alta-trabajador.
 -- Lo rellena NUESTRO cliente (la empresa o el autónomo que contrata) con los

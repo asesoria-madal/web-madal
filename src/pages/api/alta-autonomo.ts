@@ -3,94 +3,21 @@ import { getSupabaseAdmin } from '../../lib/supabase';
 
 export const prerender = false;
 
-// Mismo criterio de validación "deliberadamente laxa" que presupuesto.ts:
-// basta para descartar entradas rotas, no pretende validar NIF/IBAN al
-// 100% — eso ya lo revisa Edurne a mano antes de tramitar el alta.
+// Recibe el formulario de alta de autónomo (FormularioAlta.astro, 2026-11-11) y lo guarda en
+// `alta_nuevos_autonomos`. Todas las respuestas van en `respuestas` (jsonb) y el resumen
+// legible en `resumen`; además se rellenan las columnas de siempre, que leen n8n
+// ("Responden formulario", "Sync Empresas HubSpot", la hoja de clientes) y el portal.
+// Validación laxa, como el resto: el equipo revisa cada alta. El campo oculto `web` es una
+// trampa para bots.
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const NIF_NIE_PATTERN = /^[0-9XYZxyz][0-9]{7}[A-Za-z]$/;
-const IBAN_PATTERN = /^[A-Za-z]{2}\d{2}[A-Za-z0-9]{10,30}$/;
-const TELEFONO_PATTERN = /^[+\d][\d\s-]{6,20}$/;
+const NIF_NIE_PATTERN = /^[0-9XYZ][0-9]{7}[A-Z]$/;
+const IBAN_PATTERN = /^[A-Z]{2}\d{2}[A-Z0-9]{10,30}$/;
 const FECHA_PATTERN = /^\d{4}-\d{2}-\d{2}$/;
+const PLANES = ['debut', 'esencial', 'crece', 'total'];
+const TAMANO_MAXIMO = 200_000;
 
-const IDENTIFICACION_VALUES = ['certificado', 'clave_pin', 'ninguno'];
-const TIPO_LOCAL_VALUES = ['casa', 'oficina', 'sin_local'];
-const REGIMEN_COTIZACION_VALUES = ['reta', 'mutualidad'];
-const RETENCION_IRPF_VALUES = ['si', 'no', 'no_sabe'];
-
-interface Body {
-  identificacionDigital: string;
-  nombreCompleto: string;
-  nifNie: string;
-  email: string;
-  telefono: string;
-  domicilioFiscal: string;
-  domicilioNotificaciones?: string;
-  iban: string;
-  epigrafesIae: string;
-  fechaInicioActividad: string;
-  tipoLocal: string;
-  domicilioLocal?: string;
-  multiplesLocales: boolean;
-  detalleLocalesAdicionales?: string;
-  profesionColegiada: boolean;
-  regimenCotizacion?: string;
-  operacionesIntracomunitarias: boolean;
-  retencionIrpf: string;
-  tendraTrabajadores: boolean;
-  privacyAccepted: boolean;
-}
-
-function isNonEmptyString(v: unknown, maxLength: number): v is string {
-  return typeof v === 'string' && v.trim().length > 0 && v.length <= maxLength;
-}
-
-// Devuelve el nombre del primer campo que no valida (o null si todo está bien),
-// para poder decirle al cliente exactamente cuál corregir.
-function primerCampoInvalido(body: unknown): string | null {
-  if (typeof body !== 'object' || body === null) return 'datos';
-  const b = body as Record<string, unknown>;
-
-  if (!IDENTIFICACION_VALUES.includes(b.identificacionDigital as string)) return 'identificacionDigital';
-  if (!isNonEmptyString(b.nombreCompleto, 150)) return 'nombreCompleto';
-  if (typeof b.nifNie !== 'string' || !NIF_NIE_PATTERN.test(b.nifNie.trim())) return 'nifNie';
-  if (typeof b.email !== 'string' || !EMAIL_PATTERN.test(b.email) || b.email.length > 254) return 'email';
-  if (typeof b.telefono !== 'string' || !TELEFONO_PATTERN.test(b.telefono.trim())) return 'telefono';
-  if (!isNonEmptyString(b.domicilioFiscal, 300)) return 'domicilioFiscal';
-  if (b.domicilioNotificaciones !== undefined && (typeof b.domicilioNotificaciones !== 'string' || b.domicilioNotificaciones.length > 300)) return 'domicilioNotificaciones';
-  if (typeof b.iban !== 'string' || !IBAN_PATTERN.test(b.iban.trim().replace(/\s+/g, ''))) return 'iban';
-  if (!isNonEmptyString(b.epigrafesIae, 500)) return 'epigrafesIae';
-  if (typeof b.fechaInicioActividad !== 'string' || !FECHA_PATTERN.test(b.fechaInicioActividad)) return 'fechaInicioActividad';
-  if (!TIPO_LOCAL_VALUES.includes(b.tipoLocal as string)) return 'tipoLocal';
-  // El domicilio del local es obligatorio salvo que la actividad sea "sin local".
-  if (b.tipoLocal !== 'sin_local' && !isNonEmptyString(b.domicilioLocal, 300)) return 'domicilioLocal';
-  if (b.domicilioLocal !== undefined && (typeof b.domicilioLocal !== 'string' || b.domicilioLocal.length > 300)) return 'domicilioLocal';
-  if (typeof b.multiplesLocales !== 'boolean') return 'multiplesLocales';
-  if (b.detalleLocalesAdicionales !== undefined && (typeof b.detalleLocalesAdicionales !== 'string' || b.detalleLocalesAdicionales.length > 300)) return 'detalleLocalesAdicionales';
-  if (typeof b.profesionColegiada !== 'boolean') return 'profesionColegiada';
-  // El régimen de cotización solo tiene sentido (y solo se pregunta en el
-  // formulario) cuando la profesión es colegiada.
-  if (b.profesionColegiada) {
-    if (!REGIMEN_COTIZACION_VALUES.includes(b.regimenCotizacion as string)) return 'regimenCotizacion';
-  } else if (b.regimenCotizacion !== undefined) {
-    return 'regimenCotizacion';
-  }
-  if (typeof b.operacionesIntracomunitarias !== 'boolean') return 'operacionesIntracomunitarias';
-  if (!RETENCION_IRPF_VALUES.includes(b.retencionIrpf as string)) return 'retencionIrpf';
-  if (typeof b.tendraTrabajadores !== 'boolean') return 'tendraTrabajadores';
-  if (b.privacyAccepted !== true) return 'privacyAccepted';
-
-  return null;
-}
-
-function json(data: unknown, status = 200) {
-  return new Response(JSON.stringify(data), { status, headers: { 'Content-Type': 'application/json' } });
-}
-
+const RATE_LIMIT_MAX = 10;
 const RATE_LIMIT_WINDOW_MS = 10 * 60 * 1000;
-const RATE_LIMIT_MAX = 20;
-
-// Mismo limitador best-effort en memoria que presupuesto.ts — ver la nota
-// ahí sobre por qué basta para esta fase del proyecto.
 const requestLog = new Map<string, number[]>();
 
 function isRateLimited(ip: string): boolean {
@@ -101,61 +28,101 @@ function isRateLimited(ip: string): boolean {
   return recent.length > RATE_LIMIT_MAX;
 }
 
-export const POST: APIRoute = async ({ request, clientAddress }) => {
-  if (isRateLimited(clientAddress)) {
-    return json({ error: 'Demasiadas peticiones. Inténtalo de nuevo en unos minutos.' }, 429);
-  }
+function json(data: unknown, status = 200) {
+  return new Response(JSON.stringify(data), { status, headers: { 'Content-Type': 'application/json' } });
+}
 
-  let raw: unknown;
+const texto = (v: unknown, max: number) => (typeof v === 'string' && v.trim() ? v.trim().slice(0, max) : null);
+const lista = (v: unknown): string[] => (Array.isArray(v) ? v.filter((x): x is string => typeof x === 'string') : []);
+
+export const POST: APIRoute = async ({ request, clientAddress }) => {
+  if (isRateLimited(clientAddress)) return json({ error: 'Demasiadas peticiones. Inténtalo de nuevo en unos minutos.' }, 429);
+
+  const cuerpo = await request.text();
+  if (cuerpo.length > TAMANO_MAXIMO) return json({ error: 'Demasiados datos' }, 413);
+  let b: Record<string, any>;
   try {
-    raw = await request.json();
+    b = JSON.parse(cuerpo);
   } catch {
     return json({ error: 'JSON inválido' }, 400);
   }
+  if (typeof b !== 'object' || b === null) return json({ error: 'Datos no válidos' }, 400);
+  if (typeof b.web === 'string' && b.web.trim()) return json({ ok: true });
 
-  const campoInvalido = primerCampoInvalido(raw);
-  if (campoInvalido) {
-    return json({ error: 'Respuestas no válidas', field: campoInvalido }, 400);
-  }
-  const body = raw as Body;
+  const f = b.datos?.f;
+  if (typeof f !== 'object' || f === null) return json({ error: 'Datos no válidos', field: 'datos' }, 400);
+
+  const nombre = texto(f.nombre, 100);
+  const apellidos = texto(f.apellidos, 150);
+  const dni = (texto(f.dni, 20) ?? '').toUpperCase().replace(/[\s.-]/g, '');
+  const email = texto(f.c_email, 254)?.toLowerCase() ?? '';
+  const telefono = texto(f.c_tel, 30);
+  const iban = (texto(f.iban, 50) ?? '').toUpperCase().replace(/\s+/g, '');
+  const inicio = texto(f.act_inicio, 10) ?? '';
+  const actividad = texto(f.act_desc, 2000);
+  const resumen = texto(b.resumen, TAMANO_MAXIMO);
+  if (!nombre) return json({ error: 'Datos no válidos', field: 'nombre' }, 400);
+  if (!apellidos) return json({ error: 'Datos no válidos', field: 'apellidos' }, 400);
+  if (!NIF_NIE_PATTERN.test(dni)) return json({ error: 'Datos no válidos', field: 'dni' }, 400);
+  if (!EMAIL_PATTERN.test(email)) return json({ error: 'Datos no válidos', field: 'c_email' }, 400);
+  if (!telefono) return json({ error: 'Datos no válidos', field: 'c_tel' }, 400);
+  if (!IBAN_PATTERN.test(iban)) return json({ error: 'Datos no válidos', field: 'iban' }, 400);
+  if (!FECHA_PATTERN.test(inicio)) return json({ error: 'Datos no válidos', field: 'act_inicio' }, 400);
+  if (!actividad) return json({ error: 'Datos no válidos', field: 'act_desc' }, 400);
+  if (!f.rgpd) return json({ error: 'Datos no válidos', field: 'rgpd' }, 400);
+  if (!resumen) return json({ error: 'Datos no válidos', field: 'resumen' }, 400);
 
   const supabase = getSupabaseAdmin();
-  if (!supabase) {
-    // Sin Supabase configurado no hay dónde persistir — respondemos en
-    // degradado, igual que presupuesto.ts, para no romper la experiencia
-    // mientras se termina de montar el proyecto.
-    return json({ persisted: false });
-  }
+  if (!supabase) return json({ persisted: false });
 
-  const insertRow: Record<string, unknown> = {
-    identificacion_digital: body.identificacionDigital,
-    nombre_completo: body.nombreCompleto.trim(),
-    nif_nie: body.nifNie.trim().toUpperCase(),
-    email: body.email,
-    telefono: body.telefono.trim(),
-    domicilio_fiscal: body.domicilioFiscal.trim(),
-    iban: body.iban.trim().replace(/\s+/g, '').toUpperCase(),
-    epigrafes_iae: body.epigrafesIae.trim(),
-    fecha_inicio_actividad: body.fechaInicioActividad,
-    tipo_local: body.tipoLocal,
-    multiples_locales: body.multiplesLocales,
-    profesion_colegiada: body.profesionColegiada,
-    operaciones_intracomunitarias: body.operacionesIntracomunitarias,
-    retencion_irpf: body.retencionIrpf,
-    tendra_trabajadores: body.tendraTrabajadores,
+  const piso = texto(f.dom_piso, 50);
+  const domicilio = [
+    [texto(f.dom_via, 200), texto(f.dom_num, 20)].filter(Boolean).join(' ') + (piso ? `, ${piso}` : ''),
+    [texto(f.dom_cp, 10), texto(f.dom_mun, 100)].filter(Boolean).join(' '),
+    texto(f.dom_prov, 100),
+  ].filter(Boolean).join(', ');
+
+  const lugar = lista(f.lugar);
+  const conLocal = lugar.some((l) => ['Local u oficina alquilado', 'Local u oficina en propiedad', 'Coworking / domiciliación'].includes(l));
+  const enCasa = lugar.includes('Desde casa');
+  const tipoLocal = conLocal ? 'oficina' : enCasa ? 'casa' : 'sin_local';
+  const domicilioLocal = texto(f.alq_dir, 300) ?? texto(f.prop_dir, 300) ?? (tipoLocal === 'casa' ? domicilio : null);
+  const sitios = lugar.filter((l) => ['Local u oficina alquilado', 'Local u oficina en propiedad', 'Desde casa', 'Coworking / domiciliación'].includes(l));
+
+  const cert = lista(f.cert);
+  const identificacion = cert.some((c) => c === 'Certificado digital' || c === 'DNI electrónico') ? 'certificado' : cert.includes('Cl@ve') ? 'clave_pin' : 'ninguno';
+  const retencion = f.clientes === 'Empresas y autónomos' ? 'si' : f.clientes === 'Particulares' ? 'no' : 'no_sabe';
+  const cnae = texto(f.act_cnae, 200);
+  const seraCliente = f.sera_cliente === 'Sí' ? true : f.sera_cliente === 'No' ? false : null;
+
+  const { error } = await supabase.from('alta_nuevos_autonomos').insert({
     privacy_accepted_at: new Date().toISOString(),
-    // Idioma de la página del formulario: si aún no hay ficha, n8n la crea con este idioma.
-    idioma: (raw as { idioma?: unknown }).idioma === 'en' ? 'en' : 'es',
-  };
-  if (body.domicilioNotificaciones) insertRow.domicilio_notificaciones = body.domicilioNotificaciones.trim();
-  if (body.tipoLocal !== 'sin_local' && body.domicilioLocal) insertRow.domicilio_local = body.domicilioLocal.trim();
-  if (body.multiplesLocales && body.detalleLocalesAdicionales) insertRow.detalle_locales_adicionales = body.detalleLocalesAdicionales.trim();
-  if (body.profesionColegiada) insertRow.regimen_cotizacion = body.regimenCotizacion;
-
-  const { error: insertError } = await supabase.from('alta_nuevos_autonomos').insert(insertRow);
-  if (insertError) {
-    return json({ error: 'No se han podido guardar los datos' }, 500);
+    identificacion_digital: identificacion,
+    nombre_completo: `${nombre} ${apellidos}`,
+    nif_nie: dni,
+    email,
+    telefono,
+    domicilio_fiscal: domicilio,
+    iban,
+    epigrafes_iae: cnae ? `${cnae} — ${actividad}` : actividad,
+    fecha_inicio_actividad: inicio,
+    tipo_local: tipoLocal,
+    domicilio_local: domicilioLocal,
+    multiples_locales: sitios.length > 1,
+    detalle_locales_adicionales: sitios.length > 1 ? lugar.join(', ') : null,
+    profesion_colegiada: f.act_regulada === 'Sí',
+    operaciones_intracomunitarias: f.roi === 'Sí',
+    retencion_irpf: retencion,
+    tendra_trabajadores: Boolean(f.trab) && f.trab !== 'No',
+    idioma: ['es', 'ca', 'en'].includes(b.idioma) ? b.idioma : 'es',
+    sera_cliente: seraCliente,
+    plan: seraCliente && PLANES.includes(f.plan) ? f.plan : null,
+    resumen,
+    respuestas: b.datos,
+  });
+  if (error) {
+    console.error('Error guardando el formulario de alta', error.message);
+    return json({ error: 'No se pudo guardar' }, 500);
   }
-
-  return json({ persisted: true });
+  return json({ ok: true });
 };

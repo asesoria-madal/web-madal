@@ -1,0 +1,423 @@
+<header class="top">
+  <div class="top-inner">
+    <h1 id="titulo">Alta de autónomo — Datos para el trámite</h1>
+    <span class="saved" id="saved">Sin cambios</span>
+  </div>
+  <div class="progress"><span id="prog"></span></div>
+  <nav class="steps" id="steps">
+    <a href="#s-personal" data-sec="s-personal">1. Datos personales</a>
+    <a href="#s-actividad" data-sec="s-actividad">2. Actividad</a>
+    <a href="#s-local" data-sec="s-local">3. Lugar de trabajo</a>
+    <a href="#s-fiscal" data-sec="s-fiscal">4. Fiscal</a>
+    <a href="#s-ss" data-sec="s-ss">5. Seguridad Social</a>
+    <a href="#s-otros" data-sec="s-otros">6. Servicio y otros</a>
+    <a href="#s-docs" data-sec="s-docs">7. Documentación</a>
+  </nav>
+</header>
+
+<div id="print-view"></div>
+<div class="fa-trampa" aria-hidden="true"><label>No rellenar este campo <input type="text" id="fa-web" tabindex="-1" autocomplete="off"></label></div>
+<div id="form" class="fa-main">
+
+<div class="note" style="margin-bottom:22px">
+  <strong>Antes de empezar.</strong>
+  <p class="nota-p">Este formulario se guarda solo en este navegador mientras escribes: puedes cerrarlo y volver más tarde desde el mismo ordenador y navegador. Si quieres seguir en otro dispositivo o tener una copia de seguridad, usa “Descargar copia” y después “Cargar copia”. Cuando termines, pulsa “Enviar a Asesoría Madal” y nos llegará directamente.</p>
+  <ul>
+    <li>Los campos con * son obligatorios. Si dudas en alguno, elige “No lo sé” cuando exista esa opción: lo vemos juntos.</li>
+    <li>No presentes por tu cuenta el modelo 036 ni el alta en la Seguridad Social: lo tramitamos nosotros y un trámite paralelo puede bloquear el expediente.</li>
+  </ul>
+</div>
+
+<!-- 1. DATOS PERSONALES -->
+<section class="card" id="s-personal">
+  <h2>1. Datos personales</h2>
+  <p class="lead">Los datos de la persona que se da de alta como autónoma.</p>
+  <div class="grid">
+    <div class="field"><label class="l">Nombre <span class="req">*</span></label><input type="text" name="nombre" data-req></div>
+    <div class="field"><label class="l">Apellidos <span class="req">*</span></label><input type="text" name="apellidos" data-req></div>
+    <div class="field"><label class="l">DNI / NIE <span class="req">*</span></label><input type="text" name="dni" data-req></div>
+    <div class="field"><label class="l">Fecha de nacimiento <span class="req">*</span></label><input type="date" name="fnac" data-req></div>
+    <div class="field"><label class="l">Nacionalidad <span class="req">*</span></label><input type="text" name="nacionalidad" placeholder="Española" data-req></div>
+    <div class="field"><label class="l">Estado civil <span class="req">*</span></label>
+      <select name="civil" data-req><option value="">—</option><option>Soltero/a</option><option>Casado/a</option><option>Pareja de hecho</option><option>Divorciado/a</option><option>Viudo/a</option></select></div>
+    <div class="field" data-if="civil:Casado/a"><label class="l">Fecha del matrimonio <span class="req">*</span></label><input type="date" name="f_matrimonio" data-req></div>
+    <div class="field" data-if="civil:Divorciado/a"><label class="l">Fecha del divorcio <span class="req">*</span></label><input type="date" name="f_divorcio" data-req></div>
+    <div class="field"><label class="l">Email <span class="req">*</span></label><input type="email" name="c_email" data-req></div>
+    <div class="field"><label class="l">Teléfono <span class="req">*</span></label><input type="tel" name="c_tel" data-req></div>
+    <div class="field full" data-if="extranjero:1"><label class="l">¿Tienes permiso de trabajo por cuenta propia en vigor? <span class="req">*</span></label>
+      <span class="hint">Necesario si no tienes nacionalidad de un país de la UE, del Espacio Económico Europeo o Suiza.</span>
+      <div class="opts" data-req-group="permiso">
+        <label><input type="radio" name="permiso" value="Sí">Sí</label>
+        <label><input type="radio" name="permiso" value="No">No</label>
+        <label><input type="radio" name="permiso" value="Soy ciudadano/a UE, EEE o Suiza">Soy ciudadano/a UE, EEE o Suiza</label>
+      </div>
+    </div>
+    <div class="field full" data-if="permiso:No"><div class="warn" style="margin:0">Sin permiso de trabajo por cuenta propia no es posible darse de alta como autónomo. Escríbenos antes de seguir y lo revisamos.</div></div>
+  </div>
+  <div class="sub">
+    <h3>Domicilio (donde vives)</h3>
+    <div class="grid">
+      <div class="field full"><label class="l">Calle / vía <span class="req">*</span></label><input type="text" name="dom_via" data-req></div>
+      <div class="field"><label class="l">Número <span class="req">*</span></label><input type="text" name="dom_num" data-req></div>
+      <div class="field"><label class="l">Piso / puerta</label><input type="text" name="dom_piso"></div>
+      <div class="field"><label class="l">Código postal <span class="req">*</span></label><input type="text" name="dom_cp" inputmode="numeric" data-req></div>
+      <div class="field"><label class="l">Municipio <span class="req">*</span></label><input type="text" name="dom_mun" data-req></div>
+      <div class="field"><label class="l">Provincia <span class="req">*</span></label><input type="text" name="dom_prov" data-req></div>
+    </div>
+  </div>
+</section>
+
+<!-- 2. ACTIVIDAD -->
+<section class="card" id="s-actividad">
+  <h2>2. Actividad</h2>
+  <p class="lead">Cuéntanos con tus palabras a qué te vas a dedicar. Con esto elegimos los epígrafes (IAE y CNAE) y el régimen de impuestos.</p>
+  <div class="grid">
+    <div class="field full"><label class="l">Descripción de la actividad <span class="req">*</span></label><textarea name="act_desc" data-req placeholder="Ej.: diseño gráfico y web para empresas; también algún curso online."></textarea></div>
+    <div class="field full"><label class="l">Otras actividades que podrías hacer más adelante</label><textarea name="act_futuro"></textarea></div>
+    <div class="field"><label class="l">Fecha prevista de inicio <span class="req">*</span></label><input type="date" name="act_inicio" data-req><span class="hint">El alta tiene que estar hecha antes de empezar a trabajar o facturar.</span></div>
+    <div class="field"><label class="l">Código CNAE o epígrafe IAE (si lo sabes)</label><input type="text" name="act_cnae"></div>
+    <div class="field full"><label class="l">¿Empezarás a facturar desde el primer día? <span class="req">*</span></label>
+      <div class="opts col" data-req-group="act_fase">
+        <label><input type="radio" name="act_fase" value="Factura desde el inicio">Sí, empiezo a vender o a prestar servicios desde el primer día</label>
+        <label><input type="radio" name="act_fase" value="Primero gastos de preparación">No, primero tendré gastos de preparación (obras, compras, equipos…) y facturaré más adelante</label>
+      </div>
+      <span class="hint">En el segundo caso podemos darte de alta antes para que puedas desgravar el IVA de esos gastos.</span>
+    </div>
+    <div class="field full"><label class="l">¿Es una actividad regulada o que necesita titulación, licencia o colegiación? <span class="req">*</span></label>
+      <span class="hint">Por ejemplo: sanitaria, psicología, abogacía, arquitectura, transporte, inmobiliaria, alimentación…</span>
+      <div class="opts" data-req-group="act_regulada">
+        <label><input type="radio" name="act_regulada" value="Sí">Sí</label>
+        <label><input type="radio" name="act_regulada" value="No">No</label>
+        <label><input type="radio" name="act_regulada" value="No lo sé">No lo sé</label>
+      </div>
+    </div>
+    <div class="field full" data-if="act_regulada:Sí"><label class="l">¿Cuál? ¿Estás colegiado/a o tienes la licencia? <span class="req">*</span></label><textarea name="act_regulada_det" data-req></textarea></div>
+
+    <div class="field full"><label class="l">¿Quiénes serán tus clientes? <span class="req">*</span></label>
+      <div class="opts" data-req-group="clientes">
+        <label><input type="radio" name="clientes" value="Empresas y autónomos">Empresas y autónomos</label>
+        <label><input type="radio" name="clientes" value="Particulares">Particulares</label>
+        <label><input type="radio" name="clientes" value="Ambos">Ambos</label>
+      </div>
+    </div>
+    <div class="field" data-if="clientes:Ambos"><label class="l">% aproximado facturado a empresas y autónomos <span class="req">*</span></label><input type="number" name="clientes_pct" min="0" max="100" placeholder="%" data-req>
+      <span class="hint">Si más del 70 % de tus ingresos llevan retención de IRPF, normalmente no tendrás que presentar pagos trimestrales del IRPF (modelo 130).</span></div>
+
+    <div class="field full"><label class="l">¿Venderás productos que compras para revenderlos tal cual a particulares (tienda, comercio minorista)? <span class="req">*</span></label>
+      <span class="hint">Si es así, normalmente se aplica el recargo de equivalencia: tus proveedores te cobran un recargo y tú no presentas IVA por esas ventas.</span>
+      <div class="opts" data-req-group="minorista">
+        <label><input type="radio" name="minorista" value="Sí">Sí</label>
+        <label><input type="radio" name="minorista" value="No">No</label>
+        <label><input type="radio" name="minorista" value="No lo sé">No lo sé</label>
+      </div>
+    </div>
+
+    <div class="field full"><label class="l">¿Alguna parte de la actividad está exenta de IVA? <span class="req">*</span></label>
+      <span class="hint">Son exentas, entre otras: servicios sanitarios, enseñanza y formación reglada, clases particulares, seguros, servicios financieros, alquiler de vivienda, algunas actividades culturales y deportivas.</span>
+      <div class="opts" data-req-group="exenta">
+        <label><input type="radio" name="exenta" value="No">No, todo lleva IVA</label>
+        <label><input type="radio" name="exenta" value="Toda la actividad">Sí, toda</label>
+        <label><input type="radio" name="exenta" value="Solo una parte">Solo una parte</label>
+        <label><input type="radio" name="exenta" value="No lo sé">No lo sé</label>
+      </div>
+    </div>
+    <div class="field" data-if="exenta:Toda la actividad|Solo una parte"><label class="l">Tipo de actividad exenta <span class="req">*</span></label>
+      <select name="exenta_tipo" data-req><option value="">—</option><option>Sanitaria / salud</option><option>Educación / formación / clases</option><option>Seguros</option><option>Financiera</option><option>Alquiler de vivienda</option><option>Cultural / deportiva</option><option>Otra</option></select></div>
+    <div class="field" data-if="exenta:Solo una parte"><label class="l">% aproximado de ingresos exentos <span class="req">*</span></label><input type="number" name="exenta_pct" min="0" max="100" placeholder="%" data-req></div>
+    <div class="field full" data-if="exenta:Toda la actividad|Solo una parte"><label class="l">Explícalo brevemente</label><textarea name="exenta_det"></textarea></div>
+  </div>
+</section>
+
+<!-- 3. LUGAR DE TRABAJO -->
+<section class="card" id="s-local">
+  <h2>3. Lugar de trabajo</h2>
+  <p class="lead">Dónde vas a desarrollar la actividad.</p>
+  <div class="grid">
+    <div class="field full"><label class="l">¿Dónde trabajarás? (marca todas las que apliquen) <span class="req">*</span></label>
+      <div class="opts col" data-req-group="lugar">
+        <label><input type="checkbox" name="lugar" value="Local u oficina alquilado">En un local u oficina alquilado</label>
+        <label><input type="checkbox" name="lugar" value="Local u oficina en propiedad">En un local u oficina en propiedad</label>
+        <label><input type="checkbox" name="lugar" value="Desde casa">Desde casa</label>
+        <label><input type="checkbox" name="lugar" value="Coworking / domiciliación">En un coworking o centro de negocios</label>
+        <label><input type="checkbox" name="lugar" value="En casa o instalaciones del cliente">En casa o en las instalaciones del cliente</label>
+        <label><input type="checkbox" name="lugar" value="Online / sin local fijo">Online o sin local fijo</label>
+      </div>
+    </div>
+  </div>
+
+  <div class="sub" data-if="lugar_alq:1">
+    <h3>Local alquilado</h3>
+    <div class="note">Cuando el propietario es una persona física o una empresa, normalmente tendrás que retener un 19 % del alquiler y presentarlo trimestralmente (modelo 115). Por eso necesitamos estos datos.</div>
+    <div class="grid">
+      <div class="field"><label class="l">El propietario es… <span class="req">*</span></label>
+        <select name="arr_tipo" data-req><option value="">—</option><option>Persona física</option><option>Empresa / sociedad</option><option>No lo sé</option></select></div>
+      <div class="field"><label class="l">Nombre o razón social del propietario <span class="req">*</span></label><input type="text" name="arr_nombre" data-req></div>
+      <div class="field"><label class="l">DNI / NIF del propietario <span class="req">*</span></label><input type="text" name="arr_nif" data-req></div>
+      <div class="field full"><label class="l">Dirección del local <span class="req">*</span></label><input type="text" name="alq_dir" data-req></div>
+      <div class="field"><label class="l">Referencia catastral</label><input type="text" name="alq_refcat"><span class="hint">Aparece en el contrato o en el recibo del IBI.</span></div>
+      <div class="field"><label class="l">Renta mensual (sin IVA) <span class="req">*</span></label><input type="text" name="alq_renta" data-req></div>
+      <div class="field"><label class="l">Inicio del contrato</label><input type="date" name="alq_inicio"></div>
+      <div class="field"><label class="l">Superficie aproximada (m²) <span class="req">*</span></label><input type="text" name="alq_m2" data-req></div>
+      <div class="field"><label class="l">¿El contrato está a tu nombre?</label>
+        <select name="alq_titular"><option value="">—</option><option>Sí</option><option>No, a nombre de otra persona</option><option>Aún no está firmado</option></select></div>
+    </div>
+  </div>
+
+  <div class="sub" data-if="lugar_prop:1">
+    <h3>Local en propiedad</h3>
+    <div class="grid">
+      <div class="field full"><label class="l">Dirección del local <span class="req">*</span></label><input type="text" name="prop_dir" data-req></div>
+      <div class="field"><label class="l">Referencia catastral</label><input type="text" name="prop_refcat"></div>
+      <div class="field"><label class="l">Superficie aproximada (m²) <span class="req">*</span></label><input type="text" name="prop_m2" data-req></div>
+    </div>
+  </div>
+
+  <div class="sub" data-if="lugar_casa:1">
+    <h3>Trabajo desde casa</h3>
+    <div class="note">Si dedicas una parte de tu vivienda a la actividad, puedes deducirte una parte de los gastos (suministros, IBI, comunidad…). Para eso necesitamos estos datos.</div>
+    <div class="grid">
+      <div class="field"><label class="l">¿La vivienda es…? <span class="req">*</span></label>
+        <select name="casa_tipo" data-req><option value="">—</option><option>En propiedad</option><option>De alquiler</option><option>Otro</option></select></div>
+      <div class="field"><label class="l">Superficie total de la vivienda (m²) <span class="req">*</span></label><input type="text" name="casa_m2" data-req></div>
+      <div class="field"><label class="l">m² dedicados a la actividad <span class="req">*</span></label><input type="text" name="casa_m2_act" data-req><span class="hint">Por ejemplo, el despacho.</span></div>
+      <div class="field"><label class="l">Referencia catastral</label><input type="text" name="casa_refcat"></div>
+    </div>
+  </div>
+</section>
+
+<!-- 4. FISCAL -->
+<section class="card" id="s-fiscal">
+  <h2>4. Datos fiscales y laborales</h2>
+  <p class="lead">Con esto preparamos tu alta en Hacienda (modelo 036) y las obligaciones que tendrás cada trimestre.</p>
+
+  <div class="sub">
+    <h3>Operaciones intracomunitarias (alta en el ROI)</h3>
+    <div class="note">Si vas a comprar o vender a empresas de otros países de la UE, necesitas el alta en el Registro de Operadores Intracomunitarios. Ojo: también cuenta contratar servicios de empresas europeas, como publicidad en Google o Meta, software, plataformas o hosting facturados desde Irlanda u otro país UE.</div>
+    <div class="grid">
+      <div class="field full"><label class="l">¿Tendrás operaciones con empresas de otros países de la UE? <span class="req">*</span></label>
+        <div class="opts" data-req-group="roi">
+          <label><input type="radio" name="roi" value="Sí">Sí</label>
+          <label><input type="radio" name="roi" value="No">No</label>
+          <label><input type="radio" name="roi" value="No lo sé">No lo sé</label>
+        </div>
+      </div>
+      <div class="field full" data-if="roi:Sí|No lo sé"><label class="l">¿De qué tipo? (marca todas las que apliquen) <span class="req">*</span></label>
+        <div class="opts col" data-req-group="roi_tipo">
+          <label><input type="checkbox" name="roi_tipo" value="Comprar mercancía a empresas UE">Comprar mercancía / productos a empresas de la UE</label>
+          <label><input type="checkbox" name="roi_tipo" value="Vender mercancía a empresas UE">Vender mercancía / productos a empresas de la UE</label>
+          <label><input type="checkbox" name="roi_tipo" value="Prestar servicios a empresas UE">Prestar servicios a empresas de la UE</label>
+          <label><input type="checkbox" name="roi_tipo" value="Contratar servicios a empresas UE (publicidad, software...)">Contratar servicios a empresas de la UE (Google Ads, Meta, software, hosting…)</label>
+          <label><input type="checkbox" name="roi_tipo" value="Vender online a particulares de otros países UE">Vender online a particulares de otros países de la UE</label>
+        </div>
+      </div>
+      <div class="field" data-if="roi:Sí|No lo sé"><label class="l">Países principales</label><input type="text" name="roi_paises"></div>
+      <div class="field" data-if="roi:Sí|No lo sé"><label class="l">Volumen anual aproximado (€)</label><input type="text" name="roi_volumen"></div>
+      <div class="field full"><label class="l">¿Y operaciones con países de fuera de la UE (importar / exportar)? <span class="req">*</span></label>
+        <div class="opts" data-req-group="extra_ue">
+          <label><input type="radio" name="extra_ue" value="Sí">Sí</label>
+          <label><input type="radio" name="extra_ue" value="No">No</label>
+          <label><input type="radio" name="extra_ue" value="No lo sé">No lo sé</label>
+        </div>
+      </div>
+      <div class="field full" data-if="extra_ue:Sí"><label class="l">¿Qué y con qué países?</label><input type="text" name="extra_ue_det"></div>
+    </div>
+  </div>
+
+  <div class="sub">
+    <h3>Profesionales y retenciones</h3>
+    <div class="grid">
+      <div class="field full"><label class="l">¿Contratarás a profesionales autónomos que te facturen? <span class="req">*</span></label>
+        <span class="hint">Abogados, diseñadores, consultores, programadores freelance… A sus facturas hay que practicarles retención de IRPF (modelo 111).</span>
+        <div class="opts" data-req-group="prof">
+          <label><input type="radio" name="prof" value="Sí">Sí</label>
+          <label><input type="radio" name="prof" value="No">No</label>
+          <label><input type="radio" name="prof" value="No lo sé">No lo sé</label>
+        </div>
+      </div>
+      <div class="field full" data-if="prof:Sí"><label class="l">¿Qué tipo de profesionales y con qué frecuencia?</label><input type="text" name="prof_det"></div>
+    </div>
+  </div>
+
+  <div class="sub">
+    <h3>Trabajadores</h3>
+    <div class="grid">
+      <div class="field full"><label class="l">¿Tendrás trabajadores contratados? <span class="req">*</span></label>
+        <div class="opts" data-req-group="trab">
+          <label><input type="radio" name="trab" value="Sí, desde el inicio">Sí, desde el inicio</label>
+          <label><input type="radio" name="trab" value="Más adelante">Más adelante</label>
+          <label><input type="radio" name="trab" value="No">No</label>
+        </div>
+      </div>
+      <div class="field" data-if="trab:Sí, desde el inicio|Más adelante"><label class="l">¿Cuántos, aproximadamente?</label><input type="number" name="trab_num" min="0"></div>
+      <div class="field" data-if="trab:Sí, desde el inicio|Más adelante"><label class="l">Fecha prevista de la primera contratación</label><input type="date" name="trab_fecha"></div>
+      <div class="field full"><label class="l">¿Te ayudará en el negocio algún familiar (cónyuge, pareja, hijos, padres…)? <span class="req">*</span></label>
+        <span class="hint">Un familiar que trabaja contigo de forma habitual puede tener que darse de alta como autónomo colaborador.</span>
+        <div class="opts" data-req-group="familiar">
+          <label><input type="radio" name="familiar" value="Sí">Sí</label>
+          <label><input type="radio" name="familiar" value="No">No</label>
+        </div>
+      </div>
+      <div class="field full" data-if="familiar:Sí"><label class="l">¿Quién, qué parentesco y si vivís juntos? <span class="req">*</span></label><input type="text" name="familiar_det" data-req></div>
+    </div>
+  </div>
+
+  <div class="sub">
+    <h3>Previsión de negocio</h3>
+    <div class="grid">
+      <div class="field"><label class="l">Facturación prevista el primer año <span class="req">*</span></label>
+        <select name="fact_estim" data-req><option value="">—</option><option>Menos de 15.000 €</option><option>15.000 – 30.000 €</option><option>30.000 – 60.000 €</option><option>60.000 – 150.000 €</option><option>Más de 150.000 €</option><option>No lo sé</option></select></div>
+      <div class="field"><label class="l">Inversión inicial prevista (€)</label><input type="text" name="inversion"><span class="hint">Obras, equipos, mobiliario, vehículo…</span></div>
+      <div class="field full"><label class="l">¿Te interesa el criterio de caja del IVA (pagar el IVA cuando cobras la factura)?</label>
+        <div class="opts">
+          <label><input type="radio" name="caja" value="Sí">Sí</label>
+          <label><input type="radio" name="caja" value="No">No</label>
+          <label><input type="radio" name="caja" value="No lo sé, aconsejadme">No lo sé, aconsejadme</label>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 5. SEGURIDAD SOCIAL -->
+<section class="card" id="s-ss">
+  <h2>5. Seguridad Social (alta en autónomos)</h2>
+  <p class="lead">Con esto calculamos tu cuota y vemos si tienes derecho a la tarifa plana o a otras reducciones.</p>
+  <div class="grid">
+    <div class="field full"><label class="l">¿Tienes número de afiliación a la Seguridad Social? <span class="req">*</span></label>
+      <span class="hint">Lo tienes si has trabajado alguna vez en España. Aparece en la nómina o en tu vida laboral.</span>
+      <div class="opts" data-req-group="naf_tiene">
+        <label><input type="radio" name="naf_tiene" value="Sí">Sí</label>
+        <label><input type="radio" name="naf_tiene" value="No">No, nunca he trabajado en España</label>
+      </div>
+    </div>
+    <div class="field" data-if="naf_tiene:Sí"><label class="l">Nº de afiliación a la Seguridad Social <span class="req">*</span></label><input type="text" name="naf" data-req placeholder="12 dígitos"></div>
+    <div class="field full" data-if="naf_tiene:No"><div class="note" style="margin:0">Lo solicitamos nosotros junto con el alta.</div></div>
+
+    <div class="field full"><label class="l">¿Has estado dado/a de alta como autónomo alguna vez? <span class="req">*</span></label>
+      <div class="opts col" data-req-group="reta_prev">
+        <label><input type="radio" name="reta_prev" value="Nunca">Nunca</label>
+        <label><input type="radio" name="reta_prev" value="Sí, hace más de 2 años">Sí, pero me di de baja hace más de 2 años</label>
+        <label><input type="radio" name="reta_prev" value="Sí, en los últimos 2 años">Sí, en los últimos 2 años</label>
+        <label><input type="radio" name="reta_prev" value="Sí, ahora mismo estoy de alta">Sí, ahora mismo estoy de alta</label>
+      </div>
+    </div>
+    <div class="field" data-if="reta_prev:Sí, hace más de 2 años|Sí, en los últimos 2 años"><label class="l">Fecha de la última baja (aproximada) <span class="req">*</span></label><input type="date" name="reta_baja" data-req></div>
+    <div class="field full" data-if="reta_prev:Sí, hace más de 2 años"><label class="l">¿Disfrutaste de la tarifa plana aquella vez? <span class="req">*</span></label>
+      <span class="hint">Si ya la tuviste, tienen que haber pasado 3 años desde la baja para volver a pedirla.</span>
+      <div class="opts" data-req-group="tp_prev">
+        <label><input type="radio" name="tp_prev" value="Sí">Sí</label>
+        <label><input type="radio" name="tp_prev" value="No">No</label>
+        <label><input type="radio" name="tp_prev" value="No lo sé">No lo sé</label>
+      </div>
+    </div>
+    <div class="field full" data-if="reta_prev:Sí, ahora mismo estoy de alta"><div class="warn" style="margin:0">Si ya eres autónomo, no hace falta un alta nueva: basta con añadir la actividad. Escríbenos y te decimos cómo seguir.</div></div>
+    <div class="field full" id="tp-info"></div>
+
+    <div class="field full"><label class="l">¿Trabajas ahora también por cuenta ajena (con nómina)? <span class="req">*</span></label>
+      <span class="hint">Compatibilizar nómina y autónomos puede darte derecho a una reducción o devolución de cuotas.</span>
+      <div class="opts" data-req-group="pluri">
+        <label><input type="radio" name="pluri" value="Sí, a jornada completa">Sí, a jornada completa</label>
+        <label><input type="radio" name="pluri" value="Sí, a media jornada">Sí, a media jornada</label>
+        <label><input type="radio" name="pluri" value="No">No</label>
+      </div>
+    </div>
+
+    <div class="field full"><label class="l">¿Tienes reconocida alguna de estas situaciones?</label>
+      <span class="hint">Dan derecho a reducciones de cuota más largas. Necesitaremos el documento que lo acredite.</span>
+      <div class="opts col">
+        <label><input type="checkbox" name="especial" value="Discapacidad igual o superior al 33 %">Discapacidad igual o superior al 33 %</label>
+        <label><input type="checkbox" name="especial" value="Víctima de violencia de género">Víctima de violencia de género</label>
+        <label><input type="checkbox" name="especial" value="Víctima de terrorismo">Víctima de terrorismo</label>
+      </div>
+    </div>
+
+    <div class="field"><label class="l">Rendimientos netos mensuales previstos (€) <span class="req">*</span></label><input type="text" name="rend" inputmode="decimal" data-req placeholder="Ej.: 1200">
+      <span class="hint">Lo que calculas ganar al mes una vez restados los gastos de la actividad. La cuota depende de esta cifra. Si no lo sabes, pon una estimación: se puede cambiar varias veces al año.</span></div>
+    <div class="field"><label class="l">Mutua preferida</label><input type="text" name="mutua" placeholder="Si no tienes preferencia, déjalo en blanco"></div>
+
+    <div class="field full"><label class="l">Cuenta para domiciliar la cuota de autónomos (IBAN) <span class="req">*</span></label><input type="text" name="iban" data-req placeholder="ES00 0000 0000 0000 0000 0000"></div>
+    <div class="field full"><label class="l">¿La cuenta está a tu nombre? <span class="req">*</span></label>
+      <div class="opts" data-req-group="iban_titular">
+        <label><input type="radio" name="iban_titular" value="Sí">Sí</label>
+        <label><input type="radio" name="iban_titular" value="No">No, es de otra persona</label>
+      </div>
+    </div>
+    <div class="field" data-if="iban_titular:No"><label class="l">Nombre del titular de la cuenta <span class="req">*</span></label><input type="text" name="iban_tit_nombre" data-req></div>
+    <div class="field" data-if="iban_titular:No"><label class="l">DNI / NIE del titular <span class="req">*</span></label><input type="text" name="iban_tit_dni" data-req></div>
+    <div class="field full" data-if="iban_titular:No"><div class="note" style="margin:0">Como la cuenta es de otra persona, el mandato de domiciliación lo tendréis que firmar los dos: el titular de la cuenta y tú.</div></div>
+    <div class="field full"><div class="note" style="margin:0">Al enviar este formulario te mandaremos por correo el mandato de domiciliación de la Seguridad Social (modelo TC 1/15-3) con las instrucciones para rellenarlo y firmarlo. Es lo que permite que la cuota de autónomo se cargue cada mes en esta cuenta.</div></div>
+  </div>
+</section>
+
+<!-- 6. SERVICIO Y OTROS -->
+<section class="card" id="s-otros">
+  <h2>6. Servicio y otros datos</h2>
+  <div class="grid">
+    <div class="field full"><label class="l">Después del alta, ¿quieres que llevemos tu gestoría? <span class="req">*</span></label>
+      <span class="hint">Impuestos trimestrales, contabilidad y asesoramiento cada mes.</span>
+      <div class="opts col" data-req-group="sera_cliente">
+        <label><input type="radio" name="sera_cliente" value="Sí">Sí, quiero ser cliente de Asesoría Madal</label>
+        <label><input type="radio" name="sera_cliente" value="No">No, solo quiero el alta</label>
+      </div>
+    </div>
+    <div class="field full" data-if="sera_cliente:Sí"><label class="l">¿Qué plan quieres? <span class="req">*</span></label>
+      <div class="opts col" data-req-group="plan">
+        {{PLANES}}
+        <label><input type="radio" name="plan" value="No lo sé">No lo sé, aconsejadme</label>
+      </div>
+      <span class="hint">Precios sin IVA. Puedes ver qué incluye cada plan en asesoriamadal.es y cambiarlo más adelante.</span>
+    </div>
+    <div class="field full" data-if="sera_cliente:Sí"><div class="note" style="margin:0">Al enviar el formulario te llegará también el enlace para domiciliar la cuota de Asesoría Madal.</div></div>
+    <div class="field full"><label class="l">¿Tienes certificado digital, DNI electrónico o Cl@ve? <span class="req">*</span></label>
+      <div class="opts col" data-req-group="cert">
+        <label><input type="checkbox" name="cert" value="Certificado digital">Certificado digital</label>
+        <label><input type="checkbox" name="cert" value="DNI electrónico">DNI electrónico (con lector o móvil)</label>
+        <label><input type="checkbox" name="cert" value="Cl@ve">Cl@ve</label>
+        <label><input type="checkbox" name="cert" value="Ninguno">Ninguno</label>
+      </div>
+      <span class="hint">Sirve para firmar el mandato de domiciliación y otros trámites a distancia. Si no tienes ninguno, también se puede hacer.</span>
+    </div>
+    <div class="field full"><label class="l">Observaciones / dudas</label><textarea name="obs"></textarea></div>
+  </div>
+</section>
+
+<!-- 7. DOCUMENTACIÓN -->
+<section class="card" id="s-docs">
+  <h2>7. Documentación que nos tendrás que enviar</h2>
+  <p class="lead">Marca lo que ya tengas preparado. Los documentos se envían aparte (por email), no se suben aquí.</p>
+  <ul class="check">
+    <li><label><input type="checkbox" name="doc_dni" value="Sí"> DNI / NIE vigente (por las dos caras)</label></li>
+    <li data-if="naf_tiene:Sí"><label><input type="checkbox" name="doc_naf" value="Sí"> Justificante del número de afiliación a la Seguridad Social (o una nómina donde aparezca)</label></li>
+    <li data-if="extranjero:1"><label><input type="checkbox" name="doc_permiso" value="Sí"> Permiso de trabajo por cuenta propia y pasaporte en vigor</label></li>
+    <li data-if="lugar_alq:1"><label><input type="checkbox" name="doc_alq" value="Sí"> Contrato de alquiler del local (o borrador)</label></li>
+    <li data-if="hay_especial:1"><label><input type="checkbox" name="doc_especial" value="Sí"> Documento que acredite la discapacidad o la condición de víctima</label></li>
+    <li data-if="act_regulada:Sí"><label><input type="checkbox" name="doc_colegiado" value="Sí"> Título, colegiación o licencia de la actividad</label></li>
+    <li><label><input type="checkbox" name="doc_mandato" value="Sí"> Mandato de domiciliación de la Seguridad Social rellenado y firmado (te lo enviamos nosotros por correo, con las instrucciones)</label></li>
+  </ul>
+</section>
+
+<section class="card" id="s-fin">
+  <h2>Revisión y envío</h2>
+  <div id="resumen-check"></div>
+  <label style="display:flex;gap:8px;align-items:flex-start;margin-top:14px;font-size:14px">
+    <input type="checkbox" name="rgpd" value="Sí" style="margin-top:4px">
+    <span>Autorizo a Asesoría Madal a tratar estos datos para tramitar mi alta como autónomo/a, según la <a href="{{PRIVACIDAD}}" target="_blank" rel="noopener">política de privacidad</a>.</span>
+  </label>
+  <div class="actions" style="margin-top:12px">
+    <button type="button" class="btn" id="btn-enviar">Enviar a Asesoría Madal</button>
+    <button type="button" class="btn sec" id="btn-descargar">Descargar resumen</button>
+    <button type="button" class="btn sec" id="btn-print">Imprimir / guardar PDF</button>
+  </div>
+  <div id="envio-msg" role="status" aria-live="polite" style="margin-top:10px"></div>
+  <p class="hint" id="envio-hint" style="margin-top:6px"></p>
+</section>
+
+</div>
+
+<div class="bar">
+  <div class="actions">
+    <button type="button" class="btn sec small" id="btn-export">Descargar copia</button>
+    <label class="btn sec small" style="display:inline-flex;align-items:center">Cargar copia<input type="file" id="btn-import" accept=".json,application/json" hidden></label>
+    <button type="button" class="btn ghost small" id="btn-reset">Borrar todo</button>
+  </div>
+</div>
