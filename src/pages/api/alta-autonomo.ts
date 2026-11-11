@@ -117,6 +117,8 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
     idioma: ['es', 'ca', 'en'].includes(b.idioma) ? b.idioma : 'es',
     sera_cliente: seraCliente,
     plan: seraCliente && PLANES.includes(f.plan) ? f.plan : null,
+    // Programa de facturación (5 € + IVA/mes, opcional en todos los planes de autónomo): 'si' | 'no' | 'no_sabe'.
+    programa_facturacion: seraCliente ? ({ 'Sí': 'si', 'No': 'no', 'No lo sé': 'no_sabe' } as Record<string, string>)[f.facturacion] ?? null : null,
     resumen,
     respuestas: b.datos,
   });

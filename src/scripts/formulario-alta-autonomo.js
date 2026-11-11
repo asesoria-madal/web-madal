@@ -62,6 +62,7 @@ function fill(){
     else if(el.type === "radio") el.checked = v === el.value;
     else if(el.type !== "file") el.value = v ?? "";
   });
+  precargar(); // NIF y correo del enlace, ver más abajo: también tras importar una copia o vaciar
 }
 
 /* ---------- Lógica derivada ---------- */
@@ -224,6 +225,22 @@ $("#btn-reset").onclick = () => {
   fill(); refresh(); $("#saved").textContent = tr("Formulario vacío"); $("#saved").className="saved";
 };
 
+// El enlace que manda n8n (Onboarding) lleva ?nif=<NIF de la ficha>&email=<su correo>. El NIF se
+// precarga y queda bloqueado: es el id de su ficha en `clientes`, y si el cliente lo escribiera mal,
+// "Responden formulario" crearía otra ficha en vez de completar la suya. El correo solo se precarga.
+const PARAMS = new URLSearchParams(location.search);
+const NIF_ENLACE = (PARAMS.get("nif") || "").trim().toUpperCase();
+const EMAIL_ENLACE = (PARAMS.get("email") || "").trim().toLowerCase();
+function precargar(){
+  if(/^[0-9XYZ][0-9]{7}[A-Z]$/.test(NIF_ENLACE)){
+    state.f.dni = NIF_ENLACE;
+    const dni = $("#form [name=dni]"); if(dni){ dni.value = NIF_ENLACE; dni.readOnly = true; }
+  }
+  if(EMAIL_ENLACE && !state.f.c_email){
+    state.f.c_email = EMAIL_ENLACE;
+    const em = $("#form [name=c_email]"); if(em) em.value = EMAIL_ENLACE;
+  }
+}
 const had = load();
 $("#form").addEventListener("input", () => {
   try { if (localStorage.getItem("fa-empezado")) return; localStorage.setItem("fa-empezado", "1"); } catch (e) {}

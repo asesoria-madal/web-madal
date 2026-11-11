@@ -6,7 +6,7 @@ description: 'When you must register, which steps are involved, how we handle it
 seoTitle: "Registering as self-employed in Spain: when, how and cost"
 cat: fiscalidad
 date: 2026-10-05
-updatedDate: 2026-10-05
+updatedDate: 2026-11-11
 sources:
   - label: 'Real Decreto Legislativo 8/2015, consolidated General Social Security Act — obligation to register in the RETA'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2015-11724'
@@ -56,12 +56,12 @@ Usually **one or two business days** from the moment we have your complete paper
 
 ## What it costs
 
-**Registration has no separate fee.** It is included in the **Debut** plan, designed for people who have just registered or are about to: **€35 + VAT per month (€42.35 with VAT) for the first year**, with full tax and accounting scope, the welcome call and email and WhatsApp contact. After 6 months you can review with us whether to move to the Esencial plan, and at the end of the year you choose the plan that fits best.
+**Registration has no separate fee.** It is included in the **Debut** plan, designed for people who have just registered or are about to: **€35 + VAT per month (€42.35 with VAT) for the first year**, with full tax and accounting scope, the welcome call, up to 20 invoices a month and contact by email. At 6 months we review your revenue: if your projected annual revenue is over €25,000 (or you go over 20 invoices a month for two months in a row), you move to the Essential plan; and at the end of the year you move to Essential or whichever plan fits.
 
 To find out what it would cost in your case, see [our plans and prices](/en/#precios) or see [how much an online gestoría costs](/blog/precio-gestoria-online-2026).
 
 ## How we support you after registration
 
-Registration is only the beginning. With the Debut plan we monitor your Tax Agency notifications, file your returns and keep your accounting up to date, with your documents always available in the portal. You can also ask us any question by email or WhatsApp without it being a separate service. If your business grows, we tell you when it makes sense to [move to an SL](/blog/autonomo-vs-sl-cuando-pasar).
+Registration is only the beginning. With the Debut plan we monitor your Tax Agency notifications, file your returns and keep your accounting up to date, with your documents always available in the portal. You can also ask us any question by email without it being a separate service. If your business grows, we tell you when it makes sense to [move to an SL](/blog/autonomo-vs-sl-cuando-pasar).
 
 Starting soon? Book a call and we will have everything ready even if you have not invoiced anything yet.

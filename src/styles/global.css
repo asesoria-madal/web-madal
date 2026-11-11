@@ -888,6 +888,15 @@ section#como-trabajamos { background: var(--accent-tint); border-top-color: var(
 .pricing-tier-features { margin-top: 0.5rem; }
 .pricing-tier-transition { font-size: 0.76rem; color: var(--ink-soft); margin-top: 1rem; border-top: 1px dashed var(--line); padding-top: 0.7rem; }
 .pricing-tier-dashboard { font-size: 0.78rem; color: var(--ink-soft); margin-top: 0.8rem; }
+/* Debut: tarjeta horizontal encima de los planes de autónomo (precio a la izquierda,
+   contenido a la derecha); en móvil se apila como las demás. */
+.pricing-tier-wide { margin-top: 0.9rem; display: grid; grid-template-columns: minmax(200px, 0.8fr) 2fr; gap: 0.6rem 2rem; }
+.pricing-tier-wide:hover { transform: translateY(-4px); }
+.pricing-tier-wide-body .pricing-tier-includes { margin-top: 0; }
+@media (max-width: 900px) { .pricing-tier-wide { grid-template-columns: 1fr; } .pricing-tier-wide-body .pricing-tier-includes { margin-top: 1rem; } }
+.pricing-tier-badge { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--warm); margin-bottom: 0.3rem; }
+.pricing-tier.tier-solid .pricing-tier-duration { color: var(--warm); }
+.pricing-tier.tier-solid .pricing-tier-transition { color: var(--accent-ink); opacity: 0.85; border-top-color: rgba(255, 255, 255, 0.25); }
 .pricing-footnotes { margin-top: 0.9rem; display: flex; flex-direction: column; gap: 0.3rem; }
 .pricing-footnotes p { font-size: 0.78rem; color: var(--ink-soft); }
 

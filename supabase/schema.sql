@@ -939,7 +939,7 @@ alter table clientes add column if not exists idioma text not null default 'es';
 -- Los clientes anteriores quedan en true por el default.
 alter table clientes add column if not exists enviar_formulario boolean not null default true;
 
--- Idioma de la página del formulario (2026-11-04): 'es' | 'en' (no hay formularios en catalán).
+-- Idioma de la página del formulario (2026-11-04): 'es' | 'ca' | 'en' (el catalán, desde el 2026-11-11).
 -- Si el formulario llega antes que el alta manual, el workflow n8n "Responden formulario" crea la
 -- ficha en `clientes` y usa este dato como clientes.idioma. Las filas anteriores quedan en 'es'.
 alter table alta_nuevos_autonomos add column if not exists idioma text not null default 'es';
@@ -961,6 +961,45 @@ alter table alta_nuevos_autonomos add column if not exists resumen text;
 alter table alta_nuevos_autonomos add column if not exists sera_cliente boolean;
 alter table alta_nuevos_autonomos add column if not exists plan text;
 alter table alta_nuevos_autonomos add column if not exists mandato_ss_enviado_at timestamptz;
+
+-- Formularios de traspaso revisados (2026-11-11, Edurne), ahora también en catalán:
+--   - Ya no piden IBAN: la cuota se cobra con el mandato de GoCardless, que recoge la cuenta.
+--     `iban` deja de ser obligatoria (las filas anteriores lo conservan).
+--   - La gestoría anterior es opcional: hay autónomos que se lo llevaban solos.
+--     tiene_gestoria: true si le llevaba una gestoría; solo entonces se piden
+--     contacto_gestoria_anterior (deja de ser obligatoria), la autorización y los modelos.
+--   modelos:          modelos que le presentaba la gestoría ('303', '130', '111', '115', '349', '390',
+--                     '347' y, en SL, '200'). null con tiene_gestoria = true = "no lo sé".
+--                     "Responden formulario" los copia a clientes.modelos si la ficha no tiene.
+--   plan:             plan elegido: autónomo 'debut' | 'esencial' | 'crece' | 'total'; SL 'esencial' |
+--                     'equipo' | 'expansion'; null = no lo sabe. En la ficha, una SL queda como 'sl'.
+--   admin_nombre, admin_dni: administrador de la SL (para la representación).
+--   identificacion_digital en SL: 'certificado' (tiene certificado de representante de la
+--                     sociedad vigente) | 'ninguno'. El Cl@ve personal no sirve para una SL.
+--   cierre_ejercicio: sin uso: se quitó la pregunta el mismo día (Edurne). La columna queda vacía.
+--   sii:              'si' | 'no' | 'no_sabe' (solo SL).
+--   regimen_iva_actual se pregunta ahora también a las SL.
+alter table traspasos_nuevos alter column iban drop not null;
+alter table traspasos_nuevos alter column contacto_gestoria_anterior drop not null;
+alter table traspasos_nuevos add column if not exists tiene_gestoria boolean;
+alter table traspasos_nuevos add column if not exists modelos text[];
+alter table traspasos_nuevos add column if not exists plan text;
+alter table traspasos_nuevos add column if not exists admin_nombre text;
+alter table traspasos_nuevos add column if not exists admin_dni text;
+alter table traspasos_nuevos add column if not exists cierre_ejercicio text;
+alter table traspasos_nuevos add column if not exists sii text;
+
+-- Segunda revisión del 2026-11-11 (presupuestos nuevos):
+--   quien_lleva (traspasos): quién le llevaba la contabilidad: 'gestoria' (otra gestoría) |
+--                 'propia' (él mismo o la propia sociedad) | 'empieza' (acaba de empezar).
+--                 tiene_gestoria sigue rellenándose (= quien_lleva = 'gestoria').
+--   programa_facturacion (traspasos y altas): si quiere el programa de facturación,
+--                 5 € + IVA/mes opcional en todos los planes de autónomo y en el Esencial de SL:
+--                 'si' | 'no' | 'no_sabe'. Se pregunta siempre: en los planes de SL Equipo y
+--                 Expansión va incluido, pero solo se activa si el cliente lo pide.
+alter table traspasos_nuevos add column if not exists quien_lleva text;
+alter table traspasos_nuevos add column if not exists programa_facturacion text;
+alter table alta_nuevos_autonomos add column if not exists programa_facturacion text;
 
 -- ---------------------------------------------------------------------
 -- Formulario "alta de trabajador" (2026-11-02): /formulario-alta-trabajador.

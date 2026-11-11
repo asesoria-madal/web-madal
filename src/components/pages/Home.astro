@@ -23,6 +23,9 @@ function tierTintClass(index: number, total: number): string {
   return '';
 }
 const sl = LEADS[lang].home;
+// Debut va en una tarjeta horizontal encima de los demás planes de autónomo (2026-11-11,
+// igual que en el presupuesto en PDF): es la oferta de bienvenida, no un escalón más.
+const [debutTier, ...autonomoResto] = t.precios.autonomoTiers;
 ---
 
 <div id="view-home">
@@ -134,9 +137,26 @@ const sl = LEADS[lang].home;
       <p class="section-sub">{t.precios.sub}</p>
 
       <p class="pricing-group-title">{t.precios.autonomoTitle}</p>
+      <div class="pricing-tier pricing-tier-wide tier-solid">
+        <div class="pricing-tier-wide-head">
+          {'badge' in debutTier && debutTier.badge && <p class="pricing-tier-badge">{debutTier.badge}</p>}
+          <h3>{debutTier.name}</h3>
+          <p class="pricing-tier-desc">{debutTier.desc}</p>
+          <p class="amount"><span data-countup>{debutTier.amount}</span><small>{debutTier.unit}</small></p>
+          <p class="pricing-tier-iva">{debutTier.ivaNote}</p>
+          {'durationNote' in debutTier && debutTier.durationNote && <p class="pricing-tier-duration">{debutTier.durationNote}</p>}
+        </div>
+        <div class="pricing-tier-wide-body">
+          {'includesPrevious' in debutTier && debutTier.includesPrevious && <p class="pricing-tier-includes">{debutTier.includesPrevious}</p>}
+          <ul class="finanzas-preview-list pricing-tier-features">
+            {debutTier.features.map((f) => (<li>{f}</li>))}
+          </ul>
+          {'transitionNote' in debutTier && debutTier.transitionNote && <p class="pricing-tier-transition">{debutTier.transitionNote}</p>}
+        </div>
+      </div>
       <div class="pricing-tiers">
-        {t.precios.autonomoTiers.map((tier, i) => (
-          <div class={`pricing-tier ${tierTintClass(i, t.precios.autonomoTiers.length)}`}>
+        {autonomoResto.map((tier, i) => (
+          <div class={`pricing-tier ${tierTintClass(i, autonomoResto.length)}`}>
             <h3>{tier.name}</h3>
             <p class="pricing-tier-desc">{tier.desc}</p>
             <p class="amount"><span data-countup>{tier.amount}</span><small>{tier.unit}</small></p>
@@ -175,7 +195,7 @@ const sl = LEADS[lang].home;
         {t.precios.pymeFootnotes.map((f) => (<p>{f}</p>))}
       </div>
 
-      <p class="price-note">{t.precios.note}</p>
+      {t.precios.note && <p class="price-note">{t.precios.note}</p>}
 
       <div class="alta-box">
         <div class="copy">

@@ -6,7 +6,7 @@ description: 'Cuándo tienes que darte de alta, qué trámites hay, cómo lo hac
 seoTitle: "Alta de autónomo: cuándo, cómo y cuánto cuesta con nosotros"
 cat: fiscalidad
 date: 2026-10-05
-updatedDate: 2026-10-05
+updatedDate: 2026-11-11
 sources:
   - label: 'Real Decreto Legislativo 8/2015, texto refundido de la Ley General de la Seguridad Social — obligación de alta en el RETA'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2015-11724'
@@ -56,12 +56,12 @@ Normalmente **uno o dos días laborables** desde que tenemos tu documentación c
 
 ## Cuánto cuesta
 
-**El alta no tiene tarifa aparte.** Va incluida en el plan **Debut**, pensado para autónomos que acaban de darse de alta o están a punto: **35 € + IVA al mes (42,35 € con IVA) durante el primer año**, con alcance fiscal y contable completo, la llamada de bienvenida y contacto por email y WhatsApp. A los 6 meses puedes revisar con nosotros si pasar al plan Esencial, y al terminar el año eliges el plan que mejor encaje.
+**El alta no tiene tarifa aparte.** Va incluida en el plan **Debut**, pensado para autónomos que acaban de darse de alta o están a punto: **35 € + IVA al mes (42,35 € con IVA) durante el primer año**, con alcance fiscal y contable completo, la llamada de bienvenida, hasta 20 facturas al mes y contacto por email. A los 6 meses revisamos tu facturación: si tu proyección anual supera los 25.000 € (o pasas de 20 facturas al mes dos meses seguidos), pasas al plan Esencial; y al terminar el año pasas a Esencial o al plan que corresponda.
 
 Si quieres saber cuánto costaría en tu caso, consulta [nuestros planes y precios](/#precios) o mira [cuánto cuesta una gestoría online](/blog/precio-gestoria-online-2026).
 
 ## Cómo te acompañamos después del alta
 
-El alta es solo el principio. Con el plan Debut vigilamos tus notificaciones de la AEAT, presentamos tus modelos y mantenemos tu contabilidad al día, con tus documentos siempre disponibles en el portal. Y puedes preguntarnos cualquier duda por email o WhatsApp sin que sea una gestión aparte. Si más adelante tu negocio crece, te avisamos de cuándo conviene [pasar a SL](/blog/autonomo-vs-sl-cuando-pasar).
+El alta es solo el principio. Con el plan Debut vigilamos tus notificaciones de la AEAT, presentamos tus modelos y mantenemos tu contabilidad al día, con tus documentos siempre disponibles en el portal. Y puedes preguntarnos cualquier duda por email sin que sea una gestión aparte. Si más adelante tu negocio crece, te avisamos de cuándo conviene [pasar a SL](/blog/autonomo-vs-sl-cuando-pasar).
 
 ¿Vas a empezar pronto? Reserva una llamada y lo dejamos todo listo aunque todavía no hayas facturado nada.

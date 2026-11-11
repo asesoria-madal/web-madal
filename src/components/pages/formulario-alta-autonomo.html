@@ -367,6 +367,14 @@
       </div>
       <span class="hint">Precios sin IVA. Puedes ver qué incluye cada plan en asesoriamadal.es y cambiarlo más adelante.</span>
     </div>
+    <div class="field full" data-if="sera_cliente:Sí"><label class="l">¿Quieres el programa de facturación? <span class="req">*</span></label>
+      <span class="hint">Es opcional en todos los planes de autónomo: 5 € + IVA al mes.</span>
+      <div class="opts col" data-req-group="facturacion">
+        <label><input type="radio" name="facturacion" value="Sí">Sí, lo quiero</label>
+        <label><input type="radio" name="facturacion" value="No">No, gracias</label>
+        <label><input type="radio" name="facturacion" value="No lo sé">No lo sé, lo hablamos</label>
+      </div>
+    </div>
     <div class="field full" data-if="sera_cliente:Sí"><div class="note" style="margin:0">Al enviar el formulario te llegará también el enlace para domiciliar la cuota de Asesoría Madal.</div></div>
     <div class="field full"><label class="l">¿Tienes certificado digital, DNI electrónico o Cl@ve? <span class="req">*</span></label>
       <div class="opts col" data-req-group="cert">

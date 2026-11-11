@@ -6,7 +6,7 @@ description: 'Quan has de donar-te d''alta, quins tràmits hi ha, com ho fem nos
 seoTitle: "Alta d'autònom: quan, com i quant costa amb nosaltres"
 cat: fiscalidad
 date: 2026-10-05
-updatedDate: 2026-10-05
+updatedDate: 2026-11-11
 sources:
   - label: 'Real Decreto Legislativo 8/2015, text refós de la Ley General de la Seguridad Social — obligació d''alta al RETA'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2015-11724'
@@ -56,12 +56,12 @@ Normalment **un o dos dies laborables** des que tenim la teva documentació comp
 
 ## Quant costa
 
-**L'alta no té tarifa a part.** Va inclosa al pla **Debut**, pensat per a autònoms que acaben de donar-se d'alta o hi estan a punt: **35 € + IVA al mes (42,35 € amb IVA) durant el primer any**, amb abast fiscal i comptable complet, la trucada de benvinguda i contacte per email i WhatsApp. Als 6 mesos pots revisar amb nosaltres si passar al pla Esencial, i en acabar l'any tries el pla que millor encaixi.
+**L'alta no té tarifa a part.** Va inclosa al pla **Debut**, pensat per a autònoms que acaben de donar-se d'alta o hi estan a punt: **35 € + IVA al mes (42,35 € amb IVA) durant el primer any**, amb abast fiscal i comptable complet, la trucada de benvinguda, fins a 20 factures al mes i contacte per email. Als 6 mesos revisem la teva facturació: si la teva projecció anual supera els 25.000 € (o passes de 20 factures al mes dos mesos seguits), passes al pla Essencial; i en acabar l'any passes a Essencial o al pla que correspongui.
 
 Si vols saber quant costaria en el teu cas, consulta [els nostres plans i preus](/ca/#precios) o mira [quant costa una gestoria en línia](/blog/precio-gestoria-online-2026).
 
 ## Com t'acompanyem després de l'alta
 
-L'alta és només el principi. Amb el pla Debut vigilem les teves notificacions de l'AEAT, presentem els teus models i mantenim la teva comptabilitat al dia, amb els teus documents sempre disponibles al portal. I pots preguntar-nos qualsevol dubte per email o WhatsApp sense que sigui una gestió a part. Si més endavant el teu negoci creix, t'avisem de quan convé [passar a SL](/blog/autonomo-vs-sl-cuando-pasar).
+L'alta és només el principi. Amb el pla Debut vigilem les teves notificacions de l'AEAT, presentem els teus models i mantenim la teva comptabilitat al dia, amb els teus documents sempre disponibles al portal. I pots preguntar-nos qualsevol dubte per email sense que sigui una gestió a part. Si més endavant el teu negoci creix, t'avisem de quan convé [passar a SL](/blog/autonomo-vs-sl-cuando-pasar).
 
 Començaràs aviat? Reserva una trucada i ho deixem tot a punt encara que encara no hagis facturat res.

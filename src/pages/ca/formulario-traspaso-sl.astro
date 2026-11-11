@@ -1,0 +1,10 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import FormularioTraspaso from '../../components/pages/FormularioTraspaso.astro';
+
+export const prerender = true;
+---
+
+<Layout lang="ca" path="/formulario-traspaso-sl" active="none" title="Dades per al canvi de gestoria · Asesoría Madal" description="Formulari amb les dades que necessitem per portar la comptabilitat de la teva SL." noindex showCtaFinal={false} minimalHeader>
+  <FormularioTraspaso tipo="sl" lang="ca" />
+</Layout>

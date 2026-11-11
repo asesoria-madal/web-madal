@@ -1,30 +1,29 @@
 ---
-// Mismo criterio que FormularioAlta.astro (formulario largo tradicional,
-// sin enlazar desde el menú, en castellano e inglés con los textos en
-// src/i18n/formularios.ts) — ver comentarios ahí.
+// Formulario de traspaso de gestoría (autónomo o SL), en castellano, catalán e inglés con los
+// textos en src/i18n/formularios.ts. Sin enlazar desde el menú: el enlace lo manda n8n
+// (Onboarding) con ?nif=…&email=….
 //
-// Un solo componente para los dos tipos (en vez de duplicar el formulario
-// entero): el prop `tipo` decide qué etiquetas y qué secciones de
-// "situación fiscal actual" se muestran, pero la estructura y el resto de
-// campos son los mismos. Las páginas (formulario-traspaso-autonomo y
-// formulario-traspaso-sl, y sus versiones /en/) son solo un wrapper de una
-// línea con el `tipo` y el idioma — ver schema.sql (tabla traspasos_nuevos)
-// para el porqué de compartir tabla también.
-import { CAMPOS, COMUNES, MSG_CAMPO, PRIVACIDAD_HREF, TRASPASO, type FormLang } from '../../i18n/formularios';
+// Un solo componente para los dos tipos (en vez de duplicar el formulario entero): el prop
+// `tipo` decide qué etiquetas y qué secciones se muestran, pero la estructura y el resto de
+// campos son los mismos. Las páginas (formulario-traspaso-autonomo y formulario-traspaso-sl,
+// y sus versiones /ca/ y /en/) son solo un wrapper con el `tipo` y el idioma — ver schema.sql
+// (tabla traspasos_nuevos) para el porqué de compartir tabla también.
+//
+// Revisión del 2026-11-11: ver la cabecera de i18n/formularios.ts.
+import { CAMPOS, MODELOS_AUTONOMO, MODELOS_SL, MSG_CAMPO, PRIVACIDAD_HREF, TRASPASO, type FormLang } from '../../i18n/formularios';
+import { useTranslations } from '../../i18n/utils';
 
 interface Props { tipo: 'autonomo' | 'sl'; lang?: FormLang; }
 const { tipo, lang = 'es' } = Astro.props;
 const isAutonomo = tipo === 'autonomo';
-const t = { ...COMUNES[lang], ...TRASPASO[lang] };
+const t = TRASPASO[lang];
 
-const nombreLabel = isAutonomo ? t.nombreAutonomo : t.nombreSl;
-const nifLabel = isAutonomo ? t.nifAutonomo : t.nifSl;
-
-// Documentación: listas informativas, no campos del formulario (no hay
-// subida de archivos montada — ver comentario en schema.sql). El equipo
-// hace el seguimiento real de estos documentos por email/Drive.
 const docsGestoriaAnterior = isAutonomo ? t.docsGestoriaAutonomo : t.docsGestoriaSl;
 const docsCliente = isAutonomo ? t.docsClienteAutonomo : t.docsClienteSl;
+const modelos = isAutonomo ? MODELOS_AUTONOMO : MODELOS_SL;
+// Planes y precios de la web (ui.ts), para que no se desfasen.
+const precios = useTranslations(lang).precios;
+const planes = (isAutonomo ? precios.autonomoTiers : precios.pymeTiers).map((p) => ({ key: p.key, texto: `${p.name} · ${p.amount}${p.unit}` }));
 ---
 
 <div id="view-traspaso-form">
@@ -36,30 +35,45 @@ const docsCliente = isAutonomo ? t.docsClienteAutonomo : t.docsClienteSl;
   </div>
 
   <form id="traspasoForm" class="alta-form page view-block" novalidate data-tipo={tipo} data-lang={lang} data-campos={JSON.stringify(CAMPOS[lang])} data-msg-campo={MSG_CAMPO[lang]}>
-    <fieldset class="alta-section">
-      <legend>{t.idDigital}</legend>
-      <p class="field-hint">{t.idDigitalHint}</p>
-      <div class="radio-group" data-field="identificacionDigital">
-        <label class="radio-option"><input type="radio" name="identificacionDigital" value="certificado" /> {t.certificado}</label>
-        <label class="radio-option"><input type="radio" name="identificacionDigital" value="clave_pin" /> {t.clavePin}</label>
-        <label class="radio-option"><input type="radio" name="identificacionDigital" value="ninguno" /> {t.ninguno}</label>
-      </div>
-    </fieldset>
+    {isAutonomo ? (
+      <fieldset class="alta-section">
+        <legend>{t.idDigital}</legend>
+        <p class="field-hint">{t.idDigitalHint}</p>
+        <div class="radio-group" data-field="identificacionDigital">
+          <label class="radio-option"><input type="radio" name="identificacionDigital" value="certificado" /> {t.certificado}</label>
+          <label class="radio-option"><input type="radio" name="identificacionDigital" value="clave_pin" /> {t.clavePin}</label>
+          <label class="radio-option"><input type="radio" name="identificacionDigital" value="ninguno" /> {t.ninguno}</label>
+        </div>
+      </fieldset>
+    ) : (
+      <fieldset class="alta-section">
+        <legend>{t.idDigitalSl}</legend>
+        <p class="field-hint">{t.idDigitalSlHint}</p>
+        <div class="radio-group" data-field="identificacionDigital">
+          <label class="radio-option"><input type="radio" name="identificacionDigital" value="certificado" /> {t.certSlSi}</label>
+          <label class="radio-option"><input type="radio" name="identificacionDigital" value="ninguno" /> {t.certSlNo}</label>
+        </div>
+        <p class="field-group-label">{t.administrador}</p>
+        <label class="field">{t.adminNombre} <input type="text" id="fAdminNombre" maxlength="150" required /></label>
+        <label class="field">{t.adminDni} <input type="text" id="fAdminDni" maxlength="9" required /></label>
+      </fieldset>
+    )}
 
     <fieldset class="alta-section">
       <legend>{t.basicos}</legend>
-      <label class="field">{nombreLabel} * <input type="text" id="fNombreRazonSocial" maxlength="150" required /></label>
-      <label class="field">{nifLabel} * <input type="text" id="fNifCif" maxlength="9" required /></label>
+      <label class="field">{isAutonomo ? t.nombreAutonomo : t.nombreSl} <input type="text" id="fNombreRazonSocial" maxlength="150" required /></label>
+      <label class="field">{isAutonomo ? t.nifAutonomo : t.nifSl} <input type="text" id="fNifCif" maxlength="9" required /></label>
       <label class="field">{t.email} <input type="email" id="fEmail" maxlength="254" required /></label>
       <label class="field">{t.telefono} <input type="tel" id="fTelefono" maxlength="20" required /></label>
       <label class="field">{t.domFiscal} <textarea id="fDomicilioFiscal" maxlength="300" rows="2" required></textarea></label>
       {!isAutonomo && (
-        <label class="field">{t.domSocial} <textarea id="fDomicilioSocial" maxlength="300" rows="2" required></textarea></label>
+        <label class="field">{t.domSocial} <span class="field-optional">{t.soloSiDistinto}</span>
+          <textarea id="fDomicilioSocial" maxlength="300" rows="2"></textarea>
+        </label>
       )}
       <label class="field">{t.domNotif} <span class="field-optional">{t.soloSiDistinto}</span>
         <textarea id="fDomicilioNotif" maxlength="300" rows="2"></textarea>
       </label>
-      <label class="field">{t.iban} <input type="text" id="fIban" maxlength="34" placeholder="ES00 0000 0000 0000 0000 0000" required /></label>
     </fieldset>
 
     <fieldset class="alta-section">
@@ -70,19 +84,23 @@ const docsCliente = isAutonomo ? t.docsClienteAutonomo : t.docsClienteSl;
         <>
           <label class="field">{t.fechaAlta} <input type="date" id="fFechaAlta" required /></label>
           <label class="field">{t.epigrafes} <textarea id="fEpigrafes" maxlength="500" rows="2" required></textarea></label>
+        </>
+      )}
 
-          <div class="field-group">
-            <p class="field-group-label">{t.regimenIva}</p>
-            <div class="radio-group" data-field="regimenIva">
-              <label class="radio-option"><input type="radio" name="regimenIva" value="general" /> {t.ivaGeneral}</label>
-              <label class="radio-option"><input type="radio" name="regimenIva" value="recargo_equivalencia" /> {t.ivaRecargo}</label>
-              <label class="radio-option"><input type="radio" name="regimenIva" value="simplificado" /> {t.ivaSimplificado}</label>
-              <label class="radio-option"><input type="radio" name="regimenIva" value="exento" /> {t.ivaExento}</label>
-              <label class="radio-option"><input type="radio" name="regimenIva" value="otro" /> {t.ivaOtro}</label>
-            </div>
-            <input type="text" id="fRegimenIvaOtro" class="field-conditional-input" maxlength="100" placeholder={t.cual} hidden />
-          </div>
+      <div class="field-group">
+        <p class="field-group-label">{t.regimenIva}</p>
+        <div class="radio-group" data-field="regimenIva">
+          <label class="radio-option"><input type="radio" name="regimenIva" value="general" /> {t.ivaGeneral}</label>
+          {isAutonomo && <label class="radio-option"><input type="radio" name="regimenIva" value="recargo_equivalencia" /> {t.ivaRecargo}</label>}
+          {isAutonomo && <label class="radio-option"><input type="radio" name="regimenIva" value="simplificado" /> {t.ivaSimplificado}</label>}
+          <label class="radio-option"><input type="radio" name="regimenIva" value="exento" /> {t.ivaExento}</label>
+          <label class="radio-option"><input type="radio" name="regimenIva" value="otro" /> {t.ivaOtro}</label>
+        </div>
+        <input type="text" id="fRegimenIvaOtro" class="field-conditional-input" maxlength="100" placeholder={t.cual} hidden />
+      </div>
 
+      {isAutonomo ? (
+        <>
           <div class="field-group">
             <p class="field-group-label">{t.regimenIrpf}</p>
             <div class="radio-group" data-field="regimenIrpf">
@@ -95,35 +113,69 @@ const docsCliente = isAutonomo ? t.docsClienteAutonomo : t.docsClienteSl;
           <label class="checkbox-option"><input type="checkbox" id="fFacturaRetencion" /> {t.facturaRetencion}</label>
           <label class="field" id="fPorcentajeRetencionWrap" hidden>{t.porcentaje} <input type="number" id="fPorcentajeRetencion" min="0" max="100" step="0.01" /></label>
         </>
+      ) : (
+        <>
+          <div class="field-group">
+            <p class="field-group-label">{t.sii}</p>
+            <div class="radio-group" data-field="sii">
+              <label class="radio-option"><input type="radio" name="sii" value="si" /> {t.si}</label>
+              <label class="radio-option"><input type="radio" name="sii" value="no" /> {t.no}</label>
+              <label class="radio-option"><input type="radio" name="sii" value="no_sabe" /> {t.noSe}</label>
+            </div>
+          </div>
+        </>
       )}
 
-      <label class="checkbox-option"><input type="checkbox" id="fTrabajadores" /> {t.trabajadores}</label>
-      <label class="field" id="fNumeroTrabajadoresWrap" hidden>{t.cuantos} <input type="number" id="fNumeroTrabajadores" min="1" step="1" /></label>
+      <label class="checkbox-option"><input type="checkbox" id="fTrabajadores" /> {isAutonomo ? t.trabajadoresAutonomo : t.trabajadoresSl}</label>
+      <div id="fNumeroTrabajadoresWrap" hidden>
+        <p class="field-hint">{t.trabajadoresHint}</p>
+        <label class="field">{t.cuantos} <input type="number" id="fNumeroTrabajadores" min="1" step="1" /></label>
+      </div>
 
       <label class="checkbox-option"><input type="checkbox" id="fIntracomunitarias" /> {t.intracom}</label>
     </fieldset>
 
     <fieldset class="alta-section">
       <legend>{t.continuidad}</legend>
-      <label class="checkbox-option"><input type="checkbox" id="fRequerimientos" /> {t.requerimientos}</label>
-      <label class="field" id="fDetalleRequerimientosWrap" hidden>{t.requerimientosDetalle} <textarea id="fDetalleRequerimientos" maxlength="500" rows="2"></textarea></label>
-
-      <label class="field">{t.contactoGestoria} <span class="field-optional">{t.contactoGestoriaHint}</span>
-        <textarea id="fContactoGestoria" maxlength="300" rows="2" required></textarea>
-      </label>
-
       <div class="field-group">
-        <p class="field-group-label">{t.docsGestoriaTitulo}</p>
-        <ul class="plain-list">
-          {docsGestoriaAnterior.map((d) => <li>{d}</li>)}
-        </ul>
-        <p class="field-hint">{t.docsGestoriaHint}</p>
+        <p class="field-group-label">{t.quienLleva}</p>
+        <div class="radio-group" data-field="quienLleva">
+          <label class="radio-option"><input type="radio" name="quienLleva" value="gestoria" /> {t.llevaGestoria}</label>
+          <label class="radio-option"><input type="radio" name="quienLleva" value="propia" /> {isAutonomo ? t.llevaYo : t.llevaSociedad}</label>
+          <label class="radio-option"><input type="radio" name="quienLleva" value="empieza" /> {t.llevaEmpieza}</label>
+        </div>
       </div>
 
-      <label class="checkbox-option">
-        <input type="checkbox" id="fAutorizaHistorico" required />
-        {t.autoriza}
-      </label>
+      <div id="bloqueGestoria" hidden>
+        <label class="field">{t.contactoGestoria} <span class="field-optional">{t.contactoGestoriaHint}</span>
+          <textarea id="fContactoGestoria" maxlength="300" rows="2"></textarea>
+        </label>
+
+        <div class="field-group">
+          <p class="field-group-label">{t.modelos}</p>
+          <p class="field-hint">{t.modelosHint}</p>
+          <div class="radio-group modelos" data-field="modelos">
+            {modelos.map((m) => <label class="checkbox-option"><input type="checkbox" name="modelos" value={m} /> {m}</label>)}
+            <label class="checkbox-option"><input type="checkbox" name="modelos" value="no_sabe" /> {t.noSe}</label>
+          </div>
+        </div>
+
+        <div class="field-group">
+          <p class="field-group-label">{t.docsGestoriaTitulo}</p>
+          <ul class="plain-list">
+            {docsGestoriaAnterior.map((d) => <li>{d}</li>)}
+          </ul>
+          <p class="field-hint">{t.docsGestoriaHint}</p>
+        </div>
+
+        <label class="checkbox-option">
+          <input type="checkbox" id="fAutorizaHistorico" />
+          {t.autoriza}
+        </label>
+      </div>
+
+      <label class="checkbox-option"><input type="checkbox" id="fRequerimientos" /> {t.requerimientos}</label>
+      <label class="field" id="fDetalleRequerimientosWrap" hidden>{t.requerimientosDetalle} <textarea id="fDetalleRequerimientos" maxlength="500" rows="2"></textarea></label>
 
       <div class="field-group">
         <p class="field-group-label">{t.docsClienteTitulo}</p>
@@ -132,6 +184,27 @@ const docsCliente = isAutonomo ? t.docsClienteAutonomo : t.docsClienteSl;
         </ul>
         <p class="field-hint">{t.docsClienteHint}</p>
       </div>
+    </fieldset>
+
+    <fieldset class="alta-section">
+      <legend>{t.planTitulo}</legend>
+      <div class="field-group">
+        <p class="field-group-label">{t.plan}</p>
+        <div class="radio-group" data-field="plan">
+          {planes.map((p) => <label class="radio-option"><input type="radio" name="plan" value={p.key} /> {p.texto}</label>)}
+          <label class="radio-option"><input type="radio" name="plan" value="no_sabe" /> {t.planNoSe}</label>
+        </div>
+      </div>
+      <div class="field-group">
+        <p class="field-group-label">{t.facturacion}</p>
+        <p class="field-hint">{isAutonomo ? t.facturacionHintAutonomo : t.facturacionHintSl}</p>
+        <div class="radio-group" data-field="programaFacturacion">
+          <label class="radio-option"><input type="radio" name="programaFacturacion" value="si" /> {t.facturacionSi}</label>
+          <label class="radio-option"><input type="radio" name="programaFacturacion" value="no" /> {t.facturacionNo}</label>
+          <label class="radio-option"><input type="radio" name="programaFacturacion" value="no_sabe" /> {t.facturacionNoSe}</label>
+        </div>
+      </div>
+      <p class="field-hint">{t.mandatoHint}</p>
     </fieldset>
 
     <fieldset class="alta-section">
@@ -189,132 +262,113 @@ const docsCliente = isAutonomo ? t.docsClienteAutonomo : t.docsClienteSl;
     function el<T extends HTMLElement>(id: string): T | null {
       return document.getElementById(id) as T | null;
     }
+    const valor = (id: string) => (el<HTMLInputElement | HTMLTextAreaElement>(id)?.value ?? '').trim();
 
-    // El link de este formulario se manda ya personalizado con el NIF/CIF
-    // del cliente (?nif=..., añadido por el workflow de n8n al enviarlo),
-    // que es el mismo id con el que se creó su fila en `clientes`. Se
-    // precarga en el campo NIF/CIF que ya existía y se deja de solo
-    // lectura para que no pueda desincronizarse del cliente al que está
-    // vinculado el envío.
-    const nifParam = new URLSearchParams(window.location.search).get('nif');
+    // El enlace de este formulario lo manda n8n (Onboarding) con el NIF/CIF del cliente
+    // (?nif=...), que es el id de su fila en `clientes`. Se precarga y queda de solo lectura
+    // para que el envío no se desvincule de su ficha. El correo también viaja en el enlace.
+    const params = new URLSearchParams(window.location.search);
+    const nifParam = params.get('nif');
     const nifCifInput = el<HTMLInputElement>('fNifCif');
-    if (nifParam && nifCifInput) {
-      nifCifInput.value = nifParam;
+    if (nifParam && nifCifInput && /^[0-9A-Za-z][0-9]{7}[0-9A-Za-z]$/.test(nifParam.trim())) {
+      nifCifInput.value = nifParam.trim().toUpperCase();
       nifCifInput.readOnly = true;
     }
-    // El email con el que damos de alta al cliente también viaja en el enlace (?email=).
-    const emailParam = new URLSearchParams(window.location.search).get('email');
+    const emailParam = params.get('email');
     const emailInput = el<HTMLInputElement>('fEmail');
-    if (emailParam && emailInput) emailInput.value = emailParam;
+    if (emailParam && emailInput) emailInput.value = emailParam.trim().toLowerCase();
 
     // Si el servidor dice qué campo no valida (`field`), el aviso lo nombra.
-    // Nombres de campo y plantilla del aviso en el idioma de la página
-    // (src/i18n/formularios.ts), pasados como data-* del formulario.
     const CAMPOS: Record<string, string> = JSON.parse(form.dataset.campos || '{}');
     const MSG_CAMPO = form.dataset.msgCampo || '';
     const MENSAJE_GENERICO = errorEl.textContent;
+    function avisar(campo: string) {
+      errorEl.textContent = campo && CAMPOS[campo] ? MSG_CAMPO.replace('{campo}', CAMPOS[campo]) : MENSAJE_GENERICO;
+      errorEl.hidden = false;
+    }
     async function mostrarError(res: Response | null) {
       let campo = '';
       try { campo = (await res?.json())?.field ?? ''; } catch { /* sin detalle */ }
-      errorEl.textContent = campo && CAMPOS[campo]
-        ? MSG_CAMPO.replace('{campo}', CAMPOS[campo])
-        : MENSAJE_GENERICO;
-      errorEl.hidden = false;
+      avisar(campo);
     }
 
     function radioValue(name: string): string | undefined {
-      const checked = form?.querySelector<HTMLInputElement>(`[name="${name}"]:checked`);
-      return checked?.value;
+      return form?.querySelector<HTMLInputElement>(`[name="${name}"]:checked`)?.value;
     }
 
-    const regimenIvaOtro = el<HTMLInputElement>('fRegimenIvaOtro');
-    form.querySelectorAll<HTMLInputElement>('[name="regimenIva"]').forEach(function (radio) {
-      radio.addEventListener('change', function () {
-        if (regimenIvaOtro) regimenIvaOtro.hidden = radio.value !== 'otro' || !radio.checked;
-      });
-    });
+    // Muestra u oculta un bloque según una casilla o un radio, y vacía lo oculto.
+    function alternar(disparadores: NodeListOf<HTMLInputElement> | HTMLInputElement[], bloque: HTMLElement | null, visible: () => boolean) {
+      const aplicar = () => {
+        if (!bloque) return;
+        bloque.hidden = !visible();
+        if (bloque.hidden) bloque.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>('input, textarea').forEach((x) => {
+          if (x instanceof HTMLInputElement && (x.type === 'checkbox' || x.type === 'radio')) x.checked = false; else x.value = '';
+        });
+      };
+      disparadores.forEach((d) => d.addEventListener('change', aplicar));
+    }
+    const radios = (name: string) => form.querySelectorAll<HTMLInputElement>(`[name="${name}"]`);
+    const casilla = (id: string) => [el<HTMLInputElement>(id)!].filter(Boolean);
 
-    const facturaRetencion = el<HTMLInputElement>('fFacturaRetencion');
-    const porcentajeWrap = el<HTMLElement>('fPorcentajeRetencionWrap');
-    const porcentajeInput = el<HTMLInputElement>('fPorcentajeRetencion');
-    facturaRetencion?.addEventListener('change', function () {
-      if (porcentajeWrap) porcentajeWrap.hidden = !facturaRetencion.checked;
-      if (!facturaRetencion.checked && porcentajeInput) porcentajeInput.value = '';
-    });
-
-    const trabajadores = el<HTMLInputElement>('fTrabajadores');
-    const numTrabajadoresWrap = el<HTMLElement>('fNumeroTrabajadoresWrap');
-    const numTrabajadoresInput = el<HTMLInputElement>('fNumeroTrabajadores');
-    trabajadores?.addEventListener('change', function () {
-      if (numTrabajadoresWrap) numTrabajadoresWrap.hidden = !trabajadores.checked;
-      if (!trabajadores.checked && numTrabajadoresInput) numTrabajadoresInput.value = '';
-    });
-
-    const requerimientos = el<HTMLInputElement>('fRequerimientos');
-    const detalleWrap = el<HTMLElement>('fDetalleRequerimientosWrap');
-    const detalleInput = el<HTMLTextAreaElement>('fDetalleRequerimientos');
-    requerimientos?.addEventListener('change', function () {
-      if (detalleWrap) detalleWrap.hidden = !requerimientos.checked;
-      if (!requerimientos.checked && detalleInput) detalleInput.value = '';
-    });
+    alternar(radios('regimenIva'), el('fRegimenIvaOtro'), () => radioValue('regimenIva') === 'otro');
+    alternar(casilla('fFacturaRetencion'), el('fPorcentajeRetencionWrap'), () => !!el<HTMLInputElement>('fFacturaRetencion')?.checked);
+    alternar(casilla('fTrabajadores'), el('fNumeroTrabajadoresWrap'), () => !!el<HTMLInputElement>('fTrabajadores')?.checked);
+    alternar(casilla('fRequerimientos'), el('fDetalleRequerimientosWrap'), () => !!el<HTMLInputElement>('fRequerimientos')?.checked);
+    alternar(radios('quienLleva'), el('bloqueGestoria'), () => radioValue('quienLleva') === 'gestoria');
+    // «No lo sé» en los modelos excluye marcar modelos concretos, y al revés.
+    const casillasModelos = [...radios('modelos')];
+    casillasModelos.forEach((c) => c.addEventListener('change', () => {
+      if (!c.checked) return;
+      casillasModelos.forEach((x) => { if (x !== c && (x.value === 'no_sabe') !== (c.value === 'no_sabe')) x.checked = false; });
+    }));
 
     form.addEventListener('submit', async function (e) {
       e.preventDefault();
       errorEl.hidden = true;
 
-      const identificacionDigital = radioValue('identificacionDigital');
-      const regimenIva = isAutonomo ? radioValue('regimenIva') : undefined;
-      const regimenIrpf = isAutonomo ? radioValue('regimenIrpf') : undefined;
-
-      if (!identificacionDigital || (isAutonomo && (!regimenIva || !regimenIrpf))) {
-        errorEl.hidden = false;
-        return;
-      }
-
+      const conGestoria = radioValue('quienLleva') === 'gestoria';
       const body: Record<string, unknown> = {
         tipo,
-        identificacionDigital,
-        nombreRazonSocial: el<HTMLInputElement>('fNombreRazonSocial')!.value.trim(),
-        nifCif: el<HTMLInputElement>('fNifCif')!.value.trim(),
-        email: el<HTMLInputElement>('fEmail')!.value.trim(),
-        telefono: el<HTMLInputElement>('fTelefono')!.value.trim(),
-        domicilioFiscal: el<HTMLTextAreaElement>('fDomicilioFiscal')!.value.trim(),
-        iban: el<HTMLInputElement>('fIban')!.value.trim(),
-        tieneTrabajadores: !!trabajadores?.checked,
+        identificacionDigital: radioValue('identificacionDigital'),
+        nombreRazonSocial: valor('fNombreRazonSocial'),
+        nifCif: valor('fNifCif'),
+        email: valor('fEmail'),
+        telefono: valor('fTelefono'),
+        domicilioFiscal: valor('fDomicilioFiscal'),
+        regimenIvaActual: radioValue('regimenIva') === 'otro' ? (valor('fRegimenIvaOtro') || 'otro') : radioValue('regimenIva'),
+        tieneTrabajadores: !!el<HTMLInputElement>('fTrabajadores')?.checked,
         operacionesIntracomunitarias: !!el<HTMLInputElement>('fIntracomunitarias')?.checked,
-        tieneRequerimientosAeat: !!requerimientos?.checked,
-        contactoGestoriaAnterior: el<HTMLTextAreaElement>('fContactoGestoria')!.value.trim(),
-        autorizaSolicitarHistorico: !!el<HTMLInputElement>('fAutorizaHistorico')?.checked,
+        quienLleva: radioValue('quienLleva'),
+        tieneRequerimientosAeat: !!el<HTMLInputElement>('fRequerimientos')?.checked,
+        plan: radioValue('plan'),
+        programaFacturacion: radioValue('programaFacturacion'),
         privacyAccepted: !!el<HTMLInputElement>('fPrivacy')?.checked,
         idioma: form.dataset.lang,
       };
-
-      const domicilioNotif = el<HTMLTextAreaElement>('fDomicilioNotif')?.value.trim();
-      if (domicilioNotif) body.domicilioNotificaciones = domicilioNotif;
-
-      if (!isAutonomo) {
-        body.domicilioSocial = el<HTMLTextAreaElement>('fDomicilioSocial')!.value.trim();
-      }
+      if (valor('fDomicilioNotif')) body.domicilioNotificaciones = valor('fDomicilioNotif');
 
       if (isAutonomo) {
-        body.fechaAltaActividad = el<HTMLInputElement>('fFechaAlta')!.value;
-        body.epigrafesIaeActuales = el<HTMLTextAreaElement>('fEpigrafes')!.value.trim();
-        body.regimenIvaActual = regimenIva === 'otro' ? (regimenIvaOtro?.value.trim() || 'otro') : regimenIva;
-        body.regimenIrpfActual = regimenIrpf;
-        body.facturaConRetencion = !!facturaRetencion?.checked;
-        if (facturaRetencion?.checked && porcentajeInput?.value) {
-          body.porcentajeRetencion = Number(porcentajeInput.value);
-        }
+        body.fechaAltaActividad = valor('fFechaAlta');
+        body.epigrafesIaeActuales = valor('fEpigrafes');
+        body.regimenIrpfActual = radioValue('regimenIrpf');
+        body.facturaConRetencion = !!el<HTMLInputElement>('fFacturaRetencion')?.checked;
+        if (body.facturaConRetencion) body.porcentajeRetencion = valor('fPorcentajeRetencion') === '' ? undefined : Number(valor('fPorcentajeRetencion'));
+      } else {
+        body.adminNombre = valor('fAdminNombre');
+        body.adminDni = valor('fAdminDni').toUpperCase();
+        if (valor('fDomicilioSocial')) body.domicilioSocial = valor('fDomicilioSocial');
+        body.sii = radioValue('sii');
       }
 
-      if (trabajadores?.checked && numTrabajadoresInput?.value) {
-        body.numeroTrabajadores = Number(numTrabajadoresInput.value);
+      if (body.tieneTrabajadores) body.numeroTrabajadores = valor('fNumeroTrabajadores') === '' ? undefined : Number(valor('fNumeroTrabajadores'));
+
+      if (conGestoria) {
+        body.contactoGestoriaAnterior = valor('fContactoGestoria');
+        body.autorizaSolicitarHistorico = !!el<HTMLInputElement>('fAutorizaHistorico')?.checked;
+        body.modelos = casillasModelos.filter((c) => c.checked).map((c) => c.value);
       }
 
-      if (requerimientos?.checked) {
-        const detalle = detalleInput?.value.trim();
-        if (detalle) body.detalleRequerimientosAeat = detalle;
-      }
+      if (body.tieneRequerimientosAeat) body.detalleRequerimientosAeat = valor('fDetalleRequerimientos');
 
       submitBtn.disabled = true;
       try {
@@ -327,6 +381,7 @@ const docsCliente = isAutonomo ? t.docsClienteAutonomo : t.docsClienteSl;
         track('formulario_enviado', { tipo: 'traspaso', variante: tipo });
         form.hidden = true;
         success.hidden = false;
+        window.scrollTo({ top: 0 });
       } catch (err) {
         errorEl.hidden = false;
         submitBtn.disabled = false;
@@ -337,6 +392,9 @@ const docsCliente = isAutonomo ? t.docsClienteAutonomo : t.docsClienteSl;
 
 <style>
   .plain-list { list-style: disc; padding-left: 1.3rem; display: flex; flex-direction: column; gap: 0.35rem; font-size: 0.88rem; color: var(--ink); }
+  .modelos { flex-direction: row; flex-wrap: wrap; gap: 0.4rem 1.2rem; }
+  #bloqueGestoria { display: flex; flex-direction: column; gap: inherit; }
+  #bloqueGestoria[hidden] { display: none; }
   .field-conditional-input {
     margin-top: 0.6rem;
     font-family: var(--font-body);
