@@ -108,6 +108,7 @@ No es una ficha de cliente: es solo el registro de qué avisos ya se mandaron pa
 - **`fecha_contabilizado` y `storage_path` son dos pasos independientes.** "Contabilizada" = ya está en Drive. `storage_path = null` = ya se borró del Storage. No asumas que van juntos. Hoy `fecha_contabilizado` se marca **a mano** en el Table Editor de Supabase; es exactamente lo que la automatización debería hacer sola.
 - El portal ya contempla el caso "registro sin archivo": si `storage_path` es `null` no muestra botón de descarga, y si la URL firmada falla avisa al cliente en vez de romper.
 - RLS: el cliente puede ver sus propias filas y crear una fila propia, siempre con `fecha_contabilizado is null` (no puede marcarse a sí mismo como contabilizada). **Sin políticas de update ni delete** — esas columnas las toca solo la service role.
+- **Carpetas (2026-11-12)**: no solo hay facturas. El cliente sube desde la pestaña Documentación eligiendo `carpeta` (facturas emitidas/recibidas/simplificadas, tickets, extractos de banco —solo SL— o de tarjeta de crédito, y carpetas de documentación: escrituras, contratos, préstamos…). En extractos guarda también `cuenta_digitos`, `periodo_desde` y `periodo_hasta`. `carpeta` null = subida anterior, tratada como factura. n8n (`Descarga de facturas`) decide con ella la carpeta de Drive y el nombre; solo facturas y tickets llevan `drive_carpeta_pendientes_id` y se marcan como contabilizados. Valores y rutas en `schema.sql`.
 
 ### Storage
 
