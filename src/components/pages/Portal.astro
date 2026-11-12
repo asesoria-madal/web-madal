@@ -24,6 +24,12 @@ const locale = localeTag[lang];
 
 const EMAIL = CONTACT_EMAIL;
 
+// Carpetas de la pestaña Documentación. Los códigos se guardan en
+// facturas_subidas.carpeta y los usa n8n para decidir la carpeta de Drive
+// (ver schema.sql). "banco" solo se ofrece a las SL (lo quita el script).
+const CARPETAS_CONTABILIDAD = ['emitidas', 'recibidas', 'simplificadas', 'tickets', 'banco', 'tarjeta'] as const;
+const CARPETAS_DOCUMENTACION = ['escrituras', 'contratos', 'prestamos', 'seguros', 'vehiculos', 'subvenciones', 'notificaciones', 'certificados', 'laboral', 'otros'] as const;
+
 ---
 
 <div class="portal-page" data-locale={locale}>
@@ -60,7 +66,6 @@ const EMAIL = CONTACT_EMAIL;
           <nav class="app-nav">
             <button type="button" class="app-nav-link active" data-panel="inicio">{t.nav.inicio}</button>
             <button type="button" class="app-nav-link" data-panel="prevision">{t.nav.prevision}</button>
-            <button type="button" class="app-nav-link" data-panel="facturas">{t.nav.facturas}</button>
             <button type="button" class="app-nav-link" data-panel="documentacion">{t.nav.documentacion}</button>
           </nav>
           <div class="app-sidebar-foot">
@@ -179,22 +184,62 @@ const EMAIL = CONTACT_EMAIL;
             <p>{t.prevision.otraInfoPre}<a href={`mailto:${EMAIL}`}>{EMAIL}</a>{t.prevision.otraInfoPost}</p>
           </section>
 
-          <section class="app-panel" data-panel="facturas" hidden>
-            <h2>{t.facturas.title}</h2>
-            <p>{t.facturas.intro}</p>
-            <form id="facturaForm" class="factura-upload">
-              <input type="file" id="facturaFile" accept="application/pdf,image/jpeg,image/png,image/webp" multiple required aria-label={t.facturas.title} />
-              <button type="submit" class="btn btn-primary">{t.facturas.submit}</button>
-              <button type="button" id="facturaCameraBtn" class="btn btn-outline factura-camera-btn">{t.facturas.cameraSubmit}</button>
-              <input type="file" id="facturaCamera" accept="image/*,.heic,.heif" capture="environment" hidden aria-label={t.facturas.cameraSubmit} />
-            </form>
-            <p id="facturaMsg" class="portal-msg" hidden></p>
-            <p id="facturaEmpty" class="factura-empty" hidden>{t.facturas.empty}</p>
-            <ul id="facturaList" class="factura-list"></ul>
-          </section>
-
+          <!-- Documentación (2026-11-12): sustituye a la antigua pestaña "Subir facturas".
+               El cliente elige carpeta al subir; n8n ("Descarga de facturas") decide con
+               facturas_subidas.carpeta dónde lo guarda en Drive. Ver schema.sql. -->
           <section class="app-panel" data-panel="documentacion" hidden>
             <h2>{t.doc.title}</h2>
+
+            <div class="field-group">
+              <p class="field-group-label">{t.doc.subirTitulo}</p>
+              <p>{t.doc.subirIntro}</p>
+              <form id="facturaForm" class="factura-upload doc-upload">
+                <label class="doc-campo">{t.doc.carpetaLabel}
+                  <select id="docCarpeta" required>
+                    <option value="">{t.doc.carpetaElige}</option>
+                    <optgroup label={t.doc.grupoContabilidad}>
+                      {CARPETAS_CONTABILIDAD.map((c) => <option value={c}>{t.doc.carpetas[c]}</option>)}
+                    </optgroup>
+                    <optgroup label={t.doc.grupoDocumentacion}>
+                      {CARPETAS_DOCUMENTACION.map((c) => <option value={c}>{t.doc.carpetas[c]}</option>)}
+                    </optgroup>
+                  </select>
+                </label>
+                <p id="docTarjetaNota" class="field-hint" hidden>{t.doc.tarjetaNota}</p>
+                <div id="docExtracto" class="doc-extracto" hidden>
+                  <label class="doc-campo"><span id="docDigitosLabel">{t.doc.digitosBanco}</span>
+                    <input type="text" id="docDigitos" inputmode="numeric" maxlength="4" autocomplete="off" />
+                  </label>
+                  <label class="doc-campo">{t.doc.desde}
+                    <input type="date" id="docDesde" />
+                  </label>
+                  <label class="doc-campo">{t.doc.hasta}
+                    <input type="date" id="docHasta" />
+                  </label>
+                </div>
+                <div class="doc-botones">
+                  <input type="file" id="facturaFile" accept="application/pdf,image/jpeg,image/png,image/webp" multiple required aria-label={t.doc.subirTitulo} />
+                  <button type="submit" class="btn btn-primary">{t.doc.subirTitulo}</button>
+                  <button type="button" id="facturaCameraBtn" class="btn btn-outline factura-camera-btn">{t.facturas.cameraSubmit}</button>
+                  <input type="file" id="facturaCamera" accept="image/*,.heic,.heif" capture="environment" hidden aria-label={t.facturas.cameraSubmit} />
+                </div>
+              </form>
+              <p id="facturaMsg" class="portal-msg" hidden></p>
+            </div>
+
+            <div class="field-group">
+              <p class="field-group-label">{t.doc.grupoContabilidad}</p>
+              <div id="docListaContabilidad"></div>
+              <p id="docVaciaContabilidad" class="factura-empty" hidden>{t.doc.vacia}</p>
+            </div>
+
+            <div class="field-group">
+              <p class="field-group-label">{t.doc.grupoDocumentacion}</p>
+              <div id="docListaDocumentacion"></div>
+              <p id="docVaciaDocumentacion" class="factura-empty" hidden>{t.doc.vacia}</p>
+            </div>
+
+            <h3 class="doc-nuestros">{t.doc.grupoNuestros}</h3>
 
             <div class="field-group">
               <p class="field-group-label">{t.doc.guiaGroup}</p>
@@ -335,6 +380,28 @@ const EMAIL = CONTACT_EMAIL;
   .portal-alta-enlace-row input { flex: 1; min-width: 0; font-size: 0.85rem; }
   .portal-alta-enlace-row button { padding: 0.4rem 0.9rem; font-size: 0.85rem; }
 
+  .doc-upload { display: grid; gap: 0.8rem; justify-items: start; }
+  .doc-campo { display: grid; gap: 0.25rem; font-size: 0.85rem; color: var(--ink-soft); }
+  .doc-campo select,
+  .doc-campo input {
+    padding: 0.45rem 0.6rem;
+    border-radius: 6px;
+    border: 1px solid var(--line);
+    background: var(--paper);
+    color: var(--ink);
+    font: inherit;
+    max-width: 100%;
+  }
+  .doc-campo select { min-width: min(22rem, 100%); }
+  .doc-extracto { display: flex; flex-wrap: wrap; gap: 0.75rem 1rem; }
+  .doc-extracto[hidden] { display: none; }
+  .doc-extracto #docDigitos { width: 6rem; }
+  .doc-botones { display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center; }
+  .doc-carpeta { border-bottom: 1px solid var(--line); padding: 0.55rem 0; }
+  .doc-carpeta summary { cursor: pointer; font-weight: 600; font-size: 0.92rem; }
+  .doc-carpeta .factura-list { margin-top: 0.6rem; }
+  .doc-nuestros { font-size: 1.05rem; margin: 2rem 0 0.8rem; }
+
 </style>
 
 <script>
@@ -378,8 +445,45 @@ const EMAIL = CONTACT_EMAIL;
   const facturaCamera = document.getElementById('facturaCamera') as HTMLInputElement;
   const facturaCameraBtn = document.getElementById('facturaCameraBtn') as HTMLButtonElement;
   const facturaMsg = document.getElementById('facturaMsg') as HTMLElement;
-  const facturaEmpty = document.getElementById('facturaEmpty') as HTMLElement;
-  const facturaList = document.getElementById('facturaList') as HTMLElement;
+  const docCarpeta = document.getElementById('docCarpeta') as HTMLSelectElement;
+  const docTarjetaNota = document.getElementById('docTarjetaNota') as HTMLElement;
+  const docExtracto = document.getElementById('docExtracto') as HTMLElement;
+  const docDigitosLabel = document.getElementById('docDigitosLabel') as HTMLElement;
+  const docDigitos = document.getElementById('docDigitos') as HTMLInputElement;
+  const docDesde = document.getElementById('docDesde') as HTMLInputElement;
+  const docHasta = document.getElementById('docHasta') as HTMLInputElement;
+  const docListaContabilidad = document.getElementById('docListaContabilidad') as HTMLElement;
+  const docListaDocumentacion = document.getElementById('docListaDocumentacion') as HTMLElement;
+  const docVaciaContabilidad = document.getElementById('docVaciaContabilidad') as HTMLElement;
+  const docVaciaDocumentacion = document.getElementById('docVaciaDocumentacion') as HTMLElement;
+
+  // Mismo orden que en el desplegable. Las filas sin carpeta (subidas antes del
+  // 2026-11-12) se muestran aparte, como facturas.
+  const CARPETAS_CONTABILIDAD = ['emitidas', 'recibidas', 'simplificadas', 'tickets', 'banco', 'tarjeta', 'sinCarpeta'];
+  const CARPETAS_DOCUMENTACION = ['escrituras', 'contratos', 'prestamos', 'seguros', 'vehiculos', 'subvenciones', 'notificaciones', 'certificados', 'laboral', 'otros'];
+  const ES_EXTRACTO = (c: string) => c === 'banco' || c === 'tarjeta';
+  // Solo facturas y tickets se contabilizan (pasan por Pendientes en Drive).
+  const SE_CONTABILIZA = (c: string) => ['emitidas', 'recibidas', 'simplificadas', 'tickets', 'sinCarpeta'].includes(c);
+
+  // "Extractos bancarios" solo para SL: se quita del desplegable si no lo es.
+  const opcionBanco = docCarpeta.querySelector('option[value="banco"]') as HTMLOptionElement;
+  const opcionTarjeta = docCarpeta.querySelector('option[value="tarjeta"]') as HTMLOptionElement;
+  function ajustarCarpetas(tipoPersona: string | null) {
+    if (tipoPersona === 'sl') {
+      if (!opcionBanco.isConnected) opcionTarjeta.before(opcionBanco);
+    } else {
+      opcionBanco.remove();
+      if (docCarpeta.value === 'banco') docCarpeta.value = '';
+    }
+    actualizarCamposCarpeta();
+  }
+  function actualizarCamposCarpeta() {
+    const c = docCarpeta.value;
+    docExtracto.hidden = !ES_EXTRACTO(c);
+    docTarjetaNota.hidden = c !== 'tarjeta';
+    docDigitosLabel.textContent = c === 'tarjeta' ? I18N.doc.digitosTarjeta : I18N.doc.digitosBanco;
+  }
+  docCarpeta.addEventListener('change', actualizarCamposCarpeta);
 
   function showOnly(el: HTMLElement) {
     for (const section of [unconfiguredEl, loginForm, unlinkedEl, dashEl]) {
@@ -411,6 +515,7 @@ const EMAIL = CONTACT_EMAIL;
     docPresentacionAutonomoEl.hidden = tipoPersona !== 'autonomo';
     docPresentacionSlEl.hidden = tipoPersona !== 'sl';
     docPresentacionPendienteEl.hidden = tipoPersona === 'autonomo' || tipoPersona === 'sl';
+    ajustarCarpetas(tipoPersona);
   }
 
   const supabase = getSupabaseBrowser();
@@ -429,15 +534,46 @@ const EMAIL = CONTACT_EMAIL;
     async function renderFacturaList(clienteId: string) {
       const { data, error } = await supabase!
         .from('facturas_subidas')
-        .select('id, nombre_archivo, storage_path, fecha_subida, fecha_contabilizado')
+        .select('id, nombre_archivo, storage_path, fecha_subida, fecha_contabilizado, carpeta, cuenta_digitos, periodo_desde, periodo_hasta')
         .eq('cliente_id', clienteId)
         .order('fecha_subida', { ascending: false });
 
-      facturaList.innerHTML = '';
+      if (error) console.error('facturas_subidas select error:', error);
       const rows = !error && data ? data : [];
-      facturaEmpty.hidden = rows.length > 0;
 
-      rows.forEach((row) => {
+      // Agrupa por carpeta; dentro, lo más reciente primero (ya viene ordenado).
+      const porCarpeta = new Map<string, typeof rows>();
+      for (const row of rows) {
+        const c = (row.carpeta as string | null) || 'sinCarpeta';
+        if (!porCarpeta.has(c)) porCarpeta.set(c, []);
+        porCarpeta.get(c)!.push(row);
+      }
+
+      const pintarGrupo = (contenedor: HTMLElement, vacia: HTMLElement, carpetas: string[]) => {
+        contenedor.innerHTML = '';
+        let alguna = false;
+        for (const c of carpetas) {
+          const filas = porCarpeta.get(c);
+          if (!filas || filas.length === 0) continue;
+          alguna = true;
+          const details = document.createElement('details');
+          details.className = 'doc-carpeta';
+          const summary = document.createElement('summary');
+          summary.textContent = `${I18N.doc.carpetas[c] ?? c} (${filas.length})`;
+          details.appendChild(summary);
+          const ul = document.createElement('ul');
+          ul.className = 'factura-list';
+          filas.forEach((row) => ul.appendChild(filaArchivo(row, c)));
+          details.appendChild(ul);
+          contenedor.appendChild(details);
+        }
+        vacia.hidden = alguna;
+      };
+      pintarGrupo(docListaContabilidad, docVaciaContabilidad, CARPETAS_CONTABILIDAD);
+      pintarGrupo(docListaDocumentacion, docVaciaDocumentacion, CARPETAS_DOCUMENTACION);
+    }
+
+    function filaArchivo(row: Record<string, unknown>, carpeta: string): HTMLLIElement {
         const li = document.createElement('li');
 
         const nombre = document.createElement('div');
@@ -447,11 +583,18 @@ const EMAIL = CONTACT_EMAIL;
 
         const meta = document.createElement('div');
         meta.className = 'factura-meta';
-        const subida = `${I18N.facturas.uploadedPrefix} ${formatFecha(row.fecha_subida as string)}`;
-        const contabilizado = row.fecha_contabilizado
-          ? `${I18N.facturas.accountedPrefix} ${formatFecha(row.fecha_contabilizado as string)}`
-          : I18N.facturas.pendingAccounting;
-        meta.textContent = `${subida} · ${contabilizado}`;
+        const partes = [`${I18N.facturas.uploadedPrefix} ${formatFecha(row.fecha_subida as string)}`];
+        if (ES_EXTRACTO(carpeta) && row.cuenta_digitos) {
+          const desde = row.periodo_desde ? formatFecha(row.periodo_desde as string) : '';
+          const hasta = row.periodo_hasta ? formatFecha(row.periodo_hasta as string) : '';
+          partes.unshift(`${I18N.doc.cuentaPrefix} ${row.cuenta_digitos}${desde || hasta ? ` · ${desde} – ${hasta}` : ''}`);
+        }
+        if (SE_CONTABILIZA(carpeta)) {
+          partes.push(row.fecha_contabilizado
+            ? `${I18N.facturas.accountedPrefix} ${formatFecha(row.fecha_contabilizado as string)}`
+            : I18N.facturas.pendingAccounting);
+        }
+        meta.textContent = partes.join(' · ');
         li.appendChild(meta);
 
         if (row.storage_path) {
@@ -474,8 +617,7 @@ const EMAIL = CONTACT_EMAIL;
           li.appendChild(descargar);
         }
 
-        facturaList.appendChild(li);
-      });
+        return li;
     }
 
     type ClienteRow = {
@@ -782,6 +924,25 @@ const EMAIL = CONTACT_EMAIL;
         facturaForm.reset();
       };
 
+      // Carpeta obligatoria; en extractos, además, últimos 4 dígitos y periodo.
+      const carpeta = docCarpeta.value;
+      if (!carpeta) {
+        facturaMsg.hidden = false;
+        facturaMsg.className = 'portal-msg is-error';
+        facturaMsg.textContent = I18N.doc.faltaCarpeta;
+        docCarpeta.focus();
+        return;
+      }
+      const extracto = ES_EXTRACTO(carpeta)
+        ? { cuenta_digitos: docDigitos.value.trim(), periodo_desde: docDesde.value, periodo_hasta: docHasta.value }
+        : null;
+      if (extracto && (!/^\d{4}$/.test(extracto.cuenta_digitos) || !extracto.periodo_desde || !extracto.periodo_hasta || extracto.periodo_desde > extracto.periodo_hasta)) {
+        facturaMsg.hidden = false;
+        facturaMsg.className = 'portal-msg is-error';
+        facturaMsg.textContent = I18N.doc.faltanDatosExtracto;
+        return;
+      }
+
       const normalizadas = await Promise.all(originales.map(normalizarFactura));
       if (normalizadas.some((f) => f === null)) {
         mostrarError(I18N.facturas.onlyPdf);
@@ -845,6 +1006,8 @@ const EMAIL = CONTACT_EMAIL;
           cliente_id: clienteId,
           nombre_archivo: file.name,
           storage_path: path,
+          carpeta,
+          ...(extracto ?? {}),
         });
         if (insertError) {
           console.error('facturas_subidas insert error:', insertError);
@@ -863,7 +1026,9 @@ const EMAIL = CONTACT_EMAIL;
         facturaMsg.textContent = `${I18N.facturas.failAll} (${ultimoError})`;
       }
 
-      facturaForm.reset();
+      // Se vacían los archivos pero se mantiene la carpeta elegida, por si sube varios seguidos.
+      facturaFile.value = '';
+      facturaCamera.value = '';
       renderFacturaList(clienteId);
     }
 
@@ -872,7 +1037,17 @@ const EMAIL = CONTACT_EMAIL;
       void subirFacturas(Array.from(facturaFile.files ?? []));
     });
 
-    facturaCameraBtn.addEventListener('click', () => facturaCamera.click());
+    // Antes de abrir la cámara, que la carpeta ya esté elegida (si no, la foto se perdería).
+    facturaCameraBtn.addEventListener('click', () => {
+      if (!docCarpeta.value) {
+        facturaMsg.hidden = false;
+        facturaMsg.className = 'portal-msg is-error';
+        facturaMsg.textContent = I18N.doc.faltaCarpeta;
+        docCarpeta.focus();
+        return;
+      }
+      facturaCamera.click();
+    });
     facturaCamera.addEventListener('change', () => {
       void subirFacturas(Array.from(facturaCamera.files ?? []));
     });

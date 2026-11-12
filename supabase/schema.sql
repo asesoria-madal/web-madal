@@ -675,6 +675,26 @@ alter table facturas_subidas add column if not exists fecha_descargado timestamp
 alter table facturas_subidas add column if not exists drive_file_id text;
 alter table facturas_subidas add column if not exists drive_carpeta_pendientes_id text;
 
+-- Carpetas de la pestaña Documentación del portal (2026-11-12, pedido por Edurne).
+-- El cliente elige la carpeta al subir. Valores (se validan en el portal, sin CHECK,
+-- mismo criterio que el resto del proyecto):
+--   contabilidad:  emitidas, recibidas, simplificadas, tickets, banco (solo SL), tarjeta
+--   documentación: escrituras, contratos, prestamos, seguros, vehiculos, subvenciones,
+--                  notificaciones, certificados, laboral, otros
+--   null: subidas anteriores a este cambio (se tratan como facturas sin carpeta).
+-- n8n ("Descarga de facturas") decide con ella dónde se guarda en Drive:
+--   facturas y tickets   -> 1-contabilidad/<año>/<trimestre>/Pendientes, con el tipo en el nombre
+--   banco / tarjeta      -> 1-contabilidad/<año>/Bancos o Tarjetas, con nombre
+--                           "Cuenta 1234 - 01-01-2027 a 31-03-2027" (cuenta_digitos y periodo)
+--   documentación        -> 0-documentos/<carpeta>
+-- Solo las facturas y tickets pasan por Pendientes y acaban marcadas como contabilizadas.
+-- cuenta_digitos / periodo_desde / periodo_hasta: solo en extractos; los escribe el cliente.
+-- EJECUTAR UNA VEZ en el SQL editor de Supabase (añade columnas, no toca datos):
+alter table facturas_subidas add column if not exists carpeta text;
+alter table facturas_subidas add column if not exists cuenta_digitos text;
+alter table facturas_subidas add column if not exists periodo_desde date;
+alter table facturas_subidas add column if not exists periodo_hasta date;
+
 -- ---------------------------------------------------------------------
 -- dashboard_periodos / dashboard_pendientes
 -- ---------------------------------------------------------------------
