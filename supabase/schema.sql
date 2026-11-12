@@ -1201,3 +1201,15 @@ create table if not exists constituciones_formulario (
 
 alter table constituciones_formulario enable row level security;
 grant all on constituciones_formulario to service_role;
+
+-- Subir documentos en nombre de un cliente desde el portal en modo administrador (2026-11-12,
+-- pedido por Edurne). Hasta ahora solo el propio cliente podía subir (carpeta propia en Storage y
+-- fila propia en facturas_subidas), y el portal escondía la subida al admin. Políticas aditivas:
+-- quien esté en portal_admins puede crear la fila y el archivo de cualquier cliente.
+-- EJECUTAR UNA VEZ en el SQL editor de Supabase:
+create policy "admin registra subidas de cualquier cliente"
+  on facturas_subidas for insert
+  with check (fecha_contabilizado is null and auth.uid() in (select auth_user_id from portal_admins));
+create policy "admin sube a cualquier carpeta de facturas"
+  on storage.objects for insert
+  with check (bucket_id = 'facturas' and auth.uid() in (select auth_user_id from portal_admins));

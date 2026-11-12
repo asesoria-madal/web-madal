@@ -1,0 +1,40 @@
+---
+// Una carpeta de la pestaña "Mis documentos" del portal: nombre, número de archivos,
+// botones para subir (y hacer foto en el móvil) y la lista de lo subido. El script de
+// Portal.astro la busca por data-carpeta. En extractos (banco y tarjeta) lleva los campos
+// de últimos 4 dígitos y periodo, que se guardan con cada archivo.
+interface Props {
+  codigo: string;
+  nombre: string;
+  textos: { subir: string; foto: string; ver: string; digitos?: string; desde?: string; hasta?: string; nota?: string };
+  extracto?: boolean;
+  soloLista?: boolean; // facturas subidas antes de las carpetas: solo se listan
+}
+const { codigo, nombre, textos, extracto = false, soloLista = false } = Astro.props;
+---
+
+<div class="doc-carpeta" data-carpeta={codigo} hidden={soloLista}>
+  <div class="doc-carpeta-cab">
+    <span class="doc-carpeta-nombre">{nombre}</span>
+    <span class="doc-carpeta-n" data-n>0</span>
+  </div>
+  {textos.nota && <p class="doc-carpeta-nota">{textos.nota}</p>}
+  {extracto && (
+    <div class="doc-extracto">
+      <label class="doc-campo">{textos.digitos}<input type="text" data-digitos inputmode="numeric" maxlength="4" autocomplete="off" /></label>
+      <label class="doc-campo">{textos.desde}<input type="date" data-desde /></label>
+      <label class="doc-campo">{textos.hasta}<input type="date" data-hasta /></label>
+    </div>
+  )}
+  {!soloLista && (
+    <div class="doc-carpeta-botones">
+      <button type="button" class="btn btn-primary doc-btn" data-subir>{textos.subir}</button>
+      <button type="button" class="btn btn-outline doc-btn factura-camera-btn" data-foto>{textos.foto}</button>
+    </div>
+  )}
+  <p class="portal-msg doc-carpeta-msg" data-msg hidden></p>
+  <details class="doc-carpeta-lista" hidden>
+    <summary>{textos.ver}</summary>
+    <ul class="factura-list"></ul>
+  </details>
+</div>
