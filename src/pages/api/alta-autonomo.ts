@@ -1,5 +1,6 @@
 import type { APIRoute } from 'astro';
 import { getSupabaseAdmin } from '../../lib/supabase';
+import { limpiarIban, ibanValido } from '../../lib/iban';
 
 export const prerender = false;
 
@@ -58,6 +59,8 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
   const email = texto(f.c_email, 254)?.toLowerCase() ?? '';
   const telefono = texto(f.c_tel, 30);
   const iban = (texto(f.iban, 50) ?? '').toUpperCase().replace(/\s+/g, '');
+  // Cuenta de los impuestos (2026-11-12): la misma de la cuota o la que indique aparte.
+  const ibanImpuestos = f.iban_imp_misma === 'No' ? limpiarIban(texto(f.iban_impuestos, 50) ?? '') : iban;
   const inicio = texto(f.act_inicio, 10) ?? '';
   const actividad = texto(f.act_desc, 2000);
   const resumen = texto(b.resumen, TAMANO_MAXIMO);
@@ -66,7 +69,8 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
   if (!NIF_NIE_PATTERN.test(dni)) return json({ error: 'Datos no válidos', field: 'dni' }, 400);
   if (!EMAIL_PATTERN.test(email)) return json({ error: 'Datos no válidos', field: 'c_email' }, 400);
   if (!telefono) return json({ error: 'Datos no válidos', field: 'c_tel' }, 400);
-  if (!IBAN_PATTERN.test(iban)) return json({ error: 'Datos no válidos', field: 'iban' }, 400);
+  if (!IBAN_PATTERN.test(iban) || !ibanValido(iban)) return json({ error: 'Datos no válidos', field: 'iban' }, 400);
+  if (!['Sí', 'No'].includes(f.iban_imp_misma) || !ibanValido(ibanImpuestos)) return json({ error: 'Datos no válidos', field: 'iban_impuestos' }, 400);
   if (!FECHA_PATTERN.test(inicio)) return json({ error: 'Datos no válidos', field: 'act_inicio' }, 400);
   if (!actividad) return json({ error: 'Datos no válidos', field: 'act_desc' }, 400);
   if (!f.rgpd) return json({ error: 'Datos no válidos', field: 'rgpd' }, 400);
@@ -104,6 +108,7 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
     telefono,
     domicilio_fiscal: domicilio,
     iban,
+    iban_impuestos: ibanImpuestos,
     epigrafes_iae: cnae ? `${cnae} — ${actividad}` : actividad,
     fecha_inicio_actividad: inicio,
     tipo_local: tipoLocal,

@@ -1213,3 +1213,11 @@ create policy "admin registra subidas de cualquier cliente"
 create policy "admin sube a cualquier carpeta de facturas"
   on storage.objects for insert
   with check (bucket_id = 'facturas' and auth.uid() in (select auth_user_id from portal_admins));
+-- Cuenta para domiciliar los impuestos (2026-11-12, pedido por Edurne). Obligatoria en los
+-- formularios de alta y de traspaso, guardada sin espacios y en mayúsculas, y con el dígito de
+-- control comprobado (src/lib/iban.ts). En el alta puede ser la misma de la cuota de autónomos
+-- (`iban`) u otra; en el traspaso es la única cuenta que se pide, y se guarda también en `iban`,
+-- que es la que leen la hoja de clientes y la Empresa de HubSpot.
+-- EJECUTAR UNA VEZ en el SQL editor de Supabase (añade columnas, no toca datos):
+alter table alta_nuevos_autonomos add column if not exists iban_impuestos text;
+alter table traspasos_nuevos add column if not exists iban_impuestos text;

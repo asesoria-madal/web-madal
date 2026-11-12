@@ -41,6 +41,14 @@ function load(){
 }
 
 /* ---------- Campos ---------- */
+// Mismo cálculo que src/lib/iban.ts (este script no usa módulos): formato y módulo 97.
+function ibanValido(v){
+  const s = String(v||"").replace(/\s+/g,"").toUpperCase();
+  if(!/^[A-Z]{2}\d{2}[A-Z0-9]{10,30}$/.test(s) || (s.startsWith("ES") && s.length !== 24)) return false;
+  let m = 0;
+  for(const ch of s.slice(4) + s.slice(0,4)){ const v2 = /[A-Z]/.test(ch) ? String(ch.charCodeAt(0) - 55) : ch; for(const d of v2) m = (m*10 + Number(d)) % 97; }
+  return m === 1;
+}
 function onField(e){
   const el = e.target; if(!el.name || !el.closest("#form")) return;
   if(el.type === "checkbox"){
@@ -50,7 +58,11 @@ function onField(e){
       state.f[el.name] = group.filter(x=>x.checked).map(x=>x.value);
     } else state.f[el.name] = el.checked ? el.value : "";
   } else if(el.type === "radio"){ if(el.checked) state.f[el.name] = el.value; }
-  else state.f[el.name] = el.value;
+  else {
+    // Las cuentas se guardan sin espacios y en mayúsculas: se limpian mientras se escribe o se pega.
+    if((el.name === "iban" || el.name === "iban_impuestos") && /\s|[a-z]/.test(el.value)) el.value = el.value.replace(/\s+/g, "").toUpperCase();
+    state.f[el.name] = el.value;
+  }
   refresh(); save();
 }
 $("#form").addEventListener("input", onField);
@@ -100,8 +112,11 @@ function faltan(){
   const add = (el, label) => out.push({el, label, sec: el.closest("section.card")?.id});
   $$("#form [data-req]").forEach(el => { if(visibleEl(el) && vacio(state.f[el.name])) add(el.closest(".field"), labelOf(el.closest(".field"))); });
   $$("#form [data-req-group]").forEach(el => { if(visibleEl(el) && vacio(state.f[el.dataset.reqGroup])) add(el.closest(".field"), labelOf(el.closest(".field"))); });
+  // IBAN: formato y dígito de control (evita domiciliar en una cuenta mal escrita).
   const iban = String(state.f.iban||"").replace(/\s/g,"");
-  if(iban && !/^[A-Z]{2}\d{2}[A-Z0-9]{10,30}$/i.test(iban)) add($("[name=iban]").closest(".field"), tr("IBAN (el formato no parece correcto)"));
+  if(iban && !ibanValido(iban)) add($("[name=iban]").closest(".field"), tr("IBAN (el formato no parece correcto)"));
+  const ibanImp = String(state.f.iban_impuestos||"").replace(/\s/g,"");
+  if(state.f.iban_imp_misma === "No" && ibanImp && !ibanValido(ibanImp)) add($("[name=iban_impuestos]").closest(".field"), tr("IBAN de impuestos (el formato no parece correcto)"));
   if(state.f.c_email && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(state.f.c_email)) add($("[name=c_email]").closest(".field"), tr("Email (el formato no parece correcto)"));
   return out;
 }

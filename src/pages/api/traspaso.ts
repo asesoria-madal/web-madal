@@ -2,6 +2,7 @@ import type { APIRoute } from 'astro';
 import { getSupabaseAdmin } from '../../lib/supabase';
 import { MODELOS_AUTONOMO, MODELOS_SL } from '../../i18n/formularios';
 import { useTranslations } from '../../i18n/utils';
+import { limpiarIban, ibanValido } from '../../lib/iban';
 
 export const prerender = false;
 
@@ -54,6 +55,8 @@ function primerCampoInvalido(body: unknown): string | null {
   if (typeof b.email !== 'string' || !EMAIL_PATTERN.test(b.email) || b.email.length > 254) return 'email';
   if (typeof b.telefono !== 'string' || !TELEFONO_PATTERN.test(b.telefono.trim())) return 'telefono';
   if (!isNonEmptyString(b.domicilioFiscal, 300)) return 'domicilioFiscal';
+  // Cuenta para domiciliar los impuestos: obligatoria y con dígito de control correcto (2026-11-12).
+  if (typeof b.ibanImpuestos !== 'string' || !ibanValido(b.ibanImpuestos)) return 'ibanImpuestos';
   if (!opcional(b.domicilioNotificaciones, 300)) return 'domicilioNotificaciones';
   // Domicilio social: solo SL y solo si es distinto del fiscal.
   if (isAutonomo ? b.domicilioSocial !== undefined : !opcional(b.domicilioSocial, 300)) return 'domicilioSocial';
@@ -157,6 +160,10 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
     email: b.email.trim().toLowerCase(),
     telefono: b.telefono.trim(),
     domicilio_fiscal: b.domicilioFiscal.trim(),
+    // En el traspaso es la única cuenta que se pide, así que va también a `iban`, que es la que
+    // ya leen la hoja de clientes y la Empresa de HubSpot (Número de cuenta).
+    iban: limpiarIban(b.ibanImpuestos),
+    iban_impuestos: limpiarIban(b.ibanImpuestos),
     regimen_iva_actual: b.regimenIvaActual.trim(),
     tiene_trabajadores: b.tieneTrabajadores,
     operaciones_intracomunitarias: b.operacionesIntracomunitarias,

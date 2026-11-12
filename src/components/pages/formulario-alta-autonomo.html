@@ -335,7 +335,7 @@
       <span class="hint">Lo que calculas ganar al mes una vez restados los gastos de la actividad. La cuota depende de esta cifra. Si no lo sabes, pon una estimación: se puede cambiar varias veces al año.</span></div>
     <div class="field"><label class="l">Mutua preferida</label><input type="text" name="mutua" placeholder="Si no tienes preferencia, déjalo en blanco"></div>
 
-    <div class="field full"><label class="l">Cuenta para domiciliar la cuota de autónomos (IBAN) <span class="req">*</span></label><input type="text" name="iban" data-req placeholder="ES00 0000 0000 0000 0000 0000"></div>
+    <div class="field full"><label class="l">Cuenta para domiciliar la cuota de autónomos (IBAN) <span class="req">*</span></label><input type="text" name="iban" data-req autocomplete="off" spellcheck="false" placeholder="ES0000000000000000000000"></div>
     <div class="field full"><label class="l">¿La cuenta está a tu nombre? <span class="req">*</span></label>
       <div class="opts" data-req-group="iban_titular">
         <label><input type="radio" name="iban_titular" value="Sí">Sí</label>
@@ -346,6 +346,13 @@
     <div class="field" data-if="iban_titular:No"><label class="l">DNI / NIE del titular <span class="req">*</span></label><input type="text" name="iban_tit_dni" data-req></div>
     <div class="field full" data-if="iban_titular:No"><div class="note" style="margin:0">Como la cuenta es de otra persona, el mandato de domiciliación lo tendréis que firmar los dos: el titular de la cuenta y tú.</div></div>
     <div class="field full"><div class="note" style="margin:0">Al enviar este formulario te mandaremos por correo el mandato de domiciliación de la Seguridad Social (modelo TC 1/15-3) con las instrucciones para rellenarlo y firmarlo. Es lo que permite que la cuota de autónomo se cargue cada mes en esta cuenta.</div></div>
+    <div class="field full"><label class="l">¿Domiciliamos los impuestos en esta misma cuenta? <span class="req">*</span></label>
+      <div class="opts" data-req-group="iban_imp_misma">
+        <label><input type="radio" name="iban_imp_misma" value="Sí">Sí</label>
+        <label><input type="radio" name="iban_imp_misma" value="No">No, en otra cuenta</label>
+      </div>
+      <span class="hint">Es la cuenta donde se cargarán los impuestos que presentemos domiciliados.</span></div>
+    <div class="field full" data-if="iban_imp_misma:No"><label class="l">Cuenta para domiciliar los impuestos (IBAN) <span class="req">*</span></label><input type="text" name="iban_impuestos" data-req autocomplete="off" spellcheck="false" placeholder="ES0000000000000000000000"></div>
   </div>
 </section>
 

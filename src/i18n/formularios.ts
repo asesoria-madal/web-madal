@@ -33,6 +33,7 @@ export const CAMPOS: Record<FormLang, Record<string, string>> = {
     quienLleva: 'Quién te lleva ahora la contabilidad', programaFacturacion: 'Programa de facturación', contactoGestoriaAnterior: 'Contacto de la gestoría anterior',
     autorizaSolicitarHistorico: 'Autorización para solicitar el histórico', modelos: 'Modelos que presentas',
     detalleRequerimientosAeat: 'Detalle de los requerimientos de la AEAT', plan: 'Plan', privacyAccepted: 'Política de privacidad',
+    ibanImpuestos: 'Cuenta para domiciliar los impuestos (IBAN)',
   },
   ca: {
     identificacionDigital: 'Identificació digital', adminNombre: 'Nom de l’administrador', adminDni: 'DNI / NIE de l’administrador',
@@ -44,6 +45,7 @@ export const CAMPOS: Record<FormLang, Record<string, string>> = {
     quienLleva: 'Qui et porta ara la comptabilitat', programaFacturacion: 'Programa de facturació', contactoGestoriaAnterior: 'Contacte de la gestoria anterior',
     autorizaSolicitarHistorico: 'Autorització per demanar l’històric', modelos: 'Models que presentes',
     detalleRequerimientosAeat: 'Detall dels requeriments de l’AEAT', plan: 'Pla', privacyAccepted: 'Política de privacitat',
+    ibanImpuestos: 'Compte per domiciliar els impostos (IBAN)',
   },
   en: {
     identificacionDigital: 'Digital identification', adminNombre: 'Director’s name', adminDni: 'Director’s DNI / NIE',
@@ -55,6 +57,7 @@ export const CAMPOS: Record<FormLang, Record<string, string>> = {
     quienLleva: 'Who keeps your accounts now', programaFacturacion: 'Invoicing software', contactoGestoriaAnterior: 'Contact details of your previous accountant',
     autorizaSolicitarHistorico: 'Authorisation to request your records', modelos: 'Tax forms you file',
     detalleRequerimientosAeat: 'Details of the Tax Agency (AEAT) requests', plan: 'Plan', privacyAccepted: 'Privacy Policy',
+    ibanImpuestos: 'Account for tax direct debits (IBAN)',
   },
 };
 
@@ -97,6 +100,8 @@ export const TRASPASO = {
     domSocial: 'Domicilio social',
     domNotif: 'Domicilio a efectos de notificaciones',
     soloSiDistinto: '(solo si es distinto al fiscal)',
+    ibanImpuestos: 'Cuenta para domiciliar los impuestos (IBAN) *',
+    ibanImpuestosHint: 'Es la cuenta donde se cargarán los impuestos que presentemos domiciliados. Escríbela sin espacios; si es una cuenta española, empieza por ES y tiene 24 caracteres.',
     // Situación fiscal
     situacion: 'Situación fiscal actual',
     situacionHint: 'Cuéntanos cómo tienes la situación ahora mismo: no se trata de decidir nada, solo de que la sepamos.',
@@ -210,6 +215,8 @@ export const TRASPASO = {
     domSocial: 'Domicili social',
     domNotif: 'Domicili a efectes de notificacions',
     soloSiDistinto: '(només si és diferent del fiscal)',
+    ibanImpuestos: 'Compte per domiciliar els impostos (IBAN) *',
+    ibanImpuestosHint: 'És el compte on es carregaran els impostos que presentem domiciliats. Escriu-lo sense espais; si és un compte espanyol, comença per ES i té 24 caràcters.',
     situacion: 'Situació fiscal actual',
     situacionHint: 'Explica’ns com tens la situació ara mateix: no es tracta de decidir res, només que la sapiguem.',
     fechaAlta: 'Data d’alta com a autònom *',
@@ -319,6 +326,8 @@ export const TRASPASO = {
     domSocial: 'Registered office',
     domNotif: 'Address for official notices',
     soloSiDistinto: '(only if different from the tax address)',
+    ibanImpuestos: 'Account for tax direct debits (IBAN) *',
+    ibanImpuestosHint: 'This is the account the taxes we file by direct debit will be charged to. Type it without spaces; a Spanish account starts with ES and has 24 characters.',
     situacion: 'Current tax situation',
     situacionHint: 'Tell us how things stand right now: you are not deciding anything, we just need to know.',
     fechaAlta: 'Date you registered as self-employed *',

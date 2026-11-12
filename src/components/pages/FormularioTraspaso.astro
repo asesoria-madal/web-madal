@@ -74,6 +74,9 @@ const planes = (isAutonomo ? precios.autonomoTiers : precios.pymeTiers).map((p) 
       <label class="field">{t.domNotif} <span class="field-optional">{t.soloSiDistinto}</span>
         <textarea id="fDomicilioNotif" maxlength="300" rows="2"></textarea>
       </label>
+      <label class="field">{t.ibanImpuestos} <input type="text" id="fIbanImpuestos" maxlength="34" required autocomplete="off" spellcheck="false" placeholder="ES0000000000000000000000" />
+        <span class="field-hint">{t.ibanImpuestosHint}</span>
+      </label>
     </fieldset>
 
     <fieldset class="alta-section">
@@ -247,6 +250,7 @@ const planes = (isAutonomo ? precios.autonomoTiers : precios.pymeTiers).map((p) 
 
 <script>
   import { track } from '../../scripts/analytics';
+  import { limpiarIban, ibanValido } from '../../lib/iban';
 
   (function () {
     const form = document.getElementById('traspasoForm') as HTMLFormElement | null;
@@ -308,6 +312,13 @@ const planes = (isAutonomo ? precios.autonomoTiers : precios.pymeTiers).map((p) 
       disparadores.forEach((d) => d.addEventListener('change', aplicar));
     }
     const radios = (name: string) => form.querySelectorAll<HTMLInputElement>(`[name="${name}"]`);
+
+    // La cuenta se guarda sin espacios y en mayúsculas: se limpia mientras se escribe o se pega.
+    const ibanInput = el<HTMLInputElement>('fIbanImpuestos');
+    ibanInput?.addEventListener('input', () => {
+      const limpio = limpiarIban(ibanInput.value);
+      if (limpio !== ibanInput.value) ibanInput.value = limpio;
+    });
     const casilla = (id: string) => [el<HTMLInputElement>(id)!].filter(Boolean);
 
     alternar(radios('regimenIva'), el('fRegimenIvaOtro'), () => radioValue('regimenIva') === 'otro');
@@ -325,6 +336,8 @@ const planes = (isAutonomo ? precios.autonomoTiers : precios.pymeTiers).map((p) 
     form.addEventListener('submit', async function (e) {
       e.preventDefault();
       errorEl.hidden = true;
+      // Antes de enviar: el IBAN tiene que existir (dígito de control), para no domiciliar en una cuenta mal escrita.
+      if (!ibanValido(valor('fIbanImpuestos'))) { avisar('ibanImpuestos'); ibanInput?.focus(); return; }
 
       const conGestoria = radioValue('quienLleva') === 'gestoria';
       const body: Record<string, unknown> = {
@@ -335,6 +348,7 @@ const planes = (isAutonomo ? precios.autonomoTiers : precios.pymeTiers).map((p) 
         email: valor('fEmail'),
         telefono: valor('fTelefono'),
         domicilioFiscal: valor('fDomicilioFiscal'),
+        ibanImpuestos: limpiarIban(valor('fIbanImpuestos')),
         regimenIvaActual: radioValue('regimenIva') === 'otro' ? (valor('fRegimenIvaOtro') || 'otro') : radioValue('regimenIva'),
         tieneTrabajadores: !!el<HTMLInputElement>('fTrabajadores')?.checked,
         operacionesIntracomunitarias: !!el<HTMLInputElement>('fIntracomunitarias')?.checked,
