@@ -17,7 +17,7 @@ const comunidades = (excl: [string, string, string]) => [
 const es = {
   meta: {
     contactoTitle: 'Contacto · Asesoría Madal',
-    contactoDesc: 'Cuéntanos qué necesitas y te respondemos en unas 24 horas, en días laborables. Gestoría y asesoría para autónomos y pymes.',
+    contactoDesc: 'Cuéntanos qué necesitas y te respondemos en menos de 24 horas laborables. Gestoría y asesoría para autónomos y pymes.',
     slTitle: 'Constituir una SL en España por 175 € + IVA · Asesoría Madal',
     slDesc: 'Constituimos tu SL en España en menos de una semana por 175 € + IVA, más 60 € + IVA de notaría y 40 € + IVA de Registro Mercantil. Solicitud del nombre incluida.',
     slBreadcrumb: 'Constituir una SL',
@@ -25,7 +25,7 @@ const es = {
   contacto: {
     eyebrow: 'Contacto',
     title: 'Cuéntanos qué necesitas',
-    intro: 'Déjanos tus datos y te respondemos en unas 24 horas, en días laborables, sin compromiso.',
+    intro: 'Déjanos tus datos y te respondemos en menos de 24 horas laborables, sin compromiso.',
     aside: 'También puedes escribirnos o reservar una llamada:',
     llamada: 'Reservar una llamada',
     ambito: 'Atendemos en toda España, excepto Canarias, Navarra y País Vasco.',
@@ -50,11 +50,11 @@ const es = {
     enviar: 'Enviar',
     enviando: 'Enviando…',
     okTitle: '¡Recibido!',
-    okText: 'Te responderemos en unas 24 horas, en días laborables.',
+    okText: 'Te responderemos en menos de 24 horas laborables.',
     error: 'No hemos podido enviarlo. Revisa los datos o escríbenos a contacto@asesoriamadal.es.',
     errorPrivacy: 'Tienes que aceptar la política de privacidad para enviarlo.',
     compactTitle: '¿Te ayudamos con esto?',
-    compactSub: 'Escríbenos y te respondemos en unas 24 horas, en días laborables.',
+    compactSub: 'Escríbenos y te respondemos en menos de 24 horas laborables.',
   },
   sl: {
     eyebrow: 'Constitución de SL',
@@ -75,7 +75,7 @@ const es = {
     ] as [string, string][],
     pasosTitle: 'Cómo funciona',
     pasos: [
-      ['Nos cuentas tu proyecto', 'Déjanos tus datos y te enviamos por correo el formulario completo. Lo revisamos en unas 24 horas, en días laborables.'],
+      ['Nos cuentas tu proyecto', 'Déjanos tus datos y te enviamos por correo el formulario completo. Lo revisamos en menos de 24 horas laborables.'],
       ['Creas la Cartera Virtual', 'Un socio la crea con certificado digital o Cl@ve. Es obligatoria para tramitar por CIRCE, y te explicamos cómo hacerlo.'],
       ['Solicitamos el nombre', 'Lo pedimos por ti, con las opciones que prefieras.'],
       ['Preparamos el trámite y firmas', 'Lo tramitamos por la vía telemática CIRCE y firmas la escritura ante notario.'],
@@ -112,7 +112,7 @@ const es = {
   },
   blogSide: {
     title: '¿Tienes dudas sobre esto?',
-    desc: 'Te respondemos en unas 24 horas, en días laborables.',
+    desc: 'Te respondemos en menos de 24 horas laborables.',
     cta: 'Escríbenos',
     slTitle: '¿Vas a montar una SL?',
     slDesc: 'La constituimos en menos de una semana, por 175 € + IVA más notaría y Registro.',
@@ -125,7 +125,7 @@ type Textos = typeof es;
 const ca: Textos = {
   meta: {
     contactoTitle: 'Contacte · Asesoría Madal',
-    contactoDesc: 'Explica’ns què necessites i et responem en unes 24 hores, en dies laborables. Gestoria i assessoria per a autònoms i pimes.',
+    contactoDesc: 'Explica’ns què necessites i et responem en menys de 24 hores laborables. Gestoria i assessoria per a autònoms i pimes.',
     slTitle: 'Constituir una SL a Espanya per 175 € + IVA · Asesoría Madal',
     slDesc: 'Constituïm la teva SL a Espanya en menys d’una setmana per 175 € + IVA, més 60 € + IVA de notaria i 40 € + IVA de Registre Mercantil. Sol·licitud del nom inclosa.',
     slBreadcrumb: 'Constituir una SL',
@@ -133,7 +133,7 @@ const ca: Textos = {
   contacto: {
     eyebrow: 'Contacte',
     title: 'Explica’ns què necessites',
-    intro: 'Deixa’ns les teves dades i et responem en unes 24 hores, en dies laborables, sense compromís.',
+    intro: 'Deixa’ns les teves dades i et responem en menys de 24 hores laborables, sense compromís.',
     aside: 'També ens pots escriure o reservar una trucada:',
     llamada: 'Reservar una trucada',
     ambito: 'Atenem a tot Espanya, excepte Canàries, Navarra i País Basc.',
@@ -158,11 +158,11 @@ const ca: Textos = {
     enviar: 'Enviar',
     enviando: 'Enviant…',
     okTitle: 'Rebut!',
-    okText: 'Et respondrem en unes 24 hores, en dies laborables.',
+    okText: 'Et respondrem en menys de 24 hores laborables.',
     error: 'No ho hem pogut enviar. Revisa les dades o escriu-nos a contacto@asesoriamadal.es.',
     errorPrivacy: 'Has d’acceptar la política de privacitat per enviar-ho.',
     compactTitle: 'T’ajudem amb això?',
-    compactSub: 'Escriu-nos i et responem en unes 24 hores, en dies laborables.',
+    compactSub: 'Escriu-nos i et responem en menys de 24 hores laborables.',
   },
   sl: {
     eyebrow: 'Constitució de SL',
@@ -183,7 +183,7 @@ const ca: Textos = {
     ],
     pasosTitle: 'Com funciona',
     pasos: [
-      ['Ens expliques el teu projecte', 'Deixa’ns les teves dades i t’enviem per correu el formulari complet. El revisem en unes 24 hores, en dies laborables.'],
+      ['Ens expliques el teu projecte', 'Deixa’ns les teves dades i t’enviem per correu el formulari complet. El revisem en menys de 24 hores laborables.'],
       ['Crees la Cartera Virtual', 'Un soci la crea amb certificat digital o Cl@ve. És obligatòria per tramitar pel CIRCE, i t’expliquem com fer-ho.'],
       ['Sol·licitem el nom', 'El demanem per tu, amb les opcions que prefereixis.'],
       ['Preparem el tràmit i signes', 'El tramitem per la via telemàtica CIRCE i signes l’escriptura davant notari.'],
@@ -220,7 +220,7 @@ const ca: Textos = {
   },
   blogSide: {
     title: 'Tens dubtes sobre això?',
-    desc: 'Et responem en unes 24 hores, en dies laborables.',
+    desc: 'Et responem en menys de 24 hores laborables.',
     cta: 'Escriu-nos',
     slTitle: 'Muntaràs una SL?',
     slDesc: 'La constituïm en menys d’una setmana, per 175 € + IVA més notaria i Registre.',
@@ -231,7 +231,7 @@ const ca: Textos = {
 const en: Textos = {
   meta: {
     contactoTitle: 'Contact · Asesoría Madal',
-    contactoDesc: 'Tell us what you need and we’ll reply in about 24 hours, on working days. Accounting and advisory services for freelancers and small businesses.',
+    contactoDesc: 'Tell us what you need and we’ll reply in under 24 working hours. Accounting and advisory services for freelancers and small businesses.',
     slTitle: 'Set up an SL in Spain for €175 + VAT · Asesoría Madal',
     slDesc: 'We set up your SL in Spain in under a week for €175 + VAT, plus €60 + VAT notary and €40 + VAT Commercial Registry fees. Company name application included.',
     slBreadcrumb: 'Set up an SL',
@@ -239,7 +239,7 @@ const en: Textos = {
   contacto: {
     eyebrow: 'Contact',
     title: 'Tell us what you need',
-    intro: 'Leave your details and we’ll reply in about 24 hours, on working days, with no obligation.',
+    intro: 'Leave your details and we’ll reply in under 24 working hours, with no obligation.',
     aside: 'You can also email us or book a call:',
     llamada: 'Book a call',
     ambito: 'We work across Spain, except the Canary Islands, Navarre and the Basque Country.',
@@ -264,11 +264,11 @@ const en: Textos = {
     enviar: 'Send',
     enviando: 'Sending…',
     okTitle: 'Got it!',
-    okText: 'We’ll reply in about 24 hours, on working days.',
+    okText: 'We’ll reply in under 24 working hours.',
     error: 'We couldn’t send it. Check your details or email us at contacto@asesoriamadal.es.',
     errorPrivacy: 'You need to accept the privacy policy to send this.',
     compactTitle: 'Need help with this?',
-    compactSub: 'Write to us and we’ll reply in about 24 hours, on working days.',
+    compactSub: 'Write to us and we’ll reply in under 24 working hours.',
   },
   sl: {
     eyebrow: 'SL incorporation',
@@ -289,7 +289,7 @@ const en: Textos = {
     ],
     pasosTitle: 'How it works',
     pasos: [
-      ['Tell us about your project', 'Leave your details and we’ll email you the full form. We review it in about 24 hours, on working days.'],
+      ['Tell us about your project', 'Leave your details and we’ll email you the full form. We review it in under 24 working hours.'],
       ['You create the Virtual Wallet', 'A partner creates it with a digital certificate or Cl@ve. It is required to file through CIRCE, and we explain how to do it.'],
       ['We apply for the name', 'We do it for you, with the options you prefer.'],
       ['We prepare it and you sign', 'We file it through the CIRCE online system and you sign the deed before a notary.'],
@@ -326,7 +326,7 @@ const en: Textos = {
   },
   blogSide: {
     title: 'Questions about this?',
-    desc: 'We’ll reply in about 24 hours, on working days.',
+    desc: 'We’ll reply in under 24 working hours.',
     cta: 'Write to us',
     slTitle: 'Setting up an SL?',
     slDesc: 'We do it in under a week, for €175 + VAT plus notary and Registry fees.',
