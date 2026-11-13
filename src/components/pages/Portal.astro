@@ -27,7 +27,8 @@ const EMAIL = CONTACT_EMAIL;
 
 // Carpetas de la pestaña Documentación. Los códigos se guardan en
 // facturas_subidas.carpeta y los usa n8n para decidir la carpeta de Drive
-// (ver schema.sql). "banco" solo se ofrece a las SL (lo quita el script).
+// (ver schema.sql). "banco", "tarjeta", "escrituras" y "prestamos" solo se ofrecen a las SL
+// (los oculta el script, ver SOLO_SL).
 const CARPETAS_CONTABILIDAD = ['emitidas', 'recibidas', 'simplificadas', 'tickets', 'banco', 'tarjeta'] as const;
 const CARPETAS_DOCUMENTACION = ['escrituras', 'contratos', 'prestamos', 'seguros', 'vehiculos', 'subvenciones', 'notificaciones', 'certificados', 'laboral', 'otros'] as const;
 const textosCarpeta = { subir: t.doc.subir, foto: t.facturas.cameraSubmit, ver: t.doc.verArchivos, desde: t.doc.desde, hasta: t.doc.hasta };
@@ -460,9 +461,11 @@ const textosCarpeta = { subir: t.doc.subir, foto: t.facturas.cameraSubmit, ver: 
     el.textContent = texto;
   }
 
-  // "Extractos bancarios" solo para SL.
+  // Carpetas solo para SL (Edurne, 2026-11-13): extractos bancarios y de tarjetas de crédito,
+  // escrituras y préstamos/leasing. Los autónomos no las ven.
+  const SOLO_SL = ['banco', 'tarjeta', 'escrituras', 'prestamos'];
   function ajustarCarpetas(tipoPersona: string | null) {
-    carpeta('banco').hidden = tipoPersona !== 'sl';
+    SOLO_SL.forEach((c) => { carpeta(c).hidden = tipoPersona !== 'sl'; });
   }
 
   // Cada carpeta: "Subir" abre el selector de archivos y "Hacer foto", la cámara del móvil.
