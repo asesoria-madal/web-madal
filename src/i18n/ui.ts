@@ -95,7 +95,7 @@ export const ui = {
           amount: '35 €',
           unit: '/mes',
           ivaNote: 'Total con IVA: 42,35 €/mes (meses 7 a 12: 54,45 €/mes)',
-          durationNote: 'Meses 1 a 6: 35 € + IVA/mes. Meses 7 a 12: 45 € + IVA/mes. Después, plan Esencial.',
+          durationNote: 'Meses 1 a 6: 35 € + IVA/mes. Meses 7 a 12: 45 € + IVA/mes. Después, pasas al plan Esencial (el más económico), salvo que prefieras uno superior.',
           features: [
             'Contabilidad, libros y todos los modelos',
             'Notificaciones de la AEAT y la Seguridad Social vigiladas',
@@ -106,7 +106,7 @@ export const ui = {
             'Hasta 20 facturas al mes en total (emitidas, recibidas y tickets)',
             'Contacto por email',
           ],
-          transitionNote: 'A los 6 meses revisamos tu facturación: si tu proyección anual supera los 25.000 €, pasas al plan Esencial. También pasas a Esencial si superas las 20 facturas al mes durante dos meses seguidos. Al finalizar los 12 meses, pasas automáticamente a Esencial (o al plan que corresponda). La declaración de la renta no está incluida (tarifa general).',
+          transitionNote: 'A los 6 meses revisamos tu facturación: si tu proyección anual supera los 25.000 €, pasas al plan Esencial. También pasas a Esencial si superas las 20 facturas al mes durante dos meses seguidos. Al finalizar los 12 meses, pasas a Esencial, salvo que prefieras un plan superior. La declaración de la renta no está incluida (tarifa general).',
         },
         {
           key: 'esencial',
@@ -741,7 +741,7 @@ export const ui = {
           amount: '35 €',
           unit: '/mes',
           ivaNote: 'Total amb IVA: 42,35 €/mes (mesos 7 a 12: 54,45 €/mes)',
-          durationNote: 'Mesos 1 a 6: 35 € + IVA/mes. Mesos 7 a 12: 45 € + IVA/mes. Després, pla Essencial.',
+          durationNote: 'Mesos 1 a 6: 35 € + IVA/mes. Mesos 7 a 12: 45 € + IVA/mes. Després, passes al pla Essencial (el més econòmic), tret que en prefereixis un de superior.',
           features: [
             'Comptabilitat, llibres i tots els models',
             'Notificacions de l’AEAT i la Seguretat Social vigilades',
@@ -752,7 +752,7 @@ export const ui = {
             'Fins a 20 factures al mes en total (emeses, rebudes i tiquets)',
             'Contacte per correu',
           ],
-          transitionNote: 'Als 6 mesos revisem la teva facturació: si la teva projecció anual supera els 25.000 €, passes al pla Essencial. També passes a Essencial si superes les 20 factures al mes durant dos mesos seguits. En acabar els 12 mesos, passes automàticament a Essencial (o al pla que correspongui). La declaració de la renda no hi està inclosa (tarifa general).',
+          transitionNote: 'Als 6 mesos revisem la teva facturació: si la teva projecció anual supera els 25.000 €, passes al pla Essencial. També passes a Essencial si superes les 20 factures al mes durant dos mesos seguits. En acabar els 12 mesos, passes a Essencial, tret que prefereixis un pla superior. La declaració de la renda no hi està inclosa (tarifa general).',
         },
         {
           key: 'esencial',
@@ -1387,7 +1387,7 @@ export const ui = {
           amount: '€35',
           unit: '/month',
           ivaNote: 'Total with VAT: €42.35/month (months 7 to 12: €54.45/month)',
-          durationNote: 'Months 1 to 6: €35 + VAT/month. Months 7 to 12: €45 + VAT/month. Then, Essential plan.',
+          durationNote: 'Months 1 to 6: €35 + VAT/month. Months 7 to 12: €45 + VAT/month. Then you move to the Essential plan (the most affordable), unless you prefer a higher one.',
           features: [
             'Bookkeeping, ledgers and all tax filings',
             'Tax office (AEAT) and Social Security notices monitored',
@@ -1398,7 +1398,7 @@ export const ui = {
             'Up to 20 invoices a month in total (issued, received and receipts)',
             'Contact by email',
           ],
-          transitionNote: 'At 6 months we review your revenue: if your projected annual revenue is over €25,000, you move to the Essential plan. You also move to Essential if you go over 20 invoices a month for two months in a row. At the end of the 12 months, you move automatically to Essential (or to whichever plan fits). The annual income tax return is not included (standard rate).',
+          transitionNote: 'At 6 months we review your revenue: if your projected annual revenue is over €25,000, you move to the Essential plan. You also move to Essential if you go over 20 invoices a month for two months in a row. At the end of the 12 months, you move to Essential, unless you prefer a higher plan. The annual income tax return is not included (standard rate).',
         },
         {
           key: 'esencial',
