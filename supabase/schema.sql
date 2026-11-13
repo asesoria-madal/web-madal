@@ -1221,3 +1221,17 @@ create policy "admin sube a cualquier carpeta de facturas"
 -- EJECUTAR UNA VEZ en el SQL editor de Supabase (añade columnas, no toca datos):
 alter table alta_nuevos_autonomos add column if not exists iban_impuestos text;
 alter table traspasos_nuevos add column if not exists iban_impuestos text;
+
+-- ---------------------------------------------------------------------------
+-- 2026-11-13 · Alta de autónomo tramitada (Edurne)
+-- ---------------------------------------------------------------------------
+-- Hasta ahora nada marcaba que el alta en Hacienda y Seguridad Social ya estaba hecha:
+-- clientes.fecha_alta_actividad la rellena el formulario (fecha en que quiere empezar), no
+-- el trámite. alta_tramitada_at es otro paso del checklist del equipo (como
+-- pago_confirmado_at): se marca a mano en el Table Editor cuando el alta está hecha.
+-- La lee n8n ("Tareas del equipo en HubSpot"): cada día laborable a las 18:00 crea una tarea
+-- para el día siguiente con las altas que no lo tienen.
+-- EJECUTAR UNA VEZ en el SQL editor de Supabase:
+alter table alta_nuevos_autonomos add column if not exists alta_tramitada_at timestamptz;
+-- Gani Yalinalp ya está dado de alta (Mike Maddox y Mónica Eusebio siguen pendientes):
+update alta_nuevos_autonomos set alta_tramitada_at = now() where id = 11;
