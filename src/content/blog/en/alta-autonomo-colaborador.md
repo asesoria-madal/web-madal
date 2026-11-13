@@ -2,14 +2,14 @@
 lang: en
 slug: alta-autonomo-colaborador
 title: 'Registering a collaborating family member: hiring (without hiring) a relative'
-description: 'If a family member helps you in the business on a regular basis, there is a specific status for that — and it is not an employment contract.'
+description: 'If a family member helps you in the business on a regular basis, there is a specific status for that - and it is not an employment contract.'
 seoTitle: "Collaborating family member: registering a relative"
 cat: laboral
 date: 2026-10-13
 sources:
-  - label: 'Royal Legislative Decree 8/2015, General Social Security Law, art. 305 — inclusion of collaborating family members in RETA'
+  - label: 'Royal Legislative Decree 8/2015, General Social Security Law, art. 305 - inclusion of collaborating family members in RETA'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2015-11724'
-  - label: 'Law 20/2007, Self-Employed Workers Statute, art. 35 — contribution reductions for collaborating family members'
+  - label: 'Law 20/2007, Self-Employed Workers Statute, art. 35 - contribution reductions for collaborating family members'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2007-13409'
 ---
 ## What a "collaborating family member" is

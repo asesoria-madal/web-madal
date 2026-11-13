@@ -2,7 +2,7 @@
 // Botón "Contacta con nosotros" que abre un modal centrado (elemento
 // nativo <dialog>, que ya se autocentra y trae backdrop/Escape gratis)
 // con el correo como opción principal y la llamada debajo como
-// alternativa — enlace de reserva de HubSpot Meetings.
+// alternativa - enlace de reserva de HubSpot Meetings.
 // Se reutiliza en cabecera, CTA final, home y alta para no
 // repetir botones sueltos de llamada/correo en cada sitio.
 import type { Locale } from '../i18n/ui';
@@ -42,7 +42,7 @@ const [emailLocal, emailDomain] = t.contact.email.split('@');
   // Se reengancha en "astro:page-load" (carga inicial + cada transición de
   // vista) porque este componente se repite en varios puntos de cada página
   // (cabecera, hero, CTA final...) y sus nodos se sustituyen por unos nuevos
-  // en cada navegación — sin esto, dejaría de abrir el diálogo después de la
+  // en cada navegación - sin esto, dejaría de abrir el diálogo después de la
   // primera transición.
   function initContactSwitch() {
     const originOf = (el: HTMLElement | null) => el?.dataset.origen || 'desconocido';

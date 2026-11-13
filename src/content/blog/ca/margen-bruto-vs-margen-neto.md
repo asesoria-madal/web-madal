@@ -31,8 +31,8 @@ Aquí és on molts negocis amb bon marge brut es duen la sorpresa: un marge brut
 
 ## Per què aquesta diferència importa per decidir
 
-- Si el teu marge brut ja és baix, el problema és com produeixes o compres — pujar preus de venda o baixar el cost de producció/compra és la palanca principal.
-- Si el teu marge brut és bo però el marge net és dolent, el problema és l'estructura de despeses (massa despeses fixes per al volum que tens) — la palanca aquí no és vendre més car, sinó revisar despeses o créixer en volum per diluir-les.
+- Si el teu marge brut ja és baix, el problema és com produeixes o compres - pujar preus de venda o baixar el cost de producció/compra és la palanca principal.
+- Si el teu marge brut és bo però el marge net és dolent, el problema és l'estructura de despeses (massa despeses fixes per al volum que tens) - la palanca aquí no és vendre més car, sinó revisar despeses o créixer en volum per diluir-les.
 
 Confondre aquests dos diagnòstics porta a prendre la decisió equivocada: pujar preus quan el problema real són les despeses fixes, o retallar despeses quan el problema real és que cada venda ja deixa poc marge des del principi.
 

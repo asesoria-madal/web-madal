@@ -127,8 +127,8 @@ body {
   background: var(--paper);
   color: var(--ink);
   font-family: var(--font-body);
-  font-size: 16px;
-  line-height: 1.65;
+  font-size: 15px;
+  line-height: 1.6;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -828,7 +828,7 @@ section.hero { border-top: none; padding: 3.6rem 0 3.2rem; display: block; posit
 section#diferencia { background: var(--accent-tint); border-top-color: var(--accent-tint); }
 .compare-table { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
 .compare-table .cell { background: var(--paper); padding: 1rem 1.3rem; font-size: 0.9rem; color: var(--ink-soft); display: flex; align-items: center; transition: transform 0.15s ease; }
-.compare-table .cell:empty::before { content: '—'; color: var(--line); }
+.compare-table .cell:empty::before { content: '-'; color: var(--line); }
 .compare-table .cell-head { background: var(--paper-raised); font-family: var(--font-display); font-weight: 700; font-size: 1.02rem; color: var(--ink); padding: 1.1rem 1.3rem; }
 .compare-table .col-madal { background: var(--accent); color: var(--accent-ink); font-weight: 600; }
 .compare-table .cell-head.col-madal { background: var(--accent-strong); color: var(--accent-ink); }
@@ -1791,3 +1791,6 @@ header.site .lang-menu { color: var(--ink); }
 .pricing-tier, .alta-box, .finanzas-preview, .lead-card { border-radius: var(--radius); }
 /* La portada nueva no usa el fondo de color de estas secciones antiguas. */
 section#diferencia, section#como-trabajamos { background: transparent; }
+/* Debut (tarjeta verde oscura): el escalonado tiene que verse claro. */
+.pricing-tier.tier-solid .pricing-tier-duration { color: var(--mint); font-weight: 600; font-size: 0.92rem; }
+.pricing-tier.tier-solid .pricing-tier-badge { display: inline-block; color: var(--hero-bg); background: var(--mint); padding: 0.2rem 0.6rem; border-radius: 999px; }

@@ -7,11 +7,11 @@ seoTitle: 'Minimum capital for an SL in Spain: €1 or €3,000?'
 cat: fiscalidad
 date: 2026-11-07
 sources:
-  - label: 'Royal Legislative Decree 1/2010, Capital Companies Act, art. 4 — minimum capital, legal reserve and liability up to €3,000 (in Spanish)'
+  - label: 'Royal Legislative Decree 1/2010, Capital Companies Act, art. 4 - minimum capital, legal reserve and liability up to €3,000 (in Spanish)'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2010-10544'
   - label: 'Law 18/2022, on business creation and growth (in Spanish)'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2022-15818'
-  - label: 'Royal Decree-Law 13/2010, art. 5 — fees with standard articles (in Spanish)'
+  - label: 'Royal Decree-Law 13/2010, art. 5 - fees with standard articles (in Spanish)'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2010-18651'
 ---
 

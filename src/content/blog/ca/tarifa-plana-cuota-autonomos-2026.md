@@ -9,9 +9,9 @@ cat: fiscalidad
 date: 2026-09-21
 updatedDate: 2026-09-21
 sources:
-  - label: 'Real Decreto-ley 13/2022, de 26 de julio — nou sistema de cotització d''autònoms per trams de rendiments nets'
+  - label: 'Real Decreto-ley 13/2022, de 26 de julio - nou sistema de cotització d''autònoms per trams de rendiments nets'
     url: 'https://www.boe.es/buscar/doc.php?id=BOE-A-2022-12482'
-  - label: 'Real Decreto Legislativo 8/2015, text refós de la Ley General de la Seguridad Social — tarifa plana i MEI (art. 127 bis)'
+  - label: 'Real Decreto Legislativo 8/2015, text refós de la Ley General de la Seguridad Social - tarifa plana i MEI (art. 127 bis)'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2015-11724'
 ---
 
@@ -37,6 +37,6 @@ Tries el tram en donar-te d'alta (o en acabar la tarifa plana) segons el que est
 
 ## Per què no convé triar el tram "a ull"
 
-Un tram molt per sota del que realment guanyaràs pot derivar en una regularització amb recàrrec l'any següent; un de molt per sobre significa pagar de més mes a mes sense necessitat. És de les primeres decisions fiscals que pren un autònom nou, i convé prendre-la amb xifres reals al davant, no a ull — ho revisem gratis a la primera trucada, juntament amb la resta de la teva situació (vegeu [quant costa una gestoria online](/ca/blog/precio-gestoria-online-2026)).
+Un tram molt per sota del que realment guanyaràs pot derivar en una regularització amb recàrrec l'any següent; un de molt per sobre significa pagar de més mes a mes sense necessitat. És de les primeres decisions fiscals que pren un autònom nou, i convé prendre-la amb xifres reals al davant, no a ull - ho revisem gratis a la primera trucada, juntament amb la resta de la teva situació (vegeu [quant costa una gestoria online](/ca/blog/precio-gestoria-online-2026)).
 
 Si estàs pensant a donar-te d'alta, tens [la guia completa de l'alta d'autònom](/blog/como-darse-de-alta-autonomo): quan, com i quant costa amb nosaltres.

@@ -57,7 +57,7 @@ export const CAMBIO: Record<Locale, {
     condicionesTitle: 'Condiciones',
     condiciones: 'Sin permanencia. El cambio es gratis si te quedas con nosotros al menos 6 meses; si te vas antes, se cobra el trabajo del traspaso: 80 € + IVA si eres autónomo y 150 € + IVA si es una SL.',
     finalTitle: '¿Lo hablamos antes?',
-    finalDesc: 'Reserva una llamada de 16:00 a 20:00 o escríbenos, y te contamos cómo sería en tu caso.',
+    finalDesc: 'Reserva una llamada o escríbenos, y te contamos cómo sería en tu caso.',
   },
   ca: {
     metaTitle: 'Canviar de gestoria sense fer res · Asesoría Madal',
@@ -100,7 +100,7 @@ export const CAMBIO: Record<Locale, {
     condicionesTitle: 'Condicions',
     condiciones: 'Sense permanència. El canvi és gratuït si et quedes amb nosaltres com a mínim 6 mesos; si te’n vas abans, es cobra la feina del traspàs: 80 € + IVA si ets autònom i 150 € + IVA si és una SL.',
     finalTitle: 'En parlem abans?',
-    finalDesc: 'Reserva una trucada de 16:00 a 20:00 o escriu-nos, i t’expliquem com seria en el teu cas.',
+    finalDesc: 'Reserva una trucada o escriu-nos, i t’expliquem com seria en el teu cas.',
   },
   en: {
     metaTitle: 'Switch accountants without lifting a finger · Asesoría Madal',
@@ -143,6 +143,6 @@ export const CAMBIO: Record<Locale, {
     condicionesTitle: 'Terms',
     condiciones: 'No lock-in. Switching is free if you stay with us at least 6 months; if you leave earlier, the switching work is charged: €80 + VAT for freelancers and €150 + VAT for companies.',
     finalTitle: 'Shall we talk first?',
-    finalDesc: 'Book a call between 4 and 8 pm or write to us, and we will explain how it would work in your case.',
+    finalDesc: 'Book a call or write to us, and we will explain how it would work in your case.',
   },
 };

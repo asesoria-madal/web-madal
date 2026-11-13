@@ -8,11 +8,11 @@ cat: fiscalidad
 date: 2026-08-19
 updatedDate: 2026-09-17
 sources:
-  - label: 'Ley 27/2014, del Impuesto sobre Sociedades, art. 29 — tipo general 25% y reducido 15% para nueva creación'
+  - label: 'Ley 27/2014, del Impuesto sobre Sociedades, art. 29 - tipo general 25% y reducido 15% para nueva creación'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2014-12328'
-  - label: 'Real Decreto Legislativo 1/2010, Ley de Sociedades de Capital, art. 1.2 — responsabilidad limitada al capital aportado'
+  - label: 'Real Decreto Legislativo 1/2010, Ley de Sociedades de Capital, art. 1.2 - responsabilidad limitada al capital aportado'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2010-10544'
-  - label: 'Ley 35/2006, del IRPF — tributación progresiva de los autónomos'
+  - label: 'Ley 35/2006, del IRPF - tributación progresiva de los autónomos'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2006-20764'
 ---
 
@@ -24,7 +24,7 @@ Suele empezar a compensar entre 40.000 € y 60.000 € de beneficio anual, aunq
 
 ## No es solo una cuestión de facturación
 
-Esa cifra orientativa parte de un beneficio "genérico", pero tu caso concreto tiene factores propios que la mueven en un sentido u otro. Tu comunidad autónoma importa, porque los tramos y tipos del IRPF varían de una a otra, y algunas tienen bonificaciones propias para autónomos o para la creación de sociedades. También importa cuánto dinero necesitas sacar cada mes para vivir: cuanto más dinero saques de la SL para uso personal, más se diluye el ahorro fiscal, porque esa salida también tributa (vía nómina o dividendos). Y tu situación familiar —personas a tu cargo, otras fuentes de ingresos, tus propias cotizaciones— cambia el cálculo igual que cambia cualquier otra declaración de la renta. Por eso 40.000-60.000 € es un punto de partida para empezar a mirarlo, no una respuesta para tu caso.
+Esa cifra orientativa parte de un beneficio "genérico", pero tu caso concreto tiene factores propios que la mueven en un sentido u otro. Tu comunidad autónoma importa, porque los tramos y tipos del IRPF varían de una a otra, y algunas tienen bonificaciones propias para autónomos o para la creación de sociedades. También importa cuánto dinero necesitas sacar cada mes para vivir: cuanto más dinero saques de la SL para uso personal, más se diluye el ahorro fiscal, porque esa salida también tributa (vía nómina o dividendos). Y tu situación familiar -personas a tu cargo, otras fuentes de ingresos, tus propias cotizaciones- cambia el cálculo igual que cambia cualquier otra declaración de la renta. Por eso 40.000-60.000 € es un punto de partida para empezar a mirarlo, no una respuesta para tu caso.
 
 ## La razón que no es fiscal: la responsabilidad
 

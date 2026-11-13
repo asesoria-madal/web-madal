@@ -9,9 +9,9 @@ cat: fiscalidad
 date: 2026-09-21
 updatedDate: 2026-09-21
 sources:
-  - label: 'Real Decreto-ley 13/2022, of 26 July — new contribution system for self-employed workers based on net income brackets'
+  - label: 'Real Decreto-ley 13/2022, of 26 July - new contribution system for self-employed workers based on net income brackets'
     url: 'https://www.boe.es/buscar/doc.php?id=BOE-A-2022-12482'
-  - label: 'Real Decreto Legislativo 8/2015, consolidated General Social Security Act — flat rate and MEI (art. 127 bis)'
+  - label: 'Real Decreto Legislativo 8/2015, consolidated General Social Security Act - flat rate and MEI (art. 127 bis)'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2015-11724'
 ---
 
@@ -27,7 +27,7 @@ It lasts 12 months. If your projected net income stays below the minimum wage, i
 
 - Not having been registered as self-employed in the previous 2 years (3 if you already used the flat rate before).
 - Being up to date with Social Security payments at the time it's granted.
-- You request it as part of the registration itself (form TA.0521): it's not retroactive — if you don't ask for it when registering, you lose it.
+- You request it as part of the registration itself (form TA.0521): it's not retroactive - if you don't ask for it when registering, you lose it.
 
 ## What happens once it ends
 
@@ -37,6 +37,6 @@ You choose your tier when registering (or when the flat rate ends) based on what
 
 ## Why guessing your tier is a bad idea
 
-A tier set well below what you'll actually earn can lead to a surcharge adjustment the following year; one set too high means overpaying every month for no reason. It's one of the first fiscal decisions a new self-employed person makes, and it's worth making with real numbers in front of you, not a guess — we review it for free on the first call, along with the rest of your situation (see [how much an online gestoría costs](/en/blog/precio-gestoria-online-2026)).
+A tier set well below what you'll actually earn can lead to a surcharge adjustment the following year; one set too high means overpaying every month for no reason. It's one of the first fiscal decisions a new self-employed person makes, and it's worth making with real numbers in front of you, not a guess - we review it for free on the first call, along with the rest of your situation (see [how much an online gestoría costs](/en/blog/precio-gestoria-online-2026)).
 
 If you are thinking of registering, here is [the complete guide to registering as self-employed](/blog/como-darse-de-alta-autonomo): when, how and what it costs with us.

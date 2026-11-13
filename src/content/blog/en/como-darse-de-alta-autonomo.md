@@ -8,13 +8,13 @@ cat: fiscalidad
 date: 2026-10-05
 updatedDate: 2026-11-11
 sources:
-  - label: 'Real Decreto Legislativo 8/2015, consolidated General Social Security Act — obligation to register in the RETA'
+  - label: 'Real Decreto Legislativo 8/2015, consolidated General Social Security Act - obligation to register in the RETA'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2015-11724'
-  - label: 'Ley 20/2007, Self-Employed Workers Statute — art. 38 ter (flat rate, to be requested at registration)'
+  - label: 'Ley 20/2007, Self-Employed Workers Statute - art. 38 ter (flat rate, to be requested at registration)'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2007-13409'
-  - label: 'Ley 58/2003, General Tax Act — additional provision 5 and arts. 198-199 (census and infringements)'
+  - label: 'Ley 58/2003, General Tax Act - additional provision 5 and arts. 198-199 (census and infringements)'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2003-23186'
-  - label: 'Real Decreto 1065/2007 — census declarations (forms 036/037) and filing deadline'
+  - label: 'Real Decreto 1065/2007 - census declarations (forms 036/037) and filing deadline'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2007-19071'
 ---
 

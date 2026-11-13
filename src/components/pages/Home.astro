@@ -1,6 +1,6 @@
 ---
 // Portada (rediseño B1, 2026-11-13). Orden: cabecera oscura con titular, botones y precios de
-// entrada → logos de confianza → servicios → cambio de gestoría → cómo empezamos → comparativa →
+// entrada → logos de confianza → servicios → cambio de gestoría → cómo empezamos →
 // precios detallados → preguntas frecuentes → formulario de contacto.
 // Textos nuevos en src/i18n/inicio.ts; precios, pasos y comparativa siguen en ui.ts.
 import { useTranslations, localizedPath } from '../../i18n/utils';
@@ -16,6 +16,7 @@ const t = useTranslations(lang);
 const h = INICIO[lang];
 
 const LLAMADA = 'https://meetings-eu1.hubspot.com/asesoria-madal';
+const SIN_IVA = { es: 'Precios sin IVA.', ca: 'Preus sense IVA.', en: 'Prices exclude VAT.' } as const;
 const latestPost = (await getSortedBlogPosts(lang))[0];
 const serviciosHref = localizedPath('/servicios', lang);
 const hrefServicio: Record<string, string> = {
@@ -44,7 +45,7 @@ const faqLd = {
         <h1>{h.title}</h1>
         <p class="inicio-dek">{h.dek}</p>
         <div class="inicio-ctas">
-          <a class="btn inicio-btn-mint" href={LLAMADA} target="_blank" rel="noopener" data-umami-event="llamada_click" data-umami-event-origen="home_hero">{h.ctaLlamada} <span class="inicio-hora">· {h.ctaLlamadaHora}</span></a>
+          <a class="btn inicio-btn-mint" href={LLAMADA} target="_blank" rel="noopener" data-umami-event="llamada_click" data-umami-event-origen="home_hero">{h.ctaLlamada}</a>
           <a class="btn inicio-btn-ghost" href="#precios">{h.ctaPrecios}</a>
           <a class="btn inicio-btn-ghost" href="#contacto">{h.ctaEscribe}</a>
         </div>
@@ -60,7 +61,7 @@ const faqLd = {
             <span class="inicio-tarjeta-precio">{fila.amount}<small>{fila.unit}</small></span>
           </a>
         ))}
-        <p class="inicio-tarjeta-nota">{t.hero.trust}</p>
+        <p class="inicio-tarjeta-nota">{SIN_IVA[lang]} {t.hero.trust}</p>
       </div>
     </div>
   </section>
@@ -103,24 +104,6 @@ const faqLd = {
         <li><span class="inicio-num">{i + 1}</span><div><h3>{step.title}</h3><p>{step.desc}</p></div></li>
       ))}
     </ol>
-  </section>
-
-  <section class="page inicio-bloque" id="diferencia">
-    <p class="inicio-eyebrow">{t.diferencia.eyebrow}</p>
-    <h2 class="inicio-h2">{t.diferencia.title}</h2>
-    <p class="inicio-sub">{t.diferencia.sub}</p>
-    <div class="compare-table">
-      <div class="cell cell-head col-trad">{t.diferencia.colTraditional}</div>
-      <div class="cell cell-head col-online">{t.diferencia.colOnline}</div>
-      <div class="cell cell-head col-madal">{t.diferencia.colMadal}</div>
-      {t.diferencia.rows.map((row) => (
-        <>
-          <div class="cell col-trad">{row.trad}</div>
-          <div class="cell col-online">{row.online}</div>
-          <div class="cell col-madal">{row.madal}</div>
-        </>
-      ))}
-    </div>
   </section>
 
   <section class="page inicio-bloque" id="precios">
@@ -213,7 +196,7 @@ const faqLd = {
         <p class="inicio-eyebrow inicio-eyebrow-menta">{h.contacto.eyebrow}</p>
         <h2 class="inicio-h2 inicio-h2-claro">{h.contacto.title}</h2>
         <p class="inicio-contacto-desc">{h.contacto.desc}</p>
-        <a class="btn inicio-btn-mint" href={LLAMADA} target="_blank" rel="noopener" data-umami-event="llamada_click" data-umami-event-origen="home_contacto">{h.contacto.ctaLlamada} · {h.ctaLlamadaHora}</a>
+        <a class="btn inicio-btn-mint" href={LLAMADA} target="_blank" rel="noopener" data-umami-event="llamada_click" data-umami-event-origen="home_contacto">{h.contacto.ctaLlamada}</a>
       </div>
       <div class="inicio-contacto-form">
         <LeadForm lang={lang} origen="home_contacto" />
@@ -226,12 +209,12 @@ const faqLd = {
 
 <style>
   .inicio-hero { background: var(--hero-bg); color: var(--hero-ink); }
-  .inicio-hero-grid { display: flex; flex-wrap: wrap; gap: 3rem; align-items: center; padding-top: 4.5rem; padding-bottom: 5.5rem; }
+  .inicio-hero-grid { display: flex; flex-wrap: wrap; gap: 2.5rem; align-items: center; padding-top: 2.6rem; padding-bottom: 3rem; }
   .inicio-hero-copy { flex: 999 1 520px; min-width: 0; }
   .inicio-pill { display: inline-block; background: rgba(166, 227, 216, 0.16); color: var(--mint); border-radius: 999px; padding: 0.35rem 0.9rem; font-size: 0.82rem; font-weight: 600; }
-  .inicio-hero h1 { font-size: clamp(2.5rem, 6.2vw, 5rem); line-height: 0.98; letter-spacing: -0.04em; margin-top: 1.3rem; max-width: 14ch; }
-  .inicio-dek { font-size: clamp(1.05rem, 1.6vw, 1.25rem); line-height: 1.5; color: var(--hero-ink-soft); max-width: 38rem; margin-top: 1.5rem; }
-  .inicio-ctas { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 2.2rem; }
+  .inicio-hero h1 { font-size: clamp(2rem, 4.2vw, 3.4rem); line-height: 1.02; letter-spacing: -0.035em; margin-top: 1rem; max-width: 16ch; }
+  .inicio-dek { font-size: clamp(1rem, 1.3vw, 1.1rem); line-height: 1.5; color: var(--hero-ink-soft); max-width: 36rem; margin-top: 1.1rem; }
+  .inicio-ctas { display: flex; flex-wrap: wrap; gap: 0.65rem; margin-top: 1.6rem; }
   .inicio-hora { font-weight: 500; opacity: 0.75; }
   .btn.inicio-btn-mint { background: var(--mint); color: #0e3b37; }
   .btn.inicio-btn-mint:hover { background: #ffffff; }
@@ -239,23 +222,23 @@ const faqLd = {
   .btn.inicio-btn-ghost:hover { box-shadow: inset 0 0 0 1.5px #ffffff; }
   .btn.inicio-btn-oscuro { background: #0e3b37; color: #ffffff; }
   .btn.inicio-btn-oscuro:hover { background: #1f5c58; }
-  .inicio-garantias { list-style: none; padding: 0; margin: 2rem 0 0; display: flex; flex-wrap: wrap; gap: 0.5rem 1.6rem; font-size: 0.9rem; color: var(--hero-ink-soft); }
+  .inicio-garantias { list-style: none; padding: 0; margin: 1.4rem 0 0; display: flex; flex-wrap: wrap; gap: 0.5rem 1.6rem; font-size: 0.9rem; color: var(--hero-ink-soft); }
   .inicio-garantias li::before { content: '✓'; color: var(--mint); margin-right: 0.45rem; font-weight: 700; }
 
-  .inicio-tarjeta { flex: 1 1 340px; background: #ffffff; color: #123e3a; border-radius: 24px; padding: 1.6rem; display: flex; flex-direction: column; gap: 0.7rem; }
+  .inicio-tarjeta { flex: 1 1 320px; background: #ffffff; color: #123e3a; border-radius: 22px; padding: 1.3rem; display: flex; flex-direction: column; gap: 0.7rem; }
   .inicio-tarjeta-titulo { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: #1f5c58; }
-  .inicio-tarjeta-fila { display: flex; justify-content: space-between; align-items: center; gap: 1rem; background: #eef6f4; border-radius: 16px; padding: 1rem 1.2rem; text-decoration: none; color: inherit; font-weight: 600; }
+  .inicio-tarjeta-fila { display: flex; justify-content: space-between; align-items: center; gap: 1rem; background: #eef6f4; border-radius: 14px; padding: 0.75rem 1.1rem; text-decoration: none; color: inherit; font-weight: 600; }
   .inicio-tarjeta-fila.is-destacada { background: var(--mint); }
   .inicio-tarjeta-fila:hover { outline: 2px solid #1f5c58; }
-  .inicio-tarjeta-precio { white-space: nowrap; font-family: var(--font-display); font-size: 2rem; font-weight: 800; letter-spacing: -0.02em; }
+  .inicio-tarjeta-precio { white-space: nowrap; font-family: var(--font-display); font-size: 1.6rem; font-weight: 800; letter-spacing: -0.02em; }
   .inicio-tarjeta-precio small { font-family: var(--font-body); font-size: 0.85rem; font-weight: 500; margin-left: 0.15rem; }
   .inicio-tarjeta-nota { font-size: 0.76rem; color: #4b5f5c; line-height: 1.45; }
 
-  .inicio-bloque { padding-top: 4.5rem; padding-bottom: 1rem; }
+  .inicio-bloque { padding-top: 3.4rem; padding-bottom: 0.8rem; }
   .inicio-eyebrow { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: var(--accent); }
   .inicio-eyebrow-oscuro { color: #0e3b37; }
   .inicio-eyebrow-menta { color: var(--mint); }
-  .inicio-h2 { font-size: clamp(2rem, 4vw, 3rem); line-height: 1.04; letter-spacing: -0.03em; margin-top: 0.5rem; color: var(--ink); }
+  .inicio-h2 { font-size: clamp(1.6rem, 3vw, 2.3rem); line-height: 1.08; letter-spacing: -0.03em; margin-top: 0.5rem; color: var(--ink); }
   .inicio-h2-claro { color: #ffffff; }
   .inicio-sub { color: var(--ink-soft); margin-top: 0.8rem; max-width: 46rem; }
   .inicio-enlace { display: inline-block; margin-top: 1.2rem; color: var(--accent); font-weight: 600; text-decoration: none; }
@@ -263,7 +246,7 @@ const faqLd = {
   .inicio-servicios { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; margin-top: 2.2rem; }
   .inicio-servicio { background: var(--paper-raised); border-radius: var(--radius); padding: 1.6rem; text-decoration: none; color: inherit; display: flex; flex-direction: column; gap: 0.6rem; transition: background-color 0.15s ease; }
   .inicio-servicio:hover { background: var(--paper-strong); }
-  .inicio-servicio h3 { font-size: 1.4rem; color: var(--accent-strong); }
+  .inicio-servicio h3 { font-size: 1.2rem; color: var(--accent-strong); }
   .inicio-servicio p { color: var(--ink-soft); line-height: 1.55; }
 
   .inicio-cambio { background: var(--mint); color: #0e3b37; border-radius: 28px; padding: clamp(1.6rem, 4vw, 3.4rem); display: flex; flex-wrap: wrap; gap: 2.4rem; align-items: center; }

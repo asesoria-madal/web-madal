@@ -2,20 +2,20 @@
 lang: ca
 slug: prevision-tesoreria-basica
 title: 'Previsió de tresoreria bàsica per no quedar-te sense liquiditat'
-description: 'Tenir benefici sobre el paper i tenir diners al banc són dues coses diferents — la tresoreria és la que et deixa pagar nòmines.'
+description: 'Tenir benefici sobre el paper i tenir diners al banc són dues coses diferents - la tresoreria és la que et deixa pagar nòmines.'
 cat: finanzas
 date: 2026-10-23
 ---
 
 ## Es pot tenir benefici i quedar-se sense diners alhora
 
-És un dels ensurts més habituals en negocis que creixen ràpid: el compte de resultats diu que guanyes diners, però un mes concret no arribes a pagar nòmines o proveïdors. No és una contradicció — és la diferència entre **benefici comptable** i **caixa real**.
+És un dels ensurts més habituals en negocis que creixen ràpid: el compte de resultats diu que guanyes diners, però un mes concret no arribes a pagar nòmines o proveïdors. No és una contradicció - és la diferència entre **benefici comptable** i **caixa real**.
 
 ## Per què passen coses diferents
 
-- Factures una venda avui, però el client et paga a 30, 60 o fins i tot 90 dies — el benefici es registra quan factures, els diners entren molt després.
+- Factures una venda avui, però el client et paga a 30, 60 o fins i tot 90 dies - el benefici es registra quan factures, els diners entren molt després.
 - Pagues els teus proveïdors abans de cobrar tu dels teus clients, si els teus terminis de pagament són més curts que els de cobrament.
-- L'IVA que repercuteixes no és teu: el cobres, però l'has d'ingressar a Hisenda (normalment cada trimestre) — si el confons amb caixa disponible, pot faltar-te quan arribi el model trimestral corresponent.
+- L'IVA que repercuteixes no és teu: el cobres, però l'has d'ingressar a Hisenda (normalment cada trimestre) - si el confons amb caixa disponible, pot faltar-te quan arribi el model trimestral corresponent.
 - Hi ha despeses puntuals grans (una inversió, un pagament anual d'assegurança) que no es reparteixen mes a mes a la teva caixa encara que comptablement sí que es reparteixi el seu efecte.
 
 ## Què és una previsió de tresoreria, a la pràctica
@@ -29,7 +29,7 @@ No cal un sistema complex per començar: un full de càlcul amb aquestes tres co
 
 ## El senyal d'alarma que cal mirar amb antelació
 
-L'important no és el saldo d'avui, sinó el saldo mínim previst en els propers mesos. Si la previsió mostra que en un mes concret el saldo quedarà molt ajustat o en negatiu, tens temps de reaccionar (negociar un termini amb un proveïdor, avançar un cobrament, demanar una línia de crèdit) si ho veus amb setmanes d'antelació — no tens aquest marge si te n'assabentes el mateix dia.
+L'important no és el saldo d'avui, sinó el saldo mínim previst en els propers mesos. Si la previsió mostra que en un mes concret el saldo quedarà molt ajustat o en negatiu, tens temps de reaccionar (negociar un termini amb un proveïdor, avançar un cobrament, demanar una línia de crèdit) si ho veus amb setmanes d'antelació - no tens aquest marge si te n'assabentes el mateix dia.
 
 ## I per no endur-te ensurts amb els impostos
 

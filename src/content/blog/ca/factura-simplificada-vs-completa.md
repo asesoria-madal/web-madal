@@ -2,12 +2,12 @@
 lang: ca
 slug: factura-simplificada-vs-completa
 title: 'Factura simplificada (tiquet) vs. factura completa: quan pots fer servir cadascuna'
-description: "No és una qüestió de preferència — la llei marca quan un tiquet n'hi ha prou i quan cal una factura completa."
+description: "No és una qüestió de preferència - la llei marca quan un tiquet n'hi ha prou i quan cal una factura completa."
 seoTitle: "Factura simplificada vs. completa: quan fer servir cadascuna"
 cat: contabilidad
 date: 2026-10-04
 sources:
-  - label: 'Real Decreto 1619/2012, Reglament de facturació, arts. 4-7 — supòsits de factura simplificada i contingut de cada tipus de factura'
+  - label: 'Real Decreto 1619/2012, Reglament de facturació, arts. 4-7 - supòsits de factura simplificada i contingut de cada tipus de factura'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2012-14696'
 ---
 

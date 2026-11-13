@@ -10,7 +10,7 @@ export const localeNames: Record<Locale, string> = {
 
 // Traducción: el castellano es el texto ya revisado y aprobado.
 // Catalán e inglés son un primer borrador (traducción propia, sin revisión
-// nativa todavía) — pendiente de que alguien lo repase antes de tráfico real.
+// nativa todavía) - pendiente de que alguien lo repase antes de tráfico real.
 export const ui = {
   es: {
     nav: { home: 'Inicio', alta: 'Altas', blog: 'FAQs', equipo: 'Quiénes somos', conocenos: 'Conócenos', servicios: 'Nuestros servicios', contacto: 'Contacto', sl: 'Constituir una SL', cambio: 'Cambiar de gestoría' },
@@ -73,7 +73,7 @@ export const ui = {
       eyebrow: 'Cómo empezamos',
       title: 'Tres pasos y ya tienes gestoría',
       steps: [
-        { title: 'Reserva una llamada de 20 minutos', desc: 'Nos cuentas tu actividad y resolvemos dudas. Sin compromiso.' },
+        { title: 'Cuéntanos tu caso', desc: 'Nos explicas tu actividad y resolvemos tus dudas, por teléfono o por escrito. Sin compromiso.' },
         { title: 'Confirmamos tu cuota y damos de alta tu expediente', desc: 'Trámites y apoderamientos incluidos.' },
         { title: 'Cada trimestre, presentamos y te asesoramos para que tu negocio mejore', desc: 'Modelos presentados a tiempo, con tu balance y PyG explicados para que decidas con datos.' },
       ],
@@ -82,24 +82,27 @@ export const ui = {
     precios: {
       eyebrow: 'Tarifas',
       title: 'Precios públicos, sin letra pequeña',
-      sub: 'Precios sin IVA — el total con IVA va debajo de cada plan.',
+      sub: 'Precios sin IVA - el total con IVA va debajo de cada plan.',
       autonomoTitle: 'Autónomos',
       // Los tramos de facturación son orientativos: ayudan a elegir, pero no
-      // fuerzan ningún plan — el visitante elige libremente.
+      // fuerzan ningún plan - el visitante elige libremente.
       autonomoTiers: [
         {
           key: 'debut',
           name: 'Debut',
           badge: 'Oferta de bienvenida',
-          desc: 'Para quien se acaba de dar de alta como autónomo (o está a punto).',
+          desc: 'Solo para quien acaba de empezar como autónomo: recién dado de alta o a punto de hacerlo.',
           amount: '35 €',
           unit: '/mes',
-          ivaNote: 'Total con IVA: 42,35 €/mes',
-          durationNote: 'Los 6 primeros meses. Del 7.º al 12.º mes, 45 € + IVA/mes.',
-          includesPrevious: 'Mismo alcance fiscal y contable que el plan Esencial, más:',
+          ivaNote: 'Total con IVA: 42,35 €/mes (meses 7 a 12: 54,45 €/mes)',
+          durationNote: 'Meses 1 a 6: 35 € + IVA/mes. Meses 7 a 12: 45 € + IVA/mes. Después, plan Esencial.',
           features: [
-            'Alta de autónomo incluida (RETA + Hacienda)',
-            'Llamada inicial de bienvenida: repasamos el alta, resolvemos tus dudas y te explicamos tus próximas obligaciones',
+            'Contabilidad, libros y todos los modelos',
+            'Notificaciones de la AEAT y la Seguridad Social vigiladas',
+            'Tus dudas sobre impuestos, siempre incluidas',
+            'Tus documentos siempre a mano en la plataforma',
+            'Revisión de tu borrador antes de presentar (5 días hábiles)',
+            'Programa de facturación opcional: 5 € + IVA/mes',
             'Hasta 20 facturas al mes en total (emitidas, recibidas y tickets)',
             'Contacto por email',
           ],
@@ -159,6 +162,7 @@ export const ui = {
         },
       ],
       autonomoFootnotes: [
+        'Todos los planes de autónomo incluyen el alta de autónomo (Hacienda y Seguridad Social) si te quedas con nosotros al menos 6 meses.',
         '* A petición tuya. Las reuniones y los servicios marcados se activan cuando tú los pides: no te perseguimos, están ahí cuando los necesitas.',
         '** El precio reducido del estudio ¿Autónomo o SL? se activa a partir del octavo mes como cliente del plan Total.',
       ],
@@ -224,7 +228,7 @@ export const ui = {
 
     alta: {
       title: '¿Vas a darte de alta como autónomo?',
-      desc: 'Nos encargamos del papeleo — el alta va incluida en tu cuota de autónomo, sin tarifas aparte, si te quedas al menos 6 meses.',
+      desc: 'Nos encargamos del papeleo - el alta va incluida en tu cuota de autónomo, sin tarifas aparte, si te quedas al menos 6 meses.',
       price: 'Desde 35 € + IVA/mes',
       priceNote: 'Alta de autónomo incluida en todas las cuotas',
       link: 'Reservar mi llamada →',
@@ -313,7 +317,7 @@ export const ui = {
         { q: '¿Quién está obligado a la factura electrónica?', a: 'Todas las empresas y autónomos que facturen a otras empresas o autónomos (operaciones B2B). No afecta a las facturas a particulares, y es una obligación distinta de Verifactu.', related: 'facturacion-electronica-obligatoria' },
         { q: '¿Cómo debo emitir mis facturas para que sean válidas?', a: 'Con numeración correlativa, tus datos y los del cliente completos, y la retención de IRPF aplicada si facturas a otro profesional o empresa. Lo revisamos contigo si tienes dudas.', related: 'como-emitir-facturas-correctamente' },
         { q: '¿Qué diferencia de impuestos hay entre autónomo y SL?', a: 'El autónomo tributa por IRPF de forma progresiva; la SL paga el Impuesto de Sociedades a un tipo fijo, con reducción los primeros años. Hay que contar también lo que cuesta sacar el dinero de la SL.', related: 'autonomo-vs-sl-cuando-pasar' },
-        { q: '¿Hay permanencia mínima de contrato?', a: 'No. Puedes darte de baja cuando quieras, avisando con un mes de antelación. Solo si empiezas con nosotros con un cambio de gestoría o con el alta de autónomo, ese trámite es gratis si te quedas al menos 6 meses; si te vas antes, se cobra: 80 € + IVA si eres autónomo y 150 € + IVA si es una SL.' },
+        { q: '¿Hay permanencia mínima de contrato?', a: 'No. Puedes darte de baja cuando quieras, avisando con un mes de antelación. Solo si empiezas con nosotros con un cambio de gestoría o con el alta de autónomo, ese trámite es gratis si te quedas al menos 6 meses; si te vas antes, se cobra: el alta de autónomo, 40 € + IVA, y el cambio de gestoría, 80 € + IVA si eres autónomo y 150 € + IVA si es una SL.' },
       ],
       faqAutonomos: 'Autónomos',
       faqAutonomosItems: [
@@ -421,7 +425,7 @@ export const ui = {
       },
       dashboards: {
         eyebrow: 'Tus números y previsión fiscal',
-        title: 'Mira cómo va tu negocio y sabe lo que vas a pagar',
+        title: 'Mira cómo va tu negocio y anticipa lo que vas a pagar',
         sub: 'El programa con el que llevamos tu contabilidad te da acceso directo a tus números: la evolución de tus ingresos, gastos y beneficio, y tus cobros y pagos pendientes. Sin pedirnos nada y sin esperar a final de trimestre. Y donde el programa no llega, llegamos nosotros.',
         from: '"Mi gestoría lleva mis números."',
         to: '"Veo cómo va mi negocio y sé lo que voy a pagar antes de que toque."',
@@ -538,7 +542,7 @@ export const ui = {
         documentacion: 'Documentos de Asesoría Madal',
       },
       admin: {
-        bannerPrefix: 'Modo administrador — viendo la cuenta de',
+        bannerPrefix: 'Modo administrador - viendo la cuenta de',
         selectLabel: 'Cliente:',
         noClientes: 'No hay clientes dados de alta todavía.',
         readonlyNote: 'Solo lectura: no puedes subir facturas ni editar datos desde aquí.',
@@ -647,8 +651,8 @@ export const ui = {
         guiaGroup: 'Guía del área de clientes',
         guiaLink: 'Cómo usar tu área de clientes (PDF)',
         presentacionGroup: 'Presentación de servicios',
-        presentacionAutonomo: 'Presentación de servicios — Autónomos (PDF)',
-        presentacionSl: 'Presentación de servicios — SL (PDF)',
+        presentacionAutonomo: 'Presentación de servicios - Autónomos (PDF)',
+        presentacionSl: 'Presentación de servicios - SL (PDF)',
         presentacionPendientePre: 'Todavía no tenemos marcado si eres autónomo o SL. Escríbenos a ',
         presentacionPendientePost: ' y lo revisamos.',
         apoderamientoGroup: 'Pasos de apoderamiento',
@@ -717,7 +721,7 @@ export const ui = {
       eyebrow: 'Com comencem',
       title: 'Tres passos i ja tens gestoria',
       steps: [
-        { title: 'Reserva una trucada de 20 minuts', desc: 'Ens expliques la teva activitat i resolem dubtes. Sense compromís.' },
+        { title: 'Explica’ns el teu cas', desc: 'Ens expliques la teva activitat i resolem els teus dubtes, per telèfon o per escrit. Sense compromís.' },
         { title: 'Confirmem la teva quota i donem d’alta el teu expedient', desc: 'Tràmits i apoderaments inclosos.' },
         { title: 'Cada trimestre, presentem i t’assessorem perquè el teu negoci millori', desc: 'Models presentats a temps, amb el teu balanç i compte de resultats explicats perquè decideixis amb dades, no a cegues.' },
       ],
@@ -726,22 +730,25 @@ export const ui = {
     precios: {
       eyebrow: 'Tarifes',
       title: 'Preus públics, sense lletra petita',
-      sub: 'Preus sense IVA — el total amb IVA va sota de cada pla.',
+      sub: 'Preus sense IVA - el total amb IVA va sota de cada pla.',
       autonomoTitle: 'Autònoms',
       autonomoTiers: [
         {
           key: 'debut',
           name: 'Debut',
           badge: 'Oferta de benvinguda',
-          desc: 'Per a qui s’acaba de donar d’alta com a autònom (o hi està a punt).',
+          desc: 'Només per a qui acaba de començar com a autònom: just donat d’alta o a punt de fer-ho.',
           amount: '35 €',
           unit: '/mes',
-          ivaNote: 'Total amb IVA: 42,35 €/mes',
-          durationNote: 'Els 6 primers mesos. Del 7è al 12è mes, 45 € + IVA/mes.',
-          includesPrevious: 'Mateix abast fiscal i comptable que el pla Essencial, més:',
+          ivaNote: 'Total amb IVA: 42,35 €/mes (mesos 7 a 12: 54,45 €/mes)',
+          durationNote: 'Mesos 1 a 6: 35 € + IVA/mes. Mesos 7 a 12: 45 € + IVA/mes. Després, pla Essencial.',
           features: [
-            'Alta d’autònom inclosa (RETA + Hisenda)',
-            'Trucada inicial de benvinguda: repassem l’alta, resolem els teus dubtes i t’expliquem les teves properes obligacions',
+            'Comptabilitat, llibres i tots els models',
+            'Notificacions de l’AEAT i la Seguretat Social vigilades',
+            'Els teus dubtes sobre impostos, sempre inclosos',
+            'Els teus documents sempre a mà a la plataforma',
+            'Revisió del teu esborrany abans de presentar (5 dies hàbils)',
+            'Programa de facturació opcional: 5 € + IVA/mes',
             'Fins a 20 factures al mes en total (emeses, rebudes i tiquets)',
             'Contacte per correu',
           ],
@@ -801,6 +808,7 @@ export const ui = {
         },
       ],
       autonomoFootnotes: [
+        'Tots els plans d’autònom inclouen l’alta d’autònom (Hisenda i Seguretat Social) si et quedes amb nosaltres com a mínim 6 mesos.',
         '* A petició teva. Les reunions i els serveis marcats s’activen quan tu els demanes: no et perseguim, hi són quan els necessites.',
         '** El preu reduït de l’estudi Autònom o SL? s’activa a partir del vuitè mes com a client del pla Total.',
       ],
@@ -866,7 +874,7 @@ export const ui = {
 
     alta: {
       title: 'Et donaràs d’alta com a autònom?',
-      desc: 'Ens encarreguem del paperam — l’alta va inclosa a la teva quota d’autònom, sense tarifes a part, si et quedes com a mínim 6 mesos.',
+      desc: 'Ens encarreguem del paperam - l’alta va inclosa a la teva quota d’autònom, sense tarifes a part, si et quedes com a mínim 6 mesos.',
       price: 'Des de 35 € + IVA/mes',
       priceNote: 'Alta d’autònom inclosa a totes les quotes',
       link: 'Reservar la meva trucada →',
@@ -955,7 +963,7 @@ export const ui = {
         { q: 'Qui està obligat a la factura electrònica?', a: 'Totes les empreses i autònoms que facturin a altres empreses o autònoms (operacions B2B). No afecta les factures a particulars, i és una obligació diferent de Verifactu.', related: 'facturacion-electronica-obligatoria' },
         { q: 'Com he d’emetre les meves factures perquè siguin vàlides?', a: 'Amb numeració correlativa, les teves dades i les del client completes, i la retenció d’IRPF aplicada si factures a un altre professional o empresa. Ho revisem amb tu si tens dubtes.', related: 'como-emitir-facturas-correctamente' },
         { q: 'Quina diferència d’impostos hi ha entre autònom i SL?', a: 'L’autònom tributa per IRPF de forma progressiva; la SL paga l’Impost de Societats a un tipus fix, amb reducció els primers anys. Cal comptar també el que costa treure els diners de la SL.', related: 'autonomo-vs-sl-cuando-pasar' },
-        { q: 'Hi ha permanència mínima de contracte?', a: 'No. Pots donar-te de baixa quan vulguis, avisant amb un mes d’antelació. Només si comences amb nosaltres amb un canvi de gestoria o amb l’alta d’autònom, aquest tràmit és gratuït si et quedes com a mínim 6 mesos; si te’n vas abans, es cobra: 80 € + IVA si ets autònom i 150 € + IVA si és una SL.' },
+        { q: 'Hi ha permanència mínima de contracte?', a: 'No. Pots donar-te de baixa quan vulguis, avisant amb un mes d’antelació. Només si comences amb nosaltres amb un canvi de gestoria o amb l’alta d’autònom, aquest tràmit és gratuït si et quedes com a mínim 6 mesos; si te’n vas abans, es cobra: l’alta d’autònom, 40 € + IVA, i el canvi de gestoria, 80 € + IVA si ets autònom i 150 € + IVA si és una SL.' },
       ],
       faqAutonomos: 'Autònoms',
       faqAutonomosItems: [
@@ -1180,7 +1188,7 @@ export const ui = {
         documentacion: 'Documents d’Asesoría Madal',
       },
       admin: {
-        bannerPrefix: 'Modo administrador — viendo la cuenta de',
+        bannerPrefix: 'Modo administrador - viendo la cuenta de',
         selectLabel: 'Cliente:',
         noClientes: 'No hay clientes dados de alta todavía.',
         readonlyNote: 'Solo lectura: no puedes subir facturas ni editar datos desde aquí.',
@@ -1289,8 +1297,8 @@ export const ui = {
         guiaGroup: 'Guia de l’àrea de clients',
         guiaLink: 'Com fer servir la teva àrea de clients (PDF)',
         presentacionGroup: 'Presentació de serveis',
-        presentacionAutonomo: 'Presentació de serveis — Autònoms (PDF)',
-        presentacionSl: 'Presentació de serveis — SL (PDF)',
+        presentacionAutonomo: 'Presentació de serveis - Autònoms (PDF)',
+        presentacionSl: 'Presentació de serveis - SL (PDF)',
         presentacionPendientePre: 'Encara no tenim marcat si ets autònom o SL. Escriu-nos a ',
         presentacionPendientePost: ' i ho revisem.',
         apoderamientoGroup: 'Passos d’apoderament',
@@ -1359,7 +1367,7 @@ export const ui = {
       eyebrow: 'How we start',
       title: 'Three steps and you have an accounting firm',
       steps: [
-        { title: 'Book a 20-minute call', desc: 'Tell us about your business and get your questions answered. No commitment.' },
+        { title: 'Tell us about your case', desc: 'Tell us about your business and we answer your questions, by phone or in writing. No commitment.' },
         { title: 'We confirm your fee and open your file', desc: 'Paperwork and power of attorney included.' },
         { title: 'Every quarter, we file and advise you on how to improve', desc: 'Forms filed on time, with your balance sheet and P&L explained so you decide with data, not guesswork.' },
       ],
@@ -1368,22 +1376,25 @@ export const ui = {
     precios: {
       eyebrow: 'Pricing',
       title: 'Public pricing, no fine print',
-      sub: 'Prices exclude VAT — the VAT-included total is shown under each plan.',
+      sub: 'Prices exclude VAT - the VAT-included total is shown under each plan.',
       autonomoTitle: 'Freelancers',
       autonomoTiers: [
         {
           key: 'debut',
           name: 'Debut',
           badge: 'Welcome offer',
-          desc: 'For freelancers who have just registered (or are about to).',
+          desc: 'Only for freelancers just starting out: recently registered or about to register.',
           amount: '€35',
           unit: '/month',
-          ivaNote: 'Total with VAT: €42.35/month',
-          durationNote: 'The first 6 months. Months 7 to 12: €45 + VAT/month.',
-          includesPrevious: 'Same tax and accounting scope as the Essential plan, plus:',
+          ivaNote: 'Total with VAT: €42.35/month (months 7 to 12: €54.45/month)',
+          durationNote: 'Months 1 to 6: €35 + VAT/month. Months 7 to 12: €45 + VAT/month. Then, Essential plan.',
           features: [
-            'Freelancer registration included (social security + tax office)',
-            'Initial welcome call: we go over your registration, answer your questions and explain what comes next',
+            'Bookkeeping, ledgers and all tax filings',
+            'Tax office (AEAT) and Social Security notices monitored',
+            'Your tax questions, always included',
+            'Your documents always at hand on the platform',
+            'We review your draft before filing (5 business days)',
+            'Optional invoicing software: €5 + VAT/month',
             'Up to 20 invoices a month in total (issued, received and receipts)',
             'Contact by email',
           ],
@@ -1443,6 +1454,7 @@ export const ui = {
         },
       ],
       autonomoFootnotes: [
+        'Every freelancer plan includes self-employed registration (Tax Agency and Social Security) if you stay with us at least 6 months.',
         '* On request. These meetings and services are triggered when you ask for them: we don’t chase you, they’re there when you need them.',
         '** The reduced price for the Freelancer-vs-SL study kicks in from your 8th month as a Total plan client.',
       ],
@@ -1508,7 +1520,7 @@ export const ui = {
 
     alta: {
       title: 'Registering as a freelancer?',
-      desc: 'We handle the paperwork — registration is included in your freelancer fee, no separate charges, provided you stay at least 6 months.',
+      desc: 'We handle the paperwork - registration is included in your freelancer fee, no separate charges, provided you stay at least 6 months.',
       price: 'From €35 + VAT/month',
       priceNote: 'Freelancer registration included in every plan',
       link: 'Book my call →',
@@ -1597,7 +1609,7 @@ export const ui = {
         { q: 'Who is required to use electronic invoicing?', a: 'Every company and self-employed worker that invoices another company or self-employed worker (B2B transactions). It doesn’t affect invoices to individuals, and it’s a separate obligation from Verifactu.', related: 'facturacion-electronica-obligatoria' },
         { q: 'How should I issue invoices so they’re valid?', a: 'With sequential numbering, complete details for you and your client, and the income tax withholding applied if you’re invoicing another professional or business. We review this with you if you have questions.', related: 'como-emitir-facturas-correctamente' },
         { q: 'What is the tax difference between self-employed and an SL?', a: 'Self-employed income is taxed progressively under income tax; an SL pays Corporate Tax at a flat rate, with a reduction in the first years. You also need to factor in the cost of taking money out of the SL.', related: 'autonomo-vs-sl-cuando-pasar' },
-        { q: 'Is there a minimum contract term?', a: 'No. You can leave whenever you want with one month’s notice. Only if you start with us by switching accountants or registering as self-employed is that step free provided you stay at least 6 months; if you leave earlier, it is charged: €80 + VAT for freelancers and €150 + VAT for companies.' },
+        { q: 'Is there a minimum contract term?', a: 'No. You can leave whenever you want with one month’s notice. Only if you start with us by switching accountants or registering as self-employed is that step free provided you stay at least 6 months; if you leave earlier, it is charged: self-employed registration, €40 + VAT, and switching, €80 + VAT for freelancers and €150 + VAT for companies.' },
       ],
       faqAutonomos: 'Freelancers',
       faqAutonomosItems: [
@@ -1707,7 +1719,7 @@ export const ui = {
       },
       dashboards: {
         eyebrow: 'Your numbers and tax forecast',
-        title: 'See how your business is doing and know what you’ll pay',
+        title: 'See how your business is doing and plan for what you’ll pay',
         sub: 'The software we use for your accounting gives you direct access to your numbers: how your income, expenses and profit are evolving, plus your outstanding payments and receipts. No need to ask us, and no waiting until the end of the quarter. And where the software stops, we step in.',
         from: '"My accountant handles my numbers."',
         to: '"I can see how my business is doing and I know what I’ll pay before it’s due."',
@@ -1719,7 +1731,7 @@ export const ui = {
           { strong: 'Tax forecast (coming soon)', rest: ': how much you’ll need to pay in your upcoming taxes, so you can set it aside in time and nothing catches you by surprise.' },
         ],
         detail: 'Having your numbers in view is the starting point. What makes the difference is having someone who explains them and helps you decide with them: that’s what we’re here for.',
-        exampleCaption: 'Illustrative example — not real data from any client.',
+        exampleCaption: 'Illustrative example - not real data from any client.',
         exampleLegend: { ingresos: 'Income', gastos: 'Expenses', beneficio: 'Profit' },
       },
       estudio: {
@@ -1824,7 +1836,7 @@ export const ui = {
         documentacion: 'Documents from Asesoría Madal',
       },
       admin: {
-        bannerPrefix: 'Modo administrador — viendo la cuenta de',
+        bannerPrefix: 'Modo administrador - viendo la cuenta de',
         selectLabel: 'Cliente:',
         noClientes: 'No hay clientes dados de alta todavía.',
         readonlyNote: 'Solo lectura: no puedes subir facturas ni editar datos desde aquí.',
@@ -1933,8 +1945,8 @@ export const ui = {
         guiaGroup: 'Client area guide',
         guiaLink: 'How to use your client area (PDF)',
         presentacionGroup: 'Service overview',
-        presentacionAutonomo: 'Service overview — Freelancers (PDF)',
-        presentacionSl: 'Service overview — Limited company (PDF)',
+        presentacionAutonomo: 'Service overview - Freelancers (PDF)',
+        presentacionSl: 'Service overview - Limited company (PDF)',
         presentacionPendientePre: 'We haven’t marked yet whether you’re a freelancer or a limited company. Email us at ',
         presentacionPendientePost: ' and we’ll check.',
         apoderamientoGroup: 'Authorisation steps',

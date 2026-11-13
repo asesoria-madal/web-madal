@@ -7,11 +7,11 @@ seoTitle: "Deducting your car as self-employed in Spain: 50% or 100% VAT"
 cat: fiscalidad
 date: 2026-08-30
 sources:
-  - label: 'Ley 35/2006 (IRPF Act), art. 29 — assets used for the business activity'
+  - label: 'Ley 35/2006 (IRPF Act), art. 29 - assets used for the business activity'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2006-20764'
-  - label: 'IRPF Regulation (Real Decreto 439/2007), art. 22.4 — any private use, even outside working hours, blocks business-use status for passenger cars except in a closed list of activities'
+  - label: 'IRPF Regulation (Real Decreto 439/2007), art. 22.4 - any private use, even outside working hours, blocks business-use status for passenger cars except in a closed list of activities'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2007-6820'
-  - label: 'Ley 37/1992 (VAT Act), art. 95, sections Tres and Cuatro — presumed deduction of 50% (or 100%) of the input VAT on the vehicle and its running costs'
+  - label: 'Ley 37/1992 (VAT Act), art. 95, sections Tres and Cuatro - presumed deduction of 50% (or 100%) of the input VAT on the vehicle and its running costs'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-1992-28740'
 updatedDate: 2026-09-24
 ---
@@ -54,7 +54,7 @@ Car worth €20,000 + VAT (€4,200) = €24,200, with €1,200 + VAT (€252) i
 
 | | Activity outside the exceptions list (mixed use, the most common case) | Activity on the list (taxi, sales rep...) |
 |---|---|---|
-| Income-tax deduction on the purchase | €0 — not exclusively business-use | Full depreciation under the tables |
+| Income-tax deduction on the purchase | €0 - not exclusively business-use | Full depreciation under the tables |
 | Income-tax deduction on annual fuel | €0 | €1,200 in full |
 | Deductible VAT on the purchase | €2,100 (50% of €4,200) | €4,200 (100%) |
 | Deductible VAT on annual fuel | €126 (50% of €252) | €252 (100%) |

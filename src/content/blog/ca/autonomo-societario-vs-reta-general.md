@@ -2,16 +2,16 @@
 lang: ca
 slug: autonomo-societario-vs-reta-general
 title: 'Autònom societari vs. RETA general: quan un soci d''una SL ha de donar-se d''alta com a autònom'
-description: 'Tenir una SL no t''allibera de cotitzar com a autònom si hi treballes i en tens el control — i cotitzes diferent.'
+description: 'Tenir una SL no t''allibera de cotitzar com a autònom si hi treballes i en tens el control - i cotitzes diferent.'
 seoTitle: "Autònom societari: quan ha de cotitzar el soci d'una SL"
 cat: laboral
 date: 2026-09-30
 sources:
-  - label: 'Real Decreto Legislativo 8/2015, Ley General de la Seguridad Social, art. 305 — inclusió al RETA de socis de societats mercantils capitalistes'
+  - label: 'Real Decreto Legislativo 8/2015, Ley General de la Seguridad Social, art. 305 - inclusió al RETA de socis de societats mercantils capitalistes'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2015-11724'
-  - label: 'Ley 20/2007, de l''Estatut del treball autònom, art. 38 ter.9 — tarifa plana d''inici d''activitat per a socis de societats de capital i laborals'
+  - label: 'Ley 20/2007, de l''Estatut del treball autònom, art. 38 ter.9 - tarifa plana d''inici d''activitat per a socis de societats de capital i laborals'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2007-13409'
-  - label: 'Real Decreto-ley 13/2022, de 26 de juliol — sistema de cotització d''autònoms per rendiments nets'
+  - label: 'Real Decreto-ley 13/2022, de 26 de juliol - sistema de cotització d''autònoms per rendiments nets'
     url: 'https://www.boe.es/buscar/doc.php?id=BOE-A-2022-12482'
 ---
 
@@ -27,18 +27,18 @@ A grans trets, es considera que hi ha control efectiu (i per tant obligació d'a
 - Ser administrador amb funcions executives retribuïdes, encara que la teva participació sigui menor, si a la pràctica tens el control de la societat.
 - Sumar la teva participació amb la de familiars fins al segon grau que convisquin amb tu pot fer que, entre tots, se superi el llindar de control encara que tu només en tinguis una part petita.
 
-Aquests percentatges concrets convé comprovar-los cas per cas — la casuística real (diversos socis, pactes de socis, qui administra) fa que valgui més una revisió concreta que aplicar la regla general a cegues.
+Aquests percentatges concrets convé comprovar-los cas per cas - la casuística real (diversos socis, pactes de socis, qui administra) fa que valgui més una revisió concreta que aplicar la regla general a cegues.
 
 ## En què canvia la cotització
 
 L'autònom societari cotitza al mateix règim (RETA) que qualsevol altre autònom, però amb condicions diferents a les d'un autònom "normal":
-- **Sí que té accés a la tarifa plana** d'inici d'activitat (art. 38 ter.9 de la Ley 20/2007, LETA), igual que l'autònom general, però no es pot beneficiar de bases de cotització per sota del Grup 7 del Règim General — a diferència del marge més ampli que té l'autònom general en el sistema de trams per rendiments reals.
-- Té una **base mínima de cotització més alta** que la de l'autònom general, independentment del que guanyi realment aquell mes — és una peculiaritat del sistema de cotització per rendiments reals vigent des del 2023.
-- La resta del funcionament (cotitzar segons previsió de rendiments, regularització posterior) segueix el mateix esquema que l'autònom general — vegeu l'article d'aquesta sèrie sobre la regularització del RETA.
+- **Sí que té accés a la tarifa plana** d'inici d'activitat (art. 38 ter.9 de la Ley 20/2007, LETA), igual que l'autònom general, però no es pot beneficiar de bases de cotització per sota del Grup 7 del Règim General - a diferència del marge més ampli que té l'autònom general en el sistema de trams per rendiments reals.
+- Té una **base mínima de cotització més alta** que la de l'autònom general, independentment del que guanyi realment aquell mes - és una peculiaritat del sistema de cotització per rendiments reals vigent des del 2023.
+- La resta del funcionament (cotitzar segons previsió de rendiments, regularització posterior) segueix el mateix esquema que l'autònom general - vegeu l'article d'aquesta sèrie sobre la regularització del RETA.
 
 ## Per què importa encertar des del principi
 
-Si et dones d'alta al tram equivocat (per exemple, com a autònom general quan en realitat et correspon societari, o al revés), la Seguretat Social pot exigir la diferència de cotització amb retroactivitat quan ho detecti — que pot ser bastant després del fet, amb el disgust afegit d'una regularització inesperada. No és un matís administratiu menor: canvia quant pagues cada mes des del primer dia.
+Si et dones d'alta al tram equivocat (per exemple, com a autònom general quan en realitat et correspon societari, o al revés), la Seguretat Social pot exigir la diferència de cotització amb retroactivitat quan ho detecti - que pot ser bastant després del fet, amb el disgust afegit d'una regularització inesperada. No és un matís administratiu menor: canvia quant pagues cada mes des del primer dia.
 
 ## Abans de constituir la SL, revisa això amb algú
 

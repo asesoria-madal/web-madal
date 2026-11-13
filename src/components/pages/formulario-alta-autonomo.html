@@ -1,6 +1,6 @@
 <header class="top">
   <div class="top-inner">
-    <h1 id="titulo">Alta de autónomo — Datos para el trámite</h1>
+    <h1 id="titulo">Alta de autónomo - Datos para el trámite</h1>
     <span class="saved" id="saved">Sin cambios</span>
   </div>
   <div class="progress"><span id="prog"></span></div>
@@ -39,7 +39,7 @@
     <div class="field"><label class="l">Fecha de nacimiento <span class="req">*</span></label><input type="date" name="fnac" data-req></div>
     <div class="field"><label class="l">Nacionalidad <span class="req">*</span></label><input type="text" name="nacionalidad" placeholder="Española" data-req></div>
     <div class="field"><label class="l">Estado civil <span class="req">*</span></label>
-      <select name="civil" data-req><option value="">—</option><option>Soltero/a</option><option>Casado/a</option><option>Pareja de hecho</option><option>Divorciado/a</option><option>Viudo/a</option></select></div>
+      <select name="civil" data-req><option value="">-</option><option>Soltero/a</option><option>Casado/a</option><option>Pareja de hecho</option><option>Divorciado/a</option><option>Viudo/a</option></select></div>
     <div class="field" data-if="civil:Casado/a"><label class="l">Fecha del matrimonio <span class="req">*</span></label><input type="date" name="f_matrimonio" data-req></div>
     <div class="field" data-if="civil:Divorciado/a"><label class="l">Fecha del divorcio <span class="req">*</span></label><input type="date" name="f_divorcio" data-req></div>
     <div class="field"><label class="l">Email <span class="req">*</span></label><input type="email" name="c_email" data-req></div>
@@ -122,7 +122,7 @@
       </div>
     </div>
     <div class="field" data-if="exenta:Toda la actividad|Solo una parte"><label class="l">Tipo de actividad exenta <span class="req">*</span></label>
-      <select name="exenta_tipo" data-req><option value="">—</option><option>Sanitaria / salud</option><option>Educación / formación / clases</option><option>Seguros</option><option>Financiera</option><option>Alquiler de vivienda</option><option>Cultural / deportiva</option><option>Otra</option></select></div>
+      <select name="exenta_tipo" data-req><option value="">-</option><option>Sanitaria / salud</option><option>Educación / formación / clases</option><option>Seguros</option><option>Financiera</option><option>Alquiler de vivienda</option><option>Cultural / deportiva</option><option>Otra</option></select></div>
     <div class="field" data-if="exenta:Solo una parte"><label class="l">% aproximado de ingresos exentos <span class="req">*</span></label><input type="number" name="exenta_pct" min="0" max="100" placeholder="%" data-req></div>
     <div class="field full" data-if="exenta:Toda la actividad|Solo una parte"><label class="l">Explícalo brevemente</label><textarea name="exenta_det"></textarea></div>
   </div>
@@ -150,7 +150,7 @@
     <div class="note">Cuando el propietario es una persona física o una empresa, normalmente tendrás que retener un 19 % del alquiler y presentarlo trimestralmente (modelo 115). Por eso necesitamos estos datos.</div>
     <div class="grid">
       <div class="field"><label class="l">El propietario es… <span class="req">*</span></label>
-        <select name="arr_tipo" data-req><option value="">—</option><option>Persona física</option><option>Empresa / sociedad</option><option>No lo sé</option></select></div>
+        <select name="arr_tipo" data-req><option value="">-</option><option>Persona física</option><option>Empresa / sociedad</option><option>No lo sé</option></select></div>
       <div class="field"><label class="l">Nombre o razón social del propietario <span class="req">*</span></label><input type="text" name="arr_nombre" data-req></div>
       <div class="field"><label class="l">DNI / NIF del propietario <span class="req">*</span></label><input type="text" name="arr_nif" data-req></div>
       <div class="field full"><label class="l">Dirección del local <span class="req">*</span></label><input type="text" name="alq_dir" data-req></div>
@@ -159,7 +159,7 @@
       <div class="field"><label class="l">Inicio del contrato</label><input type="date" name="alq_inicio"></div>
       <div class="field"><label class="l">Superficie aproximada (m²) <span class="req">*</span></label><input type="text" name="alq_m2" data-req></div>
       <div class="field"><label class="l">¿El contrato está a tu nombre?</label>
-        <select name="alq_titular"><option value="">—</option><option>Sí</option><option>No, a nombre de otra persona</option><option>Aún no está firmado</option></select></div>
+        <select name="alq_titular"><option value="">-</option><option>Sí</option><option>No, a nombre de otra persona</option><option>Aún no está firmado</option></select></div>
     </div>
   </div>
 
@@ -177,7 +177,7 @@
     <div class="note">Si dedicas una parte de tu vivienda a la actividad, puedes deducirte una parte de los gastos (suministros, IBI, comunidad…). Para eso necesitamos estos datos.</div>
     <div class="grid">
       <div class="field"><label class="l">¿La vivienda es…? <span class="req">*</span></label>
-        <select name="casa_tipo" data-req><option value="">—</option><option>En propiedad</option><option>De alquiler</option><option>Otro</option></select></div>
+        <select name="casa_tipo" data-req><option value="">-</option><option>En propiedad</option><option>De alquiler</option><option>Otro</option></select></div>
       <div class="field"><label class="l">Superficie total de la vivienda (m²) <span class="req">*</span></label><input type="text" name="casa_m2" data-req></div>
       <div class="field"><label class="l">m² dedicados a la actividad <span class="req">*</span></label><input type="text" name="casa_m2_act" data-req><span class="hint">Por ejemplo, el despacho.</span></div>
       <div class="field"><label class="l">Referencia catastral</label><input type="text" name="casa_refcat"></div>
@@ -265,7 +265,7 @@
     <h3>Previsión de negocio</h3>
     <div class="grid">
       <div class="field"><label class="l">Facturación prevista el primer año <span class="req">*</span></label>
-        <select name="fact_estim" data-req><option value="">—</option><option>Menos de 15.000 €</option><option>15.000 – 30.000 €</option><option>30.000 – 60.000 €</option><option>60.000 – 150.000 €</option><option>Más de 150.000 €</option><option>No lo sé</option></select></div>
+        <select name="fact_estim" data-req><option value="">-</option><option>Menos de 15.000 €</option><option>15.000 – 30.000 €</option><option>30.000 – 60.000 €</option><option>60.000 – 150.000 €</option><option>Más de 150.000 €</option><option>No lo sé</option></select></div>
       <div class="field"><label class="l">Inversión inicial prevista (€)</label><input type="text" name="inversion"><span class="hint">Obras, equipos, mobiliario, vehículo…</span></div>
       <div class="field full"><label class="l">¿Te interesa el criterio de caja del IVA (pagar el IVA cuando cobras la factura)?</label>
         <div class="opts">

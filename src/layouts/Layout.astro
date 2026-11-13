@@ -49,7 +49,7 @@ const { lang, path, active, title, description, showCtaFinal = true, noindex = f
 const t = useTranslations(lang);
 
 // Toda España EXCEPTO Canarias, Navarra y País Vasco (tienen regímenes
-// fiscales propios) — coincide con el texto visible del footer/home. No
+// fiscales propios) - coincide con el texto visible del footer/home. No
 // tocar sin comprobar antes que el texto visible sigue diciendo lo mismo.
 const areaServed = [
   'Andalucía', 'Aragón', 'Principado de Asturias', 'Islas Baleares', 'Cantabria',
@@ -81,7 +81,7 @@ const ogLocale: Record<Locale, string> = { es: 'es_ES', ca: 'ca_ES', en: 'en_GB'
 ---
 
 <!doctype html>
-<html lang={lang}>
+<html lang={lang} data-theme="light">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -136,7 +136,7 @@ const ogLocale: Record<Locale, string> = { es: 'es_ES', ca: 'ca_ES', en: 'en_GB'
       },
       areaServed,
       // Rango real de los planes publicados en la home (Debut 35€ a
-      // Expansión 200€/mes, todos + IVA) — no un valor inventado.
+      // Expansión 200€/mes, todos + IVA) - no un valor inventado.
       priceRange: '35–200 €/mes + IVA',
       inLanguage: lang,
       description: 'Gestoría y asesoría 100% online para autónomos y pymes en España.',
@@ -156,34 +156,8 @@ const ogLocale: Record<Locale, string> = { es: 'es_ES', ca: 'ca_ES', en: 'en_GB'
 
     {breadcrumbLd && <script type="application/ld+json" is:inline set:html={JSON.stringify(breadcrumbLd)} />}
 
-    <script is:inline>
-      // Aplicamos el tema guardado antes de pintar, para evitar el parpadeo
-      // de cambiar de claro a oscuro (o viceversa) justo después de cargar.
-      //
-      // Con <ClientRouter /> Astro reemplaza los atributos de <html> en cada
-      // navegación por los del documento nuevo, que no trae data-theme: sin
-      // volver a aplicarlo, el tema elegido se perdía tras el primer clic en
-      // un enlace y la web caía al modo del sistema. Este script solo corre
-      // en la carga inicial, así que el listener de astro:after-swap
-      // persiste y lo reaplica tras cada transición. El evento "storage"
-      // sincroniza además el cambio entre pestañas abiertas.
-      (function () {
-        function applyStoredTheme() {
-          var stored = null;
-          try { stored = localStorage.getItem('theme'); } catch (e) {}
-          if (stored === 'dark' || stored === 'light') {
-            document.documentElement.setAttribute('data-theme', stored);
-          } else {
-            document.documentElement.removeAttribute('data-theme');
-          }
-        }
-        applyStoredTheme();
-        document.addEventListener('astro:after-swap', applyStoredTheme);
-        window.addEventListener('storage', function (e) {
-          if (e.key === 'theme') applyStoredTheme();
-        });
-      })();
-    </script>
+    {/* Solo tema claro (Edurne, 2026-11-13): <html data-theme="light"> fija el claro aunque el
+        sistema esté en oscuro; ya no hay botón de tema ni script que lo cambie. */}
 
     <script defer src="https://analytics.asesoriamadal.es/script.js" data-website-id="0e8413cc-33b1-4241-8947-32950b30b593" data-domains="asesoriamadal.es"></script>
     <script>

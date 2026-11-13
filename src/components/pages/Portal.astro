@@ -508,7 +508,7 @@ const textosCarpeta = { subir: t.doc.subir, foto: t.facturas.cameraSubmit, ver: 
   });
 
   // El email está siempre disponible; el WhatsApp solo si `clientes.contacto_whatsapp`
-  // lo marca (no todos los planes lo incluyen — ver nota en schema.sql).
+  // lo marca (no todos los planes lo incluyen - ver nota en schema.sql).
   function renderDudaRapida(tieneWhatsapp: boolean) {
     dudaRapidaWhatsappEl.hidden = !tieneWhatsapp;
   }
@@ -530,7 +530,7 @@ const textosCarpeta = { subir: t.doc.subir, foto: t.facturas.cameraSubmit, ver: 
       return new Date(iso).toLocaleDateString(LOCALE, { day: '2-digit', month: '2-digit', year: 'numeric' });
     }
 
-    // Id interno de clientes (no el auth.uid() de la sesión) — es lo que
+    // Id interno de clientes (no el auth.uid() de la sesión) - es lo que
     // usa facturas_subidas.cliente_id. Se rellena al cargar el dashboard.
     let currentClienteId: string | null = null;
 
@@ -667,7 +667,7 @@ const textosCarpeta = { subir: t.doc.subir, foto: t.facturas.cameraSubmit, ver: 
         adminClientes.forEach((c) => {
           const opt = document.createElement('option');
           opt.value = c.id;
-          opt.textContent = c.email ? `${c.nombre} — ${c.email}` : `${c.nombre} (${c.id})`;
+          opt.textContent = c.email ? `${c.nombre} - ${c.email}` : `${c.nombre} (${c.id})`;
           adminClienteSelect.appendChild(opt);
         });
       }
@@ -717,7 +717,7 @@ const textosCarpeta = { subir: t.doc.subir, foto: t.facturas.cameraSubmit, ver: 
       }
 
       // Cliente normal. Sin filtro por email: RLS ya limita esta consulta
-      // a la fila vinculada (auth_user_id = auth.uid()) — si el trigger de
+      // a la fila vinculada (auth_user_id = auth.uid()) - si el trigger de
       // alta todavía no la ha vinculado, no devuelve nada y cae en
       // "unlinked", igual que antes.
       const { data: cliente } = await supabase!
@@ -952,12 +952,12 @@ const textosCarpeta = { subir: t.doc.subir, foto: t.facturas.cameraSubmit, ver: 
       for (const file of files) {
         // La ruta en Storage usa el NIF del cliente tanto para la carpeta
         // (así lo exige la política de Storage, ver schema.sql) como para
-        // prefijar el propio nombre de archivo — mismo id que cliente_id en
+        // prefijar el propio nombre de archivo - mismo id que cliente_id en
         // facturas_subidas, para que carpeta y archivo sean identificables a
         // mano (Drive, revisión manual) en vez de un uid opaco. El timestamp
         // (día/mes-hora/minuto/segundo, hora local del navegador) y el sufijo
         // aleatorio evitan que dos subidas choquen de nombre: el iPhone llama
-        // image.jpg a todas las fotos — se usan guiones en vez de barras
+        // image.jpg a todas las fotos - se usan guiones en vez de barras
         // porque "/" en la ruta de Storage crearía subcarpetas.
         const now = new Date();
         const pad = (n: number) => String(n).padStart(2, '0');
@@ -977,7 +977,7 @@ const textosCarpeta = { subir: t.doc.subir, foto: t.facturas.cameraSubmit, ver: 
 
         // Si el archivo sube bien pero falla el registro de la fila, no lo
         // contamos como fallo de cara al cliente (el equipo verá el archivo
-        // en el Storage igualmente y podrá revisarlo a mano) — pero sí lo
+        // en el Storage igualmente y podrá revisarlo a mano) - pero sí lo
         // dejamos en consola para poder diagnosticar por qué falla el insert
         // (RLS, FK, tipo de columna...).
         const { error: insertError } = await supabase!.from('facturas_subidas').insert({

@@ -8,13 +8,13 @@ cat: fiscalidad
 date: 2026-10-05
 updatedDate: 2026-11-11
 sources:
-  - label: 'Real Decreto Legislativo 8/2015, texto refundido de la Ley General de la Seguridad Social — obligación de alta en el RETA'
+  - label: 'Real Decreto Legislativo 8/2015, texto refundido de la Ley General de la Seguridad Social - obligación de alta en el RETA'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2015-11724'
-  - label: 'Ley 20/2007, del Estatuto del Trabajo Autónomo — art. 38 ter (tarifa plana, a solicitar en el alta)'
+  - label: 'Ley 20/2007, del Estatuto del Trabajo Autónomo - art. 38 ter (tarifa plana, a solicitar en el alta)'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2007-13409'
-  - label: 'Ley 58/2003, General Tributaria — disposición adicional 5.ª y arts. 198-199 (censo e infracciones)'
+  - label: 'Ley 58/2003, General Tributaria - disposición adicional 5.ª y arts. 198-199 (censo e infracciones)'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2003-23186'
-  - label: 'Real Decreto 1065/2007 — declaraciones censales (modelos 036/037) y plazo de presentación'
+  - label: 'Real Decreto 1065/2007 - declaraciones censales (modelos 036/037) y plazo de presentación'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2007-19071'
 ---
 

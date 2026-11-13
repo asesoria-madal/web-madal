@@ -10,7 +10,7 @@ date: 2026-08-24
 updatedDate: 2026-09-23
 ---
 
-We already covered [what a balance sheet is](/en/blog/balance-de-situacion) and why it's worth checking every quarter. But a balance sheet only adds value if it's both built correctly and read correctly — and in practice we see both fail, independently of each other. Here are the most common mistakes of each kind.
+We already covered [what a balance sheet is](/en/blog/balance-de-situacion) and why it's worth checking every quarter. But a balance sheet only adds value if it's both built correctly and read correctly - and in practice we see both fail, independently of each other. Here are the most common mistakes of each kind.
 
 ## Reading it wrong
 
@@ -38,7 +38,7 @@ An online shop closes the quarter with €15,000 of profit on the P&L. The owner
 
 ## Why we treat these separately
 
-A poorly built balance sheet leads to a wrong reading even if whoever reads it is very careful — and a perfectly built balance sheet is still useless if nobody reads it well. That's why we don't just file your taxes: we prepare the balance sheet carefully and then sit down with you to explain what it says, so both sides of the process are covered.
+A poorly built balance sheet leads to a wrong reading even if whoever reads it is very careful - and a perfectly built balance sheet is still useless if nobody reads it well. That's why we don't just file your taxes: we prepare the balance sheet carefully and then sit down with you to explain what it says, so both sides of the process are covered.
 
 ## Want us to review yours?
 

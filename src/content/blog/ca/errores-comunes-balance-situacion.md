@@ -9,7 +9,7 @@ date: 2026-08-24
 updatedDate: 2026-09-23
 ---
 
-Ja vam explicar [què és un balanç de situació](/ca/blog/balance-de-situacion) i per què val la pena mirar-lo cada trimestre. Però un balanç només aporta valor si està ben fet i ben llegit — i a la pràctica veiem fallar les dues coses, per separat. Aquí van els errors més habituals de cada tipus.
+Ja vam explicar [què és un balanç de situació](/ca/blog/balance-de-situacion) i per què val la pena mirar-lo cada trimestre. Però un balanç només aporta valor si està ben fet i ben llegit - i a la pràctica veiem fallar les dues coses, per separat. Aquí van els errors més habituals de cada tipus.
 
 ## Errors d'interpretació
 
@@ -37,7 +37,7 @@ Una botiga online tanca el trimestre amb 15.000 € de benefici al compte de res
 
 ## Per què separem les dues coses
 
-Un balanç mal confeccionat dona lloc a una interpretació errònia encara que qui el llegeixi sigui molt curós — i un balanç perfectament confeccionat continua sense servir de res si ningú el llegeix bé. Per això no ens limitem a presentar impostos: preparem el balanç amb cura i després ens asseiem amb tu a explicar-te què diu, perquè les dues parts del procés quedin cobertes.
+Un balanç mal confeccionat dona lloc a una interpretació errònia encara que qui el llegeixi sigui molt curós - i un balanç perfectament confeccionat continua sense servir de res si ningú el llegeix bé. Per això no ens limitem a presentar impostos: preparem el balanç amb cura i després ens asseiem amb tu a explicar-te què diu, perquè les dues parts del procés quedin cobertes.
 
 ## Vols que revisem el teu?
 

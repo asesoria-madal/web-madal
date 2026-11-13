@@ -109,7 +109,7 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
     domicilio_fiscal: domicilio,
     iban,
     iban_impuestos: ibanImpuestos,
-    epigrafes_iae: cnae ? `${cnae} — ${actividad}` : actividad,
+    epigrafes_iae: cnae ? `${cnae} - ${actividad}` : actividad,
     fecha_inicio_actividad: inicio,
     tipo_local: tipoLocal,
     domicilio_local: domicilioLocal,

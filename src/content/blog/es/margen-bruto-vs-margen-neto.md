@@ -30,8 +30,8 @@ Aquí es donde muchos negocios con buen margen bruto se llevan la sorpresa: un m
 
 ## Por qué esta diferencia importa para decidir
 
-- Si tu margen bruto ya es bajo, el problema está en cómo produces o compras — subir precios de venta o bajar coste de producción/compra es la palanca principal.
-- Si tu margen bruto es bueno pero el margen neto es malo, el problema está en la estructura de gastos (demasiados gastos fijos para el volumen que tienes) — la palanca ahí no es vender más caro, sino revisar gastos o crecer en volumen para diluirlos.
+- Si tu margen bruto ya es bajo, el problema está en cómo produces o compras - subir precios de venta o bajar coste de producción/compra es la palanca principal.
+- Si tu margen bruto es bueno pero el margen neto es malo, el problema está en la estructura de gastos (demasiados gastos fijos para el volumen que tienes) - la palanca ahí no es vender más caro, sino revisar gastos o crecer en volumen para diluirlos.
 
 Confundir estos dos diagnósticos lleva a tomar la decisión equivocada: subir precios cuando el problema real son los gastos fijos, o recortar gastos cuando el problema real es que cada venta ya deja poco margen desde el principio.
 

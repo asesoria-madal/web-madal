@@ -4,7 +4,7 @@
 // el DUE) sean iguales. Catalán e inglés son un primer borrador sin revisión nativa.
 const FILAS: [string, string, string][] = [
   // Cabecera e introducción
-  ['Constitución de SL — Datos para el trámite', 'Constitució de SL — Dades per al tràmit', 'SL incorporation — Details for the process'],
+  ['Constitución de SL - Datos para el trámite', 'Constitució de SL - Dades per al tràmit', 'SL incorporation - Details for the process'],
   ['Apartados del formulario', 'Apartats del formulari', 'Form sections'],
   ['Sin cambios', 'Sense canvis', 'No changes'],
   ['1. Contacto', '1. Contacte', '1. Contact'],
@@ -184,10 +184,10 @@ const FILAS: [string, string, string][] = [
   // 7. Administración
   ['Quién gestionará la sociedad y podrá firmar en su nombre.', 'Qui gestionarà la societat i podrà signar en nom seu.', 'Who will manage the company and be able to sign on its behalf.'],
   ['Forma de administración', 'Forma d’administració', 'Form of management'],
-  ['Administrador/a único/a — una sola persona decide y firma', 'Administrador/a únic/a — una sola persona decideix i signa', 'Sole director — one person decides and signs'],
-  ['Administradores solidarios — varias personas, cualquiera puede firmar sola', 'Administradors solidaris — diverses persones, qualsevol pot signar sola', 'Joint and several directors — several people, any of them can sign alone'],
-  ['Administradores mancomunados — varias personas, tienen que firmar conjuntamente', 'Administradors mancomunats — diverses persones, han de signar conjuntament', 'Joint directors — several people, who must sign together'],
-  ['Consejo de administración — de 3 a 12 miembros', 'Consell d’administració — de 3 a 12 membres', 'Board of directors — 3 to 12 members'],
+  ['Administrador/a único/a - una sola persona decide y firma', 'Administrador/a únic/a - una sola persona decideix i signa', 'Sole director - one person decides and signs'],
+  ['Administradores solidarios - varias personas, cualquiera puede firmar sola', 'Administradors solidaris - diverses persones, qualsevol pot signar sola', 'Joint and several directors - several people, any of them can sign alone'],
+  ['Administradores mancomunados - varias personas, tienen que firmar conjuntamente', 'Administradors mancomunats - diverses persones, han de signar conjuntament', 'Joint directors - several people, who must sign together'],
+  ['Consejo de administración - de 3 a 12 miembros', 'Consell d’administració - de 3 a 12 membres', 'Board of directors - 3 to 12 members'],
   ['¿Quién será administrador/a? Marcad entre los socios:', 'Qui serà administrador/a? Marqueu entre els socis:', 'Who will be a director? Tick from among the partners:'],
   ['¿Alguna persona que no es socia será administradora? Añadidla aquí:', 'Alguna persona que no és sòcia serà administradora? Afegiu-la aquí:', 'Will anyone who is not a partner be a director? Add them here:'],
   ['+ Añadir administrador/a que no es socio', '+ Afegir administrador/a que no és soci', '+ Add a director who is not a partner'],

@@ -8,9 +8,9 @@ cat: fiscalidad
 date: 2026-08-19
 updatedDate: 2026-09-23
 sources:
-  - label: 'Reglament de l’IRPF (Real Decreto 439/2007), arts. 109-110 — càlcul i exempció del pagament fraccionat'
+  - label: 'Reglament de l’IRPF (Real Decreto 439/2007), arts. 109-110 - càlcul i exempció del pagament fraccionat'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2007-6820'
-  - label: 'Ley 35/2006 del IRPF, art. 101 — base legal de l’exempció per retencions'
+  - label: 'Ley 35/2006 del IRPF, art. 101 - base legal de l’exempció per retencions'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2006-20764'
 ---
 

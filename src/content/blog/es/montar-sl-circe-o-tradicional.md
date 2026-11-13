@@ -8,13 +8,13 @@ cat: fiscalidad
 date: 2026-08-21
 updatedDate: 2026-09-24
 sources:
-  - label: 'Real Decreto-ley 13/2010, art. 5 — aranceles notariales y registrales reducidos con estatutos tipo'
+  - label: 'Real Decreto-ley 13/2010, art. 5 - aranceles notariales y registrales reducidos con estatutos tipo'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2010-18651'
-  - label: 'Ley 14/2013, art. 15 — plazo de calificación e inscripción vía CIRCE/DUE'
+  - label: 'Ley 14/2013, art. 15 - plazo de calificación e inscripción vía CIRCE/DUE'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2013-10074'
-  - label: 'Real Decreto 421/2015 — modelo de estatutos tipo para constitución telemática de SL'
+  - label: 'Real Decreto 421/2015 - modelo de estatutos tipo para constitución telemática de SL'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2015-6520'
-  - label: 'Real Decreto Legislativo 8/2015, Ley General de la Seguridad Social, art. 305.2.b) — encuadramiento en RETA de socios con control efectivo'
+  - label: 'Real Decreto Legislativo 8/2015, Ley General de la Seguridad Social, art. 305.2.b) - encuadramiento en RETA de socios con control efectivo'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2015-11724'
 ---
 

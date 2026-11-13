@@ -8,11 +8,11 @@ cat: fiscalidad
 date: 2026-08-19
 updatedDate: 2026-09-17
 sources:
-  - label: 'Ley 27/2014, del Impuesto sobre Sociedades, art. 29 — tipus general 25% i reduït 15% per a noves creacions'
+  - label: 'Ley 27/2014, del Impuesto sobre Sociedades, art. 29 - tipus general 25% i reduït 15% per a noves creacions'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2014-12328'
-  - label: 'Real Decreto Legislativo 1/2010, Ley de Sociedades de Capital, art. 1.2 — responsabilitat limitada al capital aportat'
+  - label: 'Real Decreto Legislativo 1/2010, Ley de Sociedades de Capital, art. 1.2 - responsabilitat limitada al capital aportat'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2010-10544'
-  - label: 'Ley 35/2006, del IRPF — tributació progressiva dels autònoms'
+  - label: 'Ley 35/2006, del IRPF - tributació progressiva dels autònoms'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2006-20764'
 ---
 
@@ -24,7 +24,7 @@ Sol començar a compensar entre 40.000 € i 60.000 € de benefici anual, tot i
 
 ## No és només una qüestió de facturació
 
-Aquesta xifra orientativa parteix d'un benefici "genèric", però el teu cas concret té factors propis que la mouen en un sentit o un altre. La teva comunitat autònoma importa, perquè els trams i tipus de l'IRPF varien d'una a l'altra, i algunes tenen bonificacions pròpies per a autònoms o per a la creació de societats. També importa quants diners necessites treure cada mes per viure: com més diners treguis de la SL per a ús personal, més es dilueix l'estalvi fiscal, perquè aquesta sortida també tributa (via nòmina o dividends). I la teva situació familiar —persones a càrrec teu, altres fonts d'ingressos, les teves pròpies cotitzacions— canvia el càlcul igual que canvia qualsevol altra declaració de la renda. Per això 40.000-60.000 € és un punt de partida per començar a mirar-ho, no una resposta per al teu cas.
+Aquesta xifra orientativa parteix d'un benefici "genèric", però el teu cas concret té factors propis que la mouen en un sentit o un altre. La teva comunitat autònoma importa, perquè els trams i tipus de l'IRPF varien d'una a l'altra, i algunes tenen bonificacions pròpies per a autònoms o per a la creació de societats. També importa quants diners necessites treure cada mes per viure: com més diners treguis de la SL per a ús personal, més es dilueix l'estalvi fiscal, perquè aquesta sortida també tributa (via nòmina o dividends). I la teva situació familiar -persones a càrrec teu, altres fonts d'ingressos, les teves pròpies cotitzacions- canvia el càlcul igual que canvia qualsevol altra declaració de la renda. Per això 40.000-60.000 € és un punt de partida per començar a mirar-ho, no una resposta per al teu cas.
 
 ## La raó que no és fiscal: la responsabilitat
 

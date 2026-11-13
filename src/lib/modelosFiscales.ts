@@ -3,7 +3,7 @@
 // cliente presenta (clientes.modelos, ver schema.sql).
 //
 // Fechas verificadas por Edurne contra el notebook de NotebookLM ("Blog y
-// FAQs AM") el 2026-08-26 — mismo procedimiento que el resto de contenido
+// FAQs AM") el 2026-08-26 - mismo procedimiento que el resto de contenido
 // fiscal del proyecto (ver web/CLAUDE.md).
 
 export interface Presentacion {
@@ -16,7 +16,7 @@ export interface ProximaPresentacion {
   fecha: Date;
   dias: number;
   // Varios modelos suelen compartir la misma fecha límite trimestral (130,
-  // 111, 303...) — se presentan todos el mismo día, así que se agrupan aquí
+  // 111, 303...) - se presentan todos el mismo día, así que se agrupan aquí
   // en vez de mostrar solo uno y ocultar los demás.
   modelos: { modelo: string; nombre: string }[];
 }
@@ -63,35 +63,35 @@ const pagoFraccionadoIS = (anio: number): Date[] => [
 ];
 
 export const MODELOS_FISCALES: Record<string, ModeloFiscal> = {
-  '130': { nombre: 'Modelo 130 — pago fraccionado IRPF (estimación directa)', fechasLimite: trimestralEstandar },
-  '131': { nombre: 'Modelo 131 — pago fraccionado IRPF (módulos)', fechasLimite: trimestralEstandar },
-  '111': { nombre: 'Modelo 111 — retenciones IRPF', fechasLimite: retencionesTrimestrales },
-  '115': { nombre: 'Modelo 115 — retenciones de alquiler', fechasLimite: retencionesTrimestrales },
-  '123': { nombre: 'Modelo 123 — retenciones de capital mobiliario', fechasLimite: retencionesTrimestrales },
-  '303': { nombre: 'Modelo 303 — IVA trimestral', fechasLimite: trimestralEstandar },
+  '130': { nombre: 'Modelo 130 - pago fraccionado IRPF (estimación directa)', fechasLimite: trimestralEstandar },
+  '131': { nombre: 'Modelo 131 - pago fraccionado IRPF (módulos)', fechasLimite: trimestralEstandar },
+  '111': { nombre: 'Modelo 111 - retenciones IRPF', fechasLimite: retencionesTrimestrales },
+  '115': { nombre: 'Modelo 115 - retenciones de alquiler', fechasLimite: retencionesTrimestrales },
+  '123': { nombre: 'Modelo 123 - retenciones de capital mobiliario', fechasLimite: retencionesTrimestrales },
+  '303': { nombre: 'Modelo 303 - IVA trimestral', fechasLimite: trimestralEstandar },
   // Asume régimen trimestral (el habitual para nuestros clientes: aplica si
   // no se superan los 50.000 € de entregas/prestaciones intracomunitarias en
   // el trimestre ni en los cuatro anteriores). Existe un régimen mensual con
-  // fechas distintas y una excepción propia en julio/agosto — no modelado
+  // fechas distintas y una excepción propia en julio/agosto - no modelado
   // aquí porque no tenemos forma de saber en qué régimen está cada cliente;
   // si algún cliente pasa a mensual, revisar este modelo a mano ese trimestre.
-  '349': { nombre: 'Modelo 349 — operaciones intracomunitarias (informativo)', fechasLimite: trimestralEstandar },
-  '202': { nombre: 'Modelo 202 — pago fraccionado Impuesto de Sociedades', fechasLimite: pagoFraccionadoIS },
-  '200': { nombre: 'Modelo 200 — Impuesto de Sociedades (anual)', fechasLimite: (anio) => [fecha(anio, 7, 25)] },
+  '349': { nombre: 'Modelo 349 - operaciones intracomunitarias (informativo)', fechasLimite: trimestralEstandar },
+  '202': { nombre: 'Modelo 202 - pago fraccionado Impuesto de Sociedades', fechasLimite: pagoFraccionadoIS },
+  '200': { nombre: 'Modelo 200 - Impuesto de Sociedades (anual)', fechasLimite: (anio) => [fecha(anio, 7, 25)] },
   // Se presenta en febrero del año siguiente: el último día de febrero, o el siguiente hábil.
   '347': {
-    nombre: 'Modelo 347 — operaciones con terceras personas (informativo, no supone pago)',
+    nombre: 'Modelo 347 - operaciones con terceras personas (informativo, no supone pago)',
     fechasLimite: (anio) => [fecha(anio, 3, 0)],
   },
-  '390': { nombre: 'Modelo 390 — resumen anual de IVA (informativo)', fechasLimite: (anio) => [fecha(anio, 1, 30)] },
-  '190': { nombre: 'Modelo 190 — resumen anual de retenciones IRPF (informativo)', fechasLimite: (anio) => [fecha(anio, 1, 31)] },
-  '180': { nombre: 'Modelo 180 — resumen anual de retenciones de alquiler (informativo)', fechasLimite: (anio) => [fecha(anio, 1, 31)] },
+  '390': { nombre: 'Modelo 390 - resumen anual de IVA (informativo)', fechasLimite: (anio) => [fecha(anio, 1, 30)] },
+  '190': { nombre: 'Modelo 190 - resumen anual de retenciones IRPF (informativo)', fechasLimite: (anio) => [fecha(anio, 1, 31)] },
+  '180': { nombre: 'Modelo 180 - resumen anual de retenciones de alquiler (informativo)', fechasLimite: (anio) => [fecha(anio, 1, 31)] },
 };
 
 /**
  * De entre los modelos indicados, la próxima fecha límite de presentación
  * (mira también el año anterior, porque los plazos del 4T caen en enero, y el
- * siguiente, para no quedarse sin resultado en diciembre) — con todos los modelos que comparten esa misma fecha, no solo
+ * siguiente, para no quedarse sin resultado en diciembre) - con todos los modelos que comparten esa misma fecha, no solo
  * el primero. Devuelve null si `modelos` está vacío o no contiene ningún
  * código reconocido.
  */
@@ -124,7 +124,7 @@ export function proximaPresentacion(modelos: string[], hoy: Date = new Date()): 
 
 /**
  * Como `proximaPresentacion`, pero con las siguientes `cantidad` fechas
- * límite en vez de solo la primera — para el calendario fiscal del portal
+ * límite en vez de solo la primera - para el calendario fiscal del portal
  * (no solo "cuánto falta", sino "qué tienes por delante"). Mismo criterio
  * de agrupar por fecha: varios modelos con la misma fecha límite cuentan
  * como una sola entrada de la lista, no como varias.

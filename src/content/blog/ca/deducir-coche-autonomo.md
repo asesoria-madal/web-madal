@@ -6,11 +6,11 @@ description: "La resposta curta: en IRPF gairebé mai, en IVA el 50%. T'ho expli
 cat: fiscalidad
 date: 2026-08-30
 sources:
-  - label: 'Ley 35/2006 del IRPF, art. 29 — elements patrimonials afectes a l’activitat econòmica'
+  - label: 'Ley 35/2006 del IRPF, art. 29 - elements patrimonials afectes a l’activitat econòmica'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2006-20764'
-  - label: 'Reglament de l’IRPF (Real Decreto 439/2007), art. 22.4 — l’ús personal, encara que sigui en dies o hores inhàbils, impedeix l’afectació dels turismes tret de les activitats taxades'
+  - label: 'Reglament de l’IRPF (Real Decreto 439/2007), art. 22.4 - l’ús personal, encara que sigui en dies o hores inhàbils, impedeix l’afectació dels turismes tret de les activitats taxades'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2007-6820'
-  - label: 'Ley 37/1992 del IVA, art. 95, apdos. Tres i Cuatro — presumpció de deducció del 50% (o del 100%) de les quotes suportades del vehicle i de les seves despeses'
+  - label: 'Ley 37/1992 del IVA, art. 95, apdos. Tres i Cuatro - presumpció de deducció del 50% (o del 100%) de les quotes suportades del vehicle i de les seves despeses'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-1992-28740'
 updatedDate: 2026-09-24
 ---
@@ -53,7 +53,7 @@ Cotxe de 20.000 € + IVA (4.200 €) = 24.200 €, amb 1.200 € + IVA (252 €
 
 | | Activitat fora de la llista d'excepcions (ús mixt, el cas més habitual) | Activitat de la llista (taxi, agent comercial...) |
 |---|---|---|
-| Deducció en IRPF de la compra | 0 € — no està afecte exclusivament | Amortització íntegra segons taules |
+| Deducció en IRPF de la compra | 0 € - no està afecte exclusivament | Amortització íntegra segons taules |
 | Deducció en IRPF del combustible anual | 0 € | 1.200 € íntegres |
 | IVA deduïble de la compra | 2.100 € (50% de 4.200 €) | 4.200 € (100%) |
 | IVA deduïble del combustible anual | 126 € (50% de 252 €) | 252 € (100%) |

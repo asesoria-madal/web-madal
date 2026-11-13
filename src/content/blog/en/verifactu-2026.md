@@ -9,13 +9,13 @@ cat: fiscalidad
 date: 2026-08-18
 updatedDate: 2026-10-13
 sources:
-  - label: 'Ley 58/2003, General Tributaria (art. 29.2.j) — legal basis for Verifactu'
+  - label: 'Ley 58/2003, General Tributaria (art. 29.2.j) - legal basis for Verifactu'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2003-23186'
-  - label: 'Real Decreto 1007/2023 — regulation implementing Verifactu'
+  - label: 'Real Decreto 1007/2023 - regulation implementing Verifactu'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2023-24840'
-  - label: 'Real Decreto-ley 15/2025 — postponement of the timeline to 2027'
+  - label: 'Real Decreto-ley 15/2025 - postponement of the timeline to 2027'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2025-24446'
-  - label: 'Tax Agency (AEAT) — 2025 VAT practical manual, Verifactu section'
+  - label: 'Tax Agency (AEAT) - 2025 VAT practical manual, Verifactu section'
     url: 'https://sede.agenciatributaria.gob.es/Sede/ayuda/manuales-videos-folletos/manuales-practicos/manual-iva-2025/capitulo-01-novedades-destacar-2025/verifactu.html'
 ---
 

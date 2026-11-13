@@ -3,7 +3,7 @@ import { createClient, type SupabaseClient } from '@supabase/supabase-js';
 let client: SupabaseClient | null | undefined;
 
 // Devuelve null si todavía no hay credenciales de Supabase configuradas
-// (SUPABASE_URL / SUPABASE_SERVICE_ROLE_KEY) — así la API puede seguir
+// (SUPABASE_URL / SUPABASE_SERVICE_ROLE_KEY) - así la API puede seguir
 // funcionando en modo degradado mientras se crea el proyecto de Supabase.
 export function getSupabaseAdmin(): SupabaseClient | null {
   if (client !== undefined) return client;

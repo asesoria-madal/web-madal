@@ -2,14 +2,14 @@
 lang: es
 slug: alta-autonomo-colaborador
 title: 'Alta como autónomo colaborador: contratar (sin contratar) a un familiar'
-description: 'Si un familiar te ayuda en el negocio de forma habitual, hay una figura específica para eso — y no es un contrato laboral.'
+description: 'Si un familiar te ayuda en el negocio de forma habitual, hay una figura específica para eso - y no es un contrato laboral.'
 seoTitle: "Autónomo colaborador: cómo dar de alta a un familiar"
 cat: laboral
 date: 2026-10-13
 sources:
-  - label: 'Real Decreto Legislativo 8/2015, Ley General de la Seguridad Social, art. 305 — inclusión de familiares colaboradores en el RETA'
+  - label: 'Real Decreto Legislativo 8/2015, Ley General de la Seguridad Social, art. 305 - inclusión de familiares colaboradores en el RETA'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2015-11724'
-  - label: 'Ley 20/2007, del Estatuto del trabajo autónomo, art. 35 — bonificaciones a la cotización de familiares colaboradores'
+  - label: 'Ley 20/2007, del Estatuto del trabajo autónomo, art. 35 - bonificaciones a la cotización de familiares colaboradores'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2007-13409'
 ---
 ## Qué es un autónomo colaborador

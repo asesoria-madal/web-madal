@@ -8,13 +8,13 @@ date: 2026-09-06
 updatedDate: 2026-09-24
 draft: false
 sources:
-  - label: 'Ley 27/2014 del Impuesto sobre Sociedades, art. 12 — amortització de l’immobilitzat'
+  - label: 'Ley 27/2014 del Impuesto sobre Sociedades, art. 12 - amortització de l’immobilitzat'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2014-12328'
-  - label: 'Ley 27/2014 del Impuesto sobre Sociedades, art. 106 — contractes d’arrendament financer (lísing) i amortització accelerada'
+  - label: 'Ley 27/2014 del Impuesto sobre Sociedades, art. 106 - contractes d’arrendament financer (lísing) i amortització accelerada'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2014-12328'
-  - label: 'Ley 35/2006 del IRPF, arts. 42 i 43 — retribució en espècie: valoració del vehicle cedit al treballador o administrador'
+  - label: 'Ley 35/2006 del IRPF, arts. 42 i 43 - retribució en espècie: valoració del vehicle cedit al treballador o administrador'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2006-20764'
-  - label: 'Ley 37/1992 del IVA, art. 95 — deducció del 50% (o del 100%) de les quotes suportades del vehicle'
+  - label: 'Ley 37/1992 del IVA, art. 95 - deducció del 50% (o del 100%) de les quotes suportades del vehicle'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-1992-28740'
 ---
 
@@ -24,7 +24,7 @@ Quan una SL necessita un cotxe, el dubte gairebé sempre és el mateix: comprar-
 
 Si el cotxe és d'un comercial, una furgoneta d'obra o un vehicle de flota que només es fa servir per treballar, està afecte al 100% i tot el que costa (quota, amortització, combustible, assegurança, manteniment) és despesa deduïble en l'Impost de Societats.
 
-Si el fa servir el soci o l'administrador també per a la seva vida personal (el més habitual en un "cotxe de direcció"), la part d'ús privat s'imputa com a **retribució en espècie** a la nòmina de qui el fa servir, amb el seu cost d'IRPF i el seu ingrés a compte. Ben tractada així, aquesta part continua sent despesa deduïble per a la SL, igual que qualsevol retribució de personal; el que no es pot deduir és l'ús privat que no es declara. Aquesta valoració és del 20% anual del cost d'adquisició (impostos inclosos) si el cotxe és propietat de l'empresa, o del 20% sobre el valor de mercat del vehicle nou si és rènting o lísing, amb una reducció d'entre el 15% i el 30% per a vehicles eficients (la màxima, per a elèctrics i híbrids endollables). En aquest escenari, l'estalvi fiscal de "posar-lo a nom de l'empresa" és menor del que sembla —ho acaba pagant l'usuari via IRPF—, i l'elecció entre compra, rènting o lísing passa a segon pla.
+Si el fa servir el soci o l'administrador també per a la seva vida personal (el més habitual en un "cotxe de direcció"), la part d'ús privat s'imputa com a **retribució en espècie** a la nòmina de qui el fa servir, amb el seu cost d'IRPF i el seu ingrés a compte. Ben tractada així, aquesta part continua sent despesa deduïble per a la SL, igual que qualsevol retribució de personal; el que no es pot deduir és l'ús privat que no es declara. Aquesta valoració és del 20% anual del cost d'adquisició (impostos inclosos) si el cotxe és propietat de l'empresa, o del 20% sobre el valor de mercat del vehicle nou si és rènting o lísing, amb una reducció d'entre el 15% i el 30% per a vehicles eficients (la màxima, per a elèctrics i híbrids endollables). En aquest escenari, l'estalvi fiscal de "posar-lo a nom de l'empresa" és menor del que sembla -ho acaba pagant l'usuari via IRPF-, i l'elecció entre compra, rènting o lísing passa a segon pla.
 
 ## Compra: amortització lenta, caixa immobilitzada
 
@@ -49,7 +49,7 @@ Cotxe 100% afecte a l'activitat (sense ús privat, per aïllar la comparació), 
 | | Compra | Lísing (4 anys) | Rènting (4 anys) |
 |---|---|---|---|
 | Desemborsament inicial | 36.300 € (o finançament a part) | Sense entrada rellevant | Sense entrada |
-| Quota mensual aproximada | — | ≈ 750 € + IVA | ≈ 650 € + IVA (inclou assegurança, manteniment, ITV) |
+| Quota mensual aproximada | - | ≈ 750 € + IVA | ≈ 650 € + IVA (inclou assegurança, manteniment, ITV) |
 | Què et dedueixes a l'Impost de Societats | Amortització segons taules: fins al 16% anual → 4.800 €/any | Amortització accelerada: fins al doble de taules (32%) els primers anys → fins a 9.600 €/any | El 100% de la quota (en la part afecta) → ≈ 7.800 €/any |
 | Estalvi fiscal aproximat en IS (tipus 25%) | ≈ 1.200 €/any, constant durant diversos anys | ≈ 2.400 €/any els primers 2-3 anys, després menys | ≈ 1.950 €/any mentre duri el contracte |
 | IVA recuperable | 3.150 € (50% de 6.300 €) de cop, en la compra | 50% de l'IVA de cada quota, repartit en 4 anys | 50% de l'IVA de cada quota, repartit en 4 anys |

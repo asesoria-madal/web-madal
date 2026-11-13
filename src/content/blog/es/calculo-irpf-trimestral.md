@@ -8,9 +8,9 @@ cat: fiscalidad
 date: 2026-08-19
 updatedDate: 2026-09-23
 sources:
-  - label: 'Reglamento del IRPF (Real Decreto 439/2007), arts. 109-110 — cálculo y exención del pago fraccionado'
+  - label: 'Reglamento del IRPF (Real Decreto 439/2007), arts. 109-110 - cálculo y exención del pago fraccionado'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2007-6820'
-  - label: 'Ley 35/2006 del IRPF, art. 101 — base legal de la exención por retenciones'
+  - label: 'Ley 35/2006 del IRPF, art. 101 - base legal de la exención por retenciones'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2006-20764'
 ---
 

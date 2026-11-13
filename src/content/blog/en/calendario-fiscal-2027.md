@@ -7,9 +7,9 @@ seoTitle: 'Spain tax calendar 2027 for freelancers and SLs'
 cat: fiscalidad
 date: 2026-11-07
 sources:
-  - label: 'Spanish Tax Agency — Taxpayer calendar (the 2027 edition is not yet published; in Spanish)'
+  - label: 'Spanish Tax Agency - Taxpayer calendar (the 2027 edition is not yet published; in Spanish)'
     url: 'https://sede.agenciatributaria.gob.es/Sede/presentacion-declaraciones-calendario-contribuyente.html'
-  - label: 'Law 39/2015, art. 30 — if the last day is not a working day, the deadline moves to the next working day (in Spanish)'
+  - label: 'Law 39/2015, art. 30 - if the last day is not a working day, the deadline moves to the next working day (in Spanish)'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2015-10565'
 ---
 

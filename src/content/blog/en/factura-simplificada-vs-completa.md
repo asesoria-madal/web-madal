@@ -2,12 +2,12 @@
 lang: en
 slug: factura-simplificada-vs-completa
 title: 'Simplified invoices (receipts) vs. full invoices: when you can use each one'
-description: "It's not a matter of preference — the law sets out when a receipt is enough and when a full invoice is required."
+description: "It's not a matter of preference - the law sets out when a receipt is enough and when a full invoice is required."
 seoTitle: "Simplified vs. full invoices: when to use each one"
 cat: contabilidad
 date: 2026-10-04
 sources:
-  - label: 'Royal Decree 1619/2012, Spanish Invoicing Regulation, arts. 4-7 — cases for simplified invoices and required content of each invoice type'
+  - label: 'Royal Decree 1619/2012, Spanish Invoicing Regulation, arts. 4-7 - cases for simplified invoices and required content of each invoice type'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2012-14696'
 ---
 

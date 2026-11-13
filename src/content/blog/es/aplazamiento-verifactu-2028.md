@@ -7,9 +7,9 @@ seoTitle: "Verifactu se aplaza a octubre de 2028: qué sigue vigente"
 cat: fiscalidad
 date: 2026-10-13
 sources:
-  - label: 'Real Decreto 1007/2023 — Reglamento que desarrolla Verifactu'
+  - label: 'Real Decreto 1007/2023 - Reglamento que desarrolla Verifactu'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2023-24840'
-  - label: 'Real Decreto-ley 15/2025 — aplazamiento del calendario a 2027 (norma vigente)'
+  - label: 'Real Decreto-ley 15/2025 - aplazamiento del calendario a 2027 (norma vigente)'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2025-24446'
 ---
 

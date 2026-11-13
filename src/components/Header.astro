@@ -8,7 +8,7 @@ interface Props {
   path: string; // pathname sin prefijo de idioma, p.ej. "/alta"
   active: 'home' | 'blog' | 'equipo' | 'servicios' | 'alta' | 'none';
   // Para páginas sueltas sin enlazar (p.ej. formulario-alta): solo deja el
-  // wordmark, el idioma y el tema — sin links de navegación, portal ni CTA
+  // wordmark, el idioma y el tema - sin links de navegación, portal ni CTA
   // de contacto, porque quien llega ahí ya viene con un link directo y no
   // tiene sentido invitarle a navegar fuera del formulario.
   minimal?: boolean;
@@ -26,7 +26,7 @@ const serviciosHref = localizedPath('/servicios', lang);
 
 // Menú desplegable de "Nuestros servicios" (se abre al pasar por encima,
 // ver CSS .nav-services / .services-menu): un resumen de cada servicio con
-// enlace directo a su sección — el alta enlaza a /alta (página propia),
+// enlace directo a su sección - el alta enlaza a /alta (página propia),
 // el resto a anclas de /servicios. El texto de cada item vive en
 // t.serviciosMenu (ui.ts), el href se calcula aquí porque depende de lang.
 const serviciosMenuItems = [
@@ -44,7 +44,6 @@ const serviciosMenuItems = [
 // inconsistente. Con esta insignia tipográfica para los tres idiomas, el
 // selector deja de depender de iconografía prestada (como el resto del sitio).
 const localeCode: Record<Locale, string> = { es: 'ES', ca: 'CA', en: 'EN' };
-const temaLabel = { es: 'Cambiar entre tema claro y oscuro', ca: 'Canvia entre tema clar i fosc', en: 'Switch between light and dark theme' }[lang];
 ---
 
 <header class="site">
@@ -80,10 +79,6 @@ const temaLabel = { es: 'Cambiar entre tema claro y oscuro', ca: 'Canvia entre t
       </nav>
     )}
     <div class="header-right">
-      <button type="button" class="theme-toggle" aria-label={temaLabel}>
-        <svg class="theme-icon-dark" width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16.5 12.3A7 7 0 0 1 7.7 3.5a7 7 0 1 0 8.8 8.8Z"/></svg>
-        <svg class="theme-icon-light" width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><circle cx="10" cy="10" r="4"/><path d="M10 1.5v2.4M10 16.1v2.4M18.5 10h-2.4M3.9 10H1.5M15.9 4.1l-1.7 1.7M5.8 14.2l-1.7 1.7M15.9 15.9l-1.7-1.7M5.8 5.8 4.1 4.1"/></svg>
-      </button>
       <details class="lang-switch">
         <summary aria-label={`${localeCode[lang]} · ${localeNames[lang]}`}><span class="flag-badge" aria-hidden="true">{localeCode[lang]}</span></summary>
         <div class="lang-menu">
@@ -140,10 +135,6 @@ const temaLabel = { es: 'Cambiar entre tema claro y oscuro', ca: 'Canvia entre t
       <a class="mobile-navlink" href={localizedPath('/cambiar-de-gestoria', lang)}>{t.nav.cambio}</a>
       <a class={`mobile-navlink${active === 'equipo' ? ' active' : ''}`} href={equipoHref}>{t.nav.conocenos}</a>
       <div class="mobile-menu-foot">
-        <button type="button" class="theme-toggle" aria-label={temaLabel}>
-          <svg class="theme-icon-dark" width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16.5 12.3A7 7 0 0 1 7.7 3.5a7 7 0 1 0 8.8 8.8Z"/></svg>
-          <svg class="theme-icon-light" width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><circle cx="10" cy="10" r="4"/><path d="M10 1.5v2.4M10 16.1v2.4M18.5 10h-2.4M3.9 10H1.5M15.9 4.1l-1.7 1.7M5.8 14.2l-1.7 1.7M15.9 15.9l-1.7-1.7M5.8 5.8 4.1 4.1"/></svg>
-        </button>
         <div class="mobile-lang-links">
           {locales.map((l) => (
             <a href={localizedPath(path, l)} class={`mobile-lang-link${l === lang ? ' active' : ''}`} aria-label={`${localeCode[l]} · ${localeNames[l]}`}>
@@ -163,20 +154,6 @@ const temaLabel = { es: 'Cambiar entre tema claro y oscuro', ca: 'Canvia entre t
   // una función que se reengancha en "astro:page-load", el evento que
   // dispara tanto en la carga inicial como después de cada transición.
   function initHeader() {
-    function currentTheme(): 'dark' | 'light' {
-      const attr = document.documentElement.getAttribute('data-theme');
-      if (attr === 'dark' || attr === 'light') return attr;
-      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-    }
-
-    document.querySelectorAll<HTMLButtonElement>('.theme-toggle').forEach((btn) => {
-      btn.addEventListener('click', () => {
-        const next = currentTheme() === 'dark' ? 'light' : 'dark';
-        document.documentElement.setAttribute('data-theme', next);
-        localStorage.setItem('theme', next);
-      });
-    });
-
     const menuToggle = document.getElementById('menuToggle');
     const mobileMenu = document.getElementById('mobileMenu');
 

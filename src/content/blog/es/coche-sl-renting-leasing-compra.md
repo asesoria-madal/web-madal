@@ -8,13 +8,13 @@ date: 2026-09-06
 updatedDate: 2026-09-24
 draft: false
 sources:
-  - label: 'Ley 27/2014 del Impuesto sobre Sociedades, art. 12 — amortización del inmovilizado'
+  - label: 'Ley 27/2014 del Impuesto sobre Sociedades, art. 12 - amortización del inmovilizado'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2014-12328'
-  - label: 'Ley 27/2014 del Impuesto sobre Sociedades, art. 106 — contratos de arrendamiento financiero (leasing) y amortización acelerada'
+  - label: 'Ley 27/2014 del Impuesto sobre Sociedades, art. 106 - contratos de arrendamiento financiero (leasing) y amortización acelerada'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2014-12328'
-  - label: 'Ley 35/2006 del IRPF, arts. 42 y 43 — retribución en especie: valoración del vehículo cedido al trabajador o administrador'
+  - label: 'Ley 35/2006 del IRPF, arts. 42 y 43 - retribución en especie: valoración del vehículo cedido al trabajador o administrador'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2006-20764'
-  - label: 'Ley 37/1992 del IVA, art. 95 — deducción del 50% (o del 100%) de las cuotas soportadas del vehículo'
+  - label: 'Ley 37/1992 del IVA, art. 95 - deducción del 50% (o del 100%) de las cuotas soportadas del vehículo'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-1992-28740'
 ---
 
@@ -24,7 +24,7 @@ Cuando una SL necesita un coche, la duda casi siempre es la misma: comprarlo, fi
 
 Si el coche es de un comercial, una furgoneta de obra o un vehículo de flota que solo se usa para trabajar, está afecto al 100% y todo lo que cuesta (cuota, amortización, combustible, seguro, mantenimiento) es gasto deducible en el Impuesto de Sociedades.
 
-Si lo usa el socio o el administrador también para su vida personal (lo habitual en un "coche de dirección"), la parte de uso privado se imputa como **retribución en especie** en la nómina de quien lo usa, con su coste de IRPF y su ingreso a cuenta. Bien tratada así, esa parte sigue siendo gasto deducible para la SL, igual que cualquier retribución de personal; lo que no se puede deducir es el uso privado que no se declara. Esa valoración es del 20% anual del coste de adquisición (impuestos incluidos) si el coche es propiedad de la empresa, o del 20% sobre el valor de mercado del vehículo nuevo si es renting o leasing, con una reducción de entre el 15% y el 30% para vehículos eficientes (la máxima, para eléctricos e híbridos enchufables). En este escenario, el ahorro fiscal de "ponerlo a nombre de la empresa" es menor de lo que parece —lo acaba pagando el usuario vía IRPF—, y la elección entre compra, renting o leasing pasa a segundo plano.
+Si lo usa el socio o el administrador también para su vida personal (lo habitual en un "coche de dirección"), la parte de uso privado se imputa como **retribución en especie** en la nómina de quien lo usa, con su coste de IRPF y su ingreso a cuenta. Bien tratada así, esa parte sigue siendo gasto deducible para la SL, igual que cualquier retribución de personal; lo que no se puede deducir es el uso privado que no se declara. Esa valoración es del 20% anual del coste de adquisición (impuestos incluidos) si el coche es propiedad de la empresa, o del 20% sobre el valor de mercado del vehículo nuevo si es renting o leasing, con una reducción de entre el 15% y el 30% para vehículos eficientes (la máxima, para eléctricos e híbridos enchufables). En este escenario, el ahorro fiscal de "ponerlo a nombre de la empresa" es menor de lo que parece -lo acaba pagando el usuario vía IRPF-, y la elección entre compra, renting o leasing pasa a segundo plano.
 
 ## Compra: amortización lenta, caja inmovilizada
 
@@ -49,7 +49,7 @@ Coche 100% afecto a la actividad (sin uso privado, para aislar la comparación),
 | | Compra | Leasing (4 años) | Renting (4 años) |
 |---|---|---|---|
 | Desembolso inicial | 36.300 € (o financiación aparte) | Sin entrada relevante | Sin entrada |
-| Cuota mensual aproximada | — | ≈ 750 € + IVA | ≈ 650 € + IVA (incluye seguro, mantenimiento, ITV) |
+| Cuota mensual aproximada | - | ≈ 750 € + IVA | ≈ 650 € + IVA (incluye seguro, mantenimiento, ITV) |
 | Qué te deduces en el Impuesto de Sociedades | Amortización según tablas: hasta el 16% anual → 4.800 €/año | Amortización acelerada: hasta el doble de tablas (32%) los primeros años → hasta 9.600 €/año | El 100% de la cuota (en la parte afecta) → ≈ 7.800 €/año |
 | Ahorro fiscal aproximado en IS (tipo 25%) | ≈ 1.200 €/año, constante durante varios años | ≈ 2.400 €/año en los primeros 2-3 años, luego menos | ≈ 1.950 €/año mientras dure el contrato |
 | IVA recuperable | 3.150 € (50% de 6.300 €) de golpe, en la compra | 50% del IVA de cada cuota, repartido en 4 años | 50% del IVA de cada cuota, repartido en 4 años |

@@ -7,11 +7,11 @@ seoTitle: 'Capital mínimo de una SL: ¿1 € o 3.000 €?'
 cat: fiscalidad
 date: 2026-11-07
 sources:
-  - label: 'Real Decreto Legislativo 1/2010, Ley de Sociedades de Capital, art. 4 — capital mínimo, reserva legal y responsabilidad hasta 3.000 €'
+  - label: 'Real Decreto Legislativo 1/2010, Ley de Sociedades de Capital, art. 4 - capital mínimo, reserva legal y responsabilidad hasta 3.000 €'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2010-10544'
   - label: 'Ley 18/2022, de creación y crecimiento de empresas'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2022-15818'
-  - label: 'Real Decreto-ley 13/2010, art. 5 — aranceles con estatutos tipo'
+  - label: 'Real Decreto-ley 13/2010, art. 5 - aranceles con estatutos tipo'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2010-18651'
 ---
 

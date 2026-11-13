@@ -30,8 +30,8 @@ This is where a lot of businesses with a good gross margin get a nasty surprise:
 
 ## Why this difference matters for decision-making
 
-- If your gross margin is already low, the problem is in how you produce or buy — raising your selling price or lowering your production/purchase cost is the main lever.
-- If your gross margin is good but your net margin is poor, the problem is your cost structure (too many fixed costs for your volume) — the lever there isn't charging more, it's reviewing costs or growing volume to spread them out.
+- If your gross margin is already low, the problem is in how you produce or buy - raising your selling price or lowering your production/purchase cost is the main lever.
+- If your gross margin is good but your net margin is poor, the problem is your cost structure (too many fixed costs for your volume) - the lever there isn't charging more, it's reviewing costs or growing volume to spread them out.
 
 Mixing up these two diagnoses leads to the wrong decision: raising prices when the real problem is fixed costs, or cutting costs when the real problem is that each sale already leaves little margin to begin with.
 

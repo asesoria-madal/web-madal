@@ -8,9 +8,9 @@ cat: fiscalidad
 date: 2026-08-19
 updatedDate: 2026-09-23
 sources:
-  - label: 'IRPF Regulation (Real Decreto 439/2007), arts. 109-110 — how the fractioned payment and its exemption work'
+  - label: 'IRPF Regulation (Real Decreto 439/2007), arts. 109-110 - how the fractioned payment and its exemption work'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2007-6820'
-  - label: 'Ley 35/2006 (IRPF Act), art. 101 — legal basis for the withholding-based exemption'
+  - label: 'Ley 35/2006 (IRPF Act), art. 101 - legal basis for the withholding-based exemption'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2006-20764'
 ---
 

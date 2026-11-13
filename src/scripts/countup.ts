@@ -15,7 +15,7 @@ function prefersReducedMotion(): boolean {
 }
 
 // Ease-out cúbico: la cifra sube rápido al principio y se posa despacio al
-// final, como si aterrizara — no un contador mecánico a velocidad constante.
+// final, como si aterrizara - no un contador mecánico a velocidad constante.
 function easeOutCubic(t: number): number {
   return 1 - Math.pow(1 - t, 3);
 }
@@ -48,7 +48,7 @@ export function animateCountUp(
  * ya tradujo/formateó la plantilla, sin duplicarlo a mano en JS.
  *
  * El elemento marcado con `data-countup` debe ser una hoja (sin elementos
- * hijos) — si contiene texto e hijos mezclados, envuelve solo la parte
+ * hijos) - si contiene texto e hijos mezclados, envuelve solo la parte
  * numérica en su propio span antes de marcarlo.
  */
 export function observeCountUp(selector = '[data-countup]'): void {

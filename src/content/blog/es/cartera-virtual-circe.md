@@ -7,9 +7,9 @@ seoTitle: 'Cartera Virtual del CIRCE: qué es y cómo crearla'
 cat: fiscalidad
 date: 2026-11-07
 sources:
-  - label: 'Canal Empresa (Generalitat de Catalunya) — Cartera Virtual del CIRCE para crear una SL'
+  - label: 'Canal Empresa (Generalitat de Catalunya) - Cartera Virtual del CIRCE para crear una SL'
     url: 'https://canalempresa.gencat.cat/es/detall/noticia/Ja-tens-disponible-la-Cartera-virtual-del-CIRCE-per-crear-la-teva-SL'
-  - label: 'Colegio de Registradores — presentación telemática CIRCE'
+  - label: 'Colegio de Registradores - presentación telemática CIRCE'
     url: 'https://sede.registradores.org/sede/sede-corpme-web/registro-mercantil/presentacion-telematica/circe-presentacion'
   - label: 'Guía de usuario de la Cartera Virtual del Registro Mercantil (mayo de 2026)'
     url: 'https://www.reicaz.es/wp-content/uploads/2026/05/Guia-de-usuario-Cartera-virtual-Registro-Mercantil.pdf'

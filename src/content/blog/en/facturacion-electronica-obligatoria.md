@@ -10,7 +10,7 @@ updatedDate: 2026-10-13
 sources:
   - label: 'Ley 18/2022, business creation and growth act ("Crea y Crece")'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2022-15818'
-  - label: 'Real Decreto 238/2026 — implements mandatory e-invoicing between businesses'
+  - label: 'Real Decreto 238/2026 - implements mandatory e-invoicing between businesses'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2026-7295'
 ---
 
@@ -32,7 +32,7 @@ This is a different rule: the Ley 18/2022 on business creation and growth requir
 
 ## Who it applies to
 
-Every company and self-employed worker that invoices another company or self-employed worker (B2B transactions). It doesn't affect invoices you issue to individuals, and it has nothing to do with whether you use invoicing software or not — that's what Verifactu regulates, not this rule.
+Every company and self-employed worker that invoices another company or self-employed worker (B2B transactions). It doesn't affect invoices you issue to individuals, and it has nothing to do with whether you use invoicing software or not - that's what Verifactu regulates, not this rule.
 
 ## When it becomes mandatory
 

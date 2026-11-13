@@ -9,9 +9,9 @@ cat: fiscalidad
 date: 2026-08-19
 updatedDate: 2026-09-23
 sources:
-  - label: 'Ley 35/2006 (IRPF Act) — deductibility of expenses that are necessary and documented for the business'
+  - label: 'Ley 35/2006 (IRPF Act) - deductibility of expenses that are necessary and documented for the business'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2006-20764'
-  - label: 'Ley 11/2021, tax fraud prevention act — cash payment limit (€1,000)'
+  - label: 'Ley 11/2021, tax fraud prevention act - cash payment limit (€1,000)'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2021-11473'
 ---
 

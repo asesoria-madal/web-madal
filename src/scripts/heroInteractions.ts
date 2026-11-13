@@ -1,7 +1,7 @@
 // Pequeñas reacciones al cursor en el hero de la Home: los dos botones
 // (circular y de volumen) se acercan un poco al cursor dentro de su propia
 // zona ("imán"), y el ticket de precio se desplaza levemente solo cuando el
-// cursor está cerca de él — quieto el resto del tiempo, no flota solo.
+// cursor está cerca de él - quieto el resto del tiempo, no flota solo.
 // Puramente decorativo: si algo falla o el usuario prefiere menos
 // movimiento, los botones y el precio siguen funcionando exactamente igual,
 // solo sin el desplazamiento.

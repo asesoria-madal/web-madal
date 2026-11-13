@@ -7,22 +7,22 @@ seoTitle: "Com tributen Vinted, Wallapop o Airbnb: què és el DAC7"
 cat: fiscalidad
 date: 2026-10-18
 sources:
-  - label: 'Directiva (UE) 2021/514 (DAC7) — cooperació administrativa en l''àmbit de la fiscalitat'
+  - label: 'Directiva (UE) 2021/514 (DAC7) - cooperació administrativa en l''àmbit de la fiscalitat'
     url: 'https://eur-lex.europa.eu/legal-content/ES/TXT/?uri=CELEX:32021L0514'
-  - label: 'Ley 35/2006, del IRPF — guanys patrimonials i rendiments d''activitats econòmiques'
+  - label: 'Ley 35/2006, del IRPF - guanys patrimonials i rendiments d''activitats econòmiques'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2006-20764'
 ---
 
 ## Què obliga realment el DAC7
 
-El DAC7 no és un impost nou: és una obligació d'**informació** que recau sobre les plataformes digitals (marketplaces de segona mà, lloguer vacacional, plataformes de serveis entre particulars...). A partir de determinats llindars d'operacions o d'import, la plataforma ha de reportar a l'Agència Tributària les dades dels seus venedors/amfitrions i el que han ingressat a través d'ella. Que Hisenda rebi aquesta informació no canvia per si sol el que has de tributar — però sí que fa molt més difícil que una renda no declarada passi desapercebuda.
+El DAC7 no és un impost nou: és una obligació d'**informació** que recau sobre les plataformes digitals (marketplaces de segona mà, lloguer vacacional, plataformes de serveis entre particulars...). A partir de determinats llindars d'operacions o d'import, la plataforma ha de reportar a l'Agència Tributària les dades dels seus venedors/amfitrions i el que han ingressat a través d'ella. Que Hisenda rebi aquesta informació no canvia per si sol el que has de tributar - però sí que fa molt més difícil que una renda no declarada passi desapercebuda.
 
 ## El que realment importa: si és venda ocasional o activitat econòmica
 
 El tractament fiscal no depèn de la plataforma que facis servir, sinó de la naturalesa del que fas:
 
-- **Vendre objectes personals usats de forma ocasional** (roba, mobles, electrònica que ja no fas servir) normalment no genera tributació si els vens per un preu igual o inferior al que vas pagar per ells — no hi ha guany patrimonial perquè no hi ha hagut guany real. Si els vens per més del que van costar, sí que pot generar-se un guany patrimonial a declarar.
-- **Vendre de forma habitual amb ànim de lucre** (comprar per revendre, produir per vendre, oferir un allotjament de forma recurrent i organitzada) és una altra cosa: això és una activitat econòmica, amb les obligacions que ja coneixes — alta d'activitat, declaració d'ingressos i despeses, IVA si correspon.
+- **Vendre objectes personals usats de forma ocasional** (roba, mobles, electrònica que ja no fas servir) normalment no genera tributació si els vens per un preu igual o inferior al que vas pagar per ells - no hi ha guany patrimonial perquè no hi ha hagut guany real. Si els vens per més del que van costar, sí que pot generar-se un guany patrimonial a declarar.
+- **Vendre de forma habitual amb ànim de lucre** (comprar per revendre, produir per vendre, oferir un allotjament de forma recurrent i organitzada) és una altra cosa: això és una activitat econòmica, amb les obligacions que ja coneixes - alta d'activitat, declaració d'ingressos i despeses, IVA si correspon.
 
 ## El cas del lloguer vacacional (tipus Airbnb)
 

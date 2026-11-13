@@ -12,7 +12,7 @@ export const prerender = false;
 // primer formulario del cliente.
 //
 // Autorización: la service role se salta RLS, así que la comprobación real es
-// esta — el token de sesión se valida contra Supabase Auth y el usuario tiene
+// esta - el token de sesión se valida contra Supabase Auth y el usuario tiene
 // que estar en `portal_admins`. Nunca se confía en nada que venga en el cuerpo.
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -102,7 +102,7 @@ export const POST: APIRoute = async ({ request }) => {
 
   // Un cliente provisional (PENDIENTE-…) es el que crea n8n al detectar la
   // respuesta a un presupuesto, antes de conocer el NIF. Si el equipo da de
-  // alta a esa misma persona a mano, se sustituye por la ficha real — así el
+  // alta a esa misma persona a mano, se sustituye por la ficha real - así el
   // INSERT dispara el onboarding completo (formulario + acceso). Solo se
   // sustituye si no tiene facturas subidas, para no perder datos.
   if (email) {

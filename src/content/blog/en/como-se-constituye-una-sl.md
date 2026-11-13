@@ -7,11 +7,11 @@ cat: fiscalidad
 date: 2026-08-19
 updatedDate: 2026-11-07
 sources:
-  - label: 'Ley 18/2022, business creation and growth act — minimum share capital of €1'
+  - label: 'Ley 18/2022, business creation and growth act - minimum share capital of €1'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2022-15818'
-  - label: 'Real Decreto Legislativo 1/2010, Capital Companies Act — incorporation, share capital and liability'
+  - label: 'Real Decreto Legislativo 1/2010, Capital Companies Act - incorporation, share capital and liability'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2010-10544'
-  - label: 'Ley 27/2014, Corporate Income Tax Act, art. 29 — 25% general rate, 15% reduced rate for newly created companies'
+  - label: 'Ley 27/2014, Corporate Income Tax Act, art. 29 - 25% general rate, 15% reduced rate for newly created companies'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2014-12328'
 ---
 
@@ -32,7 +32,7 @@ You set up your SL with €100 of share capital. In the first year, the company 
 | Legal reserve after year one | €1,700 (€100 of capital + €1,600) |
 | Remainder available to distribute to partners (if they choose to) | €6,400 |
 
-That mandatory 20% keeps going into the legal reserve every year until, between capital and reserves, it reaches €3,000; after that it stops being mandatory. With profits like the ones in this example, it's reached in under two years. Low share capital isn't "money lost" — it's a forced-saving requirement at the start, not a cost.
+That mandatory 20% keeps going into the legal reserve every year until, between capital and reserves, it reaches €3,000; after that it stops being mandatory. With profits like the ones in this example, it's reached in under two years. Low share capital isn't "money lost" - it's a forced-saving requirement at the start, not a cost.
 
 ## What are the steps to set up an SL?
 

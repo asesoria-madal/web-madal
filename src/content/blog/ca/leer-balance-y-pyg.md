@@ -18,7 +18,7 @@ El balanç i el compte de pèrdues i guanys (compte de resultats) no competeixen
 
 - **Actiu**: tot el que té el negoci (diners al banc, factures pendents de cobrament, maquinària, local, existències...). S'ordena del més líquid (caixa) al menys líquid (immobilitzat).
 - **Passiu**: tot el que el negoci deu a tercers (proveïdors, préstecs, Hisenda, Seguretat Social).
-- **Patrimoni net**: el que queda si a l'actiu li restes el passiu — és, en termes simples, el que "és teu" del negoci.
+- **Patrimoni net**: el que queda si a l'actiu li restes el passiu - és, en termes simples, el que "és teu" del negoci.
 
 L'equació que sempre es compleix és Actiu = Passiu + Patrimoni Net. Si un balanç no quadra, hi ha un error en algun lloc, no una excepció a la regla.
 
@@ -35,7 +35,7 @@ El compte de pèrdues i guanys parteix dels teus ingressos i els va restant desp
 
 Al balanç: si el teu actiu corrent (el que pots convertir en diners en menys d'un any) cobreix el teu passiu corrent (el que has de pagar en menys d'un any). Si no el cobreix, tens un problema de liquiditat encara que el negoci sigui rendible sobre el paper.
 
-Al compte de resultats: si el resultat d'explotació (abans d'interessos i impostos) és positiu. Un negoci pot tenir benefici final gràcies a un ingrés puntual (la venda d'un actiu, per exemple) i tot i així tenir un problema estructural en la seva activitat principal — el resultat d'explotació és el que et diu si el negoci "del dia a dia" funciona.
+Al compte de resultats: si el resultat d'explotació (abans d'interessos i impostos) és positiu. Un negoci pot tenir benefici final gràcies a un ingrés puntual (la venda d'un actiu, per exemple) i tot i així tenir un problema estructural en la seva activitat principal - el resultat d'explotació és el que et diu si el negoci "del dia a dia" funciona.
 
 ## Un exemple senzill, amb els dos documents alhora
 
@@ -68,7 +68,7 @@ El trimestre tanca amb 3.840 € de benefici, una bona notícia sobre el paper. 
 
 ## Dels números a les decisions
 
-Llegir aquests dos documents és el primer pas; la part que realment aporta valor és entendre què t'estan dient sobre el teu negoci concret — per això no ens limitem a presentar-te impostos, sinó a explicar-te el teu balanç i el teu compte de resultats amb criteri, no només a lliurar-te'ls.
+Llegir aquests dos documents és el primer pas; la part que realment aporta valor és entendre què t'estan dient sobre el teu negoci concret - per això no ens limitem a presentar-te impostos, sinó a explicar-te el teu balanç i el teu compte de resultats amb criteri, no només a lliurar-te'ls.
 
 ## Vols que els repassem junts?
 

@@ -7,22 +7,22 @@ seoTitle: "How Vinted, Wallapop or Airbnb income is taxed: DAC7"
 cat: fiscalidad
 date: 2026-10-18
 sources:
-  - label: 'Directive (EU) 2021/514 (DAC7) — administrative cooperation in the field of taxation'
+  - label: 'Directive (EU) 2021/514 (DAC7) - administrative cooperation in the field of taxation'
     url: 'https://eur-lex.europa.eu/legal-content/ES/TXT/?uri=CELEX:32021L0514'
-  - label: 'Ley 35/2006, Personal Income Tax Act (IRPF) — capital gains and income from economic activities'
+  - label: 'Ley 35/2006, Personal Income Tax Act (IRPF) - capital gains and income from economic activities'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2006-20764'
 ---
 
 ## What DAC7 actually requires
 
-DAC7 isn't a new tax: it's a **reporting** obligation placed on digital platforms (second-hand marketplaces, holiday rental sites, platforms for services between individuals...). Above certain thresholds of transactions or amounts, the platform has to report to the tax agency the details of its sellers/hosts and what they've earned through it. The tax office receiving this information doesn't by itself change what you owe — but it does make it much harder for undeclared income to go unnoticed.
+DAC7 isn't a new tax: it's a **reporting** obligation placed on digital platforms (second-hand marketplaces, holiday rental sites, platforms for services between individuals...). Above certain thresholds of transactions or amounts, the platform has to report to the tax agency the details of its sellers/hosts and what they've earned through it. The tax office receiving this information doesn't by itself change what you owe - but it does make it much harder for undeclared income to go unnoticed.
 
 ## What actually matters: occasional sale or economic activity
 
 The tax treatment doesn't depend on which platform you use, but on the nature of what you're doing:
 
-- **Occasionally selling used personal items** (clothes, furniture, electronics you no longer use) usually doesn't trigger taxation if you sell them for the same price or less than you paid for them — there's no capital gain because there's been no real gain. If you sell them for more than they cost, that can create a taxable capital gain.
-- **Selling on a regular basis for profit** (buying to resell, producing to sell, offering accommodation on a recurring, organised basis) is a different matter: that's an economic activity, with the obligations you already know — registering the activity, declaring income and expenses, VAT where it applies.
+- **Occasionally selling used personal items** (clothes, furniture, electronics you no longer use) usually doesn't trigger taxation if you sell them for the same price or less than you paid for them - there's no capital gain because there's been no real gain. If you sell them for more than they cost, that can create a taxable capital gain.
+- **Selling on a regular basis for profit** (buying to resell, producing to sell, offering accommodation on a recurring, organised basis) is a different matter: that's an economic activity, with the obligations you already know - registering the activity, declaring income and expenses, VAT where it applies.
 
 ## The holiday rental case (Airbnb-type)
 

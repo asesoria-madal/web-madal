@@ -7,9 +7,9 @@ seoTitle: "Verifactu postponed to October 2028: what still applies"
 cat: fiscalidad
 date: 2026-10-13
 sources:
-  - label: 'Royal Decree 1007/2023 — regulation implementing Verifactu'
+  - label: 'Royal Decree 1007/2023 - regulation implementing Verifactu'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2023-24840'
-  - label: 'Royal Decree-law 15/2025 — postponement of the timeline to 2027 (rule in force)'
+  - label: 'Royal Decree-law 15/2025 - postponement of the timeline to 2027 (rule in force)'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2025-24446'
 ---
 

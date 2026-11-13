@@ -7,11 +7,11 @@ seoTitle: "Desgravar el coche siendo autónomo: IVA al 50% o al 100%"
 cat: fiscalidad
 date: 2026-08-30
 sources:
-  - label: 'Ley 35/2006 del IRPF, art. 29 — elementos patrimoniales afectos a la actividad económica'
+  - label: 'Ley 35/2006 del IRPF, art. 29 - elementos patrimoniales afectos a la actividad económica'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2006-20764'
-  - label: 'Reglamento del IRPF (Real Decreto 439/2007), art. 22.4 — el uso personal, aunque sea en días u horas inhábiles, impide la afectación de los turismos salvo en las actividades tasadas'
+  - label: 'Reglamento del IRPF (Real Decreto 439/2007), art. 22.4 - el uso personal, aunque sea en días u horas inhábiles, impide la afectación de los turismos salvo en las actividades tasadas'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2007-6820'
-  - label: 'Ley 37/1992 del IVA, art. 95, apdos. Tres y Cuatro — presunción de deducción del 50% (o del 100%) de las cuotas soportadas del vehículo y de sus gastos'
+  - label: 'Ley 37/1992 del IVA, art. 95, apdos. Tres y Cuatro - presunción de deducción del 50% (o del 100%) de las cuotas soportadas del vehículo y de sus gastos'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-1992-28740'
 updatedDate: 2026-09-24
 ---
@@ -54,7 +54,7 @@ Coche de 20.000 € + IVA (4.200 €) = 24.200 €, con 1.200 € + IVA (252 €
 
 | | Actividad fuera de la lista de excepciones (uso mixto, el caso más común) | Actividad de la lista (taxi, agente comercial...) |
 |---|---|---|
-| Deducción en IRPF de la compra | 0 € — no está afecto exclusivamente | Amortización íntegra según tablas |
+| Deducción en IRPF de la compra | 0 € - no está afecto exclusivamente | Amortización íntegra según tablas |
 | Deducción en IRPF del combustible anual | 0 € | 1.200 € íntegros |
 | IVA deducible de la compra | 2.100 € (50% de 4.200 €) | 4.200 € (100%) |
 | IVA deducible del combustible anual | 126 € (50% de 252 €) | 252 € (100%) |

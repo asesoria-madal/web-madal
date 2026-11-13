@@ -8,9 +8,9 @@ cat: contabilidad
 date: 2026-08-19
 updatedDate: 2026-09-23
 sources:
-  - label: 'Real Decreto 1619/2012, Invoicing Regulation, art. 6 — mandatory invoice content'
+  - label: 'Real Decreto 1619/2012, Invoicing Regulation, art. 6 - mandatory invoice content'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2012-14696'
-  - label: 'IRPF Regulation (Real Decreto 439/2007), art. 95 — 15% withholding, reduced to 7% for the first 2 years'
+  - label: 'IRPF Regulation (Real Decreto 439/2007), art. 95 - 15% withholding, reduced to 7% for the first 2 years'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2007-6820'
 ---
 
@@ -46,7 +46,7 @@ You invoice €1,000 of professional services to a company. Here's how what your
 | − IRPF withholding | −€70 | −€150 |
 | **Total you collect** | **€1,140** | **€1,060** |
 
-You collect the VAT yourself and pay it on later via the 303 return. The IRPF withholding, on the other hand, you never collect: your client applies it and pays it straight to Hacienda on account of your income tax. Leaving it off the invoice doesn't mean you "keep" that money — it's a formal error that can end up triggering a request from the tax office.
+You collect the VAT yourself and pay it on later via the 303 return. The IRPF withholding, on the other hand, you never collect: your client applies it and pays it straight to Hacienda on account of your income tax. Leaving it off the invoice doesn't mean you "keep" that money - it's a formal error that can end up triggering a request from the tax office.
 
 When you work with us, we review the format of your invoices before it becomes a problem with Hacienda, not after.
 

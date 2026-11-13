@@ -2,16 +2,16 @@
 lang: en
 slug: autonomo-societario-vs-reta-general
 title: 'Company-director self-employed status vs. standard RETA: when a partner in a limited company has to register as self-employed'
-description: 'Having a limited company doesn''t get you out of registering as self-employed if you work in it and control it — and you pay contributions differently.'
+description: 'Having a limited company doesn''t get you out of registering as self-employed if you work in it and control it - and you pay contributions differently.'
 seoTitle: "Company-director self-employment: when SL partners register"
 cat: laboral
 date: 2026-09-30
 sources:
-  - label: 'Royal Legislative Decree 8/2015, General Social Security Act, art. 305 — RETA registration for partners in capital companies'
+  - label: 'Royal Legislative Decree 8/2015, General Social Security Act, art. 305 - RETA registration for partners in capital companies'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2015-11724'
-  - label: 'Law 20/2007, Self-Employed Workers Statute, art. 38 ter.9 — flat-rate start-up contribution for partners in capital and labour companies'
+  - label: 'Law 20/2007, Self-Employed Workers Statute, art. 38 ter.9 - flat-rate start-up contribution for partners in capital and labour companies'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2007-13409'
-  - label: 'Royal Decree-Law 13/2022, of 26 July — contribution system for self-employed workers based on net income'
+  - label: 'Royal Decree-Law 13/2022, of 26 July - contribution system for self-employed workers based on net income'
     url: 'https://www.boe.es/buscar/doc.php?id=BOE-A-2022-12482'
 ---
 
@@ -27,18 +27,18 @@ Broadly speaking, you're considered to have effective control (and therefore an 
 - Being a director with paid executive functions, even if your stake is smaller, if in practice you control the company.
 - Adding your stake to that of family members up to the second degree who live with you can push the combined total over the control threshold even if you personally hold only a small share.
 
-These specific percentages are worth checking case by case — the real-world detail (multiple partners, shareholder agreements, who actually manages the company) means a specific review is worth more than applying the general rule blindly.
+These specific percentages are worth checking case by case - the real-world detail (multiple partners, shareholder agreements, who actually manages the company) means a specific review is worth more than applying the general rule blindly.
 
 ## What changes in your contributions
 
 A company-director self-employed worker pays into the same scheme (RETA) as any other self-employed worker, but under different conditions from a "regular" self-employed worker:
-- **Does have access to the flat-rate reduced contribution** for people starting out (art. 38 ter.9 of Law 20/2007, LETA), same as a general self-employed worker, but cannot benefit from contribution bases below Group 7 of the General Scheme — unlike the wider margin a general self-employed worker has under the income-bracket contribution system.
-- A **higher minimum contribution base** than the general self-employed worker, regardless of what you actually earn that month — this is a quirk of the income-based contribution system in place since 2023.
-- Everything else (paying based on projected income, later adjustment) follows the same pattern as for a general self-employed worker — see the article in this series on RETA adjustments.
+- **Does have access to the flat-rate reduced contribution** for people starting out (art. 38 ter.9 of Law 20/2007, LETA), same as a general self-employed worker, but cannot benefit from contribution bases below Group 7 of the General Scheme - unlike the wider margin a general self-employed worker has under the income-bracket contribution system.
+- A **higher minimum contribution base** than the general self-employed worker, regardless of what you actually earn that month - this is a quirk of the income-based contribution system in place since 2023.
+- Everything else (paying based on projected income, later adjustment) follows the same pattern as for a general self-employed worker - see the article in this series on RETA adjustments.
 
 ## Why getting it right from the start matters
 
-If you register under the wrong category (for example, as a general self-employed worker when you should actually be a company-director one, or the other way round), social security can demand the difference in contributions retroactively once it's detected — which can be quite a while after the fact, with the added shock of an unexpected bill. This isn't a minor administrative detail: it changes how much you pay every month from day one.
+If you register under the wrong category (for example, as a general self-employed worker when you should actually be a company-director one, or the other way round), social security can demand the difference in contributions retroactively once it's detected - which can be quite a while after the fact, with the added shock of an unexpected bill. This isn't a minor administrative detail: it changes how much you pay every month from day one.
 
 ## Before you set up the limited company, check this with someone
 

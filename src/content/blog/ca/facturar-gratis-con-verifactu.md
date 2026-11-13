@@ -8,9 +8,9 @@ cat: fiscalidad
 date: 2026-08-21
 updatedDate: 2026-09-23
 sources:
-  - label: 'Real Decreto 1007/2023 — Reglament que desenvolupa Verifactu'
+  - label: 'Real Decreto 1007/2023 - Reglament que desenvolupa Verifactu'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2023-24840'
-  - label: 'Agencia Tributaria — Sistemas Informáticos de Facturación (SIF) y VERI*FACTU, cuestiones generales'
+  - label: 'Agencia Tributaria - Sistemas Informáticos de Facturación (SIF) y VERI*FACTU, cuestiones generales'
     url: 'https://sede.agenciatributaria.gob.es/Sede/iva/sistemas-informaticos-facturacion-verifactu/cuestiones-generales.html'
 ---
 

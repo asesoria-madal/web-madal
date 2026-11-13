@@ -7,7 +7,7 @@ seoTitle: 'Naming an SL in Spain: how to choose and request it'
 cat: fiscalidad
 date: 2026-11-07
 sources:
-  - label: 'Central Commercial Registry — company names (in Spanish)'
+  - label: 'Central Commercial Registry - company names (in Spanish)'
     url: 'https://www.rmc.es/denominacionessociales.aspx'
   - label: 'Royal Decree 1784/1996, Commercial Registry Regulations, arts. 410 to 414 (in Spanish)'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-1996-17533'

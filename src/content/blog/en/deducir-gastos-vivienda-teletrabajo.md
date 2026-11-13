@@ -8,7 +8,7 @@ cat: fiscalidad
 date: 2026-08-19
 updatedDate: 2026-09-23
 sources:
-  - label: 'Ley 35/2006 (IRPF Act), art. 30.2.5ª.b) — 30% deduction on utilities for the portion used by the business'
+  - label: 'Ley 35/2006 (IRPF Act), art. 30.2.5ª.b) - 30% deduction on utilities for the portion used by the business'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2006-20764'
 ---
 

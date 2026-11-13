@@ -10,7 +10,7 @@ updatedDate: 2026-10-13
 sources:
   - label: 'Ley 18/2022, de creación y crecimiento de empresas ("Crea y Crece")'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2022-15818'
-  - label: 'Real Decreto 238/2026 — desenvolupa la factura electrònica obligatòria entre empreses'
+  - label: 'Real Decreto 238/2026 - desenvolupa la factura electrònica obligatòria entre empreses'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2026-7295'
 ---
 

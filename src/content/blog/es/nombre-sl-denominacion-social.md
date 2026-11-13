@@ -7,7 +7,7 @@ seoTitle: 'Nombre de una SL: cómo elegirlo y pedir la denominación'
 cat: fiscalidad
 date: 2026-11-07
 sources:
-  - label: 'Registro Mercantil Central — denominaciones sociales'
+  - label: 'Registro Mercantil Central - denominaciones sociales'
     url: 'https://www.rmc.es/denominacionessociales.aspx'
   - label: 'Real Decreto 1784/1996, Reglamento del Registro Mercantil, arts. 410 a 414'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-1996-17533'

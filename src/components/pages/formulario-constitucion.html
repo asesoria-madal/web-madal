@@ -1,6 +1,6 @@
 <header class="top">
   <div class="top-inner">
-    <h1 id="titulo">Constitución de SL — Datos para el trámite</h1>
+    <h1 id="titulo">Constitución de SL - Datos para el trámite</h1>
     <span class="saved" id="saved">Sin cambios</span>
   </div>
   <div class="progress"><span id="prog"></span></div>
@@ -41,7 +41,7 @@
     <div class="field"><label class="l">Email <span class="req">*</span></label><input type="email" name="c_email" data-req></div>
     <div class="field"><label class="l">Teléfono <span class="req">*</span></label><input type="tel" name="c_tel" data-req></div>
     <div class="field"><label class="l">Relación con la sociedad</label>
-      <select name="c_rol"><option value="">—</option><option>Futuro socio/a</option><option>Futuro administrador/a</option><option>Otra persona (asesor, familiar…)</option></select></div>
+      <select name="c_rol"><option value="">-</option><option>Futuro socio/a</option><option>Futuro administrador/a</option><option>Otra persona (asesor, familiar…)</option></select></div>
   </div>
 </section>
 
@@ -136,7 +136,7 @@
       </div>
     </div>
     <div class="field" data-if="exenta:Toda la actividad|Solo una parte"><label class="l">Tipo de actividad exenta</label>
-      <select name="exenta_tipo"><option value="">—</option><option>Sanitaria / salud</option><option>Educación / formación</option><option>Seguros</option><option>Financiera</option><option>Alquiler de vivienda</option><option>Cultural / deportiva</option><option>Otra</option></select></div>
+      <select name="exenta_tipo"><option value="">-</option><option>Sanitaria / salud</option><option>Educación / formación</option><option>Seguros</option><option>Financiera</option><option>Alquiler de vivienda</option><option>Cultural / deportiva</option><option>Otra</option></select></div>
     <div class="field" data-if="exenta:Solo una parte"><label class="l">% aproximado de ingresos exentos</label><input type="number" name="exenta_pct" min="0" max="100" placeholder="%"></div>
     <div class="field full" data-if="exenta:Toda la actividad|Solo una parte"><label class="l">Explicadlo brevemente</label><textarea name="exenta_det"></textarea></div>
   </div>
@@ -180,10 +180,10 @@
   <div class="grid">
     <div class="field full"><label class="l">Forma de administración <span class="req">*</span></label>
       <div class="opts col" data-req-group="adm_tipo">
-        <label><input type="radio" name="adm_tipo" value="Administrador único">Administrador/a único/a — una sola persona decide y firma</label>
-        <label><input type="radio" name="adm_tipo" value="Administradores solidarios">Administradores solidarios — varias personas, cualquiera puede firmar sola</label>
-        <label><input type="radio" name="adm_tipo" value="Administradores mancomunados">Administradores mancomunados — varias personas, tienen que firmar conjuntamente</label>
-        <label><input type="radio" name="adm_tipo" value="Consejo de administración">Consejo de administración — de 3 a 12 miembros</label>
+        <label><input type="radio" name="adm_tipo" value="Administrador único">Administrador/a único/a - una sola persona decide y firma</label>
+        <label><input type="radio" name="adm_tipo" value="Administradores solidarios">Administradores solidarios - varias personas, cualquiera puede firmar sola</label>
+        <label><input type="radio" name="adm_tipo" value="Administradores mancomunados">Administradores mancomunados - varias personas, tienen que firmar conjuntamente</label>
+        <label><input type="radio" name="adm_tipo" value="Consejo de administración">Consejo de administración - de 3 a 12 miembros</label>
       </div>
     </div>
     <div class="field full"><label class="l">¿Quién será administrador/a? Marcad entre los socios:</label>
@@ -259,7 +259,7 @@
       </div>
       <div class="field full" data-if="alq:Sí"><div class="note" style="margin:0">Cuando el propietario es una persona física o una empresa, normalmente la sociedad tiene que retener un 19 % del alquiler y presentarlo trimestralmente (modelo 115). Por eso necesitamos estos datos.</div></div>
       <div class="field" data-if="alq:Sí"><label class="l">El propietario es…</label>
-        <select name="arr_tipo"><option value="">—</option><option>Persona física</option><option>Empresa / sociedad</option><option>No lo sé</option></select></div>
+        <select name="arr_tipo"><option value="">-</option><option>Persona física</option><option>Empresa / sociedad</option><option>No lo sé</option></select></div>
       <div class="field" data-if="alq:Sí"><label class="l">Nombre o razón social del propietario</label><input type="text" name="arr_nombre"></div>
       <div class="field" data-if="alq:Sí"><label class="l">DNI / NIF del propietario</label><input type="text" name="arr_nif"></div>
       <div class="field full" data-if="alq:Sí"><label class="l">Dirección del local</label><input type="text" name="alq_dir" placeholder="Si es el mismo domicilio social, escribid “el mismo”"></div>
@@ -267,10 +267,10 @@
       <div class="field" data-if="alq:Sí"><label class="l">Renta mensual (sin IVA)</label><input type="text" name="alq_renta"></div>
       <div class="field" data-if="alq:Sí"><label class="l">Inicio del contrato</label><input type="date" name="alq_inicio"></div>
       <div class="field" data-if="alq:Sí"><label class="l">Uso</label>
-        <select name="alq_uso"><option value="">—</option><option>Oficina / despacho</option><option>Local comercial / tienda</option><option>Almacén / nave</option><option>Taller</option><option>Otro</option></select></div>
+        <select name="alq_uso"><option value="">-</option><option>Oficina / despacho</option><option>Local comercial / tienda</option><option>Almacén / nave</option><option>Taller</option><option>Otro</option></select></div>
       <div class="field" data-if="alq:Sí"><label class="l">Superficie aproximada (m²)</label><input type="text" name="alq_m2"></div>
       <div class="field" data-if="alq:Sí"><label class="l">¿El contrato está ya a nombre de la sociedad?</label>
-        <select name="alq_titular"><option value="">—</option><option>Sí</option><option>No, está a nombre de un socio</option><option>Aún no está firmado</option></select></div>
+        <select name="alq_titular"><option value="">-</option><option>Sí</option><option>No, está a nombre de un socio</option><option>Aún no está firmado</option></select></div>
     </div>
   </div>
 
@@ -309,9 +309,9 @@
     <h3>Previsión de negocio</h3>
     <div class="grid">
       <div class="field"><label class="l">Facturación prevista el primer año</label>
-        <select name="fact_estim"><option value="">—</option><option>Menos de 50.000 €</option><option>50.000 – 250.000 €</option><option>250.000 – 1.000.000 €</option><option>1 – 6 millones €</option><option>Más de 6 millones €</option><option>No lo sé</option></select></div>
+        <select name="fact_estim"><option value="">-</option><option>Menos de 50.000 €</option><option>50.000 – 250.000 €</option><option>250.000 – 1.000.000 €</option><option>1 – 6 millones €</option><option>Más de 6 millones €</option><option>No lo sé</option></select></div>
       <div class="field"><label class="l">Vuestros clientes serán…</label>
-        <select name="fact_clientes"><option value="">—</option><option>Empresas y autónomos</option><option>Particulares</option><option>Ambos</option></select></div>
+        <select name="fact_clientes"><option value="">-</option><option>Empresas y autónomos</option><option>Particulares</option><option>Ambos</option></select></div>
       <div class="field"><label class="l">Inversión inicial prevista (€)</label><input type="text" name="inversion"><span class="hint">Obras, maquinaria, mobiliario, vehículos… Afecta a si conviene pedir la devolución mensual del IVA.</span></div>
       <div class="field full"><label class="l">¿Os interesa el criterio de caja del IVA (pagar el IVA cuando cobráis la factura)?</label>
         <div class="opts">
@@ -331,9 +331,9 @@
     <div class="field"><label class="l">¿Tenéis notaría de preferencia?</label><input type="text" name="not_pref" placeholder="Nombre o “la que nos recomendéis”"></div>
     <div class="field"><label class="l">Disponibilidad para la firma</label><input type="text" name="not_disp" placeholder="Días y franjas que os van bien"></div>
     <div class="field"><label class="l">Estatutos</label>
-      <select name="estatutos"><option value="">—</option><option>Estatutos tipo (más rápido y económico)</option><option>Estatutos personalizados</option><option>Aconsejadme</option></select></div>
+      <select name="estatutos"><option value="">-</option><option>Estatutos tipo (más rápido y económico)</option><option>Estatutos personalizados</option><option>Aconsejadme</option></select></div>
     <div class="field"><label class="l">Ejercicio social</label>
-      <select name="ejercicio"><option value="">—</option><option>Año natural (1 enero – 31 diciembre)</option><option>Otro</option></select></div>
+      <select name="ejercicio"><option value="">-</option><option>Año natural (1 enero – 31 diciembre)</option><option>Otro</option></select></div>
     <div class="field full"><label class="l">¿Algún socio tiene certificado digital, DNI electrónico o Cl@ve? <span class="req">*</span></label>
       <div class="opts" data-req-group="cert">
         <label><input type="radio" name="cert" value="Sí">Sí</label>

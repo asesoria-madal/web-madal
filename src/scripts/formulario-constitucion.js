@@ -84,7 +84,7 @@ function opts(name, values, cur){
   return `<div class="opts">${values.map(v=>`<label><input type="radio" name="${name}" data-k="${name.split("__")[1]}" value="${esc(v)}" ${cur===v?"checked":""}>${esc(tr(v))}</label>`).join("")}</div>`;
 }
 function sel(k, values, cur){
-  return `<select data-k="${k}"><option value="">—</option>${values.map(v=>`<option value="${esc(v)}" ${cur===v?"selected":""}>${esc(tr(v))}</option>`).join("")}</select>`;
+  return `<select data-k="${k}"><option value="">-</option>${values.map(v=>`<option value="${esc(v)}" ${cur===v?"selected":""}>${esc(tr(v))}</option>`).join("")}</select>`;
 }
 function inp(k, s, type="text", extra=""){ return `<input type="${type}" data-k="${k}" value="${esc(s[k])}" ${extra}>`; }
 function f(label, html, cls="", cond=""){ return `<div class="field ${cls}" ${cond?`data-sif="${cond}"`:""}><label class="l">${tr(label)}</label>${html}</div>`; }
@@ -357,7 +357,7 @@ function refresh(){
 function buildSummary(){
   const L = [];
   const line = (k,v) => { if(v!==undefined && v!==null && String(v).trim()!=="") L.push(`  ${k}: ${Array.isArray(v)?v.join(", "):v}`); };
-  L.push(`FORMULARIO DE CONSTITUCIÓN DE SL — ${CONFIG.gestoria}`, `Idioma del cliente: ${LANG.toUpperCase()}`);
+  L.push(`FORMULARIO DE CONSTITUCIÓN DE SL - ${CONFIG.gestoria}`, `Idioma del cliente: ${LANG.toUpperCase()}`);
   L.push(`Generado: ${new Date().toLocaleString("es-ES")}`, "");
   $$("section.card[id^=s-]").forEach(sec => {
     if(["s-socios","s-capital","s-admin","s-fin"].includes(sec.id)) return;
@@ -392,7 +392,7 @@ function buildSummary(){
       const total = state.socios.reduce((t,s)=>t+socioAporta(s),0), nominal = valorParticipacion();
       L.push("== 6. CAPITAL SOCIAL ==");
       line("Capital total", eur(total)); line("Valor participación", eur(nominal)); line("Nº participaciones", Math.floor(total/nominal));
-      state.socios.forEach((s,i)=>{ const a=socioAporta(s); line(socioNombre(s,i), `${eur(a)} (${total?(a/total*100).toFixed(2):0} %) — ${s.aport||""}`); });
+      state.socios.forEach((s,i)=>{ const a=socioAporta(s); line(socioNombre(s,i), `${eur(a)} (${total?(a/total*100).toFixed(2):0} %) - ${s.aport||""}`); });
       line("Aportación del dinero", state.f.cap_momento); L.push("");
       L.push("== 7. ADMINISTRACIÓN ==");
       line("Forma", state.f.adm_tipo);

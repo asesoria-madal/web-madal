@@ -9,9 +9,9 @@ cat: contabilidad
 date: 2026-08-19
 updatedDate: 2026-09-23
 sources:
-  - label: 'Real Decreto 1619/2012, Reglamento de facturación, art. 6 — contenido obligatorio de la factura'
+  - label: 'Real Decreto 1619/2012, Reglamento de facturación, art. 6 - contenido obligatorio de la factura'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2012-14696'
-  - label: 'Reglamento del IRPF (Real Decreto 439/2007), art. 95 — retención del 15%, reducida al 7% los 2 primeros años'
+  - label: 'Reglamento del IRPF (Real Decreto 439/2007), art. 95 - retención del 15%, reducida al 7% los 2 primeros años'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2007-6820'
 ---
 

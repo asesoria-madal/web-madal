@@ -7,9 +7,9 @@ seoTitle: 'Quant costa constituir una SL a Espanya el 2026'
 cat: fiscalidad
 date: 2026-11-07
 sources:
-  - label: 'Reial decret llei 13/2010, art. 5 — aranzels notarials i registrals amb estatuts tipus'
+  - label: 'Reial decret llei 13/2010, art. 5 - aranzels notarials i registrals amb estatuts tipus'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2010-18651'
-  - label: 'Reial decret legislatiu 1/2010, Llei de societats de capital, art. 4 — capital mínim i reserva legal'
+  - label: 'Reial decret legislatiu 1/2010, Llei de societats de capital, art. 4 - capital mínim i reserva legal'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2010-10544'
 ---
 

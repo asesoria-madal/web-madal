@@ -9,7 +9,7 @@ date: 2026-08-24
 updatedDate: 2026-09-23
 ---
 
-Ya explicamos [qué es un balance de situación](/blog/balance-de-situacion) y por qué merece la pena mirarlo cada trimestre. Pero un balance solo aporta valor si está bien hecho y bien leído — y en la práctica vemos fallar las dos cosas, por separado. Aquí van los errores más habituales de cada tipo.
+Ya explicamos [qué es un balance de situación](/blog/balance-de-situacion) y por qué merece la pena mirarlo cada trimestre. Pero un balance solo aporta valor si está bien hecho y bien leído - y en la práctica vemos fallar las dos cosas, por separado. Aquí van los errores más habituales de cada tipo.
 
 ## Errores de interpretación
 
@@ -37,7 +37,7 @@ Una tienda online cierra el trimestre con 15.000 € de beneficio en la PyG. El 
 
 ## Por qué separamos las dos cosas
 
-Un balance mal confeccionado da lugar a una interpretación errónea aunque quien lo lea sea muy cuidadoso — y un balance perfectamente confeccionado sigue sin servir de nada si nadie lo lee bien. Por eso no nos limitamos a presentar impuestos: preparamos el balance con cuidado y luego nos sentamos contigo a explicarte qué dice, para que las dos partes del proceso estén cubiertas.
+Un balance mal confeccionado da lugar a una interpretación errónea aunque quien lo lea sea muy cuidadoso - y un balance perfectamente confeccionado sigue sin servir de nada si nadie lo lee bien. Por eso no nos limitamos a presentar impuestos: preparamos el balance con cuidado y luego nos sentamos contigo a explicarte qué dice, para que las dos partes del proceso estén cubiertas.
 
 ## ¿Quieres que revisemos el tuyo?
 

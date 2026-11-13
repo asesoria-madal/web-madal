@@ -2,12 +2,12 @@
 lang: es
 slug: factura-simplificada-vs-completa
 title: 'Factura simplificada (ticket) vs. factura completa: cuándo puedes usar cada una'
-description: 'No es una cuestión de preferencia — la ley marca cuándo un ticket basta y cuándo hace falta una factura completa.'
+description: 'No es una cuestión de preferencia - la ley marca cuándo un ticket basta y cuándo hace falta una factura completa.'
 seoTitle: "Factura simplificada vs. completa: cuándo usar cada una"
 cat: contabilidad
 date: 2026-10-04
 sources:
-  - label: 'Real Decreto 1619/2012, Reglamento de facturación, arts. 4-7 — supuestos de factura simplificada y contenido de cada tipo de factura'
+  - label: 'Real Decreto 1619/2012, Reglamento de facturación, arts. 4-7 - supuestos de factura simplificada y contenido de cada tipo de factura'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2012-14696'
 ---
 

@@ -35,7 +35,7 @@ Imagina tu negocio a cierre de trimestre:
 | Equipo y mobiliario | 1.500 € | Patrimonio neto | 3.800 € |
 | **Total activo** | **7.000 €** | **Total** | **7.000 €** |
 
-Los 7.000 € de activo y los 7.000 € de pasivo + patrimonio neto siempre tienen que coincidir — es la ecuación contable básica. De esos 7.000 €, solo 2.000 € son caja real: 3.500 € son facturas que todavía no has cobrado. Si ese cliente se retrasa, puedes tener problemas de liquidez aunque el negocio sea rentable sobre el papel — justo el tipo de aviso que este documento te da y que la factura emitida, por sí sola, no muestra.
+Los 7.000 € de activo y los 7.000 € de pasivo + patrimonio neto siempre tienen que coincidir - es la ecuación contable básica. De esos 7.000 €, solo 2.000 € son caja real: 3.500 € son facturas que todavía no has cobrado. Si ese cliente se retrasa, puedes tener problemas de liquidez aunque el negocio sea rentable sobre el papel - justo el tipo de aviso que este documento te da y que la factura emitida, por sí sola, no muestra.
 
 ## Con qué frecuencia revisarlo
 

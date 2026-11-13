@@ -4,13 +4,13 @@
 // versiones catalana/inglesa.
 //
 // Texto escrito ya en su forma final, describiendo las cookies de Google
-// Ads como si el tracking estuviera activo — así queda listo para publicar
+// Ads como si el tracking estuviera activo - así queda listo para publicar
 // el día que se encienda la campaña, sin tener que volver a redactarlo.
 //
 // El mecanismo real (banner de aceptar/rechazar + carga condicionada del
 // tag) YA está montado en CookieConsent.astro, pero permanece invisible e
 // inactivo mientras GOOGLE_ADS_CONVERSION_ID esté vacío en
-// src/lib/ads-config.ts — no se le muestra a nadie un banner de un
+// src/lib/ads-config.ts - no se le muestra a nadie un banner de un
 // seguimiento que todavía no existe. En cuanto se rellene ese ID con la
 // cuenta de Google Ads real, el banner empieza a aparecer solo.
 import type { Locale } from '../../i18n/ui';

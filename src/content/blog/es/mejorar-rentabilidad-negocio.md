@@ -25,7 +25,7 @@ La periodicidad trimestral existe por obligación fiscal, no porque sea la mejor
 
 ## 4. No confundas beneficio contable con dinero en el banco
 
-Controla tus plazos de cobro y tu fondo de maniobra. Un negocio puede tener beneficio en la cuenta de resultados y aun así quedarse sin liquidez si los clientes tardan en pagar o si el dinero está inmovilizado en stock. El balance de situación es el documento que enseña esa otra cara — lo explicamos en [qué es un balance de situación](/blog/balance-de-situacion).
+Controla tus plazos de cobro y tu fondo de maniobra. Un negocio puede tener beneficio en la cuenta de resultados y aun así quedarse sin liquidez si los clientes tardan en pagar o si el dinero está inmovilizado en stock. El balance de situación es el documento que enseña esa otra cara - lo explicamos en [qué es un balance de situación](/blog/balance-de-situacion).
 
 ## 5. Revisa precios y proveedores al menos una vez al año
 

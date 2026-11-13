@@ -8,9 +8,9 @@ cat: fiscalidad
 date: 2026-08-18
 updatedDate: 2026-08-20
 sources:
-  - label: 'Ley 35/2006 del IRPF, arts. 16 y 28-31 — estimación directa y estimación objetiva (módulos)'
+  - label: 'Ley 35/2006 del IRPF, arts. 16 y 28-31 - estimación directa y estimación objetiva (módulos)'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2006-20764'
-  - label: 'Reglamento del IRPF (Real Decreto 439/2007) — desarrollo de ambos regímenes'
+  - label: 'Reglamento del IRPF (Real Decreto 439/2007) - desarrollo de ambos regímenes'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2007-6820'
 ---
 
@@ -35,7 +35,7 @@ Te puede convenir si tu negocio tiene pocos gastos deducibles y factura de forma
 Imagina una papelería (comercio al por menor, una actividad que puede acogerse tanto a estimación directa como a módulos). Un trimestre factura 15.000 € y tiene 4.000 € de gastos deducibles justificados (compras, alquiler, suministros).
 
 - **En estimación directa**, tributa sobre el beneficio real: 15.000 € − 4.000 € = 11.000 €. El pago fraccionado trimestral del IRPF es el 20% de esa cifra: 2.200 € (antes de retenciones).
-- **En módulos**, no se mira la factura real, sino los índices de su epígrafe (metros del local, personal, consumo eléctrico...). Si esos índices le dieran, por ejemplo, un rendimiento neto trimestral estimado de 7.000 € — cifra ilustrativa: los índices reales cambian cada año y según el epígrafe exacto —, el pago sería el 20% de esa cifra menor: 1.400 €.
+- **En módulos**, no se mira la factura real, sino los índices de su epígrafe (metros del local, personal, consumo eléctrico...). Si esos índices le dieran, por ejemplo, un rendimiento neto trimestral estimado de 7.000 € - cifra ilustrativa: los índices reales cambian cada año y según el epígrafe exacto -, el pago sería el 20% de esa cifra menor: 1.400 €.
 
 En este trimestre concreto, módulos sale mejor porque los índices estiman un rendimiento inferior al beneficio real. Pero si ese mismo trimestre hubiera facturado solo 8.000 € con los mismos 4.000 € de gastos (beneficio real de 4.000 €), estimación directa habría sido la opción más barata, porque pagaría sobre un beneficio real menor que el estimado por módulos.
 

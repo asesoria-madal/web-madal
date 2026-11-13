@@ -160,7 +160,7 @@ function refresh(){
 function buildSummary(){
   const L = [];
   const line = (k,v) => { if(!vacio(v)) L.push(`  ${k}: ${Array.isArray(v)?v.join(", "):v}`); };
-  L.push(`FORMULARIO DE ALTA DE AUTÓNOMO — Asesoría Madal`, `Idioma del cliente: ${LANG.toUpperCase()}`);
+  L.push(`FORMULARIO DE ALTA DE AUTÓNOMO - Asesoría Madal`, `Idioma del cliente: ${LANG.toUpperCase()}`);
   L.push(`Persona: ${nombreCompleto()}`);
   L.push(`Generado: ${new Date().toLocaleString("es-ES")}`, "");
   $$("#form section.card[id^=s-]").forEach(sec => {

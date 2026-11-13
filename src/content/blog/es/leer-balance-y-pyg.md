@@ -16,7 +16,7 @@ Ya explicamos [qué es un balance de situación](/blog/balance-de-situacion) por
 
 - **Activo**: todo lo que tiene el negocio (dinero en el banco, facturas pendientes de cobrar, maquinaria, local, existencias...). Se ordena de lo más líquido (caja) a lo menos líquido (inmovilizado).
 - **Pasivo**: todo lo que el negocio debe a terceros (proveedores, préstamos, Hacienda, Seguridad Social).
-- **Patrimonio neto**: lo que queda si al activo le restas el pasivo — es, en términos simples, lo que "es tuyo" del negocio.
+- **Patrimonio neto**: lo que queda si al activo le restas el pasivo - es, en términos simples, lo que "es tuyo" del negocio.
 
 La ecuación que siempre se cumple es Activo = Pasivo + Patrimonio Neto. Si un balance no cuadra, hay un error en alguna parte, no una excepción a la regla.
 
@@ -33,7 +33,7 @@ La cuenta de Pérdidas y Ganancias parte de tus ingresos y les va restando gasto
 
 En el balance: si tu activo corriente (lo que puedes convertir en dinero en menos de un año) cubre tu pasivo corriente (lo que debes pagar en menos de un año). Si no lo cubre, tienes un problema de liquidez aunque el negocio sea rentable sobre el papel.
 
-En la PyG: si el resultado de explotación (antes de intereses e impuestos) es positivo. Un negocio puede tener beneficio final gracias a un ingreso puntual (venta de un activo, por ejemplo) y aun así tener un problema estructural en su actividad principal — el resultado de explotación es el que te dice si el negocio "del día a día" funciona.
+En la PyG: si el resultado de explotación (antes de intereses e impuestos) es positivo. Un negocio puede tener beneficio final gracias a un ingreso puntual (venta de un activo, por ejemplo) y aun así tener un problema estructural en su actividad principal - el resultado de explotación es el que te dice si el negocio "del día a día" funciona.
 
 ## Un ejemplo sencillo, con los dos documentos a la vez
 
@@ -66,7 +66,7 @@ El trimestre cierra con 3.840 € de beneficio, una buena noticia sobre el papel
 
 ## De los números a las decisiones
 
-Leer estos dos documentos es el primer paso; la parte que de verdad aporta valor es entender qué te están diciendo sobre tu negocio concreto — por eso no nos limitamos a presentarte impuestos, sino a explicarte tu balance y tu PyG con criterio, no solo a entregártelos.
+Leer estos dos documentos es el primer paso; la parte que de verdad aporta valor es entender qué te están diciendo sobre tu negocio concreto - por eso no nos limitamos a presentarte impuestos, sino a explicarte tu balance y tu PyG con criterio, no solo a entregártelos.
 
 ## ¿Quieres que repasemos los tuyos?
 

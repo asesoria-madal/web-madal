@@ -38,7 +38,7 @@ const FILAS: [string, string, string][] = [
   ['Si no tienes preferencia, déjalo en blanco', 'Si no tens preferència, deixa-ho en blanc', 'If you have no preference, leave it blank'],
   ['ES00 0000 0000 0000 0000 0000', 'ES00 0000 0000 0000 0000 0000', 'ES00 0000 0000 0000 0000 0000'],
   // Cabecera e introducción
-  ['Alta de autónomo — Datos para el trámite', 'Alta d’autònom — Dades per al tràmit', 'Self-employed registration — Details for the process'],
+  ['Alta de autónomo - Datos para el trámite', 'Alta d’autònom - Dades per al tràmit', 'Self-employed registration - Details for the process'],
   ['Sin cambios', 'Sense canvis', 'No changes'],
   ['1. Datos personales', '1. Dades personals', '1. Personal details'],
   ['2. Actividad', '2. Activitat', '2. Activity'],

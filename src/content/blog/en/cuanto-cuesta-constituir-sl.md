@@ -7,9 +7,9 @@ seoTitle: 'How much it costs to set up an SL in Spain in 2026'
 cat: fiscalidad
 date: 2026-11-07
 sources:
-  - label: 'Royal Decree-Law 13/2010, art. 5 — notary and registry fees with standard articles (in Spanish)'
+  - label: 'Royal Decree-Law 13/2010, art. 5 - notary and registry fees with standard articles (in Spanish)'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2010-18651'
-  - label: 'Royal Legislative Decree 1/2010, Capital Companies Act, art. 4 — minimum capital and legal reserve (in Spanish)'
+  - label: 'Royal Legislative Decree 1/2010, Capital Companies Act, art. 4 - minimum capital and legal reserve (in Spanish)'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2010-10544'
 ---
 

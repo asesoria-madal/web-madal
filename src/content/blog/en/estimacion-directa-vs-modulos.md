@@ -8,9 +8,9 @@ cat: fiscalidad
 date: 2026-08-18
 updatedDate: 2026-08-20
 sources:
-  - label: 'Ley 35/2006 (IRPF Act), arts. 16 and 28-31 — direct estimation and objective estimation (modules)'
+  - label: 'Ley 35/2006 (IRPF Act), arts. 16 and 28-31 - direct estimation and objective estimation (modules)'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2006-20764'
-  - label: 'IRPF Regulation (Real Decreto 439/2007) — how both regimes are developed'
+  - label: 'IRPF Regulation (Real Decreto 439/2007) - how both regimes are developed'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2007-6820'
 ---
 

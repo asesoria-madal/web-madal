@@ -7,9 +7,9 @@ seoTitle: 'CIRCE Virtual Wallet: what it is and how to create it'
 cat: fiscalidad
 date: 2026-11-07
 sources:
-  - label: 'Canal Empresa (Government of Catalonia) — CIRCE Virtual Wallet for setting up an SL (in Spanish)'
+  - label: 'Canal Empresa (Government of Catalonia) - CIRCE Virtual Wallet for setting up an SL (in Spanish)'
     url: 'https://canalempresa.gencat.cat/es/detall/noticia/Ja-tens-disponible-la-Cartera-virtual-del-CIRCE-per-crear-la-teva-SL'
-  - label: 'Spanish Association of Registrars — CIRCE online filing (in Spanish)'
+  - label: 'Spanish Association of Registrars - CIRCE online filing (in Spanish)'
     url: 'https://sede.registradores.org/sede/sede-corpme-web/registro-mercantil/presentacion-telematica/circe-presentacion'
   - label: 'User guide to the Commercial Registry Virtual Wallet (May 2026, in Spanish)'
     url: 'https://www.reicaz.es/wp-content/uploads/2026/05/Guia-de-usuario-Cartera-virtual-Registro-Mercantil.pdf'

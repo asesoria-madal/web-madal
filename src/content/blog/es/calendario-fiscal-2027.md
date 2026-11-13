@@ -7,9 +7,9 @@ seoTitle: 'Calendario fiscal 2027 para autónomos y SL, mes a mes'
 cat: fiscalidad
 date: 2026-11-07
 sources:
-  - label: 'Agencia Tributaria — Calendario del contribuyente (la edición de 2027 aún no está publicada)'
+  - label: 'Agencia Tributaria - Calendario del contribuyente (la edición de 2027 aún no está publicada)'
     url: 'https://sede.agenciatributaria.gob.es/Sede/presentacion-declaraciones-calendario-contribuyente.html'
-  - label: 'Ley 39/2015, art. 30 — si el último día es inhábil, el plazo pasa al siguiente día hábil'
+  - label: 'Ley 39/2015, art. 30 - si el último día es inhábil, el plazo pasa al siguiente día hábil'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2015-10565'
 ---
 

@@ -8,13 +8,13 @@ cat: fiscalidad
 date: 2026-08-21
 updatedDate: 2026-09-24
 sources:
-  - label: 'Real Decreto-ley 13/2010, art. 5 — aranzels notarials i registrals reduïts amb estatuts tipus'
+  - label: 'Real Decreto-ley 13/2010, art. 5 - aranzels notarials i registrals reduïts amb estatuts tipus'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2010-18651'
-  - label: 'Ley 14/2013, art. 15 — termini de qualificació i inscripció via CIRCE/DUE'
+  - label: 'Ley 14/2013, art. 15 - termini de qualificació i inscripció via CIRCE/DUE'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2013-10074'
-  - label: 'Real Decreto 421/2015 — model d''estatuts tipus per a la constitució telemàtica de SL'
+  - label: 'Real Decreto 421/2015 - model d''estatuts tipus per a la constitució telemàtica de SL'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2015-6520'
-  - label: 'Real Decreto Legislativo 8/2015, Ley General de la Seguridad Social, art. 305.2.b) — enquadrament al RETA de socis amb control efectiu'
+  - label: 'Real Decreto Legislativo 8/2015, Ley General de la Seguridad Social, art. 305.2.b) - enquadrament al RETA de socis amb control efectiu'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2015-11724'
 ---
 

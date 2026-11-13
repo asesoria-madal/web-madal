@@ -7,9 +7,9 @@ seoTitle: 'Cuánto cuesta constituir una SL en España en 2026'
 cat: fiscalidad
 date: 2026-11-07
 sources:
-  - label: 'Real Decreto-ley 13/2010, art. 5 — aranceles notariales y registrales con estatutos tipo'
+  - label: 'Real Decreto-ley 13/2010, art. 5 - aranceles notariales y registrales con estatutos tipo'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2010-18651'
-  - label: 'Real Decreto Legislativo 1/2010, Ley de Sociedades de Capital, art. 4 — capital mínimo y reserva legal'
+  - label: 'Real Decreto Legislativo 1/2010, Ley de Sociedades de Capital, art. 4 - capital mínimo y reserva legal'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2010-10544'
 ---
 

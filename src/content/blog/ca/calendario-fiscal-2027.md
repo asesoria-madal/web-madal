@@ -7,9 +7,9 @@ seoTitle: 'Calendari fiscal 2027 per a autònoms i SL, mes a mes'
 cat: fiscalidad
 date: 2026-11-07
 sources:
-  - label: 'Agència Tributària — Calendari del contribuent (l’edició del 2027 encara no està publicada)'
+  - label: 'Agència Tributària - Calendari del contribuent (l’edició del 2027 encara no està publicada)'
     url: 'https://sede.agenciatributaria.gob.es/Sede/presentacion-declaraciones-calendario-contribuyente.html'
-  - label: 'Llei 39/2015, art. 30 — si l’últim dia és inhàbil, el termini passa al dia hàbil següent'
+  - label: 'Llei 39/2015, art. 30 - si l’últim dia és inhàbil, el termini passa al dia hàbil següent'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2015-10565'
 ---
 

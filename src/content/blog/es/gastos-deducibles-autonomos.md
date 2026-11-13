@@ -8,9 +8,9 @@ cat: fiscalidad
 date: 2026-08-19
 updatedDate: 2026-09-23
 sources:
-  - label: 'Ley 35/2006 del IRPF — deducibilidad de gastos necesarios y justificados de la actividad'
+  - label: 'Ley 35/2006 del IRPF - deducibilidad de gastos necesarios y justificados de la actividad'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2006-20764'
-  - label: 'Ley 11/2021, de prevención y lucha contra el fraude fiscal — límite de pagos en efectivo (1.000 €)'
+  - label: 'Ley 11/2021, de prevención y lucha contra el fraude fiscal - límite de pagos en efectivo (1.000 €)'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2021-11473'
 ---
 

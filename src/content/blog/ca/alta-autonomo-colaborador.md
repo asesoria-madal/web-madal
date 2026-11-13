@@ -2,14 +2,14 @@
 lang: ca
 slug: alta-autonomo-colaborador
 title: 'Alta com a autònom col·laborador: contractar (sense contractar) un familiar'
-description: 'Si un familiar t''ajuda al negoci de manera habitual, hi ha una figura específica per a això — i no és un contracte laboral.'
+description: 'Si un familiar t''ajuda al negoci de manera habitual, hi ha una figura específica per a això - i no és un contracte laboral.'
 seoTitle: "Autònom col·laborador: com donar d'alta un familiar"
 cat: laboral
 date: 2026-10-13
 sources:
-  - label: 'Real Decreto Legislativo 8/2015, Ley General de la Seguridad Social, art. 305 — inclusió de familiars col·laboradors al RETA'
+  - label: 'Real Decreto Legislativo 8/2015, Ley General de la Seguridad Social, art. 305 - inclusió de familiars col·laboradors al RETA'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2015-11724'
-  - label: 'Ley 20/2007, del Estatuto del trabajo autónomo, art. 35 — bonificacions a la cotització de familiars col·laboradors'
+  - label: 'Ley 20/2007, del Estatuto del trabajo autónomo, art. 35 - bonificacions a la cotització de familiars col·laboradors'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2007-13409'
 ---
 ## Què és un autònom col·laborador

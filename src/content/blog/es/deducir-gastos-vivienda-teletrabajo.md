@@ -9,7 +9,7 @@ cat: fiscalidad
 date: 2026-08-19
 updatedDate: 2026-09-23
 sources:
-  - label: 'Ley 35/2006 del IRPF, art. 30.2.5ª.b) — deducción del 30% de suministros en la parte afecta a la actividad'
+  - label: 'Ley 35/2006 del IRPF, art. 30.2.5ª.b) - deducción del 30% de suministros en la parte afecta a la actividad'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2006-20764'
 ---
 

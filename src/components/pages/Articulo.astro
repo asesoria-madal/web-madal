@@ -25,7 +25,7 @@ const allPosts = await getSortedBlogPosts(lang);
 const relatedPosts = getRelatedPosts(allPosts, entry, lang, 3);
 
 // Mismas FAQs que en /blog (ui.ts), filtradas por el campo `related` que
-// las conecta con el slug de este artículo — ver src/i18n/ui.ts. La
+// las conecta con el slug de este artículo - ver src/i18n/ui.ts. La
 // anotación explícita hace falta porque, con `ui` declarado `as const`,
 // los ítems sin `related` no tienen esa clave en su tipo inferido.
 interface FaqItem { q: string; a: string; related?: string }
@@ -68,7 +68,7 @@ const breadcrumbLd = {
 
 // FAQPage solo si el artículo tiene preguntas relacionadas (ver más abajo):
 // son las mismas que se muestran en pantalla en "Preguntas relacionadas",
-// nunca preguntas fuera de la página — así el marcado coincide con el
+// nunca preguntas fuera de la página - así el marcado coincide con el
 // contenido visible, que es lo que exige Google para los datos estructurados.
 const faqLd = relatedFaqs.length > 0 ? {
   '@context': 'https://schema.org',
