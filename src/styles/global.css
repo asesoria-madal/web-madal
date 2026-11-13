@@ -1,97 +1,122 @@
+/* Rediseño B1 (2026-11-13, elegido por Edurne): tonos del verde corporativo #1f5c58 sobre
+   blanco, sin crema. Titulares en Bricolage Grotesque y texto en Inter, alojadas en la propia
+   web (variables, latín y latín extendido; licencia SIL OFL en /fonts). */
 @font-face {
-  font-family: 'Domine';
-  font-weight: 600;
+  font-family: 'Bricolage Grotesque';
   font-style: normal;
   font-display: swap;
-  src: url('/fonts/domine-600.woff2') format('woff2');
+  font-weight: 200 800;
+  src: url('/fonts/bricolage-latin.woff2') format('woff2-variations'), url('/fonts/bricolage-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 @font-face {
-  font-family: 'Domine';
-  font-weight: 700;
+  font-family: 'Bricolage Grotesque';
   font-style: normal;
   font-display: swap;
-  src: url('/fonts/domine-700.woff2') format('woff2');
+  font-weight: 200 800;
+  src: url('/fonts/bricolage-latin-ext.woff2') format('woff2-variations'), url('/fonts/bricolage-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
 }
 @font-face {
-  font-family: 'Public Sans';
-  font-weight: 400;
+  font-family: 'Inter';
   font-style: normal;
   font-display: swap;
-  src: url('/fonts/publicsans-400.woff2') format('woff2');
+  font-weight: 100 900;
+  src: url('/fonts/inter-latin.woff2') format('woff2-variations'), url('/fonts/inter-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 @font-face {
-  font-family: 'Public Sans';
-  font-weight: 600;
+  font-family: 'Inter';
   font-style: normal;
   font-display: swap;
-  src: url('/fonts/publicsans-600.woff2') format('woff2');
+  font-weight: 100 900;
+  src: url('/fonts/inter-latin-ext.woff2') format('woff2-variations'), url('/fonts/inter-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
 }
 
 :root {
-  /* Alto real de header.site (padding 0.95rem arriba/abajo + los
-     iconos de 2.15rem) — lo usa .mobile-menu para colocarse justo
-     debajo sin taparlo ni dejar hueco. */
+  /* Alto real de header.site — lo usa .mobile-menu para colocarse justo debajo. */
   --header-h: 76px;
-  --paper: #f3ebdf;
-  --paper-raised: #eadfcf;
-  --paper-strong: #e0d2bc;
+  /* Los nombres "paper" se conservan para no tocar cada componente: ahora son blanco y
+     tintes muy suaves del verde. */
+  --paper: #ffffff;
+  --paper-raised: #eef6f4;
+  --paper-strong: #dcebe7;
   --ink: #2a2420;
-  --ink-soft: #6b6155;
-  --line: #d8c9b0;
+  --ink-soft: #4b5f5c;
+  --line: #d3e3df;
   --accent: #1f5c58;
-  --accent-strong: #163f3c;
-  --accent-tint: #e4eeec;
-  --accent-ink: #f5efe3;
-  --warm: #c97b2e;
+  --accent-strong: #0e3b37;
+  --accent-tint: #eef6f4;
+  --accent-ink: #ffffff;
+  /* Verde menta: botones y detalles sobre fondo verde oscuro. */
+  --mint: #a6e3d8;
+  --hero-bg: #0e3b37;
+  --hero-ink: #ffffff;
+  --hero-ink-soft: #cfe6e1;
+  /* El ámbar ya no se usa: las variables "warm" apuntan a tonos del verde. */
+  --warm: #1f5c58;
   --err-text: #b3261e;
-  --warm-soft: #f3e3c8;
-  --warm-text: #8f4c0e; /* --warm para textos: el naranja de marca no llega a 4.5:1 sobre papel */
-  --footer-bg: #163f3c;
-  --footer-ink: #f5efe3;
-  --footer-ink-soft: #a9c9c4;
-  --footer-line: rgba(245, 239, 227, 0.14);
-  --font-display: 'Domine', Georgia, 'Times New Roman', serif;
-  --font-body: 'Public Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --warm-soft: #dcebe7;
+  --warm-text: #1f5c58;
+  --footer-bg: #0e3b37;
+  --footer-ink: #ffffff;
+  --footer-ink-soft: #cfe6e1;
+  --footer-line: rgba(255, 255, 255, 0.14);
+  --font-display: 'Bricolage Grotesque', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-body: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   --font-mono: ui-monospace, 'SFMono-Regular', Menlo, Consolas, 'Liberation Mono', monospace;
-  --side-pad: clamp(1.5rem, 4vw, 3.5rem);
+  --side-pad: clamp(1.25rem, 4vw, 3.5rem);
+  --radius: 20px;
+  --radius-sm: 14px;
   /* Recibo/ticket: recto arriba y a los lados, rasgado solo por abajo. */
   --ticket-cut: polygon(0% 0%, 100% 0%, 100% 86%, 93.75% 100%, 87.5% 86%, 81.25% 100%, 75% 86%, 68.75% 100%, 62.5% 86%, 56.25% 100%, 50% 86%, 43.75% 100%, 37.5% 86%, 31.25% 100%, 25% 86%, 18.75% 100%, 12.5% 86%, 6.25% 100%, 0% 86%);
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme='light']) {
-    --paper: #211d18;
-    --paper-raised: #2b241d;
-    --paper-strong: #362d22;
-    --ink: #f2e9dc;
-    --ink-soft: #b8a88f;
-    --line: #4a3f30;
-    --accent: #4fa89e;
-    --accent-strong: #6fc4b9;
-    --accent-tint: #1a2e2b;
-    --accent-ink: #12211f;
-    --warm: #e0983f;
+    --paper: #0b1f1d;
+    --paper-raised: #12302c;
+    --paper-strong: #1a3d38;
+    --ink: #eef6f4;
+    --ink-soft: #a9c4bf;
+    --line: #24443f;
+    --accent: #7fd1c3;
+    --accent-strong: #a6e3d8;
+    --accent-tint: #12302c;
+    --accent-ink: #0b1f1d;
+    --mint: #a6e3d8;
+    --hero-bg: #071715;
+    --hero-ink: #ffffff;
+    --hero-ink-soft: #cfe6e1;
+    --warm: #7fd1c3;
     --err-text: #ff9c90;
-  --warm-soft: #3a2a16;
-  --warm-text: #e0983f;
+    --warm-soft: #1a3d38;
+    --warm-text: #a6e3d8;
+    --footer-bg: #071715;
   }
 }
 
 :root[data-theme='dark'] {
-  --paper: #211d18;
-  --paper-raised: #2b241d;
-  --paper-strong: #362d22;
-  --ink: #f2e9dc;
-  --ink-soft: #b8a88f;
-  --line: #4a3f30;
-  --accent: #4fa89e;
-  --accent-strong: #6fc4b9;
-  --accent-tint: #1a2e2b;
-  --accent-ink: #12211f;
-  --warm: #e0983f;
+  --paper: #0b1f1d;
+  --paper-raised: #12302c;
+  --paper-strong: #1a3d38;
+  --ink: #eef6f4;
+  --ink-soft: #a9c4bf;
+  --line: #24443f;
+  --accent: #7fd1c3;
+  --accent-strong: #a6e3d8;
+  --accent-tint: #12302c;
+  --accent-ink: #0b1f1d;
+  --mint: #a6e3d8;
+  --hero-bg: #071715;
+  --hero-ink: #ffffff;
+  --hero-ink-soft: #cfe6e1;
+  --warm: #7fd1c3;
   --err-text: #ff9c90;
-  --warm-soft: #3a2a16;
-  --warm-text: #e0983f;
+  --warm-soft: #1a3d38;
+  --warm-text: #a6e3d8;
+  --footer-bg: #071715;
 }
 
 * { box-sizing: border-box; }
@@ -117,10 +142,10 @@ a { color: inherit; }
 
 h1, h2, h3 {
   font-family: var(--font-display);
-  font-weight: 700;
+  font-weight: 800;
   margin: 0;
   text-wrap: balance;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.03em;
 }
 p { margin: 0; }
 
@@ -1717,3 +1742,52 @@ footer.site .foot-social:hover { color: #7fd6c9; }
 .skip-link { position: absolute; left: 0.75rem; top: -4rem; z-index: 200; padding: 0.6rem 1rem; border-radius: 8px; background: var(--accent); color: var(--accent-ink); font-weight: 600; }
 .skip-link:focus { top: 0.75rem; }
 main:focus { outline: none; }
+
+/* ==========================================================================
+   Rediseño B1 (2026-11-13): cabecera verde oscura, botones planos y
+   redondeados, tarjetas con esquinas suaves. Va al final para imponerse a
+   los estilos anteriores sin reescribirlos.
+   ========================================================================== */
+header.site {
+  background: var(--hero-bg);
+  backdrop-filter: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+header.site .wordmark { color: var(--hero-ink); font-weight: 800; letter-spacing: -0.02em; }
+header.site .wordmark span { color: var(--mint); }
+header.site nav.primary a.navlink,
+header.site .nav-services-caret { color: var(--hero-ink-soft); }
+header.site nav.primary a.navlink:hover,
+header.site nav.primary a.navlink.active { color: var(--hero-ink); }
+header.site .menu-toggle { border-color: rgba(255, 255, 255, 0.3); }
+header.site .menu-toggle span { background: var(--hero-ink-soft); }
+header.site .menu-toggle:hover span { background: var(--hero-ink); }
+header.site .theme-toggle,
+header.site .lang-switch summary { border-color: rgba(255, 255, 255, 0.3); color: var(--hero-ink-soft); }
+header.site .portal-link { color: var(--hero-ink-soft); }
+header.site .portal-link:hover { color: var(--hero-ink); }
+header.site .btn-primary { background: var(--mint); color: var(--hero-bg); }
+header.site .btn-primary:hover { background: #ffffff; color: var(--hero-bg); }
+/* El desplegable y el menú móvil siguen en claro: se leen mejor sobre blanco. */
+header.site .services-menu-card,
+header.site .lang-menu { color: var(--ink); }
+
+/* Botones: planos y redondeados (adiós al efecto 3D de "sello"). */
+.btn { border-radius: var(--radius-sm); padding: 0.8rem 1.35rem; font-size: 0.95rem; }
+.btn.btn-stamp,
+.btn.btn-stamp:hover,
+.btn.btn-stamp:active { box-shadow: none; transform: none; }
+.btn-outline { border-width: 1.5px; border-color: var(--accent); color: var(--accent); }
+.btn-outline:hover { background: var(--accent-tint); }
+.btn-volume,
+.btn-volume:hover,
+.btn-volume:active {
+  background: var(--mint); color: var(--hero-bg); border: 0; box-shadow: none; transform: none;
+  border-radius: var(--radius-sm); padding: 0.85rem 1.45rem; font-size: 0.95rem;
+}
+.btn-volume:hover { background: #ffffff; }
+
+/* Tarjetas de precio y bloques: esquinas suaves. */
+.pricing-tier, .alta-box, .finanzas-preview, .lead-card { border-radius: var(--radius); }
+/* La portada nueva no usa el fondo de color de estas secciones antiguas. */
+section#diferencia, section#como-trabajamos { background: transparent; }

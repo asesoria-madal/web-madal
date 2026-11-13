@@ -13,7 +13,7 @@ export const localeNames: Record<Locale, string> = {
 // nativa todavía) — pendiente de que alguien lo repase antes de tráfico real.
 export const ui = {
   es: {
-    nav: { home: 'Inicio', alta: 'Altas', blog: 'FAQs', equipo: 'Quiénes somos', conocenos: 'Conócenos', servicios: 'Nuestros servicios', contacto: 'Contacto', sl: 'Constituir una SL' },
+    nav: { home: 'Inicio', alta: 'Altas', blog: 'FAQs', equipo: 'Quiénes somos', conocenos: 'Conócenos', servicios: 'Nuestros servicios', contacto: 'Contacto', sl: 'Constituir una SL', cambio: 'Cambiar de gestoría' },
     header: { cta: 'Reservar llamada', portal: 'Área clientes', menu: 'Menú', closeMenu: 'Cerrar menú' },
     contact: {
       trigger: 'Contacta con nosotros',
@@ -30,7 +30,7 @@ export const ui = {
     // enlazando a su sección en /servicios (o a /alta para el primero).
     // El detalle completo de cada uno vive en `servicios` más abajo.
     serviciosMenu: {
-      alta: { title: 'Alta de autónomo', desc: 'Te damos de alta en Hacienda y el RETA. Con el plan Debut, incluido en tu cuota desde el primer mes.' },
+      alta: { title: 'Alta de autónomo', desc: 'Te damos de alta en Hacienda y el RETA. Incluido en tu cuota de autónomo.' },
       sl: { title: 'Constituir una SL', desc: 'Tu SL en menos de una semana, por 175 € + IVA más notaría y Registro. Solicitud del nombre incluida.' },
       gestoria: { title: 'Gestoría mensual', desc: 'Gestoría + acompañamiento: contabilidad, impuestos y trato cercano todo el año.' },
       dashboard: { title: 'Tus números y previsión', desc: 'Tu negocio siempre a la vista, información a medida y, muy pronto, lo que pagarás en tus próximos impuestos.' },
@@ -95,7 +95,7 @@ export const ui = {
           amount: '35 €',
           unit: '/mes',
           ivaNote: 'Total con IVA: 42,35 €/mes',
-          durationNote: 'El primer año completo.',
+          durationNote: 'Los 6 primeros meses. Del 7.º al 12.º mes, 45 € + IVA/mes.',
           includesPrevious: 'Mismo alcance fiscal y contable que el plan Esencial, más:',
           features: [
             'Alta de autónomo incluida (RETA + Hacienda)',
@@ -224,16 +224,16 @@ export const ui = {
 
     alta: {
       title: '¿Vas a darte de alta como autónomo?',
-      desc: 'Nos encargamos del papeleo — con el plan Debut, el alta va incluida en tu cuota desde el primer mes, sin tarifas aparte.',
+      desc: 'Nos encargamos del papeleo — el alta va incluida en tu cuota de autónomo, sin tarifas aparte, si te quedas al menos 6 meses.',
       price: 'Desde 35 € + IVA/mes',
-      priceNote: 'Alta de autónomo incluida · plan Debut, el primer año',
+      priceNote: 'Alta de autónomo incluida en todas las cuotas',
       link: 'Reservar mi llamada →',
     },
 
     altaPage: {
       eyebrow: 'Alta rápida',
       title: 'Alta de autónomos en menos de 2 días',
-      intro: 'Nos encargamos de todo el papeleo para que puedas empezar a facturar cuanto antes. Con el plan Debut, el alta va incluida en tu cuota desde el primer mes, sin tarifas aparte.',
+      intro: 'Nos encargamos de todo el papeleo para que puedas empezar a facturar cuanto antes. El alta va incluida en tu cuota de autónomo, sin tarifas aparte, si te quedas al menos 6 meses.',
       autonomos: {
         title: 'Si vas a darte de alta como autónomo',
         desc: 'Presentamos tu alta en Hacienda y en el RETA de la Seguridad Social.',
@@ -247,7 +247,7 @@ export const ui = {
       guideLink: '¿Aún no has empezado a facturar? Lee cuándo y cómo darte de alta →',
       timeline: 'En menos de 2 días tienes el alta hecha y ya puedes facturar.',
       price: 'Desde 35 € + IVA/mes',
-      priceNote: 'Alta de autónomo incluida · plan Debut, el primer año',
+      priceNote: 'Alta de autónomo incluida en todas las cuotas',
       ctaCall: 'Reservar llamada',
     },
 
@@ -313,7 +313,7 @@ export const ui = {
         { q: '¿Quién está obligado a la factura electrónica?', a: 'Todas las empresas y autónomos que facturen a otras empresas o autónomos (operaciones B2B). No afecta a las facturas a particulares, y es una obligación distinta de Verifactu.', related: 'facturacion-electronica-obligatoria' },
         { q: '¿Cómo debo emitir mis facturas para que sean válidas?', a: 'Con numeración correlativa, tus datos y los del cliente completos, y la retención de IRPF aplicada si facturas a otro profesional o empresa. Lo revisamos contigo si tienes dudas.', related: 'como-emitir-facturas-correctamente' },
         { q: '¿Qué diferencia de impuestos hay entre autónomo y SL?', a: 'El autónomo tributa por IRPF de forma progresiva; la SL paga el Impuesto de Sociedades a un tipo fijo, con reducción los primeros años. Hay que contar también lo que cuesta sacar el dinero de la SL.', related: 'autonomo-vs-sl-cuando-pasar' },
-        { q: '¿Hay permanencia mínima de contrato?', a: 'Sí, 12 meses, coincidiendo con el ejercicio fiscal completo: así te cubrimos todos los servicios que ofrecemos a lo largo del año antes de que decidas si seguir. Se renueva tácitamente cada año, salvo que avises con 1-2 meses de antelación a que termine el periodo. Si te vas antes de esos 12 meses, se abonan las mensualidades pendientes hasta el final del periodo, con un máximo de 3 mensualidades.' },
+        { q: '¿Hay permanencia mínima de contrato?', a: 'No. Puedes darte de baja cuando quieras, avisando con un mes de antelación. Solo si empiezas con nosotros con un cambio de gestoría o con el alta de autónomo, ese trámite es gratis si te quedas al menos 6 meses; si te vas antes, se cobra: 80 € + IVA si eres autónomo y 150 € + IVA si es una SL.' },
       ],
       faqAutonomos: 'Autónomos',
       faqAutonomosItems: [
@@ -661,7 +661,7 @@ export const ui = {
   },
 
   ca: {
-    nav: { home: 'Inici', alta: 'Altes', blog: 'FAQs', equipo: 'Qui som', conocenos: 'Coneix-nos', servicios: 'Els nostres serveis', contacto: 'Contacte', sl: 'Constituir una SL' },
+    nav: { home: 'Inici', alta: 'Altes', blog: 'FAQs', equipo: 'Qui som', conocenos: 'Coneix-nos', servicios: 'Els nostres serveis', contacto: 'Contacte', sl: 'Constituir una SL', cambio: 'Canviar de gestoria' },
     header: { cta: 'Reserva una trucada', portal: 'Àrea clients', menu: 'Menú', closeMenu: 'Tanca el menú' },
     contact: {
       trigger: 'Contacta amb nosaltres',
@@ -674,7 +674,7 @@ export const ui = {
     },
 
     serviciosMenu: {
-      alta: { title: 'Alta d’autònom', desc: 'Et donem d’alta a Hisenda i al RETA. Amb el pla Debut, inclòs a la teva quota des del primer mes.' },
+      alta: { title: 'Alta d’autònom', desc: 'Et donem d’alta a Hisenda i al RETA. Inclòs a la teva quota d’autònom.' },
       sl: { title: 'Constituir una SL', desc: 'La teva SL en menys d’una setmana, per 175 € + IVA més notaria i Registre. Sol·licitud del nom inclosa.' },
       gestoria: { title: 'Gestoria mensual', desc: 'Gestoria + acompanyament: comptabilitat, impostos i tracte proper tot l’any.' },
       dashboard: { title: 'Els teus números i previsió', desc: 'El teu negoci sempre a la vista, informació a mida i, molt aviat, el que pagaràs en els teus propers impostos.' },
@@ -737,7 +737,7 @@ export const ui = {
           amount: '35 €',
           unit: '/mes',
           ivaNote: 'Total amb IVA: 42,35 €/mes',
-          durationNote: 'El primer any complet.',
+          durationNote: 'Els 6 primers mesos. Del 7è al 12è mes, 45 € + IVA/mes.',
           includesPrevious: 'Mateix abast fiscal i comptable que el pla Essencial, més:',
           features: [
             'Alta d’autònom inclosa (RETA + Hisenda)',
@@ -866,16 +866,16 @@ export const ui = {
 
     alta: {
       title: 'Et donaràs d’alta com a autònom?',
-      desc: 'Ens encarreguem del paperam — amb el pla Debut, l’alta va inclosa a la teva quota des del primer mes, sense tarifes a part.',
+      desc: 'Ens encarreguem del paperam — l’alta va inclosa a la teva quota d’autònom, sense tarifes a part, si et quedes com a mínim 6 mesos.',
       price: 'Des de 35 € + IVA/mes',
-      priceNote: 'Alta d’autònom inclosa · pla Debut, el primer any',
+      priceNote: 'Alta d’autònom inclosa a totes les quotes',
       link: 'Reservar la meva trucada →',
     },
 
     altaPage: {
       eyebrow: 'Alta ràpida',
       title: 'Alta d’autònoms en menys de 2 dies',
-      intro: 'Ens encarreguem de tot el paperam perquè puguis començar a facturar com més aviat millor. Amb el pla Debut, l’alta va inclosa a la teva quota des del primer mes, sense tarifes a part.',
+      intro: 'Ens encarreguem de tot el paperam perquè puguis començar a facturar com més aviat millor. L’alta va inclosa a la teva quota d’autònom, sense tarifes a part, si et quedes com a mínim 6 mesos.',
       autonomos: {
         title: 'Si et donaràs d’alta com a autònom',
         desc: 'Presentem la teva alta a Hisenda i al RETA de la Seguretat Social.',
@@ -889,7 +889,7 @@ export const ui = {
       guideLink: 'Encara no has començat a facturar? Llegeix quan i com donar-te d’alta →',
       timeline: 'En menys de 2 dies tens l’alta feta i ja pots facturar.',
       price: 'Des de 35 € + IVA/mes',
-      priceNote: 'Alta d’autònom inclosa · pla Debut, el primer any',
+      priceNote: 'Alta d’autònom inclosa a totes les quotes',
       ctaCall: 'Reserva una trucada',
     },
 
@@ -955,7 +955,7 @@ export const ui = {
         { q: 'Qui està obligat a la factura electrònica?', a: 'Totes les empreses i autònoms que facturin a altres empreses o autònoms (operacions B2B). No afecta les factures a particulars, i és una obligació diferent de Verifactu.', related: 'facturacion-electronica-obligatoria' },
         { q: 'Com he d’emetre les meves factures perquè siguin vàlides?', a: 'Amb numeració correlativa, les teves dades i les del client completes, i la retenció d’IRPF aplicada si factures a un altre professional o empresa. Ho revisem amb tu si tens dubtes.', related: 'como-emitir-facturas-correctamente' },
         { q: 'Quina diferència d’impostos hi ha entre autònom i SL?', a: 'L’autònom tributa per IRPF de forma progressiva; la SL paga l’Impost de Societats a un tipus fix, amb reducció els primers anys. Cal comptar també el que costa treure els diners de la SL.', related: 'autonomo-vs-sl-cuando-pasar' },
-        { q: 'Hi ha permanència mínima de contracte?', a: 'Sí, 12 mesos, coincidint amb l’exercici fiscal complet: així et cobrim tots els serveis que oferim al llarg de l’any abans que decideixis si continuar. Es renova tàcitament cada any, tret que avisis amb 1-2 mesos d’antelació abans que acabi el període. Si te’n vas abans d’aquests 12 mesos, s’abonen les mensualitats pendents fins al final del període, amb un màxim de 3 mensualitats.' },
+        { q: 'Hi ha permanència mínima de contracte?', a: 'No. Pots donar-te de baixa quan vulguis, avisant amb un mes d’antelació. Només si comences amb nosaltres amb un canvi de gestoria o amb l’alta d’autònom, aquest tràmit és gratuït si et quedes com a mínim 6 mesos; si te’n vas abans, es cobra: 80 € + IVA si ets autònom i 150 € + IVA si és una SL.' },
       ],
       faqAutonomos: 'Autònoms',
       faqAutonomosItems: [
@@ -1303,7 +1303,7 @@ export const ui = {
   },
 
   en: {
-    nav: { home: 'Home', alta: 'Registration', blog: 'FAQs', equipo: 'About us', conocenos: 'About us', servicios: 'Our services', contacto: 'Contact', sl: 'Set up an SL' },
+    nav: { home: 'Home', alta: 'Registration', blog: 'FAQs', equipo: 'About us', conocenos: 'About us', servicios: 'Our services', contacto: 'Contact', sl: 'Set up an SL', cambio: 'Switch accountants' },
     header: { cta: 'Book a call', portal: 'Client area', menu: 'Menu', closeMenu: 'Close menu' },
     contact: {
       trigger: 'Contact us',
@@ -1316,7 +1316,7 @@ export const ui = {
     },
 
     serviciosMenu: {
-      alta: { title: 'Freelancer registration', desc: 'We register you with the Tax Agency and Social Security (RETA). With the Debut plan, included in your fee from month one.' },
+      alta: { title: 'Freelancer registration', desc: 'We register you with the Tax Agency and Social Security (RETA). Included in your freelancer fee.' },
       sl: { title: 'Set up an SL', desc: 'Your SL in under a week, for €175 + VAT plus notary and Registry fees. Company name application included.' },
       gestoria: { title: 'Monthly accounting', desc: 'Accounting + ongoing support: bookkeeping, taxes and a close relationship all year round.' },
       dashboard: { title: 'Your numbers and forecast', desc: 'Your business always in view, tailored information and, very soon, what you will pay in your upcoming taxes.' },
@@ -1379,7 +1379,7 @@ export const ui = {
           amount: '€35',
           unit: '/month',
           ivaNote: 'Total with VAT: €42.35/month',
-          durationNote: 'The full first year.',
+          durationNote: 'The first 6 months. Months 7 to 12: €45 + VAT/month.',
           includesPrevious: 'Same tax and accounting scope as the Essential plan, plus:',
           features: [
             'Freelancer registration included (social security + tax office)',
@@ -1508,16 +1508,16 @@ export const ui = {
 
     alta: {
       title: 'Registering as a freelancer?',
-      desc: 'We handle the paperwork — with the Debut plan, registration is included in your fee from the first month, no separate charges.',
+      desc: 'We handle the paperwork — registration is included in your freelancer fee, no separate charges, provided you stay at least 6 months.',
       price: 'From €35 + VAT/month',
-      priceNote: 'Freelancer registration included · Debut plan, first year',
+      priceNote: 'Freelancer registration included in every plan',
       link: 'Book my call →',
     },
 
     altaPage: {
       eyebrow: 'Fast registration',
       title: 'Freelancer registration in under 2 days',
-      intro: 'We handle the paperwork so you can start invoicing as soon as possible. With the Debut plan, registration is included in your fee from the first month, no separate charges.',
+      intro: 'We handle the paperwork so you can start invoicing as soon as possible. Registration is included in your freelancer fee, no separate charges, provided you stay at least 6 months.',
       autonomos: {
         title: 'If you’re registering as a freelancer',
         desc: 'We file your registration with the Spanish Tax Agency and with Social Security (RETA).',
@@ -1531,7 +1531,7 @@ export const ui = {
       guideLink: 'Haven’t started invoicing yet? Read when and how to register →',
       timeline: 'In under 2 days your registration is done and you can start invoicing.',
       price: 'From €35 + VAT/month',
-      priceNote: 'Freelancer registration included · Debut plan, first year',
+      priceNote: 'Freelancer registration included in every plan',
       ctaCall: 'Book a call',
     },
 
@@ -1597,7 +1597,7 @@ export const ui = {
         { q: 'Who is required to use electronic invoicing?', a: 'Every company and self-employed worker that invoices another company or self-employed worker (B2B transactions). It doesn’t affect invoices to individuals, and it’s a separate obligation from Verifactu.', related: 'facturacion-electronica-obligatoria' },
         { q: 'How should I issue invoices so they’re valid?', a: 'With sequential numbering, complete details for you and your client, and the income tax withholding applied if you’re invoicing another professional or business. We review this with you if you have questions.', related: 'como-emitir-facturas-correctamente' },
         { q: 'What is the tax difference between self-employed and an SL?', a: 'Self-employed income is taxed progressively under income tax; an SL pays Corporate Tax at a flat rate, with a reduction in the first years. You also need to factor in the cost of taking money out of the SL.', related: 'autonomo-vs-sl-cuando-pasar' },
-        { q: 'Is there a minimum contract term?', a: 'Yes, 12 months, matching a full tax year: that way we cover every service we offer over the course of the year before you decide whether to continue. It renews automatically each year unless you give 1-2 months\' notice before it ends. If you leave before those 12 months are up, you pay the remaining monthly fees until the end of the period, capped at 3 months.' },
+        { q: 'Is there a minimum contract term?', a: 'No. You can leave whenever you want with one month’s notice. Only if you start with us by switching accountants or registering as self-employed is that step free provided you stay at least 6 months; if you leave earlier, it is charged: €80 + VAT for freelancers and €150 + VAT for companies.' },
       ],
       faqAutonomos: 'Freelancers',
       faqAutonomosItems: [

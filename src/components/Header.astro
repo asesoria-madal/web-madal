@@ -75,6 +75,7 @@ const temaLabel = { es: 'Cambiar entre tema claro y oscuro', ca: 'Canvia entre t
             </div>
           </div>
         </div>
+        <a class="navlink" href={localizedPath('/cambiar-de-gestoria', lang)}>{t.nav.cambio}</a>
         <a class={`navlink${active === 'equipo' ? ' active' : ''}`} href={equipoHref}>{t.nav.conocenos}</a>
       </nav>
     )}
@@ -136,6 +137,7 @@ const temaLabel = { es: 'Cambiar entre tema claro y oscuro', ca: 'Canvia entre t
           ))}
         </div>
       </div>
+      <a class="mobile-navlink" href={localizedPath('/cambiar-de-gestoria', lang)}>{t.nav.cambio}</a>
       <a class={`mobile-navlink${active === 'equipo' ? ' active' : ''}`} href={equipoHref}>{t.nav.conocenos}</a>
       <div class="mobile-menu-foot">
         <button type="button" class="theme-toggle" aria-label={temaLabel}>

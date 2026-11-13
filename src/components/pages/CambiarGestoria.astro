@@ -1,0 +1,123 @@
+---
+// Página "Cambiar de gestoría" (2026-11-13). Los botones llevan al formulario de traspaso que toca
+// (autónomo o SL) en el idioma de la página. Textos en src/i18n/cambio.ts.
+import { localizedPath } from '../../i18n/utils';
+import type { Locale } from '../../i18n/ui';
+import { CAMBIO } from '../../i18n/cambio';
+
+interface Props { lang: Locale; }
+const { lang } = Astro.props;
+const c = CAMBIO[lang];
+const LLAMADA = 'https://meetings-eu1.hubspot.com/asesoria-madal';
+const formAutonomo = localizedPath('/formulario-traspaso-autonomo', lang);
+const formSl = localizedPath('/formulario-traspaso-sl', lang);
+---
+
+<section class="cambio-hero">
+  <div class="page cambio-hero-in">
+    <p class="cambio-eyebrow">{c.eyebrow}</p>
+    <h1>{c.title}</h1>
+    <p class="cambio-dek">{c.dek}</p>
+    <div class="cambio-ctas">
+      <a class="btn cambio-btn-mint" href={formAutonomo}>{c.ctaAutonomo}</a>
+      <a class="btn cambio-btn-mint" href={formSl}>{c.ctaSl}</a>
+      <a class="btn cambio-btn-ghost" href={LLAMADA} target="_blank" rel="noopener" data-umami-event="llamada_click" data-umami-event-origen="cambiar_gestoria">{c.ctaLlamada}</a>
+    </div>
+  </div>
+</section>
+
+<section class="page cambio-bloque">
+  <h2 class="cambio-h2">{c.pasosTitle}</h2>
+  <ol class="cambio-pasos">
+    {c.pasos.map((p, i) => (
+      <li><span class="cambio-num">{i + 1}</span><div><h3>{p.title}</h3><p>{p.desc}</p></div></li>
+    ))}
+  </ol>
+</section>
+
+<section class="page cambio-bloque">
+  <div class="cambio-momento">
+    <h2 class="cambio-h2">{c.momentoTitle}</h2>
+    <p>{c.momento}</p>
+  </div>
+</section>
+
+<section class="page cambio-bloque">
+  <h2 class="cambio-h2">{c.docsTitle}</h2>
+  <p class="cambio-sub">{c.docsIntro}</p>
+  <p class="cambio-nota">{c.docsNota}</p>
+  <div class="cambio-docs">
+    {[[c.tabAutonomo, c.autonomo], [c.tabSl, c.sl]].map(([titulo, grupos]) => (
+      <div class="cambio-docs-col">
+        <h3 class="cambio-docs-titulo">{titulo as string}</h3>
+        {(grupos as typeof c.sl).map((g) => (
+          <div class="cambio-grupo">
+            <h4>{g.titulo}</h4>
+            <ul>{g.items.map((x) => <li>{x}</li>)}</ul>
+          </div>
+        ))}
+      </div>
+    ))}
+  </div>
+</section>
+
+<section class="page cambio-bloque">
+  <div class="cambio-condiciones">
+    <h2 class="cambio-h2">{c.condicionesTitle}</h2>
+    <p>{c.condiciones}</p>
+  </div>
+</section>
+
+<section class="page cambio-bloque cambio-ultimo">
+  <div class="cambio-final">
+    <div>
+      <h2 class="cambio-h2 cambio-h2-claro">{c.finalTitle}</h2>
+      <p>{c.finalDesc}</p>
+    </div>
+    <div class="cambio-ctas">
+      <a class="btn cambio-btn-mint" href={formAutonomo}>{c.ctaAutonomo}</a>
+      <a class="btn cambio-btn-mint" href={formSl}>{c.ctaSl}</a>
+      <a class="btn cambio-btn-ghost" href={LLAMADA} target="_blank" rel="noopener" data-umami-event="llamada_click" data-umami-event-origen="cambiar_gestoria_final">{c.ctaLlamada}</a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .cambio-hero { background: var(--hero-bg); color: var(--hero-ink); }
+  .cambio-hero-in { padding-top: 4rem; padding-bottom: 4.5rem; }
+  .cambio-eyebrow { display: inline-block; background: rgba(166, 227, 216, 0.16); color: var(--mint); border-radius: 999px; padding: 0.35rem 0.9rem; font-size: 0.82rem; font-weight: 600; }
+  .cambio-hero h1 { font-size: clamp(2.3rem, 5.6vw, 4.4rem); line-height: 1; letter-spacing: -0.04em; margin-top: 1.2rem; max-width: 16ch; }
+  .cambio-dek { font-size: clamp(1.05rem, 1.6vw, 1.2rem); color: var(--hero-ink-soft); max-width: 38rem; margin-top: 1.3rem; line-height: 1.5; }
+  .cambio-ctas { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 2rem; }
+  .btn.cambio-btn-mint { background: var(--mint); color: #0e3b37; }
+  .btn.cambio-btn-mint:hover { background: #ffffff; }
+  .btn.cambio-btn-ghost { background: transparent; color: #ffffff; box-shadow: inset 0 0 0 1.5px rgba(255, 255, 255, 0.55); }
+  .btn.cambio-btn-ghost:hover { box-shadow: inset 0 0 0 1.5px #ffffff; }
+
+  .cambio-bloque { padding-top: 3.6rem; }
+  .cambio-ultimo { padding-bottom: 4rem; }
+  .cambio-h2 { font-size: clamp(1.8rem, 3.6vw, 2.6rem); line-height: 1.05; letter-spacing: -0.03em; color: var(--ink); }
+  .cambio-h2-claro { color: #ffffff; }
+  .cambio-sub { color: var(--ink-soft); margin-top: 0.8rem; max-width: 46rem; }
+  .cambio-nota { margin-top: 1rem; background: var(--mint); color: #0e3b37; border-radius: 14px; padding: 0.9rem 1.1rem; font-weight: 600; max-width: 46rem; }
+
+  .cambio-pasos { list-style: none; padding: 0; margin: 1.8rem 0 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem; }
+  .cambio-pasos li { display: flex; gap: 1rem; background: var(--paper-raised); border-radius: var(--radius); padding: 1.4rem; }
+  .cambio-num { flex-shrink: 0; width: 2.2rem; height: 2.2rem; border-radius: 50%; background: var(--accent-strong); color: #ffffff; display: inline-flex; align-items: center; justify-content: center; font-weight: 700; }
+  .cambio-pasos h3 { font-size: 1.12rem; }
+  .cambio-pasos p { color: var(--ink-soft); margin-top: 0.4rem; line-height: 1.5; }
+
+  .cambio-momento, .cambio-condiciones { border: 1.5px solid var(--line); border-radius: var(--radius); padding: clamp(1.4rem, 3vw, 2.2rem); }
+  .cambio-momento p, .cambio-condiciones p { margin-top: 0.8rem; color: var(--ink-soft); line-height: 1.6; max-width: 52rem; }
+
+  .cambio-docs { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(420px, 100%), 1fr)); gap: 1.2rem; margin-top: 1.6rem; }
+  .cambio-docs-col { background: var(--paper-raised); border-radius: var(--radius); padding: clamp(1.2rem, 3vw, 1.8rem); }
+  .cambio-docs-titulo { font-size: 1.4rem; color: var(--accent-strong); margin-bottom: 0.4rem; }
+  .cambio-grupo { margin-top: 1.1rem; }
+  .cambio-grupo h4 { font-size: 0.95rem; margin: 0; color: var(--ink); font-family: var(--font-body); font-weight: 700; }
+  .cambio-grupo ul { margin: 0.4rem 0 0; padding-left: 1.2rem; color: var(--ink-soft); line-height: 1.5; display: flex; flex-direction: column; gap: 0.3rem; font-size: 0.94rem; }
+
+  .cambio-final { background: var(--hero-bg); color: #ffffff; border-radius: 28px; padding: clamp(1.6rem, 4vw, 3rem); display: flex; flex-wrap: wrap; gap: 1.6rem; align-items: center; justify-content: space-between; }
+  .cambio-final p { color: var(--hero-ink-soft); margin-top: 0.8rem; max-width: 34rem; }
+  .cambio-final .cambio-ctas { margin-top: 0; }
+</style>

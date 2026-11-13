@@ -1,0 +1,12 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import CambiarGestoria from '../../components/pages/CambiarGestoria.astro';
+import { CAMBIO } from '../../i18n/cambio';
+
+export const prerender = true;
+const c = CAMBIO.en;
+---
+
+<Layout lang="en" path="/en/cambiar-de-gestoria" active="servicios" title={c.metaTitle} description={c.metaDesc} breadcrumbs={[{ name: c.eyebrow, path: '/cambiar-de-gestoria' }]}>
+  <CambiarGestoria lang="en" />
+</Layout>

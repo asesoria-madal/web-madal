@@ -37,7 +37,11 @@ function json(data: unknown, status = 200) {
 function primerCampoInvalido(b: Record<string, unknown>): string | null {
   if (!TIPOS.includes(b.tipo as string)) return 'tipo';
   if (!IDIOMAS.includes(b.idioma as string)) return 'idioma';
-  if (typeof b.nombre !== 'string' || !b.nombre.trim() || b.nombre.length > 150) return 'nombre';
+  // Nombre: obligatorio solo en constitución de SL. En el formulario general es opcional y el
+  // motivo (mensaje) es obligatorio (2026-11-13).
+  if (b.nombre !== undefined && (typeof b.nombre !== 'string' || b.nombre.length > 150)) return 'nombre';
+  if (b.tipo === 'constituir_sl' && (typeof b.nombre !== 'string' || !b.nombre.trim())) return 'nombre';
+  if (b.tipo !== 'constituir_sl' && (typeof b.mensaje !== 'string' || !b.mensaje.trim())) return 'mensaje';
   if (typeof b.email !== 'string' || !EMAIL_PATTERN.test(b.email.trim()) || b.email.length > 254) return 'email';
   if (b.privacidad !== true) return 'privacidad';
   const hayTelefono = typeof b.telefono === 'string' && b.telefono.trim() !== '';
@@ -72,7 +76,8 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
   const { error } = await supabase.from('leads').insert({
     tipo: b.tipo,
     idioma: b.idioma,
-    nombre: (b.nombre as string).trim(),
+    // La columna no admite null: sin nombre se guarda vacío (n8n saluda sin nombre).
+    nombre: typeof b.nombre === 'string' ? b.nombre.trim() : '',
     email: (b.email as string).trim().toLowerCase(),
     telefono: texto(b.telefono, 20),
     perfil: opcion(b.perfil, PERFILES),

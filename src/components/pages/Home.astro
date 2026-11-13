@@ -1,233 +1,294 @@
 ---
-import { LEADS } from '../../i18n/leads';
+// Portada (rediseño B1, 2026-11-13). Orden: cabecera oscura con titular, botones y precios de
+// entrada → logos de confianza → servicios → cambio de gestoría → cómo empezamos → comparativa →
+// precios detallados → preguntas frecuentes → formulario de contacto.
+// Textos nuevos en src/i18n/inicio.ts; precios, pasos y comparativa siguen en ui.ts.
 import { useTranslations, localizedPath } from '../../i18n/utils';
 import type { Locale } from '../../i18n/ui';
-import ContactSwitch from '../ContactSwitch.astro';
+import { INICIO } from '../../i18n/inicio';
+import EntidadesBanner from '../EntidadesBanner.astro';
+import LeadForm from '../LeadForm.astro';
 import { getSortedBlogPosts } from '../../lib/blog';
 
 interface Props { lang: Locale; }
 const { lang } = Astro.props;
 const t = useTranslations(lang);
+const h = INICIO[lang];
 
-// Enlace profundo al artículo más reciente del idioma: ayuda a Google a
-// descubrir e indexar la página del artículo (no solo el índice del blog).
+const LLAMADA = 'https://meetings-eu1.hubspot.com/asesoria-madal';
 const latestPost = (await getSortedBlogPosts(lang))[0];
-
-// Tinte progresivo de marca por tramo (primero cálido, medio neutro/tint,
-// último sólido) — puramente visual, no cambia el orden ni el contenido
-// de los planes.
-function tierTintClass(index: number, total: number): string {
-  if (index === total - 1) return 'tier-solid';
-  if (index === 0) return 'tier-warm';
-  if (index === total - 2) return 'tier-tint';
-  return '';
-}
-const sl = LEADS[lang].home;
-// Debut va en una tarjeta horizontal encima de los demás planes de autónomo (2026-11-11,
-// igual que en el presupuesto en PDF): es la oferta de bienvenida, no un escalón más.
+const serviciosHref = localizedPath('/servicios', lang);
+const hrefServicio: Record<string, string> = {
+  autonomos: `${serviciosHref}#acompanamiento`,
+  sl: `${serviciosHref}#acompanamiento`,
+  constitucion: localizedPath('/constituir-sl', lang),
+  alta: localizedPath('/alta', lang),
+};
+const hrefTarjeta = [`#precios`, `#precios`, localizedPath('/constituir-sl', lang)];
+// Debut va en una tarjeta ancha encima del resto de planes de autónomo: es la oferta de bienvenida.
 const [debutTier, ...autonomoResto] = t.precios.autonomoTiers;
+
+// Datos estructurados de las preguntas frecuentes (Google las puede mostrar en los resultados).
+const faqLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: h.faq.items.map((x) => ({ '@type': 'Question', name: x.q, acceptedAnswer: { '@type': 'Answer', text: x.a } })),
+};
 ---
 
 <div id="view-home">
-  <section class="hero">
-    <div class="hero-field"></div>
-    <div class="hero-seam"></div>
-    <div class="page hero-grid">
-      <div class="hero-copy">
-        <p class="hero-kicker">{t.hero.eyebrow}</p>
-        <h1>{t.hero.title}</h1>
-        <p class="dek">{t.hero.dek}</p>
-
-        <div class="hero-actions">
-          <div class="hero-magnet">
-            <div class="hero-magnet-inner">
-              <ContactSwitch lang={lang} triggerClass="btn-volume" origen="home_hero" />
-            </div>
-          </div>
+  <section class="inicio-hero">
+    <div class="page inicio-hero-grid">
+      <div class="inicio-hero-copy">
+        <span class="inicio-pill">{h.pill}</span>
+        <h1>{h.title}</h1>
+        <p class="inicio-dek">{h.dek}</p>
+        <div class="inicio-ctas">
+          <a class="btn inicio-btn-mint" href={LLAMADA} target="_blank" rel="noopener" data-umami-event="llamada_click" data-umami-event-origen="home_hero">{h.ctaLlamada} <span class="inicio-hora">· {h.ctaLlamadaHora}</span></a>
+          <a class="btn inicio-btn-ghost" href="#precios">{h.ctaPrecios}</a>
+          <a class="btn inicio-btn-ghost" href="#contacto">{h.ctaEscribe}</a>
         </div>
-
-        <a href={localizedPath('/constituir-sl', lang)} class="hero-sl-link">{sl.heroLink} <span aria-hidden="true">→</span></a>
-        <p class="trust">{t.hero.trust}</p>
+        <ul class="inicio-garantias">
+          {h.garantias.map((g) => <li>{g}</li>)}
+        </ul>
       </div>
-
-      <div class="hero-visual">
-        <div class="hero-dot hero-dot-a"><span></span></div>
-        <div class="hero-dot hero-dot-b"><span></span></div>
-        <div class="hero-dot hero-dot-c"><span></span></div>
-
-        <div class="hero-ticket-wrap">
-          <div class="hero-ticket">
-            <span class="hero-ticket-pip"></span>
-            <div class="hero-price-row">
-              <span class="hero-price-label">{t.hero.priceAutonomoLabel}</span>
-              <span class="hero-price-amount"><span data-countup>{t.hero.priceAutonomoAmount}</span><small>{t.hero.priceUnit}</small></span>
-            </div>
-            <div class="hero-price-row">
-              <span class="hero-price-label">{t.hero.priceSlLabel}</span>
-              <span class="hero-price-amount"><span data-countup>{t.hero.priceSlAmount}</span><small>{t.hero.priceUnit}</small></span>
-            </div>
-            <p class="hero-price-claim">{t.hero.priceClaim}</p>
-          </div>
-        </div>
-
-        <div class="hero-magnet">
-          <div class="hero-magnet-inner">
-            <a href="https://meetings-eu1.hubspot.com/asesoria-madal" target="_blank" rel="noopener" class="btn-circle">{t.hero.ctaCall}</a>
-          </div>
-        </div>
+      <div class="inicio-tarjeta">
+        <p class="inicio-tarjeta-titulo">{h.tarjetaTitulo}</p>
+        {h.tarjeta.map((fila, i) => (
+          <a class={`inicio-tarjeta-fila${i === h.tarjeta.length - 1 ? ' is-destacada' : ''}`} href={hrefTarjeta[i]}>
+            <span>{fila.label}</span>
+            <span class="inicio-tarjeta-precio">{fila.amount}<small>{fila.unit}</small></span>
+          </a>
+        ))}
+        <p class="inicio-tarjeta-nota">{t.hero.trust}</p>
       </div>
-    </div>
-
-    <div class="hero-scroll-cue" aria-hidden="true">
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"></path></svg>
     </div>
   </section>
 
-  <section class="sl-band">
-    <div class="page sl-band-grid">
+  <EntidadesBanner lang={lang} />
+
+  <section class="page inicio-bloque">
+    <p class="inicio-eyebrow">{h.servicios.eyebrow}</p>
+    <h2 class="inicio-h2">{h.servicios.title}</h2>
+    <div class="inicio-servicios">
+      {h.servicios.items.map((s) => (
+        <a class="inicio-servicio" href={hrefServicio[s.key]}>
+          <h3>{s.title}</h3>
+          <p>{s.desc}</p>
+        </a>
+      ))}
+    </div>
+    <a class="inicio-enlace" href={serviciosHref}>{h.servicios.todos}</a>
+  </section>
+
+  <section class="page inicio-bloque">
+    <div class="inicio-cambio">
       <div>
-        <p class="sl-band-eyebrow">{sl.eyebrow}</p>
-        <h2>{sl.title}</h2>
-        <p>{sl.desc}</p>
-        <p class="sl-band-nota">{sl.nota}</p>
+        <p class="inicio-eyebrow inicio-eyebrow-oscuro">{h.cambio.eyebrow}</p>
+        <h2 class="inicio-h2">{h.cambio.title}</h2>
+        <p class="inicio-cambio-desc">{h.cambio.desc}</p>
+        <a class="btn inicio-btn-oscuro" href={localizedPath('/cambiar-de-gestoria', lang)}>{h.cambio.cta}</a>
       </div>
-      <a href={localizedPath('/constituir-sl', lang)} class="btn btn-primary btn-stamp">{sl.cta}</a>
+      <ol class="inicio-cambio-pasos">
+        {h.cambio.pasos.map((p, i) => <li><strong>{i + 1}. {p.title}</strong> {p.desc}</li>)}
+      </ol>
     </div>
   </section>
 
-  <section class="section" id="como-trabajamos">
-    <div class="label-col"><p class="eyebrow">{t.proceso.eyebrow}</p></div>
-    <div>
-      <h2 class="section-title">{t.proceso.title}</h2>
-      <div class="process">
-        {t.proceso.steps.map((step, i) => (
-          <div class="step">
-            <span class="num">{i + 1}</span>
-            <div><h3>{step.title}</h3><p>{step.desc}</p></div>
-          </div>
-        ))}
-      </div>
+  <section class="page inicio-bloque" id="como-trabajamos">
+    <p class="inicio-eyebrow">{t.proceso.eyebrow}</p>
+    <h2 class="inicio-h2">{t.proceso.title}</h2>
+    <ol class="inicio-proceso">
+      {t.proceso.steps.map((step, i) => (
+        <li><span class="inicio-num">{i + 1}</span><div><h3>{step.title}</h3><p>{step.desc}</p></div></li>
+      ))}
+    </ol>
+  </section>
+
+  <section class="page inicio-bloque" id="diferencia">
+    <p class="inicio-eyebrow">{t.diferencia.eyebrow}</p>
+    <h2 class="inicio-h2">{t.diferencia.title}</h2>
+    <p class="inicio-sub">{t.diferencia.sub}</p>
+    <div class="compare-table">
+      <div class="cell cell-head col-trad">{t.diferencia.colTraditional}</div>
+      <div class="cell cell-head col-online">{t.diferencia.colOnline}</div>
+      <div class="cell cell-head col-madal">{t.diferencia.colMadal}</div>
+      {t.diferencia.rows.map((row) => (
+        <>
+          <div class="cell col-trad">{row.trad}</div>
+          <div class="cell col-online">{row.online}</div>
+          <div class="cell col-madal">{row.madal}</div>
+        </>
+      ))}
     </div>
   </section>
 
-  <section class="section" id="diferencia">
-    <div class="label-col"><p class="eyebrow">{t.diferencia.eyebrow}</p></div>
-    <div>
-      <h2 class="section-title">{t.diferencia.title}</h2>
-      <p class="section-sub">{t.diferencia.sub}</p>
-      <div class="compare-table">
-        <div class="cell cell-head col-trad">{t.diferencia.colTraditional}</div>
-        <div class="cell cell-head col-online">{t.diferencia.colOnline}</div>
-        <div class="cell cell-head col-madal">{t.diferencia.colMadal}</div>
-        {t.diferencia.rows.map((row) => (
-          <>
-            <div class="cell col-trad">{row.trad}</div>
-            <div class="cell col-online">{row.online}</div>
-            <div class="cell col-madal">{row.madal}</div>
-          </>
-        ))}
+  <section class="page inicio-bloque" id="precios">
+    <p class="inicio-eyebrow">{t.precios.eyebrow}</p>
+    <h2 class="inicio-h2">{t.precios.title}</h2>
+    <p class="inicio-sub">{t.precios.sub}</p>
+
+    <p class="pricing-group-title">{t.precios.autonomoTitle}</p>
+    <div class="pricing-tier pricing-tier-wide tier-solid">
+      <div class="pricing-tier-wide-head">
+        {'badge' in debutTier && debutTier.badge && <p class="pricing-tier-badge">{debutTier.badge}</p>}
+        <h3>{debutTier.name}</h3>
+        <p class="pricing-tier-desc">{debutTier.desc}</p>
+        <p class="amount">{debutTier.amount}<small>{debutTier.unit}</small></p>
+        <p class="pricing-tier-iva">{debutTier.ivaNote}</p>
+        {'durationNote' in debutTier && debutTier.durationNote && <p class="pricing-tier-duration">{debutTier.durationNote}</p>}
+      </div>
+      <div class="pricing-tier-wide-body">
+        {'includesPrevious' in debutTier && debutTier.includesPrevious && <p class="pricing-tier-includes">{debutTier.includesPrevious}</p>}
+        <ul class="finanzas-preview-list pricing-tier-features">
+          {debutTier.features.map((f) => (<li>{f}</li>))}
+        </ul>
+        {'transitionNote' in debutTier && debutTier.transitionNote && <p class="pricing-tier-transition">{debutTier.transitionNote}</p>}
       </div>
     </div>
-  </section>
-
-  <section class="section" id="precios">
-    <div class="label-col"><p class="eyebrow">{t.precios.eyebrow}</p></div>
-    <div>
-      <h2 class="section-title">{t.precios.title}</h2>
-      <p class="section-sub">{t.precios.sub}</p>
-
-      <p class="pricing-group-title">{t.precios.autonomoTitle}</p>
-      <div class="pricing-tier pricing-tier-wide tier-solid">
-        <div class="pricing-tier-wide-head">
-          {'badge' in debutTier && debutTier.badge && <p class="pricing-tier-badge">{debutTier.badge}</p>}
-          <h3>{debutTier.name}</h3>
-          <p class="pricing-tier-desc">{debutTier.desc}</p>
-          <p class="amount"><span data-countup>{debutTier.amount}</span><small>{debutTier.unit}</small></p>
-          <p class="pricing-tier-iva">{debutTier.ivaNote}</p>
-          {'durationNote' in debutTier && debutTier.durationNote && <p class="pricing-tier-duration">{debutTier.durationNote}</p>}
-        </div>
-        <div class="pricing-tier-wide-body">
-          {'includesPrevious' in debutTier && debutTier.includesPrevious && <p class="pricing-tier-includes">{debutTier.includesPrevious}</p>}
+    <div class="pricing-tiers">
+      {autonomoResto.map((tier) => (
+        <div class="pricing-tier">
+          <h3>{tier.name}</h3>
+          <p class="pricing-tier-desc">{tier.desc}</p>
+          <p class="amount">{tier.amount}<small>{tier.unit}</small></p>
+          <p class="pricing-tier-iva">{tier.ivaNote}</p>
+          {'durationNote' in tier && tier.durationNote && <p class="pricing-tier-duration">{tier.durationNote}</p>}
+          {'includesPrevious' in tier && tier.includesPrevious && <p class="pricing-tier-includes">{tier.includesPrevious}</p>}
           <ul class="finanzas-preview-list pricing-tier-features">
-            {debutTier.features.map((f) => (<li>{f}</li>))}
+            {tier.features.map((f) => (<li>{f}</li>))}
           </ul>
-          {'transitionNote' in debutTier && debutTier.transitionNote && <p class="pricing-tier-transition">{debutTier.transitionNote}</p>}
+          {'transitionNote' in tier && tier.transitionNote && <p class="pricing-tier-transition">{tier.transitionNote}</p>}
+          {'dashboardNote' in tier && tier.dashboardNote && <p class="pricing-tier-dashboard">{tier.dashboardNote}</p>}
         </div>
-      </div>
-      <div class="pricing-tiers">
-        {autonomoResto.map((tier, i) => (
-          <div class={`pricing-tier ${tierTintClass(i, autonomoResto.length)}`}>
-            <h3>{tier.name}</h3>
-            <p class="pricing-tier-desc">{tier.desc}</p>
-            <p class="amount"><span data-countup>{tier.amount}</span><small>{tier.unit}</small></p>
-            <p class="pricing-tier-iva">{tier.ivaNote}</p>
-            {'durationNote' in tier && tier.durationNote && <p class="pricing-tier-duration">{tier.durationNote}</p>}
-            {'includesPrevious' in tier && tier.includesPrevious && <p class="pricing-tier-includes">{tier.includesPrevious}</p>}
-            <ul class="finanzas-preview-list pricing-tier-features">
-              {tier.features.map((f) => (<li>{f}</li>))}
-            </ul>
-            {'transitionNote' in tier && tier.transitionNote && <p class="pricing-tier-transition">{tier.transitionNote}</p>}
-            {'dashboardNote' in tier && tier.dashboardNote && <p class="pricing-tier-dashboard">{tier.dashboardNote}</p>}
-          </div>
-        ))}
-      </div>
-      <div class="pricing-footnotes">
-        {t.precios.autonomoFootnotes.map((f) => (<p>{f}</p>))}
-      </div>
+      ))}
+    </div>
+    <div class="pricing-footnotes">
+      {t.precios.autonomoFootnotes.map((f) => (<p>{f}</p>))}
+    </div>
 
-      <p class="pricing-group-title">{t.precios.pymeTitle}</p>
-      <div class="pricing-tiers">
-        {t.precios.pymeTiers.map((tier, i) => (
-          <div class={`pricing-tier ${tierTintClass(i, t.precios.pymeTiers.length)}`}>
-            <h3>{tier.name}</h3>
-            <p class="pricing-tier-desc">{tier.desc}</p>
-            <p class="amount"><span data-countup>{tier.amount}</span><small>{tier.unit}</small></p>
-            <p class="pricing-tier-iva">{tier.ivaNote}</p>
-            {'includesPrevious' in tier && tier.includesPrevious && <p class="pricing-tier-includes">{tier.includesPrevious}</p>}
-            <ul class="finanzas-preview-list pricing-tier-features">
-              {tier.features.map((f) => (<li>{f}</li>))}
-            </ul>
-            {'dashboardNote' in tier && tier.dashboardNote && <p class="pricing-tier-dashboard">{tier.dashboardNote}</p>}
-          </div>
-        ))}
-      </div>
-      <div class="pricing-footnotes">
-        {t.precios.pymeFootnotes.map((f) => (<p>{f}</p>))}
-      </div>
-
-      {t.precios.note && <p class="price-note">{t.precios.note}</p>}
-
-      <div class="alta-box">
-        <div class="copy">
-          <h3>{t.alta.title}</h3>
-          <p>{t.alta.desc}</p>
-          <a href="https://meetings-eu1.hubspot.com/asesoria-madal" target="_blank" rel="noopener" class="alta-link">{t.alta.link}</a>
+    <p class="pricing-group-title">{t.precios.pymeTitle}</p>
+    <div class="pricing-tiers">
+      {t.precios.pymeTiers.map((tier) => (
+        <div class="pricing-tier">
+          <h3>{tier.name}</h3>
+          <p class="pricing-tier-desc">{tier.desc}</p>
+          <p class="amount">{tier.amount}<small>{tier.unit}</small></p>
+          <p class="pricing-tier-iva">{tier.ivaNote}</p>
+          {'includesPrevious' in tier && tier.includesPrevious && <p class="pricing-tier-includes">{tier.includesPrevious}</p>}
+          <ul class="finanzas-preview-list pricing-tier-features">
+            {tier.features.map((f) => (<li>{f}</li>))}
+          </ul>
+          {'dashboardNote' in tier && tier.dashboardNote && <p class="pricing-tier-dashboard">{tier.dashboardNote}</p>}
         </div>
-        <div>
-          <p class="price"><span data-countup>{t.alta.price}</span><br /><small>{t.alta.priceNote}</small></p>
-        </div>
-      </div>
+      ))}
+    </div>
+    <div class="pricing-footnotes">
+      {t.precios.pymeFootnotes.map((f) => (<p>{f}</p>))}
+    </div>
+    {t.precios.note && <p class="price-note">{t.precios.note}</p>}
+  </section>
 
-      <div class="blog-teaser">
-        {latestPost ? (
-          <p>
-            <span class="blog-teaser-label">{t.blogTeaser.latestLabel}</span>
-            <a href={localizedPath(`/blog/${latestPost.data.slug}`, lang)}>{latestPost.data.title}</a>
-          </p>
-        ) : (
-          <p>{t.blogTeaser.text}</p>
-        )}
-        <a class="blog-teaser-all" href={localizedPath('/blog', lang)}>{t.blogTeaser.link}</a>
+  <section class="page inicio-bloque">
+    <p class="inicio-eyebrow">{h.faq.eyebrow}</p>
+    <h2 class="inicio-h2">{h.faq.title}</h2>
+    <div class="inicio-faq">
+      {h.faq.items.map((x, i) => (
+        <details class="inicio-faq-item" open={i === 0}>
+          <summary>{x.q}</summary>
+          <p>{x.a}</p>
+        </details>
+      ))}
+    </div>
+    {latestPost && (
+      <p class="inicio-blog">
+        <span>{t.blogTeaser.latestLabel}:</span> <a href={localizedPath(`/blog/${latestPost.data.slug}`, lang)}>{latestPost.data.title}</a> · <a href={localizedPath('/blog', lang)}>{t.blogTeaser.link}</a>
+      </p>
+    )}
+  </section>
+
+  <section class="page inicio-bloque" id="contacto">
+    <div class="inicio-contacto">
+      <div>
+        <p class="inicio-eyebrow inicio-eyebrow-menta">{h.contacto.eyebrow}</p>
+        <h2 class="inicio-h2 inicio-h2-claro">{h.contacto.title}</h2>
+        <p class="inicio-contacto-desc">{h.contacto.desc}</p>
+        <a class="btn inicio-btn-mint" href={LLAMADA} target="_blank" rel="noopener" data-umami-event="llamada_click" data-umami-event-origen="home_contacto">{h.contacto.ctaLlamada} · {h.ctaLlamadaHora}</a>
+      </div>
+      <div class="inicio-contacto-form">
+        <LeadForm lang={lang} origen="home_contacto" />
       </div>
     </div>
   </section>
 </div>
 
-<script>
-  import { observeCountUp } from '../../scripts/countup';
-  import { initHeroInteractions } from '../../scripts/heroInteractions';
-  document.addEventListener('astro:page-load', () => {
-    observeCountUp();
-    initHeroInteractions();
-  });
-</script>
+<script type="application/ld+json" set:html={JSON.stringify(faqLd)} />
+
+<style>
+  .inicio-hero { background: var(--hero-bg); color: var(--hero-ink); }
+  .inicio-hero-grid { display: flex; flex-wrap: wrap; gap: 3rem; align-items: center; padding-top: 4.5rem; padding-bottom: 5.5rem; }
+  .inicio-hero-copy { flex: 999 1 520px; min-width: 0; }
+  .inicio-pill { display: inline-block; background: rgba(166, 227, 216, 0.16); color: var(--mint); border-radius: 999px; padding: 0.35rem 0.9rem; font-size: 0.82rem; font-weight: 600; }
+  .inicio-hero h1 { font-size: clamp(2.5rem, 6.2vw, 5rem); line-height: 0.98; letter-spacing: -0.04em; margin-top: 1.3rem; max-width: 14ch; }
+  .inicio-dek { font-size: clamp(1.05rem, 1.6vw, 1.25rem); line-height: 1.5; color: var(--hero-ink-soft); max-width: 38rem; margin-top: 1.5rem; }
+  .inicio-ctas { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 2.2rem; }
+  .inicio-hora { font-weight: 500; opacity: 0.75; }
+  .btn.inicio-btn-mint { background: var(--mint); color: #0e3b37; }
+  .btn.inicio-btn-mint:hover { background: #ffffff; }
+  .btn.inicio-btn-ghost { background: transparent; color: var(--hero-ink); box-shadow: inset 0 0 0 1.5px rgba(255, 255, 255, 0.55); }
+  .btn.inicio-btn-ghost:hover { box-shadow: inset 0 0 0 1.5px #ffffff; }
+  .btn.inicio-btn-oscuro { background: #0e3b37; color: #ffffff; }
+  .btn.inicio-btn-oscuro:hover { background: #1f5c58; }
+  .inicio-garantias { list-style: none; padding: 0; margin: 2rem 0 0; display: flex; flex-wrap: wrap; gap: 0.5rem 1.6rem; font-size: 0.9rem; color: var(--hero-ink-soft); }
+  .inicio-garantias li::before { content: '✓'; color: var(--mint); margin-right: 0.45rem; font-weight: 700; }
+
+  .inicio-tarjeta { flex: 1 1 340px; background: #ffffff; color: #123e3a; border-radius: 24px; padding: 1.6rem; display: flex; flex-direction: column; gap: 0.7rem; }
+  .inicio-tarjeta-titulo { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: #1f5c58; }
+  .inicio-tarjeta-fila { display: flex; justify-content: space-between; align-items: center; gap: 1rem; background: #eef6f4; border-radius: 16px; padding: 1rem 1.2rem; text-decoration: none; color: inherit; font-weight: 600; }
+  .inicio-tarjeta-fila.is-destacada { background: var(--mint); }
+  .inicio-tarjeta-fila:hover { outline: 2px solid #1f5c58; }
+  .inicio-tarjeta-precio { white-space: nowrap; font-family: var(--font-display); font-size: 2rem; font-weight: 800; letter-spacing: -0.02em; }
+  .inicio-tarjeta-precio small { font-family: var(--font-body); font-size: 0.85rem; font-weight: 500; margin-left: 0.15rem; }
+  .inicio-tarjeta-nota { font-size: 0.76rem; color: #4b5f5c; line-height: 1.45; }
+
+  .inicio-bloque { padding-top: 4.5rem; padding-bottom: 1rem; }
+  .inicio-eyebrow { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: var(--accent); }
+  .inicio-eyebrow-oscuro { color: #0e3b37; }
+  .inicio-eyebrow-menta { color: var(--mint); }
+  .inicio-h2 { font-size: clamp(2rem, 4vw, 3rem); line-height: 1.04; letter-spacing: -0.03em; margin-top: 0.5rem; color: var(--ink); }
+  .inicio-h2-claro { color: #ffffff; }
+  .inicio-sub { color: var(--ink-soft); margin-top: 0.8rem; max-width: 46rem; }
+  .inicio-enlace { display: inline-block; margin-top: 1.2rem; color: var(--accent); font-weight: 600; text-decoration: none; }
+
+  .inicio-servicios { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; margin-top: 2.2rem; }
+  .inicio-servicio { background: var(--paper-raised); border-radius: var(--radius); padding: 1.6rem; text-decoration: none; color: inherit; display: flex; flex-direction: column; gap: 0.6rem; transition: background-color 0.15s ease; }
+  .inicio-servicio:hover { background: var(--paper-strong); }
+  .inicio-servicio h3 { font-size: 1.4rem; color: var(--accent-strong); }
+  .inicio-servicio p { color: var(--ink-soft); line-height: 1.55; }
+
+  .inicio-cambio { background: var(--mint); color: #0e3b37; border-radius: 28px; padding: clamp(1.6rem, 4vw, 3.4rem); display: flex; flex-wrap: wrap; gap: 2.4rem; align-items: center; }
+  .inicio-cambio > div { flex: 1 1 340px; }
+  .inicio-cambio .inicio-h2 { color: #0e3b37; }
+  .inicio-cambio-desc { font-size: 1.05rem; line-height: 1.55; margin: 1rem 0 1.6rem; }
+  .inicio-cambio-pasos { flex: 1 1 340px; list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.7rem; }
+  .inicio-cambio-pasos li { background: rgba(255, 255, 255, 0.65); border-radius: 16px; padding: 1rem 1.2rem; line-height: 1.5; }
+
+  .inicio-proceso { list-style: none; padding: 0; margin: 2rem 0 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem; }
+  .inicio-proceso li { display: flex; gap: 1rem; border: 1.5px solid var(--line); border-radius: var(--radius); padding: 1.4rem; }
+  .inicio-num { flex-shrink: 0; width: 2.2rem; height: 2.2rem; border-radius: 50%; background: var(--accent-strong); color: #ffffff; display: inline-flex; align-items: center; justify-content: center; font-weight: 700; }
+  .inicio-proceso h3 { font-size: 1.1rem; }
+  .inicio-proceso p { color: var(--ink-soft); margin-top: 0.4rem; line-height: 1.5; }
+
+
+  .inicio-faq { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(380px, 100%), 1fr)); gap: 0.75rem; margin-top: 2rem; align-items: start; }
+  .inicio-faq-item { background: var(--paper-raised); border-radius: 16px; padding: 1.1rem 1.4rem; }
+  .inicio-faq-item summary { cursor: pointer; font-weight: 600; font-size: 1.02rem; color: var(--accent-strong); }
+  .inicio-faq-item p { color: var(--ink-soft); line-height: 1.6; margin-top: 0.7rem; }
+  .inicio-blog { margin-top: 1.6rem; font-size: 0.92rem; color: var(--ink-soft); }
+  .inicio-blog a { color: var(--accent); }
+
+  .inicio-contacto { background: var(--hero-bg); color: #ffffff; border-radius: 28px; padding: clamp(1.6rem, 4vw, 3.2rem); display: flex; flex-wrap: wrap; gap: 2.6rem; margin-bottom: 4rem; }
+  .inicio-contacto > div { flex: 1 1 320px; }
+  .inicio-contacto-desc { color: var(--hero-ink-soft); font-size: 1.05rem; line-height: 1.55; margin: 1rem 0 1.6rem; }
+  .inicio-contacto-form { flex: 1 1 400px; background: var(--paper); color: var(--ink); border-radius: 20px; padding: 1.6rem; }
+</style>

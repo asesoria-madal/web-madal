@@ -34,6 +34,8 @@ const es = {
   },
   form: {
     nombre: 'Nombre y apellidos *',
+    nombreOpcional: 'Nombre',
+    motivo: '¿Por qué quieres hablar con nosotros? *',
     email: 'Correo electrónico *',
     telefono: 'Teléfono',
     telefonoObligatorio: 'Teléfono *',
@@ -140,6 +142,8 @@ const ca: Textos = {
   },
   form: {
     nombre: 'Nom i cognoms *',
+    nombreOpcional: 'Nom',
+    motivo: 'Per què vols parlar amb nosaltres? *',
     email: 'Correu electrònic *',
     telefono: 'Telèfon',
     telefonoObligatorio: 'Telèfon *',
@@ -244,6 +248,8 @@ const en: Textos = {
   },
   form: {
     nombre: 'Full name *',
+    nombreOpcional: 'Name',
+    motivo: 'Why would you like to talk to us? *',
     email: 'Email *',
     telefono: 'Phone',
     telefonoObligatorio: 'Phone *',

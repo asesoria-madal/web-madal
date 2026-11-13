@@ -18,23 +18,21 @@ const esSl = tipo === 'constituir_sl';
 ---
 
 <form class={`lead-form${compact ? ' lead-form-compact' : ''}`} data-lead-form data-tipo={tipo} data-origen={origen} data-idioma={lang} data-enviando={f.enviando} data-error={f.error} data-error-privacy={f.errorPrivacy} novalidate>
-  <label class="field">{f.nombre}<input type="text" name="nombre" maxlength="150" autocomplete="name" required /></label>
+  {/* Formulario general (2026-11-13, Edurne): email y motivo obligatorios; nombre y teléfono, opcionales. */}
+  {esSl ? (
+    <label class="field">{f.nombre}<input type="text" name="nombre" maxlength="150" autocomplete="name" required /></label>
+  ) : (
+    <label class="field">
+      <span>{f.nombreOpcional} <span class="field-optional">{f.opcional}</span></span>
+      <input type="text" name="nombre" maxlength="150" autocomplete="name" />
+    </label>
+  )}
   <label class="field">{f.email}<input type="email" name="email" maxlength="254" autocomplete="email" required /></label>
 
   {!esSl && !compact && (
     <label class="field">
       <span>{f.telefono} <span class="field-optional">{f.opcional}</span></span>
       <input type="tel" name="telefono" maxlength="20" autocomplete="tel" />
-    </label>
-  )}
-
-  {!esSl && !compact && (
-    <label class="field">
-      <span>{f.perfil} <span class="field-optional">{f.opcional}</span></span>
-      <select name="perfil">
-        <option value="">{f.perfilElige}</option>
-        {f.perfiles.map(([v, l]) => <option value={v}>{l}</option>)}
-      </select>
     </label>
   )}
 
@@ -60,10 +58,7 @@ const esSl = tipo === 'constituir_sl';
   )}
 
   {!esSl && (
-    <label class="field">
-      <span>{f.mensaje} <span class="field-optional">{f.opcional}</span></span>
-      <textarea name="mensaje" rows={compact ? 2 : 3} maxlength="2000"></textarea>
-    </label>
+    <label class="field">{f.motivo}<textarea name="mensaje" rows={compact ? 2 : 4} maxlength="2000" required></textarea></label>
   )}
 
   <label class="lead-web" aria-hidden="true">Web<input type="text" name="web" tabindex="-1" autocomplete="off" /></label>
