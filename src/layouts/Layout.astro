@@ -159,7 +159,22 @@ const ogLocale: Record<Locale, string> = { es: 'es_ES', ca: 'ca_ES', en: 'en_GB'
     {/* Solo tema claro (Edurne, 2026-11-13): <html data-theme="light"> fija el claro aunque el
         sistema esté en oscuro; ya no hay botón de tema ni script que lo cambie. */}
 
-    <script defer src="https://analytics.asesoriamadal.es/script.js" data-website-id="0e8413cc-33b1-4241-8947-32950b30b593" data-domains="asesoriamadal.es"></script>
+    {/* Umami sin datos personales (2026-11-14): llegaban a las estadísticas el ?nif= y ?lead= de los
+        enlaces a los formularios y el #access_token del enlace mágico del portal. data-exclude-hash
+        quita todo lo que va tras #, y este filtro borra esos parámetros antes de enviar cada visita. */}
+    <script is:inline>
+      window.umamiSinDatosPersonales = function (tipo, datos) {
+        try {
+          if (datos && datos.url) {
+            var u = new URL(datos.url, location.origin);
+            ['nif', 'lead', 'email', 'token', 'code'].forEach(function (k) { u.searchParams.delete(k); });
+            datos.url = u.pathname + u.search;
+          }
+        } catch (e) {}
+        return datos;
+      };
+    </script>
+    <script defer src="https://analytics.asesoriamadal.es/script.js" data-website-id="0e8413cc-33b1-4241-8947-32950b30b593" data-domains="asesoriamadal.es" data-exclude-hash="true" data-before-send="umamiSinDatosPersonales"></script>
     <script>
       import '../scripts/eventos';
     </script>
