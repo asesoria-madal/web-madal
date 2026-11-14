@@ -1,0 +1,12 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Herramientas from '../../components/pages/Herramientas.astro';
+import { HERRAMIENTAS } from '../../i18n/herramientas';
+
+export const prerender = true;
+const h = HERRAMIENTAS.en;
+---
+
+<Layout lang="en" path="/en/herramientas" active="herramientas" title={h.indice.metaTitle} description={h.indice.metaDesc} breadcrumbs={[{ name: h.indice.eyebrow, path: '/herramientas' }]}>
+  <Herramientas lang="en" />
+</Layout>

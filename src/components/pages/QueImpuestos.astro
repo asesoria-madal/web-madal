@@ -1,0 +1,88 @@
+---
+// "¿Qué impuestos tengo que presentar?" (2026-11-14). Preguntas con respuesta única; algunas solo se
+// muestran según otra respuesta (campo `solo`: 'autonomo' si trabaja como autónomo, 'directa' si es
+// autónomo en estimación directa). Reglas en el script, de dónde salen en src/i18n/herramientas.ts.
+import type { Locale } from '../../i18n/ui';
+import { HERRAMIENTAS } from '../../i18n/herramientas';
+import HerramientaShell from '../herramientas/HerramientaShell.astro';
+
+interface Props { lang: Locale; }
+const { lang } = Astro.props;
+const m = HERRAMIENTAS[lang].impuestos;
+const datos = JSON.stringify({ modelos: m.modelos, trimestrales: m.trimestrales, anuales: m.anuales, ninguno: m.ninguno, notaSl: m.notaSl, nota130: m.nota130 });
+---
+
+<HerramientaShell lang={lang} title={m.title} dek={m.dek} herramienta="impuestos">
+  <div class="hr-calc" id="calc-impuestos" data-datos={datos}>
+    <form class="hr-form">
+      {m.preguntas.map((p) => (
+        <fieldset class="hr-campo" data-pregunta={p.id} data-solo={p.solo}>
+          <legend>{p.q}</legend>
+          <div class="hr-segmentos hr-segmentos-col">
+            {p.opciones.map((o, i) => (
+              <label><input type="radio" name={p.id} value={o.v} checked={i === 0} /><span>{o.t}</span></label>
+            ))}
+          </div>
+        </fieldset>
+      ))}
+    </form>
+    <div class="hr-resultado" aria-live="polite">
+      <h2 class="hr-resultado-titulo">{m.resultadoTitle}</h2>
+      <div data-r="lista"></div>
+    </div>
+  </div>
+</HerramientaShell>
+
+<script>
+  import { track } from '../../scripts/analytics';
+  type Datos = { modelos: Record<string, { nombre: string; cuando: string }>; trimestrales: string; anuales: string; ninguno: string; notaSl: string; nota130: string };
+  function init() {
+    const raiz = document.getElementById('calc-impuestos');
+    if (!raiz || raiz.dataset.listo) return;
+    raiz.dataset.listo = '1';
+    const d = JSON.parse(raiz.dataset.datos || '{}') as Datos;
+    const form = raiz.querySelector('form') as HTMLFormElement;
+    const lista = raiz.querySelector('[data-r="lista"]') as HTMLElement;
+    let usado = false;
+    const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;');
+    const calcular = () => {
+      const f = Object.fromEntries(new FormData(form)) as Record<string, string>;
+      const autonomo = f.forma === 'autonomo';
+      const directa = autonomo && f.estimacion !== 'modulos';
+      // Preguntas que dependen de otra respuesta.
+      raiz.querySelectorAll<HTMLElement>('[data-solo]').forEach((el) => {
+        const solo = el.dataset.solo;
+        el.hidden = solo === 'autonomo' ? !autonomo : solo === 'directa' ? !directa : false;
+      });
+      const tri: string[] = [];
+      const anu: string[] = [];
+      const notas: string[] = [];
+      if (f.iva === 'si') { tri.push('303'); anu.push('390'); }
+      if (autonomo) {
+        if (!directa) tri.push('131');
+        else if (f.retenciones === 'si') notas.push(d.nota130);
+        else tri.push('130');
+        anu.push('100');
+      } else {
+        tri.push('202');
+        anu.push('200');
+        notas.push(d.notaSl);
+      }
+      if (f.trabajadores === 'si') { tri.push('111'); anu.push('190'); }
+      if (f.alquiler === 'si') { tri.push('115'); anu.push('180'); }
+      if (f.ue === 'si') tri.push('349');
+      if (f.grandes === 'si') anu.push('347');
+      const bloque = (titulo: string, ids: string[]) => ids.length ? `<h3>${esc(titulo)}</h3><ul class="hr-modelos">${ids.map((id) => `<li><strong>${esc(d.modelos[id].nombre)}</strong><span>${esc(d.modelos[id].cuando)}</span></li>`).join('')}</ul>` : '';
+      lista.innerHTML = (tri.length || anu.length)
+        ? bloque(d.trimestrales, tri) + bloque(d.anuales, anu) + notas.map((n) => `<p class="hr-explica">${esc(n)}</p>`).join('')
+        : `<p class="hr-explica">${esc(d.ninguno)}</p>`;
+    };
+    form.addEventListener('submit', (e) => e.preventDefault());
+    form.addEventListener('input', () => {
+      calcular();
+      if (!usado) { usado = true; track('herramienta_uso', { herramienta: 'impuestos' }); }
+    });
+    calcular();
+  }
+  document.addEventListener('astro:page-load', init);
+</script>

@@ -1,0 +1,57 @@
+---
+// Marco común de las herramientas (2026-11-14): cabecera oscura, la calculadora (slot), aviso de
+// cálculo orientativo, llamada a contactar y preguntas frecuentes (también como datos estructurados).
+import { localizedPath } from '../../i18n/utils';
+import type { Locale } from '../../i18n/ui';
+import { HERRAMIENTAS } from '../../i18n/herramientas';
+
+interface Props { lang: Locale; title: string; dek: string; info?: { q: string; a: string }[]; infoTitle?: string; herramienta: string }
+const { lang, title, dek, info = [], infoTitle, herramienta } = Astro.props;
+const h = HERRAMIENTAS[lang];
+const LLAMADA = 'https://meetings-eu1.hubspot.com/asesoria-madal';
+const faqLd = info.length ? {
+  '@context': 'https://schema.org', '@type': 'FAQPage',
+  mainEntity: info.map((x) => ({ '@type': 'Question', name: x.q, acceptedAnswer: { '@type': 'Answer', text: x.a } })),
+} : null;
+---
+
+<section class="hr-hero">
+  <div class="page hr-hero-in">
+    <a class="hr-eyebrow" href={localizedPath('/herramientas', lang)}>← {h.comun.volver}</a>
+    <h1>{title}</h1>
+    <p class="hr-dek">{dek}</p>
+  </div>
+</section>
+
+<section class="page hr-cuerpo" data-herramienta={herramienta}>
+  <slot />
+  <p class="hr-aviso">{h.comun.aviso}</p>
+</section>
+
+<section class="page hr-bloque">
+  <div class="hr-cta">
+    <div>
+      <h2>{h.comun.ctaTitle}</h2>
+      <p>{h.comun.ctaText}</p>
+    </div>
+    <div class="hr-cta-botones">
+      <a class="btn hr-btn-mint" href={localizedPath('/contacto', lang)} data-umami-event="herramienta_cta" data-umami-event-herramienta={herramienta}>{h.comun.ctaBtn}</a>
+      <a class="btn hr-btn-ghost" href={LLAMADA} target="_blank" rel="noopener" data-umami-event="llamada_click" data-umami-event-origen={`herramienta_${herramienta}`}>{h.comun.ctaLlamada}</a>
+    </div>
+  </div>
+</section>
+
+{info.length > 0 && (
+  <section class="page hr-bloque hr-ultimo">
+    <h2 class="hr-h2">{infoTitle}</h2>
+    <div class="hr-faq">
+      {info.map((x) => (
+        <details>
+          <summary>{x.q}</summary>
+          <p>{x.a}</p>
+        </details>
+      ))}
+    </div>
+    <script type="application/ld+json" is:inline set:html={JSON.stringify(faqLd)} />
+  </section>
+)}

@@ -1,6 +1,7 @@
 ---
 import { useTranslations, localizedPath } from '../i18n/utils';
 import type { Locale } from '../i18n/ui';
+import { HERRAMIENTAS } from '../i18n/herramientas';
 
 interface Props { lang: Locale; }
 const { lang } = Astro.props;
@@ -22,6 +23,7 @@ const home = lang === 'es' ? '/' : `/${lang}/`;
           <a href={localizedPath('/constituir-sl', lang)}>{t.nav.sl}</a>
           <a href={localizedPath('/alta', lang)}>{t.nav.alta}</a>
           <a href={localizedPath('/blog', lang)}>{t.nav.blog}</a>
+          <a href={localizedPath('/herramientas', lang)}>{HERRAMIENTAS[lang].nav}</a>
           <a href={localizedPath('/servicios', lang)}>{t.nav.servicios}</a>
           <a href={localizedPath('/equipo', lang)}>{t.nav.conocenos}</a>
           <a href={localizedPath('/portal', lang)}>{t.footer.portal}</a>

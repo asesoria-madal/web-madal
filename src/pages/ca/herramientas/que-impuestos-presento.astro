@@ -1,0 +1,12 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import QueImpuestos from '../../../components/pages/QueImpuestos.astro';
+import { HERRAMIENTAS } from '../../../i18n/herramientas';
+
+export const prerender = true;
+const h = HERRAMIENTAS.ca;
+---
+
+<Layout lang="ca" path="/ca/herramientas/que-impuestos-presento" active="herramientas" title={h.impuestos.metaTitle} description={h.impuestos.metaDesc} breadcrumbs={[{ name: h.indice.eyebrow, path: '/herramientas' }, { name: h.impuestos.title, path: '/herramientas/que-impuestos-presento' }]}>
+  <QueImpuestos lang="ca" />
+</Layout>

@@ -1,0 +1,12 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import CuotaAutonomos from '../../components/pages/CuotaAutonomos.astro';
+import { HERRAMIENTAS } from '../../i18n/herramientas';
+
+export const prerender = true;
+const h = HERRAMIENTAS.es;
+---
+
+<Layout lang="es" path="/herramientas/cuota-autonomos" active="herramientas" title={h.cuota.metaTitle} description={h.cuota.metaDesc} breadcrumbs={[{ name: h.indice.eyebrow, path: '/herramientas' }, { name: h.cuota.title, path: '/herramientas/cuota-autonomos' }]}>
+  <CuotaAutonomos lang="es" />
+</Layout>

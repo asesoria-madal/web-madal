@@ -1,0 +1,12 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import CalculadoraFactura from '../../../components/pages/CalculadoraFactura.astro';
+import { HERRAMIENTAS } from '../../../i18n/herramientas';
+
+export const prerender = true;
+const h = HERRAMIENTAS.en;
+---
+
+<Layout lang="en" path="/en/herramientas/calculadora-factura" active="herramientas" title={h.factura.metaTitle} description={h.factura.metaDesc} breadcrumbs={[{ name: h.indice.eyebrow, path: '/herramientas' }, { name: h.factura.title, path: '/herramientas/calculadora-factura' }]}>
+  <CalculadoraFactura lang="en" />
+</Layout>

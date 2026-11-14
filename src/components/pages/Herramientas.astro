@@ -1,0 +1,36 @@
+---
+// Índice de herramientas (2026-11-14). Textos en src/i18n/herramientas.ts.
+import { localizedPath } from '../../i18n/utils';
+import type { Locale } from '../../i18n/ui';
+import { HERRAMIENTAS, RUTAS_HERRAMIENTAS } from '../../i18n/herramientas';
+
+interface Props { lang: Locale; }
+const { lang } = Astro.props;
+const h = HERRAMIENTAS[lang];
+const tarjetas = [
+  { titulo: h.factura.title, desc: h.factura.card, href: localizedPath(RUTAS_HERRAMIENTAS.factura, lang), icono: '€' },
+  { titulo: h.cuota.title, desc: h.cuota.card, href: localizedPath(RUTAS_HERRAMIENTAS.cuota, lang), icono: '%' },
+  { titulo: h.impuestos.title, desc: h.impuestos.card, href: localizedPath(RUTAS_HERRAMIENTAS.impuestos, lang), icono: '✓' },
+];
+---
+
+<section class="hr-hero">
+  <div class="page hr-hero-in">
+    <p class="hr-eyebrow">{h.indice.eyebrow}</p>
+    <h1>{h.indice.title}</h1>
+    <p class="hr-dek">{h.indice.dek}</p>
+  </div>
+</section>
+
+<section class="page hr-bloque hr-ultimo">
+  <div class="hr-tarjetas">
+    {tarjetas.map((t) => (
+      <a class="hr-tarjeta" href={t.href}>
+        <span class="hr-tarjeta-icono" aria-hidden="true">{t.icono}</span>
+        <h2>{t.titulo}</h2>
+        <p>{t.desc}</p>
+        <span class="hr-tarjeta-abrir">{h.indice.abrir} →</span>
+      </a>
+    ))}
+  </div>
+</section>
