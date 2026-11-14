@@ -1462,7 +1462,9 @@ body.portal-app .portal-box { margin-top: 0; }
   border-radius: 8px;
   padding: 0.65rem 0.9rem;
 }
-.factura-nombre { font-weight: 600; margin-right: auto; }
+/* Siempre en dos líneas (Edurne, 2026-11-14): arriba el nombre del documento y debajo la fecha de
+   subida y "Descargar", sea el nombre corto o largo. */
+.factura-nombre { font-weight: 600; flex-basis: 100%; overflow-wrap: anywhere; }
 .factura-meta { font-size: 0.82rem; color: var(--ink-soft); }
 .factura-descargar {
   font-size: 0.82rem;
