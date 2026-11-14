@@ -4,6 +4,7 @@ slug: facturacion-electronica-obligatoria
 title: 'Mandatory electronic invoicing: what it is and how it differs from Verifactu'
 description: 'Who it applies to, from when, and how it differs from Verifactu: the two rules people mix up the most.'
 seoTitle: "Mandatory e-invoicing vs. Verifactu: what's the difference"
+seoDescription: "Mandatory e-invoicing in Spain: who must comply, from when, and how it differs from Verifactu, the two rules people mix up the most."
 cat: fiscalidad
 date: 2026-08-19
 updatedDate: 2026-10-13

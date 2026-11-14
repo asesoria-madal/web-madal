@@ -4,6 +4,7 @@ slug: contratar-primer-empleado-autonomo
 title: 'Hiring your first employee as a self-employed worker: the step-by-step guide'
 description: 'Registering as an employer, the contract, payroll and social security - what changes the day you stop working alone.'
 seoTitle: "Hiring your first employee as self-employed: step by step"
+seoDescription: "Registering as an employer, the contract, payroll and social security: what changes when you hire your first employee as a freelancer in Spain."
 cat: laboral
 date: 2026-09-27
 sources:

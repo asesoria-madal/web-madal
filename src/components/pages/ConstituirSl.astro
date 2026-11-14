@@ -24,9 +24,25 @@ const faqLd = {
   '@type': 'FAQPage',
   mainEntity: s.faq.map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })),
 };
+// Pasos marcados como HowTo (auditoría SEO, 2026-11-14): los mismos que se ven en la página.
+const pasosLd = {
+  '@context': 'https://schema.org',
+  '@type': 'HowTo',
+  name: s.title,
+  step: s.pasos.map(([titulo, desc], i) => ({ '@type': 'HowToStep', position: i + 1, name: titulo, text: desc })),
+};
+// Qué leer en voz alta: el titular y la entradilla.
+const vozLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  url,
+  speakable: { '@type': 'SpeakableSpecification', cssSelector: ['#view-constituir-sl h1', '#view-constituir-sl .section-sub'] },
+};
 ---
 
 <script type="application/ld+json" is:inline set:html={JSON.stringify(servicioLd)} />
+<script type="application/ld+json" is:inline set:html={JSON.stringify(pasosLd)} />
+<script type="application/ld+json" is:inline set:html={JSON.stringify(vozLd)} />
 <script type="application/ld+json" is:inline set:html={JSON.stringify(faqLd)} />
 
 <div id="view-constituir-sl">

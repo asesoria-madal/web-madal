@@ -4,6 +4,7 @@ slug: margen-bruto-vs-margen-neto
 title: 'Margen bruto vs. margen neto: por qué facturar mucho no es lo mismo que ganar dinero'
 description: 'Dos negocios pueden facturar lo mismo y uno ganar dinero de verdad mientras el otro apenas sobrevive.'
 seoTitle: "Margen bruto vs. margen neto: facturar no es ganar dinero"
+seoDescription: "Diferencia entre margen bruto y margen neto, con ejemplos: por qué dos negocios que facturan lo mismo pueden ganar cantidades muy distintas."
 cat: finanzas
 date: 2026-10-20
 ---

@@ -17,7 +17,7 @@ const comunidades = (excl: [string, string, string]) => [
 const es = {
   meta: {
     contactoTitle: 'Contacto · Asesoría Madal',
-    contactoDesc: 'Cuéntanos qué necesitas y te respondemos en menos de 24 horas laborables. Gestoría y asesoría para autónomos y pymes.',
+    contactoDesc: 'Cuéntanos qué necesitas y te respondemos en menos de 24 horas laborables, sin compromiso. Gestoría y asesoría online para autónomos, SL y pymes.',
     slTitle: 'Constituir una SL en España por 175 € + IVA · Asesoría Madal',
     slDesc: 'Constituimos tu SL en España en menos de una semana por 175 € + IVA, más 60 € + IVA de notaría y 40 € + IVA de Registro Mercantil. Solicitud del nombre incluida.',
     slBreadcrumb: 'Constituir una SL',
@@ -125,7 +125,7 @@ type Textos = typeof es;
 const ca: Textos = {
   meta: {
     contactoTitle: 'Contacte · Asesoría Madal',
-    contactoDesc: 'Explica’ns què necessites i et responem en menys de 24 hores laborables. Gestoria i assessoria per a autònoms i pimes.',
+    contactoDesc: 'Explica’ns què necessites i et responem en menys de 24 hores laborables, sense compromís. Gestoria i assessoria en línia per a autònoms, SL i pimes.',
     slTitle: 'Constituir una SL a Espanya per 175 € + IVA · Asesoría Madal',
     slDesc: 'Constituïm la teva SL a Espanya en menys d’una setmana per 175 € + IVA, més 60 € + IVA de notaria i 40 € + IVA de Registre Mercantil. Sol·licitud del nom inclosa.',
     slBreadcrumb: 'Constituir una SL',

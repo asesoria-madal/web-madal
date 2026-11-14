@@ -4,12 +4,17 @@ slug: factura-simplificada-vs-completa
 title: 'Simplified invoices (receipts) vs. full invoices: when you can use each one'
 description: "It's not a matter of preference - the law sets out when a receipt is enough and when a full invoice is required."
 seoTitle: "Simplified vs. full invoices: when to use each one"
+seoDescription: "When a receipt (simplified invoice) is enough in Spain and when you need a full invoice: the €400 limit, the exceptions and the required details."
 cat: contabilidad
 date: 2026-10-04
 sources:
   - label: 'Royal Decree 1619/2012, Spanish Invoicing Regulation, arts. 4-7 - cases for simplified invoices and required content of each invoice type'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2012-14696'
 ---
+
+## What is a simplified invoice?
+
+A simplified invoice (commonly called a receipt) is a type of invoice that states the total amount and the VAT rate applied without listing the recipient's identifying details. Spanish invoicing law only allows it up to a set amount (as a general rule, €400 including VAT) or in specific cases set out by the regulations — outside those, a full invoice is required.
 
 ## It's not "which one I prefer", it's "which one applies"
 

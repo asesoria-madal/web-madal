@@ -11,7 +11,16 @@ const c = CAMBIO[lang];
 const LLAMADA = 'https://meetings-eu1.hubspot.com/asesoria-madal';
 const formAutonomo = localizedPath('/formulario-traspaso-autonomo', lang);
 const formSl = localizedPath('/formulario-traspaso-sl', lang);
+// Pasos marcados como HowTo (auditoría SEO, 2026-11-14): los mismos que se ven en la página.
+const pasosLd = {
+  '@context': 'https://schema.org',
+  '@type': 'HowTo',
+  name: c.title,
+  step: c.pasos.map((p, i) => ({ '@type': 'HowToStep', position: i + 1, name: p.title, text: p.desc })),
+};
 ---
+
+<script type="application/ld+json" is:inline set:html={JSON.stringify(pasosLd)} />
 
 <section class="cambio-hero">
   <div class="page cambio-hero-in">

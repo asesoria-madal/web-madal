@@ -3,6 +3,7 @@ lang: en
 slug: coche-sl-renting-leasing-compra
 title: 'A car for your company (SL): buy, long-term rental or leasing?'
 description: 'We compare buying, renting and leasing with a 4-year example and real tax-saving figures, so you know which fits your case.'
+seoTitle: "Company car for an SL in Spain: buy, rent or lease?"
 cat: fiscalidad
 date: 2026-09-06
 updatedDate: 2026-09-24

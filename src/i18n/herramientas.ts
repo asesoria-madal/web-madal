@@ -40,6 +40,7 @@ export const HERRAMIENTAS: Record<Locale, {
     resultadoTitle: string; trimestrales: string; anuales: string; ninguno: string;
     modelos: Record<string, { nombre: string; cuando: string }>;
     notaSl: string; nota130: string;
+    infoTitle: string; info: { q: string; a: string }[];
   };
 }> = {
   es: {
@@ -61,7 +62,7 @@ export const HERRAMIENTAS: Record<Locale, {
       volver: 'Todas las herramientas',
     },
     factura: {
-      metaTitle: 'Calculadora de factura con IVA y retención de IRPF · Asesoría Madal',
+      metaTitle: 'Calculadora de factura con IVA y retención · Asesoría Madal',
       metaDesc: 'Calcula el total de tu factura con IVA y retención de IRPF (15 % o 7 %), o al revés: cuánto facturar para cobrar una cantidad. Gratis.',
       card: 'Calcula el total con IVA y retención de IRPF, o cuánto facturar para cobrar lo que quieres.',
       title: 'Calculadora de factura con IVA y retención',
@@ -89,7 +90,7 @@ export const HERRAMIENTAS: Record<Locale, {
       ],
     },
     cuota: {
-      metaTitle: 'Calculadora de cuota de autónomos 2026 por tramos · Asesoría Madal',
+      metaTitle: 'Calculadora cuota de autónomos 2026 · Asesoría Madal',
       metaDesc: 'Calcula tu cuota de autónomos en 2026 según tus ingresos y gastos: tramo, base mínima y cuota mensual con la tabla oficial del BOE.',
       card: 'Tu tramo y tu cuota mensual en 2026 según lo que vas a ganar, con la tabla oficial.',
       title: 'Calculadora de cuota de autónomos 2026',
@@ -120,7 +121,7 @@ export const HERRAMIENTAS: Record<Locale, {
       ],
     },
     impuestos: {
-      metaTitle: '¿Qué impuestos tengo que presentar? Modelos para autónomos y SL · Asesoría Madal',
+      metaTitle: '¿Qué impuestos tengo que presentar? · Asesoría Madal',
       metaDesc: 'Responde 6 preguntas y descubre qué modelos tienes que presentar (303, 130, 111, 115, 349, 347, 200…) y en qué plazos. Para autónomos y SL.',
       card: 'Responde unas preguntas y te decimos qué modelos te tocan y cuándo se presentan.',
       title: '¿Qué impuestos tengo que presentar?',
@@ -156,6 +157,12 @@ export const HERRAMIENTAS: Record<Locale, {
       },
       notaSl: 'El modelo 202 solo es obligatorio si el Impuesto de Sociedades del año anterior salió a pagar. Además, la SL deposita cada año sus cuentas en el Registro Mercantil.',
       nota130: 'Como más del 70 % de tus ingresos lleva retención, no tienes que presentar el modelo 130.',
+      infoTitle: 'Preguntas frecuentes',
+      info: [
+        { q: '¿Cuándo no tengo que presentar el modelo 130?', a: 'Si eres profesional y el año anterior al menos el 70 % de tus ingresos de la actividad llevó retención. Tampoco lo presentas si tributas en módulos (presentas el 131) ni si trabajas con una SL.' },
+        { q: '¿Tengo que presentar el 303 si no he facturado nada?', a: 'Sí. Si estás dado de alta en el IVA, presentas el modelo 303 cada trimestre aunque no hayas tenido actividad: sale a cero, pero hay que presentarlo.' },
+        { q: '¿Qué pasa si presento un modelo fuera de plazo?', a: 'Si sale a pagar y lo presentas tú antes de que Hacienda te lo reclame, pagas un recargo: el 1 % más un 1 % por cada mes completo de retraso, hasta 12 meses. A partir de ahí, el 15 % más intereses.' },
+      ],
     },
   },
   ca: {
@@ -177,7 +184,7 @@ export const HERRAMIENTAS: Record<Locale, {
       volver: 'Totes les eines',
     },
     factura: {
-      metaTitle: 'Calculadora de factura amb IVA i retenció d’IRPF · Asesoría Madal',
+      metaTitle: 'Calculadora de factura amb IVA i retenció · Asesoría Madal',
       metaDesc: 'Calcula el total de la teva factura amb IVA i retenció d’IRPF (15 % o 7 %), o al revés: quant facturar per cobrar una quantitat. Gratis.',
       card: 'Calcula el total amb IVA i retenció d’IRPF, o quant facturar per cobrar el que vols.',
       title: 'Calculadora de factura amb IVA i retenció',
@@ -205,7 +212,7 @@ export const HERRAMIENTAS: Record<Locale, {
       ],
     },
     cuota: {
-      metaTitle: 'Calculadora de quota d’autònoms 2026 per trams · Asesoría Madal',
+      metaTitle: 'Calculadora quota d’autònoms 2026 · Asesoría Madal',
       metaDesc: 'Calcula la teva quota d’autònoms el 2026 segons els teus ingressos i despeses: tram, base mínima i quota mensual amb la taula oficial del BOE.',
       card: 'El teu tram i la teva quota mensual el 2026 segons el que guanyaràs, amb la taula oficial.',
       title: 'Calculadora de quota d’autònoms 2026',
@@ -236,7 +243,7 @@ export const HERRAMIENTAS: Record<Locale, {
       ],
     },
     impuestos: {
-      metaTitle: 'Quins impostos he de presentar? Models per a autònoms i SL · Asesoría Madal',
+      metaTitle: 'Quins impostos he de presentar? · Asesoría Madal',
       metaDesc: 'Respon 6 preguntes i descobreix quins models has de presentar (303, 130, 111, 115, 349, 347, 200…) i en quins terminis. Per a autònoms i SL.',
       card: 'Respon unes preguntes i et diem quins models et toquen i quan es presenten.',
       title: 'Quins impostos he de presentar?',
@@ -272,12 +279,18 @@ export const HERRAMIENTAS: Record<Locale, {
       },
       notaSl: 'El model 202 només és obligatori si l’Impost de Societats de l’any anterior va sortir a pagar. A més, la SL diposita cada any els seus comptes al Registre Mercantil.',
       nota130: 'Com que més del 70 % dels teus ingressos porta retenció, no has de presentar el model 130.',
+      infoTitle: 'Preguntes freqüents',
+      info: [
+        { q: 'Quan no he de presentar el model 130?', a: 'Si ets professional i l’any anterior almenys el 70 % dels ingressos de l’activitat va portar retenció. Tampoc el presentes si tributes en mòduls (presentes el 131) ni si treballes amb una SL.' },
+        { q: 'He de presentar el 303 si no he facturat res?', a: 'Sí. Si estàs donat d’alta a l’IVA, presentes el model 303 cada trimestre encara que no hagis tingut activitat: surt a zero, però s’ha de presentar.' },
+        { q: 'Què passa si presento un model fora de termini?', a: 'Si surt a pagar i el presentes tu abans que Hisenda te’l reclami, pagues un recàrrec: l’1 % més un 1 % per cada mes complet de retard, fins a 12 mesos. A partir d’aquí, el 15 % més interessos.' },
+      ],
     },
   },
   en: {
     nav: 'Tools',
     indice: {
-      metaTitle: 'Free tools for freelancers and small businesses in Spain · Asesoría Madal',
+      metaTitle: 'Free tools for freelancers in Spain · Asesoría Madal',
       metaDesc: 'Invoice calculator with VAT and income tax withholding, 2026 self-employed contribution by bracket, and which tax returns you need to file. Free, no sign-up.',
       eyebrow: 'Tools',
       title: 'Free calculators for your numbers',
@@ -293,7 +306,7 @@ export const HERRAMIENTAS: Record<Locale, {
       volver: 'All tools',
     },
     factura: {
-      metaTitle: 'Spanish invoice calculator with VAT and IRPF withholding · Asesoría Madal',
+      metaTitle: 'Spain invoice calculator: VAT and IRPF · Asesoría Madal',
       metaDesc: 'Work out your invoice total with Spanish VAT and IRPF withholding (15% or 7%), or the other way round: how much to invoice to receive a set amount. Free.',
       card: 'Work out the total with VAT and income tax withholding, or how much to invoice to get paid what you want.',
       title: 'Invoice calculator with VAT and withholding',
@@ -321,7 +334,7 @@ export const HERRAMIENTAS: Record<Locale, {
       ],
     },
     cuota: {
-      metaTitle: 'Spain self-employed contribution calculator 2026 by bracket · Asesoría Madal',
+      metaTitle: 'Spain self-employed contribution 2026 · Asesoría Madal',
       metaDesc: 'Work out your 2026 self-employed Social Security contribution from your income and expenses: bracket, minimum base and monthly payment, using the official BOE table.',
       card: 'Your bracket and monthly contribution in 2026 based on what you expect to earn, using the official table.',
       title: 'Self-employed contribution calculator 2026',
@@ -352,7 +365,7 @@ export const HERRAMIENTAS: Record<Locale, {
       ],
     },
     impuestos: {
-      metaTitle: 'Which tax returns do I need to file in Spain? Freelancers and SL · Asesoría Madal',
+      metaTitle: 'Which Spanish tax forms do I file? · Asesoría Madal',
       metaDesc: 'Answer 6 questions and find out which Spanish tax forms you must file (303, 130, 111, 115, 349, 347, 200…) and when. For freelancers and SLs.',
       card: 'Answer a few questions and we’ll tell you which forms apply to you and when they are due.',
       title: 'Which tax returns do I need to file?',
@@ -388,6 +401,12 @@ export const HERRAMIENTAS: Record<Locale, {
       },
       notaSl: 'Form 202 is only mandatory if the previous year’s corporate tax came out payable. The SL also files its annual accounts with the Companies Registry every year.',
       nota130: 'As more than 70% of your income carries withholding, you don’t need to file form 130.',
+      infoTitle: 'Frequently asked questions',
+      info: [
+        { q: 'When don’t I need to file form 130?', a: 'If you are a professional and, in the previous year, at least 70% of your business income carried withholding. You also don’t file it if you are taxed under modules (you file form 131) or if you trade through an SL.' },
+        { q: 'Do I have to file form 303 if I haven’t invoiced anything?', a: 'Yes. If you are registered for VAT, you file form 303 every quarter even with no activity: it comes out at zero, but it still has to be filed.' },
+        { q: 'What happens if I file a form late?', a: 'If it comes out payable and you file it yourself before the tax office asks for it, you pay a surcharge: 1% plus 1% for each full month of delay, up to 12 months. After that, 15% plus interest.' },
+      ],
     },
   },
 };

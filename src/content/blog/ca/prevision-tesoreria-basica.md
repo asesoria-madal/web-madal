@@ -3,6 +3,7 @@ lang: ca
 slug: prevision-tesoreria-basica
 title: 'Previsió de tresoreria bàsica per no quedar-te sense liquiditat'
 description: 'Tenir benefici sobre el paper i tenir diners al banc són dues coses diferents - la tresoreria és la que et deixa pagar nòmines.'
+seoTitle: "Previsió de tresoreria bàsica per no quedar-te sense diners"
 cat: finanzas
 date: 2026-10-23
 ---

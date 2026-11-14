@@ -41,6 +41,13 @@ const faqLd = {
   '@type': 'FAQPage',
   mainEntity: h.faq.items.map((x) => ({ '@type': 'Question', name: x.q, acceptedAnswer: { '@type': 'Answer', text: x.a } })),
 };
+// Qué leer en voz alta (asistentes de voz; auditoría SEO, 2026-11-14): el titular y la entradilla.
+const vozLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  url: 'https://asesoriamadal.es' + (lang === 'es' ? '/' : `/${lang}/`),
+  speakable: { '@type': 'SpeakableSpecification', cssSelector: ['.inicio-hero h1', '.inicio-dek'] },
+};
 ---
 
 <div id="view-home">
@@ -227,6 +234,7 @@ const faqLd = {
 </div>
 
 <script type="application/ld+json" set:html={JSON.stringify(faqLd)} />
+<script type="application/ld+json" set:html={JSON.stringify(vozLd)} />
 
 <style>
   .inicio-hero { background: var(--hero-bg); color: var(--hero-ink); }

@@ -4,6 +4,7 @@ slug: contratar-primer-empleado-autonomo
 title: 'Contratar a tu primer empleado siendo autónomo: la guía paso a paso'
 description: 'Alta como empleador, contrato, nóminas y seguros sociales - lo que cambia el día que dejas de trabajar solo.'
 seoTitle: "Contratar a tu primer empleado siendo autónomo: paso a paso"
+seoDescription: "Alta como empleador, contrato, nóminas y seguros sociales: todo lo que cambia el día que contratas a tu primer trabajador siendo autónomo."
 cat: laboral
 date: 2026-09-27
 sources:

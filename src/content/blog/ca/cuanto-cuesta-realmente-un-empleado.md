@@ -4,6 +4,7 @@ slug: cuanto-cuesta-realmente-un-empleado
 title: 'Quant costa realment un treballador: cost empresa vs. salari net'
 description: 'El salari que veu el teu treballador a la nòmina no és ni de lluny el que et costa a tu cada mes.'
 seoDescription: "El salari de la nòmina no és el que et costa un treballador. Què cotitza l'empresa a la Seguretat Social i quant suma, amb un exemple amb diversos sous."
+seoTitle: "Quant costa un treballador: cost empresa vs. salari net"
 cat: laboral
 date: 2026-10-07
 sources:

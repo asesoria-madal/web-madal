@@ -43,6 +43,8 @@ export default defineConfig({
         !page.includes('/privacidad') &&
         !page.includes('/cookies') &&
         !page.includes('/formulario-') &&
+        // /portal: acceso de clientes, sin valor en buscadores (noindex desde 2026-11-14).
+        !/\/portal\/?$/.test(page) &&
         !/\/pricing\/?$/.test(page),
       // Sin esto el sitemap no llevaba <lastmod> en ninguna URL. Usamos la
       // fecha de este build: es un dato real (cuándo se generó este HTML

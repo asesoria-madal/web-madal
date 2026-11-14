@@ -4,6 +4,7 @@ slug: balance-de-situacion
 title: 'Balance de situación: qué es, sus tres partes y cómo leerlo (con ejemplo)'
 description: 'Activo, pasivo y patrimonio neto explicados con un ejemplo numérico, y por qué merece la pena mirarlo cada trimestre.'
 seoTitle: "Balance de situación: qué es y cómo leerlo (con ejemplo)"
+seoDescription: "Activo, pasivo y patrimonio neto explicados con un ejemplo numérico, y por qué merece la pena mirar el balance de tu empresa cada trimestre."
 cat: contabilidad
 date: 2026-08-18
 ---

@@ -4,6 +4,7 @@ slug: cuanto-cuesta-realmente-un-empleado
 title: 'What an employee really costs: cost to the company vs. net salary'
 description: 'The salary your employee sees on their payslip is nowhere near what they cost you each month.'
 seoDescription: "The salary on the payslip isn't what an employee costs you. What the company pays in social security and how it adds up, with examples at several salaries."
+seoTitle: "What an employee really costs in Spain: company vs. net"
 cat: laboral
 date: 2026-10-07
 sources:

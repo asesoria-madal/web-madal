@@ -4,12 +4,17 @@ slug: factura-simplificada-vs-completa
 title: 'Factura simplificada (ticket) vs. factura completa: cuándo puedes usar cada una'
 description: 'No es una cuestión de preferencia - la ley marca cuándo un ticket basta y cuándo hace falta una factura completa.'
 seoTitle: "Factura simplificada vs. completa: cuándo usar cada una"
+seoDescription: "Cuándo basta un ticket o factura simplificada y cuándo necesitas una factura completa: el límite de 400 €, las excepciones y los datos obligatorios."
 cat: contabilidad
 date: 2026-10-04
 sources:
   - label: 'Real Decreto 1619/2012, Reglamento de facturación, arts. 4-7 - supuestos de factura simplificada y contenido de cada tipo de factura'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2012-14696'
 ---
+
+## Qué es una factura simplificada
+
+Una factura simplificada (lo que habitualmente llamamos ticket) es un tipo de factura que indica el importe total y el tipo de IVA aplicado sin recoger los datos identificativos del destinatario. La normativa de facturación española solo permite emitirla hasta un importe fijado (con carácter general, 400 € IVA incluido) o en los supuestos concretos que marca el reglamento — fuera de esos casos, hace falta una factura completa.
 
 ## No es "cuál prefiero", es "cuál me corresponde"
 

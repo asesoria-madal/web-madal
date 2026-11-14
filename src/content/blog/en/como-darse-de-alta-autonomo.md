@@ -4,6 +4,7 @@ slug: como-darse-de-alta-autonomo
 title: 'How to register as self-employed in Spain: when, how and what it costs with us'
 description: 'When you must register, which steps are involved, how we handle it, how long it takes and what it costs.'
 seoTitle: "Registering as self-employed in Spain: when, how and cost"
+seoDescription: "When you must register as self-employed in Spain, the steps with the Tax Agency and Social Security, how long it takes and what it costs with us."
 cat: fiscalidad
 date: 2026-10-05
 updatedDate: 2026-11-14

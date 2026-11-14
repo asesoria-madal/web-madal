@@ -4,6 +4,7 @@ slug: facturar-gratis-con-verifactu
 title: 'No, no necesitas pagar ningún programa para cumplir con Verifactu'
 description: 'Lo que las plataformas de facturación no te cuentan: Hacienda ofrece una alternativa gratuita.'
 seoDescription: "Lo que las plataformas de facturación no te cuentan: Hacienda ofrece una aplicación gratuita para cumplir Verifactu. Dónde se queda corta y cuándo compensa pagar."
+seoTitle: "Verifactu: no necesitas pagar un programa para cumplir"
 cat: fiscalidad
 date: 2026-08-21
 updatedDate: 2026-09-23

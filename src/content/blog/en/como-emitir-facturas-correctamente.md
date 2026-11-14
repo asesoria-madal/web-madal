@@ -4,6 +4,7 @@ slug: como-emitir-facturas-correctamente
 title: 'How to issue invoices correctly: the details you cannot leave out'
 description: 'A badly made invoice is neither deductible nor valid before Hacienda.'
 seoDescription: "The mandatory details on an invoice, the most common mistakes and when to apply income tax withholding. A badly made invoice may no longer be valid."
+seoTitle: "How to issue a valid invoice in Spain: required details"
 cat: contabilidad
 date: 2026-08-19
 updatedDate: 2026-09-23

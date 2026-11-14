@@ -4,6 +4,7 @@ slug: como-darse-de-alta-autonomo
 title: 'Com donar-se d''alta com a autònom: quan, com i quant costa amb nosaltres'
 description: 'Quan has de donar-te d''alta, quins tràmits hi ha, com ho fem nosaltres, quant triguem i quin preu té.'
 seoTitle: "Alta d'autònom: quan, com i quant costa amb nosaltres"
+seoDescription: "Quan t’has de donar d’alta com a autònom, quins tràmits hi ha a Hisenda i a la Seguretat Social, quant triguem i quant costa amb nosaltres."
 cat: fiscalidad
 date: 2026-10-05
 updatedDate: 2026-11-14

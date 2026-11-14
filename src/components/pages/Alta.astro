@@ -7,7 +7,16 @@ interface Props { lang: Locale; }
 const { lang } = Astro.props;
 const t = useTranslations(lang);
 const p = t.altaPage;
+// Pasos marcados como HowTo (auditoría SEO, 2026-11-14): los mismos que se ven en la página.
+const pasosLd = {
+  '@context': 'https://schema.org',
+  '@type': 'HowTo',
+  name: p.title,
+  step: p.autonomos.steps.map((step, i) => ({ '@type': 'HowToStep', position: i + 1, name: step.title, text: step.desc })),
+};
 ---
+
+<script type="application/ld+json" is:inline set:html={JSON.stringify(pasosLd)} />
 
 <div id="view-alta">
   <div class="page view-intro">

@@ -4,6 +4,7 @@ slug: contratar-primer-empleado-autonomo
 title: 'Contractar el teu primer treballador sent autònom: la guia pas a pas'
 description: 'Alta com a empresari, contracte, nòmines i assegurances socials - el que canvia el dia que deixes de treballar sol.'
 seoTitle: "Contractar el primer treballador sent autònom: pas a pas"
+seoDescription: "Alta com a empresari, contracte, nòmines i assegurances socials: tot el que canvia el dia que contractes el primer treballador com a autònom."
 cat: laboral
 date: 2026-09-27
 sources:

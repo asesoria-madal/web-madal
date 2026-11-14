@@ -3,6 +3,7 @@ lang: en
 slug: como-se-constituye-una-sl
 title: 'How to set up an SL in Spain: steps, capital and timing'
 description: 'Minimum capital, the 5 steps in the process, and how long it takes: the full guide, with a notary or through CIRCE.'
+seoDescription: "How to set up an SL in Spain: minimum capital, the 5 steps, how long it takes and what it costs, with a notary or through CIRCE."
 cat: fiscalidad
 date: 2026-08-19
 updatedDate: 2026-11-07

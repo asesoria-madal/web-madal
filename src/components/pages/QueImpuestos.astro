@@ -12,7 +12,7 @@ const m = HERRAMIENTAS[lang].impuestos;
 const datos = JSON.stringify({ modelos: m.modelos, trimestrales: m.trimestrales, anuales: m.anuales, ninguno: m.ninguno, notaSl: m.notaSl, nota130: m.nota130 });
 ---
 
-<HerramientaShell lang={lang} title={m.title} dek={m.dek} herramienta="impuestos">
+<HerramientaShell lang={lang} title={m.title} dek={m.dek} info={m.info} infoTitle={m.infoTitle} herramienta="impuestos">
   <div class="hr-calc" id="calc-impuestos" data-datos={datos}>
     <form class="hr-form">
       {m.preguntas.map((p) => (

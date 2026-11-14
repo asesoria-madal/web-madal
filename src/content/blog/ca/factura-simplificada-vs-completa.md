@@ -4,12 +4,17 @@ slug: factura-simplificada-vs-completa
 title: 'Factura simplificada (tiquet) vs. factura completa: quan pots fer servir cadascuna'
 description: "No és una qüestió de preferència - la llei marca quan un tiquet n'hi ha prou i quan cal una factura completa."
 seoTitle: "Factura simplificada vs. completa: quan fer servir cadascuna"
+seoDescription: "Quan n’hi ha prou amb un tiquet o factura simplificada i quan cal una factura completa: el límit de 400 €, les excepcions i les dades obligatòries."
 cat: contabilidad
 date: 2026-10-04
 sources:
   - label: 'Real Decreto 1619/2012, Reglament de facturació, arts. 4-7 - supòsits de factura simplificada i contingut de cada tipus de factura'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2012-14696'
 ---
+
+## Què és una factura simplificada
+
+Una factura simplificada (el que habitualment anomenem tiquet) és un tipus de factura que indica l'import total i el tipus d'IVA aplicat sense recollir les dades identificatives del destinatari. La normativa de facturació espanyola només en permet l'emissió fins a un import fixat (amb caràcter general, 400 € IVA inclòs) o en els supòsits concrets que marca el reglament — fora d'aquests casos, cal una factura completa.
 
 ## No és "quina prefereixo", és "quina em correspon"
 

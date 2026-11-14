@@ -1,28 +1,69 @@
 # Asesoría Madal
 
-> Gestoría y asesoría fiscal 100% online para autónomos y pymes en España. El diferencial frente a una gestoría tradicional: entregar un balance trimestral claro y bien asesorado, no solo presentar impuestos.
+> Gestoría y asesoría fiscal online para autónomos, SL y pymes de toda España (excepto Canarias, País Vasco y Navarra, que tienen regímenes forales). Desde Barcelona. Presentamos los impuestos y, además, explicamos los números: balance y cuenta de resultados comentados cada trimestre. Precios públicos, sin permanencia y respuesta en menos de 24 horas laborables.
 
-Asesoría Madal es una gestoría online. Servicios actuales: alta de autónomos y SL, y contabilidad y fiscalidad recurrentes con balances pensados para dar valor analítico al cliente. El blog es divulgación fiscal revisada contra normativa oficial (BOE y Agencia Tributaria). Precios orientativos por tramos: 50 / 70 / 130 € al mes + IVA según volumen y complejidad; declaración de la renta 40 € + IVA aparte. Idiomas del sitio: castellano (por defecto), catalán (/ca) e inglés (/en).
+Actualizado el 14 de noviembre de 2026. Todos los precios son sin IVA (21 %). Idiomas del sitio: castellano (por defecto), catalán (/ca) e inglés (/en).
+
+## Precios: autónomos
+
+- Debut, para quien acaba de darse de alta o está a punto: 35 €/mes los meses 1 a 6 y 45 €/mes del 7 al 12; después, plan Esencial. Hasta 20 facturas al mes. La renta va aparte.
+- Esencial: 55 €/mes. Actividad sencilla (orientativo: hasta 25.000 € al año). Contabilidad, libros y todos los modelos, vigilancia de notificaciones de la AEAT y la Seguridad Social, dudas de impuestos y contacto por email.
+- Crece: 85 €/mes (orientativo: de 25.000 a 45.000 € al año). Todo lo de Esencial, más 15 minutos al mes de asesoramiento, renta 20 € más barata, certificados y contacto por WhatsApp y teléfono.
+- Total: 125 €/mes (más de 45.000 € al año). Todo lo de Crece, más renta incluida, 30 minutos al mes de asesoramiento, informe trimestral de ingresos, gastos y margen, y reunión de cierre de año.
+- Declaración de la renta, fuera del plan Total: 40 € (trabajo, dividendos o intereses), 60 € (con actividad de autónomo) u 80 € (con alquileres, cripto o acciones).
+- Programa de facturación opcional: 5 €/mes.
+- Alta de autónomo: incluida en la cuota si se queda al menos 6 meses; si no, 40 €.
+
+## Precios: SL y pymes
+
+- Esencial: 100 €/mes. Sociedad sin trabajadores. Contabilidad, IVA, retenciones, modelos informativos e Impuesto de Sociedades (200 y 202). Cuentas anuales y legalización de libros: 100 € más las tasas del Registro Mercantil.
+- Equipo: 150 €/mes. Nóminas de hasta 2 socios o administradores, 15 minutos al mes de asesoramiento y programa de facturación incluido.
+- Expansión: 200 €/mes. Hasta 5 personas en nómina, 30 minutos al mes de asesoramiento y reuniones de cierre de año.
+
+## Constitución de una SL
+
+- Nuestra gestión: 175 €, con la solicitud y el certificado del nombre en el Registro Mercantil Central incluidos.
+- Notaría y Registro, con estatutos tipo y hasta 3.100 € de capital: 60 € y 40 €. Con más capital: 150 € y 100 €.
+- Plazo: menos de una semana. Se tramita por CIRCE, con la Cartera Virtual.
+- Si después contrata la gestoría: 25 % de descuento en la primera cuota del plan Equipo y 50 % en la del plan Expansión.
+
+## Condiciones
+
+- Sin permanencia: baja avisando con un mes de antelación.
+- Cambio de gestoría gratis si se queda al menos 6 meses; si no, 80 € (autónomo) o 150 € (SL). Pedimos nosotros la documentación a la gestoría anterior.
 
 ## Páginas principales
 
-- [Inicio](https://asesoriamadal.es/): qué hacemos y precios por tramos.
-- [Nuestros servicios](https://asesoriamadal.es/servicios): detalle de lo que ofrecemos.
-- [Alta de autónomos y SL](https://asesoriamadal.es/alta): proceso y plazos (alta en menos de 2 días).
-- [Simulador de precio](https://asesoriamadal.es/simulador): estimación de cuota en cuatro preguntas.
-- [Quiénes somos](https://asesoriamadal.es/equipo): los dos socios fundadores y su formación.
+- [Inicio y precios](https://asesoriamadal.es/): qué hacemos, todos los planes y preguntas frecuentes.
+- [Nuestros servicios](https://asesoriamadal.es/servicios): acompañamiento, informes de tus números y estudio de autónomo o SL.
+- [Constituir una SL](https://asesoriamadal.es/constituir-sl): pasos, precios y formulario.
+- [Cambiar de gestoría](https://asesoriamadal.es/cambiar-de-gestoria): cómo funciona el traspaso y qué documentos pedimos.
+- [Alta de autónomo](https://asesoriamadal.es/alta): el alta en Hacienda y Seguridad Social en menos de 2 días.
+- [Quiénes somos](https://asesoriamadal.es/equipo): formación en Economía y Estadística (UB y UPC) y experiencia en gestoría.
+- [Contacto](https://asesoriamadal.es/contacto): formulario; respuesta en menos de 24 horas laborables.
+
+## Herramientas gratuitas
+
+- [Calculadora de factura con IVA y retención de IRPF](https://asesoriamadal.es/herramientas/calculadora-factura)
+- [Calculadora de cuota de autónomos 2026 por tramos](https://asesoriamadal.es/herramientas/cuota-autonomos): tabla oficial de la Orden PJC/297/2026.
+- [¿Qué impuestos tengo que presentar?](https://asesoriamadal.es/herramientas/que-impuestos-presento): modelos y plazos para autónomos y SL.
 
 ## Blog y preguntas frecuentes
 
-- [Blog y FAQs](https://asesoriamadal.es/blog): artículos y preguntas frecuentes sobre fiscalidad de autónomos, SL y pymes.
-- [Mapa del sitio](https://asesoriamadal.es/sitemap-index.xml): listado completo de URLs, incluidas todas las del blog.
+- [Blog fiscal](https://asesoriamadal.es/blog): unos 40 artículos sobre autónomos, SL, IVA, IRPF, Verifactu y lectura del balance. Cada artículo cita sus fuentes oficiales (BOE y Agencia Tributaria) y lleva fecha de actualización.
+- [Mapa del sitio](https://asesoriamadal.es/sitemap-index.xml): todas las URL.
+
+## Quién está detrás
+
+- Economistas colegiados en el Col·legi d'Economistes de Catalunya (nº 17914), con seguro de responsabilidad civil (FIATC) y colaboradores sociales de la Agencia Tributaria.
+- Miembros de la Red PAE, ACCID y ADECLA.
 
 ## Contacto
 
 - Email: contacto@asesoriamadal.es
-- [Portal de clientes](https://asesoriamadal.es/portal): acceso de clientes para subir facturas y ver su documentación.
+- [Reservar una llamada](https://meetings-eu1.hubspot.com/asesoria-madal)
+- [Área de clientes](https://asesoriamadal.es/portal): solo para clientes.
 
 ## Notas
 
-- Aviso legal, privacidad y cookies están en /aviso-legal, /privacidad y /cookies.
-- La marca "Asesoría Madal" y los precios son provisionales y pueden cambiar.
+- Aviso legal, privacidad y cookies en /aviso-legal, /privacidad y /cookies.

@@ -3,6 +3,8 @@ lang: en
 slug: prevision-tesoreria-basica
 title: 'Basic cash flow forecasting so you don''t run out of liquidity'
 description: 'Having profit on paper and having money in the bank are two different things - cash flow is what lets you pay payroll.'
+seoTitle: "Basic cash flow forecasting to avoid running out of cash"
+seoDescription: "Profit on paper and money in the bank are not the same thing. A basic cash flow forecast so you can always pay payroll, taxes and suppliers."
 cat: finanzas
 date: 2026-10-23
 ---

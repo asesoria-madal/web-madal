@@ -3,6 +3,7 @@ lang: es
 slug: leer-balance-y-pyg
 title: 'Cómo leer tu balance y tu PyG sin ser economista'
 description: 'Dos documentos, dos preguntas distintas: qué tienes y qué debes, y si el negocio gana dinero de verdad.'
+seoDescription: "Cómo leer el balance y la cuenta de pérdidas y ganancias sin ser economista: qué tienes, qué debes y si tu negocio gana dinero de verdad."
 cat: finanzas
 date: 2026-09-17
 updatedDate: 2026-09-23

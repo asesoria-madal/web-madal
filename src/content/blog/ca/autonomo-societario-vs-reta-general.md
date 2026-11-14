@@ -4,6 +4,7 @@ slug: autonomo-societario-vs-reta-general
 title: 'Autònom societari vs. RETA general: quan un soci d''una SL ha de donar-se d''alta com a autònom'
 description: 'Tenir una SL no t''allibera de cotitzar com a autònom si hi treballes i en tens el control - i cotitzes diferent.'
 seoTitle: "Autònom societari: quan ha de cotitzar el soci d'una SL"
+seoDescription: "Quan un soci d’una SL s’ha de donar d’alta com a autònom societari, quin control compta i en què es diferencia del RETA general."
 cat: laboral
 date: 2026-09-30
 sources:

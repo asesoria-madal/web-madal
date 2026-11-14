@@ -4,6 +4,7 @@ slug: autonomo-societario-vs-reta-general
 title: 'Autónomo societario vs. RETA general: cuándo un socio de una SL tiene que darse de alta como autónomo'
 description: 'Tener una SL no te libra de cotizar como autónomo si trabajas en ella y tienes el control - y cotizas distinto.'
 seoTitle: "Autónomo societario: cuándo debe cotizar el socio de una SL"
+seoDescription: "Cuándo un socio de una SL tiene que darse de alta como autónomo societario, qué control cuenta y en qué se diferencia del RETA general."
 cat: laboral
 date: 2026-09-30
 sources:
