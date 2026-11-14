@@ -1,0 +1,39 @@
+# Publicación programada del blog (Edurne, 2026-11-14).
+# Los artículos con fecha futura no aparecen en la web hasta ese día (ver `publicado` en src/lib/blog.ts),
+# pero la web es estática: hay que reconstruirla para que salgan. Cada mañana esta Action mira si algún
+# artículo tiene la fecha de hoy y, si lo hay, hace un commit vacío en main: Vercel lo ve y publica.
+# Si ese día no toca nada, no hace nada.
+# Requisito: en GitHub, Settings → Actions → General → Workflow permissions = "Read and write permissions".
+name: Publicar artículos programados
+
+on:
+  schedule:
+    - cron: '0 6 * * *' # 6:00 UTC = 7:00 en invierno y 8:00 en verano (Madrid)
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  publicar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: ¿Hay algún artículo con fecha de hoy?
+        id: hoy
+        run: |
+          HOY=$(TZ=Europe/Madrid date +%F)
+          if grep -rlE "^date: ['\"]?${HOY}" src/content/blog/ > /dev/null; then
+            echo "toca=si" >> "$GITHUB_OUTPUT"
+            echo "Artículos de hoy (${HOY}):"; grep -rlE "^date: ['\"]?${HOY}" src/content/blog/
+          else
+            echo "toca=no" >> "$GITHUB_OUTPUT"
+            echo "Hoy (${HOY}) no hay ningún artículo programado."
+          fi
+      - name: Commit vacío para que Vercel publique
+        if: steps.hoy.outputs.toca == 'si'
+        run: |
+          git config user.name "Publicación programada"
+          git config user.email "actions@github.com"
+          git commit --allow-empty -m "Publica los artículos programados para hoy"
+          git push

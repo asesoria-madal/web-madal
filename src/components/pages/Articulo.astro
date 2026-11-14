@@ -40,7 +40,7 @@ const esSl = SLUGS_SL.includes(entry.data.slug);
 const HERRAMIENTA_DE: Record<string, keyof typeof RUTAS_HERRAMIENTAS> = {
   'como-emitir-facturas-correctamente': 'factura', 'factura-simplificada-vs-completa': 'factura', 'facturar-gratis-con-verifactu': 'factura', 'reservar-dinero-impuestos-autonomo': 'factura',
   'tarifa-plana-cuota-autonomos-2026': 'cuota', 'regularizacion-reta': 'cuota', 'como-darse-de-alta-autonomo': 'cuota', 'autonomo-societario-vs-reta-general': 'cuota', 'alta-autonomo-colaborador': 'cuota',
-  'calendario-fiscal-2027': 'impuestos', 'interpretar-modelos-fiscales-aut': 'impuestos', 'interpretar-modelos-fiscales-sl': 'impuestos', 'calculo-irpf-trimestral': 'impuestos', 'estimacion-directa-vs-modulos': 'impuestos', 'tributacion-plataformas-digitales': 'impuestos',
+  'calendario-fiscal-2027': 'impuestos', 'despues-de-constituir-sl': 'impuestos', 'interpretar-modelos-fiscales-aut': 'impuestos', 'interpretar-modelos-fiscales-sl': 'impuestos', 'calculo-irpf-trimestral': 'impuestos', 'estimacion-directa-vs-modulos': 'impuestos', 'tributacion-plataformas-digitales': 'impuestos',
 };
 const claveHerramienta = HERRAMIENTA_DE[entry.data.slug];
 const herramienta = claveHerramienta ? {

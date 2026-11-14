@@ -28,8 +28,13 @@ export function toPostPreview(entry: CollectionEntry<'blog'>, lang: Locale): Pos
   };
 }
 
+// Publicación programada (2026-11-14): un artículo con fecha futura no aparece hasta ese día.
+// La web es estática, así que la Action .github/workflows/publicar-articulos.yml la vuelve a
+// construir la mañana en que toca publicar.
+export const publicado = (e: CollectionEntry<'blog'>): boolean => !e.data.draft && e.data.date.valueOf() <= Date.now();
+
 export async function getSortedBlogPosts(lang: Locale): Promise<CollectionEntry<'blog'>[]> {
-  const entries = await getCollection('blog', (e) => e.data.lang === lang && !e.data.draft);
+  const entries = await getCollection('blog', (e) => e.data.lang === lang && publicado(e));
   return entries.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 }
 

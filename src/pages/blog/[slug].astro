@@ -2,12 +2,13 @@
 import Layout from '../../layouts/Layout.astro';
 import Articulo from '../../components/pages/Articulo.astro';
 import { getCollection, type CollectionEntry } from 'astro:content';
+import { publicado } from '../../lib/blog';
 import { pageTitle } from '../../i18n/utils';
 
 export const prerender = true;
 
 export async function getStaticPaths() {
-  const entries = await getCollection('blog', (e) => e.data.lang === 'es' && !e.data.draft);
+  const entries = await getCollection('blog', (e) => e.data.lang === 'es' && publicado(e));
   return entries.map((entry) => ({ params: { slug: entry.data.slug }, props: { entry } }));
 }
 

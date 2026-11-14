@@ -337,4 +337,4 @@ const en: Textos = {
 export const LEADS: Record<Locale, Textos> = { es, ca, en };
 
 // Artículos donde el lateral ofrece la constitución en vez del contacto general.
-export const SLUGS_SL = ['cuanto-cuesta-constituir-sl', 'capital-minimo-sl', 'nombre-sl-denominacion-social', 'cartera-virtual-circe', 'como-se-constituye-una-sl', 'montar-sl-circe-o-tradicional', 'autonomo-societario-vs-reta-general'];
+export const SLUGS_SL = ['cuanto-cuesta-constituir-sl', 'capital-minimo-sl', 'nombre-sl-denominacion-social', 'cartera-virtual-circe', 'como-se-constituye-una-sl', 'montar-sl-circe-o-tradicional', 'autonomo-societario-vs-reta-general', 'sl-unipersonal', 'despues-de-constituir-sl', 'constituir-sl-extranjero'];
