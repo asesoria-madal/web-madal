@@ -210,6 +210,9 @@ const planes = (isAutonomo ? precios.autonomoTiers : precios.pymeTiers).map((p) 
       <p class="field-hint">{t.mandatoHint}</p>
     </fieldset>
 
+    {/* Solo autónomos (Edurne, 2026-11-14): a una SL siempre le pedimos su certificado digital,
+        así que no tiene que apoderarnos ni ver estas guías. */}
+    {isAutonomo && (
     <fieldset class="alta-section">
       <legend>{t.recuerda}</legend>
       <p class="field-hint">{t.recuerdaHint}</p>
@@ -230,6 +233,7 @@ const planes = (isAutonomo ? precios.autonomoTiers : precios.pymeTiers).map((p) 
         <a href="https://suslwmgqdzingeqhfrpw.supabase.co/storage/v1/object/public/docs-publicos/RGPD.pdf" target="_blank" rel="noopener">{t.rgpdLink}</a>.
       </p>
     </fieldset>
+    )}
 
     <label class="consent">
       <input type="checkbox" id="fPrivacy" required />
