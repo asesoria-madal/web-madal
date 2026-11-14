@@ -452,7 +452,8 @@ const textosCarpeta = { subir: t.doc.subir, foto: t.facturas.cameraSubmit, ver: 
 
   // Carpeta en la que se está subiendo (la del botón pulsado) y, en extractos, sus datos.
   let carpetaActual = '';
-  let extractoActual: { cuenta_digitos: string; periodo_desde: string; periodo_hasta: string } | null = null;
+  // Extractos de banco y tarjeta: solo los 4 últimos dígitos; sin fechas desde el 2026-11-14 (Edurne).
+  let extractoActual: { cuenta_digitos: string } | null = null;
 
   function mensaje(codigo: string, texto: string, tipo: '' | 'is-ok' | 'is-error') {
     const el = carpeta(codigo).querySelector<HTMLElement>('[data-msg]')!;
@@ -469,7 +470,7 @@ const textosCarpeta = { subir: t.doc.subir, foto: t.facturas.cameraSubmit, ver: 
   }
 
   // Cada carpeta: "Subir" abre el selector de archivos y "Hacer foto", la cámara del móvil.
-  // En extractos, antes de abrirlos se comprueban los dígitos y el periodo.
+  // En extractos, antes de abrirlos se comprueban los 4 dígitos.
   carpetas.forEach((el) => {
     const codigo = el.dataset.carpeta!;
     const preparar = (): boolean => {
@@ -477,9 +478,8 @@ const textosCarpeta = { subir: t.doc.subir, foto: t.facturas.cameraSubmit, ver: 
       extractoActual = null;
       if (ES_EXTRACTO(codigo)) {
         const v = (s: string) => (el.querySelector<HTMLInputElement>(s)?.value ?? '').trim();
-        extractoActual = { cuenta_digitos: v('[data-digitos]'), periodo_desde: v('[data-desde]'), periodo_hasta: v('[data-hasta]') };
-        const e = extractoActual;
-        if (!/^\d{4}$/.test(e.cuenta_digitos) || !e.periodo_desde || !e.periodo_hasta || e.periodo_desde > e.periodo_hasta) {
+        extractoActual = { cuenta_digitos: v('[data-digitos]') };
+        if (!/^\d{4}$/.test(extractoActual.cuenta_digitos)) {
           mensaje(codigo, I18N.doc.faltanDatosExtracto, 'is-error');
           return false;
         }

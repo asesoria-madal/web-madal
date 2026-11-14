@@ -22,8 +22,6 @@ const { codigo, nombre, textos, extracto = false, soloLista = false } = Astro.pr
   {extracto && (
     <div class="doc-extracto">
       <label class="doc-campo">{textos.digitos}<input type="text" data-digitos inputmode="numeric" maxlength="4" autocomplete="off" /></label>
-      <label class="doc-campo">{textos.desde}<input type="date" data-desde /></label>
-      <label class="doc-campo">{textos.hasta}<input type="date" data-hasta /></label>
     </div>
   )}
   {!soloLista && (
