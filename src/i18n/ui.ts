@@ -39,9 +39,9 @@ export const ui = {
     },
 
     hero: {
-      eyebrow: 'Gestoría online, con sede en Barcelona',
+      eyebrow: 'Gestoría online, desde Barcelona',
       title: 'Presentamos tus impuestos, te lo explicamos todo y seguimos en contacto contigo.',
-      dek: 'Contabilidad para autónomos y pymes. Trabajamos online y, si lo prefieres, también en persona en Barcelona. Presentamos tus impuestos cada trimestre y te explicamos, paso a paso, qué significan tus números.',
+      dek: 'Contabilidad para autónomos y pymes. Trabajamos online y, si lo prefieres, también en persona, en un coworking de Barcelona. Presentamos tus impuestos cada trimestre y te explicamos, paso a paso, qué significan tus números.',
       priceAutonomoLabel: 'Autónomos',
       priceAutonomoAmount: 'desde 35 €',
       priceSlLabel: 'SL y pymes',
@@ -362,7 +362,7 @@ export const ui = {
       eyebrow: 'Quiénes somos',
       title: 'La misma formación en números, dos experiencias que se complementan',
       dek: 'Somos los dos socios que fundamos este proyecto. Preferimos presentarnos como equipo. Lo que sí compartimos aquí es nuestra formación, nuestra experiencia profesional y cómo trabajamos con cada cliente.',
-      tags: ['Economía y Estadística (UB / UPC)', 'Experiencia real en gestoría', 'Con sede en Barcelona'],
+      tags: ['Economía y Estadística (UB / UPC)', 'Experiencia real en gestoría', 'De Barcelona'],
       formacion: {
         eyebrow: 'Formación',
         title: 'Doble grado en Economía y Estadística',
@@ -419,7 +419,7 @@ export const ui = {
         channels: [
           { title: 'Correo electrónico', desc: 'Escríbenos cuando te surja una duda. Te respondemos con criterio, no con una plantilla.', linkLabel: 'contacto@asesoriamadal.es', linkHref: 'mailto:contacto@asesoriamadal.es' },
           { title: 'Llamada', desc: 'Si lo prefieres hablado, reserva un hueco y te llamamos.', linkLabel: 'Reservar llamada →', linkHref: 'https://meetings-eu1.hubspot.com/asesoria-madal' },
-          { title: 'Presencial en Barcelona', desc: 'Si te va mejor en persona, escríbenos y acordamos un día para vernos.', linkLabel: 'contacto@asesoriamadal.es', linkHref: 'mailto:contacto@asesoriamadal.es' },
+          { title: 'Presencial en Barcelona', desc: 'Si te va mejor en persona, escríbenos y quedamos un día en un coworking de Barcelona.', linkLabel: 'contacto@asesoriamadal.es', linkHref: 'mailto:contacto@asesoriamadal.es' },
         ],
         detail: 'Te ayudamos a entender qué implica cada decisión, fiscal y financieramente, y a pensarla contigo cuando toca tomarla. No vamos a dirigir tu negocio por ti, pero tampoco vas a tener que esperar a la próxima declaración para hablar con nosotros.',
       },
@@ -481,15 +481,15 @@ export const ui = {
     },
 
     footer: {
-      tagline: 'Gestoría y asesoría con sede en Barcelona, para autónomos y pymes de toda España.',
+      tagline: 'Gestoría y asesoría online desde Barcelona, para autónomos y pymes de toda España.',
       navTitle: 'Navegación',
       contactTitle: 'Contacto',
       contactCall: 'Reservar llamada',
       whereTitle: 'Dónde estamos',
-      whereOnline: 'También atendemos online',
-      whereBase: 'Con sede en Barcelona',
+      whereOnline: 'Reuniones presenciales en un coworking de Barcelona',
+      whereBase: 'Trabajamos online, desde Barcelona',
       whereSpain: 'Toda España, excepto Canarias, Navarra y País Vasco (regímenes forales)',
-      legal: '© Asesoría Madal. Servicio de gestoría y asesoría, con sede en Barcelona.',
+      legal: '© Asesoría Madal. Servicio de gestoría y asesoría online, desde Barcelona.',
       portal: 'Área clientes',
       avisoLegal: 'Aviso legal',
       privacidad: 'Privacidad',
@@ -687,9 +687,9 @@ export const ui = {
     },
 
     hero: {
-      eyebrow: 'Gestoria online, amb seu a Barcelona',
+      eyebrow: 'Gestoria online, des de Barcelona',
       title: 'Presentem els teus impostos, te’ls expliquem tot i seguim en contacte amb tu.',
-      dek: 'Comptabilitat per a autònoms i pimes. Treballem online i, si ho prefereixes, també en persona a Barcelona. Presentem els teus impostos cada trimestre i t’expliquem, pas a pas, què signifiquen els teus números.',
+      dek: 'Comptabilitat per a autònoms i pimes. Treballem online i, si ho prefereixes, també en persona, en un coworking de Barcelona. Presentem els teus impostos cada trimestre i t’expliquem, pas a pas, què signifiquen els teus números.',
       priceAutonomoLabel: 'Autònoms',
       priceAutonomoAmount: 'des de 35 €',
       priceSlLabel: 'SL i pimes',
@@ -1008,7 +1008,7 @@ export const ui = {
       eyebrow: 'Qui som',
       title: 'La mateixa formació en números, dues experiències que es complementen',
       dek: 'Som els dos socis que vam fundar aquest projecte. Preferim presentar-nos com a equip. El que sí que compartim aquí és la nostra formació, la nostra experiència professional i com treballem amb cada client.',
-      tags: ['Economia i Estadística (UB / UPC)', 'Experiència real en gestoria', 'Amb seu a Barcelona'],
+      tags: ['Economia i Estadística (UB / UPC)', 'Experiència real en gestoria', 'De Barcelona'],
       formacion: {
         eyebrow: 'Formació',
         title: 'Doble grau en Economia i Estadística',
@@ -1065,7 +1065,7 @@ export const ui = {
         channels: [
           { title: 'Correu electrònic', desc: 'Escriu-nos quan et sorgeixi un dubte. Et responem amb criteri, no amb una plantilla.', linkLabel: 'contacto@asesoriamadal.es', linkHref: 'mailto:contacto@asesoriamadal.es' },
           { title: 'Trucada', desc: 'Si ho prefereixes parlat, reserva una hora i et truquem.', linkLabel: 'Reservar trucada →', linkHref: 'https://meetings-eu1.hubspot.com/asesoria-madal' },
-          { title: 'Presencial a Barcelona', desc: 'Si t’ho passes millor en persona, escriu-nos i quedem un dia per veure’ns.', linkLabel: 'contacto@asesoriamadal.es', linkHref: 'mailto:contacto@asesoriamadal.es' },
+          { title: 'Presencial a Barcelona', desc: 'Si t’ho passes millor en persona, escriu-nos i quedem un dia en un coworking de Barcelona.', linkLabel: 'contacto@asesoriamadal.es', linkHref: 'mailto:contacto@asesoriamadal.es' },
         ],
         detail: 'T’ajudem a entendre què implica cada decisió, fiscalment i financerament, i a pensar-la amb tu quan toca prendre-la. No dirigirem el teu negoci per tu, però tampoc hauràs d’esperar a la propera declaració per parlar amb nosaltres.',
       },
@@ -1127,15 +1127,15 @@ export const ui = {
     },
 
     footer: {
-      tagline: 'Gestoria i assessoria amb seu a Barcelona, per a autònoms i pimes de tot Espanya.',
+      tagline: 'Gestoria i assessoria online des de Barcelona, per a autònoms i pimes de tot Espanya.',
       navTitle: 'Navegació',
       contactTitle: 'Contacte',
       contactCall: 'Reserva una trucada',
       whereTitle: 'On som',
-      whereOnline: 'També atenem online',
-      whereBase: 'Amb seu a Barcelona',
+      whereOnline: 'Reunions presencials en un coworking de Barcelona',
+      whereBase: 'Treballem online, des de Barcelona',
       whereSpain: 'A tot Espanya, excepte Canàries, Navarra i el País Basc (règims forals)',
-      legal: '© Asesoría Madal. Servei de gestoria i assessoria, amb seu a Barcelona.',
+      legal: '© Asesoría Madal. Servei de gestoria i assessoria online, des de Barcelona.',
       portal: 'Àrea clients',
       avisoLegal: 'Avís legal',
       privacidad: 'Privadesa',
@@ -1333,9 +1333,9 @@ export const ui = {
     },
 
     hero: {
-      eyebrow: 'Online accounting, based in Barcelona',
+      eyebrow: 'Online accounting, from Barcelona',
       title: 'We file your taxes, explain everything clearly, and stay in touch with you.',
-      dek: 'Accounting for freelancers and small businesses in Spain. We work online and, if you prefer, also in person in Barcelona. We file your taxes every quarter and explain, step by step, what your numbers mean.',
+      dek: 'Accounting for freelancers and small businesses in Spain. We work online and, if you prefer, also in person, at a coworking space in Barcelona. We file your taxes every quarter and explain, step by step, what your numbers mean.',
       priceAutonomoLabel: 'Freelancers',
       priceAutonomoAmount: 'from €35',
       priceSlLabel: 'Companies',
@@ -1656,7 +1656,7 @@ export const ui = {
       eyebrow: 'About us',
       title: 'Same background in numbers, two experiences that complement each other',
       dek: 'We’re the two founding partners behind this project. We prefer to introduce ourselves as a team. What you can find here is our academic background, our professional experience and how we work with each client.',
-      tags: ['Economics & Statistics (UB / UPC)', 'Real accounting-firm experience', 'Based in Barcelona'],
+      tags: ['Economics & Statistics (UB / UPC)', 'Real accounting-firm experience', 'From Barcelona'],
       formacion: {
         eyebrow: 'Background',
         title: 'A joint degree in Economics and Statistics',
@@ -1713,7 +1713,7 @@ export const ui = {
         channels: [
           { title: 'Email', desc: 'Write to us whenever a question comes up. We reply with judgment, not a template.', linkLabel: 'contacto@asesoriamadal.es', linkHref: 'mailto:contacto@asesoriamadal.es' },
           { title: 'Call', desc: 'If you’d rather talk it through, book a slot and we’ll call you.', linkLabel: 'Book a call →', linkHref: 'https://meetings-eu1.hubspot.com/asesoria-madal' },
-          { title: 'In person in Barcelona', desc: 'If face to face works better for you, email us and we’ll arrange a day to meet.', linkLabel: 'contacto@asesoriamadal.es', linkHref: 'mailto:contacto@asesoriamadal.es' },
+          { title: 'In person in Barcelona', desc: 'If face to face works better for you, email us and we’ll arrange a day to meet at a coworking space in Barcelona.', linkLabel: 'contacto@asesoriamadal.es', linkHref: 'mailto:contacto@asesoriamadal.es' },
         ],
         detail: 'We help you understand what each decision means, tax-wise and financially, and think it through with you when it’s time to decide. We’re not going to run your business for you, but you won’t have to wait until your next tax return to talk to us either.',
       },
@@ -1775,15 +1775,15 @@ export const ui = {
     },
 
     footer: {
-      tagline: 'Accounting and advisory based in Barcelona, for freelancers and small businesses across Spain.',
+      tagline: 'Online accounting and advisory from Barcelona, for freelancers and small businesses across Spain.',
       navTitle: 'Navigation',
       contactTitle: 'Contact',
       contactCall: 'Book a call',
       whereTitle: 'Where we are',
-      whereOnline: 'Also available online',
-      whereBase: 'Based in Barcelona',
+      whereOnline: 'In-person meetings at a coworking space in Barcelona',
+      whereBase: 'We work online, from Barcelona',
       whereSpain: 'All of Spain, except the Canary Islands, Navarre, and the Basque Country (regional tax systems)',
-      legal: '© Asesoría Madal. Accounting and advisory service, based in Barcelona.',
+      legal: '© Asesoría Madal. Online accounting and advisory service, from Barcelona.',
       portal: 'Client area',
       avisoLegal: 'Legal notice',
       privacidad: 'Privacy',
