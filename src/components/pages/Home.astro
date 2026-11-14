@@ -6,6 +6,7 @@
 import { useTranslations, localizedPath } from '../../i18n/utils';
 import type { Locale } from '../../i18n/ui';
 import { INICIO } from '../../i18n/inicio';
+import { HERRAMIENTAS, RUTAS_HERRAMIENTAS } from '../../i18n/herramientas';
 import EntidadesBanner from '../EntidadesBanner.astro';
 import LeadForm from '../LeadForm.astro';
 import { getSortedBlogPosts } from '../../lib/blog';
@@ -16,6 +17,11 @@ const t = useTranslations(lang);
 const h = INICIO[lang];
 
 const LLAMADA = 'https://meetings-eu1.hubspot.com/asesoria-madal';
+// Bloque de herramientas (2026-11-14), después de los precios.
+const hr = HERRAMIENTAS[lang];
+const herramientas = (['factura', 'cuota', 'impuestos'] as const).map((clave, i) => ({
+  clave, href: localizedPath(RUTAS_HERRAMIENTAS[clave], lang), titulo: hr[clave].title, desc: hr[clave].card, icono: ['€', '%', '✓'][i],
+}));
 const SIN_IVA = { es: 'Precios sin IVA.', ca: 'Preus sense IVA.', en: 'Prices exclude VAT.' } as const;
 const latestPost = (await getSortedBlogPosts(lang))[0];
 const serviciosHref = localizedPath('/servicios', lang);
@@ -170,6 +176,21 @@ const faqLd = {
       {t.precios.pymeFootnotes.map((f) => (<p>{f}</p>))}
     </div>
     {t.precios.note && <p class="price-note">{t.precios.note}</p>}
+  </section>
+
+  <section class="page inicio-bloque" id="herramientas">
+    <p class="inicio-eyebrow">{hr.indice.eyebrow}</p>
+    <h2 class="inicio-h2">{hr.indice.title}</h2>
+    <div class="hr-tarjetas hr-tarjetas-inicio">
+      {herramientas.map((x) => (
+        <a class="hr-tarjeta" href={x.href} data-umami-event="inicio_herramienta" data-umami-event-herramienta={x.clave}>
+          <span class="hr-tarjeta-icono" aria-hidden="true">{x.icono}</span>
+          <h3>{x.titulo}</h3>
+          <p>{x.desc}</p>
+          <span class="hr-tarjeta-abrir">{hr.indice.abrir} →</span>
+        </a>
+      ))}
+    </div>
   </section>
 
   <section class="page inicio-bloque">
