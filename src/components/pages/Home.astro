@@ -124,7 +124,7 @@ const faqLd = {
       <div class="pricing-tier-wide-body">
         {'includesPrevious' in debutTier && debutTier.includesPrevious && <p class="pricing-tier-includes">{debutTier.includesPrevious}</p>}
         <ul class="finanzas-preview-list pricing-tier-features">
-          {debutTier.features.map((f) => (<li>{f}</li>))}
+          {debutTier.features.map((f) => (<li set:html={f} />))}
         </ul>
         {'transitionNote' in debutTier && debutTier.transitionNote && <p class="pricing-tier-transition">{debutTier.transitionNote}</p>}
       </div>
@@ -139,7 +139,7 @@ const faqLd = {
           {'durationNote' in tier && tier.durationNote && <p class="pricing-tier-duration">{tier.durationNote}</p>}
           {'includesPrevious' in tier && tier.includesPrevious && <p class="pricing-tier-includes">{tier.includesPrevious}</p>}
           <ul class="finanzas-preview-list pricing-tier-features">
-            {tier.features.map((f) => (<li>{f}</li>))}
+            {tier.features.map((f) => (<li set:html={f} />))}
           </ul>
           {'transitionNote' in tier && tier.transitionNote && <p class="pricing-tier-transition">{tier.transitionNote}</p>}
           {'dashboardNote' in tier && tier.dashboardNote && <p class="pricing-tier-dashboard">{tier.dashboardNote}</p>}
@@ -160,7 +160,7 @@ const faqLd = {
           <p class="pricing-tier-iva">{tier.ivaNote}</p>
           {'includesPrevious' in tier && tier.includesPrevious && <p class="pricing-tier-includes">{tier.includesPrevious}</p>}
           <ul class="finanzas-preview-list pricing-tier-features">
-            {tier.features.map((f) => (<li>{f}</li>))}
+            {tier.features.map((f) => (<li set:html={f} />))}
           </ul>
           {'dashboardNote' in tier && tier.dashboardNote && <p class="pricing-tier-dashboard">{tier.dashboardNote}</p>}
         </div>

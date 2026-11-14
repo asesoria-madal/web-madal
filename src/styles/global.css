@@ -1793,4 +1793,13 @@ header.site .lang-menu { color: var(--ink); }
 section#diferencia, section#como-trabajamos { background: transparent; }
 /* Debut (tarjeta verde oscura): el escalonado tiene que verse claro. */
 .pricing-tier.tier-solid .pricing-tier-duration { color: var(--mint); font-weight: 600; font-size: 0.92rem; }
+/* Tarjetas de precio (Edurne, 2026-11-14): letra más pequeña, negritas en lo
+   que incluye cada plan y un salto de línea por frase en las notas del Debut
+   (los textos de ui.ts llevan \n). */
+.pricing-tier-features { font-size: 0.84rem; }
+.pricing-tier-features strong { font-weight: 700; color: inherit; }
+.pricing-tier-desc { font-size: 0.8rem; }
+.pricing-tier-duration, .pricing-tier-transition { white-space: pre-line; }
+.pricing-tier.tier-solid .pricing-tier-duration { font-size: 0.85rem; }
+.pricing-tier-transition { font-size: 0.72rem; }
 .pricing-tier.tier-solid .pricing-tier-badge { display: inline-block; color: var(--hero-bg); background: var(--mint); padding: 0.2rem 0.6rem; border-radius: 999px; }
