@@ -1,5 +1,6 @@
 ---
 import { LEADS, SLUGS_SL } from '../../i18n/leads';
+import { HERRAMIENTAS, RUTAS_HERRAMIENTAS } from '../../i18n/herramientas';
 import LeadForm from '../LeadForm.astro';
 import type { CollectionEntry } from 'astro:content';
 import { render } from 'astro:content';
@@ -34,6 +35,19 @@ const relatedFaqs = allFaqItems.filter((item) => item.related === entry.data.slu
 
 const lead = LEADS[lang];
 const esSl = SLUGS_SL.includes(entry.data.slug);
+
+// Herramienta relacionada al final del artículo (2026-11-14): enlaza el blog con /herramientas.
+const HERRAMIENTA_DE: Record<string, keyof typeof RUTAS_HERRAMIENTAS> = {
+  'como-emitir-facturas-correctamente': 'factura', 'factura-simplificada-vs-completa': 'factura', 'facturar-gratis-con-verifactu': 'factura', 'reservar-dinero-impuestos-autonomo': 'factura',
+  'tarifa-plana-cuota-autonomos-2026': 'cuota', 'regularizacion-reta': 'cuota', 'como-darse-de-alta-autonomo': 'cuota', 'autonomo-societario-vs-reta-general': 'cuota', 'alta-autonomo-colaborador': 'cuota',
+  'calendario-fiscal-2027': 'impuestos', 'interpretar-modelos-fiscales-aut': 'impuestos', 'interpretar-modelos-fiscales-sl': 'impuestos', 'calculo-irpf-trimestral': 'impuestos', 'estimacion-directa-vs-modulos': 'impuestos', 'tributacion-plataformas-digitales': 'impuestos',
+};
+const claveHerramienta = HERRAMIENTA_DE[entry.data.slug];
+const herramienta = claveHerramienta ? {
+  href: localizedPath(RUTAS_HERRAMIENTAS[claveHerramienta], lang),
+  titulo: HERRAMIENTAS[lang][claveHerramienta].title,
+  desc: HERRAMIENTAS[lang][claveHerramienta].card,
+} : null;
 
 const articleUrl = new URL(localizedPath(`/blog/${entry.data.slug}`, lang), Astro.site).toString();
 
@@ -108,6 +122,14 @@ const faqLd = relatedFaqs.length > 0 ? {
   <div class="article-body">
     <Content />
   </div>
+
+  {herramienta && (
+    <a class="article-tool" href={herramienta.href} data-umami-event="articulo_herramienta" data-umami-event-articulo={entry.data.slug}>
+      <span class="article-tool-eyebrow">{HERRAMIENTAS[lang].nav}</span>
+      <strong>{herramienta.titulo}</strong>
+      <span>{herramienta.desc} →</span>
+    </a>
+  )}
 
   {entry.data.sources && entry.data.sources.length > 0 && (
     <div class="article-sources">

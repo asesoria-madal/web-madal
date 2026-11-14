@@ -6,7 +6,7 @@ description: 'Quan has de donar-te d''alta, quins tràmits hi ha, com ho fem nos
 seoTitle: "Alta d'autònom: quan, com i quant costa amb nosaltres"
 cat: fiscalidad
 date: 2026-10-05
-updatedDate: 2026-11-11
+updatedDate: 2026-11-14
 sources:
   - label: 'Real Decreto Legislativo 8/2015, text refós de la Ley General de la Seguridad Social - obligació d''alta al RETA'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2015-11724'
@@ -56,7 +56,7 @@ Normalment **un o dos dies laborables** des que tenim la teva documentació comp
 
 ## Quant costa
 
-**L'alta no té tarifa a part.** Va inclosa al pla **Debut**, pensat per a autònoms que acaben de donar-se d'alta o hi estan a punt: **35 € + IVA al mes (42,35 € amb IVA) durant el primer any**, amb abast fiscal i comptable complet, la trucada de benvinguda, fins a 20 factures al mes i contacte per email. Als 6 mesos revisem la teva facturació: si la teva projecció anual supera els 25.000 € (o passes de 20 factures al mes dos mesos seguits), passes al pla Essencial; i en acabar l'any passes a Essencial o al pla que correspongui.
+**L'alta no té tarifa a part** si et quedes amb nosaltres almenys 6 mesos (si no, són 40 € + IVA). Va inclosa a totes les quotes d'autònom, també al pla **Debut**, pensat per a qui acaba de donar-se d'alta o hi està a punt: **35 € + IVA al mes els 6 primers mesos i 45 € + IVA del 7 al 12**, amb abast fiscal i comptable complet, la trucada de benvinguda, fins a 20 factures al mes i contacte per email. Als 6 mesos revisem la teva facturació: si la teva projecció anual supera els 25.000 € (o passes de 20 factures al mes dos mesos seguits), passes al pla Essencial; i en acabar l'any passes a Essencial o al pla que prefereixis. Sense permanència.
 
 Si vols saber quant costaria en el teu cas, consulta [els nostres plans i preus](/ca/#precios) o mira [quant costa una gestoria en línia](/blog/precio-gestoria-online-2026).
 

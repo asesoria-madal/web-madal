@@ -6,7 +6,7 @@ description: 'When you must register, which steps are involved, how we handle it
 seoTitle: "Registering as self-employed in Spain: when, how and cost"
 cat: fiscalidad
 date: 2026-10-05
-updatedDate: 2026-11-11
+updatedDate: 2026-11-14
 sources:
   - label: 'Real Decreto Legislativo 8/2015, consolidated General Social Security Act - obligation to register in the RETA'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2015-11724'
@@ -56,7 +56,7 @@ Usually **one or two business days** from the moment we have your complete paper
 
 ## What it costs
 
-**Registration has no separate fee.** It is included in the **Debut** plan, designed for people who have just registered or are about to: **€35 + VAT per month (€42.35 with VAT) for the first year**, with full tax and accounting scope, the welcome call, up to 20 invoices a month and contact by email. At 6 months we review your revenue: if your projected annual revenue is over €25,000 (or you go over 20 invoices a month for two months in a row), you move to the Essential plan; and at the end of the year you move to Essential or whichever plan fits.
+**Registration has no separate fee** if you stay with us for at least 6 months (otherwise it is €40 + VAT). It is included in every freelancer plan, including **Debut**, designed for people who have just registered or are about to: **€35 + VAT per month for the first 6 months and €45 + VAT for months 7 to 12**, with full tax and accounting scope, the welcome call, up to 20 invoices a month and contact by email. At 6 months we review your revenue: if your projected annual revenue is over €25,000 (or you go over 20 invoices a month for two months in a row), you move to the Essential plan; and at the end of the year you move to Essential or whichever plan you prefer. No minimum term.
 
 To find out what it would cost in your case, see [our plans and prices](/en/#precios) or see [how much an online gestoría costs](/blog/precio-gestoria-online-2026).
 

@@ -18,7 +18,7 @@ export const CAMBIO: Record<Locale, {
 }> = {
   es: {
     metaTitle: 'Cambiar de gestoría sin hacer nada · Asesoría Madal',
-    metaDesc: 'Cámbiate a Asesoría Madal: rellenas un formulario y nos encargamos de pedir tu documentación a tu gestoría y de coordinar los trimestres. Gratis si te quedas 6 meses.',
+    metaDesc: 'Cámbiate de gestoría sin papeleo: rellenas un formulario y pedimos tu documentación a tu gestoría actual. Gratis si te quedas 6 meses.',
     eyebrow: 'Cambiar de gestoría',
     title: 'Cámbiate de gestoría sin hacer nada',
     dek: 'Rellenas un formulario de cinco minutos y nos encargamos del resto. Tú no tienes que hablar con tu gestoría anterior.',
@@ -61,7 +61,7 @@ export const CAMBIO: Record<Locale, {
   },
   ca: {
     metaTitle: 'Canviar de gestoria sense fer res · Asesoría Madal',
-    metaDesc: 'Passa’t a Asesoría Madal: omples un formulari i ens encarreguem de demanar la documentació a la teva gestoria i de coordinar els trimestres. Gratuït si et quedes 6 mesos.',
+    metaDesc: 'Canvia de gestoria sense paperassa: omples un formulari i demanem la documentació a la teva gestoria actual. Gratuït si et quedes 6 mesos.',
     eyebrow: 'Canviar de gestoria',
     title: 'Canvia de gestoria sense fer res',
     dek: 'Omples un formulari de cinc minuts i ens encarreguem de la resta. No has de parlar amb la teva gestoria anterior.',

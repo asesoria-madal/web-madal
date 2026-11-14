@@ -6,7 +6,7 @@ description: 'Cuándo tienes que darte de alta, qué trámites hay, cómo lo hac
 seoTitle: "Alta de autónomo: cuándo, cómo y cuánto cuesta con nosotros"
 cat: fiscalidad
 date: 2026-10-05
-updatedDate: 2026-11-11
+updatedDate: 2026-11-14
 sources:
   - label: 'Real Decreto Legislativo 8/2015, texto refundido de la Ley General de la Seguridad Social - obligación de alta en el RETA'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2015-11724'
@@ -56,7 +56,7 @@ Normalmente **uno o dos días laborables** desde que tenemos tu documentación c
 
 ## Cuánto cuesta
 
-**El alta no tiene tarifa aparte.** Va incluida en el plan **Debut**, pensado para autónomos que acaban de darse de alta o están a punto: **35 € + IVA al mes (42,35 € con IVA) durante el primer año**, con alcance fiscal y contable completo, la llamada de bienvenida, hasta 20 facturas al mes y contacto por email. A los 6 meses revisamos tu facturación: si tu proyección anual supera los 25.000 € (o pasas de 20 facturas al mes dos meses seguidos), pasas al plan Esencial; y al terminar el año pasas a Esencial o al plan que corresponda.
+**El alta no tiene tarifa aparte** si te quedas con nosotros al menos 6 meses (si no, son 40 € + IVA). Va incluida en todas las cuotas de autónomo, también en el plan **Debut**, pensado para quien acaba de darse de alta o está a punto: **35 € + IVA al mes los 6 primeros meses y 45 € + IVA del 7 al 12**, con alcance fiscal y contable completo, la llamada de bienvenida, hasta 20 facturas al mes y contacto por email. A los 6 meses revisamos tu facturación: si tu proyección anual supera los 25.000 € (o pasas de 20 facturas al mes dos meses seguidos), pasas al plan Esencial; y al terminar el año pasas a Esencial o al plan que prefieras. Sin permanencia.
 
 Si quieres saber cuánto costaría en tu caso, consulta [nuestros planes y precios](/#precios) o mira [cuánto cuesta una gestoría online](/blog/precio-gestoria-online-2026).
 
