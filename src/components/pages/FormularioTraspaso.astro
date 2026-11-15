@@ -12,6 +12,7 @@
 // Revisión del 2026-11-11: ver la cabecera de i18n/formularios.ts.
 import { CAMPOS, MODELOS_AUTONOMO, MODELOS_SL, MSG_CAMPO, PRIVACIDAD_HREF, TRASPASO, type FormLang } from '../../i18n/formularios';
 import { useTranslations } from '../../i18n/utils';
+import { guiaApoderamientoAeat, guiaApoderamientoSs } from '../../lib/guias';
 
 interface Props { tipo: 'autonomo' | 'sl'; lang?: FormLang; }
 const { tipo, lang = 'es' } = Astro.props;
@@ -218,12 +219,12 @@ const planes = (isAutonomo ? precios.autonomoTiers : precios.pymeTiers).map((p) 
       <p class="field-hint">{t.recuerdaHint}</p>
       <ul class="doc-list">
         <li>
-          <a href="https://suslwmgqdzingeqhfrpw.supabase.co/storage/v1/object/public/docs-publicos/Pasos_Apoderamiento_Seguridad_Social.pdf" target="_blank" rel="noopener">
+          <a href={guiaApoderamientoSs(lang)} target="_blank" rel="noopener">
             {t.guiaSS}
           </a>
         </li>
         <li>
-          <a href="https://suslwmgqdzingeqhfrpw.supabase.co/storage/v1/object/public/docs-publicos/Pasos_Apoderamiento_AEAT.pdf" target="_blank" rel="noopener">
+          <a href={guiaApoderamientoAeat(lang)} target="_blank" rel="noopener">
             {t.guiaAeat}
           </a>
         </li>

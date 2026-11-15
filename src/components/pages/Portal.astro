@@ -15,6 +15,7 @@ import { useTranslations } from '../../i18n/utils';
 import type { Locale } from '../../i18n/ui';
 import { WHATSAPP_NUMBER, CONTACT_EMAIL } from '../../lib/contact';
 import CarpetaDocumentos from '../CarpetaDocumentos.astro';
+import { guiaApoderamientoAeat, guiaApoderamientoSs, guiaExportarCertificado } from '../../lib/guias';
 
 interface Props { lang: Locale; }
 const { lang } = Astro.props;
@@ -250,17 +251,30 @@ const textosCarpeta = { subir: t.doc.subir, foto: t.facturas.cameraSubmit, ver: 
               </p>
             </div>
 
-            <div class="field-group">
+            {/* Apoderamiento: solo autónomos; a una SL le pedimos siempre el certificado digital
+                (Edurne, 2026-11-15). Oculto hasta saber el tipo de cliente. Guías en el idioma del portal. */}
+            <div id="doc-apoderamiento" class="field-group" hidden>
               <p class="field-group-label">{t.doc.apoderamientoGroup}</p>
               <ul class="doc-list">
                 <li>
-                  <a href="https://suslwmgqdzingeqhfrpw.supabase.co/storage/v1/object/public/docs-publicos/Pasos_Apoderamiento_AEAT.pdf" target="_blank" rel="noopener">
+                  <a href={guiaApoderamientoAeat(lang)} target="_blank" rel="noopener">
                     {t.doc.apoderamientoAeat}
                   </a>
                 </li>
                 <li>
-                  <a href="https://suslwmgqdzingeqhfrpw.supabase.co/storage/v1/object/public/docs-publicos/Pasos_Apoderamiento_Seguridad_Social.pdf" target="_blank" rel="noopener">
+                  <a href={guiaApoderamientoSs(lang)} target="_blank" rel="noopener">
                     {t.doc.apoderamientoSs}
+                  </a>
+                </li>
+              </ul>
+            </div>
+
+            <div class="field-group">
+              <p class="field-group-label">{t.doc.certificadoGroup}</p>
+              <ul class="doc-list">
+                <li>
+                  <a href={guiaExportarCertificado(lang)} target="_blank" rel="noopener">
+                    {t.doc.certificadoLink}
                   </a>
                 </li>
               </ul>
@@ -435,6 +449,7 @@ const textosCarpeta = { subir: t.doc.subir, foto: t.facturas.cameraSubmit, ver: 
   const docPresentacionAutonomoEl = document.getElementById('doc-presentacion-autonomo') as HTMLElement;
   const docPresentacionSlEl = document.getElementById('doc-presentacion-sl') as HTMLElement;
   const docPresentacionPendienteEl = document.getElementById('doc-presentacion-pendiente') as HTMLElement;
+  const docApoderamientoEl = document.getElementById('doc-apoderamiento') as HTMLElement;
 
   const navLinks = Array.from(document.querySelectorAll<HTMLButtonElement>('.app-nav-link'));
   const panels = Array.from(document.querySelectorAll<HTMLElement>('.app-panel'));
@@ -521,6 +536,7 @@ const textosCarpeta = { subir: t.doc.subir, foto: t.facturas.cameraSubmit, ver: 
     docPresentacionAutonomoEl.hidden = tipoPersona !== 'autonomo';
     docPresentacionSlEl.hidden = tipoPersona !== 'sl';
     docPresentacionPendienteEl.hidden = tipoPersona === 'autonomo' || tipoPersona === 'sl';
+    docApoderamientoEl.hidden = tipoPersona === 'sl';
     ajustarCarpetas(tipoPersona);
   }
 
