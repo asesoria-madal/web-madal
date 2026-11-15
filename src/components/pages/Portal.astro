@@ -718,7 +718,7 @@ const textosCarpeta = { subir: t.doc.subir, foto: t.facturas.cameraSubmit, ver: 
     // solo se pinta cuando cambia el usuario de la sesión, y las dos primeras consultas van en paralelo.
     let usuarioPintado: string | null = null;
 
-    async function renderForSession(session: Session | null) {
+    async function renderForSession(session: Session | null, intento = 1) {
       if (!session) {
         usuarioPintado = null;
         showOnly(loginForm);
@@ -732,10 +732,20 @@ const textosCarpeta = { subir: t.doc.subir, foto: t.facturas.cameraSubmit, ver: 
       // Cliente normal: sin filtro por email, RLS ya limita clientes a la fila vinculada
       // (auth_user_id = auth.uid()); si el trigger de alta todavía no la ha vinculado, no devuelve
       // nada y cae en "unlinked". limit(1): a un admin RLS le devuelve todas y aquí no se usan.
-      const [{ data: adminRow }, { data: cliente }] = await Promise.all([
+      const [{ data: adminRow, error: adminError }, { data: cliente, error: clienteError }] = await Promise.all([
         supabase!.from('portal_admins').select('auth_user_id').maybeSingle(),
         supabase!.from('clientes').select('id, nombre, tipo_persona, contacto_whatsapp').limit(1).maybeSingle(),
       ]);
+
+      // Justo al entrar con el enlace del correo, Supabase puede rechazar una vez el token recién
+      // emitido (401). Antes lo tapaba la carga repetida; ahora se reintenta hasta 3 veces en vez de
+      // dar por hecho que no hay ficha. Mientras, se sigue viendo "Cargando".
+      if (adminError || clienteError) {
+        usuarioPintado = null;
+        if (intento < 4) setTimeout(() => void renderForSession(session, intento + 1), 700 * intento);
+        else showOnly(unlinkedEl);
+        return;
+      }
 
       if (adminRow) {
         await renderAdmin();
