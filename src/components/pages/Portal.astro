@@ -419,6 +419,7 @@ const textosCarpeta = { subir: t.doc.subir, foto: t.facturas.cameraSubmit, ver: 
 
 <script>
   import { getSupabaseBrowser } from '../../lib/supabaseClient';
+  import type { Session } from '@supabase/supabase-js';
 
   // Textos que necesita este script (viajan serializados desde el servidor,
   // ya en el idioma de la página) y locale para formatear fechas/importes.
@@ -712,37 +713,34 @@ const textosCarpeta = { subir: t.doc.subir, foto: t.facturas.cameraSubmit, ver: 
       showOnly(dashEl);
     }
 
-    async function renderForSession() {
-      const {
-        data: { session },
-      } = await supabase!.auth.getSession();
+    // Una sola carga por sesión (2026-11-15). Antes el portal se pintaba tres veces al entrar (la
+    // llamada directa, INITIAL_SESSION y SIGNED_IN del enlace) y repetía todas las consultas. Ahora
+    // solo se pinta cuando cambia el usuario de la sesión, y las dos primeras consultas van en paralelo.
+    let usuarioPintado: string | null = null;
 
+    async function renderForSession(session: Session | null) {
       if (!session) {
+        usuarioPintado = null;
         showOnly(loginForm);
         return;
       }
+      if (usuarioPintado === session.user.id) return;
+      usuarioPintado = session.user.id;
 
-      // ¿La sesión es de un miembro del equipo con acceso admin? La
-      // política RLS de portal_admins solo deja ver la fila propia, así
-      // que esto devuelve algo únicamente si eres admin.
-      const { data: adminRow } = await supabase!
-        .from('portal_admins')
-        .select('auth_user_id')
-        .maybeSingle();
+      // ¿La sesión es de un miembro del equipo con acceso admin? La política RLS de portal_admins
+      // solo deja ver la fila propia, así que devuelve algo únicamente si eres admin.
+      // Cliente normal: sin filtro por email, RLS ya limita clientes a la fila vinculada
+      // (auth_user_id = auth.uid()); si el trigger de alta todavía no la ha vinculado, no devuelve
+      // nada y cae en "unlinked". limit(1): a un admin RLS le devuelve todas y aquí no se usan.
+      const [{ data: adminRow }, { data: cliente }] = await Promise.all([
+        supabase!.from('portal_admins').select('auth_user_id').maybeSingle(),
+        supabase!.from('clientes').select('id, nombre, tipo_persona, contacto_whatsapp').limit(1).maybeSingle(),
+      ]);
 
       if (adminRow) {
         await renderAdmin();
         return;
       }
-
-      // Cliente normal. Sin filtro por email: RLS ya limita esta consulta
-      // a la fila vinculada (auth_user_id = auth.uid()) - si el trigger de
-      // alta todavía no la ha vinculado, no devuelve nada y cae en
-      // "unlinked", igual que antes.
-      const { data: cliente } = await supabase!
-        .from('clientes')
-        .select('id, nombre, tipo_persona, contacto_whatsapp')
-        .maybeSingle();
 
       if (!cliente) {
         showOnly(unlinkedEl);
@@ -865,8 +863,13 @@ const textosCarpeta = { subir: t.doc.subir, foto: t.facturas.cameraSubmit, ver: 
       }
     });
 
-    renderForSession();
-    supabase.auth.onAuthStateChange(() => renderForSession());
+    // INITIAL_SESSION llega siempre al suscribirse, así que no hace falta otra llamada al arrancar.
+    // Fuera del callback (setTimeout) para no hacer consultas dentro del aviso de Supabase Auth, y sin
+    // repintar al renovar el token.
+    supabase.auth.onAuthStateChange((evento, session) => {
+      if (evento === 'TOKEN_REFRESHED' || evento === 'USER_UPDATED') return;
+      setTimeout(() => void renderForSession(session), 0);
+    });
 
     loginForm.addEventListener('submit', async (e) => {
       e.preventDefault();
