@@ -127,6 +127,7 @@ Las políticas de `storage.objects` para `facturas` están creadas **a mano en e
 | `POST /api/alta-cliente` | `clientes` | — | Solo admin (`portal_admins`, validado con el token de sesión). Inserta la ficha con idioma, plan, teléfono, `alta_hecha`, `reporting` y `enviar_formulario`; no envía nada, lo hace n8n a partir del INSERT. |
 | `POST /api/alta-autonomo` | `alta_nuevos_autonomos` | Sí | Normaliza NIF a mayúsculas e IBAN sin espacios. |
 | `POST /api/traspaso` | `traspasos_nuevos` | Sí | Ídem; ramifica el insert según `tipo`. |
+| `POST /api/documentos-alta` | — (no lee ni escribe) | 30 / 10 min / IP | Desde 2026-11-16. Lo llama n8n ("Mandato Seguridad Social") con `respuestas.f` del formulario de alta. Devuelve en base64 el mandato TC 1/15-3 rellenado (plantilla en `docs-publicos`) y, si `poder: true`, el poder de representación en es/ca/en. Sin clave porque solo rellena lo que recibe; los datos del apoderado los manda n8n. |
 | `POST /api/alta-trabajador` | `altas_trabajadores` | Sí | Ídem; exige causa concreta (≥ 30 caracteres) en temporales, tutor y plan en formativos, horas y distribución en parcial, y NUSS salvo «no tiene». |
 
 Los endpoints de formularios y login (`portal-login`, `alta-autonomo`, `traspaso`, `alta-trabajador`) usan `getSupabaseAdmin()` y **degradan con gracia**: si Supabase no está configurado responden en éxito sin persistir (`{ persisted: false }`), para no romper la experiencia.
