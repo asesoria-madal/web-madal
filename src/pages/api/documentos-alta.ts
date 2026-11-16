@@ -39,10 +39,19 @@ const sinEspacios = (v: unknown) => txt(v, 60).toUpperCase().replace(/[\s.-]/g, 
 // NIE (X/Y/Z inicial) = tarjeta de extranjero; si no, DNI.
 const esNie = (doc: string) => /^[XYZ]/.test(doc);
 
-// Las fuentes estándar de PDF solo cubren WinAnsi: se cambian las comillas tipográficas y se
-// quita cualquier carácter fuera de ese juego para que pdf-lib no falle.
+// Las fuentes estándar de PDF solo cubren WinAnsi (letras de Europa occidental). Una letra de
+// fuera (ș, ă, ł, ő… en nombres rumanos, polacos, húngaros) se escribe sin el signo diacrítico
+// ("Ștefan" -> "Stefan") en vez de perderse; lo que no tenga equivalente se quita para que
+// pdf-lib no falle.
+const EXTRA: Record<string, string> = { ł: 'l', Ł: 'L', đ: 'd', Đ: 'D', ı: 'i' };
 const winAnsi = (s: string) =>
-  s.replace(/[‘’]/g, "'").replace(/[“”«»]/g, '"').replace(/[^\x20-\x7E -ÿ€]/g, '');
+  [...s.replace(/[‘’]/g, "'").replace(/[“”«»]/g, '"')]
+    .map((c) => {
+      if (/[\x20-\x7E -ÿ€]/.test(c)) return c;
+      const base = EXTRA[c] ?? c.normalize('NFD').replace(/[̀-ͯ]/g, '');
+      return /^[\x20-\x7E -ÿ]*$/.test(base) ? base : '';
+    })
+    .join('');
 
 function fechaHoy() {
   const p = new Intl.DateTimeFormat('es-ES', { timeZone: 'Europe/Madrid', day: 'numeric', month: 'numeric', year: 'numeric' })
