@@ -345,7 +345,7 @@
     <div class="field" data-if="iban_titular:No"><label class="l">Nombre del titular de la cuenta <span class="req">*</span></label><input type="text" name="iban_tit_nombre" data-req></div>
     <div class="field" data-if="iban_titular:No"><label class="l">DNI / NIE del titular <span class="req">*</span></label><input type="text" name="iban_tit_dni" data-req></div>
     <div class="field full" data-if="iban_titular:No"><div class="note" style="margin:0">Como la cuenta es de otra persona, el mandato de domiciliación lo tendréis que firmar los dos: el titular de la cuenta y tú.</div></div>
-    <div class="field full"><div class="note" style="margin:0">Al enviar este formulario te mandaremos por correo el mandato de domiciliación de la Seguridad Social (modelo TC 1/15-3) con las instrucciones para rellenarlo y firmarlo. Es lo que permite que la cuota de autónomo se cargue cada mes en esta cuenta.</div></div>
+    <div class="field full"><div class="note" style="margin:0">Al enviar este formulario te mandaremos por correo, ya rellenados con estos datos, el mandato de domiciliación de la Seguridad Social (modelo TC 1/15-3) y el poder de representación para que tramitemos tu alta: solo tendrás que firmarlos. El mandato es lo que permite que la cuota de autónomo se cargue cada mes en esta cuenta.</div></div>
     <div class="field full"><label class="l">¿Domiciliamos los impuestos en esta misma cuenta? <span class="req">*</span></label>
       <div class="opts" data-req-group="iban_imp_misma">
         <label><input type="radio" name="iban_imp_misma" value="Sí">Sí</label>
@@ -407,7 +407,7 @@
     <li data-if="lugar_alq:1"><label><input type="checkbox" name="doc_alq" value="Sí"> Contrato de alquiler del local (o borrador)</label></li>
     <li data-if="hay_especial:1"><label><input type="checkbox" name="doc_especial" value="Sí"> Documento que acredite la discapacidad o la condición de víctima</label></li>
     <li data-if="act_regulada:Sí"><label><input type="checkbox" name="doc_colegiado" value="Sí"> Título, colegiación o licencia de la actividad</label></li>
-    <li><label><input type="checkbox" name="doc_mandato" value="Sí"> Mandato de domiciliación de la Seguridad Social rellenado y firmado (te lo enviamos nosotros por correo, con las instrucciones)</label></li>
+    <li><label><input type="checkbox" name="doc_mandato" value="Sí"> Mandato de domiciliación de la Seguridad Social y poder de representación, firmados (te los enviamos nosotros por correo, ya rellenados)</label></li>
   </ul>
 </section>
 
