@@ -557,7 +557,7 @@ const textosCarpeta = { subir: t.doc.subir, foto: t.facturas.cameraSubmit, ver: 
     async function renderFacturaList(clienteId: string) {
       const { data, error } = await supabase!
         .from('facturas_subidas')
-        .select('id, nombre_archivo, storage_path, fecha_subida, fecha_contabilizado, carpeta, cuenta_digitos, periodo_desde, periodo_hasta')
+        .select('id, referencia, nombre_archivo, storage_path, drive_file_id, fecha_subida, fecha_contabilizado, carpeta, cuenta_digitos, periodo_desde, periodo_hasta')
         .eq('cliente_id', clienteId)
         .order('fecha_subida', { ascending: false });
 
@@ -587,12 +587,45 @@ const textosCarpeta = { subir: t.doc.subir, foto: t.facturas.cameraSubmit, ver: 
       }
     }
 
+    // Workflow de n8n "Archivo del portal": devuelve el archivo desde Drive si la sesión es suya o de un admin.
+    const ARCHIVO_URL = 'https://n8n.asesoriamadal.es/webhook/archivo-portal';
+
+    async function descargarDeDrive(row: Record<string, unknown>): Promise<boolean> {
+      const { data: { session } } = await supabase!.auth.getSession();
+      if (!session) return false;
+      try {
+        const r = await fetch(`${ARCHIVO_URL}?id=${encodeURIComponent(String(row.id))}`, {
+          headers: { Authorization: `Bearer ${session.access_token}` },
+        });
+        if (!r.ok) return false;
+        const blob = await r.blob();
+        const ext = ((row.nombre_archivo as string).match(/\.[a-zA-Z0-9]{2,5}$/) || ['.pdf'])[0].toLowerCase();
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `${(row.referencia as string) || 'documento'}${ext}`;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        setTimeout(() => URL.revokeObjectURL(url), 60_000);
+        return true;
+      } catch {
+        return false;
+      }
+    }
+
     function filaArchivo(row: Record<string, unknown>, carpeta: string): HTMLLIElement {
         const li = document.createElement('li');
 
         const nombre = document.createElement('div');
         nombre.className = 'factura-nombre';
-        nombre.textContent = row.nombre_archivo as string;
+        // Referencia AM-AAAA-NNNNNN (2026-11-17): la misma que va en Cegid y en el nombre del archivo en Drive.
+        if (row.referencia) {
+          const ref = document.createElement('strong');
+          ref.textContent = `${row.referencia as string} · `;
+          nombre.appendChild(ref);
+        }
+        nombre.appendChild(document.createTextNode(row.nombre_archivo as string));
         li.appendChild(nombre);
 
         const meta = document.createElement('div');
@@ -611,22 +644,26 @@ const textosCarpeta = { subir: t.doc.subir, foto: t.facturas.cameraSubmit, ver: 
         meta.textContent = partes.join(' · ');
         li.appendChild(meta);
 
-        if (row.storage_path) {
+        // Desde el 2026-11-17 los documentos no se pierden: el Storage se sigue vaciando a los 7 días
+        // (n8n, "Borrado facturas Storage"), pero si ya no está ahí se descarga de su copia en Drive
+        // a través de n8n ("Archivo del portal"), que comprueba con la sesión que es del cliente o de un admin.
+        if (row.storage_path || row.drive_file_id) {
           const descargar = document.createElement('button');
           descargar.type = 'button';
           descargar.className = 'factura-descargar';
           descargar.textContent = I18N.facturas.download;
           descargar.addEventListener('click', async () => {
-            const { data: signed } = await supabase!.storage
-              .from('facturas')
-              .createSignedUrl(row.storage_path as string, 60);
-            if (signed?.signedUrl) {
-              window.open(signed.signedUrl, '_blank');
-            } else {
-              // El registro sigue aquí pero el archivo ya no está en el Storage
-              // (borrado a mano sin limpiar storage_path, o ya archivado en Drive).
-              alert(I18N.facturas.gone);
+            if (row.storage_path) {
+              const { data: signed } = await supabase!.storage
+                .from('facturas')
+                .createSignedUrl(row.storage_path as string, 60);
+              if (signed?.signedUrl) {
+                window.open(signed.signedUrl, '_blank');
+                return;
+              }
             }
+            if (row.drive_file_id && (await descargarDeDrive(row))) return;
+            alert(I18N.facturas.gone);
           });
           li.appendChild(descargar);
         }
