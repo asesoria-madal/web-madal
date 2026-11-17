@@ -1274,3 +1274,28 @@ begin
       where id = r.id;
   end loop;
 end $$;
+
+-- ---------------------------------------------------------------------------
+-- 2026-11-17 · Acceso al portal con correo y contraseña (Edurne)
+-- ---------------------------------------------------------------------------
+-- El portal pasa de "solo enlace por correo" a correo + contraseña, con dos opciones:
+-- "¿Has olvidado tu contraseña?" (tipo 'contrasena') y "Entrar sin contraseña" (tipo 'entrar').
+-- api/portal-login.ts apunta aquí cada petición y n8n ("Accesos del portal", cada minuto)
+-- genera el enlace con la API de administración de Supabase y lo manda en el idioma del
+-- cliente. Así los correos de acceso salen como el resto (idioma, marca, copia oculta) y no
+-- con la plantilla única de Supabase. Solo se envía a correos de una ficha de cliente o de un
+-- administrador del portal; el resto se marca como descartado sin avisar a nadie.
+-- Solo la service role la usa: RLS activo y sin políticas.
+-- Ejecutado por n8n el 2026-11-17.
+create table if not exists portal_accesos (
+  id bigint generated always as identity primary key,
+  email text not null,
+  tipo text not null,        -- 'entrar' | 'contrasena' (se valida en el endpoint, sin CHECK)
+  idioma text,               -- idioma de la página desde la que se pidió (si la ficha no tiene)
+  created_at timestamptz not null default now(),
+  enviado_at timestamptz,
+  resultado text             -- 'enviado' | 'descartado' | 'repetido'
+);
+alter table portal_accesos enable row level security;
+grant all on portal_accesos to service_role;
+create index if not exists portal_accesos_pendientes on portal_accesos (created_at) where enviado_at is null;

@@ -49,13 +49,39 @@ const textosCarpeta = { subir: t.doc.subir, foto: t.facturas.cameraSubmit, ver: 
       <p>{t.unconfiguredPre}<a href={`mailto:${EMAIL}`}>{EMAIL}</a>{t.unconfiguredPost}</p>
     </div>
 
+    <!-- Correo y contraseña (2026-11-17, Edurne). "¿Has olvidado tu contraseña?" y "Entrar sin
+         contraseña" piden un correo a api/portal-login (lo envía n8n en el idioma del cliente). -->
     <form id="portal-login-form" hidden class="portal-form-wrap">
       <p>{t.loginIntro}</p>
-      <div class="portal-form">
-        <input type="email" id="portal-email" name="email" placeholder={t.emailPlaceholder} aria-label={t.emailLabel} required autocomplete="email" />
-        <button type="submit" class="btn btn-primary">{t.sendLink}</button>
+      <div class="portal-login-campos">
+        <label class="portal-campo">{t.emailLabel}
+          <input type="email" id="portal-email" name="email" placeholder={t.emailPlaceholder} required autocomplete="username" />
+        </label>
+        <label class="portal-campo">{t.passwordLabel}
+          <input type="password" id="portal-password" name="password" required autocomplete="current-password" />
+        </label>
+        <button type="submit" class="btn btn-primary">{t.loginSubmit}</button>
+      </div>
+      <div class="portal-login-alt">
+        <button type="button" id="portal-olvido" class="portal-link-btn">{t.forgot}</button>
+        <button type="button" id="portal-sin-contrasena" class="portal-link-btn">{t.noPassword}</button>
       </div>
       <p id="portal-login-msg" class="portal-msg" hidden></p>
+    </form>
+
+    <!-- Elegir contraseña: al llegar con el enlace de "crea tu contraseña" o "¿has olvidado…?". -->
+    <form id="portal-password-form" hidden class="portal-form-wrap">
+      <p>{t.newPasswordIntro}</p>
+      <div class="portal-login-campos">
+        <label class="portal-campo">{t.newPassword}
+          <input type="password" id="portal-new-password" minlength="8" required autocomplete="new-password" />
+        </label>
+        <label class="portal-campo">{t.repeatPassword}
+          <input type="password" id="portal-new-password-2" minlength="8" required autocomplete="new-password" />
+        </label>
+        <button type="submit" class="btn btn-primary">{t.savePassword}</button>
+      </div>
+      <p id="portal-password-msg" class="portal-msg" hidden></p>
     </form>
 
     <div id="portal-unlinked" hidden>
@@ -435,6 +461,18 @@ const textosCarpeta = { subir: t.doc.subir, foto: t.facturas.cameraSubmit, ver: 
   const loginForm = document.getElementById('portal-login-form') as HTMLFormElement;
   const emailInput = document.getElementById('portal-email') as HTMLInputElement;
   const loginMsg = document.getElementById('portal-login-msg') as HTMLElement;
+  const passwordInput = document.getElementById('portal-password') as HTMLInputElement;
+  const olvidoBtn = document.getElementById('portal-olvido') as HTMLButtonElement;
+  const sinContrasenaBtn = document.getElementById('portal-sin-contrasena') as HTMLButtonElement;
+  const passwordForm = document.getElementById('portal-password-form') as HTMLFormElement;
+  const newPass1 = document.getElementById('portal-new-password') as HTMLInputElement;
+  const newPass2 = document.getElementById('portal-new-password-2') as HTMLInputElement;
+  const passwordMsg = document.getElementById('portal-password-msg') as HTMLElement;
+  // Enlace de los correos de acceso: Supabase deja el tipo en el fragmento (#...&type=recovery|invite|magiclink).
+  // Se lee antes de crear el cliente de Supabase, que limpia el fragmento al recoger la sesión.
+  // recovery ("¿has olvidado…?") e invite (primer acceso) llevan a elegir la contraseña.
+  const TIPO_ENLACE = new URLSearchParams(window.location.hash.slice(1)).get('type');
+  let pedirContrasena = TIPO_ENLACE === 'recovery' || TIPO_ENLACE === 'invite';
   const unlinkedEl = document.getElementById('portal-unlinked') as HTMLElement;
   const dashEl = document.getElementById('portal-dash') as HTMLElement;
   const nombreEl = document.getElementById('portal-nombre') as HTMLElement;
@@ -508,7 +546,7 @@ const textosCarpeta = { subir: t.doc.subir, foto: t.facturas.cameraSubmit, ver: 
   });
 
   function showOnly(el: HTMLElement) {
-    for (const section of [unconfiguredEl, loginForm, unlinkedEl, dashEl]) {
+    for (const section of [unconfiguredEl, loginForm, passwordForm, unlinkedEl, dashEl]) {
       section.hidden = section !== el;
     }
     loadingEl.hidden = true;
@@ -761,6 +799,13 @@ const textosCarpeta = { subir: t.doc.subir, foto: t.facturas.cameraSubmit, ver: 
         showOnly(loginForm);
         return;
       }
+      // Ha entrado con el enlace de "crea tu contraseña" o "¿has olvidado…?": primero la elige.
+      if (pedirContrasena) {
+        usuarioPintado = null;
+        showOnly(passwordForm);
+        newPass1.focus();
+        return;
+      }
       if (usuarioPintado === session.user.id) return;
       usuarioPintado = session.user.id;
 
@@ -914,38 +959,83 @@ const textosCarpeta = { subir: t.doc.subir, foto: t.facturas.cameraSubmit, ver: 
     // Fuera del callback (setTimeout) para no hacer consultas dentro del aviso de Supabase Auth, y sin
     // repintar al renovar el token.
     supabase.auth.onAuthStateChange((evento, session) => {
+      if (evento === 'PASSWORD_RECOVERY') pedirContrasena = true;
       if (evento === 'TOKEN_REFRESHED' || evento === 'USER_UPDATED') return;
       setTimeout(() => void renderForSession(session), 0);
     });
 
+    function avisoLogin(texto: string, clase = '') {
+      loginMsg.hidden = false;
+      loginMsg.className = `portal-msg ${clase}`.trim();
+      loginMsg.textContent = texto;
+    }
+
+    // Correo y contraseña (2026-11-17). Supabase limita los intentos fallidos.
     loginForm.addEventListener('submit', async (e) => {
       e.preventDefault();
-      loginMsg.hidden = false;
-      loginMsg.className = 'portal-msg';
-      loginMsg.textContent = I18N.login.sending;
+      avisoLogin(I18N.login.entering);
+      const { error } = await supabase!.auth.signInWithPassword({
+        email: emailInput.value.trim().toLowerCase(),
+        password: passwordInput.value,
+      });
+      if (error) {
+        avisoLogin(I18N.login.wrong, 'is-error');
+        return;
+      }
+      loginMsg.hidden = true;
+      passwordInput.value = '';
+    });
 
-      // Vía el endpoint del servidor, no supabase.auth.signInWithOtp
-      // directo: así solo un email ya dado de alta en `clientes` puede
-      // llegar a recibir el enlace (ver api/portal-login.ts).
+    // "¿Has olvidado tu contraseña?" y "Entrar sin contraseña": el correo lo manda n8n, en el idioma
+    // del cliente y solo si el email es de una ficha o de un admin (ver api/portal-login.ts).
+    async function pedirCorreo(tipo: 'contrasena' | 'entrar') {
+      const email = emailInput.value.trim();
+      if (!emailInput.checkValidity() || !email) {
+        avisoLogin(I18N.login.needEmail, 'is-error');
+        emailInput.focus();
+        return;
+      }
+      avisoLogin(I18N.login.sending);
       let ok = false;
       try {
         const res = await fetch('/api/portal-login', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email: emailInput.value, redirectTo: window.location.href.split('?')[0] }),
+          body: JSON.stringify({ email, tipo, idioma: (document.documentElement.lang || 'es').slice(0, 2) }),
         });
         ok = res.ok;
       } catch {
         ok = false;
       }
+      if (ok) avisoLogin(tipo === 'contrasena' ? I18N.login.sentPassword : I18N.login.sent, 'is-ok');
+      else avisoLogin(I18N.login.error, 'is-error');
+    }
+    olvidoBtn.addEventListener('click', () => void pedirCorreo('contrasena'));
+    sinContrasenaBtn.addEventListener('click', () => void pedirCorreo('entrar'));
 
-      if (ok) {
-        loginMsg.className = 'portal-msg is-ok';
-        loginMsg.textContent = I18N.login.sent;
-      } else {
-        loginMsg.className = 'portal-msg is-error';
-        loginMsg.textContent = I18N.login.error;
+    // Elegir contraseña (primer acceso o recuperación).
+    passwordForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const aviso = (texto: string, clase = '') => {
+        passwordMsg.hidden = false;
+        passwordMsg.className = `portal-msg ${clase}`.trim();
+        passwordMsg.textContent = texto;
+      };
+      if (newPass1.value.length < 8) return aviso(I18N.login.passShort, 'is-error');
+      if (newPass1.value !== newPass2.value) return aviso(I18N.login.passMismatch, 'is-error');
+      aviso(I18N.login.sending);
+      const { error } = await supabase!.auth.updateUser({ password: newPass1.value });
+      if (error) {
+        console.error('updateUser password:', error.message);
+        return aviso(I18N.login.passError, 'is-error');
       }
+      pedirContrasena = false;
+      newPass1.value = '';
+      newPass2.value = '';
+      passwordMsg.hidden = true;
+      history.replaceState(null, '', window.location.pathname);
+      const { data: { session } } = await supabase!.auth.getSession();
+      void renderForSession(session);
     });
 
     const FACTURA_TIPOS_ACEPTADOS = ['application/pdf', 'image/jpeg', 'image/png', 'image/webp'];

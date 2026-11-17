@@ -1347,6 +1347,25 @@ section#como-trabajamos { background: var(--accent-tint); border-top-color: var(
   color: var(--ink);
 }
 .portal-form input[type="email"]:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+/* Acceso con correo y contraseña (2026-11-17) */
+.portal-login-campos { display: flex; flex-direction: column; gap: 0.8rem; margin-top: 1.2rem; max-width: 380px; }
+.portal-campo { display: flex; flex-direction: column; gap: 0.3rem; font-size: 0.85rem; font-weight: 600; color: var(--ink-soft); }
+.portal-campo input {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-weight: 400;
+  padding: 0.65rem 0.9rem;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--paper);
+  color: var(--ink);
+  min-height: 44px;
+}
+.portal-campo input:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+.portal-login-campos .btn { align-self: flex-start; min-height: 44px; }
+.portal-login-alt { display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; margin-top: 0.9rem; }
+.portal-link-btn { background: none; border: 0; padding: 0.5rem 0; min-height: 44px; font: inherit; font-size: 0.9rem; color: var(--accent); text-decoration: underline; cursor: pointer; }
+.portal-link-btn:hover { color: var(--ink); }
 .portal-msg { margin-top: 1rem; font-size: 0.88rem; }
 .portal-msg.is-error { color: var(--warm-text); }
 .portal-msg.is-ok { color: var(--accent); }
