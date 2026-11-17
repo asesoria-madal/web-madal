@@ -97,6 +97,7 @@ const textosCarpeta = { subir: t.doc.subir, foto: t.facturas.cameraSubmit, ver: 
             <button type="button" class="app-nav-link active" data-panel="inicio">{t.nav.inicio}</button>
             <button type="button" class="app-nav-link" data-panel="prevision">{t.nav.prevision}</button>
             <button type="button" class="app-nav-link" data-panel="documentos">{t.nav.documentos}</button>
+            <button type="button" class="app-nav-link" data-panel="misfacturas">{t.nav.misFacturas}</button>
             <button type="button" class="app-nav-link" data-panel="documentacion">{t.nav.documentacion}</button>
           </nav>
           <div class="app-sidebar-foot">
@@ -238,6 +239,37 @@ const textosCarpeta = { subir: t.doc.subir, foto: t.facturas.cameraSubmit, ver: 
             <div class="doc-carpetas">
               {CARPETAS_DOCUMENTACION.map((c) => <CarpetaDocumentos codigo={c} nombre={t.doc.carpetas[c]} textos={textosCarpeta} />)}
             </div>
+          </section>
+
+          <!-- Mis facturas (2026-11-17): cada factura o ticket subido con lo que se ha leído de él y
+               su estado (Recibida, En revisión, Contabilizada o No contabilizada con el motivo).
+               Datos: facturas_subidas + facturas_lectura (RLS: el cliente solo ve las suyas). -->
+          <section class="app-panel" data-panel="misfacturas" hidden>
+            <h2>{t.misFacturas.title}</h2>
+            <p>{t.misFacturas.intro}</p>
+            <div class="mf-tabs" role="tablist">
+              <button type="button" class="mf-tab is-active" data-mf-tipo="recibida" role="tab">{t.misFacturas.recibidas}</button>
+              <button type="button" class="mf-tab" data-mf-tipo="emitida" role="tab">{t.misFacturas.emitidas}</button>
+            </div>
+            <div class="mf-filtros">
+              <label>{t.misFacturas.trimestre}<select id="mf-trimestre"><option value="">{t.misFacturas.todos}</option></select></label>
+              <label class="mf-buscar">{t.misFacturas.buscar}<input type="search" id="mf-buscar" placeholder={t.misFacturas.buscarPh} /></label>
+            </div>
+            <div class="mf-totales" id="mf-totales"></div>
+            <div class="mf-tabla-caja">
+              <table class="mf-tabla">
+                <thead>
+                  <tr>
+                    <th>{t.misFacturas.cols.ref}</th><th id="mf-col-tercero">{t.misFacturas.cols.proveedor}</th><th>{t.misFacturas.cols.fecha}</th><th>{t.misFacturas.cols.fechaCont}</th>
+                    <th class="num">{t.misFacturas.cols.base}</th><th class="num">{t.misFacturas.cols.iva}</th><th class="num">{t.misFacturas.cols.ret}</th><th class="num">{t.misFacturas.cols.total}</th>
+                    <th>{t.misFacturas.cols.estado}</th><th><span class="sr-only">{t.misFacturas.cols.descargar}</span></th>
+                  </tr>
+                </thead>
+                <tbody id="mf-filas"></tbody>
+              </table>
+            </div>
+            <p id="mf-vacio" class="mf-nota" hidden>{t.misFacturas.vacio}</p>
+            <p class="mf-nota">{t.misFacturas.leyenda}</p>
           </section>
 
           <!-- Documentos de Asesoría Madal: guía, presentación, apoderamiento y RGPD. Separados
@@ -595,12 +627,13 @@ const textosCarpeta = { subir: t.doc.subir, foto: t.facturas.cameraSubmit, ver: 
     async function renderFacturaList(clienteId: string) {
       const { data, error } = await supabase!
         .from('facturas_subidas')
-        .select('id, referencia, nombre_archivo, storage_path, drive_file_id, fecha_subida, fecha_contabilizado, carpeta, cuenta_digitos, periodo_desde, periodo_hasta')
+        .select('id, referencia, nombre_archivo, storage_path, drive_file_id, fecha_subida, fecha_contabilizado, carpeta, cuenta_digitos, periodo_desde, periodo_hasta, facturas_lectura(estado, datos, datos_revisados, decision, motivo_no, motivo_detalle, contabilizado_at)')
         .eq('cliente_id', clienteId)
         .order('fecha_subida', { ascending: false });
 
       if (error) console.error('facturas_subidas select error:', error);
       const rows = !error && data ? data : [];
+      renderMisFacturas(rows as Record<string, unknown>[]);
 
       // Agrupa por carpeta; dentro, lo más reciente primero (ya viene ordenado).
       const porCarpeta = new Map<string, typeof rows>();
@@ -652,6 +685,111 @@ const textosCarpeta = { subir: t.doc.subir, foto: t.facturas.cameraSubmit, ver: 
       }
     }
 
+    // Descarga un documento subido: de la web si sigue ahí; si no, de su copia en Drive.
+    async function descargarArchivo(row: Record<string, unknown>) {
+      if (row.storage_path) {
+        const { data: signed } = await supabase!.storage.from('facturas').createSignedUrl(row.storage_path as string, 60);
+        if (signed?.signedUrl) {
+          window.open(signed.signedUrl, '_blank');
+          return;
+        }
+      }
+      if (row.drive_file_id && (await descargarDeDrive(row))) return;
+      alert(I18N.facturas.gone);
+    }
+
+    // --- Mis facturas (2026-11-17): tabla con lo leído de cada factura y su estado ---
+    const MF_CARPETAS_RECIBIDAS = ['recibidas', 'simplificadas', 'tickets'];
+    let mfFilas: Record<string, unknown>[] = [];
+    let mfTipo: 'recibida' | 'emitida' = 'recibida';
+    const mfImporte = (n: unknown) => (typeof n === 'number' ? n.toLocaleString(LOCALE, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' €' : '·');
+    const mfFecha = (iso: unknown) => (typeof iso === 'string' && iso ? formatFecha(iso) : '·');
+    const mfTrimestre = (iso: string) => `${iso.slice(0, 4)}-${Math.floor((Number(iso.slice(5, 7)) - 1) / 3) + 1}`;
+
+    function mfDatos(row: Record<string, unknown>) {
+      const raw = row.facturas_lectura as unknown;
+      const l = (Array.isArray(raw) ? raw[0] : raw) as Record<string, unknown> | null | undefined;
+      const d = ((l && (l.datos_revisados || l.datos)) || {}) as Record<string, any>;
+      let estado: 'recibida' | 'revision' | 'contabilizada' | 'noContabilizada' = 'recibida';
+      if (row.fecha_contabilizado || (l && l.contabilizado_at)) estado = 'contabilizada';
+      else if (l && l.decision === 'no_contabilizar') estado = 'noContabilizada';
+      else if (l) estado = 'revision';
+      return { l, d, estado };
+    }
+
+    function renderMisFacturas(rows: Record<string, unknown>[]) {
+      mfFilas = rows.filter((r) => ['emitidas', ...MF_CARPETAS_RECIBIDAS].includes((r.carpeta as string) || 'recibidas'));
+      // Trimestres presentes (por fecha contable, o de factura, o de subida).
+      const sel = document.getElementById('mf-trimestre') as HTMLSelectElement;
+      const previo = sel.value;
+      const trimestres = new Set<string>();
+      for (const r of mfFilas) { const { d } = mfDatos(r); trimestres.add(mfTrimestre(String(d.fecha_contable || d.fecha || r.fecha_subida))); }
+      sel.innerHTML = `<option value="">${I18N.misFacturas.todos}</option>` + [...trimestres].sort().reverse().map((q) => `<option value="${q}">${q.split('-')[1]}T ${q.split('-')[0]}</option>`).join('');
+      sel.value = trimestres.has(previo) ? previo : '';
+      pintarMisFacturas();
+    }
+
+    function pintarMisFacturas() {
+      const q = (document.getElementById('mf-trimestre') as HTMLSelectElement).value;
+      const busca = (document.getElementById('mf-buscar') as HTMLInputElement).value.trim().toLowerCase();
+      const tbody = document.getElementById('mf-filas')!;
+      (document.getElementById('mf-col-tercero') as HTMLElement).textContent = mfTipo === 'emitida' ? I18N.misFacturas.cols.cliente : I18N.misFacturas.cols.proveedor;
+      tbody.innerHTML = '';
+      let base = 0, iva = 0, ret = 0, pend = 0, n = 0;
+      for (const r of mfFilas) {
+        const esEmitida = r.carpeta === 'emitidas';
+        if (esEmitida !== (mfTipo === 'emitida')) continue;
+        const { l, d, estado } = mfDatos(r);
+        if (q && mfTrimestre(String(d.fecha_contable || d.fecha || r.fecha_subida)) !== q) continue;
+        const tercero = (esEmitida ? d.receptor : d.emisor) || {};
+        const nombre = tercero.nombre || tercero.nif || '';
+        if (busca && ![r.referencia, nombre, d.numero].some((x) => String(x || '').toLowerCase().includes(busca))) continue;
+        n++;
+        if (estado !== 'noContabilizada') { base += Number(d.base) || 0; iva += Number(d.cuota_iva) || 0; ret += Number(d.retencion?.cuota) || 0; }
+        if (estado === 'recibida' || estado === 'revision') pend++;
+        const tr = document.createElement('tr');
+        const td = (texto: string, clase = '') => { const c = document.createElement('td'); c.textContent = texto; if (clase) c.className = clase; tr.appendChild(c); return c; };
+        td(String(r.referencia || '')).classList.add('mf-ref');
+        td(estado === 'recibida' ? String(r.nombre_archivo || '') : (nombre || '·'));
+        td(mfFecha(d.fecha));
+        const fc = td(mfFecha(d.fecha_contable || d.fecha));
+        if (d.nota_fecha) { const s = document.createElement('div'); s.className = 'mf-sub'; s.textContent = tpl(I18N.misFacturas.movida, { mes: String(d.nota_fecha).replace(/[()]/g, '') }); fc.appendChild(s); }
+        td(mfImporte(d.base), 'num'); td(mfImporte(d.cuota_iva), 'num'); td(d.retencion ? mfImporte(d.retencion.cuota) : '·', 'num'); td(mfImporte(d.total), 'num mf-total');
+        const est = td('');
+        const pill = document.createElement('span'); pill.className = `mf-pill mf-${estado}`; pill.textContent = I18N.misFacturas.estados[estado]; est.appendChild(pill);
+        if (estado === 'noContabilizada' && l) {
+          const m = document.createElement('div'); m.className = 'mf-sub';
+          m.textContent = [I18N.misFacturas.motivos[String(l.motivo_no)] || '', l.motivo_detalle || ''].filter(Boolean).join(' ');
+          est.appendChild(m);
+        }
+        const dl = td('');
+        if (r.storage_path || r.drive_file_id) {
+          const b = document.createElement('button'); b.type = 'button'; b.className = 'mf-descargar'; b.setAttribute('aria-label', `${I18N.misFacturas.cols.descargar} ${r.referencia || ''}`);
+          b.innerHTML = '<svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M5 21h14"/></svg>';
+          b.addEventListener('click', () => void descargarArchivo(r));
+          dl.appendChild(b);
+        }
+        tbody.appendChild(tr);
+      }
+      (document.getElementById('mf-vacio') as HTMLElement).hidden = n > 0;
+      const tot = document.getElementById('mf-totales')!;
+      tot.innerHTML = '';
+      for (const [k, v] of [['base', mfImporte(base)], ['iva', mfImporte(iva)], ['ret', mfImporte(ret)], ['pendientes', tpl(I18N.misFacturas.facturasN, { n: pend })]] as const) {
+        const div = document.createElement('div'); div.className = 'mf-tarjeta' + (k === 'pendientes' && pend ? ' mf-aviso' : '');
+        const a = document.createElement('div'); a.className = 'mf-tarjeta-lab'; a.textContent = I18N.misFacturas.totales[k];
+        const b = document.createElement('div'); b.className = 'mf-tarjeta-num'; b.textContent = v;
+        div.append(a, b); tot.appendChild(div);
+      }
+    }
+
+    document.querySelectorAll<HTMLButtonElement>('.mf-tab').forEach((b) => b.addEventListener('click', () => {
+      mfTipo = b.dataset.mfTipo === 'emitida' ? 'emitida' : 'recibida';
+      document.querySelectorAll('.mf-tab').forEach((x) => x.classList.toggle('is-active', x === b));
+      pintarMisFacturas();
+    }));
+    (document.getElementById('mf-trimestre') as HTMLSelectElement).addEventListener('change', pintarMisFacturas);
+    (document.getElementById('mf-buscar') as HTMLInputElement).addEventListener('input', pintarMisFacturas);
+
     function filaArchivo(row: Record<string, unknown>, carpeta: string): HTMLLIElement {
         const li = document.createElement('li');
 
@@ -690,19 +828,7 @@ const textosCarpeta = { subir: t.doc.subir, foto: t.facturas.cameraSubmit, ver: 
           descargar.type = 'button';
           descargar.className = 'factura-descargar';
           descargar.textContent = I18N.facturas.download;
-          descargar.addEventListener('click', async () => {
-            if (row.storage_path) {
-              const { data: signed } = await supabase!.storage
-                .from('facturas')
-                .createSignedUrl(row.storage_path as string, 60);
-              if (signed?.signedUrl) {
-                window.open(signed.signedUrl, '_blank');
-                return;
-              }
-            }
-            if (row.drive_file_id && (await descargarDeDrive(row))) return;
-            alert(I18N.facturas.gone);
-          });
+          descargar.addEventListener('click', () => void descargarArchivo(row));
           li.appendChild(descargar);
         }
 

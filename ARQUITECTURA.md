@@ -119,6 +119,11 @@ No es una ficha de cliente: es solo el registro de qué avisos ya se mandaron pa
 - **`facturas_lectura`**: una fila por factura leída (`factura_id` → `facturas_subidas.id`). Tiene `estado` (verde, naranja o roja), `motivos` (jsonb), `datos` (jsonb: emisor, receptor, número, fecha, fecha contable, líneas de IVA, retención, total, VIES), `texto` del PDF, `leido_at`, `revisado_*` y `contabilizado_at`.
   - **Quién escribe:** n8n (`Lectura de facturas`), con la service role.
   - **Quién lee:** el cliente lee las de sus facturas (tabla del portal) y el admin, todas.
+- **Revisión (2026-11-17)**: el equipo decide en `/portal/revision` (página solo para admins).
+  - **Columnas:** `decision` (`contabilizar` o `no_contabilizar`), `motivo_no` y `motivo_detalle` (los ve el cliente), `datos_revisados` (correcciones; si es null valen `datos`), `grupo` (grupo de gastos o ingresos de Cegid), `cegid` (empresa, ejercicio, registro) y `error_cegid`.
+  - **Escritura:** los admins pueden hacer `update` (política "admin revisa las lecturas").
+  - **Contabilización:** n8n (`Contabilizar en Cegid`) mete las de `decision = contabilizar`.
+  - **Lo que ve el cliente:** el portal (pestaña "Mis facturas") lee `facturas_subidas` con `facturas_lectura` embebida.
 - **`lectura_plantillas`**: expresiones por NIF de proveedor para las facturas que las reglas generales no leen bien. Solo la service role.
 
 ### Storage

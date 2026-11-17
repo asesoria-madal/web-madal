@@ -1351,3 +1351,39 @@ create table if not exists lectura_plantillas (
 );
 alter table lectura_plantillas enable row level security;
 grant all on lectura_plantillas to service_role;
+
+-- ---------------------------------------------------------------------------
+-- 2026-11-17 · Revisión y contabilización de facturas por el equipo (Edurne)
+-- ---------------------------------------------------------------------------
+-- La pantalla de revisión del portal (solo admins) guarda aquí la decisión del equipo:
+--   decision = 'contabilizar'    -> n8n ("Contabilizar en Cegid", cada 5 min) la mete en Cegid
+--   decision = 'no_contabilizar' -> no se mete; motivo_no (código) + motivo_detalle se muestran
+--                                   al cliente en su tabla de facturas
+-- datos_revisados: los datos corregidos por el equipo (si es null, valen los leídos en `datos`).
+-- grupo: grupo de gastos/ingresos de Cegid (empresas de autónomo; clave de dos cifras).
+-- cegid: resultado { empresa, ejercicio, registro, proveedor }. error_cegid: por qué no entró
+-- (se borra al volver a pedir la contabilización).
+-- Motivos (sin CHECK; la lista vive en el portal): sin_nif, otro_titular, no_factura,
+-- no_actividad, duplicada, ilegible, iva_incorrecto, otro.
+-- Ejecutado por n8n el 2026-11-17.
+alter table facturas_lectura add column if not exists decision text;
+alter table facturas_lectura add column if not exists motivo_no text;
+alter table facturas_lectura add column if not exists motivo_detalle text;
+alter table facturas_lectura add column if not exists datos_revisados jsonb;
+alter table facturas_lectura add column if not exists grupo text;
+alter table facturas_lectura add column if not exists cegid jsonb;
+alter table facturas_lectura add column if not exists error_cegid text;
+grant update on facturas_lectura to authenticated;
+drop policy if exists "admin revisa las lecturas" on facturas_lectura;
+create policy "admin revisa las lecturas" on facturas_lectura for update
+  using (auth.uid() in (select auth_user_id from portal_admins))
+  with check (auth.uid() in (select auth_user_id from portal_admins));
+
+-- Las dos ya contabilizadas a mano el 2026-11-17 (Hugo, empresa 1) y las tres que Edurne
+-- decidió no contabilizar (no llevan el NIF de Hugo).
+update facturas_lectura set decision = 'contabilizar', grupo = '18',
+  cegid = datos->'cegid', revisado_at = coalesce(revisado_at, now()), revisado_por = 'Edurne'
+  where factura_id in (29, 30) and decision is null;
+update facturas_lectura set decision = 'no_contabilizar', motivo_no = 'sin_nif',
+  revisado_at = coalesce(revisado_at, now()), revisado_por = 'Edurne'
+  where factura_id in (28, 31, 32) and decision is null;

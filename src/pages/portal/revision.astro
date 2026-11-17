@@ -1,0 +1,444 @@
+---
+// Revisión de facturas (2026-11-17, Edurne). Solo para administradores del portal (portal_admins).
+// Lista lo que ha leído n8n ("Lectura de facturas", cada noche) y deja al equipo corregir los datos y
+// decidir: contabilizar (n8n "Contabilizar en Cegid" la mete cada 5 min) o no contabilizar con un
+// motivo, que ve el cliente. Todo el acceso lo protege RLS (políticas de admin en facturas_lectura).
+// Solo en castellano: es una pantalla interna.
+import Layout from '../../layouts/Layout.astro';
+export const prerender = true;
+---
+
+<Layout noindex lang="es" path="/portal/revision" active="none" title="Revisión de facturas · Asesoría Madal" description="Revisión interna de facturas." showCtaFinal={false} hideWhatsapp>
+  <div class="rev">
+    <div id="rev-cargando"><p>Cargando…</p></div>
+    <div id="rev-sin-sesion" hidden><p>Entra primero en el <a href="/portal">área de clientes</a> con tu cuenta de administrador y vuelve aquí.</p></div>
+    <div id="rev-no-admin" hidden><p>Esta pantalla es solo para el equipo de Asesoría Madal.</p></div>
+
+    <div id="rev-app" hidden>
+      <div class="rev-cabecera">
+        <div>
+          <h1>Revisión de facturas</h1>
+          <p id="rev-resumen" class="rev-sub"></p>
+        </div>
+        <a href="/portal" class="rev-link">Volver al área de clientes</a>
+      </div>
+
+      <div class="rev-filtros">
+        <label>Mostrar
+          <select id="rev-filtro">
+            <option value="pendientes">Pendientes de decidir</option>
+            <option value="verde">Verdes sin decidir</option>
+            <option value="naranja">Naranjas sin decidir</option>
+            <option value="roja">Rojas sin decidir</option>
+            <option value="error">Con error de Cegid</option>
+            <option value="encola">Mandadas a Cegid (en cola)</option>
+            <option value="contabilizadas">Contabilizadas</option>
+            <option value="no">No contabilizadas</option>
+            <option value="todas">Todas</option>
+          </select>
+        </label>
+        <label>Cliente
+          <select id="rev-cliente"><option value="">Todos</option></select>
+        </label>
+      </div>
+
+      <div class="rev-tabla-caja">
+        <table class="rev-tabla">
+          <thead><tr><th></th><th>Referencia</th><th>Cliente</th><th>Tipo</th><th>Proveedor / cliente</th><th>Fecha</th><th class="num">Total</th><th>Situación</th></tr></thead>
+          <tbody id="rev-filas"></tbody>
+        </table>
+        <p id="rev-vacio" class="rev-sub" hidden>No hay facturas con este filtro.</p>
+      </div>
+
+      <section id="rev-detalle" class="rev-detalle" hidden>
+        <div class="rev-doc">
+          <div class="rev-doc-barra"><span id="rev-doc-nombre"></span><a id="rev-doc-abrir" href="#" target="_blank" rel="noopener">Abrir en grande</a></div>
+          <div id="rev-doc-visor" class="rev-doc-visor"></div>
+        </div>
+        <form id="rev-form" class="rev-form" novalidate>
+          <div class="rev-form-cab">
+            <h2 id="rev-ref"></h2>
+            <span id="rev-estado" class="rev-pill"></span>
+          </div>
+          <p id="rev-cliente-info" class="rev-sub"></p>
+          <div id="rev-avisos"></div>
+
+          <div class="rev-grid">
+            <label>Tipo<select id="f-tipo"><option value="recibida">Recibida (gasto)</option><option value="emitida">Emitida (ingreso)</option></select></label>
+            <label id="l-grupo">Grupo de gastos<select id="f-grupo"></select></label>
+            <label class="ancho">Proveedor<input id="f-nombre" autocomplete="off"></label>
+            <label>NIF<input id="f-nif" autocomplete="off"></label>
+            <label>Nº de factura<input id="f-numero" autocomplete="off"></label>
+            <label>Fecha de la factura<input id="f-fecha" type="date"></label>
+            <label>Fecha contable<input id="f-fecha-cont" type="date"></label>
+            <label class="ancho">Sin IVA porque…<select id="f-sin-iva"><option value="">Lleva IVA</option><option value="inversion_sujeto_pasivo">Inversión del sujeto pasivo (se autoliquida al 21 %)</option><option value="exenta">Exenta o no sujeta</option></select></label>
+          </div>
+
+          <fieldset class="rev-importes">
+            <legend>Importes</legend>
+            <div class="rev-lineas-cab"><span>Base</span><span>% IVA</span><span>Cuota IVA</span></div>
+            <div id="rev-lineas"></div>
+            <button type="button" id="rev-mas-linea" class="rev-btn-sec">Añadir otro tipo de IVA</button>
+            <div class="rev-grid tres">
+              <label>% retención<input id="f-ret-pct" inputmode="decimal"></label>
+              <label>Cuota retención<input id="f-ret-cuota" inputmode="decimal"></label>
+              <label>Total factura<input id="f-total" inputmode="decimal"></label>
+            </div>
+            <p id="rev-cuadre" class="rev-cuadre"></p>
+          </fieldset>
+
+          <div id="rev-decision" class="rev-decision">
+            <div class="rev-botones">
+              <button type="button" id="rev-contabilizar" class="rev-btn">Contabilizar en Cegid</button>
+              <button type="button" id="rev-guardar" class="rev-btn-sec">Guardar sin decidir</button>
+            </div>
+            <div class="rev-no">
+              <label>No contabilizar porque…
+                <select id="f-motivo">
+                  <option value="">Elige el motivo</option>
+                  <option value="sin_nif">La factura no lleva el NIF del cliente</option>
+                  <option value="otro_titular">Está a nombre de otra persona o empresa</option>
+                  <option value="no_factura">No es una factura (presupuesto, albarán, pedido…)</option>
+                  <option value="no_actividad">El gasto no está relacionado con su actividad</option>
+                  <option value="duplicada">Ya nos la había enviado (duplicada)</option>
+                  <option value="ilegible">No se puede leer bien</option>
+                  <option value="iva_incorrecto">El IVA de la factura no es correcto</option>
+                  <option value="otro">Otro motivo</option>
+                </select>
+              </label>
+              <label>Explicación para el cliente (opcional)<input id="f-motivo-detalle" maxlength="300"></label>
+              <button type="button" id="rev-no-contabilizar" class="rev-btn-no">No contabilizar</button>
+            </div>
+          </div>
+          <p id="rev-msg" class="rev-msg" hidden></p>
+        </form>
+      </section>
+    </div>
+  </div>
+</Layout>
+
+<style>
+  .rev { max-width: 1400px; margin: 0 auto; padding: 1.5rem 1rem 4rem; }
+  .rev h1 { font-family: var(--font-display); font-size: 1.9rem; margin: 0; color: var(--ink); }
+  .rev h2 { font-family: var(--font-display); font-size: 1.4rem; margin: 0; }
+  .rev-sub { color: var(--ink-soft); font-size: 0.92rem; margin: 0.3rem 0 0; }
+  .rev-cabecera { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 1rem; }
+  .rev-link { color: var(--accent); font-size: 0.92rem; }
+  .rev-filtros { display: flex; flex-wrap: wrap; gap: 1rem; margin: 1.2rem 0 0.8rem; }
+  .rev label { display: flex; flex-direction: column; gap: 0.25rem; font-size: 0.8rem; font-weight: 600; color: var(--ink-soft); }
+  .rev input, .rev select { font: inherit; font-size: 0.95rem; font-weight: 400; padding: 0.5rem 0.6rem; border: 1px solid var(--line); border-radius: 8px; background: var(--paper); color: var(--ink); min-height: 40px; }
+  .rev-tabla-caja { overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; max-height: 360px; overflow-y: auto; }
+  .rev-tabla { width: 100%; border-collapse: collapse; font-size: 0.9rem; min-width: 900px; }
+  .rev-tabla th { position: sticky; top: 0; background: var(--paper); text-align: left; font-size: 0.75rem; color: var(--ink-soft); padding: 0.55rem 0.6rem; border-bottom: 1px solid var(--line); }
+  .rev-tabla td { padding: 0.55rem 0.6rem; border-bottom: 1px solid var(--line); vertical-align: top; }
+  .rev-tabla tr { cursor: pointer; }
+  .rev-tabla tr:hover td, .rev-tabla tr.sel td { background: color-mix(in srgb, var(--accent) 8%, transparent); }
+  .num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .punto { display: inline-block; width: 11px; height: 11px; border-radius: 50%; }
+  .p-verde { background: #2e7d5b; } .p-naranja { background: #d97a00; } .p-roja { background: #c0392b; }
+  .rev-pill { display: inline-block; padding: 0.2rem 0.6rem; border-radius: 999px; font-size: 0.78rem; font-weight: 600; background: color-mix(in srgb, var(--accent) 12%, transparent); color: var(--ink); }
+  .rev-detalle { display: flex; flex-wrap: wrap; gap: 1.2rem; margin-top: 1.2rem; align-items: flex-start; }
+  .rev-doc { flex: 1 1 460px; min-width: 0; }
+  .rev-doc-barra { display: flex; justify-content: space-between; font-size: 0.85rem; color: var(--ink-soft); margin-bottom: 0.4rem; }
+  .rev-doc-visor { height: 78vh; min-height: 480px; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; background: #eef0f2; }
+  .rev-doc-visor iframe, .rev-doc-visor img { width: 100%; height: 100%; border: 0; object-fit: contain; }
+  .rev-form { flex: 1 1 520px; min-width: 0; }
+  .rev-form-cab { display: flex; justify-content: space-between; align-items: center; gap: 0.6rem; }
+  .rev-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.8rem; margin-top: 1rem; }
+  .rev-grid.tres { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .rev-grid .ancho { grid-column: span 2; }
+  .rev-importes { border: 1px solid var(--line); border-radius: 10px; padding: 0.8rem 1rem 1rem; margin: 1rem 0 0; }
+  .rev-importes legend { font-size: 0.8rem; font-weight: 600; color: var(--ink-soft); padding: 0 0.3rem; }
+  .rev-lineas-cab, .rev-linea { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.6rem; }
+  .rev-lineas-cab { font-size: 0.75rem; font-weight: 600; color: var(--ink-soft); margin-bottom: 0.3rem; }
+  .rev-linea { margin-bottom: 0.5rem; }
+  .rev-cuadre { font-size: 0.88rem; margin: 0.6rem 0 0; }
+  .rev-cuadre.ok { color: #1f6b4a; } .rev-cuadre.mal { color: #9a3412; }
+  .rev-aviso { padding: 0.6rem 0.8rem; border-radius: 8px; font-size: 0.88rem; margin-top: 0.6rem; }
+  .rev-aviso.naranja { background: #fff4e0; color: #6b3a00; } .rev-aviso.roja { background: #fdecea; color: #7f1d1d; } .rev-aviso.verde { background: #e3efed; color: #174744; } .rev-aviso.info { background: #eef0f2; color: #2b3036; }
+  .rev-decision { margin-top: 1.2rem; display: flex; flex-direction: column; gap: 1rem; }
+  .rev-botones { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+  .rev-no { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.6rem; align-items: end; padding-top: 1rem; border-top: 1px solid var(--line); }
+  .rev-btn, .rev-btn-sec, .rev-btn-no { font: inherit; font-weight: 600; font-size: 0.95rem; padding: 0.65rem 1rem; border-radius: 10px; min-height: 44px; cursor: pointer; }
+  .rev-btn { background: var(--accent); color: #fff; border: 0; }
+  .rev-btn-sec { background: transparent; color: var(--accent); border: 1px solid var(--accent); }
+  .rev-btn-no { background: transparent; color: #8f2a1f; border: 1px solid #c9a29b; }
+  .rev-btn:disabled, .rev-btn-sec:disabled, .rev-btn-no:disabled { opacity: 0.5; cursor: default; }
+  .rev-msg { margin-top: 0.8rem; font-size: 0.9rem; }
+  .rev-msg.ok { color: #1f6b4a; } .rev-msg.mal { color: #9a3412; }
+  @media (max-width: 700px) { .rev-grid, .rev-grid.tres, .rev-no { grid-template-columns: minmax(0, 1fr); } .rev-grid .ancho { grid-column: auto; } }
+</style>
+
+<script>
+  import { getSupabaseBrowser } from '../../lib/supabaseClient';
+
+  type Linea = { base: number | null; pct: number | null; cuota: number | null };
+  type Datos = {
+    tipo?: string; emisor?: { nif?: string | null; nombre?: string | null; intracomunitario?: boolean }; receptor?: { nif?: string | null; nombre?: string | null; intracomunitario?: boolean };
+    numero?: string | null; fecha?: string | null; fecha_contable?: string | null; nota_fecha?: string; aviso?: string; lineas?: Linea[];
+    base?: number | null; cuota_iva?: number | null; retencion?: { pct: number; cuota: number } | null; total?: number | null; sin_iva?: string; vies?: { valido: boolean; nombre?: string | null };
+  };
+  type Fila = {
+    factura_id: number; estado: string; motivos: string[]; datos: Datos; datos_revisados: Datos | null; grupo: string | null; decision: string | null;
+    motivo_no: string | null; motivo_detalle: string | null; contabilizado_at: string | null; cegid: Record<string, unknown> | null; error_cegid: string | null; leido_at: string;
+    facturas_subidas: { id: number; referencia: string; nombre_archivo: string; carpeta: string | null; storage_path: string | null; drive_file_id: string | null; cliente_id: string;
+      clientes: { nombre: string; tipo_persona: string | null; cegid_empresa_codigo: string | null } | null } | null;
+  };
+
+  // Grupos de Cegid para empresas de autónomo (claves leídas de la API el 2026-11-16).
+  const GASTOS: Record<string, string> = { '01': 'Consumos de la explotación', '02': 'Variación existencias gasto', '03': 'Otros consumos', '04': 'Sueldos y salarios', '05': 'Indemnizaciones', '06': 'Dietas', '07': 'Aportación sistema previsión', '08': 'Seguridad Social empresa', '09': 'Mutuas alternativas', '10': 'Otros gastos de personal', '11': 'Gastos de manutención', '12': 'Arrendamientos y cánones', '13': 'Reparaciones y conservación', '14': 'Servicios prof. independientes', '15': 'Suministros', '16': 'Otros suministros', '17': 'Primas de seguro', '18': 'Otros servicios exteriores', '19': 'IVA soportado', '20': 'Otros tributos', '21': 'Gastos financieros', '22': 'Amortización inmov. material (bien de inversión)', '23': 'Amortización inmov. inmaterial', '24': 'Pérdida por insolvencia', '25': 'Incentivos fiscales', '26': 'Gasto activ. interés general', '27': 'Otros gastos', '28': 'Provisiones' };
+  const INGRESOS: Record<string, string> = { '01': 'Ingresos de explotación', '02': 'Ingresos financieros', '03': 'Ingresos por subvenciones', '04': 'Ingresos subvenciones capital', '05': 'Autoconsumo', '06': 'IVA devengado', '07': 'Otros ingresos', '08': 'Transmisión elementos', '09': 'Variación existencias positiva' };
+  // Primera propuesta de grupo de gasto por palabras del proveedor o de la factura (si no hay una decisión anterior del mismo NIF).
+  const PALABRAS: [RegExp, string][] = [[/alquiler|arrendamiento|lloguer|coworking|rent/i, '12'], [/luz|electricidad|iberdrola|endesa|naturgy|agua|aig[üu]es|tel[eé]fon|movistar|vodafone|orange|internet|fibra|gas\b/i, '15'], [/gestor|abogad|asesor|notar|consultor|economist|col[·.]?legi|colegio/i, '14'], [/seguro|insurance|mapfre|axa|allianz|mutua/i, '17'], [/reparaci|mantenimiento|repair/i, '13'], [/banco|comisi[oó]n|bank|interest|interés/i, '21'], [/software|suscripci|subscription|hosting|cloud|vps|contabo|anthropic|google|microsoft|adobe|licen/i, '18']];
+  const MOTIVOS: Record<string, string> = { sin_nif: 'La factura no lleva el NIF del cliente', otro_titular: 'Está a nombre de otra persona o empresa', no_factura: 'No es una factura', no_actividad: 'El gasto no está relacionado con su actividad', duplicada: 'Duplicada', ilegible: 'No se puede leer bien', iva_incorrecto: 'El IVA de la factura no es correcto', otro: 'Otro motivo' };
+  const ARCHIVO_URL = 'https://n8n.asesoriamadal.es/webhook/archivo-portal';
+
+  const $ = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;
+  const supabase = getSupabaseBrowser();
+  let filas: Fila[] = [];
+  let actual: Fila | null = null;
+  let emailAdmin = '';
+  let urlDoc: string | null = null;
+  const grupoPorNif = new Map<string, string>();
+
+  const eur = (n: number | null | undefined) => (n === null || n === undefined || isNaN(n as number)) ? '·' : (n as number).toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' €';
+  const fechaEs = (iso?: string | null) => iso ? iso.slice(0, 10).split('-').reverse().join('/') : '·';
+  const num = (s: string) => { const t = s.trim().replace(/\s/g, ''); if (!t) return null; const n = parseFloat(/,\d{1,2}$/.test(t) ? t.replace(/\./g, '').replace(',', '.') : t.replace(/,/g, '')); return isNaN(n) ? null : n; };
+  const txtNum = (n: number | null | undefined) => (n === null || n === undefined) ? '' : String(n).replace('.', ',');
+  const datosDe = (f: Fila): Datos => (f.datos_revisados || f.datos || {}) as Datos;
+  const tercero = (d: Datos) => (d.tipo === 'emitida' ? d.receptor : d.emisor) || {};
+
+  function situacion(f: Fila): { texto: string; clave: string } {
+    if (f.contabilizado_at) return { texto: 'Contabilizada', clave: 'contabilizadas' };
+    if (f.decision === 'no_contabilizar') return { texto: 'No contabilizada: ' + (MOTIVOS[f.motivo_no || ''] || f.motivo_no || ''), clave: 'no' };
+    if (f.error_cegid) return { texto: 'Error de Cegid', clave: 'error' };
+    if (f.decision === 'contabilizar') return { texto: 'En cola para Cegid', clave: 'encola' };
+    return { texto: 'Pendiente de decidir', clave: 'pendientes' };
+  }
+
+  function pintarLista() {
+    const filtro = ($('rev-filtro') as HTMLSelectElement).value;
+    const cli = ($('rev-cliente') as HTMLSelectElement).value;
+    const visibles = filas.filter((f) => {
+      if (cli && f.facturas_subidas?.cliente_id !== cli) return false;
+      const s = situacion(f).clave;
+      if (filtro === 'todas') return true;
+      if (['verde', 'naranja', 'roja'].includes(filtro)) return s === 'pendientes' && f.estado === filtro;
+      return s === filtro;
+    });
+    const tbody = $('rev-filas');
+    tbody.innerHTML = '';
+    for (const f of visibles) {
+      const d = datosDe(f);
+      const tr = document.createElement('tr');
+      if (actual && actual.factura_id === f.factura_id) tr.className = 'sel';
+      const celdas = [
+        `<span class="punto p-${f.estado}" role="img" aria-label="${f.estado}"></span>`,
+        f.facturas_subidas?.referencia || '', f.facturas_subidas?.clientes?.nombre || '', d.tipo === 'emitida' ? 'Emitida' : 'Recibida',
+        tercero(d).nombre || tercero(d).nif || '·', fechaEs(d.fecha), eur(d.total), situacion(f).texto,
+      ];
+      celdas.forEach((c, i) => { const td = document.createElement('td'); if (i === 0) td.innerHTML = c; else td.textContent = c; if (i === 6) td.className = 'num'; tr.appendChild(td); });
+      tr.addEventListener('click', () => void abrir(f));
+      tbody.appendChild(tr);
+    }
+    $('rev-vacio').hidden = visibles.length > 0;
+    const pend = filas.filter((f) => situacion(f).clave === 'pendientes');
+    $('rev-resumen').textContent = `${pend.length} pendientes de decidir (${pend.filter((f) => f.estado === 'verde').length} verdes, ${pend.filter((f) => f.estado === 'naranja').length} naranjas, ${pend.filter((f) => f.estado === 'roja').length} rojas) · ${filas.filter((f) => situacion(f).clave === 'error').length} con error de Cegid`;
+  }
+
+  function opcionesGrupo(tipo: string, valor: string | null) {
+    const sel = $('f-grupo') as HTMLSelectElement;
+    const lista = tipo === 'emitida' ? INGRESOS : GASTOS;
+    $('l-grupo').firstChild!.textContent = tipo === 'emitida' ? 'Grupo de ingresos' : 'Grupo de gastos';
+    sel.innerHTML = '<option value="">Elige el grupo</option>' + Object.entries(lista).map(([k, v]) => `<option value="${k}">${k} · ${v}</option>`).join('');
+    sel.value = valor && lista[valor] ? valor : '';
+  }
+
+  function pintarLineas(lineas: Linea[]) {
+    const caja = $('rev-lineas');
+    caja.innerHTML = '';
+    (lineas.length ? lineas : [{ base: null, pct: null, cuota: null }]).slice(0, 4).forEach((l) => {
+      const div = document.createElement('div');
+      div.className = 'rev-linea';
+      for (const [k, v] of [['base', l.base], ['pct', l.pct], ['cuota', l.cuota]] as const) {
+        const inp = document.createElement('input');
+        inp.dataset.campo = k; inp.inputMode = 'decimal'; inp.value = txtNum(v as number | null);
+        inp.setAttribute('aria-label', k === 'base' ? 'Base' : k === 'pct' ? '% IVA' : 'Cuota IVA');
+        inp.addEventListener('input', comprobarCuadre);
+        div.appendChild(inp);
+      }
+      caja.appendChild(div);
+    });
+  }
+
+  function leerFormulario(): Datos {
+    const base = actual ? datosDe(actual) : {};
+    const tipo = ($('f-tipo') as HTMLSelectElement).value;
+    const lineas: Linea[] = [...$('rev-lineas').querySelectorAll('.rev-linea')].map((div) => {
+      const v = (c: string) => num((div.querySelector(`[data-campo="${c}"]`) as HTMLInputElement).value);
+      return { base: v('base'), pct: v('pct'), cuota: v('cuota') };
+    }).filter((l) => l.base !== null);
+    const retPct = num(($('f-ret-pct') as HTMLInputElement).value), retCuota = num(($('f-ret-cuota') as HTMLInputElement).value);
+    const terceroNuevo = { ...(tercero(base) || {}), nif: ($('f-nif') as HTMLInputElement).value.trim().toUpperCase().replace(/[\s-]/g, '') || null, nombre: ($('f-nombre') as HTMLInputElement).value.trim() || null };
+    const fechaCont = ($('f-fecha-cont') as HTMLInputElement).value || null;
+    const fecha = ($('f-fecha') as HTMLInputElement).value || null;
+    const d: Datos = {
+      ...base, tipo, numero: ($('f-numero') as HTMLInputElement).value.trim() || null, fecha, fecha_contable: fechaCont,
+      lineas, base: lineas.length ? Math.round(lineas.reduce((s, l) => s + (l.base || 0), 0) * 100) / 100 : null,
+      cuota_iva: lineas.length ? Math.round(lineas.reduce((s, l) => s + (l.cuota || 0), 0) * 100) / 100 : null,
+      retencion: retCuota ? { pct: retPct || 0, cuota: Math.abs(retCuota) } : null, total: num(($('f-total') as HTMLInputElement).value),
+      sin_iva: ($('f-sin-iva') as HTMLSelectElement).value || undefined,
+    };
+    // Si se movió de trimestre, conserva la nota del mes; si ya no se mueve, la quita.
+    if (fecha && fechaCont && fecha < fechaCont) d.nota_fecha = '(' + new Date(fecha).toLocaleDateString('es-ES', { month: 'long' }) + ')'; else delete d.nota_fecha;
+    if (tipo === 'emitida') d.receptor = terceroNuevo; else d.emisor = terceroNuevo;
+    return d;
+  }
+
+  function comprobarCuadre() {
+    const d = leerFormulario();
+    const p = $('rev-cuadre');
+    if (d.base === null || d.total === null || d.total === undefined) { p.textContent = 'Faltan importes para comprobar el total.'; p.className = 'rev-cuadre mal'; return; }
+    const calc = Math.round(((d.base || 0) + (d.sin_iva ? 0 : (d.cuota_iva || 0)) - (d.retencion ? d.retencion.cuota : 0)) * 100) / 100;
+    const ok = Math.abs(calc - (d.total as number)) <= 0.02;
+    p.textContent = ok ? `Cuadra: base + IVA${d.retencion ? ' − retención' : ''} = ${eur(calc)}.` : `No cuadra: base + IVA${d.retencion ? ' − retención' : ''} da ${eur(calc)} y el total es ${eur(d.total)}.`;
+    p.className = 'rev-cuadre ' + (ok ? 'ok' : 'mal');
+  }
+
+  async function mostrarDocumento(f: Fila) {
+    const visor = $('rev-doc-visor');
+    visor.innerHTML = '<p style="padding:1rem">Cargando el documento…</p>';
+    if (urlDoc && urlDoc.startsWith('blob:')) URL.revokeObjectURL(urlDoc);
+    urlDoc = null;
+    const fs = f.facturas_subidas!;
+    $('rev-doc-nombre').textContent = `${fs.referencia} · ${fs.nombre_archivo}`;
+    if (fs.storage_path) {
+      const { data } = await supabase!.storage.from('facturas').createSignedUrl(fs.storage_path, 600);
+      if (data?.signedUrl) urlDoc = data.signedUrl;
+    }
+    if (!urlDoc && fs.drive_file_id) {
+      const { data: { session } } = await supabase!.auth.getSession();
+      const r = await fetch(`${ARCHIVO_URL}?id=${fs.id}`, { headers: { Authorization: `Bearer ${session?.access_token}` } }).catch(() => null);
+      if (r && r.ok) urlDoc = URL.createObjectURL(await r.blob());
+    }
+    if (actual?.factura_id !== f.factura_id) return;
+    if (!urlDoc) { visor.innerHTML = '<p style="padding:1rem">No se ha podido cargar el documento.</p>'; return; }
+    ($('rev-doc-abrir') as HTMLAnchorElement).href = urlDoc;
+    const esImagen = /\.(jpe?g|png|webp|gif)$/i.test(fs.nombre_archivo);
+    visor.innerHTML = '';
+    const el = document.createElement(esImagen ? 'img' : 'iframe') as HTMLIFrameElement & HTMLImageElement;
+    el.src = urlDoc; el.title = 'Documento ' + fs.referencia; if (esImagen) el.alt = 'Documento ' + fs.referencia;
+    visor.appendChild(el);
+  }
+
+  async function abrir(f: Fila) {
+    actual = f;
+    pintarLista();
+    const d = datosDe(f);
+    const fs = f.facturas_subidas!;
+    const cli = fs.clientes;
+    $('rev-detalle').hidden = false;
+    $('rev-ref').textContent = fs.referencia;
+    const pill = $('rev-estado');
+    pill.textContent = situacion(f).texto;
+    $('rev-cliente-info').textContent = `${cli?.nombre || ''} (${fs.cliente_id}) · ${cli?.tipo_persona === 'sl' ? 'Sociedad' : 'Autónomo'} · empresa ${cli?.cegid_empresa_codigo || 'sin código'} de Cegid`;
+    // Avisos: lo que dijo la lectura, el error de Cegid, la decisión tomada.
+    const avisos: string[] = [];
+    const clase = f.estado === 'verde' ? 'verde' : f.estado === 'roja' ? 'roja' : 'naranja';
+    avisos.push(`<div class="rev-aviso ${clase}"><strong>Lectura ${f.estado}.</strong> ${(f.motivos || []).length ? (f.motivos || []).map(esc).join(' ') : 'Está todo y cuadra.'}${d.aviso ? ' ' + esc(d.aviso) : ''}${d.vies ? ` NIF ${d.vies.valido ? 'válido' : 'NO válido'} en VIES.` : ''}</div>`);
+    if (f.error_cegid) avisos.push(`<div class="rev-aviso roja"><strong>Cegid:</strong> ${esc(f.error_cegid)} Corrige lo que haga falta y vuelve a pulsar «Contabilizar en Cegid».</div>`);
+    if (f.contabilizado_at) avisos.push(`<div class="rev-aviso info">Contabilizada en Cegid el ${fechaEs(f.contabilizado_at)}${f.cegid ? ` (empresa ${f.cegid.empresa}, registro ${f.cegid.registro})` : ''}. Para cambiarla, hazlo en Cegid.</div>`);
+    if (f.decision === 'no_contabilizar') avisos.push(`<div class="rev-aviso info">Marcada como no contabilizada: ${esc(MOTIVOS[f.motivo_no || ''] || '')}${f.motivo_detalle ? '. ' + esc(f.motivo_detalle) : ''}. El cliente lo ve en su área. Puedes cambiar la decisión.</div>`);
+    if (cli?.tipo_persona === 'sl') avisos.push('<div class="rev-aviso info">Es una sociedad: de momento la contabilización automática solo funciona para autónomos.</div>');
+    $('rev-avisos').innerHTML = avisos.join('');
+
+    ($('f-tipo') as HTMLSelectElement).value = d.tipo === 'emitida' ? 'emitida' : 'recibida';
+    const t = tercero(d);
+    ($('f-nombre') as HTMLInputElement).value = t.nombre || (d.vies && d.vies.nombre) || '';
+    ($('f-nif') as HTMLInputElement).value = t.nif || '';
+    ($('f-numero') as HTMLInputElement).value = d.numero || '';
+    ($('f-fecha') as HTMLInputElement).value = d.fecha || '';
+    ($('f-fecha-cont') as HTMLInputElement).value = d.fecha_contable || d.fecha || '';
+    ($('f-sin-iva') as HTMLSelectElement).value = d.sin_iva || '';
+    ($('f-ret-pct') as HTMLInputElement).value = txtNum(d.retencion?.pct);
+    ($('f-ret-cuota') as HTMLInputElement).value = txtNum(d.retencion?.cuota);
+    ($('f-total') as HTMLInputElement).value = txtNum(d.total);
+    ($('f-motivo') as HTMLSelectElement).value = f.motivo_no || '';
+    ($('f-motivo-detalle') as HTMLInputElement).value = f.motivo_detalle || '';
+    pintarLineas(d.lineas || []);
+    // Grupo: el guardado; si no, el último usado con ese NIF; si no, una propuesta por palabras.
+    let grupo = f.grupo || (t.nif ? grupoPorNif.get(String(t.nif)) : '') || '';
+    if (!grupo && d.tipo !== 'emitida') { const txt = `${t.nombre || ''}`; grupo = (PALABRAS.find(([re]) => re.test(txt)) || [])[1] || ''; }
+    if (!grupo && d.tipo === 'emitida') grupo = '01';
+    opcionesGrupo(d.tipo === 'emitida' ? 'emitida' : 'recibida', grupo);
+    comprobarCuadre();
+    const bloqueada = !!f.contabilizado_at;
+    for (const el of $('rev-form').querySelectorAll('input, select, button')) (el as HTMLInputElement).disabled = bloqueada;
+    $('rev-msg').hidden = true;
+    $('rev-detalle').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    void mostrarDocumento(f);
+  }
+
+  function esc(s: string) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+
+  function mensaje(texto: string, ok: boolean) { const p = $('rev-msg'); p.hidden = false; p.textContent = texto; p.className = 'rev-msg ' + (ok ? 'ok' : 'mal'); }
+
+  async function guardar(decision: 'contabilizar' | 'no_contabilizar' | null) {
+    if (!actual) return;
+    const d = leerFormulario();
+    const grupo = ($('f-grupo') as HTMLSelectElement).value || null;
+    const cambios: Record<string, unknown> = { datos_revisados: d, grupo, revisado_at: new Date().toISOString(), revisado_por: emailAdmin };
+    if (decision === 'contabilizar') {
+      const t = tercero(d);
+      const faltan = [!grupo && 'el grupo', !t.nif && 'el NIF', !d.numero && 'el número', !d.fecha && 'la fecha', !d.lineas?.length && 'la base', (d.total === null || d.total === undefined) && 'el total'].filter(Boolean);
+      if (faltan.length) return mensaje('Para contabilizar falta: ' + faltan.join(', ') + '.', false);
+      Object.assign(cambios, { decision, motivo_no: null, motivo_detalle: null, error_cegid: null });
+    } else if (decision === 'no_contabilizar') {
+      const motivo = ($('f-motivo') as HTMLSelectElement).value;
+      if (!motivo) return mensaje('Elige el motivo para no contabilizarla.', false);
+      Object.assign(cambios, { decision, motivo_no: motivo, motivo_detalle: ($('f-motivo-detalle') as HTMLInputElement).value.trim() || null, error_cegid: null });
+    }
+    const { error } = await supabase!.from('facturas_lectura').update(cambios).eq('factura_id', actual.factura_id);
+    if (error) return mensaje('No se ha podido guardar: ' + error.message, false);
+    Object.assign(actual, cambios);
+    if (grupo && tercero(d).nif) grupoPorNif.set(String(tercero(d).nif), grupo);
+    mensaje(decision === 'contabilizar' ? 'Mandada a Cegid: entrará en unos minutos. Si Cegid la rechaza, aparecerá aquí con el motivo.' : decision === 'no_contabilizar' ? 'Marcada como no contabilizada. El cliente verá el motivo en su área.' : 'Guardada.', true);
+    pintarLista();
+    void abrir(actual);
+  }
+
+  async function cargar() {
+    const { data, error } = await supabase!.from('facturas_lectura')
+      .select('factura_id, estado, motivos, datos, datos_revisados, grupo, decision, motivo_no, motivo_detalle, contabilizado_at, cegid, error_cegid, leido_at, facturas_subidas(id, referencia, nombre_archivo, carpeta, storage_path, drive_file_id, cliente_id, clientes(nombre, tipo_persona, cegid_empresa_codigo))')
+      .order('leido_at', { ascending: false }).limit(500);
+    if (error) { $('rev-resumen').textContent = 'No se han podido cargar las facturas: ' + error.message; return; }
+    filas = (data || []) as unknown as Fila[];
+    for (const f of [...filas].reverse()) { const t = tercero(datosDe(f)); if (f.grupo && t.nif) grupoPorNif.set(String(t.nif), f.grupo); }
+    const clientes = new Map(filas.map((f) => [f.facturas_subidas?.cliente_id || '', f.facturas_subidas?.clientes?.nombre || '']));
+    const sel = $('rev-cliente') as HTMLSelectElement;
+    sel.innerHTML = '<option value="">Todos</option>' + [...clientes].filter(([id]) => id).sort((a, b) => a[1].localeCompare(b[1])).map(([id, n]) => `<option value="${esc(id)}">${esc(n)}</option>`).join('');
+    pintarLista();
+  }
+
+  async function iniciar() {
+    if (!supabase) { $('rev-cargando').hidden = true; $('rev-sin-sesion').hidden = false; return; }
+    const { data: { session } } = await supabase.auth.getSession();
+    $('rev-cargando').hidden = true;
+    if (!session) { $('rev-sin-sesion').hidden = false; return; }
+    const { data: admin } = await supabase.from('portal_admins').select('auth_user_id').maybeSingle();
+    if (!admin) { $('rev-no-admin').hidden = false; return; }
+    emailAdmin = session.user.email || '';
+    $('rev-app').hidden = false;
+    ($('rev-filtro') as HTMLSelectElement).addEventListener('change', pintarLista);
+    ($('rev-cliente') as HTMLSelectElement).addEventListener('change', pintarLista);
+    ($('f-tipo') as HTMLSelectElement).addEventListener('change', (e) => opcionesGrupo((e.target as HTMLSelectElement).value, null));
+    for (const id of ['f-total', 'f-ret-cuota', 'f-ret-pct']) $(id).addEventListener('input', comprobarCuadre);
+    $('f-sin-iva').addEventListener('change', comprobarCuadre);
+    $('rev-mas-linea').addEventListener('click', () => { const ls = leerFormulario().lineas || []; if (ls.length < 4) pintarLineas([...ls, { base: null, pct: null, cuota: null }]); });
+    $('rev-contabilizar').addEventListener('click', () => void guardar('contabilizar'));
+    $('rev-no-contabilizar').addEventListener('click', () => void guardar('no_contabilizar'));
+    $('rev-guardar').addEventListener('click', () => void guardar(null));
+    await cargar();
+  }
+  void iniciar();
+</script>
