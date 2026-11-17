@@ -114,6 +114,13 @@ No es una ficha de cliente: es solo el registro de qué avisos ya se mandaron pa
 - RLS: el cliente puede ver sus propias filas y crear una fila propia, siempre con `fecha_contabilizado is null` (no puede marcarse a sí mismo como contabilizada). **Sin políticas de update ni delete** — esas columnas las toca solo la service role.
 - **Carpetas (2026-11-12)**: no solo hay facturas. El cliente sube desde la pestaña Documentación eligiendo `carpeta` (facturas emitidas/recibidas/simplificadas, tickets, extractos de banco —solo SL— o de tarjeta de crédito, y carpetas de documentación: escrituras, contratos, préstamos…). En extractos guarda también `cuenta_digitos`, `periodo_desde` y `periodo_hasta`. `carpeta` null = subida anterior, tratada como factura. n8n (`Descarga de facturas`) decide con ella la carpeta de Drive y el nombre; solo facturas y tickets llevan `drive_carpeta_pendientes_id` y se marcan como contabilizados. Valores y rutas en `schema.sql`.
 
+### `facturas_lectura` y `lectura_plantillas` (2026-11-17)
+
+- **`facturas_lectura`**: una fila por factura leída (`factura_id` → `facturas_subidas.id`). Tiene `estado` (verde, naranja o roja), `motivos` (jsonb), `datos` (jsonb: emisor, receptor, número, fecha, fecha contable, líneas de IVA, retención, total, VIES), `texto` del PDF, `leido_at`, `revisado_*` y `contabilizado_at`.
+  - **Quién escribe:** n8n (`Lectura de facturas`), con la service role.
+  - **Quién lee:** el cliente lee las de sus facturas (tabla del portal) y el admin, todas.
+- **`lectura_plantillas`**: expresiones por NIF de proveedor para las facturas que las reglas generales no leen bien. Solo la service role.
+
 ### Storage
 
 | Bucket | Acceso | Ruta | Notas |

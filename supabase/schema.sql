@@ -1299,3 +1299,55 @@ create table if not exists portal_accesos (
 alter table portal_accesos enable row level security;
 grant all on portal_accesos to service_role;
 create index if not exists portal_accesos_pendientes on portal_accesos (created_at) where enviado_at is null;
+
+-- ---------------------------------------------------------------------------
+-- 2026-11-17 · Lectura automática de facturas (fase 1 de la contabilización automática, Edurne)
+-- ---------------------------------------------------------------------------
+-- n8n ("Lectura de facturas", cada noche) saca el texto de cada factura o ticket subido
+-- (PDF con texto; las fotos todavía no) y lo lee con reglas: NIF, nombre, número, fecha,
+-- líneas de IVA, retención y total. Clasifica:
+--   verde   = está todo y cuadra (base + IVA - retención = total)
+--   naranja = se ha leído pero falta algo o no cuadra (motivos dice qué)
+--   roja    = no se ha podido leer (foto, escaneo sin texto…)
+-- datos (jsonb): { tipo, emisor{nif,nombre}, receptor{nif,nombre}, numero, fecha, fecha_contable,
+--   nota_fecha, aviso, lineas[{base,pct,cuota}], base, cuota_iva, retencion{pct,cuota}, total,
+--   sin_iva, vies{valido,fecha} }. fecha_contable: el 1.er día del trimestre abierto si la
+--   factura es de uno cerrado (Edurne, 2026-11-17), con nota_fecha "(julio)" para el concepto.
+-- revisado_*: lo rellenará la pantalla de revisión. contabilizado_at: cuando se meta en Cegid.
+-- El cliente ve la lectura de sus facturas (tabla del portal); escribir, solo la service role.
+-- Ejecutado por n8n el 2026-11-17.
+create table if not exists facturas_lectura (
+  factura_id bigint primary key references facturas_subidas (id) on delete cascade,
+  estado text not null,                -- 'verde' | 'naranja' | 'roja' (sin CHECK, como el resto)
+  motivos jsonb not null default '[]',
+  datos jsonb not null default '{}',
+  texto text,
+  leido_at timestamptz not null default now(),
+  revisado_at timestamptz,
+  revisado_por text,
+  contabilizado_at timestamptz
+);
+alter table facturas_lectura enable row level security;
+grant all on facturas_lectura to service_role;
+grant select on facturas_lectura to authenticated;
+drop policy if exists "cliente ve la lectura de sus facturas" on facturas_lectura;
+create policy "cliente ve la lectura de sus facturas" on facturas_lectura for select
+  using (factura_id in (select f.id from facturas_subidas f join clientes c on c.id = f.cliente_id where c.auth_user_id = auth.uid()));
+drop policy if exists "admin ve todas las lecturas" on facturas_lectura;
+create policy "admin ve todas las lecturas" on facturas_lectura for select
+  using (auth.uid() in (select auth_user_id from portal_admins));
+
+-- Plantillas por proveedor: expresiones propias para leer las facturas de un NIF concreto
+-- cuando las reglas generales fallan (se crean desde la pantalla de revisión). Las usa
+-- "Lectura de facturas" en una segunda pasada, una vez sabe el NIF del emisor.
+create table if not exists lectura_plantillas (
+  nif text primary key,
+  nombre text,
+  numero text,    -- regex con un grupo: el número de factura
+  fecha text,     -- regex de la etiqueta de la fecha
+  total text,     -- regex de la etiqueta del total
+  notas text,
+  actualizado_at timestamptz not null default now()
+);
+alter table lectura_plantillas enable row level security;
+grant all on lectura_plantillas to service_role;
