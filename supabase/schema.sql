@@ -1235,3 +1235,42 @@ alter table traspasos_nuevos add column if not exists iban_impuestos text;
 alter table alta_nuevos_autonomos add column if not exists alta_tramitada_at timestamptz;
 -- Gani Yalinalp ya está dado de alta (Mike Maddox y Mónica Eusebio siguen pendientes):
 update alta_nuevos_autonomos set alta_tramitada_at = now() where id = 11;
+
+-- ---------------------------------------------------------------------------
+-- 2026-11-17 · Referencia de cada documento subido (Edurne)
+-- ---------------------------------------------------------------------------
+-- Cada fila de facturas_subidas recibe al insertarse una referencia AM-AAAA-NNNNNN
+-- (año de subida, número continuo que no se reinicia al cambiar de año). Es la que irá en
+-- el concepto de la factura en Cegid (y en el Justificante en sociedades), en el nombre del
+-- archivo en Drive y en el portal, para encontrar el documento desde un asiento y al revés.
+-- La pone siempre el trigger (aunque el insert traiga otra: el cliente inserta con su
+-- sesión y no debe poder elegirla). security definer: el rol del cliente no necesita
+-- permiso sobre la secuencia.
+-- Ejecutado por n8n el 2026-11-17 (Edurne no toca Supabase); se puede repetir sin efecto.
+create sequence if not exists facturas_referencia_seq;
+alter table facturas_subidas add column if not exists referencia text;
+create unique index if not exists facturas_subidas_referencia_key on facturas_subidas (referencia);
+
+create or replace function asignar_referencia_factura() returns trigger
+language plpgsql security definer set search_path = public as $$
+begin
+  new.referencia := 'AM-' || to_char(coalesce(new.fecha_subida, now()) at time zone 'Europe/Madrid', 'YYYY')
+    || '-' || lpad(nextval('facturas_referencia_seq')::text, 6, '0');
+  return new;
+end $$;
+
+drop trigger if exists facturas_subidas_referencia on facturas_subidas;
+create trigger facturas_subidas_referencia before insert on facturas_subidas
+  for each row execute function asignar_referencia_factura();
+
+-- Las filas que ya existían, por orden de subida.
+do $$
+declare r record;
+begin
+  for r in select id, fecha_subida from facturas_subidas where referencia is null order by id loop
+    update facturas_subidas
+      set referencia = 'AM-' || to_char(r.fecha_subida at time zone 'Europe/Madrid', 'YYYY')
+        || '-' || lpad(nextval('facturas_referencia_seq')::text, 6, '0')
+      where id = r.id;
+  end loop;
+end $$;
