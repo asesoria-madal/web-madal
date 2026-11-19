@@ -22,7 +22,7 @@ Amb l’escriptura signada i inscrita al Registre Mercantil, la societat ja exis
 
 ## 1. El NIF ja és definitiu?
 
-En constituir la societat, Hisenda li assigna un **NIF provisional**. Quan l’escriptura s’inscriu al Registre Mercantil, el NIF passa a ser **definitiu**. Si la constitució s’ha fet per CIRCE, aquest pas s’encadena sol; si no, cal aportar l’escriptura inscrita a l’Agència Tributària. Amb el NIF definitiu pots demanar el **certificat digital de representant** de la societat, imprescindible per a gairebé tot el que ve després.
+En constituir la societat, Hisenda li assigna un **NIF provisional**. Quan l’escriptura s’inscriu al Registre Mercantil, el NIF passa a ser **definitiu**. Si la constitució s’ha fet per CIRCE, aquest pas s’encadena sol; si no, cal aportar l’escriptura inscrita a l’Agència Tributària. Amb el NIF definitiu pots demanar el **certificat digital de l’empresa**, imprescindible per a gairebé tot el que ve després.
 
 ## 2. Alta a Hisenda: el model 036
 

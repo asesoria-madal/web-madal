@@ -17,7 +17,7 @@ const TELEFONO_PATTERN = /^[+\d][\d\s-]{6,20}$/;
 const FECHA_PATTERN = /^\d{4}-\d{2}-\d{2}$/;
 
 const TIPO_VALUES = ['autonomo', 'sl'];
-// La SL solo puede tener o no tener certificado de representante: el Cl@ve no sirve para una sociedad.
+// La SL solo puede tener o no tener certificado digital de la empresa: el Cl@ve no sirve para una sociedad.
 const IDENTIFICACION_VALUES: Record<string, string[]> = { autonomo: ['certificado', 'clave_pin', 'ninguno'], sl: ['certificado', 'ninguno'] };
 const SII_VALUES = ['si', 'no', 'no_sabe'];
 const QUIEN_LLEVA = ['gestoria', 'propia', 'empieza'];

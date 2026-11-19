@@ -22,7 +22,7 @@ Con la escritura firmada e inscrita en el Registro Mercantil, la sociedad ya exi
 
 ## 1. ¿El NIF ya es definitivo?
 
-Al constituir la sociedad, Hacienda le asigna un **NIF provisional**. Cuando la escritura se inscribe en el Registro Mercantil, el NIF pasa a ser **definitivo**. Si la constitución se ha hecho por CIRCE, este paso se encadena solo; si no, hay que aportar la escritura inscrita a la Agencia Tributaria. Con el NIF definitivo puedes pedir el **certificado digital de representante** de la sociedad, imprescindible para casi todo lo que viene después.
+Al constituir la sociedad, Hacienda le asigna un **NIF provisional**. Cuando la escritura se inscribe en el Registro Mercantil, el NIF pasa a ser **definitivo**. Si la constitución se ha hecho por CIRCE, este paso se encadena solo; si no, hay que aportar la escritura inscrita a la Agencia Tributaria. Con el NIF definitivo puedes pedir el **certificado digital de la empresa**, imprescindible para casi todo lo que viene después.
 
 ## 2. Alta en Hacienda: el modelo 036
 

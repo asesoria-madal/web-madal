@@ -8,7 +8,7 @@
 //
 // Revisión del 2026-11-11 (Edurne): ya no se pide IBAN (lo recoge el mandato de GoCardless),
 // la gestoría anterior es opcional (hay quien se lo lleva solo), la SL pregunta por su
-// certificado de representante, su administrador y su situación fiscal, se pregunta el plan y,
+// certificado digital de la empresa, su administrador y su situación fiscal, se pregunta el plan y,
 // si viene de una gestoría, qué modelos presenta.
 
 export type FormLang = 'es' | 'ca' | 'en';
@@ -82,8 +82,8 @@ export const TRASPASO = {
     clavePin: 'Tengo Cl@ve PIN vigente',
     ninguno: 'No tengo ninguno, o está caducado',
     idDigitalSl: 'Certificado digital de la sociedad *',
-    idDigitalSlHint: 'Para llevar los trámites de la SL te pediremos su certificado de representante (el de persona jurídica). El certificado o el Cl@ve personal del administrador no sirve para esto. Si no lo tiene, te ayudamos a pedirlo.',
-    certSlSi: 'Sí, la sociedad tiene certificado de representante vigente',
+    idDigitalSlHint: 'Para llevar los trámites de la SL te pediremos el certificado digital de la empresa (el de persona jurídica). El certificado o el Cl@ve personal del administrador no sirve para esto. Si no lo tiene, te ayudamos a pedirlo.',
+    certSlSi: 'Sí, la sociedad tiene certificado digital de la empresa vigente',
     certSlNo: 'No, no lo tiene o está caducado',
     administrador: 'Administrador de la sociedad',
     adminNombre: 'Nombre y apellidos del administrador *',
@@ -204,8 +204,8 @@ export const TRASPASO = {
     clavePin: 'Tinc Cl@ve PIN vigent',
     ninguno: 'No en tinc cap, o està caducat',
     idDigitalSl: 'Certificat digital de la societat *',
-    idDigitalSlHint: 'Per portar els tràmits de la SL et demanarem el seu certificat de representant (el de persona jurídica). El certificat o el Cl@ve personal de l’administrador no serveix per a això. Si no en té, t’ajudem a demanar-lo.',
-    certSlSi: 'Sí, la societat té certificat de representant vigent',
+    idDigitalSlHint: 'Per portar els tràmits de la SL et demanarem el certificat digital de l’empresa (el de persona jurídica). El certificat o el Cl@ve personal de l’administrador no serveix per a això. Si no en té, t’ajudem a demanar-lo.',
+    certSlSi: 'Sí, la societat té certificat digital de l’empresa vigent',
     certSlNo: 'No, no en té o està caducat',
     administrador: 'Administrador de la societat',
     adminNombre: 'Nom i cognoms de l’administrador *',
@@ -321,8 +321,8 @@ export const TRASPASO = {
     clavePin: 'I have a valid Cl@ve PIN',
     ninguno: 'I have neither, or it has expired',
     idDigitalSl: 'The company’s digital certificate *',
-    idDigitalSlHint: 'To handle the SL’s procedures we will ask for its representative certificate (certificado de representante de persona jurídica). The director’s personal certificate or Cl@ve is not valid for this. If the company doesn’t have one, we help you apply for it.',
-    certSlSi: 'Yes, the company has a valid representative certificate',
+    idDigitalSlHint: 'To handle the SL’s procedures we will ask for the company’s digital certificate (the one for legal entities). The director’s personal certificate or Cl@ve is not valid for this. If the company doesn’t have one, we help you apply for it.',
+    certSlSi: 'Yes, the company has a valid company digital certificate',
     certSlNo: 'No, it does not have one or it has expired',
     administrador: 'Company director',
     adminNombre: 'Director’s full name *',

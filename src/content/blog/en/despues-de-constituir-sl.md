@@ -22,7 +22,7 @@ Once the deed is signed and registered with the Companies Registry, the company 
 
 ## 1. Is the tax ID final?
 
-When the company is set up, the tax office gives it a **provisional tax ID (NIF)**. Once the deed is registered with the Companies Registry, the NIF becomes **definitive**. If the company was set up through CIRCE, this step follows on automatically; otherwise, the registered deed has to be submitted to the tax office. With the definitive NIF you can apply for the company’s **representative digital certificate**, which you will need for almost everything that follows.
+When the company is set up, the tax office gives it a **provisional tax ID (NIF)**. Once the deed is registered with the Companies Registry, the NIF becomes **definitive**. If the company was set up through CIRCE, this step follows on automatically; otherwise, the registered deed has to be submitted to the tax office. With the definitive NIF you can apply for the **company’s digital certificate**, which you will need for almost everything that follows.
 
 ## 2. Tax registration: form 036
 
