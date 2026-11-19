@@ -57,13 +57,13 @@ Si l’activitat es fa en un local obert al públic, normalment cal una **llicè
 
 | Model | Què és | Quan |
 |---|---|---|
-| 303 | IVA | Cada trimestre |
-| 111 i 115 | Retencions, si n’hi ha | Cada trimestre |
+| 303 | IVA | Cada trimestre (cada mes si està al registre de devolució mensual o és gran empresa) |
+| 111 i 115 | Retencions, si n’hi ha | Cada trimestre (cada mes en els mateixos casos) |
 | 390, 190 i 180 | Resums anuals | Gener |
 | 200 | Impost de Societats | Juliol |
-| 202 | Pagaments fraccionats | Abril, octubre i desembre, a partir de l’any en què l’anterior va sortir a pagar |
+| 202 | Pagaments fraccionats | Abril, octubre i desembre, quan l’últim Impost de Societats va sortir a pagar (el primer any, normalment no). Les empreses que facturen més de 6 milions el presenten sempre |
 
-A més, els **comptes anuals** es formulen en els tres mesos següents al tancament de l’exercici i es dipositen al Registre Mercantil després d’aprovar-los. Pots veure què et toca amb la nostra eina [Quins impostos he de presentar?](/ca/herramientas/que-impuestos-presento).
+A més, els **comptes anuals** es formulen en els tres mesos següents al tancament de l’exercici, la junta els aprova en els sis mesos següents al tancament i es dipositen al Registre Mercantil en el mes següent a aprovar-los. Pots veure què et toca amb la nostra eina [Quins impostos he de presentar?](/ca/herramientas/que-impuestos-presento).
 
 ## En resum
 

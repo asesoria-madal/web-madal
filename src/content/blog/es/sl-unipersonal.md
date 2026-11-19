@@ -42,7 +42,7 @@ Además, las decisiones del socio único, que hace las veces de junta general, s
 
 ## ¿Qué pasa si no se inscribe la unipersonalidad?
 
-Es el error más caro. Si pasan **seis meses** desde que la sociedad tiene un solo socio y no se ha inscrito en el Registro Mercantil, el socio responde **personal, ilimitada y solidariamente** de las deudas que la sociedad contraiga durante ese tiempo. Es decir, pierde justo la protección por la que se crea una SL.
+Es el error más caro. Si pasan **seis meses** desde que la sociedad tiene un solo socio y no se ha inscrito en el Registro Mercantil, el socio responde **personal, ilimitada y solidariamente** de todas las deudas que la sociedad haya contraído desde que es unipersonal, no solo de las posteriores a esos seis meses. Es decir, pierde justo la protección por la que se crea una SL.
 
 ## ¿Con cuánto capital se crea?
 

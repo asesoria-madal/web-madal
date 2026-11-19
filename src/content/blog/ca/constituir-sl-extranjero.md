@@ -10,8 +10,8 @@ date: 2026-11-20
 sources:
   - label: 'Reial decret 557/2011, Reglament de la Llei d’estrangeria, art. 206 - número d’identitat d’estranger (NIE)'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2011-7703'
-  - label: 'Reial decret 664/1999, sobre inversions exteriors - declaració d’inversions al Registre d’Inversions'
-    url: 'https://www.boe.es/buscar/act.php?id=BOE-A-1999-9779'
+  - label: 'Reial decret 571/2023, sobre inversions exteriors - declaració d’inversions al Registre d’Inversions'
+    url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2023-15549'
   - label: 'Reial decret legislatiu 5/2004, Llei de l’Impost sobre la Renda de no Residents, art. 25 - tipus de gravamen'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2004-4527'
   - label: 'Reial decret legislatiu 1/2010, Llei de societats de capital'
@@ -43,7 +43,7 @@ La mateixa regla val per a qualsevol document estranger que s’aporti: apostill
 
 ## Es pot fer per CIRCE?
 
-La via ràpida (CIRCE, amb la [Cartera Virtual](/ca/blog/cartera-virtual-circe)) necessita que almenys un soci tingui **certificat digital espanyol o Cl@ve**. Un estranger pot obtenir el certificat amb el seu NIE, però cal acreditar la identitat en persona. Si ningú no en té, es constitueix per la **via tradicional**, directament a la notaria. Comparem les dues a [CIRCE o via tradicional](/ca/blog/montar-sl-circe-o-tradicional).
+La via ràpida (CIRCE, amb la [Cartera Virtual](/ca/blog/cartera-virtual-circe)) necessita que almenys un soci tingui **certificat digital espanyol o Cl@ve**. Un estranger pot obtenir el certificat amb el seu NIE, però cal acreditar la identitat en persona. Si ningú no en té, hi ha dues opcions: tramitar-la igualment per CIRCE des d’un **Punt d’Atenció a l’Emprenedoria (PAE)** presencial, que presenta el tràmit amb el seu propi certificat, o constituir-la per la **via tradicional**, directament a la notaria. Comparem les dues a [CIRCE o via tradicional](/ca/blog/montar-sl-circe-o-tradicional).
 
 ## L’administrador pot viure fora d’Espanya?
 

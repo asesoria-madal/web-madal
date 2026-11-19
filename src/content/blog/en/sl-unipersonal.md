@@ -42,7 +42,7 @@ The sole partner also acts as the general meeting, and their decisions are recor
 
 ## What happens if single-member status is not registered?
 
-This is the costliest mistake. If **six months** pass from the moment the company has a single partner without registering it with the Companies Registry, the partner becomes **personally, jointly and unlimitedly** liable for the debts the company takes on during that time. In other words, they lose the very protection an SL is set up for.
+This is the costliest mistake. If **six months** pass from the moment the company has a single partner without registering it with the Companies Registry, the partner becomes **personally, jointly and unlimitedly** liable for all the debts the company has taken on since it became single-member, not just those after the six months. In other words, they lose the very protection an SL is set up for.
 
 ## How much capital is needed?
 

@@ -57,13 +57,13 @@ If the business operates from premises open to the public, a **licence or prior 
 
 | Form | What it is | When |
 |---|---|---|
-| 303 | VAT | Every quarter |
-| 111 and 115 | Withholding, if any | Every quarter |
+| 303 | VAT | Every quarter (every month if registered for monthly refunds or a large company) |
+| 111 and 115 | Withholding, if any | Every quarter (every month in the same cases) |
 | 390, 190 and 180 | Annual summaries | January |
 | 200 | Corporate income tax | July |
-| 202 | Instalment payments | April, October and December, from the year after one with tax payable |
+| 202 | Instalment payments | April, October and December, when the last corporate income tax return had tax payable (usually not in the first year). Companies with turnover above €6 million always file it |
 
-The **annual accounts** are also prepared within three months of the year end and filed with the Companies Registry once approved. You can check which forms apply to you with our tool [which tax returns do I need to file?](/en/herramientas/que-impuestos-presento).
+The **annual accounts** are also prepared within three months of the year end, approved by the shareholders within six months of the year end and filed with the Companies Registry within a month of approval. You can check which forms apply to you with our tool [which tax returns do I need to file?](/en/herramientas/que-impuestos-presento).
 
 ## In short
 

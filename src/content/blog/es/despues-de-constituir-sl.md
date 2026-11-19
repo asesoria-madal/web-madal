@@ -57,13 +57,13 @@ Si la actividad se hace en un local abierto al público, normalmente hace falta 
 
 | Modelo | Qué es | Cuándo |
 |---|---|---|
-| 303 | IVA | Cada trimestre |
-| 111 y 115 | Retenciones, si las hay | Cada trimestre |
+| 303 | IVA | Cada trimestre (cada mes si está en el registro de devolución mensual o es gran empresa) |
+| 111 y 115 | Retenciones, si las hay | Cada trimestre (cada mes en los mismos casos) |
 | 390, 190 y 180 | Resúmenes anuales | Enero |
 | 200 | Impuesto de Sociedades | Julio |
-| 202 | Pagos fraccionados | Abril, octubre y diciembre, a partir del año en que el anterior salió a pagar |
+| 202 | Pagos fraccionados | Abril, octubre y diciembre, cuando el último Impuesto de Sociedades salió a pagar (el primer año, normalmente no). Las empresas que facturan más de 6 millones lo presentan siempre |
 
-Además, las **cuentas anuales** se formulan en los tres meses siguientes al cierre del ejercicio y se depositan en el Registro Mercantil después de aprobarlas. Puedes ver qué te toca en nuestra herramienta [¿Qué impuestos tengo que presentar?](/herramientas/que-impuestos-presento).
+Además, las **cuentas anuales** se formulan en los tres meses siguientes al cierre del ejercicio, la junta las aprueba en los seis meses siguientes al cierre y se depositan en el Registro Mercantil en el mes siguiente a aprobarlas. Puedes ver qué te toca en nuestra herramienta [¿Qué impuestos tengo que presentar?](/herramientas/que-impuestos-presento).
 
 ## En resumen
 

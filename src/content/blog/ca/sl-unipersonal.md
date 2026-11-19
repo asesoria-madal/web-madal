@@ -42,7 +42,7 @@ A més, el soci únic fa de junta general, i les seves decisions es recullen en 
 
 ## Què passa si no s’inscriu la unipersonalitat?
 
-És l’error més car. Si passen **sis mesos** des que la societat té un sol soci sense inscriure-ho al Registre Mercantil, el soci respon **personalment, il·limitadament i solidàriament** dels deutes que la societat contregui durant aquest temps. És a dir, perd justament la protecció per la qual es crea una SL.
+És l’error més car. Si passen **sis mesos** des que la societat té un sol soci sense inscriure-ho al Registre Mercantil, el soci respon **personalment, il·limitadament i solidàriament** de tots els deutes que la societat hagi contret des que és unipersonal, no només dels posteriors a aquests sis mesos. És a dir, perd justament la protecció per la qual es crea una SL.
 
 ## Amb quant capital es crea?
 

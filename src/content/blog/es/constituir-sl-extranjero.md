@@ -10,8 +10,8 @@ date: 2026-11-20
 sources:
   - label: 'Real Decreto 557/2011, Reglamento de la Ley de Extranjería, art. 206 - número de identidad de extranjero (NIE)'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2011-7703'
-  - label: 'Real Decreto 664/1999, sobre inversiones exteriores - declaración de inversiones al Registro de Inversiones'
-    url: 'https://www.boe.es/buscar/act.php?id=BOE-A-1999-9779'
+  - label: 'Real Decreto 571/2023, sobre inversiones exteriores - declaración de inversiones al Registro de Inversiones'
+    url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2023-15549'
   - label: 'Real Decreto Legislativo 5/2004, Ley del Impuesto sobre la Renta de no Residentes, art. 25 - tipos de gravamen'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2004-4527'
   - label: 'Real Decreto Legislativo 1/2010, Ley de Sociedades de Capital'
@@ -43,7 +43,7 @@ La misma regla vale para cualquier documento extranjero que se aporte: apostilla
 
 ## ¿Se puede hacer por CIRCE?
 
-La vía rápida (CIRCE, con la [Cartera Virtual](/blog/cartera-virtual-circe)) necesita que al menos un socio tenga **certificado digital español o Cl@ve**. Un extranjero puede obtener el certificado con su NIE, pero hay que acreditar la identidad en persona. Si nadie lo tiene, se constituye por la **vía tradicional**, directamente en notaría. Comparamos las dos en [CIRCE o vía tradicional](/blog/montar-sl-circe-o-tradicional).
+La vía rápida (CIRCE, con la [Cartera Virtual](/blog/cartera-virtual-circe)) necesita que al menos un socio tenga **certificado digital español o Cl@ve**. Un extranjero puede obtener el certificado con su NIE, pero hay que acreditar la identidad en persona. Si nadie lo tiene, hay dos opciones: tramitarla igualmente por CIRCE desde un **Punto de Atención al Emprendimiento (PAE)** presencial, que presenta el trámite con su propio certificado, o constituirla por la **vía tradicional**, directamente en notaría. Comparamos las dos en [CIRCE o vía tradicional](/blog/montar-sl-circe-o-tradicional).
 
 ## ¿Puede el administrador vivir fuera de España?
 

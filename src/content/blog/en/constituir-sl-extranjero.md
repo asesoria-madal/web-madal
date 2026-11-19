@@ -10,8 +10,8 @@ date: 2026-11-20
 sources:
   - label: 'Royal Decree 557/2011, Immigration Regulation, art. 206 - foreigner identity number (NIE)'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2011-7703'
-  - label: 'Royal Decree 664/1999 on foreign investment - filing with the Investment Register'
-    url: 'https://www.boe.es/buscar/act.php?id=BOE-A-1999-9779'
+  - label: 'Royal Decree 571/2023 on foreign investment - filing with the Investment Register'
+    url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2023-15549'
   - label: 'Royal Legislative Decree 5/2004, Non-Resident Income Tax Act, art. 25 - tax rates'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2004-4527'
   - label: 'Royal Legislative Decree 1/2010, Companies Act (Ley de Sociedades de Capital)'
@@ -43,7 +43,7 @@ The same rule applies to any foreign document you provide: apostille and sworn t
 
 ## Can it be done through CIRCE?
 
-The fast route (CIRCE, with the [Virtual Wallet](/en/blog/cartera-virtual-circe)) needs at least one partner with a **Spanish digital certificate or Cl@ve**. A foreigner can get the certificate with their NIE, but identity has to be proven in person. If nobody has one, the company is set up the **traditional way**, directly at a notary. We compare both in [CIRCE or the traditional route](/en/blog/montar-sl-circe-o-tradicional).
+The fast route (CIRCE, with the [Virtual Wallet](/en/blog/cartera-virtual-circe)) needs at least one partner with a **Spanish digital certificate or Cl@ve**. A foreigner can get the certificate with their NIE, but identity has to be proven in person. If nobody has one, there are two options: still file through CIRCE from an in-person **Business Support Point (PAE)**, which submits the procedure with its own certificate, or set the company up the **traditional way**, directly at a notary. We compare both in [CIRCE or the traditional route](/en/blog/montar-sl-circe-o-tradicional).
 
 ## Can the director live outside Spain?
 
