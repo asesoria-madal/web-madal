@@ -116,6 +116,11 @@ No es una ficha de cliente: es solo el registro de qué avisos ya se mandaron pa
 - RLS: el cliente puede ver sus propias filas y crear una fila propia, siempre con `fecha_contabilizado is null` (no puede marcarse a sí mismo como contabilizada). **Sin políticas de update ni delete** — esas columnas las toca solo la service role.
 - **Carpetas (2026-11-12)**: no solo hay facturas. El cliente sube desde la pestaña Documentación eligiendo `carpeta` (facturas emitidas/recibidas/simplificadas, tickets, extractos de banco —solo SL— o de tarjeta de crédito, y carpetas de documentación: escrituras, contratos, préstamos…). En extractos guarda también `cuenta_digitos`, `periodo_desde` y `periodo_hasta`. `carpeta` null = subida anterior, tratada como factura. n8n (`Descarga de facturas`) decide con ella la carpeta de Drive y el nombre; solo facturas y tickets llevan `drive_carpeta_pendientes_id` y se marcan como contabilizados. Valores y rutas en `schema.sql`.
 
+### `prevision_fiscal` (2026-11-20)
+
+- Una fila por cliente, año y trimestre (clave primaria compuesta). `modelos` (jsonb): `[{ modelo, importe, resultado: pagar|compensar|devolver|cero, detalle }]`; `resumen` (jsonb: facturas, última fecha, incompleto); `error`; `calculado_at`, `intentado_at`.
+- La escribe n8n (`Previsión fiscal`, cada noche, con la service role) con lo contabilizado en Cegid. El cliente lee la suya y los admins todas (RLS de solo lectura). La lee la pestaña "Previsión fiscal" del portal (trimestre en curso).
+
 ### `facturas_lectura` y `lectura_plantillas` (2026-11-17)
 
 - **`facturas_lectura`**: una fila por factura leída (`factura_id` → `facturas_subidas.id`). Tiene `estado` (verde, naranja o roja), `motivos` (jsonb), `datos` (jsonb: emisor, receptor, número, fecha, fecha contable, líneas de IVA, retención, total, VIES), `texto` del PDF, `leido_at`, `revisado_*` y `contabilizado_at`.
