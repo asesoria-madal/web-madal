@@ -891,7 +891,7 @@ const textosCarpeta = { subir: t.doc.subir, foto: t.facturas.cameraSubmit, ver: 
       const eur = (n: number) => n.toLocaleString(LOCALE, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' €';
       const filas: Record<string, string[]> = {
         '303': ['repercutido', 'soportado', 'compensacion'],
-        '130': ['ingresos', 'gastos', 'amortizacion', 'rendimiento', 'cuota20', 'retenciones', 'pagosAnteriores'],
+        '130': ['ingresos', 'gastos', 'dificil', 'rendimiento', 'cuota20', 'retenciones', 'pagosAnteriores'],
         '111': ['retencionesFacturas', 'nominas'],
         '115': [],
       };
@@ -904,7 +904,7 @@ const textosCarpeta = { subir: t.doc.subir, foto: t.facturas.cameraSubmit, ver: 
         const num = document.createElement('p'); num.className = 'pf-importe'; num.textContent = eur(Math.abs(m.importe)); card.appendChild(num);
         const res = document.createElement('p'); res.className = 'pf-resultado'; res.textContent = P.resultados[m.resultado] || ''; card.appendChild(res);
         const pl = document.createElement('p'); pl.className = 'pf-plazo'; pl.textContent = tpl(P.plazo, { fecha: pfPlazo(m.modelo, anio, q) }); card.appendChild(pl);
-        const lineas = (filas[m.modelo] || []).filter((k) => typeof m.detalle?.[k] === 'number' && !(['compensacion', 'amortizacion', 'nominas', 'pagosAnteriores'].includes(k) && !m.detalle[k]));
+        const lineas = (filas[m.modelo] || []).filter((k) => typeof m.detalle?.[k] === 'number' && !(['compensacion', 'dificil', 'nominas', 'pagosAnteriores'].includes(k) && !m.detalle[k]));
         if (m.modelo === '115' && m.detalle?.facturas) lineas.push('alquileres');
         if (lineas.length) {
           const det = document.createElement('details'); const sum = document.createElement('summary'); sum.textContent = P.ver; det.appendChild(sum);
