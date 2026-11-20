@@ -26,6 +26,22 @@ const DATOS_145_VALUES = ['facilita', 'no_facilita'];
 const SITUACION_FAMILIAR_VALUES = ['1', '2', '3']; // las tres situaciones del modelo 145
 const TIPO_CONTRATO_VALUES = ['indefinido', 'fijo_discontinuo', 'temporal_produccion', 'temporal_sustitucion', 'formativo_alternancia', 'formativo_practica'];
 const JORNADA_VALUES = ['completa', 'parcial'];
+// Datos que pide la API de DiezNom (Cegid nóminas) y que antes se recogían como
+// texto libre: apellidos y domicilio por separado, estado civil, y el modelo 145
+// con descendientes/ascendientes uno a uno. Los textos libres de siempre
+// (nombre_completo, domicilio, detalle_*) se siguen rellenando, compuestos, para
+// que el correo de aviso y las filas antiguas no cambien.
+const ESTADO_CIVIL_VALUES = ['soltero', 'casado', 'viudo', 'divorciado'];
+const TIPO_VIA_LABELS: Record<string, string> = {
+  calle: 'Calle', avenida: 'Avenida', plaza: 'Plaza', paseo: 'Paseo', camino: 'Camino', carretera: 'Carretera',
+  travesia: 'Travesía', ronda: 'Ronda', urbanizacion: 'Urbanización', otro: '',
+};
+const CP_PATTERN = /^\d{5}$/;
+const DISCAPACIDAD_HIJO_VALUES = ['no', 'd33', 'd33_ayuda', 'd65']; // tramos del modelo 145
+const DISCAPACIDAD_LABELS: Record<string, string> = {
+  no: 'sin discapacidad', d33: 'discapacidad 33-64 %', d33_ayuda: 'discapacidad 33-64 % con movilidad reducida o ayuda de terceros', d65: 'discapacidad ≥ 65 %',
+};
+const PRUEBA_UNIDAD_VALUES = ['meses', 'dias'];
 
 // Mínimo de caracteres de la causa del contrato temporal: desde la reforma
 // laboral de 2021 tiene que ser concreta, así que no se acepta un «pico de
@@ -45,6 +61,13 @@ function isNumberBetween(v: unknown, min: number, max: number): v is number {
   return typeof v === 'number' && Number.isFinite(v) && v >= min && v <= max;
 }
 const soloDigitos = (s: string) => s.replace(/[\s/.-]/g, '');
+const anioActual = () => new Date().getFullYear();
+function isAnio(v: unknown, min = 1900): v is number {
+  return typeof v === 'number' && Number.isInteger(v) && v >= min && v <= anioActual();
+}
+function isListaDe(v: unknown, max: number, item: (x: Record<string, unknown>) => boolean): boolean {
+  return Array.isArray(v) && v.length >= 1 && v.length <= max && v.every((x) => typeof x === 'object' && x !== null && item(x as Record<string, unknown>));
+}
 
 function primerCampoInvalido(body: unknown): string | null {
   if (typeof body !== 'object' || body === null) return 'datos';
@@ -59,12 +82,21 @@ function primerCampoInvalido(body: unknown): string | null {
   if (!isOptionalString(b.convenio, 200)) return 'convenio';
 
   // Trabajador
-  if (!isNonEmptyString(b.nombreCompleto, 150)) return 'nombreCompleto';
+  if (!isNonEmptyString(b.nombre, 60)) return 'nombre';
+  if (!isNonEmptyString(b.apellido1, 60)) return 'apellido1';
+  if (!isOptionalString(b.apellido2, 60)) return 'apellido2';
+  if (!ESTADO_CIVIL_VALUES.includes(b.estadoCivil as string)) return 'estadoCivil';
   if (typeof b.nifNie !== 'string' || !NIF_NIE_PATTERN.test(b.nifNie.trim())) return 'nifNie';
   if (!isFecha(b.fechaNacimiento)) return 'fechaNacimiento';
   if (!SEXO_VALUES.includes(b.sexo as string)) return 'sexo';
   if (!isNonEmptyString(b.nacionalidad, 60)) return 'nacionalidad';
-  if (!isNonEmptyString(b.domicilio, 300)) return 'domicilio';
+  if (typeof b.tipoVia !== 'string' || !Object.hasOwn(TIPO_VIA_LABELS, b.tipoVia)) return 'tipoVia';
+  if (!isNonEmptyString(b.nombreVia, 100)) return 'nombreVia';
+  if (!isNonEmptyString(b.numeroVia, 10)) return 'numeroVia';
+  for (const c of ['escalera', 'piso', 'puerta']) if (!isOptionalString(b[c], 10)) return c;
+  if (typeof b.codigoPostal !== 'string' || !CP_PATTERN.test(b.codigoPostal.trim())) return 'codigoPostal';
+  if (!isNonEmptyString(b.poblacion, 60)) return 'poblacion';
+  if (!isNonEmptyString(b.provincia, 40)) return 'provincia';
   if (typeof b.telefono !== 'string' || !TELEFONO_PATTERN.test(b.telefono.trim())) return 'telefono';
   if (typeof b.email !== 'string' || !EMAIL_PATTERN.test(b.email) || b.email.length > 254) return 'email';
   // NUSS obligatorio salvo que se marque que no tiene (se solicita en el alta).
@@ -85,9 +117,23 @@ function primerCampoInvalido(body: unknown): string | null {
     for (const c of ['descendientes', 'ascendientes', 'pensiones', 'prestamoViviendaAnterior2013', 'movilidadGeografica']) {
       if (typeof b[c] !== 'boolean') return 'datos145';
     }
-    if (b.descendientes && !isNonEmptyString(b.detalleDescendientes, 500)) return 'detalleDescendientes';
-    if (b.ascendientes && !isNonEmptyString(b.detalleAscendientes, 500)) return 'detalleAscendientes';
-    if (b.pensiones && !isNonEmptyString(b.detallePensiones, 300)) return 'detallePensiones';
+    // Situación 2 (casado con cónyuge de rentas bajas): el modelo 145 pide su NIF.
+    if (b.situacionFamiliar === '2' && (typeof b.nifConyuge !== 'string' || !NIF_NIE_PATTERN.test(b.nifConyuge.trim()))) return 'nifConyuge';
+    if (b.descendientes && !isListaDe(b.descendientesLista, 15, (x) =>
+      isAnio(x.anioNacimiento) &&
+      (x.anioAdopcion === undefined || x.anioAdopcion === null || (isAnio(x.anioAdopcion) && x.anioAdopcion >= (x.anioNacimiento as number))) &&
+      DISCAPACIDAD_HIJO_VALUES.includes(x.discapacidad as string) &&
+      typeof x.porEntero === 'boolean')) return 'descendientesLista';
+    if (b.ascendientes && !isListaDe(b.ascendientesLista, 10, (x) =>
+      isAnio(x.anioNacimiento) &&
+      DISCAPACIDAD_HIJO_VALUES.includes(x.discapacidad as string) &&
+      isNumberBetween(x.compartidoCon, 1, 20) && Number.isInteger(x.compartidoCon))) return 'ascendientesLista';
+    if (b.pensiones) {
+      const okImporte = (v: unknown) => v === undefined || isNumberBetween(v, 0, 10_000_000);
+      if (!okImporte(b.pensionCompensatoria)) return 'pensionCompensatoria';
+      if (!okImporte(b.anualidadesAlimentos)) return 'anualidadesAlimentos';
+      if (!(Number(b.pensionCompensatoria) > 0) && !(Number(b.anualidadesAlimentos) > 0)) return 'pensionCompensatoria';
+    }
   }
 
   // Contrato
@@ -123,7 +169,11 @@ function primerCampoInvalido(body: unknown): string | null {
   if (!isOptionalString(b.complementos, 500)) return 'complementos';
   if (!isNumberBetween(b.numeroPagas, 12, 16) || !Number.isInteger(b.numeroPagas)) return 'numeroPagas';
   if (typeof b.pagasProrrateadas !== 'boolean') return 'numeroPagas';
-  if (!isOptionalString(b.periodoPrueba, 100)) return 'periodoPrueba';
+  // Periodo de prueba: cantidad y unidad juntas o ninguna (n8n calcula la fecha de fin).
+  if (b.periodoPruebaCantidad !== undefined || b.periodoPruebaUnidad !== undefined) {
+    if (!isNumberBetween(b.periodoPruebaCantidad, 1, 365) || !Number.isInteger(b.periodoPruebaCantidad)) return 'periodoPruebaCantidad';
+    if (!PRUEBA_UNIDAD_VALUES.includes(b.periodoPruebaUnidad as string)) return 'periodoPruebaUnidad';
+  }
   if (!isOptionalString(b.vacaciones, 150)) return 'vacaciones';
   if (!isOptionalString(b.bonificaciones, 500)) return 'bonificaciones';
   if (!isOptionalString(b.observaciones, 1000)) return 'observaciones';
@@ -152,6 +202,28 @@ function isRateLimited(ip: string): boolean {
 // Texto recortado, o null si viene vacío o no viene.
 const txt = (v: unknown) => (typeof v === 'string' && v.trim() ? v.trim() : null);
 
+// Textos compuestos para las columnas de siempre (el correo de aviso las lee).
+const eur = (v: unknown) => Number(v).toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' €/año';
+function domicilioCompuesto(b: Record<string, unknown>): string {
+  const via = [TIPO_VIA_LABELS[b.tipoVia as string], txt(b.nombreVia)].filter(Boolean).join(' ');
+  const extra = [txt(b.escalera) && `esc. ${txt(b.escalera)}`, txt(b.piso) && `piso ${txt(b.piso)}`, txt(b.puerta) && `puerta ${txt(b.puerta)}`].filter(Boolean).join(', ');
+  return `${via}, ${txt(b.numeroVia)}${extra ? ', ' + extra : ''}, ${(b.codigoPostal as string).trim()} ${txt(b.poblacion)} (${txt(b.provincia)})`;
+}
+type Hijo = { anioNacimiento: unknown; anioAdopcion: unknown; discapacidad: unknown; porEntero: unknown };
+type Asc = { anioNacimiento: unknown; discapacidad: unknown; compartidoCon: unknown };
+function textoDescendientes(l: Hijo[]): string {
+  return l.map((x, i) => `Hijo/descendiente ${i + 1}: nacido en ${x.anioNacimiento}${x.anioAdopcion ? `, adoptado en ${x.anioAdopcion}` : ''}, ${DISCAPACIDAD_LABELS[x.discapacidad as string]}, ${x.porEntero ? 'computa por entero' : 'se reparte con el otro progenitor'}`).join('\n');
+}
+function textoAscendientes(l: Asc[]): string {
+  return l.map((x, i) => `Ascendiente ${i + 1}: nacido en ${x.anioNacimiento}, ${DISCAPACIDAD_LABELS[x.discapacidad as string]}, a cargo de ${x.compartidoCon} persona(s)`).join('\n');
+}
+function textoPensiones(b: Record<string, unknown>): string {
+  return [
+    Number(b.pensionCompensatoria) > 0 ? `Pensión compensatoria al excónyuge: ${eur(b.pensionCompensatoria)}` : '',
+    Number(b.anualidadesAlimentos) > 0 ? `Pensión de alimentos a los hijos: ${eur(b.anualidadesAlimentos)}` : '',
+  ].filter(Boolean).join('\n');
+}
+
 export const POST: APIRoute = async ({ request, clientAddress }) => {
   if (isRateLimited(clientAddress)) {
     return json({ error: 'Demasiadas peticiones. Inténtalo de nuevo en unos minutos.' }, 429);
@@ -178,6 +250,19 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
   const formativo = tipo.startsWith('formativo_');
   const facilita145 = b.datos145 === 'facilita';
 
+  // Listas del modelo 145, recortadas a los campos conocidos (nada de lo que
+  // venga de más acaba en la base).
+  const descendientes = facilita145 && b.descendientes
+    ? (b.descendientesLista as Record<string, unknown>[]).map((x) => ({
+        anioNacimiento: x.anioNacimiento, anioAdopcion: x.anioAdopcion ?? null, discapacidad: x.discapacidad, porEntero: x.porEntero,
+      }))
+    : null;
+  const ascendientes = facilita145 && b.ascendientes
+    ? (b.ascendientesLista as Record<string, unknown>[]).map((x) => ({
+        anioNacimiento: x.anioNacimiento, discapacidad: x.discapacidad, compartidoCon: x.compartidoCon,
+      }))
+    : null;
+
   const row = {
     // Empresa (nuestro cliente)
     empresa_nombre: txt(b.empresaNombre),
@@ -188,12 +273,25 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
     convenio: txt(b.convenio),
 
     // Trabajador
-    nombre_completo: txt(b.nombreCompleto),
+    nombre: txt(b.nombre),
+    apellido1: txt(b.apellido1),
+    apellido2: txt(b.apellido2),
+    nombre_completo: [txt(b.nombre), txt(b.apellido1), txt(b.apellido2)].filter(Boolean).join(' '),
+    estado_civil: b.estadoCivil,
     nif_nie: (b.nifNie as string).trim().toUpperCase(),
     fecha_nacimiento: b.fechaNacimiento,
     sexo: b.sexo,
     nacionalidad: txt(b.nacionalidad),
-    domicilio: txt(b.domicilio),
+    tipo_via: b.tipoVia,
+    nombre_via: txt(b.nombreVia),
+    numero_via: txt(b.numeroVia),
+    escalera: txt(b.escalera),
+    piso: txt(b.piso),
+    puerta: txt(b.puerta),
+    codigo_postal: (b.codigoPostal as string).trim(),
+    poblacion: txt(b.poblacion),
+    provincia: txt(b.provincia),
+    domicilio: domicilioCompuesto(b),
     telefono: (b.telefono as string).trim(),
     email: (b.email as string).trim().toLowerCase(),
     nuss: b.sinNuss ? null : soloDigitos(b.nuss as string),
@@ -207,9 +305,14 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
     // IRPF (modelo 145)
     datos_145: b.datos145,
     situacion_familiar: facilita145 ? b.situacionFamiliar : null,
-    detalle_descendientes: facilita145 && b.descendientes ? txt(b.detalleDescendientes) : null,
-    detalle_ascendientes: facilita145 && b.ascendientes ? txt(b.detalleAscendientes) : null,
-    detalle_pensiones: facilita145 && b.pensiones ? txt(b.detallePensiones) : null,
+    nif_conyuge: facilita145 && b.situacionFamiliar === '2' ? (b.nifConyuge as string).trim().toUpperCase() : null,
+    descendientes,
+    ascendientes,
+    pension_compensatoria: facilita145 && b.pensiones && Number(b.pensionCompensatoria) > 0 ? b.pensionCompensatoria : null,
+    anualidades_alimentos: facilita145 && b.pensiones && Number(b.anualidadesAlimentos) > 0 ? b.anualidadesAlimentos : null,
+    detalle_descendientes: descendientes ? textoDescendientes(descendientes) : null,
+    detalle_ascendientes: ascendientes ? textoAscendientes(ascendientes) : null,
+    detalle_pensiones: facilita145 && b.pensiones ? textoPensiones(b) : null,
     prestamo_vivienda_anterior_2013: facilita145 ? b.prestamoViviendaAnterior2013 : false,
     movilidad_geografica: facilita145 ? b.movilidadGeografica : false,
 
@@ -234,7 +337,9 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
     complementos: txt(b.complementos),
     numero_pagas: b.numeroPagas,
     pagas_prorrateadas: b.pagasProrrateadas,
-    periodo_prueba: txt(b.periodoPrueba),
+    periodo_prueba: b.periodoPruebaCantidad !== undefined ? `${b.periodoPruebaCantidad} ${b.periodoPruebaUnidad === 'dias' ? 'días' : 'meses'}` : null,
+    periodo_prueba_cantidad: b.periodoPruebaCantidad !== undefined ? b.periodoPruebaCantidad : null,
+    periodo_prueba_unidad: b.periodoPruebaCantidad !== undefined ? b.periodoPruebaUnidad : null,
     vacaciones: txt(b.vacaciones),
     bonificaciones: txt(b.bonificaciones),
     observaciones: txt(b.observaciones),

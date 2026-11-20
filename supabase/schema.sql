@@ -1387,3 +1387,43 @@ update facturas_lectura set decision = 'contabilizar', grupo = '18',
 update facturas_lectura set decision = 'no_contabilizar', motivo_no = 'sin_nif',
   revisado_at = coalesce(revisado_at, now()), revisado_por = 'Edurne'
   where factura_id in (28, 31, 32) and decision is null;
+
+-- 2026-11-20 (Hugo): día del mes en que se cobra a cada cliente su factura por GoCardless
+-- (1 a 28). Null = día 5 por defecto. Lo lee el workflow "Envío de facturas por correo"
+-- (plan de cobro) y se mantiene en paralelo a la propiedad de Empresa de HubSpot `dia_de_cobro`
+-- (manda la de HubSpot si está rellena). No hace falta GRANT: es una columna de una tabla existente.
+alter table clientes add column if not exists dia_cobro smallint check (dia_cobro between 1 and 28);
+
+-- 2026-11-20: altas_trabajadores con los datos que pide la API de DiezNom (Cegid
+-- nóminas) para dar de alta al empleado sin pasar por un texto libre. Ejecutar
+-- ANTES de desplegar el formulario nuevo: el endpoint ya inserta estas columnas.
+-- Las columnas de siempre (nombre_completo, domicilio, detalle_*, periodo_prueba)
+-- se siguen rellenando con un texto compuesto, así que las filas antiguas y el
+-- correo de aviso no cambian. Sin GRANT: son columnas de una tabla existente.
+alter table altas_trabajadores
+  add column if not exists nombre text,
+  add column if not exists apellido1 text,
+  add column if not exists apellido2 text,
+  add column if not exists estado_civil text,          -- 'soltero' | 'casado' | 'viudo' | 'divorciado'
+  add column if not exists tipo_via text,              -- 'calle' | 'avenida' | 'plaza' | 'paseo' | 'camino' | 'carretera' | 'travesia' | 'ronda' | 'urbanizacion' | 'otro'
+  add column if not exists nombre_via text,
+  add column if not exists numero_via text,
+  add column if not exists escalera text,
+  add column if not exists piso text,
+  add column if not exists puerta text,
+  add column if not exists codigo_postal text,
+  add column if not exists poblacion text,
+  add column if not exists provincia text,
+  add column if not exists nif_conyuge text,           -- solo situación familiar 2 del modelo 145
+  add column if not exists pension_compensatoria numeric(12,2),  -- € al año
+  add column if not exists anualidades_alimentos numeric(12,2),  -- € al año
+  add column if not exists descendientes jsonb,        -- [{anioNacimiento, anioAdopcion|null, discapacidad: 'no'|'d33'|'d33_ayuda'|'d65', porEntero}]
+  add column if not exists ascendientes jsonb,         -- [{anioNacimiento, discapacidad, compartidoCon}]
+  add column if not exists periodo_prueba_cantidad integer,
+  add column if not exists periodo_prueba_unidad text, -- 'meses' | 'dias'
+  -- Resultado de la carga automática en Cegid (workflow n8n "Alta de trabajador en Cegid"):
+  add column if not exists cegid_enviado_at timestamptz,   -- empleado dado de alta en DiezNom (y, si pudo, incidencia en DiezFac)
+  add column if not exists cegid_error text,               -- motivo del fallo; el workflow no reintenta mientras haya texto: vaciarlo para reintentar
+  add column if not exists cegid_empleado_codigo integer,  -- código del empleado en DiezNom (dentro de la empresa del cliente)
+  add column if not exists cegid_incidencia integer,       -- nº de incidencia de cobro creada en DiezFac
+  add column if not exists cegid_resultado jsonb;          -- {porRevisar:[…], avisos:[…], resumen:{…}}

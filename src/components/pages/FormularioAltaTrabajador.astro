@@ -24,6 +24,7 @@ interface Props { lang?: TrabajadorLang; }
 const { lang = 'es' } = Astro.props;
 const t = TRABAJADOR[lang];
 const EMAIL_CONTACTO = 'contacto@asesoriamadal.es';
+const ANIO_ACTUAL = new Date().getFullYear();
 ---
 
 <div id="view-trabajador-form">
@@ -60,8 +61,10 @@ const EMAIL_CONTACTO = 'contacto@asesoriamadal.es';
 
     <fieldset class="alta-section">
       <legend>{t.secTrabajador}</legend>
-      <label class="field">{t.nombre} <input type="text" id="fNombre" maxlength="150" required /></label>
-      <label class="field">{t.nif} <input type="text" id="fNif" maxlength="9" placeholder="12345678A" required /></label>
+      <label class="field">{t.nombre} <input type="text" id="fNombre" maxlength="60" autocomplete="off" required /></label>
+      <label class="field">{t.apellido1} <input type="text" id="fApellido1" maxlength="60" autocomplete="off" required /></label>
+      <label class="field">{t.apellido2} <input type="text" id="fApellido2" maxlength="60" autocomplete="off" /></label>
+      <label class="field">{t.nif}<input type="text" id="fNif" maxlength="9" placeholder="12345678A" required /></label>
       <label class="field">{t.fechaNac} <input type="date" id="fFechaNacimiento" required /></label>
       <div class="field-group">
         <p class="field-group-label">{t.sexo}</p>
@@ -70,8 +73,31 @@ const EMAIL_CONTACTO = 'contacto@asesoriamadal.es';
           <label class="radio-option"><input type="radio" name="sexo" value="hombre" /> {t.hombre}</label>
         </div>
       </div>
+      <label class="field">{t.estadoCivil}
+        <select id="fEstadoCivil" required>
+          <option value="">{t.estudiosElige}</option>
+          {Object.entries(t.estadoCivilOpts).map(([value, label]) => <option value={value}>{label}</option>)}
+        </select>
+      </label>
       <label class="field">{t.nacionalidad} <input type="text" id="fNacionalidad" maxlength="60" required /></label>
-      <label class="field">{t.domicilio} <textarea id="fDomicilio" maxlength="300" rows="2" required></textarea></label>
+
+      <div class="field-group">
+        <p class="field-group-label">{t.domicilio}</p>
+        <label class="field">{t.tipoVia}
+          <select id="fTipoVia" required>
+            <option value="">{t.estudiosElige}</option>
+            {Object.entries(t.tipoViaOpts).map(([value, label]) => <option value={value}>{label}</option>)}
+          </select>
+        </label>
+        <label class="field">{t.nombreVia} <input type="text" id="fNombreVia" maxlength="100" required /></label>
+        <label class="field">{t.numeroVia} <input type="text" id="fNumeroVia" maxlength="10" required /></label>
+        <label class="field">{t.escalera} <input type="text" id="fEscalera" maxlength="10" /></label>
+        <label class="field">{t.piso} <input type="text" id="fPiso" maxlength="10" /></label>
+        <label class="field">{t.puerta} <input type="text" id="fPuerta" maxlength="10" /></label>
+        <label class="field">{t.cp} <input type="text" id="fCp" maxlength="5" inputmode="numeric" autocomplete="postal-code" required /></label>
+        <label class="field">{t.poblacion} <input type="text" id="fPoblacion" maxlength="60" required /></label>
+        <label class="field">{t.provincia} <input type="text" id="fProvincia" maxlength="40" required /></label>
+      </div>
       <label class="field">{t.telefono} <input type="tel" id="fTelefono" maxlength="20" required /></label>
       <label class="field">{t.email} <span class="field-optional">{t.emailHint}</span>
         <input type="email" id="fEmail" maxlength="254" required />
@@ -117,20 +143,28 @@ const EMAIL_CONTACTO = 'contacto@asesoriamadal.es';
           <label class="radio-option"><input type="radio" name="situacionFamiliar" value="3" /> {t.sit3}</label>
         </div>
 
+        <label class="field" id="fConyugeWrap" hidden>{t.nifConyuge} <input type="text" id="fNifConyuge" maxlength="9" /></label>
+
         <label class="checkbox-option"><input type="checkbox" id="fDescendientes" /> {t.descendientes}</label>
-        <label class="field" id="fDescendientesWrap" hidden>{t.descendientesLabel} <span class="field-optional">{t.descendientesHint}</span>
-          <textarea id="fDetalleDescendientes" maxlength="500" rows="3"></textarea>
-        </label>
+        <div class="field-group" id="fDescendientesWrap" hidden>
+          <p class="field-hint">{t.descendientesHint}</p>
+          <div id="fDescendientesLista"></div>
+          <button type="button" class="btn btn-outline" id="fAnadirHijo">{t.anadirHijo}</button>
+        </div>
 
         <label class="checkbox-option"><input type="checkbox" id="fAscendientes" /> {t.ascendientes}</label>
-        <label class="field" id="fAscendientesWrap" hidden>{t.ascendientesLabel} <span class="field-optional">{t.ascendientesHint}</span>
-          <textarea id="fDetalleAscendientes" maxlength="500" rows="2"></textarea>
-        </label>
+        <div class="field-group" id="fAscendientesWrap" hidden>
+          <p class="field-hint">{t.ascendientesHint}</p>
+          <div id="fAscendientesLista"></div>
+          <button type="button" class="btn btn-outline" id="fAnadirAsc">{t.anadirAsc}</button>
+        </div>
 
         <label class="checkbox-option"><input type="checkbox" id="fPensiones" /> {t.pensiones}</label>
-        <label class="field" id="fPensionesWrap" hidden>{t.pensionesLabel} <span class="field-optional">{t.pensionesHint}</span>
-          <textarea id="fDetallePensiones" maxlength="300" rows="2"></textarea>
-        </label>
+        <div class="field-group" id="fPensionesWrap" hidden>
+          <p class="field-hint">{t.pensionesLabel} {t.pensionesHint}</p>
+          <label class="field">{t.pensionComp} <input type="number" id="fPensionComp" min="0" step="0.01" /></label>
+          <label class="field">{t.pensionAlim} <input type="number" id="fPensionAlim" min="0" step="0.01" /></label>
+        </div>
 
         <label class="checkbox-option"><input type="checkbox" id="fPrestamo" /> {t.prestamo}</label>
         <label class="checkbox-option"><input type="checkbox" id="fMovilidad" /> {t.movilidad}</label>
@@ -206,9 +240,13 @@ const EMAIL_CONTACTO = 'contacto@asesoriamadal.es';
       </label>
       <label class="field">{t.pagas} <input type="number" id="fPagas" min="12" max="16" step="1" placeholder="14" required /></label>
       <label class="checkbox-option"><input type="checkbox" id="fProrrateadas" /> {t.prorrateadas}</label>
-      <label class="field">{t.prueba} <span class="field-optional">{t.pruebaHint}</span>
-        <input type="text" id="fPrueba" maxlength="100" />
-      </label>
+      <div class="field-group">
+        <p class="field-group-label">{t.prueba} <span class="field-optional">{t.pruebaHint}</span></p>
+        <input type="number" id="fPruebaCantidad" min="1" max="365" step="1" aria-label={t.prueba} />
+        <select id="fPruebaUnidad" aria-label={t.prueba}>
+          {Object.entries(t.pruebaUnidades).map(([value, label]) => <option value={value}>{label}</option>)}
+        </select>
+      </div>
       <label class="field">{t.vacaciones} <span class="field-optional">{t.vacacionesHint}</span>
         <input type="text" id="fVacaciones" maxlength="150" />
       </label>
@@ -244,7 +282,43 @@ const EMAIL_CONTACTO = 'contacto@asesoriamadal.es';
     <h2 class="section-title">{t.gracias}</h2>
     <p class="section-sub">{t.graciasSub}</p>
   </div>
+
+  <!-- Filas del modelo 145 (una por hijo / ascendiente); el script las clona. -->
+  <template id="tplHijo">
+    <div class="repeat-row" data-row>
+      <p class="field-group-label">{t.hijoTitulo} <span data-n></span></p>
+      <label class="field">{t.anioNac} <input type="number" data-k="anioNacimiento" min="1900" max={ANIO_ACTUAL} step="1" /></label>
+      <label class="field">{t.anioAdopcion} <input type="number" data-k="anioAdopcion" min="1900" max={ANIO_ACTUAL} step="1" /></label>
+      <label class="field">{t.discapLabel}
+        <select data-k="discapacidad">
+          {Object.entries(t.discapOpts).map(([value, label]) => <option value={value}>{label}</option>)}
+        </select>
+      </label>
+      <label class="checkbox-option"><input type="checkbox" data-k="porEntero" /> {t.porEntero}</label>
+      <button type="button" class="btn btn-outline" data-quitar>{t.quitar}</button>
+    </div>
+  </template>
+  <template id="tplAsc">
+    <div class="repeat-row" data-row>
+      <p class="field-group-label">{t.ascTitulo} <span data-n></span></p>
+      <label class="field">{t.anioNac} <input type="number" data-k="anioNacimiento" min="1900" max={ANIO_ACTUAL} step="1" /></label>
+      <label class="field">{t.discapLabel}
+        <select data-k="discapacidad">
+          {Object.entries(t.discapOpts).map(([value, label]) => <option value={value}>{label}</option>)}
+        </select>
+      </label>
+      <label class="field">{t.compartidoCon} <input type="number" data-k="compartidoCon" min="1" max="20" step="1" value="1" /></label>
+      <button type="button" class="btn btn-outline" data-quitar>{t.quitar}</button>
+    </div>
+  </template>
 </div>
+
+<style is:global>
+  .repeat-row {
+    display: flex; flex-direction: column; gap: 0.6rem; padding: 1rem; margin-bottom: 0.75rem;
+    border: 1px solid var(--ink); border-radius: var(--radius-sm);
+  }
+</style>
 
 <script>
   import { track } from '../../scripts/analytics';
@@ -304,15 +378,67 @@ const EMAIL_CONTACTO = 'contacto@asesoriamadal.es';
     toggleConCasilla('fSinNuss', 'fNussWrap', 'fNuss', false);
     toggleConCasilla('fExtracomunitario', 'fVigenciaWrap', 'fVigencia');
     toggleConCasilla('fDiscapacidad', 'fGradoWrap', 'fGrado');
-    toggleConCasilla('fDescendientes', 'fDescendientesWrap', 'fDetalleDescendientes');
-    toggleConCasilla('fAscendientes', 'fAscendientesWrap', 'fDetalleAscendientes');
-    toggleConCasilla('fPensiones', 'fPensionesWrap', 'fDetallePensiones');
+    toggleConCasilla('fPensiones', 'fPensionesWrap', 'fPensionComp');
+    toggleConCasilla('fPensiones', 'fPensionesWrap', 'fPensionAlim');
 
-    // Modelo 145: el bloque solo se muestra si el trabajador facilita los datos.
+    // Hijos y ascendientes: una fila por persona. Al marcar la casilla sale la
+    // primera fila; al desmarcarla se vacía la lista para que no viaje nada.
+    function listaRepetible(casillaId: string, wrapId: string, listaId: string, tplId: string, addId: string) {
+      const casilla = $<HTMLInputElement>(casillaId);
+      const wrap = $<HTMLElement>(wrapId);
+      const lista = $<HTMLElement>(listaId);
+      const tpl = $<HTMLTemplateElement>(tplId);
+      const numerar = () => lista.querySelectorAll<HTMLElement>('[data-row]').forEach((fila, i) => {
+        const n = fila.querySelector<HTMLElement>('[data-n]');
+        if (n) n.textContent = String(i + 1);
+      });
+      const anadir = () => {
+        const fila = (tpl.content.cloneNode(true) as DocumentFragment).querySelector<HTMLElement>('[data-row]')!;
+        fila.querySelector('[data-quitar]')?.addEventListener('click', () => {
+          fila.remove();
+          numerar();
+          if (!lista.children.length) anadir();
+        });
+        lista.appendChild(fila);
+        numerar();
+      };
+      $<HTMLElement>(addId).addEventListener('click', anadir);
+      casilla.addEventListener('change', () => {
+        wrap.hidden = !casilla.checked;
+        lista.innerHTML = '';
+        if (casilla.checked) anadir();
+      });
+    }
+    listaRepetible('fDescendientes', 'fDescendientesWrap', 'fDescendientesLista', 'tplHijo', 'fAnadirHijo');
+    listaRepetible('fAscendientes', 'fAscendientesWrap', 'fAscendientesLista', 'tplAsc', 'fAnadirAsc');
+
+    // Lee las filas de una lista; devuelve null si alguna tiene un campo
+    // obligatorio vacío (el servidor también lo valida y nombra el campo).
+    function leerFilas(listaId: string, claves: Record<string, 'int' | 'intOpt' | 'txt' | 'bool'>) {
+      return Array.from($<HTMLElement>(listaId).querySelectorAll<HTMLElement>('[data-row]')).map((fila) => {
+        const o: Record<string, unknown> = {};
+        for (const [k, tipo] of Object.entries(claves)) {
+          const el = fila.querySelector<HTMLInputElement>(`[data-k="${k}"]`)!;
+          if (tipo === 'bool') o[k] = el.checked;
+          else if (tipo === 'txt') o[k] = el.value;
+          else if (tipo === 'int') o[k] = el.value === '' ? NaN : Number(el.value);
+          else if (el.value !== '') o[k] = Number(el.value);
+        }
+        return o;
+      });
+    }
+
+    // Modelo 145: el bloque solo se muestra si el trabajador facilita los datos,
+    // y el NIF del cónyuge solo en la situación 2.
     const wrap145 = $<HTMLElement>('f145Wrap');
-    form.querySelectorAll<HTMLInputElement>('[name="datos145"]').forEach((r) => r.addEventListener('change', () => {
+    const conyugeWrap = $<HTMLElement>('fConyugeWrap');
+    const actualizar145 = () => {
       wrap145.hidden = radioValue('datos145') !== 'facilita';
-    }));
+      const conyuge = !wrap145.hidden && radioValue('situacionFamiliar') === '2';
+      conyugeWrap.hidden = !conyuge;
+      if (!conyuge) $<HTMLInputElement>('fNifConyuge').value = '';
+    };
+    form.querySelectorAll<HTMLInputElement>('[name="datos145"], [name="situacionFamiliar"]').forEach((r) => r.addEventListener('change', actualizar145));
 
     // Tipo de contrato: temporal -> fecha de fin y causa; formativo -> tutor y plan.
     const temporalWrap = $<HTMLElement>('fTemporalWrap');
@@ -358,12 +484,19 @@ const EMAIL_CONTACTO = 'contacto@asesoriamadal.es';
         empresaNif: val('fEmpNif'),
         empresaEmail: val('fEmpEmail'),
         centroTrabajo: val('fCentro'),
-        nombreCompleto: val('fNombre'),
+        nombre: val('fNombre'),
+        apellido1: val('fApellido1'),
         nifNie: val('fNif'),
         fechaNacimiento: val('fFechaNacimiento'),
         sexo,
+        estadoCivil: val('fEstadoCivil'),
         nacionalidad: val('fNacionalidad'),
-        domicilio: val('fDomicilio'),
+        tipoVia: val('fTipoVia'),
+        nombreVia: val('fNombreVia'),
+        numeroVia: val('fNumeroVia'),
+        codigoPostal: val('fCp'),
+        poblacion: val('fPoblacion'),
+        provincia: val('fProvincia'),
         telefono: val('fTelefono'),
         email: val('fEmail'),
         sinNuss: checked('fSinNuss'),
@@ -385,10 +518,11 @@ const EMAIL_CONTACTO = 'contacto@asesoriamadal.es';
 
       // Opcionales y condicionales: solo viajan si tienen valor.
       const opcionales: Record<string, string> = {
+        apellido2: 'fApellido2', escalera: 'fEscalera', piso: 'fPiso', puerta: 'fPuerta',
         ccc: 'fCcc', convenio: 'fConvenio', nuss: 'fNuss', vigenciaPermiso: 'fVigencia', titulacion: 'fTitulacion',
         fechaFin: 'fFechaFin', causaTemporal: 'fCausaTemporal', tutor: 'fTutor', planFormativo: 'fPlanFormativo',
         distribucionJornada: 'fDistribucion', categoria: 'fCategoria', grupoCotizacion: 'fGrupo', cno: 'fCno',
-        complementos: 'fComplementos', periodoPrueba: 'fPrueba', vacaciones: 'fVacaciones',
+        complementos: 'fComplementos', vacaciones: 'fVacaciones',
         bonificaciones: 'fBonificaciones', observaciones: 'fObservaciones',
       };
       for (const [clave, id] of Object.entries(opcionales)) {
@@ -397,6 +531,10 @@ const EMAIL_CONTACTO = 'contacto@asesoriamadal.es';
       }
       if (val('fGrado')) body.gradoDiscapacidad = Number(val('fGrado'));
       if (val('fHoras')) body.horasSemanales = Number(val('fHoras'));
+      if (val('fPruebaCantidad')) {
+        body.periodoPruebaCantidad = Number(val('fPruebaCantidad'));
+        body.periodoPruebaUnidad = val('fPruebaUnidad');
+      }
       // Los campos de un tipo de contrato que ya no está elegido no se mandan.
       if (!tipoContrato.startsWith('temporal_')) { delete body.fechaFin; delete body.causaTemporal; }
       if (!tipoContrato.startsWith('formativo_')) { delete body.tutor; delete body.planFormativo; }
@@ -408,9 +546,13 @@ const EMAIL_CONTACTO = 'contacto@asesoriamadal.es';
         body.pensiones = checked('fPensiones');
         body.prestamoViviendaAnterior2013 = checked('fPrestamo');
         body.movilidadGeografica = checked('fMovilidad');
-        if (val('fDetalleDescendientes')) body.detalleDescendientes = val('fDetalleDescendientes');
-        if (val('fDetalleAscendientes')) body.detalleAscendientes = val('fDetalleAscendientes');
-        if (val('fDetallePensiones')) body.detallePensiones = val('fDetallePensiones');
+        if (val('fNifConyuge')) body.nifConyuge = val('fNifConyuge');
+        if (body.descendientes) body.descendientesLista = leerFilas('fDescendientesLista', { anioNacimiento: 'int', anioAdopcion: 'intOpt', discapacidad: 'txt', porEntero: 'bool' });
+        if (body.ascendientes) body.ascendientesLista = leerFilas('fAscendientesLista', { anioNacimiento: 'int', discapacidad: 'txt', compartidoCon: 'int' });
+        if (body.pensiones) {
+          if (val('fPensionComp')) body.pensionCompensatoria = Number(val('fPensionComp'));
+          if (val('fPensionAlim')) body.anualidadesAlimentos = Number(val('fPensionAlim'));
+        }
       }
 
       submitBtn.disabled = true;

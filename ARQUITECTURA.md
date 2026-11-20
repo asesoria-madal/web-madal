@@ -63,6 +63,8 @@ Páginas sueltas `/formulario-alta-trabajador`, `/ca/formulario-alta-trabajador`
 - Datos sensibles (discapacidad = dato de salud; situación familiar): solo `service_role` tiene GRANT, ni `anon` ni `authenticated`.
 - No sube archivos: DNI/NIE, permiso de trabajo y certificado de discapacidad se piden por correo a contacto@ y van a Drive.
 - Aviso al equipo: el workflow n8n `Alta de trabajador` mira cada 5 minutos las filas con `notificado_at` null, manda el correo a contacto@ y las marca (sin trigger ni webhook). `tramitado_at` se marca a mano en el Table Editor al terminar el alta.
+- **Datos para Cegid (desde 2026-11-20):** el formulario pide los datos con el desglose que exige la API de nóminas (DiezNom): `nombre`/`apellido1`/`apellido2`, `estado_civil`, dirección (`tipo_via`, `nombre_via`, `numero_via`, `escalera`, `piso`, `puerta`, `codigo_postal`, `poblacion`, `provincia`), modelo 145 estructurado (`nif_conyuge`, `pension_compensatoria`, `anualidades_alimentos`, y `descendientes`/`ascendientes` como jsonb, una entrada por persona) y `periodo_prueba_cantidad`/`periodo_prueba_unidad`. Las columnas de texto antiguas (`nombre_completo`, `domicilio`, `detalle_*`, `periodo_prueba`) se siguen rellenando con un texto compuesto para el correo de aviso y las filas anteriores. El SQL está al final de `schema.sql` y **debe ejecutarse antes de publicar el formulario**.
+- **Carga en Cegid:** el workflow n8n `Alta de trabajador en Cegid` crea el empleado, el contrato, el salario y el modelo 145 en DiezNom y la incidencia de cobro (concepto 18) en DiezFac, y guarda el resultado en `cegid_enviado_at`, `cegid_error`, `cegid_empleado_codigo`, `cegid_incidencia` y `cegid_resultado`. Para reintentar una con error, vaciar `cegid_error`. Detalle en `n8n-workflows/procesos/07-alta-de-trabajador.md`.
 
 ### `leads` — solicitudes de la web (desde 2026-11-06)
 
@@ -144,7 +146,7 @@ Las políticas de `storage.objects` para `facturas` están creadas **a mano en e
 | `POST /api/alta-autonomo` | `alta_nuevos_autonomos` | Sí | Normaliza NIF a mayúsculas e IBAN sin espacios. |
 | `POST /api/traspaso` | `traspasos_nuevos` | Sí | Ídem; ramifica el insert según `tipo`. |
 | `POST /api/documentos-alta` | — (no lee ni escribe) | 30 / 10 min / IP | Desde 2026-11-16. Lo llama n8n ("Mandato Seguridad Social") con `respuestas.f` del formulario de alta. Devuelve en base64 el mandato TC 1/15-3 rellenado (plantilla en `docs-publicos`) y, si `poder: true`, el poder de representación en es/ca/en. Sin clave porque solo rellena lo que recibe; los datos del apoderado los manda n8n. |
-| `POST /api/alta-trabajador` | `altas_trabajadores` | Sí | Ídem; exige causa concreta (≥ 30 caracteres) en temporales, tutor y plan en formativos, horas y distribución en parcial, y NUSS salvo «no tiene». |
+| `POST /api/alta-trabajador` | `altas_trabajadores` | Sí | Ídem; exige causa concreta (≥ 30 caracteres) en temporales, tutor y plan en formativos, horas y distribución en parcial, NUSS salvo «no tiene», apellidos y dirección desglosada, y (con modelo 145) NIF del cónyuge en la situación 2 y hijos/ascendientes uno a uno. |
 
 Los endpoints de formularios y login (`portal-login`, `alta-autonomo`, `traspaso`, `alta-trabajador`) usan `getSupabaseAdmin()` y **degradan con gracia**: si Supabase no está configurado responden en éxito sin persistir (`{ persisted: false }`), para no romper la experiencia.
 
