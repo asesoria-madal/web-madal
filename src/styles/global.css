@@ -1376,6 +1376,25 @@ section#como-trabajamos { background: var(--accent-tint); border-top-color: var(
 .mf-descargar { display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; border: 1px solid var(--line); border-radius: 8px; background: transparent; color: var(--accent); cursor: pointer; }
 .mf-nota { font-size: 0.85rem; color: var(--ink-soft); margin-top: 0.8rem; }
 @media (max-width: 640px) { .mf-totales { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+/* Previsión fiscal (2026-11-20) */
+.pf-periodo { font-weight: 500; color: var(--ink-soft); font-size: 0.8em; }
+.pf-estado { font-size: 0.85rem; color: var(--ink-soft); }
+.pf-modelos { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 0.9rem; margin-top: 1rem; }
+.pf-tarjeta { border: 1px solid var(--line); border-radius: 12px; padding: 1rem 1.1rem; background: var(--paper-raised, transparent); }
+.pf-tarjeta h3 { font-size: 0.9rem; font-weight: 600; margin: 0; color: var(--ink-soft); }
+.pf-importe { font-size: 1.7rem; font-weight: 650; margin: 0.45rem 0 0; font-variant-numeric: tabular-nums; color: var(--ink); }
+.pf-resultado { margin: 0.1rem 0 0; font-size: 0.85rem; font-weight: 600; }
+.pf-pagar .pf-resultado { color: var(--accent); }
+.pf-compensar .pf-resultado, .pf-devolver .pf-resultado, .pf-cero .pf-resultado { color: var(--ink-soft); }
+.pf-cero .pf-importe { color: var(--ink-soft); }
+.pf-plazo { margin: 0.5rem 0 0; font-size: 0.8rem; color: var(--ink-soft); }
+.pf-tarjeta details { margin-top: 0.7rem; font-size: 0.82rem; }
+.pf-tarjeta summary { cursor: pointer; color: var(--accent); font-weight: 600; }
+.pf-tarjeta dl { display: grid; grid-template-columns: 1fr auto; gap: 0.3rem 0.8rem; margin: 0.6rem 0 0; }
+.pf-tarjeta dt { color: var(--ink-soft); }
+.pf-tarjeta dd { margin: 0; text-align: right; font-variant-numeric: tabular-nums; }
+.pf-total { margin-top: 1rem; font-weight: 650; font-size: 1.05rem; }
+.pf-aviso { margin-top: 1rem; font-size: 0.82rem; color: var(--ink-soft); }
 /* Acceso con correo y contraseña (2026-11-17) */
 .portal-login-campos { display: flex; flex-direction: column; gap: 0.8rem; margin-top: 1.2rem; max-width: 380px; }
 .portal-campo { display: flex; flex-direction: column; gap: 0.3rem; font-size: 0.85rem; font-weight: 600; color: var(--ink-soft); }

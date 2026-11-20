@@ -210,9 +210,15 @@ const textosCarpeta = { subir: t.doc.subir, foto: t.facturas.cameraSubmit, ver: 
             <iframe class="portal-externo-frame" src="https://portal.portaldespacho.com/acceso/frame" width="220" height="180" title={t.portalExterno.title}></iframe>
           </section>
 
+          <!-- Previsión fiscal (2026-11-20): la calcula cada noche n8n ("Previsión fiscal") con los datos de
+               Cegid y la guarda en prevision_fiscal; aquí solo se lee el trimestre en curso. -->
           <section class="app-panel" data-panel="prevision" hidden>
-            <h2>{t.prevision.title}</h2>
-            <p>{t.prevision.pronto}</p>
+            <h2>{t.prevision.title} <span id="pf-periodo" class="pf-periodo"></span></h2>
+            <p>{t.prevision.intro}</p>
+            <p id="pf-estado" class="pf-estado"></p>
+            <div id="pf-modelos" class="pf-modelos"></div>
+            <p id="pf-total" class="pf-total" hidden></p>
+            <p class="pf-aviso">{t.prevision.aviso}</p>
             <p>{t.prevision.otraInfoPre}<a href={`mailto:${EMAIL}`}>{EMAIL}</a>{t.prevision.otraInfoPost}</p>
           </section>
 
@@ -853,7 +859,66 @@ const textosCarpeta = { subir: t.doc.subir, foto: t.facturas.cameraSubmit, ver: 
       nombreEl.textContent = cliente.nombre ?? '';
       renderDocumentacionPanel(cliente.tipo_persona ?? null);
       renderFacturaList(cliente.id);
+      void renderPrevision(cliente.id);
       renderDudaRapida(Boolean(cliente.contacto_whatsapp));
+    }
+
+    // --- Previsión fiscal (2026-11-20) ---
+    // Plazo: hasta el 20 del mes siguiente al trimestre; el 4T, el 30 de enero (303 y 130) o el 20 (111 y 115).
+    // Si cae en fin de semana, el lunes. Los festivos no se contemplan.
+    function pfPlazo(modelo: string, anio: number, q: number) {
+      const d = q === 4 ? new Date(anio + 1, 0, ['303', '130'].includes(modelo) ? 30 : 20) : new Date(anio, q * 3, 20);
+      while (d.getDay() === 0 || d.getDay() === 6) d.setDate(d.getDate() + 1);
+      return d.toLocaleDateString(LOCALE, { day: 'numeric', month: 'long', year: 'numeric' });
+    }
+    async function renderPrevision(clienteId: string) {
+      const P = I18N.prevision;
+      const hoy = new Date(new Date().toLocaleString('en-US', { timeZone: 'Europe/Madrid' }));
+      const anio = hoy.getFullYear(), q = Math.floor(hoy.getMonth() / 3) + 1;
+      (document.getElementById('pf-periodo') as HTMLElement).textContent = `· ${q}T ${anio}`;
+      const estado = document.getElementById('pf-estado') as HTMLElement;
+      const caja = document.getElementById('pf-modelos') as HTMLElement;
+      const totalEl = document.getElementById('pf-total') as HTMLElement;
+      caja.innerHTML = ''; totalEl.hidden = true; estado.textContent = '';
+      const { data } = await supabase!.from('prevision_fiscal').select('modelos, resumen, error, calculado_at')
+        .eq('cliente_id', clienteId).eq('anio', anio).eq('trimestre', q).maybeSingle();
+      if (clienteId !== currentClienteId) return;
+      const modelos = ((data && data.modelos) || []) as { modelo: string; importe: number; resultado: string; detalle: Record<string, number> }[];
+      if (!data || !data.calculado_at || !modelos.length) { estado.textContent = P.vacio; return; }
+      const resumen = (data.resumen || {}) as { facturas?: number; incompleto?: boolean };
+      estado.textContent = (data.error ? tpl(P.error, { fecha: formatFecha(data.calculado_at) }) : tpl(P.calculado, { fecha: formatFecha(data.calculado_at), n: resumen.facturas ?? 0 }))
+        + (resumen.incompleto ? ' ' + P.incompleto : '');
+      const eur = (n: number) => n.toLocaleString(LOCALE, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' €';
+      const filas: Record<string, string[]> = {
+        '303': ['repercutido', 'soportado', 'compensacion'],
+        '130': ['ingresos', 'gastos', 'amortizacion', 'rendimiento', 'cuota20', 'retenciones', 'pagosAnteriores'],
+        '111': ['retencionesFacturas', 'nominas'],
+        '115': [],
+      };
+      let total = 0;
+      for (const m of modelos) {
+        if (m.resultado === 'pagar') total += m.importe;
+        const card = document.createElement('article');
+        card.className = 'pf-tarjeta pf-' + m.resultado;
+        const h = document.createElement('h3'); h.textContent = tpl(P.modeloTitulo, { m: m.modelo }) + ' · ' + (P.modelos[m.modelo] || ''); card.appendChild(h);
+        const num = document.createElement('p'); num.className = 'pf-importe'; num.textContent = eur(Math.abs(m.importe)); card.appendChild(num);
+        const res = document.createElement('p'); res.className = 'pf-resultado'; res.textContent = P.resultados[m.resultado] || ''; card.appendChild(res);
+        const pl = document.createElement('p'); pl.className = 'pf-plazo'; pl.textContent = tpl(P.plazo, { fecha: pfPlazo(m.modelo, anio, q) }); card.appendChild(pl);
+        const lineas = (filas[m.modelo] || []).filter((k) => typeof m.detalle?.[k] === 'number' && !(['compensacion', 'amortizacion', 'nominas', 'pagosAnteriores'].includes(k) && !m.detalle[k]));
+        if (m.modelo === '115' && m.detalle?.facturas) lineas.push('alquileres');
+        if (lineas.length) {
+          const det = document.createElement('details'); const sum = document.createElement('summary'); sum.textContent = P.ver; det.appendChild(sum);
+          const dl = document.createElement('dl');
+          for (const k of lineas) {
+            const dt = document.createElement('dt'); dt.textContent = k === 'alquileres' ? tpl(P.detalle.alquileres, { n: m.detalle.facturas }) : P.detalle[k];
+            const dd = document.createElement('dd'); dd.textContent = eur(k === 'alquileres' ? m.importe : m.detalle[k]);
+            dl.append(dt, dd);
+          }
+          det.appendChild(dl); card.appendChild(det);
+        }
+        caja.appendChild(card);
+      }
+      if (total > 0) { totalEl.hidden = false; totalEl.textContent = P.total + ': ' + eur(Math.round(total * 100) / 100); }
     }
 
     let adminClientes: ClienteRow[] = [];

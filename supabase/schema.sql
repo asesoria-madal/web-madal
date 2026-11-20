@@ -1427,3 +1427,37 @@ alter table altas_trabajadores
   add column if not exists cegid_empleado_codigo integer,  -- código del empleado en DiezNom (dentro de la empresa del cliente)
   add column if not exists cegid_incidencia integer,       -- nº de incidencia de cobro creada en DiezFac
   add column if not exists cegid_resultado jsonb;          -- {porRevisar:[…], avisos:[…], resumen:{…}}
+
+-- ---------------------------------------------------------------------------
+-- 2026-11-20 · Previsión fiscal del portal (Edurne)
+-- ---------------------------------------------------------------------------
+-- n8n ("Previsión fiscal", cada noche) entra en Cegid con la empresa de cada cliente
+-- (clientes.cegid_empresa_codigo) y calcula con lo contabilizado lo que le tocará pagar del
+-- trimestre en curso: 303, 111, 115 y, en autónomos, 130. El portal solo lee esta tabla.
+-- Lo ven todos los clientes de momento (Edurne, 2026-11-20), aunque el precio decidido es
+-- 10 € + IVA al mes, incluido en Total y Expansión.
+-- modelos (jsonb): [{ modelo: '303'|'130'|'111'|'115', importe, resultado: 'pagar'|'compensar'|
+--   'devolver'|'cero', detalle: {...} }]. resumen: { facturas, ultimaFecha, incompleto }.
+-- error: si Cegid falla esa noche, se guarda el motivo y se conservan las cifras anteriores.
+-- Escribe solo la service role; el cliente ve las suyas y los admins todas.
+-- Ejecutado por n8n el 2026-11-20.
+create table if not exists prevision_fiscal (
+  cliente_id text not null references clientes (id) on delete cascade,
+  anio int not null,
+  trimestre int not null,
+  modelos jsonb not null default '[]',
+  resumen jsonb not null default '{}',
+  error text,
+  calculado_at timestamptz,
+  intentado_at timestamptz not null default now(),
+  primary key (cliente_id, anio, trimestre)
+);
+alter table prevision_fiscal enable row level security;
+grant all on prevision_fiscal to service_role;
+grant select on prevision_fiscal to authenticated;
+drop policy if exists "cliente ve su prevision fiscal" on prevision_fiscal;
+create policy "cliente ve su prevision fiscal" on prevision_fiscal for select
+  using (cliente_id in (select c.id from clientes c where c.auth_user_id = auth.uid()));
+drop policy if exists "admin ve todas las previsiones" on prevision_fiscal;
+create policy "admin ve todas las previsiones" on prevision_fiscal for select
+  using (auth.uid() in (select auth_user_id from portal_admins));
