@@ -190,6 +190,11 @@ export const prerender = true;
   const INGRESOS: Record<string, string> = { '01': 'Ingresos de explotación', '02': 'Ingresos financieros', '03': 'Ingresos por subvenciones', '04': 'Ingresos subvenciones capital', '05': 'Autoconsumo', '06': 'IVA devengado', '07': 'Otros ingresos', '08': 'Transmisión elementos', '09': 'Variación existencias positiva' };
   // Primera propuesta de grupo de gasto por palabras del proveedor o de la factura (si no hay una decisión anterior del mismo NIF).
   const PALABRAS: [RegExp, string][] = [[/alquiler|arrendamiento|lloguer|coworking|rent/i, '12'], [/luz|electricidad|iberdrola|endesa|naturgy|agua|aig[üu]es|tel[eé]fon|movistar|vodafone|orange|internet|fibra|gas\b/i, '15'], [/gestor|abogad|asesor|notar|consultor|economist|col[·.]?legi|colegio/i, '14'], [/seguro|insurance|mapfre|axa|allianz|mutua/i, '17'], [/reparaci|mantenimiento|repair/i, '13'], [/banco|comisi[oó]n|bank|interest|interés/i, '21'], [/software|suscripci|subscription|hosting|cloud|vps|contabo|anthropic|google|microsoft|adobe|licen/i, '18']];
+  // Sociedades: cuenta del plan general contable. Se guarda en la misma columna que el grupo (grupo), con 3 cifras,
+  // y n8n la completa con ceros en Cegid (621 -> 62100000). La cuenta tiene que existir en la empresa de Cegid.
+  const CUENTAS_GASTO: Record<string, string> = { '600': 'Compras de mercaderías', '602': 'Compras de otros aprovisionamientos', '607': 'Trabajos realizados por otras empresas', '621': 'Arrendamientos y cánones', '622': 'Reparaciones y conservación', '623': 'Servicios de profesionales independientes', '624': 'Transportes', '625': 'Primas de seguros', '626': 'Servicios bancarios y similares', '627': 'Publicidad, propaganda y relaciones públicas', '628': 'Suministros', '629': 'Otros servicios', '631': 'Otros tributos', '669': 'Otros gastos financieros', '678': 'Gastos excepcionales', '206': 'Aplicaciones informáticas (inmovilizado)', '213': 'Maquinaria (inmovilizado)', '215': 'Otras instalaciones (inmovilizado)', '216': 'Mobiliario (inmovilizado)', '217': 'Equipos para procesos de información (inmovilizado)', '218': 'Elementos de transporte (inmovilizado)', '219': 'Otro inmovilizado material' };
+  const CUENTAS_INGRESO: Record<string, string> = { '700': 'Ventas de mercaderías', '705': 'Prestaciones de servicios', '752': 'Ingresos por arrendamientos', '759': 'Ingresos por servicios diversos' };
+  const PALABRAS_SL: [RegExp, string][] = [[/alquiler|arrendamiento|lloguer|coworking|rent/i, '621'], [/luz|electricidad|iberdrola|endesa|naturgy|agua|aig[üu]es|tel[eé]fon|movistar|vodafone|orange|internet|fibra|gas\b/i, '628'], [/gestor|abogad|asesor|notar|consultor|economist|col[·.]?legi|colegio/i, '623'], [/seguro|insurance|mapfre|axa|allianz|mutua/i, '625'], [/reparaci|mantenimiento|repair/i, '622'], [/banco|comisi[oó]n|bank/i, '626'], [/publicidad|marketing|anuncio/i, '627'], [/software|suscripci|subscription|hosting|cloud|vps|contabo|anthropic|google|microsoft|adobe|licen/i, '629']];
   const MOTIVOS: Record<string, string> = { sin_nif: 'La factura no lleva el NIF del cliente', otro_titular: 'Está a nombre de otra persona o empresa', no_factura: 'No es una factura', no_actividad: 'El gasto no está relacionado con su actividad', duplicada: 'Duplicada', ilegible: 'No se puede leer bien', iva_incorrecto: 'El IVA de la factura no es correcto', otro: 'Otro motivo' };
   const ARCHIVO_URL = 'https://n8n.asesoriamadal.es/webhook/archivo-portal';
 
@@ -199,7 +204,10 @@ export const prerender = true;
   let actual: Fila | null = null;
   let emailAdmin = '';
   let urlDoc: string | null = null;
+  // Último grupo o cuenta usado con cada NIF, por separado para autónomos (a:) y sociedades (sl:), porque no son lo mismo.
   const grupoPorNif = new Map<string, string>();
+  const esSociedad = (f: Fila | null) => f?.facturas_subidas?.clientes?.tipo_persona === 'sl';
+  const claveNif = (f: Fila | null, nif: string) => (esSociedad(f) ? 'sl:' : 'a:') + nif;
 
   const eur = (n: number | null | undefined) => (n === null || n === undefined || isNaN(n as number)) ? '·' : (n as number).toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' €';
   const fechaEs = (iso?: string | null) => iso ? iso.slice(0, 10).split('-').reverse().join('/') : '·';
@@ -248,9 +256,12 @@ export const prerender = true;
 
   function opcionesGrupo(tipo: string, valor: string | null) {
     const sel = $('f-grupo') as HTMLSelectElement;
-    const lista = tipo === 'emitida' ? INGRESOS : GASTOS;
-    $('l-grupo').firstChild!.textContent = tipo === 'emitida' ? 'Grupo de ingresos' : 'Grupo de gastos';
-    sel.innerHTML = '<option value="">Elige el grupo</option>' + Object.entries(lista).map(([k, v]) => `<option value="${k}">${k} · ${v}</option>`).join('');
+    const sl = esSociedad(actual);
+    const lista: Record<string, string> = { ...(sl ? (tipo === 'emitida' ? CUENTAS_INGRESO : CUENTAS_GASTO) : (tipo === 'emitida' ? INGRESOS : GASTOS)) };
+    // Una cuenta guardada que no está en la lista (por ejemplo, una subcuenta concreta) se mantiene como opción.
+    if (sl && valor && !lista[valor] && /^\d{3,8}$/.test(valor)) lista[valor] = 'Cuenta ' + valor;
+    $('l-grupo').firstChild!.textContent = sl ? (tipo === 'emitida' ? 'Cuenta de ingresos' : 'Cuenta de gastos') : (tipo === 'emitida' ? 'Grupo de ingresos' : 'Grupo de gastos');
+    sel.innerHTML = `<option value="">${sl ? 'Elige la cuenta' : 'Elige el grupo'}</option>` + Object.entries(lista).map(([k, v]) => `<option value="${k}">${k} · ${v}</option>`).join('');
     sel.value = valor && lista[valor] ? valor : '';
   }
 
@@ -349,7 +360,7 @@ export const prerender = true;
     if (f.error_cegid) avisos.push(`<div class="rev-aviso roja"><strong>Cegid:</strong> ${esc(f.error_cegid)} Corrige lo que haga falta y vuelve a pulsar «Contabilizar en Cegid».</div>`);
     if (f.contabilizado_at) avisos.push(`<div class="rev-aviso info">Contabilizada en Cegid el ${fechaEs(f.contabilizado_at)}${f.cegid ? ` (empresa ${f.cegid.empresa}, registro ${f.cegid.registro})` : ''}. Para cambiarla, hazlo en Cegid.</div>`);
     if (f.decision === 'no_contabilizar') avisos.push(`<div class="rev-aviso info">Marcada como no contabilizada: ${esc(MOTIVOS[f.motivo_no || ''] || '')}${f.motivo_detalle ? '. ' + esc(f.motivo_detalle) : ''}. El cliente lo ve en su área. Puedes cambiar la decisión.</div>`);
-    if (cli?.tipo_persona === 'sl') avisos.push('<div class="rev-aviso info">Es una sociedad: de momento la contabilización automática solo funciona para autónomos.</div>');
+    if (f.contabilizado_at && f.cegid && f.cegid.pdf === false && cli?.tipo_persona === 'sl') avisos.push(`<div class="rev-aviso naranja">El PDF no se ha adjuntado en Cegid${f.cegid.errorPdf ? ' (' + esc(String(f.cegid.errorPdf)) + ')' : ''}. Adjúntalo a mano si hace falta.</div>`);
     $('rev-avisos').innerHTML = avisos.join('');
 
     ($('f-tipo') as HTMLSelectElement).value = d.tipo === 'emitida' ? 'emitida' : 'recibida';
@@ -367,9 +378,10 @@ export const prerender = true;
     ($('f-motivo-detalle') as HTMLInputElement).value = f.motivo_detalle || '';
     pintarLineas(d.lineas || []);
     // Grupo: el guardado; si no, el último usado con ese NIF; si no, una propuesta por palabras.
-    let grupo = f.grupo || (t.nif ? grupoPorNif.get(String(t.nif)) : '') || '';
-    if (!grupo && d.tipo !== 'emitida') { const txt = `${t.nombre || ''}`; grupo = (PALABRAS.find(([re]) => re.test(txt)) || [])[1] || ''; }
-    if (!grupo && d.tipo === 'emitida') grupo = '01';
+    const sl = esSociedad(f);
+    let grupo = f.grupo || (t.nif ? grupoPorNif.get(claveNif(f, String(t.nif))) : '') || '';
+    if (!grupo && d.tipo !== 'emitida') { const txt = `${t.nombre || ''}`; grupo = ((sl ? PALABRAS_SL : PALABRAS).find(([re]) => re.test(txt)) || [])[1] || ''; }
+    if (!grupo && d.tipo === 'emitida') grupo = sl ? '705' : '01';
     opcionesGrupo(d.tipo === 'emitida' ? 'emitida' : 'recibida', grupo);
     comprobarCuadre();
     const bloqueada = !!f.contabilizado_at;
@@ -390,7 +402,7 @@ export const prerender = true;
     const cambios: Record<string, unknown> = { datos_revisados: d, grupo, revisado_at: new Date().toISOString(), revisado_por: emailAdmin };
     if (decision === 'contabilizar') {
       const t = tercero(d);
-      const faltan = [!grupo && 'el grupo', !t.nif && 'el NIF', !d.numero && 'el número', !d.fecha && 'la fecha', !d.lineas?.length && 'la base', (d.total === null || d.total === undefined) && 'el total'].filter(Boolean);
+      const faltan = [!grupo && (esSociedad(actual) ? 'la cuenta' : 'el grupo'), !t.nif && 'el NIF', !d.numero && 'el número', !d.fecha && 'la fecha', !d.lineas?.length && 'la base', (d.total === null || d.total === undefined) && 'el total'].filter(Boolean);
       if (faltan.length) return mensaje('Para contabilizar falta: ' + faltan.join(', ') + '.', false);
       Object.assign(cambios, { decision, motivo_no: null, motivo_detalle: null, error_cegid: null });
     } else if (decision === 'no_contabilizar') {
@@ -401,7 +413,7 @@ export const prerender = true;
     const { error } = await supabase!.from('facturas_lectura').update(cambios).eq('factura_id', actual.factura_id);
     if (error) return mensaje('No se ha podido guardar: ' + error.message, false);
     Object.assign(actual, cambios);
-    if (grupo && tercero(d).nif) grupoPorNif.set(String(tercero(d).nif), grupo);
+    if (grupo && tercero(d).nif) grupoPorNif.set(claveNif(actual, String(tercero(d).nif)), grupo);
     mensaje(decision === 'contabilizar' ? 'Mandada a Cegid: entrará en unos minutos. Si Cegid la rechaza, aparecerá aquí con el motivo.' : decision === 'no_contabilizar' ? 'Marcada como no contabilizada. El cliente verá el motivo en su área.' : 'Guardada.', true);
     pintarLista();
     void abrir(actual);
@@ -413,7 +425,7 @@ export const prerender = true;
       .order('leido_at', { ascending: false }).limit(500);
     if (error) { $('rev-resumen').textContent = 'No se han podido cargar las facturas: ' + error.message; return; }
     filas = (data || []) as unknown as Fila[];
-    for (const f of [...filas].reverse()) { const t = tercero(datosDe(f)); if (f.grupo && t.nif) grupoPorNif.set(String(t.nif), f.grupo); }
+    for (const f of [...filas].reverse()) { const t = tercero(datosDe(f)); if (f.grupo && t.nif) grupoPorNif.set(claveNif(f, String(t.nif)), f.grupo); }
     const clientes = new Map(filas.map((f) => [f.facturas_subidas?.cliente_id || '', f.facturas_subidas?.clientes?.nombre || '']));
     const sel = $('rev-cliente') as HTMLSelectElement;
     sel.innerHTML = '<option value="">Todos</option>' + [...clientes].filter(([id]) => id).sort((a, b) => a[1].localeCompare(b[1])).map(([id, n]) => `<option value="${esc(id)}">${esc(n)}</option>`).join('');
