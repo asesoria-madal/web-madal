@@ -85,6 +85,7 @@ export const prerender = true;
               <label>Total factura<input id="f-total" inputmode="decimal"></label>
             </div>
             <p id="rev-cuadre" class="rev-cuadre"></p>
+            <div id="rev-fiscal" aria-live="polite"></div>
           </fieldset>
 
           <div id="rev-decision" class="rev-decision">
@@ -154,6 +155,10 @@ export const prerender = true;
   .rev-linea { margin-bottom: 0.5rem; }
   .rev-cuadre { font-size: 0.88rem; margin: 0.6rem 0 0; }
   .rev-cuadre.ok { color: #1f6b4a; } .rev-cuadre.mal { color: #9a3412; }
+  #rev-fiscal ul { margin: 0.5rem 0 0; padding-left: 1.1rem; font-size: 0.88rem; }
+  #rev-fiscal li { margin: 0.25rem 0; }
+  #rev-fiscal .bloqueo { color: #9a3412; font-weight: 600; }
+  #rev-fiscal .aviso { color: #8a5a00; }
   .rev-aviso { padding: 0.6rem 0.8rem; border-radius: 8px; font-size: 0.88rem; margin-top: 0.6rem; }
   .rev-aviso.naranja { background: #fff4e0; color: #6b3a00; } .rev-aviso.roja { background: #fdecea; color: #7f1d1d; } .rev-aviso.verde { background: #e3efed; color: #174744; } .rev-aviso.info { background: #eef0f2; color: #2b3036; }
   .rev-decision { margin-top: 1.2rem; display: flex; flex-direction: column; gap: 1rem; }
@@ -170,6 +175,7 @@ export const prerender = true;
 </style>
 
 <script>
+  import { revisarIva } from '../../lib/revisarIva';
   import { getSupabaseBrowser } from '../../lib/supabaseClient';
 
   type Linea = { base: number | null; pct: number | null; cuota: number | null };
@@ -303,11 +309,24 @@ export const prerender = true;
     // Si se movió de trimestre, conserva la nota del mes; si ya no se mueve, la quita.
     if (fecha && fechaCont && fecha < fechaCont) d.nota_fecha = '(' + new Date(fecha).toLocaleDateString('es-ES', { month: 'long' }) + ')'; else delete d.nota_fecha;
     if (tipo === 'emitida') d.receptor = terceroNuevo; else d.emisor = terceroNuevo;
+    if (d.vies && String(tercero(base).nif || '').toUpperCase().replace(/[\s-]/g, '') !== terceroNuevo.nif) delete d.vies;
     return d;
+  }
+
+  // Comprobaciones fiscales (IVA intracomunitario, tipos, retenciones): las mismas que la lectura nocturna y
+  // "Contabilizar en Cegid" (src/lib/revisarIva.ts). Los bloqueos impiden pulsar "Contabilizar en Cegid".
+  function fiscal(d: Datos) {
+    return revisarIva(d, { tipoPersona: actual?.facturas_subidas?.clientes?.tipo_persona, grupo: ($('f-grupo') as HTMLSelectElement).value });
+  }
+  function pintarFiscal(d: Datos) {
+    const r = fiscal(d);
+    const items = [...r.bloqueos.map((t) => `<li class="bloqueo">${esc(t)}</li>`), ...r.avisos.map((t) => `<li class="aviso">${esc(t)}</li>`)];
+    $('rev-fiscal').innerHTML = items.length ? '<ul>' + items.join('') + '</ul>' : '';
   }
 
   function comprobarCuadre() {
     const d = leerFormulario();
+    pintarFiscal(d);
     const p = $('rev-cuadre');
     if (d.base === null || d.total === null || d.total === undefined) { p.textContent = 'Faltan importes para comprobar el total.'; p.className = 'rev-cuadre mal'; return; }
     const calc = Math.round(((d.base || 0) + (d.sin_iva ? 0 : (d.cuota_iva || 0)) - (d.retencion ? d.retencion.cuota : 0)) * 100) / 100;
@@ -404,6 +423,8 @@ export const prerender = true;
       const t = tercero(d);
       const faltan = [!grupo && (esSociedad(actual) ? 'la cuenta' : 'el grupo'), !t.nif && 'el NIF', !d.numero && 'el número', !d.fecha && 'la fecha', !d.lineas?.length && 'la base', (d.total === null || d.total === undefined) && 'el total'].filter(Boolean);
       if (faltan.length) return mensaje('Para contabilizar falta: ' + faltan.join(', ') + '.', false);
+      const bloqueos = fiscal(d).bloqueos;
+      if (bloqueos.length) return mensaje('No se puede contabilizar así: ' + bloqueos.join(' ') + ' Corrígela o márcala como «No contabilizar».', false);
       Object.assign(cambios, { decision, motivo_no: null, motivo_detalle: null, error_cegid: null });
     } else if (decision === 'no_contabilizar') {
       const motivo = ($('f-motivo') as HTMLSelectElement).value;
@@ -446,6 +467,8 @@ export const prerender = true;
     ($('f-tipo') as HTMLSelectElement).addEventListener('change', (e) => opcionesGrupo((e.target as HTMLSelectElement).value, null));
     for (const id of ['f-total', 'f-ret-cuota', 'f-ret-pct']) $(id).addEventListener('input', comprobarCuadre);
     $('f-sin-iva').addEventListener('change', comprobarCuadre);
+    $('f-nif').addEventListener('input', comprobarCuadre);
+    for (const id of ['f-tipo', 'f-grupo']) $(id).addEventListener('change', comprobarCuadre);
     $('rev-mas-linea').addEventListener('click', () => { const ls = leerFormulario().lineas || []; if (ls.length < 4) pintarLineas([...ls, { base: null, pct: null, cuota: null }]); });
     $('rev-contabilizar').addEventListener('click', () => void guardar('contabilizar'));
     $('rev-no-contabilizar').addEventListener('click', () => void guardar('no_contabilizar'));
