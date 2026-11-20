@@ -1461,3 +1461,44 @@ create policy "cliente ve su prevision fiscal" on prevision_fiscal for select
 drop policy if exists "admin ve todas las previsiones" on prevision_fiscal;
 create policy "admin ve todas las previsiones" on prevision_fiscal for select
   using (auth.uid() in (select auth_user_id from portal_admins));
+
+-- ---------------------------------------------------------------------------
+-- 2026-11-20 · Modelos de impuestos de cada cliente, para el portal (Edurne)
+-- ---------------------------------------------------------------------------
+-- Copia de las hojas de campaña de "Impuestos trimestrales" (carpeta Impuestos de Drive, pestaña
+-- Seguimiento), que rellena el equipo: una fila por cliente, modelo y periodo. La mantiene n8n
+-- ("Modelos del portal", cada hora); las hojas mandan, aquí no se edita nada a mano.
+-- El portal lo enseña en Previsión fiscal → "Modelos presentados" (año, periodo, modelo, importe,
+-- estado y descarga del justificante, que entrega n8n "Justificante del portal" desde Drive).
+-- periodo: el texto de la hoja ('1T 2026', 'Anual 2025', '1P 2026', 'Ejercicio 2025').
+-- importe: el de la hoja convertido a número (importe_texto guarda lo escrito tal cual).
+-- justificante_drive_id: sacado del enlace de la columna "Justificante en Drive".
+-- Ejecutado por n8n el 2026-11-20.
+create table if not exists modelos_fiscales (
+  id bigserial primary key,
+  cliente_id text not null references clientes (id) on delete cascade,
+  modelo text not null,
+  periodo text not null,
+  anio int,
+  trimestre int,
+  estado text,
+  resultado text,
+  forma_pago text,
+  importe numeric,
+  importe_texto text,
+  presentado_el date,
+  justificante_drive_id text,
+  hoja text,
+  actualizado_at timestamptz not null default now(),
+  unique (cliente_id, modelo, periodo)
+);
+alter table modelos_fiscales enable row level security;
+grant all on modelos_fiscales to service_role;
+grant usage, select on sequence modelos_fiscales_id_seq to service_role;
+grant select on modelos_fiscales to authenticated;
+drop policy if exists "cliente ve sus modelos" on modelos_fiscales;
+create policy "cliente ve sus modelos" on modelos_fiscales for select
+  using (cliente_id in (select c.id from clientes c where c.auth_user_id = auth.uid()));
+drop policy if exists "admin ve todos los modelos" on modelos_fiscales;
+create policy "admin ve todos los modelos" on modelos_fiscales for select
+  using (auth.uid() in (select auth_user_id from portal_admins));

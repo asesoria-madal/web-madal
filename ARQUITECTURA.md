@@ -116,6 +116,11 @@ No es una ficha de cliente: es solo el registro de qué avisos ya se mandaron pa
 - RLS: el cliente puede ver sus propias filas y crear una fila propia, siempre con `fecha_contabilizado is null` (no puede marcarse a sí mismo como contabilizada). **Sin políticas de update ni delete** — esas columnas las toca solo la service role.
 - **Carpetas (2026-11-12)**: no solo hay facturas. El cliente sube desde la pestaña Documentación eligiendo `carpeta` (facturas emitidas/recibidas/simplificadas, tickets, extractos de banco —solo SL— o de tarjeta de crédito, y carpetas de documentación: escrituras, contratos, préstamos…). En extractos guarda también `cuenta_digitos`, `periodo_desde` y `periodo_hasta`. `carpeta` null = subida anterior, tratada como factura. n8n (`Descarga de facturas`) decide con ella la carpeta de Drive y el nombre; solo facturas y tickets llevan `drive_carpeta_pendientes_id` y se marcan como contabilizados. Valores y rutas en `schema.sql`.
 
+### `modelos_fiscales` (2026-11-20)
+
+- Una fila por cliente, modelo y periodo (`periodo` como en la hoja: `1T 2026`, `Anual 2025`…), con `estado`, `resultado`, `forma_pago`, `importe` (y `importe_texto`), `presentado_el`, `justificante_drive_id` y la `hoja` de origen.
+- Es una copia de las hojas de campaña de "Impuestos trimestrales" (carpeta Impuestos de Drive, pestaña Seguimiento) que mantiene n8n (`Modelos del portal`, cada hora de 7:15 a 21:15). Las hojas mandan. El cliente lee las suyas y los admins todas (RLS de solo lectura). La lee la subpestaña "Modelos presentados" del portal; el justificante lo entrega n8n (`Justificante del portal`, `GET /webhook/justificante-portal?id=…` con la sesión).
+
 ### `prevision_fiscal` (2026-11-20)
 
 - Una fila por cliente, año y trimestre (clave primaria compuesta). `modelos` (jsonb): `[{ modelo, importe, resultado: pagar|compensar|devolver|cero, detalle }]`; `resumen` (jsonb: facturas, última fecha, incompleto); `error`; `calculado_at`, `intentado_at`.
