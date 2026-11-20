@@ -1,6 +1,7 @@
 import type { APIRoute } from 'astro';
 import { getSupabaseAdmin } from '../../lib/supabase';
 import { limpiarIban, ibanValido } from '../../lib/iban';
+import { nifValido } from '../../lib/nif';
 
 export const prerender = false;
 
@@ -66,7 +67,7 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
   const resumen = texto(b.resumen, TAMANO_MAXIMO);
   if (!nombre) return json({ error: 'Datos no válidos', field: 'nombre' }, 400);
   if (!apellidos) return json({ error: 'Datos no válidos', field: 'apellidos' }, 400);
-  if (!NIF_NIE_PATTERN.test(dni)) return json({ error: 'Datos no válidos', field: 'dni' }, 400);
+  if (!NIF_NIE_PATTERN.test(dni) || !nifValido(dni)) return json({ error: 'Datos no válidos', field: 'dni' }, 400);
   if (!EMAIL_PATTERN.test(email)) return json({ error: 'Datos no válidos', field: 'c_email' }, 400);
   if (!telefono) return json({ error: 'Datos no válidos', field: 'c_tel' }, 400);
   if (!IBAN_PATTERN.test(iban) || !ibanValido(iban)) return json({ error: 'Datos no válidos', field: 'iban' }, 400);

@@ -244,6 +244,7 @@ const planes = (isAutonomo ? precios.autonomoTiers : precios.pymeTiers).map((p) 
     <p class="form-error" id="formError" hidden>{t.error}</p>
 
     <button type="submit" class="btn btn-primary form-submit" id="formSubmit">{t.enviar}</button>
+  <label class="lead-web" aria-hidden="true">Web<input type="text" id="fWeb" name="web" tabindex="-1" autocomplete="off" /></label>
   </form>
 
   <div class="page view-block form-success" id="formSuccess" hidden>
@@ -389,6 +390,7 @@ const planes = (isAutonomo ? precios.autonomoTiers : precios.pymeTiers).map((p) 
 
       if (body.tieneRequerimientosAeat) body.detalleRequerimientosAeat = valor('fDetalleRequerimientos');
 
+      body.web = el<HTMLInputElement>('fWeb')?.value ?? '';
       submitBtn.disabled = true;
       try {
         const res = await fetch('/api/traspaso', {

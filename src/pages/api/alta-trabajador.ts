@@ -1,5 +1,6 @@
 import type { APIRoute } from 'astro';
 import { getSupabaseAdmin } from '../../lib/supabase';
+import { nifValido } from '../../lib/nif';
 
 export const prerender = false;
 
@@ -75,7 +76,7 @@ function primerCampoInvalido(body: unknown): string | null {
 
   // Empresa
   if (!isNonEmptyString(b.empresaNombre, 150)) return 'empresaNombre';
-  if (typeof b.empresaNif !== 'string' || !NIF_CIF_PATTERN.test(b.empresaNif.trim())) return 'empresaNif';
+  if (typeof b.empresaNif !== 'string' || !NIF_CIF_PATTERN.test(b.empresaNif.trim()) || !nifValido(b.empresaNif)) return 'empresaNif';
   if (typeof b.empresaEmail !== 'string' || !EMAIL_PATTERN.test(b.empresaEmail) || b.empresaEmail.length > 254) return 'empresaEmail';
   if (!isOptionalString(b.ccc, 20)) return 'ccc';
   if (!isNonEmptyString(b.centroTrabajo, 300)) return 'centroTrabajo';

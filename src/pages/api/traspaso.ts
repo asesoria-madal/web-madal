@@ -3,6 +3,7 @@ import { getSupabaseAdmin } from '../../lib/supabase';
 import { MODELOS_AUTONOMO, MODELOS_SL } from '../../i18n/formularios';
 import { useTranslations } from '../../i18n/utils';
 import { limpiarIban, ibanValido } from '../../lib/iban';
+import { nifValido } from '../../lib/nif';
 
 export const prerender = false;
 
@@ -51,7 +52,7 @@ function primerCampoInvalido(body: unknown): string | null {
     if (typeof b.adminDni !== 'string' || !DNI_NIE_PATTERN.test(b.adminDni.trim())) return 'adminDni';
   }
   if (!isNonEmptyString(b.nombreRazonSocial, 150)) return 'nombreRazonSocial';
-  if (typeof b.nifCif !== 'string' || !NIF_CIF_PATTERN.test(b.nifCif.trim())) return 'nifCif';
+  if (typeof b.nifCif !== 'string' || !NIF_CIF_PATTERN.test(b.nifCif.trim()) || !nifValido(b.nifCif)) return 'nifCif';
   if (typeof b.email !== 'string' || !EMAIL_PATTERN.test(b.email) || b.email.length > 254) return 'email';
   if (typeof b.telefono !== 'string' || !TELEFONO_PATTERN.test(b.telefono.trim())) return 'telefono';
   if (!isNonEmptyString(b.domicilioFiscal, 300)) return 'domicilioFiscal';
@@ -139,6 +140,9 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
   } catch {
     return json({ error: 'JSON inválido' }, 400);
   }
+
+  // Campo trampa para bots (invisible en el formulario): si viene relleno, se finge éxito sin guardar.
+  if (typeof raw === 'object' && raw !== null && typeof (raw as any).web === 'string' && (raw as any).web.trim()) return json({ ok: true });
 
   const campoInvalido = primerCampoInvalido(raw);
   if (campoInvalido) {
