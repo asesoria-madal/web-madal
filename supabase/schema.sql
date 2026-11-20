@@ -1502,3 +1502,6 @@ create policy "cliente ve sus modelos" on modelos_fiscales for select
 drop policy if exists "admin ve todos los modelos" on modelos_fiscales;
 create policy "admin ve todos los modelos" on modelos_fiscales for select
   using (auth.uid() in (select auth_user_id from portal_admins));
+
+-- 2026-11-20: "Queda a compensar" de las hojas de impuestos (solo 303), la usa la previsión fiscal. Ejecutado por n8n.
+alter table modelos_fiscales add column if not exists queda_compensar numeric;
