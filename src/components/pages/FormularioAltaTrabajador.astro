@@ -349,6 +349,9 @@ const ANIO_ACTUAL = new Date().getFullYear();
     }
     const emailParam = params.get('email');
     if (emailParam) $<HTMLInputElement>('fEmpEmail').value = emailParam;
+    // Desde el portal (apartado Laboral) también se manda el nombre de la empresa.
+    const nombreParam = params.get('nombre');
+    if (nombreParam) $<HTMLInputElement>('fEmpNombre').value = nombreParam;
 
     // Aviso que nombra el campo que el servidor rechaza (mismo criterio que
     // los otros formularios), en el idioma de la página vía data-*.

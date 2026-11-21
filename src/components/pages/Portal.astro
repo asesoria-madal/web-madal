@@ -15,6 +15,8 @@ import { useTranslations } from '../../i18n/utils';
 import type { Locale } from '../../i18n/ui';
 import { WHATSAPP_NUMBER, CONTACT_EMAIL } from '../../lib/contact';
 import CarpetaDocumentos from '../CarpetaDocumentos.astro';
+import PortalLaboral from '../PortalLaboral.astro';
+import { LABORAL } from '../../i18n/laboral';
 import { guiaApoderamientoAeat, guiaApoderamientoSs, guiaExportarCertificado } from '../../lib/guias';
 
 interface Props { lang: Locale; }
@@ -98,6 +100,7 @@ const textosCarpeta = { subir: t.doc.subir, foto: t.facturas.cameraSubmit, ver: 
             <button type="button" class="app-nav-link" data-panel="informes">{t.nav.informes}</button>
             <button type="button" class="app-nav-link" data-panel="documentos">{t.nav.documentos}</button>
             <button type="button" class="app-nav-link" data-panel="misfacturas">{t.nav.misFacturas}</button>
+            <button type="button" class="app-nav-link" data-panel="laboral">{LABORAL[lang].nav}</button>
             <button type="button" class="app-nav-link" data-panel="documentacion">{t.nav.documentacion}</button>
             <button type="button" class="app-nav-link" data-panel="inicio" hidden>{t.nav.inicio}</button>
           </nav>
@@ -329,6 +332,11 @@ const textosCarpeta = { subir: t.doc.subir, foto: t.facturas.cameraSubmit, ver: 
             <p class="mf-nota">{t.misFacturas.leyenda}</p>
           </section>
 
+          <!-- Laboral (2026-11-21): incidencias mensuales por plantilla Excel, altas y bajas. Lógica en scripts/portalLaboral.ts. -->
+          <section class="app-panel" data-panel="laboral" hidden>
+            <PortalLaboral lang={lang} />
+          </section>
+
           <!-- Documentos de Asesoría Madal: guía, presentación, apoderamiento y RGPD. Separados
                de "Mis documentos" a petición de Edurne (2026-11-12). -->
           <section class="app-panel" data-panel="documentacion" hidden>
@@ -535,6 +543,7 @@ const textosCarpeta = { subir: t.doc.subir, foto: t.facturas.cameraSubmit, ver: 
 <script>
   import { getSupabaseBrowser } from '../../lib/supabaseClient';
   import type { Session } from '@supabase/supabase-js';
+  import { iniciarLaboral } from '../../scripts/portalLaboral';
 
   // Textos que necesita este script (viajan serializados desde el servidor,
   // ya en el idioma de la página) y locale para formatear fechas/importes.
@@ -916,6 +925,7 @@ const textosCarpeta = { subir: t.doc.subir, foto: t.facturas.cameraSubmit, ver: 
       prepararInformes(cliente.tipo_persona ?? null);
       renderDudaRapida(Boolean(cliente.contacto_whatsapp));
       mostrarCegid(Boolean(cliente.facturacion_cegid));
+      void iniciarLaboral(supabase, { id: cliente.id, nombre: cliente.nombre, email: cliente.email ?? null }, { lang: LOCALE.slice(0, 2) as 'es' | 'ca' | 'en', soloLectura: !adminBar.hidden });
     }
 
     // Pestaña del programa de facturación de Cegid: solo con la casilla de HubSpot marcada.

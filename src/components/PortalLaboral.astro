@@ -1,0 +1,140 @@
+---
+// Contenido del panel «Laboral» del portal (lo pinta scripts/portalLaboral.ts). Aquí solo está el esqueleto y los
+// textos fijos; todo lo que depende del cliente (trabajadores, plantillas, estados) lo rellena el script.
+// Se incluye dentro de <section data-panel="laboral"> en components/pages/Portal.astro.
+import { LABORAL } from '../i18n/laboral';
+import type { Locale } from '../i18n/ui';
+
+interface Props { lang: Locale; }
+const { lang } = Astro.props;
+const t = LABORAL[lang];
+---
+
+<h2>{t.title}</h2>
+<p>{t.intro}</p>
+<p id="lab-solo-lectura" class="lab-nota" hidden>{t.soloLectura}</p>
+
+<!-- Incidencias del mes -->
+<div class="lab-card" id="lab-incidencias">
+  <h3>{t.inc.title}</h3>
+  <p>{t.inc.intro}</p>
+  <p class="lab-sin-trab" id="lab-sin-trabajadores" hidden>{t.inc.sinTrabajadores}</p>
+  <div id="lab-inc-controles">
+    <div class="lab-fila">
+      <label class="field lab-mes">{t.inc.mesLabel}
+        <select id="lab-mes"></select>
+      </label>
+      <span id="lab-estado" class="lab-chip is-pend"></span>
+    </div>
+    <p id="lab-plazo" class="lab-plazo"></p>
+    <div class="lab-botones">
+      <button type="button" id="lab-descargar" class="btn btn-primary"></button>
+      <label id="lab-subir-wrap" class="btn btn-outline lab-subir">
+        {t.inc.subir}
+        <input type="file" id="lab-subir-input" accept=".xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" hidden />
+      </label>
+      <button type="button" id="lab-sin-inc" class="btn btn-outline">{t.inc.sinIncidencias}</button>
+    </div>
+    <p class="lab-nota">{t.inc.sustituye}</p>
+    <p id="lab-msg" class="portal-msg" role="status" hidden></p>
+    <div id="lab-errores-caja" class="lab-errores" hidden>
+      <ul id="lab-errores"></ul>
+    </div>
+    <div id="lab-resultado" class="lab-resultado" hidden></div>
+  </div>
+</div>
+
+<!-- Trabajadores y bajas -->
+<div class="lab-card" id="lab-trabajadores">
+  <h3>{t.trab.title}</h3>
+  <p id="lab-trab-vacio" class="lab-nota" hidden>{t.trab.vacio}</p>
+  <div class="lab-tabla-caja" id="lab-trab-tabla" hidden>
+    <table class="lab-tabla">
+      <thead><tr><th>{t.trab.cols.nombre}</th><th>{t.trab.cols.nif}</th><th>{t.trab.cols.alta}</th><th>{t.trab.cols.estado}</th><th></th></tr></thead>
+      <tbody id="lab-trab-filas"></tbody>
+    </table>
+  </div>
+  <p id="lab-baja-msg-global" class="portal-msg is-ok" role="status" hidden></p>
+
+  <form id="lab-baja-form" class="lab-baja" hidden>
+    <h4 id="lab-baja-titulo"></h4>
+    <p>{t.baja.intro}</p>
+    <label class="field">{t.baja.fecha}
+      <input type="date" name="fecha" required />
+      <span class="field-optional">{t.baja.fechaAyuda}</span>
+    </label>
+    <label class="field">{t.baja.causa}
+      <select name="causa" required></select>
+    </label>
+    <label class="field">{t.baja.observaciones}
+      <textarea name="observaciones" rows="3" maxlength="1000" placeholder={t.baja.observacionesPh}></textarea>
+    </label>
+    <p class="lab-nota">{t.baja.aviso}</p>
+    <div class="lab-botones">
+      <button type="submit" class="btn btn-primary">{t.baja.enviar}</button>
+      <button type="button" id="lab-baja-cancelar" class="btn btn-outline">{t.baja.cancelar}</button>
+    </div>
+    <p id="lab-baja-msg" class="portal-msg" role="status" hidden></p>
+  </form>
+
+  <div id="lab-bajas" hidden>
+    <h4 id="lab-bajas-titulo"></h4>
+    <ul id="lab-bajas-lista" class="lab-lista"></ul>
+  </div>
+</div>
+
+<!-- Altas: con ninguna persona contratada, el alta es lo único que se enseña -->
+<div class="lab-card lab-alta-vacio" id="lab-alta-vacio" hidden>
+  <h3>{t.alta.vacioTitle}</h3>
+  <p>{t.alta.vacioIntro}</p>
+  <ol class="lab-pasos">
+    {t.alta.pasos.map((p) => <li>{p}</li>)}
+  </ol>
+  <p><a id="lab-alta-btn-vacio" class="btn btn-primary" href="#">{t.alta.boton}</a></p>
+  <p class="lab-nota">{t.alta.nota}</p>
+</div>
+<div class="lab-card" id="lab-alta-normal" hidden>
+  <h3>{t.alta.title}</h3>
+  <p>{t.alta.introConTrabajadores}</p>
+  <p><a id="lab-alta-btn" class="btn btn-outline" href="#">{t.alta.boton}</a></p>
+  <p class="lab-nota">{t.alta.nota}</p>
+</div>
+<div id="lab-altas" hidden>
+  <h4 id="lab-altas-titulo"></h4>
+  <ul id="lab-altas-lista" class="lab-lista"></ul>
+</div>
+
+<style is:global>
+  .lab-card { border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 1.25rem 1.4rem; margin-top: 1.4rem; background: var(--paper); }
+  .lab-card h3 { margin: 0 0 0.5rem; font-size: 1.1rem; }
+  .lab-card h4, #lab-altas h4, #lab-bajas h4 { margin: 1.2rem 0 0.5rem; font-size: 0.95rem; }
+  .lab-fila { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 1rem; margin-top: 0.8rem; }
+  .lab-mes { min-width: 15rem; }
+  .lab-plazo { margin: 0.8rem 0; font-size: 0.9rem; color: var(--ink-soft); }
+  .lab-plazo.is-vencido { color: var(--err-text); font-weight: 600; }
+  .lab-botones { display: flex; flex-wrap: wrap; gap: 0.6rem; margin: 0.8rem 0; }
+  .lab-subir { cursor: pointer; }
+  .lab-nota { font-size: 0.85rem; color: var(--ink-soft); margin: 0.5rem 0; }
+  .lab-sin-trab { background: var(--accent-tint); border-radius: var(--radius-sm); padding: 0.8rem 1rem; }
+  .lab-chip { display: inline-block; padding: 0.2rem 0.65rem; border-radius: 999px; font-size: 0.8rem; font-weight: 600; background: var(--paper-raised); color: var(--ink-soft); white-space: nowrap; }
+  .lab-chip.is-ok { background: var(--accent-tint); color: var(--accent); }
+  .lab-chip.is-err { background: #fbe9e7; color: var(--err-text); }
+  .lab-chip.is-rev, .lab-chip.is-proc { background: var(--paper-strong); color: var(--accent-strong); }
+  :root[data-theme='dark'] .lab-chip.is-err { background: #3a1d1a; }
+  .lab-errores { border-left: 3px solid var(--err-text); padding: 0.4rem 1rem; margin: 0.8rem 0; background: var(--paper-raised); }
+  .lab-errores ul { margin: 0.3rem 0; padding-left: 1.1rem; font-size: 0.88rem; }
+  .lab-tabla-caja { overflow-x: auto; margin-top: 0.6rem; }
+  .lab-tabla { border-collapse: collapse; width: 100%; font-size: 0.88rem; }
+  .lab-tabla th { text-align: left; font-weight: 600; padding: 0.45rem 0.7rem; border-bottom: 2px solid var(--line); white-space: nowrap; }
+  .lab-tabla td { padding: 0.45rem 0.7rem; border-bottom: 1px solid var(--line); vertical-align: top; }
+  .lab-btn-peq { padding: 0.3rem 0.8rem; font-size: 0.82rem; }
+  .lab-baja { border-top: 1px solid var(--line); margin-top: 1.2rem; padding-top: 0.4rem; display: grid; gap: 0.9rem; max-width: 34rem; }
+  .lab-lista { list-style: none; margin: 0; padding: 0; }
+  .lab-item { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 1rem; padding: 0.5rem 0; border-bottom: 1px solid var(--line); font-size: 0.9rem; }
+  .lab-item-titulo { font-weight: 600; }
+  .lab-item-extra { color: var(--ink-soft); }
+  .lab-item .lab-chip { margin-left: auto; }
+  .lab-alta-vacio { background: var(--accent-tint); border-color: var(--accent); }
+  .lab-pasos { margin: 0.6rem 0 1rem; padding-left: 1.3rem; display: grid; gap: 0.4rem; }
+  #lab-altas, #lab-bajas { margin-top: 1rem; }
+</style>
