@@ -1,0 +1,20 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import PricingPlanes from '../../components/pricing/PricingPlanes.astro';
+
+export const prerender = true;
+---
+
+<Layout
+  lang="es"
+  path="/pricing/planes"
+  active="none"
+  title="Planes y precios de la asesoría de precios · Madal Pricing"
+  description="Diagnóstico, arquitectura de precios, seguimiento mensual, análisis de descuentos y experimentación. Precios sin IVA y primera llamada gratuita."
+  showCtaFinal={false}
+  hideHeader={true}
+  localesAvailable={['es']}
+  breadcrumbs={[{ name: 'Madal Pricing', path: '/pricing' }, { name: 'Planes', path: '/pricing/planes' }]}
+>
+  <PricingPlanes />
+</Layout>

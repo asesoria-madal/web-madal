@@ -67,7 +67,7 @@ El trimestre cierra con 3.840 € de beneficio, una buena noticia sobre el papel
 
 ## De los números a las decisiones
 
-Leer estos dos documentos es el primer paso; la parte que de verdad aporta valor es entender qué te están diciendo sobre tu negocio concreto - por eso no nos limitamos a presentarte impuestos, sino a explicarte tu balance y tu PyG con criterio, no solo a entregártelos.
+Leer estos dos documentos es el primer paso; la parte que de verdad aporta valor es entender qué te están diciendo sobre tu negocio concreto - por eso no nos limitamos a presentarte impuestos, sino a explicarte tu balance y tu PyG con criterio, no solo a entregártelos. Si tu margen bruto sale más bajo de lo que esperabas, el precio suele ser la primera palanca: en [Madal Pricing](/pricing) partimos de ese mismo balance para revisar tus tarifas.
 
 ## ¿Quieres que repasemos los tuyos?
 

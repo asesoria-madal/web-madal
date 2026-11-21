@@ -10,10 +10,10 @@ import PricingFrame from './PricingFrame.astro';
 const BOOKING_URL = 'https://meetings-eu1.hubspot.com/asesoria-madal';
 ---
 
-<PricingFrame current="servicio">
+<PricingFrame current="calculadoras">
   <header class="hero page-hero">
     <div class="wrap">
-      <div class="fig">FIG.D - PRECIO DE UN SERVICIO</div>
+      <div class="fig">PRECIO DE UN SERVICIO</div>
       <h1>¿Cuánto cobrar por <em>este trabajo?</em></h1>
       <p class="dek">Pon las horas que lleva, lo que te cuesta hacerlo y el margen que quieres sacar. Te decimos el precio mínimo para ese encargo y hasta dónde puedes bajarlo si el cliente regatea.</p>
       <p class="under mono">PAGO ÚNICO, NO MENSUAL · SE CALCULA EN TU NAVEGADOR</p>
@@ -39,7 +39,7 @@ const BOOKING_URL = 'https://meetings-eu1.hubspot.com/asesoria-madal';
           <label class="pp-field">
             <span>Lo que te cuesta una hora de tu trabajo (€)</span>
             <input type="number" name="coste" inputmode="decimal" min="0" step="1" value="33" />
-            <small><a href="/pricing/calculadora-tarifa">¿No lo sabes? Calcula tu tarifa mínima por hora</a></small>
+            <small><a href="/pricing/calculadoras/tarifa-por-hora">¿No lo sabes? Calcula tu tarifa mínima por hora</a></small>
           </label>
           <label class="pp-field">
             <span>Costes directos del servicio (€)</span>

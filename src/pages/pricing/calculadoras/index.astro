@@ -1,0 +1,20 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import PricingCalculadoras from '../../../components/pricing/PricingCalculadoras.astro';
+
+export const prerender = true;
+---
+
+<Layout
+  lang="es"
+  path="/pricing/calculadoras"
+  active="none"
+  title="Calculadoras para poner precio siendo autónomo · Madal Pricing"
+  description="Calculadoras gratuitas para autónomos: tarifa mínima por hora y precio de un servicio concreto, con tus gastos, tu cuota, tus impuestos y tu margen."
+  showCtaFinal={false}
+  hideHeader={true}
+  localesAvailable={['es']}
+  breadcrumbs={[{ name: 'Madal Pricing', path: '/pricing' }, { name: 'Calculadoras', path: '/pricing/calculadoras' }]}
+>
+  <PricingCalculadoras />
+</Layout>

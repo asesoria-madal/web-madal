@@ -38,7 +38,7 @@ De cada 100 € que facturas, unos 66 son tuyos. No es un dato universal, porque
 
 Lo habitual es mirar cuánto cobran otros, poner un precio y ver qué sale. Es el camino que lleva a descubrir en abril que has trabajado un año para llevarte menos de lo que creías.
 
-Al revés es más fiable. Decides cuánto quieres llevarte, sumas lo que se queda por el camino (IRPF, cuota y gastos) y lo divides entre las horas que puedes facturar. Eso te da tu suelo, y [la calculadora de tarifa](/pricing/calculadora-tarifa) lo hace con tus datos.
+Al revés es más fiable. Decides cuánto quieres llevarte, sumas lo que se queda por el camino (IRPF, cuota y gastos) y lo divides entre las horas que puedes facturar. Eso te da tu suelo, y [la calculadora de tarifa](/pricing/calculadoras/tarifa-por-hora) lo hace con tus datos.
 
 ## La reserva para impuestos
 

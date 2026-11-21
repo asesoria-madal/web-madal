@@ -1,0 +1,164 @@
+---
+// Parte de la línea Madal Pricing (2026-11-21). Ver PricingFrame.astro.
+import PricingFrame from './PricingFrame.astro';
+
+const BOOKING_URL = 'https://meetings-eu1.hubspot.com/asesoria-madal';
+const MAILTO = 'mailto:contacto@asesoriamadal.es?subject=Madal%20Pricing';
+---
+
+<PricingFrame current="planes">
+  <header class="hero page-hero" id="top">
+    <div class="wrap">
+      <div class="fig">PLANES</div>
+      <h1>Empieza donde tenga <em>sentido para ti</em></h1>
+      <p class="dek">Antes de pagar nada hay una llamada gratuita para ver tus números. Después eliges un plan y puedes subir de nivel cuando lo necesites.</p>
+      <p class="under mono">PRECIOS SIN IVA · 1ª LLAMADA GRATIS</p>
+    </div>
+  </header>
+
+  <section id="planes">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div class="fig">PLANES</div>
+        <h2>Empieza donde tiene sentido para tu negocio</h2>
+        <p>Cada plan cubre un tramo de pilares. Antes de pagar nada hay una llamada gratuita para ver tus números, y puedes subir de plan cuando lo necesites.</p>
+      </div>
+
+      <div class="plans reveal">
+        <div class="plan panel">
+          <span class="tl"></span><span class="tr"></span><span class="bl"></span><span class="br"></span>
+          <span class="tag mono">01 · Pilares 1–2</span>
+          <h3>Diagnóstico</h3>
+          <p class="scope mono">PAGO ÚNICO</p>
+          <ul>
+            <li>Unit economics de tu negocio</li>
+            <li>Benchmarking frente a tu sector</li>
+            <li>Informe + sesión de lectura de resultados</li>
+          </ul>
+          <div class="price">
+            <div style="display:flex;justify-content:space-between;"><span>Cliente de la gestoría</span><strong class="mono" style="color:var(--accent-strong)">300 €</strong></div>
+            <div style="display:flex;justify-content:space-between;margin-top:6px;"><span>Nuevo cliente</span><strong class="mono">500 €</strong></div>
+          </div>
+          <a class="btn btn-ghost" href={BOOKING_URL}>Empezar aquí</a>
+        </div>
+
+        <div class="plan panel featured">
+          <span class="tl"></span><span class="tr"></span><span class="bl"></span><span class="br"></span>
+          <span class="tag mono">02 · Pilares 1–3</span>
+          <h3>Diagnóstico + Arquitectura</h3>
+          <p class="scope mono">PAGO ÚNICO</p>
+          <ul>
+            <li>Todo lo del pack Diagnóstico</li>
+            <li>Arquitectura de packs y niveles</li>
+            <li>Tarifas listas para publicar</li>
+          </ul>
+          <div class="price">
+            <div style="display:flex;justify-content:space-between;"><span>Cliente de la gestoría</span><strong class="mono" style="color:var(--accent-strong)">900 €</strong></div>
+            <div style="display:flex;justify-content:space-between;margin-top:6px;"><span>Nuevo cliente</span><strong class="mono">1.200 €</strong></div>
+          </div>
+          <a class="btn btn-primary" href={BOOKING_URL}>Reservar diagnóstico</a>
+        </div>
+
+        <div class="plan panel">
+          <span class="tl"></span><span class="tr"></span><span class="bl"></span><span class="br"></span>
+          <span class="tag mono">03 · Pilares 1–2</span>
+          <h3>Seguimiento mensual</h3>
+          <p class="scope mono">MENSUAL · REQUIERE 01 O 02</p>
+          <ul>
+            <li>Recalculamos tu unit economics cada mes</li>
+            <li>Revisamos tu posición frente al mercado</li>
+            <li>Aviso si se mueve algo: costes o competencia</li>
+          </ul>
+          <div class="price">Para quien ya tiene el diagnóstico hecho<br /><strong>120 €/mes</strong></div>
+          <a class="btn btn-ghost" href={MAILTO}>Hablar con nosotros</a>
+        </div>
+
+        <div class="plan panel">
+          <span class="tl"></span><span class="tr"></span><span class="bl"></span><span class="br"></span>
+          <span class="tag mono">04 · Pilar 4</span>
+          <h3>Análisis de descuentos</h3>
+          <p class="scope mono">PAGO ÚNICO + OPCIÓN MENSUAL</p>
+          <ul>
+            <li>Cálculo rápido de tu margen real (versión ligera del pilar 01, solo lo necesario para esto)</li>
+            <li>Qué descuentos das de verdad, no los que crees</li>
+            <li>Qué le hacen esos descuentos a ese margen - cifra real, no sensación</li>
+            <li>Informe con el impacto. Se contrata sin necesidad de los packs 01–03</li>
+          </ul>
+          <div class="plan-addon">
+            <span class="lbl">+ Opción · Seguimiento mensual</span>
+            <p>Si quieres vigilarlo mes a mes en vez de una foto única: +60 €/mes.</p>
+          </div>
+          <div class="price">
+            <div style="display:flex;justify-content:space-between;"><span>Cliente de la gestoría</span><strong class="mono" style="color:var(--accent-strong)">250 €</strong></div>
+            <div style="display:flex;justify-content:space-between;margin-top:6px;"><span>Nuevo cliente</span><strong class="mono">400 €</strong></div>
+          </div>
+          <a class="btn btn-ghost" href={MAILTO}>Hablar con nosotros</a>
+        </div>
+
+        <div class="plan panel premium">
+          <span class="tl"></span><span class="tr"></span><span class="bl"></span><span class="br"></span>
+          <span class="tag mono">05 · Pilares 1–2–4–5</span>
+          <h3>Experimentación</h3>
+          <p class="scope mono">PROYECTO · ~2 MESES</p>
+          <ul>
+            <li>Análisis completo de unit economics + benchmarking</li>
+            <li>Análisis de descuentos incluido</li>
+            <li>~2 meses probando cambios de precio reales, medidos</li>
+            <li>Informe final con el resultado validado - no una recomendación sobre papel</li>
+          </ul>
+          <div class="plan-addon">
+            <span class="lbl">+ Después</span>
+            <p>Al terminar, puedes pasar al seguimiento mensual estándar (pack 03, 120 €/mes) para no perder lo aprendido.</p>
+          </div>
+          <div class="price">
+            <div style="display:flex;justify-content:space-between;"><span>Cliente de la gestoría</span><strong class="mono" style="color:var(--accent2-strong)">1.200 €</strong></div>
+            <div style="display:flex;justify-content:space-between;margin-top:6px;"><span>Nuevo cliente</span><strong class="mono">1.500 €</strong></div>
+          </div>
+          <a class="btn btn-primary" href={BOOKING_URL}>Reservar diagnóstico</a>
+        </div>
+      </div>
+      <p class="sim-note reveal" style="margin-top:22px;">Precios sin IVA. La primera llamada siempre es gratuita y sin compromiso.</p>
+    </div>
+  </section>
+
+  <section id="conexion">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div class="fig">CONEXIÓN</div>
+        <h2>Pricing forma parte de Asesoría Madal</h2>
+        <p>El diagnóstico te cuesta distinto según vengas o no de la gestoría.</p>
+      </div>
+      <div class="connect reveal">
+        <div class="connect-row">
+          <div class="who"><span class="tag">Ya eres cliente</span>De la gestoría, en cualquier plan</div>
+          <div class="arrow">→</div>
+          <div class="what">Diagnóstico a precio de cliente (300 €), porque tu balance ya está en nuestras manos.</div>
+        </div>
+        <div class="connect-row">
+          <div class="who"><span class="tag">Plan superior</span>Clientes en el tramo más alto de la gestoría</div>
+          <div class="arrow">→</div>
+          <div class="what">El diagnóstico entra dentro del valor de tu plan, sin coste adicional.</div>
+        </div>
+        <div class="connect-row">
+          <div class="who"><span class="tag">Aún no eres cliente</span>No trabajas todavía con Asesoría Madal</div>
+          <div class="arrow">→</div>
+          <div class="what">Llamada gratuita primero. Si compensa seguir, pagas el diagnóstico suelto (500 €) o pasas a la gestoría completa - lo que prefieras.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-final" id="cta">
+    <div class="wrap">
+      <div class="panel cta-panel reveal">
+        <span class="tl"></span><span class="tr"></span><span class="bl"></span><span class="br"></span>
+        <div>
+          <div class="fig" style="margin-bottom:12px;">SIGUIENTE PASO</div>
+          <h2>Tu balance ya tiene la primera respuesta.</h2>
+          <p>Reserva una llamada y te decimos, con tus propios números, si estás cobrando lo que deberías.</p>
+        </div>
+        <a class="btn btn-primary" href={BOOKING_URL} style="padding:14px 26px; font-size:14px;">Reservar diagnóstico →</a>
+      </div>
+    </div>
+  </section>
+</PricingFrame>

@@ -30,4 +30,6 @@ Una cuenta separada donde transfieres automáticamente un porcentaje cada vez qu
 
 Apartar un porcentaje te protege del pago trimestral, pero no resuelve la irregularidad de ingresos a lo largo del año. Si facturas de forma muy desigual entre meses, conviene mirar también cómo repartir esos ingresos para no llegar a fin de año con sorpresas. Además, de eso depende cuánta reserva necesitas realmente en los meses flojos.
 
+Si quieres ver cuánto te queda de cada factura después de IVA, cuota, gastos e IRPF, y cómo usarlo para fijar tu precio, tienes [este ejemplo con números](/pricing/blog/cuanto-te-queda-de-cada-factura-autonomo).
+
 Si estás pensando en darte de alta, tienes [la guía completa del alta de autónomo](/blog/como-darse-de-alta-autonomo): cuándo, cómo y cuánto cuesta con nosotros.

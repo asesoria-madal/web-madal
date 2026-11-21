@@ -27,9 +27,9 @@ Encaja con entregables claros, trabajos que ya has hecho antes y clientes que va
 
 ## Cómo pasar de horas a un precio cerrado
 
-Si dudas entre los dos, empieza calculando en horas y luego cierra el precio. Estima las horas con honestidad, incluyendo reuniones, correos y revisiones. Multiplica por tu tarifa (si todavía no la tienes, [calcúlala aquí](/pricing/calculadora-tarifa)). Y añade un colchón para imprevistos: un 20 % es un punto de partida habitual, que conviene ajustar según lo conocido que sea el trabajo.
+Si dudas entre los dos, empieza calculando en horas y luego cierra el precio. Estima las horas con honestidad, incluyendo reuniones, correos y revisiones. Multiplica por tu tarifa (si todavía no la tienes, [calcúlala aquí](/pricing/calculadoras/tarifa-por-hora)). Y añade un colchón para imprevistos: un 20 % es un punto de partida habitual, que conviene ajustar según lo conocido que sea el trabajo.
 
-Por ejemplo, 25 horas estimadas × 33 € = 825 €. Con un colchón del 20 %, el precio cerrado es 990 €. Si terminas en 25 horas, has ganado algo más. Si tardas 30, sigues cubierto. [La calculadora por servicio](/pricing/calculadora-servicio) hace esta cuenta con tus horas, tus costes directos y el margen que quieras.
+Por ejemplo, 25 horas estimadas × 33 € = 825 €. Con un colchón del 20 %, el precio cerrado es 990 €. Si terminas en 25 horas, has ganado algo más. Si tardas 30, sigues cubierto. [La calculadora por servicio](/pricing/calculadoras/precio-servicio) hace esta cuenta con tus horas, tus costes directos y el margen que quieras.
 
 ## Fórmulas intermedias
 

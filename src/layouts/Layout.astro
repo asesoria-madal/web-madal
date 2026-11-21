@@ -6,6 +6,7 @@ import CookieConsent from '../components/CookieConsent.astro';
 import TrustBanner from '../components/TrustBanner.astro';
 import EntidadesBanner from '../components/EntidadesBanner.astro';
 import WhatsAppFloat from '../components/WhatsAppFloat.astro';
+import PricingPopup from '../components/PricingPopup.astro';
 import SpeedInsights from '@vercel/speed-insights/astro';
 import { ClientRouter } from 'astro:transitions';
 import '../styles/global.css';
@@ -198,6 +199,9 @@ const ogLocale: Record<Locale, string> = { es: 'es_ES', ca: 'ca_ES', en: 'en_GB'
     </main>
     <Footer lang={lang} />
     {!hideWhatsapp && <aside aria-label="WhatsApp"><WhatsAppFloat lang={lang} /></aside>}
+    {/* Aviso de la línea Pricing: solo castellano y solo en páginas "normales" de la gestoría
+        (no en artículos, que ya tienen su propio aviso, ni en formularios, portal o páginas de Pricing). */}
+    {lang === 'es' && !hideHeader && !minimalHeader && !hideWhatsapp && ogType !== 'article' && <PricingPopup />}
     <CookieConsent lang={lang} />
     <SpeedInsights />
   </body>

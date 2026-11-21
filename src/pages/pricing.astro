@@ -1,6 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import Pricing from '../components/pages/Pricing.astro';
+import PricingInicio from '../components/pricing/PricingInicio.astro';
 
 export const prerender = true;
 ---
@@ -10,11 +10,11 @@ export const prerender = true;
   path="/pricing"
   active="none"
   title="Asesoría de precios para autónomos y pymes · Madal Pricing"
-  description="Estrategia de precios para tu negocio a partir de los datos que ya tiene tu balance: costes reales, packs, descuentos y experimentación. Primera llamada gratis."
+  description="Si pasas más tiempo decidiendo cuánto cobrar que haciendo tu trabajo, te ayudamos a ponerle precio con los datos que ya tiene tu balance. Primera llamada gratis."
   showCtaFinal={false}
-  breadcrumbs={[{ name: 'Madal Pricing', path: '/pricing' }]}
   hideHeader={true}
   localesAvailable={['es']}
+  breadcrumbs={[{ name: 'Madal Pricing', path: '/pricing' }]}
 >
-  <Pricing />
+  <PricingInicio />
 </Layout>

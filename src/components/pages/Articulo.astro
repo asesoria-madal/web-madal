@@ -49,6 +49,17 @@ const herramienta = claveHerramienta ? {
   desc: HERRAMIENTAS[lang][claveHerramienta].card,
 } : null;
 
+// Enlace a la línea Madal Pricing al final de algunos artículos (2026-11-21). Solo castellano:
+// Pricing no tiene ca/en. Se muestra además de la herramienta de la gestoría, si la hay.
+const PRICING_DE: Record<string, { href: string; titulo: string; desc: string }> = {
+  'margen-bruto-vs-margen-neto': { href: '/pricing/calculadoras/precio-servicio', titulo: 'Calculadora de precio de un servicio', desc: 'Pon horas, costes y margen, y mira cuánto cobrar por un encargo' },
+  'mejorar-rentabilidad-negocio': { href: '/pricing/blog/subir-precios-sin-perder-clientes', titulo: 'Cómo subir precios sin perder clientes', desc: 'Calcula cuántos clientes puedes perder y seguir ganando lo mismo' },
+  'tarifa-plana-cuota-autonomos-2026': { href: '/pricing/calculadoras/tarifa-por-hora', titulo: 'Calculadora de tarifa por hora', desc: 'Cuánto cobrar por hora teniendo en cuenta tu cuota, tus gastos y tus impuestos' },
+  'reservar-dinero-impuestos-autonomo': { href: '/pricing/blog/cuanto-te-queda-de-cada-factura-autonomo', titulo: 'De cada 100 € que facturas, cuántos son tuyos', desc: 'Un ejemplo con IVA, retención, cuota, gastos e IRPF' },
+  'leer-balance-y-pyg': { href: '/pricing', titulo: 'Madal Pricing', desc: 'Revisamos tus precios a partir de tu balance' },
+};
+const pricingTool = lang === 'es' ? PRICING_DE[entry.data.slug] : undefined;
+
 const articleUrl = new URL(localizedPath(`/blog/${entry.data.slug}`, lang), Astro.site).toString();
 
 const articleLd = {
@@ -128,6 +139,14 @@ const faqLd = relatedFaqs.length > 0 ? {
       <span class="article-tool-eyebrow">{HERRAMIENTAS[lang].nav}</span>
       <strong>{herramienta.titulo}</strong>
       <span>{herramienta.desc} →</span>
+    </a>
+  )}
+
+  {pricingTool && (
+    <a class="article-tool" href={pricingTool.href} data-umami-event="articulo_pricing" data-umami-event-articulo={entry.data.slug}>
+      <span class="article-tool-eyebrow">Madal Pricing</span>
+      <strong>{pricingTool.titulo}</strong>
+      <span>{pricingTool.desc} →</span>
     </a>
   )}
 

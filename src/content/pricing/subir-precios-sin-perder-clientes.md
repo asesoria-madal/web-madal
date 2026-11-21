@@ -46,4 +46,4 @@ Revisa también cliente por cliente. No todos merecen la misma subida, y los pri
 
 Pasa. A veces el cliente que se marcha por una subida del 10 % era el que más tiempo te costaba y menos te pagaba. Para saber si compensó, compara tus ingresos netos antes y después, no solo el número de clientes.
 
-Para saber desde qué precio empiezas a salir perdiendo, [calcula tu tarifa mínima](/pricing/calculadora-tarifa). Y si quieres revisar qué clientes te dejan margen y cuáles no, [reserva una llamada gratuita](https://meetings-eu1.hubspot.com/asesoria-madal).
+Para saber desde qué precio empiezas a salir perdiendo, [calcula tu tarifa mínima](/pricing/calculadoras/tarifa-por-hora). Y si quieres revisar qué clientes te dejan margen y cuáles no, [reserva una llamada gratuita](https://meetings-eu1.hubspot.com/asesoria-madal).

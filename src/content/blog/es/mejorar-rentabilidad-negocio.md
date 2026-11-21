@@ -30,7 +30,7 @@ Controla tus plazos de cobro y tu fondo de maniobra. Un negocio puede tener bene
 
 ## 5. Revisa precios y proveedores al menos una vez al año
 
-Los costes de proveedores suben aunque tú no toques tus precios, y ahí es donde el margen se erosiona sin que se note mes a mes. Repasa una vez al año si tus precios siguen cubriendo tus costes actuales (no los de cuando los pusiste) y si tus proveedores siguen siendo competitivos o simplemente los tienes por inercia.
+Los costes de proveedores suben aunque tú no toques tus precios, y ahí es donde el margen se erosiona sin que se note mes a mes. Repasa una vez al año si tus precios siguen cubriendo tus costes actuales (no los de cuando los pusiste) y si tus proveedores siguen siendo competitivos o simplemente los tienes por inercia. Si lo que toca revisar es tu precio, aquí tienes [cómo subirlo sin perder clientes](/pricing/blog/subir-precios-sin-perder-clientes).
 
 ## No es cuánto facturas, es cuánto te queda
 

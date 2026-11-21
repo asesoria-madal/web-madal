@@ -1,0 +1,71 @@
+---
+// Aviso discreto en la web de la gestoría: "ahora también ofrecemos Pricing" (2026-11-21).
+// Tarjeta pequeña abajo a la izquierda (el WhatsApp va abajo a la derecha), con el aspecto
+// oscuro de la línea Pricing para que se note que es otra línea. Sale una vez por sesión,
+// pasados unos segundos y solo cuando el banner de cookies ya no está a la vista; si se
+// cierra, no vuelve a salir en esa sesión. Solo en castellano (Pricing no tiene ca/en).
+// El Layout decide en qué páginas se incluye (no en artículos, formularios ni portal).
+---
+
+<aside class="pricing-pop" id="pricingPop" aria-label="Madal Pricing" hidden>
+  <button type="button" class="pricing-pop-close" id="pricingPopClose" aria-label="Cerrar">✕</button>
+  <p class="pricing-pop-kicker">NOVEDAD</p>
+  <p class="pricing-pop-title">Ahora también ofrecemos Madal Pricing</p>
+  <p class="pricing-pop-text">Te ayudamos a ponerle precio a tu trabajo con los datos de tu balance.</p>
+  <a class="pricing-pop-cta" href="/pricing" data-umami-event="popup_pricing">Conocer Pricing →</a>
+</aside>
+
+<style>
+  .pricing-pop {
+    position: fixed; left: 1rem; bottom: 1rem; z-index: 40; width: min(280px, calc(100vw - 2rem));
+    padding: 1rem 1.1rem 1rem; background: #2b241d; color: #f2e9dc; border: 1px solid #5f4f38;
+    border-left: 3px solid #e0983f; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.28);
+    font-family: var(--font-body); line-height: 1.4;
+  }
+  .pricing-pop[hidden] { display: none; }
+  .pricing-pop p { margin: 0; }
+  .pricing-pop-kicker { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.14em; color: #f0b467; }
+  .pricing-pop-title { margin-top: 0.3rem !important; font-size: 0.98rem; font-weight: 700; padding-right: 1.2rem; }
+  .pricing-pop-text { margin-top: 0.35rem !important; font-size: 0.84rem; color: #b8a88f; }
+  .pricing-pop-cta { display: inline-block; margin-top: 0.7rem; font-size: 0.86rem; font-weight: 600; color: #f0b467; text-decoration: none; }
+  .pricing-pop-cta:hover { text-decoration: underline; }
+  .pricing-pop-close {
+    position: absolute; top: 0.4rem; right: 0.45rem; background: none; border: 0; cursor: pointer;
+    color: #b8a88f; font-size: 0.85rem; line-height: 1; padding: 0.3rem;
+  }
+  .pricing-pop-close:hover { color: #f2e9dc; }
+  @media (max-width: 520px) { .pricing-pop { bottom: 5.25rem; } }
+</style>
+
+<script>
+  const CLAVE = 'pricingPopCerrado';
+  const INICIO = 'pricingPopInicio';
+  const ESPERA_MS = 12000;
+  let temporizador: number | undefined;
+
+  function initPricingPop() {
+    const pop = document.getElementById('pricingPop');
+    const cerrar = document.getElementById('pricingPopClose');
+    if (!pop) return;
+    window.clearTimeout(temporizador);
+    try { if (sessionStorage.getItem(CLAVE) === '1') return; } catch { /* sin sessionStorage: se muestra */ }
+    let inicio = Date.now();
+    try {
+      const guardado = sessionStorage.getItem(INICIO);
+      if (guardado) inicio = Number(guardado); else sessionStorage.setItem(INICIO, String(inicio));
+    } catch { /* ignorar */ }
+
+    const intentar = () => {
+      const cookies = document.getElementById('cookieBanner');
+      if (cookies && !cookies.hidden) { temporizador = window.setTimeout(intentar, 3000); return; }
+      pop.hidden = false;
+    };
+    temporizador = window.setTimeout(intentar, Math.max(0, ESPERA_MS - (Date.now() - inicio)));
+
+    cerrar?.addEventListener('click', () => {
+      pop.hidden = true;
+      try { sessionStorage.setItem(CLAVE, '1'); } catch { /* ignorar */ }
+    });
+  }
+  document.addEventListener('astro:page-load', initPricingPop);
+</script>

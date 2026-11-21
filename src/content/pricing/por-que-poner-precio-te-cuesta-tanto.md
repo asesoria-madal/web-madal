@@ -31,13 +31,13 @@ Con 2 horas por presupuesto y 6 presupuestos al mes salen 144 horas al año. Si 
 
 La idea es cambiar "¿cuánto le pongo a este?" por una decisión tomada de antemano, con tres números.
 
-El primero es tu suelo: la tarifa por debajo de la cual trabajas más para ganar menos de lo que querías. Sale de tu neto deseado, tus costes, tu cuota, tus impuestos y tus horas facturables. Puedes calcularlo en [la calculadora de tarifa por hora](/pricing/calculadora-tarifa), y [este artículo](/pricing/blog/cuanto-cobrar-por-hora-autonomo) lo explica paso a paso.
+El primero es tu suelo: la tarifa por debajo de la cual trabajas más para ganar menos de lo que querías. Sale de tu neto deseado, tus costes, tu cuota, tus impuestos y tus horas facturables. Puedes calcularlo en [la calculadora de tarifa por hora](/pricing/calculadoras/tarifa-por-hora), y [este artículo](/pricing/blog/cuanto-cobrar-por-hora-autonomo) lo explica paso a paso.
 
 El segundo es tu rango de mercado. Mira tres a cinco ofertas parecidas a la tuya, no para copiarlas, sino para ver si tu suelo cae dentro de lo razonable.
 
 El tercero es el valor para el cliente: cuánto le cuesta no resolver el problema o cuánto gana si lo resuelve bien. Ahí se justifica cobrar por encima del suelo.
 
-Tu precio queda por encima del suelo, dentro del rango y ajustado por lo que aportas. Una vez decidido, lo escribes y lo conviertes en dos o tres paquetes cerrados. Para ponerle precio a un encargo concreto tienes [la calculadora de precio por servicio](/pricing/calculadora-servicio).
+Tu precio queda por encima del suelo, dentro del rango y ajustado por lo que aportas. Una vez decidido, lo escribes y lo conviertes en dos o tres paquetes cerrados. Para ponerle precio a un encargo concreto tienes [la calculadora de precio por servicio](/pricing/calculadoras/precio-servicio).
 
 ## Reglas para dejar de dar vueltas
 

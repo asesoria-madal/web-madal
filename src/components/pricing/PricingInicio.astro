@@ -1,0 +1,174 @@
+---
+// Parte de la línea Madal Pricing (2026-11-21). Ver PricingFrame.astro.
+import PricingFrame from './PricingFrame.astro';
+
+const BOOKING_URL = 'https://meetings-eu1.hubspot.com/asesoria-madal';
+const MAILTO = 'mailto:contacto@asesoriamadal.es?subject=Madal%20Pricing';
+---
+
+<PricingFrame current="landing">
+  <header class="hero" id="top">
+    <div class="wrap hero-grid">
+      <div>
+        <div class="fig">MADAL PRICING</div>
+        <h1>El plano<br />de tus <em>precios.</em></h1>
+        <p class="dek">Fijar tarifas a ojo sale caro. Partimos de los datos que ya tiene tu balance y montamos tu estrategia de precios paso a paso, desde tus costes reales hasta probar cambios de precio de forma controlada.</p>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="/pricing/planes">Ver los planes →</a>
+          <a class="btn btn-ghost" href="/pricing/que-hacemos">Qué hacemos</a>
+        </div>
+        <p class="under mono">1ª LLAMADA GRATIS · SOBRE TU BALANCE REAL</p>
+      </div>
+
+      <div class="diagram" id="diagramWrap">
+        <div class="diagram-inner" id="diagramInner">
+          <svg viewBox="0 0 460 340" role="img" aria-label="Diagrama de los 5 pilares de Madal Pricing en forma de escalera ascendente. Cada bloque se puede pulsar para ir al detalle.">
+            <line x1="30" y1="24" x2="430" y2="24" class="dim-line" />
+            <line x1="30" y1="18" x2="30" y2="30" class="dim-line" />
+            <line x1="430" y1="18" x2="430" y2="30" class="dim-line" />
+            <text x="30" y="14" fill="var(--ink-dim)" font-size="9" letter-spacing="1">COSTE REAL</text>
+            <text x="360" y="14" fill="var(--ink-dim)" font-size="9" letter-spacing="1">EXPERIMENTACIÓN</text>
+
+            <g class="stair-hit" data-pillar="1" tabindex="0" role="button" aria-label="Pilar 1: unit economics">
+              <rect x="30" y="270" width="70" height="46" class="stair-rect on" fill="rgba(79,168,158,.09)" />
+              <text x="65" y="298" fill="var(--accent)" font-size="20" font-weight="600" text-anchor="middle">01</text>
+            </g>
+            <g class="stair-hit" data-pillar="2" tabindex="0" role="button" aria-label="Pilar 2: benchmarking de precios">
+              <rect x="106" y="240" width="70" height="76" class="stair-rect on" fill="rgba(79,168,158,.09)" />
+              <text x="141" y="283" fill="var(--accent)" font-size="20" font-weight="600" text-anchor="middle">02</text>
+            </g>
+            <g class="stair-hit" data-pillar="3" tabindex="0" role="button" aria-label="Pilar 3: price architecture">
+              <rect x="182" y="205" width="70" height="111" class="stair-rect on" fill="rgba(79,168,158,.09)" />
+              <text x="217" y="265" fill="var(--accent)" font-size="20" font-weight="600" text-anchor="middle">03</text>
+            </g>
+            <g class="stair-hit" data-pillar="4" tabindex="0" role="button" aria-label="Pilar 4: análisis de descuentos">
+              <rect x="258" y="150" width="70" height="166" class="stair-rect warm" fill="rgba(224,152,63,.09)" />
+              <text x="293" y="235" fill="var(--accent2)" font-size="20" font-weight="600" text-anchor="middle">04</text>
+            </g>
+            <g class="stair-hit" data-pillar="5" tabindex="0" role="button" aria-label="Pilar 5: experimentación">
+              <rect x="334" y="90" width="70" height="226" class="stair-rect warm" fill="rgba(224,152,63,.09)" />
+              <text x="369" y="205" fill="var(--accent2)" font-size="20" font-weight="600" text-anchor="middle">05</text>
+            </g>
+
+            <path class="sweep" d="M30,270 L100,270 L106,240 L176,240 L182,205 L252,205 L258,150 L328,150 L334,90 L404,90" fill="none" />
+            <line x1="30" y1="316" x2="404" y2="316" class="dim-line" stroke-dasharray="2 3" />
+          </svg>
+        </div>
+        <div class="diagram-caption">
+          <span>01 - UNIT ECONOMICS</span>
+          <span>05 - EXPERIMENTACIÓN</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section class="strip">
+    <div class="wrap">
+      <div class="strip-grid">
+        <div class="strip-cell reveal">
+          <div class="num mono"><span class="count" data-target="0" data-prefix="">0</span>€</div>
+          <div class="lbl">coste de partida</div>
+          <div class="tiny">el dato base ya sale de tu balance</div>
+        </div>
+        <div class="strip-cell reveal">
+          <div class="num mono"><span class="count" data-target="5">0</span></div>
+          <div class="lbl">pilares, no un informe suelto</div>
+          <div class="tiny">de tus costes a la experimentación</div>
+        </div>
+        <div class="strip-cell reveal">
+          <div class="num mono"><span class="count" data-target="1">0</span></div>
+          <div class="lbl">interlocutor, no una consultora</div>
+          <div class="tiny">la misma persona que lleva tu contabilidad</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="problema">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div class="fig">EL PROBLEMA</div>
+        <h2>Poner precio no debería llevarte más tiempo que el trabajo</h2>
+        <p>Si pasas más horas decidiendo cuánto cobrar que prestando el servicio, no eres el único. Casi siempre falta lo mismo: saber cuánto cuesta de verdad cada hora, cada cliente y cada descuento.</p>
+      </div>
+      <div class="pp-grid reveal">
+        <a class="pp-card panel" href="/pricing/blog/por-que-poner-precio-te-cuesta-tanto">
+          <span class="tl"></span><span class="tr"></span><span class="bl"></span><span class="br"></span>
+          <span class="pp-card-meta mono">ARTÍCULO</span>
+          <h3>Presupuestos que se eternizan</h3>
+          <p>Tres versiones, dudas el sábado por la tarde y al final el precio más bajo.</p>
+          <span class="pp-card-more mono">LEER →</span>
+        </a>
+        <a class="pp-card panel" href="/pricing/blog/cuanto-cobrar-por-hora-autonomo">
+          <span class="tl"></span><span class="tr"></span><span class="bl"></span><span class="br"></span>
+          <span class="pp-card-meta mono">ARTÍCULO</span>
+          <h3>No sabes cuánto vale tu hora</h3>
+          <p>Con la cuota, los gastos, los impuestos y las horas sin facturar, tu tarifa mínima puede ser bastante más alta de lo que cobras.</p>
+          <span class="pp-card-more mono">LEER →</span>
+        </a>
+        <a class="pp-card panel" href="/pricing/blog/precio-por-hora-o-por-proyecto">
+          <span class="tl"></span><span class="tr"></span><span class="bl"></span><span class="br"></span>
+          <span class="pp-card-meta mono">ARTÍCULO</span>
+          <h3>Por hora o por proyecto</h3>
+          <p>Cobrar por horas te penaliza por ser rápido. Cobrar por proyecto tiene sus riesgos. Cuándo usar cada uno.</p>
+          <span class="pp-card-more mono">LEER →</span>
+        </a>
+        <a class="pp-card panel" href="/pricing/blog/subir-precios-sin-perder-clientes">
+          <span class="tl"></span><span class="tr"></span><span class="bl"></span><span class="br"></span>
+          <span class="pp-card-meta mono">ARTÍCULO</span>
+          <h3>Subir precios da miedo</h3>
+          <p>Una cuenta sencilla te dice cuántos clientes puedes perder y seguir ganando lo mismo.</p>
+          <span class="pp-card-more mono">LEER →</span>
+        </a>
+      </div>
+      <div class="cta-row reveal">
+        <a class="btn btn-primary" href="/pricing/calculadoras">Probar las calculadoras →</a>
+        <a class="btn btn-ghost" href="/pricing/blog">Ver todos los artículos</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="ventaja">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div class="fig">LA VENTAJA</div>
+        <h2>Otras consultoras empiezan de cero. Nosotros ya tenemos tus números.</h2>
+        <p>Una consultora de pricing empieza pidiéndote datos y tarda semanas en reunirlos. Nosotros ya llevamos tu contabilidad, así que partimos de tu balance.</p>
+      </div>
+      <div class="compare reveal">
+        <div class="compare-col market">
+          <h3>El mercado</h3>
+          <ul>
+            <li><span class="v">~400 €/día</span> tarifa media de un consultor de estrategia freelance en España (Malt, 2026), sin conocer tu negocio de antemano</li>
+            <li><span class="v">254–630 €/día</span> rango real según experiencia - no sabes cuál te toca hasta que ya has pagado</li>
+            <li><span class="v">80–250 €/hora</span> en consultoras de negocio generalistas, aparte de la fase de diagnóstico</li>
+            <li><span class="v">Semanas</span> de recogida de datos antes de empezar a analizar nada</li>
+          </ul>
+        </div>
+        <div class="compare-col us">
+          <h3>Madal Pricing</h3>
+          <ul>
+            <li><span class="v">0 €</span> la primera llamada: miramos tus números y te decimos qué se puede hacer, sin cobrarte nada</li>
+            <li><span class="v">300 € / 500 €</span> el diagnóstico completo (cliente de la gestoría / nuevo), lo que costaría una jornada de consultor en el mercado</li>
+            <li><span class="v">0 semanas</span> de recogida de datos si ya eres cliente: tu balance ya está hecho</li>
+            <li><span class="v">1 interlocutor</span>, la misma persona que ya lleva tus cuentas</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-final" id="cta">
+    <div class="wrap">
+      <div class="panel cta-panel reveal">
+        <span class="tl"></span><span class="tr"></span><span class="bl"></span><span class="br"></span>
+        <div>
+          <div class="fig" style="margin-bottom:12px;">SIGUIENTE PASO</div>
+          <h2>Tu balance ya tiene la primera respuesta.</h2>
+          <p>Reserva una llamada y te decimos, con tus propios números, si estás cobrando lo que deberías.</p>
+        </div>
+        <a class="btn btn-primary" href={BOOKING_URL} style="padding:14px 26px; font-size:14px;">Reservar diagnóstico →</a>
+      </div>
+    </div>
+  </section>
+</PricingFrame>

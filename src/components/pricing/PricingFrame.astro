@@ -1,7 +1,7 @@
 ---
 // Marco común de la línea "Madal Pricing" (asesoría de precios): tema oscuro
 // propio, nav propio y pie propio. Lo usan la landing (/pricing), el blog de
-// pricing (/pricing/blog) y la calculadora (/pricing/calculadora-tarifa), para
+// pricing (/pricing/blog) y la calculadora (/pricing/calculadoras/tarifa-por-hora), para
 // que las tres piezas se vean claramente como una línea separada de la
 // gestoría. Los colores son los corporativos reales de global.css en modo
 // oscuro (ver comentario en src/styles/madal-pricing.css y web/CLAUDE.md).
@@ -24,10 +24,9 @@ import '@fontsource/ibm-plex-mono/latin-600.css';
 interface Props {
   /** Sección activa del nav. En la landing los enlaces a anclas son locales
    * (#pilares) y en el resto apuntan a /pricing#pilares. */
-  current: 'landing' | 'blog' | 'calculadora' | 'servicio';
+  current: 'landing' | 'hacemos' | 'planes' | 'calculadoras' | 'blog';
 }
 const { current } = Astro.props;
-const base = current === 'landing' ? '' : '/pricing';
 ---
 
 <div class="madal-pricing">
@@ -35,8 +34,10 @@ const base = current === 'landing' ? '' : '/pricing';
     <div class="nav-inner">
       <a class="brand" href="/pricing" aria-label="Madal Pricing, inicio"><span class="dot"></span>MADAL<span style="color:var(--accent2)">·</span>PRICING <span class="sub">by Asesoría Madal</span></a>
       <div class="navlinks" id="navlinks">
-        <a href="/pricing/calculadora-tarifa" class={current === 'calculadora' ? 'active' : ''}>Tarifa por hora</a>
-        <a href="/pricing/calculadora-servicio" class={current === 'servicio' ? 'active' : ''}>Precio de un servicio</a>
+        <a href="/pricing" class={current === 'landing' ? 'active' : ''}>Inicio</a>
+        <a href="/pricing/que-hacemos" class={current === 'hacemos' ? 'active' : ''}>Qué hacemos</a>
+        <a href="/pricing/planes" class={current === 'planes' ? 'active' : ''}>Planes</a>
+        <a href="/pricing/calculadoras" class={current === 'calculadoras' ? 'active' : ''}>Calculadoras</a>
         <a href="/pricing/blog" class={current === 'blog' ? 'active' : ''}>Blog</a>
       </div>
       <a class="line-switch" href="/" title="Ir a la gestoría">← Gestoría</a>
@@ -48,7 +49,201 @@ const base = current === 'landing' ? '' : '/pricing';
   <footer>
     <div class="foot-inner">
       <span>MADAL PRICING - UNA LÍNEA DE ASESORÍA MADAL · <a href="/">IR A LA GESTORÍA</a></span>
-      <span><a href={`${base}#pilares`}>PILARES</a> · <a href={`${base}#proceso`}>PROCESO</a> · <a href={`${base}#planes`}>PLANES</a> · <a href="/pricing/calculadora-tarifa">TARIFA POR HORA</a> · <a href="/pricing/calculadora-servicio">PRECIO DE UN SERVICIO</a> · <a href="/pricing/blog">BLOG</a></span>
+      <span><a href="/pricing">INICIO</a> · <a href="/pricing/que-hacemos">QUÉ HACEMOS</a> · <a href="/pricing/planes">PLANES</a> · <a href="/pricing/calculadoras">CALCULADORAS</a> · <a href="/pricing/blog">BLOG</a></span>
     </div>
   </footer>
 </div>
+
+<script>
+  // Reengancha en cada astro:page-load (carga inicial + transiciones de
+  // astro:transitions) - mismo patrón que ContactSwitch.astro, necesario
+  // porque Layout.astro usa <ClientRouter />.
+  function initMadalPricing() {
+    const root = document.querySelector('.madal-pricing');
+    if (!root) return;
+
+    const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // reveal on scroll
+    const revealEls = root.querySelectorAll('.reveal');
+    if ('IntersectionObserver' in window) {
+      const ro = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((en) => {
+            if (en.isIntersecting) {
+              en.target.classList.add('in');
+              ro.unobserve(en.target);
+            }
+          });
+        },
+        { threshold: 0.15, rootMargin: '0px 0px -60px 0px' },
+      );
+      revealEls.forEach((el) => ro.observe(el));
+    } else {
+      revealEls.forEach((el) => el.classList.add('in'));
+    }
+
+    // count-up
+    function animateCount(el: Element) {
+      const target = parseFloat(el.getAttribute('data-target') || '0') || 0;
+      if (reduceMotion) {
+        el.textContent = String(target);
+        return;
+      }
+      let start: number | null = null;
+      const dur = 900;
+      function step(ts: number) {
+        if (start === null) start = ts;
+        const p = Math.min(1, (ts - start) / dur);
+        const eased = 1 - Math.pow(1 - p, 3);
+        el.textContent = String(Math.round(target * eased));
+        if (p < 1) requestAnimationFrame(step);
+        else el.textContent = String(target);
+      }
+      requestAnimationFrame(step);
+    }
+    const counters = root.querySelectorAll('.count');
+    if ('IntersectionObserver' in window) {
+      const co = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((en) => {
+            if (en.isIntersecting) {
+              animateCount(en.target);
+              co.unobserve(en.target);
+            }
+          });
+        },
+        { threshold: 0.6 },
+      );
+      counters.forEach((c) => co.observe(c));
+    } else {
+      counters.forEach((c) => (c.textContent = c.getAttribute('data-target')));
+    }
+
+    // scrollspy: nav + rail
+    const sectionIds = ['top', 'ventaja', 'pilares', 'proceso', 'simulador', 'conexion', 'planes'];
+    const sections = sectionIds.map((id) => document.getElementById(id)).filter(Boolean) as HTMLElement[];
+    const navLinks = root.querySelectorAll('#navlinks a');
+    const railDots = root.querySelectorAll('.rail-dot');
+    function setActive(id: string) {
+      navLinks.forEach((a) => a.classList.toggle('active', a.getAttribute('data-nav') === id));
+      railDots.forEach((d) => d.classList.toggle('active', d.getAttribute('data-target') === id));
+    }
+    if ('IntersectionObserver' in window && sections.length) {
+      const spy = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((en) => {
+            if (en.isIntersecting) setActive(en.target.id);
+          });
+        },
+        { rootMargin: '-40% 0px -55% 0px', threshold: 0 },
+      );
+      sections.forEach((s) => spy.observe(s));
+    }
+    railDots.forEach((dot) => {
+      dot.addEventListener('click', () => {
+        const t = document.getElementById(dot.getAttribute('data-target') || '');
+        if (t) t.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
+      });
+    });
+
+    // pillar accordion
+    const pillars = root.querySelectorAll('.pillar');
+    function openPillar(num: string | null) {
+      pillars.forEach((p) => p.classList.toggle('open', p.getAttribute('data-pillar') === String(num)));
+    }
+    pillars.forEach((p) => {
+      p.addEventListener('click', () => {
+        const isOpen = p.classList.contains('open');
+        openPillar(isOpen ? null : p.getAttribute('data-pillar'));
+      });
+    });
+
+    // llegada desde el plano del inicio: /pricing/que-hacemos#p3 abre el pilar 3
+    const hashPilar = /^#p([1-5])$/.exec(window.location.hash);
+    if (hashPilar) {
+      openPillar(hashPilar[1]);
+      const t = root.querySelector(`.pillar[data-pillar="${hashPilar[1]}"]`);
+      if (t) setTimeout(() => t.scrollIntoView({ behavior: 'auto', block: 'center' }), 60);
+    }
+
+    // hero diagram: click a stair -> scroll to pillar + open it
+    root.querySelectorAll('.stair-hit').forEach((hit) => {
+      function go() {
+        const num = hit.getAttribute('data-pillar');
+        const target = root!.querySelector(`.pillar[data-pillar="${num}"]`);
+        if (!target) {
+          window.location.href = '/pricing/que-hacemos#p' + num;
+          return;
+        }
+        openPillar(num);
+        target.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'center' });
+      }
+      hit.addEventListener('click', go);
+      hit.addEventListener('keydown', (e) => {
+        const ke = e as KeyboardEvent;
+        if (ke.key === 'Enter' || ke.key === ' ') {
+          ke.preventDefault();
+          go();
+        }
+      });
+    });
+
+    // hero diagram parallax tilt
+    const wrap = root.querySelector<HTMLElement>('#diagramWrap');
+    const inner = root.querySelector<HTMLElement>('#diagramInner');
+    if (wrap && inner && !reduceMotion && window.matchMedia('(pointer:fine)').matches) {
+      wrap.addEventListener('mousemove', (e) => {
+        const r = wrap.getBoundingClientRect();
+        const px = (e.clientX - r.left) / r.width - 0.5;
+        const py = (e.clientY - r.top) / r.height - 0.5;
+        inner.style.transform = `rotateX(${py * -6}deg) rotateY(${px * 8}deg)`;
+      });
+      wrap.addEventListener('mouseleave', () => {
+        inner.style.transform = 'rotateX(0) rotateY(0)';
+      });
+    }
+
+    // simulator
+    const marginRange = root.querySelector<HTMLInputElement>('#marginRange');
+    const volRange = root.querySelector<HTMLInputElement>('#volRange');
+    const marginVal = root.querySelector('#marginVal');
+    const volVal = root.querySelector('#volVal');
+    const hoyBar = root.querySelector<HTMLElement>('#hoyBar');
+    const conBar = root.querySelector<HTMLElement>('#conBar');
+    const hoyLabel = root.querySelector('#hoyLabel');
+    const conLabel = root.querySelector('#conLabel');
+    const deltaNote = root.querySelector('#deltaNote');
+
+    function upliftFor(margin: number) {
+      // Rango orientativo e ilustrativo: mejora decreciente cuanto mayor es ya el margen.
+      if (margin < 15) return 8;
+      if (margin < 25) return 6;
+      if (margin < 35) return 4;
+      return 2;
+    }
+    function updateSim() {
+      if (!marginRange || !volRange) return;
+      const margin = parseInt(marginRange.value, 10);
+      const vol = parseInt(volRange.value, 10);
+      const uplift = upliftFor(margin);
+      const withPricing = Math.min(60, margin + uplift);
+      if (marginVal) marginVal.textContent = margin + '%';
+      if (volVal) volVal.textContent = String(vol);
+      if (hoyBar) hoyBar.style.width = margin + '%';
+      if (conBar) conBar.style.width = withPricing + '%';
+      if (hoyLabel) hoyLabel.textContent = margin + '%';
+      if (conLabel) conLabel.textContent = withPricing + '%';
+      if (deltaNote)
+        deltaNote.textContent =
+          'Ejemplo: +' + uplift + ' puntos de margen sobre ' + vol + ' clientes al mes.';
+    }
+    if (marginRange && volRange) {
+      marginRange.addEventListener('input', updateSim);
+      volRange.addEventListener('input', updateSim);
+      updateSim();
+    }
+  }
+
+  document.addEventListener('astro:page-load', initMadalPricing);
+</script>

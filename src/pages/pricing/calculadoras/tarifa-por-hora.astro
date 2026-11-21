@@ -1,20 +1,20 @@
 ---
-import Layout from '../../layouts/Layout.astro';
-import PricingCalculadora from '../../components/pricing/PricingCalculadora.astro';
+import Layout from '../../../layouts/Layout.astro';
+import PricingCalculadora from '../../../components/pricing/PricingCalculadora.astro';
 
 export const prerender = true;
 ---
 
 <Layout
   lang="es"
-  path="/pricing/calculadora-tarifa"
+  path="/pricing/calculadoras/tarifa-por-hora"
   active="none"
   title="Calculadora de tarifa por hora para autónomos · Madal Pricing"
   description="Calcula cuánto deberías cobrar por hora como autónomo: parte de tu neto deseado, gastos, cuota de autónomos, IRPF y horas que realmente facturas."
   showCtaFinal={false}
   hideHeader={true}
   localesAvailable={['es']}
-  breadcrumbs={[{ name: 'Madal Pricing', path: '/pricing' }, { name: 'Calculadora de tarifa', path: '/pricing/calculadora-tarifa' }]}
+  breadcrumbs={[{ name: 'Madal Pricing', path: '/pricing' }, { name: 'Calculadoras', path: '/pricing/calculadoras' }, { name: 'Calculadora de tarifa por hora', path: '/pricing/calculadoras/tarifa-por-hora' }]}
 >
   <PricingCalculadora />
 </Layout>

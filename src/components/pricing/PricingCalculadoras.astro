@@ -1,0 +1,35 @@
+---
+// Índice de calculadoras de Madal Pricing (2026-11-21), como /herramientas en la gestoría.
+import PricingFrame from './PricingFrame.astro';
+
+const tarjetas = [
+  { titulo: 'Tarifa por hora', desc: 'Cuánto deberías cobrar por hora según lo que quieres llevarte a casa, tus gastos, tu cuota, tus impuestos y las horas que de verdad facturas.', href: '/pricing/calculadoras/tarifa-por-hora', icono: '€/h' },
+  { titulo: 'Precio de un servicio', desc: 'El precio de un encargo concreto, de pago único: horas de trabajo, costes directos y margen, con el descuento máximo que puedes dar.', href: '/pricing/calculadoras/precio-servicio', icono: '€' },
+];
+---
+
+<PricingFrame current="calculadoras">
+  <header class="hero page-hero">
+    <div class="wrap">
+      <div class="fig">CALCULADORAS</div>
+      <h1>Calculadoras para <em>poner precio</em></h1>
+      <p class="dek">Dos herramientas gratuitas para autónomos. Se calculan en tu navegador y no guardamos nada.</p>
+    </div>
+  </header>
+
+  <section>
+    <div class="wrap">
+      <div class="pp-grid">
+        {tarjetas.map((t) => (
+          <a class="pp-card panel" href={t.href}>
+            <span class="tl"></span><span class="tr"></span><span class="bl"></span><span class="br"></span>
+            <span class="pp-card-meta mono">{t.icono}</span>
+            <h2>{t.titulo}</h2>
+            <p>{t.desc}</p>
+            <span class="pp-card-more mono">ABRIR →</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+</PricingFrame>

@@ -1,0 +1,20 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import PricingQueHacemos from '../../components/pricing/PricingQueHacemos.astro';
+
+export const prerender = true;
+---
+
+<Layout
+  lang="es"
+  path="/pricing/que-hacemos"
+  active="none"
+  title="Qué hacemos: los 5 pilares de la asesoría de precios · Madal Pricing"
+  description="Cinco pilares para ordenar tus precios: unit economics, benchmarking, arquitectura de precios, análisis de descuentos y experimentación."
+  showCtaFinal={false}
+  hideHeader={true}
+  localesAvailable={['es']}
+  breadcrumbs={[{ name: 'Madal Pricing', path: '/pricing' }, { name: 'Qué hacemos', path: '/pricing/que-hacemos' }]}
+>
+  <PricingQueHacemos />
+</Layout>

@@ -18,6 +18,9 @@ export default defineConfig({
   // y da 404 (visto en Search Console). Redirigimos para no perder ese
   // rastro en vez de dejarlo roto.
   redirects: {
+    // La línea Pricing reorganizó sus calculadoras bajo /pricing/calculadoras (2026-11-21).
+    '/pricing/calculadora-tarifa': '/pricing/calculadoras/tarifa-por-hora',
+    '/pricing/calculadora-servicio': '/pricing/calculadoras/precio-servicio',
     '/en/blog/how-much-does-an-online-accounting-firm-cost-in-spain': '/en/blog/precio-gestoria-online-2026',
   },
   adapter: vercel(),
