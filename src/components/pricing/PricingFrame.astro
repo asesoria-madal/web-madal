@@ -37,7 +37,13 @@ const { current } = Astro.props;
         <a href="/pricing" class={current === 'landing' ? 'active' : ''}>Inicio</a>
         <a href="/pricing/que-hacemos" class={current === 'hacemos' ? 'active' : ''}>Qué hacemos</a>
         <a href="/pricing/planes" class={current === 'planes' ? 'active' : ''}>Planes</a>
-        <a href="/pricing/calculadoras" class={current === 'calculadoras' ? 'active' : ''}>Calculadoras</a>
+        <div class="nav-drop">
+          <a href="/pricing/calculadoras" class={current === 'calculadoras' ? 'active' : ''} aria-haspopup="true">Calculadoras <span class="nav-drop-caret" aria-hidden="true">▾</span></a>
+          <div class="nav-drop-menu">
+            <a href="/pricing/calculadoras/tarifa-por-hora"><strong>Tarifa por hora</strong><span>Cuánto cobrar por hora según tu neto, gastos e impuestos</span></a>
+            <a href="/pricing/calculadoras/precio-servicio"><strong>Precio de un servicio</strong><span>El precio de un encargo concreto, de pago único</span></a>
+          </div>
+        </div>
         <a href="/pricing/blog" class={current === 'blog' ? 'active' : ''}>Blog</a>
       </div>
       <a class="line-switch" href="/" title="Ir a la gestoría">← Gestoría</a>
