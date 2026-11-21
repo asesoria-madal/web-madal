@@ -102,3 +102,43 @@
 @media (max-width: 760px) {
   .madal-pricing .nav-drop-menu, .madal-pricing .nav-drop-caret { display: none !important; }
 }
+
+/* Calculadoras simplificadas (2026-11-21): campos anchos, supuestos plegados, lecturas y tabla. */
+.madal-pricing .pp-wide { grid-column: 1 / -1; }
+.madal-pricing .pp-adv { border: 1px solid var(--line); background: var(--bg); }
+.madal-pricing .pp-adv summary {
+  cursor: pointer; padding: 12px 14px; font-family: 'IBM Plex Mono', monospace; font-size: 12px;
+  letter-spacing: 0.04em; color: var(--accent-strong); list-style: none;
+}
+.madal-pricing .pp-adv summary::-webkit-details-marker { display: none; }
+.madal-pricing .pp-adv summary::before { content: '+ '; }
+.madal-pricing .pp-adv[open] summary::before { content: '− '; }
+.madal-pricing .pp-adv-grid { padding: 4px 14px 16px; display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+@media (max-width: 560px) { .madal-pricing .pp-adv-grid { grid-template-columns: 1fr; } }
+.madal-pricing .pp-ins { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+.madal-pricing .pp-ins li { padding: 10px 14px; border-left: 2px solid var(--accent); background: var(--accent-soft); font-size: 0.92rem; color: var(--ink); line-height: 1.5; }
+.madal-pricing .pp-ins li[hidden] { display: none; }
+.madal-pricing .pp-table-title { margin: 0 0 8px; font-size: 10.5px; letter-spacing: 0.08em; color: var(--ink-dim); }
+.madal-pricing .pp-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+.madal-pricing .pp-table th, .madal-pricing .pp-table td { padding: 7px 10px; border-bottom: 1px solid var(--line-bright); text-align: left; }
+.madal-pricing .pp-table th { font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 500; letter-spacing: 0.04em; color: var(--ink-dim); }
+.madal-pricing .pp-table td { font-family: 'IBM Plex Mono', monospace; color: var(--ink); font-variant-numeric: tabular-nums; }
+.madal-pricing .pp-table tr.pp-neg td { color: var(--accent2-strong); }
+
+/* Planes más claros (2026-11-21): bloque "qué ofrecemos", resultado por plan y calculadora de amortización. */
+.madal-pricing .pp-block { display: flex; flex-direction: column; gap: 10px; }
+.madal-pricing .pp-block h3 { font-size: 1.1rem; font-family: 'IBM Plex Sans', sans-serif; font-weight: 600; letter-spacing: 0; }
+.madal-pricing .pp-block p { margin: 0; color: var(--ink-soft); font-size: 0.93rem; flex: 1; }
+.madal-pricing .pp-block-plan { font-size: 10.5px; letter-spacing: 0.08em; color: var(--accent-strong); margin-top: 4px; }
+.madal-pricing .plan-outcome { margin: 14px 0 0; padding: 10px 12px; border-left: 2px solid var(--accent); background: var(--accent-soft); font-size: 0.9rem; color: var(--ink); line-height: 1.5; }
+.madal-pricing .plan.premium .plan-outcome { border-left-color: var(--accent2); background: var(--accent2-soft); }
+.madal-pricing .plan-outcome strong { font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--accent-strong); font-weight: 600; margin-right: 4px; }
+.madal-pricing .plan.premium .plan-outcome strong { color: var(--accent2-strong); }
+.madal-pricing .pp-roi { display: grid; grid-template-columns: 0.8fr 1.4fr; gap: 0; padding: 0; }
+@media (max-width: 860px) { .madal-pricing .pp-roi { grid-template-columns: 1fr; } }
+.madal-pricing .pp-roi-form { padding: 28px 30px; border-right: 1px solid var(--line); display: flex; flex-direction: column; gap: 22px; align-content: start; }
+@media (max-width: 860px) { .madal-pricing .pp-roi-form { border-right: none; border-bottom: 1px solid var(--line); } }
+.madal-pricing .pp-roi-out { padding: 28px 30px; background: var(--bg-panel-2); display: flex; flex-direction: column; gap: 18px; }
+.madal-pricing fieldset.pp-radios { border: 0; padding: 0; margin: 0; gap: 8px; }
+.madal-pricing fieldset.pp-radios legend { padding: 0; margin-bottom: 8px; font-family: 'IBM Plex Mono', monospace; font-size: 11.5px; letter-spacing: 0.03em; color: var(--ink-soft); }
+.madal-pricing fieldset.pp-radios label { display: flex; align-items: center; gap: 8px; font-size: 0.93rem; color: var(--ink); cursor: pointer; }

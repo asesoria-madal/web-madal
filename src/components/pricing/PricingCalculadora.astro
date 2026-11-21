@@ -1,15 +1,14 @@
 ---
-// Calculadora de tarifa mínima por hora para autónomos (2026-11-21), en la línea
-// Madal Pricing. Va a propósito dentro de /pricing y no en /herramientas: así la
-// línea de pricing tiene su propio gancho y la de gestoría no se mezcla; entre
-// ambas solo hay enlaces contextuales.
-//
-// Modelo (todo en el navegador, no se envía nada):
-//   facturación mensual necesaria F = neto deseado / (1 − tipo medio IRPF) + gastos + cuota de autónomos
-//   (la cuota y los gastos son deducibles; el IRPF se aplica sobre lo que queda).
-//   horas facturables al año = horas/semana × (52 − semanas sin facturar) × % facturable
-//   tarifa mínima por hora = F × 12 / horas facturables al año
-// Es una estimación: el IRPF real depende de tramos, mínimos personales y deducciones.
+// Calculadora de tarifa mínima por hora para autónomos, línea Madal Pricing.
+// Revisada el 2026-11-21 pensando en el autónomo que la usa: 3 datos obligatorios (lo que quiere
+// ganar, lo que gasta al mes contando la cuota, y sus horas), uno opcional (lo que cobra hoy) y los
+// supuestos que casi nadie conoce (IRPF, % facturable, semanas sin facturar) plegados con valores
+// por defecto razonables. Además de la tarifa, devuelve lecturas útiles: cuánto vale cada euro más
+// por hora, qué necesita cobrar para ganar 500 € más, y qué le queda hoy con su tarifa actual.
+// Todo se calcula en el navegador; no se envía nada.
+//   facturación mensual necesaria F = neto / (1 − IRPF) + gastos fijos (cuota incluida)
+//   horas facturables/año = horas/semana × (52 − semanas sin facturar) × % facturable
+//   tarifa mínima = F × 12 / horas facturables
 import PricingFrame from './PricingFrame.astro';
 
 const BOOKING_URL = 'https://meetings-eu1.hubspot.com/asesoria-madal';
@@ -18,10 +17,10 @@ const BOOKING_URL = 'https://meetings-eu1.hubspot.com/asesoria-madal';
 <PricingFrame current="calculadoras">
   <header class="hero page-hero">
     <div class="wrap">
-      <div class="fig">CALCULADORA</div>
+      <div class="fig">CALCULADORA · TARIFA POR HORA</div>
       <h1>¿Cuánto deberías cobrar <em>por hora?</em></h1>
-      <p class="dek">Parte de lo que quieres llevarte a casa. Añade tus costes, tus impuestos y las horas que de verdad facturas, y verás tu tarifa mínima.</p>
-      <p class="under mono">TODO SE CALCULA EN TU NAVEGADOR · NO GUARDAMOS NADA</p>
+      <p class="dek">Dinos cuánto quieres ganar, cuánto gastas y cuántas horas trabajas. Te decimos tu tarifa mínima y qué cambia si la subes.</p>
+      <p class="under mono">TRES DATOS · SE CALCULA EN TU NAVEGADOR · NO GUARDAMOS NADA</p>
     </div>
   </header>
 
@@ -31,51 +30,51 @@ const BOOKING_URL = 'https://meetings-eu1.hubspot.com/asesoria-madal';
         <span class="tl"></span><span class="tr"></span><span class="bl"></span><span class="br"></span>
 
         <form class="pp-form" novalidate>
-          <label class="pp-field">
-            <span>Neto que quieres llevarte al mes (€)</span>
+          <label class="pp-field pp-wide">
+            <span>¿Cuánto quieres ganar al mes, limpio? (€)</span>
             <input type="number" name="neto" inputmode="decimal" min="0" step="50" value="2000" />
-            <small>Lo que te queda en el bolsillo después de impuestos y cuota.</small>
+            <small>Lo que te queda en el bolsillo después de impuestos y de pagar la cuota.</small>
           </label>
-          <label class="pp-field">
-            <span>Gastos profesionales al mes (€)</span>
-            <input type="number" name="gastos" inputmode="decimal" min="0" step="10" value="250" />
-            <small>Software, seguros, gestoría, formación, local… sin IVA.</small>
-          </label>
-          <label class="pp-field">
-            <span>Cuota de autónomos al mes (€)</span>
-            <input type="number" name="reta" inputmode="decimal" min="0" step="10" value="300" />
-            <small>Pon la tuya. <a href="/herramientas/cuota-autonomos">¿No la sabes? Calcula la cuota</a></small>
-          </label>
-          <label class="pp-field">
-            <span>Tipo medio de IRPF estimado</span>
-            <select name="irpf">
-              <option value="10">10 %</option>
-              <option value="15">15 %</option>
-              <option value="20" selected>20 %</option>
-              <option value="25">25 %</option>
-              <option value="30">30 %</option>
-            </select>
-            <small>Sobre el beneficio. Es una estimación; el real depende de tu caso.</small>
+          <label class="pp-field pp-wide">
+            <span>Cuota de autónomos y gastos del negocio al mes (€)</span>
+            <input type="number" name="fijos" inputmode="decimal" min="0" step="10" value="550" />
+            <small>Suma la cuota y lo que pagas para trabajar: programas, seguros, gestoría, local... Sin IVA. <a href="/herramientas/cuota-autonomos">¿No sabes tu cuota?</a></small>
           </label>
           <label class="pp-field">
             <span>Horas de trabajo a la semana</span>
             <input type="number" name="horas" inputmode="decimal" min="1" max="80" step="1" value="40" />
           </label>
           <label class="pp-field">
-            <span>De ellas, ¿qué parte facturas de verdad? <b class="mono" data-r="pctTxt">60 %</b></span>
-            <input type="range" name="pct" min="20" max="95" step="5" value="60" />
-            <small>El resto es captar clientes, presupuestar, administración, formación. Casi nadie factura el 100 %.</small>
-          </label>
-          <label class="pp-field">
-            <span>Semanas al año sin facturar</span>
-            <input type="number" name="semanas" inputmode="decimal" min="0" max="40" step="1" value="6" />
-            <small>Vacaciones, festivos, bajas y semanas flojas.</small>
-          </label>
-          <label class="pp-field">
-            <span>Tu tarifa actual por hora, sin IVA (opcional)</span>
+            <span>Lo que cobras hoy por hora (€, opcional)</span>
             <input type="number" name="actual" inputmode="decimal" min="0" step="1" placeholder="Ej.: 25" />
-            <small>Para ver qué te queda hoy con lo que cobras.</small>
           </label>
+
+          <details class="pp-adv pp-wide">
+            <summary>Ajustar supuestos</summary>
+            <div class="pp-adv-grid">
+              <label class="pp-field">
+                <span>¿Qué parte de tu tiempo facturas? <b class="mono" data-r="pctTxt">60 %</b></span>
+                <input type="range" name="pct" min="20" max="95" step="5" value="60" />
+                <small>El resto es captar clientes, presupuestar y administración. Casi nadie factura el 100 %.</small>
+              </label>
+              <label class="pp-field">
+                <span>Semanas al año sin facturar</span>
+                <input type="number" name="semanas" inputmode="decimal" min="0" max="40" step="1" value="6" />
+                <small>Vacaciones, festivos, bajas y semanas flojas.</small>
+              </label>
+              <label class="pp-field">
+                <span>Tipo medio de IRPF estimado</span>
+                <select name="irpf">
+                  <option value="10">10 %</option>
+                  <option value="15">15 %</option>
+                  <option value="20" selected>20 %</option>
+                  <option value="25">25 %</option>
+                  <option value="30">30 %</option>
+                </select>
+                <small>Sobre el beneficio. Es una estimación; el tuyo depende de tu caso.</small>
+              </label>
+            </div>
+          </details>
         </form>
 
         <div class="pp-result" aria-live="polite">
@@ -84,13 +83,18 @@ const BOOKING_URL = 'https://meetings-eu1.hubspot.com/asesoria-madal';
             <span class="pp-big-num mono" data-r="tarifa">–</span>
             <span class="pp-big-sub mono">POR HORA · SIN IVA</span>
           </div>
+
+          <ul class="pp-ins">
+            <li data-r="insHoras" hidden></li>
+            <li data-r="insEuro" hidden></li>
+            <li data-r="insMas" hidden></li>
+            <li data-r="insActual" hidden></li>
+          </ul>
+
           <dl>
-            <div><dt>Facturación mensual necesaria</dt><dd data-r="fact">–</dd></div>
-            <div><dt>Horas facturables al año</dt><dd data-r="horasAnio">–</dd></div>
-            <div><dt>Tarifa por día (8 h facturadas)</dt><dd data-r="dia">–</dd></div>
+            <div><dt>Tienes que facturar al mes</dt><dd data-r="fact">–</dd></div>
             <div><dt>Esa tarifa con IVA 21 % (el IVA no es tuyo)</dt><dd data-r="conIva">–</dd></div>
           </dl>
-          <p class="pp-actual" data-r="actualMsg" hidden></p>
           <p class="pp-note mono">ESTIMACIÓN ORIENTATIVA. NO SUSTITUYE A UN CÁLCULO CON TU BALANCE REAL.</p>
         </div>
       </div>
@@ -100,18 +104,13 @@ const BOOKING_URL = 'https://meetings-eu1.hubspot.com/asesoria-madal';
   <section>
     <div class="wrap pp-explica">
       <div class="section-head">
-        <div class="fig">CÓMO SE CALCULA</div>
-        <h2>De tu neto a tu tarifa</h2>
+        <div class="fig">QUÉ HACER CON EL RESULTADO</div>
+        <h2>Es tu mínimo, no tu precio</h2>
       </div>
-      <ol>
-        <li>Primero, cuánto tienes que facturar: tu neto deseado dividido entre (1 − tu tipo de IRPF), más los gastos y la cuota de autónomos. Gastos y cuota restan antes de impuestos, por eso se suman aparte.</li>
-        <li>Después, cuántas horas puedes vender: horas a la semana × semanas trabajadas × la parte que facturas. Casi siempre salen menos de las que uno cree.</li>
-        <li>Tu tarifa mínima es lo primero entre lo segundo. Por debajo de ese número trabajas más para llevarte menos de lo que querías.</li>
-      </ol>
-      <p>Es un mínimo, no un precio: el precio final depende también de lo que vale tu trabajo para el cliente. Para ponerle precio a un encargo concreto, usa <a href="/pricing/calculadoras/precio-servicio">la calculadora por servicio</a>. Y si quieres revisarlo con tus números reales, la primera llamada es gratuita.</p>
+      <p>Por debajo de esta tarifa trabajas más para ganar menos de lo que querías. Por encima, el precio depende de lo que vale tu trabajo para el cliente. Ya con este número, el siguiente paso es ponerle precio a un encargo concreto.</p>
       <div class="cta-row">
-        <a class="btn btn-primary" href={BOOKING_URL}>Reservar llamada gratuita →</a>
-        <a class="btn btn-ghost" href="/pricing/blog">Leer el blog de pricing</a>
+        <a class="btn btn-primary" href="/pricing/calculadoras/precio-servicio">Ponle precio a un servicio →</a>
+        <a class="btn btn-ghost" href={BOOKING_URL}>Revisarlo con mi balance (llamada gratis)</a>
       </div>
     </div>
   </section>
@@ -127,49 +126,56 @@ const BOOKING_URL = 'https://meetings-eu1.hubspot.com/asesoria-madal';
     const form = raiz.querySelector('form') as HTMLFormElement;
     const eur0 = new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0, useGrouping: 'always' });
     const eur2 = new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR', minimumFractionDigits: 2, maximumFractionDigits: 2, useGrouping: 'always' });
-    const num = new Intl.NumberFormat('es-ES', { maximumFractionDigits: 0 });
-    const out = (k: string, v: string) => { const el = raiz.querySelector(`[data-r="${k}"]`); if (el) el.textContent = v; };
-    const msg = raiz.querySelector('[data-r="actualMsg"]') as HTMLElement;
+    const num = new Intl.NumberFormat('es-ES', { maximumFractionDigits: 0, useGrouping: 'always' });
+    const q = (k: string) => raiz.querySelector(`[data-r="${k}"]`) as HTMLElement | null;
+    const out = (k: string, v: string) => { const el = q(k); if (el) el.textContent = v; };
+    const ins = (k: string, texto: string | null) => {
+      const el = q(k);
+      if (!el) return;
+      el.hidden = texto === null;
+      if (texto !== null) el.textContent = texto;
+    };
     let usado = false;
 
     const calcular = () => {
       const d = new FormData(form);
       const n = (k: string) => Math.max(0, Number(d.get(k)) || 0);
       const neto = n('neto');
-      const gastos = n('gastos');
-      const reta = n('reta');
+      const fijos = n('fijos');
       const t = Math.min(0.6, n('irpf') / 100);
       const horas = n('horas');
       const pct = Math.min(1, n('pct') / 100);
       const semanas = Math.min(52, n('semanas'));
       const actual = n('actual');
-
       out('pctTxt', Math.round(pct * 100) + ' %');
 
-      const fact = neto / (1 - t) + gastos + reta; // facturación mensual necesaria
-      const horasAnio = horas * (52 - semanas) * pct;
-      if (horasAnio <= 0) {
-        ['tarifa', 'fact', 'horasAnio', 'dia', 'conIva'].forEach((k) => out(k, '–'));
-        msg.hidden = true;
+      const fact = neto / (1 - t) + fijos;
+      const horasTrab = horas * (52 - semanas);
+      const horasFact = horasTrab * pct;
+      if (horasFact <= 0) {
+        ['tarifa', 'fact', 'conIva'].forEach((k) => out(k, '–'));
+        ['insHoras', 'insEuro', 'insMas', 'insActual'].forEach((k) => ins(k, null));
         return;
       }
-      const tarifa = (fact * 12) / horasAnio;
+      const tarifa = (fact * 12) / horasFact;
       out('tarifa', eur2.format(tarifa));
       out('fact', eur0.format(fact));
-      out('horasAnio', num.format(horasAnio) + ' h');
-      out('dia', eur0.format(tarifa * 8));
       out('conIva', eur2.format(tarifa * 1.21));
 
+      ins('insHoras', `Trabajas unas ${num.format(horasTrab)} horas al año, pero solo puedes cobrar unas ${num.format(horasFact)}. Cada hora que cobras tiene que pagar también las que no cobras.`);
+      ins('insEuro', `Cada euro más por hora son unos ${eur0.format(horasFact * (1 - t))} netos más al año.`);
+      const masHora = (500 * 12) / ((1 - t) * horasFact);
+      ins('insMas', `Para ganar 500 € más al mes, tendrías que cobrar unos ${eur2.format(masHora)} más por hora.`);
+
       if (actual > 0) {
-        const factActual = (actual * horasAnio) / 12;
-        const netoActual = Math.max(0, (factActual - gastos - reta) * (1 - t));
-        const dif = netoActual - neto;
-        msg.hidden = false;
-        msg.textContent = dif >= 0
-          ? `Con ${eur2.format(actual)}/h ya llegas a tu objetivo: te quedarían unos ${eur0.format(netoActual)} netos al mes.`
-          : `Con ${eur2.format(actual)}/h te quedarían unos ${eur0.format(netoActual)} netos al mes: ${eur0.format(-dif)} menos de lo que quieres.`;
+        const factActual = (actual * horasFact) / 12;
+        const netoActual = Math.max(0, (factActual - fijos) * (1 - t));
+        const dif = (netoActual - neto) * 12;
+        ins('insActual', dif >= 0
+          ? `Con tus ${eur2.format(actual)}/h ya llegas a tu objetivo: te quedan unos ${eur0.format(netoActual)} limpios al mes.`
+          : `Con tus ${eur2.format(actual)}/h te quedan unos ${eur0.format(netoActual)} limpios al mes. Son ${eur0.format(-dif)} menos al año de lo que querías ganar.`);
       } else {
-        msg.hidden = true;
+        ins('insActual', null);
       }
     };
 

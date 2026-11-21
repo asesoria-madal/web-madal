@@ -13,8 +13,6 @@ const MAILTO = 'mailto:contacto@asesoriamadal.es?subject=Madal%20Pricing';
     <div class="rail-dot" data-target="pilares"><span class="rail-label mono">01 · PILARES</span></div>
     <div class="rail-line"></div>
     <div class="rail-dot" data-target="proceso"><span class="rail-label mono">02 · PROCESO</span></div>
-    <div class="rail-line"></div>
-    <div class="rail-dot" data-target="simulador"><span class="rail-label mono">03 · SIMULADOR</span></div>
   </div>
 
   <header class="hero page-hero" id="top">
@@ -119,41 +117,6 @@ const MAILTO = 'mailto:contacto@asesoriamadal.es?subject=Madal%20Pricing';
           <div class="n mono">PASO 03</div>
           <h3>Gestión continua</h3>
           <p>Seguimos midiendo descuentos y probando ajustes cada mes, para que el precio evolucione con tu negocio.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section id="simulador">
-    <div class="wrap">
-      <div class="section-head reveal">
-        <div class="fig">SIMULADOR</div>
-        <h2>Mueve el dial</h2>
-        <p>Un ejemplo ilustrativo del efecto de ordenar tus precios con los pilares 01 y 02. El cálculo con tus datos reales sale del diagnóstico.</p>
-      </div>
-      <div class="panel sim reveal" id="simPanel">
-        <span class="tl"></span><span class="tr"></span><span class="bl"></span><span class="br"></span>
-        <div class="sim-controls">
-          <div class="field">
-            <label>Tu margen actual<span class="val mono" id="marginVal">22%</span></label>
-            <input type="range" id="marginRange" min="5" max="45" value="22" step="1" />
-          </div>
-          <div class="field">
-            <label>Clientes o ventas al mes<span class="val mono" id="volVal">40</span></label>
-            <input type="range" id="volRange" min="5" max="150" value="40" step="5" />
-          </div>
-          <p class="sim-note">Ejemplo ilustrativo con valores supuestos. No es un cálculo con tus datos ni una promesa de resultado.</p>
-        </div>
-        <div class="sim-result">
-          <div class="bar-row">
-            <div class="bl"><span>HOY</span><span class="v mono" id="hoyLabel">22%</span></div>
-            <div class="bar-track"><div class="bar-fill hoy" id="hoyBar" style="width:22%"></div></div>
-          </div>
-          <div class="bar-row">
-            <div class="bl"><span>CON PILARES 01–02 (EJEMPLO)</span><span class="v mono" id="conLabel">28%</span></div>
-            <div class="bar-track"><div class="bar-fill con" id="conBar" style="width:28%"></div></div>
-          </div>
-          <p class="sim-note" id="deltaNote">A este volumen, cada punto de margen mueve más de lo que parece a fin de mes.</p>
         </div>
       </div>
     </div>

@@ -1,10 +1,12 @@
 ---
-// Calculadora de precio de UN servicio (pago único, no mensual), línea Madal Pricing (2026-11-21).
-// Complementa a la de tarifa por hora: aquella da el coste de tu hora; esta convierte un
-// trabajo concreto (horas, costes directos, margen) en un precio. Todo en el navegador.
-//   horas totales = horas de trabajo × (1 + % de horas invisibles: reuniones, correos, revisiones)
-//   coste = horas totales × coste por hora + costes directos
-//   precio = coste / (1 − margen deseado sobre el precio)
+// Calculadora de precio de UN servicio (pago único), línea Madal Pricing.
+// Revisada el 2026-11-21: 3 datos (horas del trabajo, lo que vale tu hora, gastos solo de este
+// trabajo) y los supuestos (tiempo invisible, margen) plegados. Devuelve el precio recomendado,
+// cuánto se pierde cobrando solo las horas visibles, y una tabla de descuentos con el margen que
+// queda en cada uno, para negociar sabiendo hasta dónde se puede bajar. Todo en el navegador.
+//   horas totales = horas × (1 + % de tiempo invisible)
+//   coste = horas totales × coste hora + costes directos
+//   precio recomendado = coste / (1 − margen deseado sobre el precio)
 import PricingFrame from './PricingFrame.astro';
 
 const BOOKING_URL = 'https://meetings-eu1.hubspot.com/asesoria-madal';
@@ -13,9 +15,9 @@ const BOOKING_URL = 'https://meetings-eu1.hubspot.com/asesoria-madal';
 <PricingFrame current="calculadoras">
   <header class="hero page-hero">
     <div class="wrap">
-      <div class="fig">PRECIO DE UN SERVICIO</div>
+      <div class="fig">CALCULADORA · PRECIO DE UN SERVICIO</div>
       <h1>¿Cuánto cobrar por <em>este trabajo?</em></h1>
-      <p class="dek">Pon las horas que lleva, lo que te cuesta hacerlo y el margen que quieres sacar. Te decimos el precio mínimo para ese encargo y hasta dónde puedes bajarlo si el cliente regatea.</p>
+      <p class="dek">Pon las horas que lleva y lo que vale tu hora. Te damos un precio recomendado y hasta dónde puedes bajarlo si el cliente regatea.</p>
       <p class="under mono">PAGO ÚNICO, NO MENSUAL · SE CALCULA EN TU NAVEGADOR</p>
     </div>
   </header>
@@ -26,52 +28,62 @@ const BOOKING_URL = 'https://meetings-eu1.hubspot.com/asesoria-madal';
         <span class="tl"></span><span class="tr"></span><span class="bl"></span><span class="br"></span>
 
         <form class="pp-form" novalidate>
-          <label class="pp-field">
-            <span>Horas de trabajo del servicio</span>
+          <label class="pp-field pp-wide">
+            <span>¿Cuántas horas te lleva el trabajo?</span>
             <input type="number" name="horas" inputmode="decimal" min="0" step="0.5" value="20" />
-            <small>Las horas de ejecución, sin contar reuniones ni correos.</small>
+            <small>Solo la parte de hacerlo. Las reuniones y los correos los sumamos aparte.</small>
           </label>
-          <label class="pp-field">
-            <span>Horas "invisibles" extra <b class="mono" data-r="extraTxt">25 %</b></span>
-            <input type="range" name="extra" min="0" max="60" step="5" value="25" />
-            <small>Presupuesto, reuniones, correos, revisiones y cambios.</small>
-          </label>
-          <label class="pp-field">
-            <span>Lo que te cuesta una hora de tu trabajo (€)</span>
+          <label class="pp-field pp-wide">
+            <span>¿Cuánto vale tu hora? (€)</span>
             <input type="number" name="coste" inputmode="decimal" min="0" step="1" value="33" />
             <small><a href="/pricing/calculadoras/tarifa-por-hora">¿No lo sabes? Calcula tu tarifa mínima por hora</a></small>
           </label>
-          <label class="pp-field">
-            <span>Costes directos del servicio (€)</span>
+          <label class="pp-field pp-wide">
+            <span>¿Gastas dinero solo por este trabajo? (€)</span>
             <input type="number" name="directos" inputmode="decimal" min="0" step="10" value="0" />
-            <small>Materiales, licencias, subcontratación o desplazamientos solo de este encargo.</small>
+            <small>Materiales, licencias, subcontratación o desplazamientos. Si no hay, déjalo en 0.</small>
           </label>
-          <label class="pp-field">
-            <span>Margen que quieres sobre el precio <b class="mono" data-r="margenTxt">25 %</b></span>
-            <input type="range" name="margen" min="0" max="60" step="5" value="25" />
-            <small>Lo que queda por encima del coste: para imprevistos, mejoras y crecer.</small>
-          </label>
-          <label class="pp-field">
-            <span>Descuento que te piden (%, opcional)</span>
-            <input type="number" name="dto" inputmode="decimal" min="0" max="90" step="1" placeholder="Ej.: 10" />
-            <small>Para ver qué margen te queda si cedes.</small>
-          </label>
+
+          <details class="pp-adv pp-wide">
+            <summary>Ajustar supuestos</summary>
+            <div class="pp-adv-grid">
+              <label class="pp-field">
+                <span>Tiempo extra que no ves <b class="mono" data-r="extraTxt">25 %</b></span>
+                <input type="range" name="extra" min="0" max="60" step="5" value="25" />
+                <small>Presupuesto, reuniones, correos, revisiones y cambios.</small>
+              </label>
+              <label class="pp-field">
+                <span>Margen que quieres ganar encima <b class="mono" data-r="margenTxt">25 %</b></span>
+                <input type="range" name="margen" min="0" max="60" step="5" value="25" />
+                <small>Para imprevistos, mejoras y crecer.</small>
+              </label>
+            </div>
+          </details>
         </form>
 
         <div class="pp-result" aria-live="polite">
           <div class="pp-big">
-            <span class="pp-big-lbl mono">PRECIO DEL SERVICIO</span>
+            <span class="pp-big-lbl mono">PRECIO RECOMENDADO</span>
             <span class="pp-big-num mono" data-r="precio">–</span>
             <span class="pp-big-sub mono">PAGO ÚNICO · SIN IVA</span>
           </div>
+
+          <ul class="pp-ins">
+            <li data-r="insMinimo" hidden></li>
+            <li data-r="insInvisible" hidden></li>
+          </ul>
+
+          <div>
+            <p class="pp-table-title mono">SI EL CLIENTE PIDE DESCUENTO</p>
+            <table class="pp-table">
+              <thead><tr><th>Descuento</th><th>Cobras</th><th>Margen que te queda</th></tr></thead>
+              <tbody data-r="dtoRows"></tbody>
+            </table>
+          </div>
+
           <dl>
-            <div><dt>Tu coste (horas + costes directos)</dt><dd data-r="coste">–</dd></div>
-            <div><dt>Horas totales con las invisibles</dt><dd data-r="horasTot">–</dd></div>
-            <div><dt>Lo que te queda por encima del coste</dt><dd data-r="extra">–</dd></div>
             <div><dt>Precio con IVA 21 %</dt><dd data-r="conIva">–</dd></div>
-            <div><dt>Descuento máximo antes de trabajar a pérdida</dt><dd data-r="dtoMax">–</dd></div>
           </dl>
-          <p class="pp-actual" data-r="dtoMsg" hidden></p>
           <p class="pp-note mono">ESTIMACIÓN ORIENTATIVA. EL PRECIO FINAL DEPENDE TAMBIÉN DEL VALOR QUE APORTAS AL CLIENTE.</p>
         </div>
       </div>
@@ -81,15 +93,10 @@ const BOOKING_URL = 'https://meetings-eu1.hubspot.com/asesoria-madal';
   <section>
     <div class="wrap pp-explica">
       <div class="section-head">
-        <div class="fig">CÓMO SE CALCULA</div>
-        <h2>De las horas al precio</h2>
+        <div class="fig">QUÉ HACER CON EL RESULTADO</div>
+        <h2>Es un mínimo, no un techo</h2>
       </div>
-      <ol>
-        <li>Se suman las horas de trabajo y las invisibles. Un encargo de 20 horas suele llevar bastantes más entre presupuesto, reuniones, correos y revisiones.</li>
-        <li>Cada hora se valora a lo que te cuesta a ti (tu tarifa mínima) y se añaden los costes directos. Eso es lo que te cuesta el servicio.</li>
-        <li>Al coste se le aplica el margen. Con un margen del 25 %, el precio es el coste dividido entre 0,75.</li>
-      </ol>
-      <p>El precio que sale es un mínimo. Si el trabajo le ahorra o le da mucho dinero al cliente, puedes cobrar más. Lo que no conviene es cobrar menos sin saber cuánto margen pierdes. Si quieres revisar tus servicios con tus números reales, la primera llamada es gratuita.</p>
+      <p>Si el trabajo le ahorra o le da mucho dinero al cliente, puedes cobrar más. Lo que no conviene es cobrar menos sin saber cuánto margen pierdes, y para eso sirve la tabla de descuentos. Si quieres revisar tus servicios con tus números reales, la primera llamada es gratuita.</p>
       <div class="cta-row">
         <a class="btn btn-primary" href={BOOKING_URL}>Reservar llamada gratuita →</a>
         <a class="btn btn-ghost" href="/pricing/blog/precio-por-hora-o-por-proyecto">Precio por hora o por proyecto</a>
@@ -109,8 +116,15 @@ const BOOKING_URL = 'https://meetings-eu1.hubspot.com/asesoria-madal';
     const eur0 = new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0, useGrouping: 'always' });
     const eur2 = new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR', minimumFractionDigits: 2, maximumFractionDigits: 2, useGrouping: 'always' });
     const num1 = new Intl.NumberFormat('es-ES', { maximumFractionDigits: 1 });
-    const out = (k: string, v: string) => { const el = raiz.querySelector(`[data-r="${k}"]`); if (el) el.textContent = v; };
-    const msg = raiz.querySelector('[data-r="dtoMsg"]') as HTMLElement;
+    const q = (k: string) => raiz.querySelector(`[data-r="${k}"]`) as HTMLElement | null;
+    const out = (k: string, v: string) => { const el = q(k); if (el) el.textContent = v; };
+    const ins = (k: string, texto: string | null) => {
+      const el = q(k);
+      if (!el) return;
+      el.hidden = texto === null;
+      if (texto !== null) el.textContent = texto;
+    };
+    const filas = q('dtoRows') as HTMLElement;
     let usado = false;
 
     const calcular = () => {
@@ -121,36 +135,33 @@ const BOOKING_URL = 'https://meetings-eu1.hubspot.com/asesoria-madal';
       const costeHora = n('coste');
       const directos = n('directos');
       const margen = Math.min(0.9, n('margen') / 100);
-      const dto = Math.min(0.9, n('dto') / 100);
-
       out('extraTxt', Math.round(extra * 100) + ' %');
       out('margenTxt', Math.round(margen * 100) + ' %');
 
       const horasTot = horas * (1 + extra);
       const coste = horasTot * costeHora + directos;
       if (coste <= 0) {
-        ['precio', 'coste', 'horasTot', 'extra', 'conIva', 'dtoMax'].forEach((k) => out(k, '–'));
-        msg.hidden = true;
+        ['precio', 'conIva'].forEach((k) => out(k, '–'));
+        ['insMinimo', 'insInvisible'].forEach((k) => ins(k, null));
+        filas.innerHTML = '';
         return;
       }
       const precio = coste / (1 - margen);
       out('precio', eur2.format(precio));
-      out('coste', eur0.format(coste));
-      out('horasTot', num1.format(horasTot) + ' h');
-      out('extra', eur0.format(precio - coste));
       out('conIva', eur2.format(precio * 1.21));
-      out('dtoMax', num1.format(margen * 100) + ' %');
 
-      if (dto > 0) {
-        const conDto = precio * (1 - dto);
-        const margenReal = (conDto - coste) / conDto;
-        msg.hidden = false;
-        msg.textContent = margenReal >= 0
-          ? `Con un ${num1.format(dto * 100)} % de descuento cobrarías ${eur0.format(conDto)} y tu margen bajaría al ${num1.format(margenReal * 100)} %.`
-          : `Con un ${num1.format(dto * 100)} % de descuento cobrarías ${eur0.format(conDto)}: ${eur0.format(coste - conDto)} menos de lo que te cuesta hacerlo.`;
-      } else {
-        msg.hidden = true;
-      }
+      ins('insMinimo', `Por debajo de ${eur0.format(coste)} trabajas a pérdida: es lo que te cuesta hacerlo, con tu hora y los gastos del trabajo.`);
+      const invisible = horas * extra * costeHora;
+      ins('insInvisible', extra > 0 && costeHora > 0
+        ? `Si cobras solo las ${num1.format(horas)} horas que ves, te dejas unos ${eur0.format(invisible)} sin cobrar por las ${num1.format(horas * extra)} que no ves.`
+        : null);
+
+      filas.innerHTML = [0, 5, 10, 15, 20].map((dto) => {
+        const cobras = precio * (1 - dto / 100);
+        const m = (cobras - coste) / cobras;
+        const txt = m >= 0 ? `${num1.format(m * 100)} %` : 'Pierdes dinero';
+        return `<tr class="${m < 0 ? 'pp-neg' : ''}"><td>${dto === 0 ? 'Sin descuento' : dto + ' %'}</td><td>${eur0.format(cobras)}</td><td>${txt}</td></tr>`;
+      }).join('');
     };
 
     form.addEventListener('submit', (e) => e.preventDefault());

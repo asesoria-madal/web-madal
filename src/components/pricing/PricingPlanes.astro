@@ -16,20 +16,89 @@ const MAILTO = 'mailto:contacto@asesoriamadal.es?subject=Madal%20Pricing';
     </div>
   </header>
 
+  <section id="que-ofrecemos">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div class="fig">QUÉ OFRECEMOS</div>
+        <h2>Tres cosas, de menor a mayor compromiso</h2>
+        <p>Puedes quedarte en la primera. Cada paso se apoya en el anterior y solo das el siguiente si te tiene sentido.</p>
+      </div>
+      <div class="pp-grid reveal">
+        <div class="panel pp-block">
+          <span class="tl"></span><span class="tr"></span><span class="bl"></span><span class="br"></span>
+          <span class="pp-card-meta mono">01 · SABER DÓNDE ESTÁS</span>
+          <h3>Tus números reales</h3>
+          <p>Calculamos cuánto te cuesta de verdad cada hora, cada cliente y cada producto, y dónde estás frente a tu sector. Sales con un informe y una sesión para leerlo juntos.</p>
+          <span class="pp-block-plan mono">PLAN · DIAGNÓSTICO</span>
+        </div>
+        <div class="panel pp-block">
+          <span class="tl"></span><span class="tr"></span><span class="bl"></span><span class="br"></span>
+          <span class="pp-card-meta mono">02 · REHACER TUS PRECIOS</span>
+          <h3>Tarifas que cobran lo que valen</h3>
+          <p>Montamos tus packs y niveles para que cada tramo deje margen, en vez de un precio único que no encaja con nadie. Sales con tarifas listas para publicar.</p>
+          <span class="pp-block-plan mono">PLAN · DIAGNÓSTICO + ARQUITECTURA</span>
+        </div>
+        <div class="panel pp-block">
+          <span class="tl"></span><span class="tr"></span><span class="bl"></span><span class="br"></span>
+          <span class="pp-card-meta mono">03 · MANTENER Y COMPROBAR</span>
+          <h3>Que el precio siga bien</h3>
+          <p>Vigilamos tus costes y tus descuentos cada mes y, si tienes volumen suficiente, probamos cambios de precio de forma controlada antes de aplicarlos a todo.</p>
+          <span class="pp-block-plan mono">PLANES · SEGUIMIENTO, DESCUENTOS Y EXPERIMENTACIÓN</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="valor">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div class="fig">EL VALOR</div>
+        <h2>¿Cuánto tienen que mejorar tus números para que se pague?</h2>
+        <p>No prometemos un resultado concreto, porque depende de cada negocio. Lo que sí podemos decirte es cuánto tendría que mejorar lo que ganas para que cada plan se amortice en un año. Pon lo que facturas.</p>
+      </div>
+      <div class="panel pp-roi reveal" id="roi">
+        <span class="tl"></span><span class="tr"></span><span class="bl"></span><span class="br"></span>
+        <form class="pp-roi-form" novalidate>
+          <label class="pp-field">
+            <span>¿Cuánto facturas al año? (€, sin IVA)</span>
+            <input type="number" name="ingresos" inputmode="decimal" min="0" step="1000" value="40000" />
+          </label>
+          <fieldset class="pp-field pp-radios">
+            <legend>Precio que te aplicamos</legend>
+            <label><input type="radio" name="tipo" value="nuevo" checked /> <span>Cliente nuevo</span></label>
+            <label><input type="radio" name="tipo" value="cliente" /> <span>Cliente de la gestoría</span></label>
+          </fieldset>
+        </form>
+        <div class="pp-roi-out" aria-live="polite">
+          <table class="pp-table">
+            <thead><tr><th>Plan</th><th>Precio</th><th>Tienes que ganar más, en % de lo que facturas</th></tr></thead>
+            <tbody data-r="filas"></tbody>
+          </table>
+          <ul class="pp-ins">
+            <li data-r="uno"></li>
+            <li data-r="tres"></li>
+          </ul>
+          <p class="pp-note mono">EJEMPLO: SI FACTURAS 40.000 € Y UN PLAN CUESTA 300 €, NECESITAS GANAR 300 € MÁS AL AÑO, UN 0,75 % DE LO QUE FACTURAS. ES UN CÁLCULO DE AMORTIZACIÓN, NO UNA PROMESA DE RESULTADO.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section id="planes">
     <div class="wrap">
       <div class="section-head reveal">
         <div class="fig">PLANES</div>
-        <h2>Empieza donde tiene sentido para tu negocio</h2>
-        <p>Cada plan cubre un tramo de pilares. Antes de pagar nada hay una llamada gratuita para ver tus números, y puedes subir de plan cuando lo necesites.</p>
+        <h2>Elige tu plan</h2>
+        <p>Cada plan cubre un tramo de pilares y dice exactamente qué recibes. La primera llamada es gratuita.</p>
       </div>
 
       <div class="plans reveal">
-        <div class="plan panel">
+        <div class="plan panel" data-nombre="Diagnóstico" data-cliente="300" data-nuevo="500" data-sufijo="">
           <span class="tl"></span><span class="tr"></span><span class="bl"></span><span class="br"></span>
           <span class="tag mono">01 · Pilares 1–2</span>
           <h3>Diagnóstico</h3>
           <p class="scope mono">PAGO ÚNICO</p>
+          <p class="plan-outcome"><strong>Resultado:</strong> Sabrás cuánto te cuesta de verdad cada hora, cada cliente y cada producto, y si tus precios están donde deberían.</p>
           <ul>
             <li>Unit economics de tu negocio</li>
             <li>Benchmarking frente a tu sector</li>
@@ -42,11 +111,12 @@ const MAILTO = 'mailto:contacto@asesoriamadal.es?subject=Madal%20Pricing';
           <a class="btn btn-ghost" href={BOOKING_URL}>Empezar aquí</a>
         </div>
 
-        <div class="plan panel featured">
+        <div class="plan panel featured" data-nombre="Diagnóstico + Arquitectura" data-cliente="900" data-nuevo="1200" data-sufijo="">
           <span class="tl"></span><span class="tr"></span><span class="bl"></span><span class="br"></span>
           <span class="tag mono">02 · Pilares 1–3</span>
           <h3>Diagnóstico + Arquitectura</h3>
           <p class="scope mono">PAGO ÚNICO</p>
+          <p class="plan-outcome"><strong>Resultado:</strong> Sales con tus packs y tarifas rehechos, listos para publicar o presentar a tus clientes.</p>
           <ul>
             <li>Todo lo del pack Diagnóstico</li>
             <li>Arquitectura de packs y niveles</li>
@@ -59,11 +129,12 @@ const MAILTO = 'mailto:contacto@asesoriamadal.es?subject=Madal%20Pricing';
           <a class="btn btn-primary" href={BOOKING_URL}>Reservar diagnóstico</a>
         </div>
 
-        <div class="plan panel">
+        <div class="plan panel" data-nombre="Seguimiento mensual" data-cliente="1440" data-nuevo="1440" data-sufijo=" (12 meses)">
           <span class="tl"></span><span class="tr"></span><span class="bl"></span><span class="br"></span>
           <span class="tag mono">03 · Pilares 1–2</span>
           <h3>Seguimiento mensual</h3>
           <p class="scope mono">MENSUAL · REQUIERE 01 O 02</p>
+          <p class="plan-outcome"><strong>Resultado:</strong> Te avisamos cada mes si se mueven tus costes o tu posición frente al mercado.</p>
           <ul>
             <li>Recalculamos tu unit economics cada mes</li>
             <li>Revisamos tu posición frente al mercado</li>
@@ -73,11 +144,12 @@ const MAILTO = 'mailto:contacto@asesoriamadal.es?subject=Madal%20Pricing';
           <a class="btn btn-ghost" href={MAILTO}>Hablar con nosotros</a>
         </div>
 
-        <div class="plan panel">
+        <div class="plan panel" data-nombre="Análisis de descuentos" data-cliente="250" data-nuevo="400" data-sufijo="">
           <span class="tl"></span><span class="tr"></span><span class="bl"></span><span class="br"></span>
           <span class="tag mono">04 · Pilar 4</span>
           <h3>Análisis de descuentos</h3>
           <p class="scope mono">PAGO ÚNICO + OPCIÓN MENSUAL</p>
+          <p class="plan-outcome"><strong>Resultado:</strong> Sabrás cuántos descuentos das de verdad y cuánto margen te cuestan.</p>
           <ul>
             <li>Cálculo rápido de tu margen real (versión ligera del pilar 01, solo lo necesario para esto)</li>
             <li>Qué descuentos das de verdad, no los que crees</li>
@@ -95,11 +167,12 @@ const MAILTO = 'mailto:contacto@asesoriamadal.es?subject=Madal%20Pricing';
           <a class="btn btn-ghost" href={MAILTO}>Hablar con nosotros</a>
         </div>
 
-        <div class="plan panel premium">
+        <div class="plan panel premium" data-nombre="Experimentación" data-cliente="1200" data-nuevo="1500" data-sufijo="">
           <span class="tl"></span><span class="tr"></span><span class="bl"></span><span class="br"></span>
           <span class="tag mono">05 · Pilares 1–2–4–5</span>
           <h3>Experimentación</h3>
           <p class="scope mono">PROYECTO · ~2 MESES</p>
+          <p class="plan-outcome"><strong>Resultado:</strong> Pruebas cambios de precio de forma controlada y llegas a un resultado medido. Funciona mejor con volumen suficiente de ventas.</p>
           <ul>
             <li>Análisis completo de unit economics + benchmarking</li>
             <li>Análisis de descuentos incluido</li>
@@ -162,3 +235,37 @@ const MAILTO = 'mailto:contacto@asesoriamadal.es?subject=Madal%20Pricing';
     </div>
   </section>
 </PricingFrame>
+
+<script>
+  function initRoi() {
+    const raiz = document.getElementById('roi');
+    if (!raiz || raiz.dataset.listo) return;
+    raiz.dataset.listo = '1';
+    const form = raiz.querySelector('form') as HTMLFormElement;
+    const filas = raiz.querySelector('[data-r="filas"]') as HTMLElement;
+    const uno = raiz.querySelector('[data-r="uno"]') as HTMLElement;
+    const tres = raiz.querySelector('[data-r="tres"]') as HTMLElement;
+    const eur0 = new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0, useGrouping: 'always' });
+    const pct = new Intl.NumberFormat('es-ES', { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+    const planes = Array.from(document.querySelectorAll<HTMLElement>('.plan[data-nombre]'));
+
+    const calcular = () => {
+      const d = new FormData(form);
+      const ingresos = Math.max(0, Number(d.get('ingresos')) || 0);
+      const tipo = d.get('tipo') === 'cliente' ? 'cliente' : 'nuevo';
+      if (ingresos <= 0) { filas.innerHTML = ''; uno.textContent = ''; tres.textContent = ''; return; }
+      filas.innerHTML = planes.map((pl) => {
+        const precio = Number(pl.dataset[tipo]) || 0;
+        const mejora = (precio / ingresos) * 100;
+        const suf = pl.dataset.sufijo || '';
+        return `<tr><td>${pl.dataset.nombre}</td><td>${eur0.format(precio)}${suf}</td><td>${pct.format(mejora)} %</td></tr>`;
+      }).join('');
+      uno.textContent = `Cada 1 % que mejores lo que ganas son ${eur0.format(ingresos * 0.01)} al año.`;
+      tres.textContent = `Con una mejora del 3 % serían ${eur0.format(ingresos * 0.03)} al año; con un 5 %, ${eur0.format(ingresos * 0.05)}.`;
+    };
+    form.addEventListener('submit', (e) => e.preventDefault());
+    form.addEventListener('input', calcular);
+    calcular();
+  }
+  document.addEventListener('astro:page-load', initRoi);
+</script>

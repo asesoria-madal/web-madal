@@ -127,7 +127,7 @@ const { current } = Astro.props;
     }
 
     // scrollspy: nav + rail
-    const sectionIds = ['top', 'ventaja', 'pilares', 'proceso', 'simulador', 'conexion', 'planes'];
+    const sectionIds = ['top', 'ventaja', 'pilares', 'proceso', 'conexion', 'planes'];
     const sections = sectionIds.map((id) => document.getElementById(id)).filter(Boolean) as HTMLElement[];
     const navLinks = root.querySelectorAll('#navlinks a');
     const railDots = root.querySelectorAll('.rail-dot');
@@ -208,46 +208,6 @@ const { current } = Astro.props;
       wrap.addEventListener('mouseleave', () => {
         inner.style.transform = 'rotateX(0) rotateY(0)';
       });
-    }
-
-    // simulator
-    const marginRange = root.querySelector<HTMLInputElement>('#marginRange');
-    const volRange = root.querySelector<HTMLInputElement>('#volRange');
-    const marginVal = root.querySelector('#marginVal');
-    const volVal = root.querySelector('#volVal');
-    const hoyBar = root.querySelector<HTMLElement>('#hoyBar');
-    const conBar = root.querySelector<HTMLElement>('#conBar');
-    const hoyLabel = root.querySelector('#hoyLabel');
-    const conLabel = root.querySelector('#conLabel');
-    const deltaNote = root.querySelector('#deltaNote');
-
-    function upliftFor(margin: number) {
-      // Rango orientativo e ilustrativo: mejora decreciente cuanto mayor es ya el margen.
-      if (margin < 15) return 8;
-      if (margin < 25) return 6;
-      if (margin < 35) return 4;
-      return 2;
-    }
-    function updateSim() {
-      if (!marginRange || !volRange) return;
-      const margin = parseInt(marginRange.value, 10);
-      const vol = parseInt(volRange.value, 10);
-      const uplift = upliftFor(margin);
-      const withPricing = Math.min(60, margin + uplift);
-      if (marginVal) marginVal.textContent = margin + '%';
-      if (volVal) volVal.textContent = String(vol);
-      if (hoyBar) hoyBar.style.width = margin + '%';
-      if (conBar) conBar.style.width = withPricing + '%';
-      if (hoyLabel) hoyLabel.textContent = margin + '%';
-      if (conLabel) conLabel.textContent = withPricing + '%';
-      if (deltaNote)
-        deltaNote.textContent =
-          'Ejemplo: +' + uplift + ' puntos de margen sobre ' + vol + ' clientes al mes.';
-    }
-    if (marginRange && volRange) {
-      marginRange.addEventListener('input', updateSim);
-      volRange.addEventListener('input', updateSim);
-      updateSim();
     }
   }
 
