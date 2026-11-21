@@ -654,8 +654,8 @@ export const ui = {
         modelos: { '303': 'IVA', '130': 'Pago fraccionado del IRPF', '111': 'Retenciones de profesionales y nóminas', '115': 'Retenciones de alquileres' },
         ver: 'Cómo se calcula',
         detalle: { repercutido: 'IVA de tus facturas emitidas', soportado: 'IVA de tus gastos', compensacion: 'A compensar de trimestres anteriores', ingresos: 'Ingresos del año', gastos: 'Gastos del año', dificil: 'De ellos, gastos de difícil justificación (5 %)', rendimiento: 'Rendimiento del año', cuota20: '20 % del rendimiento', retenciones: 'Retenciones que te han hecho en el año', pagosAnteriores: 'Pagado en el 130 de trimestres anteriores', retencionesFacturas: 'Retenciones de facturas recibidas', nominas: 'Retenciones de nóminas', alquileres: 'Retenciones de {n} facturas de alquiler' },
-        otraInfoPre: '¿Necesitas de forma recurrente alguna información contable, laboral o fiscal a la que no tienes acceso desde la plataforma de Cegid? Escríbenos a ',
-        otraInfoPost: ' y miramos de ponértela en esta pestaña.',
+        otraInfoPre: '¿Necesitas de forma recurrente alguna información contable, laboral o fiscal que no encuentras aquí? Escríbenos a ',
+        otraInfoPost: ' y, siempre que sea posible, te la incluimos aquí sin ningún coste.',
       },
       facturas: {
         title: 'Subir facturas',
@@ -1372,8 +1372,8 @@ export const ui = {
         modelos: { '303': 'IVA', '130': 'Pagament fraccionat de l’IRPF', '111': 'Retencions de professionals i nòmines', '115': 'Retencions de lloguers' },
         ver: 'Com es calcula',
         detalle: { repercutido: 'IVA de les teves factures emeses', soportado: 'IVA de les teves despeses', compensacion: 'A compensar de trimestres anteriors', ingresos: 'Ingressos de l’any', gastos: 'Despeses de l’any', dificil: 'D’aquestes, despeses de difícil justificació (5 %)', rendimiento: 'Rendiment de l’any', cuota20: '20 % del rendiment', retenciones: 'Retencions que t’han fet a l’any', pagosAnteriores: 'Pagat al 130 de trimestres anteriors', retencionesFacturas: 'Retencions de factures rebudes', nominas: 'Retencions de nòmines', alquileres: 'Retencions de {n} factures de lloguer' },
-        otraInfoPre: 'Necessites de manera recurrent alguna informació comptable, laboral o fiscal a la qual no tens accés des de la plataforma de Cegid? Escriu-nos a ',
-        otraInfoPost: ' i mirem de posar-te-la en aquesta pestanya.',
+        otraInfoPre: 'Necessites de manera recurrent alguna informació comptable, laboral o fiscal que no trobes aquí? Escriu-nos a ',
+        otraInfoPost: ' i, sempre que sigui possible, te la incloem aquí sense cap cost.',
       },
       facturas: {
         title: 'Puja factures',
@@ -2092,8 +2092,8 @@ export const ui = {
         modelos: { '303': 'VAT', '130': 'Income tax instalment', '111': 'Withholdings on professionals and payroll', '115': 'Withholdings on rent' },
         ver: 'How it is calculated',
         detalle: { repercutido: 'VAT on your sales invoices', soportado: 'VAT on your expenses', compensacion: 'To offset from previous quarters', ingresos: 'Income this year', gastos: 'Expenses this year', dificil: 'Of which, hard-to-justify expenses (5 %)', rendimiento: 'Net profit this year', cuota20: '20 % of net profit', retenciones: 'Withholdings deducted from you this year', pagosAnteriores: 'Paid in Form 130 in previous quarters', retencionesFacturas: 'Withholdings on invoices received', nominas: 'Payroll withholdings', alquileres: 'Withholdings on {n} rent invoices' },
-        otraInfoPre: 'Do you regularly need any accounting, payroll or tax information that you cannot access from the Cegid platform? Write to us at ',
-        otraInfoPost: ' and we will look at adding it to this tab.',
+        otraInfoPre: 'Do you regularly need any accounting, payroll or tax information that you cannot find here? Write to us at ',
+        otraInfoPost: ' and, whenever possible, we will add it here at no extra cost.',
       },
       facturas: {
         title: 'Upload invoices',
