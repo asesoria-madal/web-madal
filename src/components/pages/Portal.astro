@@ -96,6 +96,7 @@ const textosCarpeta = { subir: t.doc.subir, foto: t.facturas.cameraSubmit, ver: 
           <nav class="app-nav">
             <button type="button" class="app-nav-link active" data-panel="inicio">{t.nav.inicio}</button>
             <button type="button" class="app-nav-link" data-panel="prevision">{t.nav.prevision}</button>
+            <button type="button" class="app-nav-link" data-panel="informes">{t.nav.informes}</button>
             <button type="button" class="app-nav-link" data-panel="documentos">{t.nav.documentos}</button>
             <button type="button" class="app-nav-link" data-panel="misfacturas">{t.nav.misFacturas}</button>
             <button type="button" class="app-nav-link" data-panel="documentacion">{t.nav.documentacion}</button>
@@ -208,6 +209,30 @@ const textosCarpeta = { subir: t.doc.subir, foto: t.facturas.cameraSubmit, ver: 
             <h2>{t.portalExterno.title}</h2>
             <p>{t.portalExterno.desc}</p>
             <iframe class="portal-externo-frame" src="https://portal.portaldespacho.com/acceso/frame" width="220" height="180" title={t.portalExterno.title}></iframe>
+          </section>
+
+          <!-- Informes (2026-11-21): los calcula n8n ("Informes del portal") con los datos de Cegid al pedirlos. -->
+          <section class="app-panel" data-panel="informes" hidden>
+            <h2>{t.informes.title}</h2>
+            <p>{t.informes.intro}</p>
+            <p id="inf-sin-conta" class="pf-estado" hidden>{t.informes.sinConta}</p>
+            <form id="inf-form" class="inf-form">
+              <label>{t.informes.informe}<select id="inf-tipo"></select></label>
+              <label id="inf-l-desde">{t.informes.desde}<input type="date" id="inf-desde" required /></label>
+              <label><span id="inf-t-hasta">{t.informes.hasta}</span><input type="date" id="inf-hasta" required /></label>
+              <label id="inf-l-cuenta" hidden>{t.informes.cuenta}<input id="inf-cuenta" inputmode="numeric" placeholder={t.informes.cuentaPh} /></label>
+              <button type="submit" class="inf-generar">{t.informes.generar}</button>
+            </form>
+            <p id="inf-nota" class="pf-aviso" hidden>{t.informes.notaAutonomo}</p>
+            <p id="inf-estado" class="pf-estado" aria-live="polite"></p>
+            <div id="inf-resultado" hidden>
+              <div class="inf-cabecera">
+                <div><h3 id="inf-titulo"></h3><p id="inf-subtitulo" class="pf-estado"></p></div>
+                <div class="inf-botones"><button type="button" id="inf-csv" class="pf-descargar">{t.informes.csv}</button><button type="button" id="inf-imprimir" class="pf-descargar">{t.informes.imprimir}</button></div>
+              </div>
+              <div class="mf-tabla-caja"><table class="mf-tabla inf-tabla"><thead><tr id="inf-cols"></tr></thead><tbody id="inf-filas"></tbody></table></div>
+              <p id="inf-notas" class="pf-aviso"></p>
+            </div>
           </section>
 
           <!-- Previsión fiscal (2026-11-20): la calcula cada noche n8n ("Previsión fiscal") con los datos de
@@ -878,6 +903,7 @@ const textosCarpeta = { subir: t.doc.subir, foto: t.facturas.cameraSubmit, ver: 
       renderFacturaList(cliente.id);
       void renderPrevision(cliente.id);
       void renderModelosPresentados(cliente.id);
+      prepararInformes(cliente.tipo_persona ?? null);
       renderDudaRapida(Boolean(cliente.contacto_whatsapp));
     }
 
@@ -996,6 +1022,89 @@ const textosCarpeta = { subir: t.doc.subir, foto: t.facturas.cameraSubmit, ver: 
         tbody.appendChild(tr);
       }
     }
+
+    // --- Informes (2026-11-21) ---
+    const INFORMES_URL = 'https://n8n.asesoriamadal.es/webhook/informes-portal';
+    let infTipoPersona: string | null = null;
+    let infUltimo: { titulo: string; subtitulo: string; columnas: { k: string; t: string; n?: number }[]; filas: { tipo: string; c: Record<string, unknown> }[]; notas: string[] } | null = null;
+    const infEur = (v: unknown) => typeof v === 'number' ? v.toLocaleString(LOCALE, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : '';
+    function prepararInformes(tipo: string | null) {
+      const I = I18N.informes;
+      infTipoPersona = tipo;
+      const sel = document.getElementById('inf-tipo') as HTMLSelectElement;
+      const lista = tipo === 'sl' ? ['pyg', 'balance', 'sumas', 'mayor', 'diario'] : ['resumen', 'libro'];
+      sel.innerHTML = lista.map((k) => `<option value="${k}">${I.opciones[k]}</option>`).join('');
+      (document.getElementById('inf-nota') as HTMLElement).hidden = tipo === 'sl';
+      const hoy = new Date().toLocaleDateString('sv-SE', { timeZone: 'Europe/Madrid' });
+      (document.getElementById('inf-desde') as HTMLInputElement).value = hoy.slice(0, 4) + '-01-01';
+      (document.getElementById('inf-hasta') as HTMLInputElement).value = hoy;
+      (document.getElementById('inf-resultado') as HTMLElement).hidden = true;
+      (document.getElementById('inf-estado') as HTMLElement).textContent = '';
+      ajustarFormInformes();
+    }
+    function ajustarFormInformes() {
+      const v = (document.getElementById('inf-tipo') as HTMLSelectElement).value;
+      (document.getElementById('inf-l-desde') as HTMLElement).hidden = v === 'balance';
+      (document.getElementById('inf-l-cuenta') as HTMLElement).hidden = v !== 'mayor';
+      (document.getElementById('inf-t-hasta') as HTMLElement).textContent = v === 'balance' ? I18N.informes.aFecha : I18N.informes.hasta;
+    }
+    function pintarInforme(inf: NonNullable<typeof infUltimo>) {
+      infUltimo = inf;
+      (document.getElementById('inf-titulo') as HTMLElement).textContent = inf.titulo;
+      (document.getElementById('inf-subtitulo') as HTMLElement).textContent = inf.subtitulo;
+      const cols = document.getElementById('inf-cols') as HTMLElement;
+      cols.innerHTML = '';
+      for (const c of inf.columnas) { const th = document.createElement('th'); th.textContent = c.t; if (c.n) th.className = 'num'; cols.appendChild(th); }
+      const tbody = document.getElementById('inf-filas') as HTMLElement;
+      tbody.innerHTML = '';
+      for (const f of inf.filas) {
+        const tr = document.createElement('tr'); tr.className = 'inf-' + f.tipo;
+        for (const c of inf.columnas) { const td = document.createElement('td'); const v = f.c[c.k]; td.textContent = c.n ? infEur(v) : String(v ?? ''); if (c.n) td.className = 'num'; tr.appendChild(td); }
+        tbody.appendChild(tr);
+      }
+      (document.getElementById('inf-notas') as HTMLElement).textContent = (inf.filas.length <= 1 ? I18N.informes.vacio + ' ' : '') + inf.notas.join(' ');
+      (document.getElementById('inf-resultado') as HTMLElement).hidden = false;
+    }
+    (document.getElementById('inf-tipo') as HTMLSelectElement).addEventListener('change', ajustarFormInformes);
+    (document.getElementById('inf-form') as HTMLFormElement).addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const I = I18N.informes;
+      const estado = document.getElementById('inf-estado') as HTMLElement;
+      const boton = (e.target as HTMLFormElement).querySelector('button[type=submit]') as HTMLButtonElement;
+      const informe = (document.getElementById('inf-tipo') as HTMLSelectElement).value;
+      const hasta = (document.getElementById('inf-hasta') as HTMLInputElement).value;
+      const desde = informe === 'balance' ? hasta.slice(0, 4) + '-01-01' : (document.getElementById('inf-desde') as HTMLInputElement).value;
+      const params = new URLSearchParams({ informe, desde, hasta, cliente: currentClienteId || '' });
+      const cuenta = (document.getElementById('inf-cuenta') as HTMLInputElement).value.trim();
+      if (informe === 'mayor' && cuenta) params.set('cuenta', cuenta);
+      estado.textContent = I.generando; boton.disabled = true;
+      (document.getElementById('inf-resultado') as HTMLElement).hidden = true;
+      try {
+        const { data: { session } } = await supabase!.auth.getSession();
+        if (!session) throw new Error('sesión');
+        const r = await fetch(INFORMES_URL + '?' + params.toString(), { headers: { Authorization: `Bearer ${session.access_token}` } });
+        const j = await r.json().catch(() => ({}));
+        if (r.status === 404) { estado.textContent = I.sinConta; return; }
+        if (!r.ok || j.error) { estado.textContent = j.error || I.error; return; }
+        estado.textContent = '';
+        pintarInforme(j);
+      } catch { estado.textContent = I.error; }
+      finally { boton.disabled = false; }
+    });
+    (document.getElementById('inf-csv') as HTMLButtonElement).addEventListener('click', () => {
+      if (!infUltimo) return;
+      const celda = (v: unknown, num?: number) => { const t = num ? (typeof v === 'number' ? String(v).replace('.', ',') : '') : String(v ?? ''); return /[;"\n]/.test(t) ? '"' + t.replace(/"/g, '""') + '"' : t; };
+      const lineas = [infUltimo.titulo, infUltimo.subtitulo, '', infUltimo.columnas.map((c) => celda(c.t)).join(';'),
+        ...infUltimo.filas.map((f) => infUltimo!.columnas.map((c) => celda(f.c[c.k], c.n)).join(';'))];
+      const url = URL.createObjectURL(new Blob(['\ufeff' + lineas.join('\r\n')], { type: 'text/csv;charset=utf-8' }));
+      const a = document.createElement('a'); a.href = url; a.download = (infUltimo.titulo + ' ' + infUltimo.subtitulo).replace(/[\\/:*?"<>|]/g, '-') + '.csv';
+      document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(url), 60_000);
+    });
+    (document.getElementById('inf-imprimir') as HTMLButtonElement).addEventListener('click', () => {
+      document.body.classList.add('inf-imprimiendo');
+      window.print();
+      setTimeout(() => document.body.classList.remove('inf-imprimiendo'), 500);
+    });
 
     let adminClientes: ClienteRow[] = [];
 
