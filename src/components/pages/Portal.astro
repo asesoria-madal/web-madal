@@ -94,12 +94,12 @@ const textosCarpeta = { subir: t.doc.subir, foto: t.facturas.cameraSubmit, ver: 
         <aside class="app-sidebar">
           <a href="/" class="wordmark">Asesoría<span>Madal</span></a>
           <nav class="app-nav">
-            <button type="button" class="app-nav-link active" data-panel="inicio">{t.nav.inicio}</button>
-            <button type="button" class="app-nav-link" data-panel="prevision">{t.nav.prevision}</button>
+            <button type="button" class="app-nav-link active" data-panel="prevision">{t.nav.prevision}</button>
             <button type="button" class="app-nav-link" data-panel="informes">{t.nav.informes}</button>
             <button type="button" class="app-nav-link" data-panel="documentos">{t.nav.documentos}</button>
             <button type="button" class="app-nav-link" data-panel="misfacturas">{t.nav.misFacturas}</button>
             <button type="button" class="app-nav-link" data-panel="documentacion">{t.nav.documentacion}</button>
+            <button type="button" class="app-nav-link" data-panel="inicio" hidden>{t.nav.inicio}</button>
           </nav>
           <div class="app-sidebar-foot">
             <div id="duda-rapida" class="duda-rapida">
@@ -205,14 +205,17 @@ const textosCarpeta = { subir: t.doc.subir, foto: t.facturas.cameraSubmit, ver: 
             </div>
           </form>
 
-          <section class="app-panel" data-panel="inicio">
+          <!-- Programa de facturación de Cegid (2026-11-21, Edurne): solo para quien lo tiene activado (casilla de la Empresa
+               en HubSpot "Programa de facturación activado" → clientes.facturacion_cegid). Las facturas NO se suben a Cegid:
+               se suben a nuestro portal. El iframe se carga solo si toca. -->
+          <section class="app-panel" data-panel="inicio" hidden>
             <h2>{t.portalExterno.title}</h2>
             <p>{t.portalExterno.desc}</p>
-            <iframe class="portal-externo-frame" src="https://portal.portaldespacho.com/acceso/frame" width="220" height="180" title={t.portalExterno.title}></iframe>
+            <iframe id="cegid-frame" class="portal-externo-frame" data-src="https://portal.portaldespacho.com/acceso/frame" width="220" height="180" title={t.portalExterno.title}></iframe>
           </section>
 
           <!-- Informes (2026-11-21): los calcula n8n ("Informes del portal") con los datos de Cegid al pedirlos. -->
-          <section class="app-panel" data-panel="informes" hidden>
+          <section class="app-panel app-panel-ancho" data-panel="informes" hidden>
             <h2>{t.informes.title}</h2>
             <p>{t.informes.intro}</p>
             <p id="inf-sin-conta" class="pf-estado" hidden>{t.informes.sinConta}</p>
@@ -237,7 +240,7 @@ const textosCarpeta = { subir: t.doc.subir, foto: t.facturas.cameraSubmit, ver: 
 
           <!-- Previsión fiscal (2026-11-20): la calcula cada noche n8n ("Previsión fiscal") con los datos de
                Cegid y la guarda en prevision_fiscal; aquí solo se lee el trimestre en curso. -->
-          <section class="app-panel" data-panel="prevision" hidden>
+          <section class="app-panel app-panel-ancho" data-panel="prevision">
             <h2>{t.prevision.title}</h2>
             <div class="pf-layout">
             <div class="pf-main">
@@ -895,6 +898,7 @@ const textosCarpeta = { subir: t.doc.subir, foto: t.facturas.cameraSubmit, ver: 
       tipo_persona: string | null;
       email?: string | null;
       contacto_whatsapp?: boolean;
+      facturacion_cegid?: boolean;
     };
 
     // Pinta el área de un cliente concreto. La usan los dos caminos: el
@@ -911,6 +915,16 @@ const textosCarpeta = { subir: t.doc.subir, foto: t.facturas.cameraSubmit, ver: 
       void renderModelosPresentados(cliente.id);
       prepararInformes(cliente.tipo_persona ?? null);
       renderDudaRapida(Boolean(cliente.contacto_whatsapp));
+      mostrarCegid(Boolean(cliente.facturacion_cegid));
+    }
+
+    // Pestaña del programa de facturación de Cegid: solo con la casilla de HubSpot marcada.
+    function mostrarCegid(activo: boolean) {
+      const nav = navLinks.find((l) => l.dataset.panel === 'inicio');
+      const frame = document.getElementById('cegid-frame') as HTMLIFrameElement | null;
+      if (nav) nav.hidden = !activo;
+      if (activo && frame && !frame.src) frame.src = frame.dataset.src || '';
+      if (!activo && nav && nav.classList.contains('active')) navLinks.find((l) => l.dataset.panel === 'prevision')?.click();
     }
 
     // --- Previsión fiscal (2026-11-20) ---
@@ -1135,7 +1149,7 @@ const textosCarpeta = { subir: t.doc.subir, foto: t.facturas.cameraSubmit, ver: 
 
       const { data, error } = await supabase!
         .from('clientes')
-        .select('id, nombre, email, tipo_persona, contacto_whatsapp')
+        .select('id, nombre, email, tipo_persona, contacto_whatsapp, facturacion_cegid')
         .order('nombre', { ascending: true });
 
       adminClientes = (!error && data ? data : []) as ClienteRow[];
@@ -1204,7 +1218,7 @@ const textosCarpeta = { subir: t.doc.subir, foto: t.facturas.cameraSubmit, ver: 
       // nada y cae en "unlinked". limit(1): a un admin RLS le devuelve todas y aquí no se usan.
       const [{ data: adminRow, error: adminError }, { data: cliente, error: clienteError }] = await Promise.all([
         supabase!.from('portal_admins').select('auth_user_id').maybeSingle(),
-        supabase!.from('clientes').select('id, nombre, tipo_persona, contacto_whatsapp').limit(1).maybeSingle(),
+        supabase!.from('clientes').select('id, nombre, tipo_persona, contacto_whatsapp, facturacion_cegid').limit(1).maybeSingle(),
       ]);
 
       // Justo al entrar con el enlace del correo, Supabase puede rechazar una vez el token recién

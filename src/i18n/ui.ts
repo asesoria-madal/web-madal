@@ -535,8 +535,8 @@ export const ui = {
       greeting: 'Hola,',
       langLabel: 'Idioma',
       portalExterno: {
-        title: 'Portal de documentación y facturas',
-        desc: 'Sube aquí tus facturas y encuentra tu documentación contable, fiscal y laboral.',
+        title: 'Programa de facturación',
+        desc: 'Entra con tu usuario de Cegid para hacer tus facturas. Las que emitas desde aquí nos llegan solas: no hace falta que nos las envíes.',
       },
       dudaRapida: {
         label: '¿Tienes una duda rápida?',
@@ -544,7 +544,7 @@ export const ui = {
         email: 'Email',
       },
       nav: {
-        inicio: 'Inicio',
+        inicio: 'Programa de facturación',
         prevision: 'Previsión fiscal',
         informes: 'Informes',
         facturas: 'Subir facturas',
@@ -659,7 +659,7 @@ export const ui = {
       },
       facturas: {
         title: 'Subir facturas',
-        intro: 'Sube aquí tus facturas desde cualquier dispositivo, en PDF o en imagen. Desde el móvil, además, puedes pulsar «Hacer foto» para fotografiar la factura o el ticket con la cámara: se sube al momento y nos llega automáticamente. También puedes subirlas en Cegid, desde la pestaña Inicio.',
+        intro: 'Sube aquí tus facturas desde cualquier dispositivo, en PDF o en imagen. Desde el móvil, además, puedes pulsar «Hacer foto» para fotografiar la factura o el ticket con la cámara: se sube al momento y nos llega automáticamente.',
         submit: 'Subir factura',
         cameraSubmit: 'Hacer foto',
         empty: 'Todavía no has subido ninguna factura.',
@@ -684,7 +684,7 @@ export const ui = {
         subir: 'Subir',
         verArchivos: 'Ver archivos',
         subirTitulo: 'Subir documentos',
-        subirIntro: 'Elige la carpeta y sube el archivo, en PDF o en foto. Desde el móvil también puedes pulsar «Hacer foto». Las facturas las puedes seguir subiendo en Cegid, desde la pestaña Inicio.',
+        subirIntro: 'Elige la carpeta y sube el archivo, en PDF o en foto. Desde el móvil también puedes pulsar «Hacer foto».',
         carpetaLabel: 'Carpeta',
         carpetaElige: 'Elige una carpeta',
         grupoContabilidad: 'Contabilidad',
@@ -1253,8 +1253,8 @@ export const ui = {
       greeting: 'Hola,',
       langLabel: 'Idioma',
       portalExterno: {
-        title: 'Portal de documentació i factures',
-        desc: 'Puja aquí les teves factures i troba la teva documentació comptable, fiscal i laboral.',
+        title: 'Programa de facturació',
+        desc: 'Entra amb el teu usuari de Cegid per fer les teves factures. Les que emetis des d’aquí ens arriben soles: no cal que ens les enviïs.',
       },
       dudaRapida: {
         label: 'Tens un dubte ràpid?',
@@ -1262,7 +1262,7 @@ export const ui = {
         email: 'Email',
       },
       nav: {
-        inicio: 'Inici',
+        inicio: 'Programa de facturació',
         prevision: 'Previsió fiscal',
         informes: 'Informes',
         facturas: 'Puja factures',
@@ -1377,7 +1377,7 @@ export const ui = {
       },
       facturas: {
         title: 'Puja factures',
-        intro: 'Puja aquí les teves factures des de qualsevol dispositiu, en PDF o en imatge. Des del mòbil, a més, pots prémer «Fes una foto» per fotografiar la factura o el tiquet amb la càmera: es puja al moment i ens arriba automàticament. També les pots pujar a Cegid, des de la pestanya Inici.',
+        intro: 'Puja aquí les teves factures des de qualsevol dispositiu, en PDF o en imatge. Des del mòbil, a més, pots prémer «Fes una foto» per fotografiar la factura o el tiquet amb la càmera: es puja al moment i ens arriba automàticament.',
         submit: 'Puja la factura',
         cameraSubmit: 'Fes una foto',
         empty: 'Encara no has pujat cap factura.',
@@ -1402,7 +1402,7 @@ export const ui = {
         subir: 'Pujar',
         verArchivos: 'Veure arxius',
         subirTitulo: 'Pujar documents',
-        subirIntro: 'Tria la carpeta i puja l’arxiu, en PDF o en foto. Des del mòbil també pots prémer «Fes una foto». Les factures les pots continuar pujant a Cegid, des de la pestanya Inici.',
+        subirIntro: 'Tria la carpeta i puja l’arxiu, en PDF o en foto. Des del mòbil també pots prémer «Fes una foto».',
         carpetaLabel: 'Carpeta',
         carpetaElige: 'Tria una carpeta',
         grupoContabilidad: 'Comptabilitat',
@@ -1973,8 +1973,8 @@ export const ui = {
       greeting: 'Hi,',
       langLabel: 'Language',
       portalExterno: {
-        title: 'Documents and invoices portal',
-        desc: 'Upload your invoices here and find your accounting, tax and payroll documents.',
+        title: 'Invoicing software',
+        desc: 'Log in with your Cegid user to issue your invoices. The ones you issue here reach us automatically: no need to send them to us.',
       },
       dudaRapida: {
         label: 'Have a quick question?',
@@ -1982,7 +1982,7 @@ export const ui = {
         email: 'Email',
       },
       nav: {
-        inicio: 'Home',
+        inicio: 'Invoicing software',
         prevision: 'Tax forecast',
         informes: 'Reports',
         facturas: 'Upload invoices',
@@ -2097,7 +2097,7 @@ export const ui = {
       },
       facturas: {
         title: 'Upload invoices',
-        intro: 'Upload your invoices here from any device, as a PDF or an image. On your phone you can also tap “Take a photo” to photograph the invoice or receipt with your camera: it uploads straight away and reaches us automatically. You can also upload them in Cegid, from the Home tab.',
+        intro: 'Upload your invoices here from any device, as a PDF or an image. On your phone you can also tap “Take a photo” to photograph the invoice or receipt with your camera: it uploads straight away and reaches us automatically.',
         submit: 'Upload invoice',
         cameraSubmit: 'Take a photo',
         empty: 'You haven’t uploaded any invoices yet.',
@@ -2122,7 +2122,7 @@ export const ui = {
         subir: 'Upload',
         verArchivos: 'View files',
         subirTitulo: 'Upload documents',
-        subirIntro: 'Choose the folder and upload the file, as a PDF or a photo. On your phone you can also tap “Take a photo”. You can still upload invoices in Cegid, from the Home tab.',
+        subirIntro: 'Choose the folder and upload the file, as a PDF or a photo. On your phone you can also tap “Take a photo”.',
         carpetaLabel: 'Folder',
         carpetaElige: 'Choose a folder',
         grupoContabilidad: 'Accounting',

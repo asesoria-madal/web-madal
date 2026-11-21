@@ -1417,9 +1417,9 @@ section#como-trabajamos { background: var(--accent-tint); border-top-color: var(
 .pf-tarjeta dd { margin: 0; text-align: right; font-variant-numeric: tabular-nums; }
 .pf-total { margin-top: 1rem; font-weight: 650; font-size: 1.05rem; }
 .pf-aviso { margin-top: 1rem; font-size: 0.82rem; color: var(--ink-soft); }
-.pf-layout { display: grid; grid-template-columns: minmax(0, 1fr) 260px; gap: 1.5rem; align-items: start; }
-.pf-lateral { border: 1px solid var(--line); border-radius: 12px; padding: 0.9rem 1rem; font-size: 0.8rem; line-height: 1.5; color: var(--ink-soft); position: sticky; top: 1rem; }
-.pf-lateral p { margin: 0; }
+.pf-layout { display: grid; grid-template-columns: minmax(0, 2fr) minmax(220px, 1fr); gap: 1.5rem; align-items: start; }
+.pf-lateral { border: 1px solid var(--line); border-radius: 12px; padding: 0.8rem 0.95rem; line-height: 1.45; color: var(--ink-soft); position: sticky; top: 1rem; }
+.pf-lateral p { margin: 0; font-size: 0.74rem; }
 .pf-lateral p + p { margin-top: 0.8rem; }
 @media (max-width: 900px) { .pf-layout { grid-template-columns: 1fr; } .pf-lateral { position: static; } }
 .pf-tab { background: none; border: 0; border-bottom: 3px solid transparent; padding: 0.6rem 0.9rem; min-height: 44px; font: inherit; font-size: 0.95rem; color: var(--ink-soft); cursor: pointer; }
@@ -1556,7 +1556,9 @@ body.portal-app .portal-box { margin-top: 0; }
   .duda-rapida { grid-column: 1 / -1; grid-row: 4; flex-direction: row; flex-wrap: wrap; align-items: center; gap: 0.3rem 0.9rem; padding-top: 0.7rem; font-size: 0.85rem; }
 }
 
-.app-main { padding: 2.4rem 2.2rem 3rem; max-width: 720px; }
+.app-main { padding: 2.4rem 2.2rem 3rem; max-width: 1280px; }
+/* Los apartados de texto siguen a 720 px; los de tablas (previsión, informes) usan todo el ancho (2026-11-21). */
+.app-main > .app-panel:not(.app-panel-ancho) { max-width: 720px; }
 @media (max-width: 760px) { .app-main { padding: 1.8rem 1.4rem 3rem; } }
 .app-panel h2 { font-family: var(--font-display); font-size: 1.4rem; margin-bottom: 1.2rem; }
 

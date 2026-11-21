@@ -1505,3 +1505,8 @@ create policy "admin ve todos los modelos" on modelos_fiscales for select
 
 -- 2026-11-20: "Queda a compensar" de las hojas de impuestos (solo 303), la usa la previsión fiscal. Ejecutado por n8n.
 alter table modelos_fiscales add column if not exists queda_compensar numeric;
+
+-- 2026-11-21 (Edurne): programa de facturación de Cegid activado. Lo copia n8n ("Facturación Cegid desde HubSpot", cada 15 min)
+-- desde la casilla de Empresa "Programa de facturación activado" (programa_facturacion_activo). Solo con true ve el portal
+-- la pestaña de Cegid. Ejecutado por n8n.
+alter table clientes add column if not exists facturacion_cegid boolean not null default false;
