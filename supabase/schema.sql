@@ -1510,3 +1510,148 @@ alter table modelos_fiscales add column if not exists queda_compensar numeric;
 -- desde la casilla de Empresa "Programa de facturación activado" (programa_facturacion_activo). Solo con true ve el portal
 -- la pestaña de Cegid. Ejecutado por n8n.
 alter table clientes add column if not exists facturacion_cegid boolean not null default false;
+
+-- =============================================================================
+-- 2026-11-21: apartado Laboral del portal (incidencias mensuales, altas y bajas)
+-- =============================================================================
+-- Diseño (Hugo, 2026-11-21): cada mes el cliente descarga una plantilla Excel con sus trabajadores,
+-- la rellena y la sube al portal antes del día 15. El navegador la valida y guarda una carga
+-- (incidencias_cargas) con sus filas (incidencias_lineas); n8n ("Incidencias laborales a Cegid")
+-- las pasa a DiezNom. Los trabajadores de la plantilla salen de empleados_nomina, que n8n
+-- ("Empleados de Cegid") copia de DiezNom cada noche. Las bajas de trabajador se piden desde el
+-- portal (bajas_trabajadores). Todo lo escribe n8n con la service role; el cliente solo inserta
+-- sus cargas, sus filas y sus bajas (RLS por clientes.auth_user_id, como facturas_subidas).
+-- Tablas nuevas tras el 30-oct-2026: GRANT explícito en cada una.
+
+-- Trabajadores de cada cliente en DiezNom (copia de solo lectura para el portal).
+create table if not exists empleados_nomina (
+  cliente_id text not null references clientes (id) on delete cascade on update cascade,
+  codigo_empleado integer not null,        -- código del empleado dentro de la empresa de DiezNom
+  nif text,
+  nombre text not null,
+  fecha_alta date,
+  fecha_baja date,                         -- null = en activo
+  actualizado_at timestamptz not null default now(),
+  primary key (cliente_id, codigo_empleado)
+);
+alter table empleados_nomina enable row level security;
+grant all on empleados_nomina to service_role;
+grant select on empleados_nomina to authenticated;
+drop policy if exists "cliente ve sus empleados" on empleados_nomina;
+create policy "cliente ve sus empleados" on empleados_nomina for select
+  using (cliente_id in (select c.id from clientes c where c.auth_user_id = auth.uid()));
+drop policy if exists "admin ve todos los empleados" on empleados_nomina;
+create policy "admin ve todos los empleados" on empleados_nomina for select
+  using (auth.uid() in (select auth_user_id from portal_admins));
+
+-- Una carga = una plantilla subida para la nómina de un mes.
+create table if not exists incidencias_cargas (
+  id bigint generated always as identity primary key,
+  cliente_id text not null references clientes (id) on delete cascade on update cascade,
+  anio integer not null,
+  mes integer not null check (mes between 1 and 12),
+  nombre_archivo text,
+  estado text not null default 'pendiente',  -- subiendo (el navegador aún inserta las filas) | pendiente (lista para n8n) | cargada | con_errores | sustituida
+  resumen jsonb,                             -- lo que escribe n8n: cargadas, errores, por revisar
+  created_at timestamptz not null default now(),
+  procesada_at timestamptz,
+  notificada_at timestamptz
+);
+create index if not exists incidencias_cargas_cliente_mes on incidencias_cargas (cliente_id, anio, mes);
+alter table incidencias_cargas enable row level security;
+grant all on incidencias_cargas to service_role;
+grant usage, select on sequence incidencias_cargas_id_seq to service_role, authenticated;
+grant select, insert on incidencias_cargas to authenticated;
+drop policy if exists "cliente ve sus cargas" on incidencias_cargas;
+create policy "cliente ve sus cargas" on incidencias_cargas for select
+  using (cliente_id in (select c.id from clientes c where c.auth_user_id = auth.uid()));
+drop policy if exists "cliente sube su carga" on incidencias_cargas;
+-- El navegador crea la carga en 'subiendo', inserta las filas y solo entonces la pasa a 'pendiente': así n8n
+-- nunca carga una plantilla a medias si el envío se corta. Solo se puede tocar el estado, y solo de subiendo a pendiente.
+create policy "cliente sube su carga" on incidencias_cargas for insert
+  with check (estado = 'subiendo' and cliente_id in (select c.id from clientes c where c.auth_user_id = auth.uid()));
+grant update (estado) on incidencias_cargas to authenticated;
+drop policy if exists "cliente cierra su carga" on incidencias_cargas;
+create policy "cliente cierra su carga" on incidencias_cargas for update
+  using (estado = 'subiendo' and cliente_id in (select c.id from clientes c where c.auth_user_id = auth.uid()))
+  with check (estado = 'pendiente' and cliente_id in (select c.id from clientes c where c.auth_user_id = auth.uid()));
+drop policy if exists "admin ve todas las cargas" on incidencias_cargas;
+create policy "admin ve todas las cargas" on incidencias_cargas for select
+  using (auth.uid() in (select auth_user_id from portal_admins));
+
+-- Las filas de la plantilla. tipo = clave del catálogo (src/lib/incidenciasLaborales.ts).
+create table if not exists incidencias_lineas (
+  id bigint generated always as identity primary key,
+  carga_id bigint not null references incidencias_cargas (id) on delete cascade,
+  fila integer not null,                     -- fila del Excel (para decirle al cliente cuál falla)
+  trabajador_codigo integer not null,
+  tipo text not null,
+  desde date,
+  hasta date,
+  unidades numeric,                          -- horas, días, km, dietas… según el tipo
+  importe numeric,                           -- importe unitario; opcional si el convenio lo trae
+  comentario text,
+  estado text not null default 'pendiente',  -- pendiente | cargada | revisar | error
+  detalle text,                              -- error o aviso, en una línea
+  cegid_ref jsonb,                           -- clave con la que quedó en DiezNom (para borrarla si se vuelve a subir)
+  created_at timestamptz not null default now()
+);
+create index if not exists incidencias_lineas_carga on incidencias_lineas (carga_id);
+alter table incidencias_lineas enable row level security;
+grant all on incidencias_lineas to service_role;
+grant usage, select on sequence incidencias_lineas_id_seq to service_role, authenticated;
+grant select, insert on incidencias_lineas to authenticated;
+drop policy if exists "cliente ve sus lineas" on incidencias_lineas;
+create policy "cliente ve sus lineas" on incidencias_lineas for select
+  using (carga_id in (select i.id from incidencias_cargas i where i.cliente_id in (select c.id from clientes c where c.auth_user_id = auth.uid())));
+drop policy if exists "cliente sube sus lineas" on incidencias_lineas;
+create policy "cliente sube sus lineas" on incidencias_lineas for insert
+  with check (carga_id in (select i.id from incidencias_cargas i where i.estado = 'subiendo' and i.cliente_id in (select c.id from clientes c where c.auth_user_id = auth.uid())));
+drop policy if exists "admin ve todas las lineas" on incidencias_lineas;
+create policy "admin ve todas las lineas" on incidencias_lineas for select
+  using (auth.uid() in (select auth_user_id from portal_admins));
+
+-- Bajas de trabajador pedidas desde el portal. n8n ("Bajas de trabajador en Cegid") pone la fecha y
+-- la causa en el contrato de DiezNom y crea la incidencia de cobro; la baja oficial (Seguridad
+-- Social, Contrat@) la tramita el equipo y marca tramitado_at.
+create table if not exists bajas_trabajadores (
+  id bigint generated always as identity primary key,
+  cliente_id text not null references clientes (id) on delete cascade on update cascade,
+  trabajador_codigo integer not null,
+  trabajador_nombre text,
+  trabajador_nif text,
+  fecha_baja date not null,                  -- último día trabajado
+  causa text not null,                       -- voluntaria | fin_contrato | prueba_no_superada | mutuo_acuerdo | despido | fallecimiento | otra
+  observaciones text,
+  created_at timestamptz not null default now(),
+  cegid_enviado_at timestamptz,
+  cegid_error text,
+  cegid_incidencia integer,
+  cegid_resultado jsonb,
+  notificado_at timestamptz,
+  tramitado_at timestamptz
+);
+alter table bajas_trabajadores enable row level security;
+grant all on bajas_trabajadores to service_role;
+grant usage, select on sequence bajas_trabajadores_id_seq to service_role, authenticated;
+grant select, insert on bajas_trabajadores to authenticated;
+drop policy if exists "cliente ve sus bajas" on bajas_trabajadores;
+create policy "cliente ve sus bajas" on bajas_trabajadores for select
+  using (cliente_id in (select c.id from clientes c where c.auth_user_id = auth.uid()));
+drop policy if exists "cliente pide sus bajas" on bajas_trabajadores;
+create policy "cliente pide sus bajas" on bajas_trabajadores for insert
+  with check (cliente_id in (select c.id from clientes c where c.auth_user_id = auth.uid()));
+drop policy if exists "admin ve todas las bajas" on bajas_trabajadores;
+create policy "admin ve todas las bajas" on bajas_trabajadores for select
+  using (auth.uid() in (select auth_user_id from portal_admins));
+
+-- El portal enseña al cliente el estado de las altas que ha enviado por el formulario: solo estas
+-- columnas (nada de IBAN ni datos del trabajador) y solo las de su empresa (NIF de la ficha).
+grant select (id, nombre_completo, fecha_inicio, created_at, tramitado_at, cegid_enviado_at, cegid_error, empresa_nif)
+  on altas_trabajadores to authenticated;
+drop policy if exists "cliente ve el estado de sus altas" on altas_trabajadores;
+create policy "cliente ve el estado de sus altas" on altas_trabajadores for select
+  using (upper(trim(empresa_nif)) in (select c.id from clientes c where c.auth_user_id = auth.uid()));
+drop policy if exists "admin ve todas las altas" on altas_trabajadores;
+create policy "admin ve todas las altas" on altas_trabajadores for select
+  using (auth.uid() in (select auth_user_id from portal_admins));
