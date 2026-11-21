@@ -546,6 +546,7 @@ export const ui = {
       nav: {
         inicio: 'Inicio',
         prevision: 'Previsión fiscal',
+        informes: 'Informes',
         facturas: 'Subir facturas',
         documentos: 'Mis documentos',
         misFacturas: 'Mis facturas',
@@ -615,6 +616,17 @@ export const ui = {
         passShort: 'La contraseña tiene que tener al menos 8 caracteres.',
         passMismatch: 'Las dos contraseñas no coinciden.',
         passError: 'No se ha podido guardar la contraseña. Inténtalo de nuevo o pide otro enlace.',
+      },
+      informes: {
+        title: 'Informes',
+        intro: 'Saca los informes de tu contabilidad para las fechas que quieras. Salen de Cegid en el momento, con lo contabilizado hasta hoy.',
+        informe: 'Informe', desde: 'Desde', hasta: 'Hasta', aFecha: 'A fecha', cuenta: 'Cuenta (opcional)', cuentaPh: 'Por ejemplo 572',
+        generar: 'Generar informe', generando: 'Preparando el informe… puede tardar unos segundos.',
+        opciones: { pyg: 'Pérdidas y ganancias', sumas: 'Sumas y saldos', diario: 'Libro diario', balance: 'Balance de situación', mayor: 'Mayor', emitidas: 'Facturas emitidas', recibidas: 'Facturas recibidas' },
+        notaAutonomo: 'Como autónomo en estimación directa, tu contabilidad son los libros de ingresos y gastos: el balance, el diario, los mayores y las sumas y saldos son de las sociedades. Tus pérdidas y ganancias son tus ingresos y gastos por grupos.',
+        csv: 'Descargar Excel (CSV)', imprimir: 'Imprimir o guardar en PDF',
+        error: 'No se ha podido sacar el informe. Inténtalo de nuevo en unos minutos.', sinConta: 'Todavía no tenemos tu contabilidad en marcha: los informes estarán aquí en cuanto lo esté.',
+        vacio: 'No hay movimientos en esas fechas.',
       },
       prevision: {
         title: 'Previsión fiscal',
@@ -1251,6 +1263,7 @@ export const ui = {
       nav: {
         inicio: 'Inici',
         prevision: 'Previsió fiscal',
+        informes: 'Informes',
         facturas: 'Puja factures',
         documentos: 'Els meus documents',
         misFacturas: 'Les meves factures',
@@ -1320,6 +1333,17 @@ export const ui = {
         passShort: 'La contrasenya ha de tenir almenys 8 caràcters.',
         passMismatch: 'Les dues contrasenyes no coincideixen.',
         passError: 'No s’ha pogut desar la contrasenya. Torna-ho a provar o demana un altre enllaç.',
+      },
+      informes: {
+        title: 'Informes',
+        intro: 'Treu els informes de la teva comptabilitat per a les dates que vulguis. Surten de Cegid en el moment, amb el que s’ha comptabilitzat fins avui.',
+        informe: 'Informe', desde: 'Des de', hasta: 'Fins a', aFecha: 'A data', cuenta: 'Compte (opcional)', cuentaPh: 'Per exemple 572',
+        generar: 'Generar l’informe', generando: 'Preparant l’informe… pot trigar uns segons.',
+        opciones: { pyg: 'Pèrdues i guanys', sumas: 'Sumes i saldos', diario: 'Llibre diari', balance: 'Balanç de situació', mayor: 'Major', emitidas: 'Factures emeses', recibidas: 'Factures rebudes' },
+        notaAutonomo: 'Com a autònom en estimació directa, la teva comptabilitat són els llibres d’ingressos i despeses: el balanç, el diari, els majors i les sumes i saldos són de les societats. Les teves pèrdues i guanys són els teus ingressos i despeses per grups.',
+        csv: 'Descarregar Excel (CSV)', imprimir: 'Imprimir o desar en PDF',
+        error: 'No s’ha pogut treure l’informe. Torna-ho a provar d’aquí a uns minuts.', sinConta: 'Encara no tenim la teva comptabilitat en marxa: els informes seran aquí tan bon punt ho estigui.',
+        vacio: 'No hi ha moviments en aquestes dates.',
       },
       prevision: {
         title: 'Previsió fiscal',
@@ -1958,6 +1982,7 @@ export const ui = {
       nav: {
         inicio: 'Home',
         prevision: 'Tax forecast',
+        informes: 'Reports',
         facturas: 'Upload invoices',
         documentos: 'My documents',
         misFacturas: 'My invoices',
@@ -2027,6 +2052,17 @@ export const ui = {
         passShort: 'The password must be at least 8 characters long.',
         passMismatch: 'The two passwords don’t match.',
         passError: 'The password couldn’t be saved. Try again or ask for a new link.',
+      },
+      informes: {
+        title: 'Reports',
+        intro: 'Run reports on your accounts for any dates you choose. They come straight from Cegid, with everything booked up to today. Reports are in Spanish.',
+        informe: 'Report', desde: 'From', hasta: 'To', aFecha: 'As at', cuenta: 'Account (optional)', cuentaPh: 'For example 572',
+        generar: 'Run report', generando: 'Preparing the report… it may take a few seconds.',
+        opciones: { pyg: 'Profit and loss', sumas: 'Trial balance', diario: 'Journal', balance: 'Balance sheet', mayor: 'General ledger', emitidas: 'Invoices issued', recibidas: 'Invoices received' },
+        notaAutonomo: 'As a self-employed person under direct assessment, your accounts are the income and expenses books: the balance sheet, journal, ledgers and trial balance apply to companies. Your profit and loss is your income and expenses by group.',
+        csv: 'Download Excel (CSV)', imprimir: 'Print or save as PDF',
+        error: 'The report could not be run. Please try again in a few minutes.', sinConta: 'Your accounts are not set up yet: reports will be here as soon as they are.',
+        vacio: 'No entries for those dates.',
       },
       prevision: {
         title: 'Tax forecast',

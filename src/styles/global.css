@@ -1376,6 +1376,28 @@ section#como-trabajamos { background: var(--accent-tint); border-top-color: var(
 .mf-descargar { display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; border: 1px solid var(--line); border-radius: 8px; background: transparent; color: var(--accent); cursor: pointer; }
 .mf-nota { font-size: 0.85rem; color: var(--ink-soft); margin-top: 0.8rem; }
 @media (max-width: 640px) { .mf-totales { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+/* Informes (2026-11-21) */
+.inf-form { display: flex; flex-wrap: wrap; gap: 0.8rem; align-items: flex-end; margin-top: 1rem; }
+.inf-form label { display: flex; flex-direction: column; gap: 0.3rem; font-size: 0.85rem; font-weight: 600; color: var(--ink-soft); }
+.inf-form select, .inf-form input { font: inherit; font-size: 0.95rem; font-weight: 400; padding: 0.55rem 0.7rem; min-height: 44px; border: 1px solid var(--line); border-radius: 8px; background: var(--paper); color: var(--ink); }
+.inf-form label[hidden] { display: none; }
+.inf-generar { font: inherit; font-weight: 600; min-height: 44px; padding: 0.55rem 1.1rem; border: 0; border-radius: 8px; background: var(--accent); color: #fff; cursor: pointer; }
+.inf-generar:disabled { opacity: 0.6; cursor: wait; }
+.inf-cabecera { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.8rem; align-items: flex-end; margin-top: 1.2rem; }
+.inf-cabecera h3 { margin: 0; font-size: 1.1rem; }
+.inf-botones { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+.inf-tabla { min-width: 720px; font-variant-numeric: tabular-nums; }
+.inf-tabla .inf-seccion td { font-weight: 600; background: color-mix(in srgb, var(--accent) 6%, transparent); }
+.inf-tabla .inf-subtotal td { font-weight: 600; }
+.inf-tabla .inf-total td { font-weight: 700; border-top: 2px solid var(--ink-soft); }
+@media print {
+  body.inf-imprimiendo * { visibility: hidden; }
+  body.inf-imprimiendo #inf-resultado, body.inf-imprimiendo #inf-resultado * { visibility: visible; }
+  body.inf-imprimiendo #inf-resultado { position: absolute; left: 0; top: 0; width: 100%; }
+  body.inf-imprimiendo .inf-botones { display: none; }
+  body.inf-imprimiendo .mf-tabla-caja { overflow: visible; border: 0; }
+  body.inf-imprimiendo .inf-tabla { min-width: 0; font-size: 9pt; }
+}
 /* Previsión fiscal (2026-11-20) */
 .pf-periodo { font-weight: 500; color: var(--ink-soft); font-size: 0.8em; }
 .pf-estado { font-size: 0.85rem; color: var(--ink-soft); }

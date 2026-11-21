@@ -116,6 +116,10 @@ No es una ficha de cliente: es solo el registro de qué avisos ya se mandaron pa
 - RLS: el cliente puede ver sus propias filas y crear una fila propia, siempre con `fecha_contabilizado is null` (no puede marcarse a sí mismo como contabilizada). **Sin políticas de update ni delete** — esas columnas las toca solo la service role.
 - **Carpetas (2026-11-12)**: no solo hay facturas. El cliente sube desde la pestaña Documentación eligiendo `carpeta` (facturas emitidas/recibidas/simplificadas, tickets, extractos de banco —solo SL— o de tarjeta de crédito, y carpetas de documentación: escrituras, contratos, préstamos…). En extractos guarda también `cuenta_digitos`, `periodo_desde` y `periodo_hasta`. `carpeta` null = subida anterior, tratada como factura. n8n (`Descarga de facturas`) decide con ella la carpeta de Drive y el nombre; solo facturas y tickets llevan `drive_carpeta_pendientes_id` y se marcan como contabilizados. Valores y rutas en `schema.sql`.
 
+### Informes del portal (2026-11-21, sin tabla)
+
+- El apartado "Informes" del portal pide a n8n (`Informes del portal`, `GET /webhook/informes-portal?informe=&desde=&hasta=&cuenta=&cliente=` con la sesión de Supabase) un informe calculado en el momento con los datos de Cegid: sociedades, pérdidas y ganancias, balance, sumas y saldos, mayor y diario; autónomos, resumen y libro de ingresos y gastos. No se guarda nada en Supabase ni en las ejecuciones de n8n. `cliente` solo vale para administradores.
+
 ### `modelos_fiscales` (2026-11-20)
 
 - Una fila por cliente, modelo y periodo (`periodo` como en la hoja: `1T 2026`, `Anual 2025`…), con `estado`, `resultado`, `forma_pago`, `importe` (y `importe_texto`), `presentado_el`, `justificante_drive_id` y la `hoja` de origen.
