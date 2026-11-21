@@ -22,9 +22,6 @@ const nav = [
   { key: 'home', href: lang === 'es' ? '/' : `/${lang}/`, label: t.nav.home },
   { key: 'blog', href: localizedPath('/blog', lang), label: t.nav.blog },
   { key: 'herramientas', href: localizedPath('/herramientas', lang), label: HERRAMIENTAS[lang].nav },
-  // Línea Madal Pricing (asesoría de precios): solo en castellano de momento, por eso el
-  // enlace no lleva prefijo de idioma. Se ve como una "línea aparte" (píldora oscura).
-  { key: 'pricing', href: '/pricing', label: 'Pricing' },
 ];
 const equipoHref = localizedPath('/equipo', lang);
 const serviciosHref = localizedPath('/servicios', lang);
@@ -64,7 +61,7 @@ const localeCode: Record<Locale, string> = { es: 'ES', ca: 'CA', en: 'EN' };
     {!minimal && (
       <nav class="primary" aria-label={t.header.menu}>
         {nav.map((item) => (
-          <a class={`navlink${active === item.key ? ' active' : ''}${item.key === 'pricing' ? ' navlink-pricing' : ''}`} href={item.href}>{item.label}</a>
+          <a class={`navlink${active === item.key ? ' active' : ''}`} href={item.href}>{item.label}</a>
         ))}
         <div class="nav-services">
           <a class={`navlink${active === 'servicios' ? ' active' : ''}`} href={serviciosHref}>{t.nav.servicios} <span class="nav-services-caret" aria-hidden="true">▾</span></a>
@@ -117,7 +114,7 @@ const localeCode: Record<Locale, string> = { es: 'ES', ca: 'CA', en: 'EN' };
   {!minimal && (
     <nav id="mobileMenu" class="mobile-menu" aria-label={t.header.menu} hidden>
       {nav.map((item) => (
-        <a class={`mobile-navlink${active === item.key ? ' active' : ''}${item.key === 'pricing' ? ' mobile-navlink-pricing' : ''}`} href={item.href}>{item.label}</a>
+        <a class={`mobile-navlink${active === item.key ? ' active' : ''}`} href={item.href}>{item.label}</a>
       ))}
       <div class="mobile-services">
         <button

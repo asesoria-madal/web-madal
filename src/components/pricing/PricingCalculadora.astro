@@ -20,7 +20,7 @@ const BOOKING_URL = 'https://meetings-eu1.hubspot.com/asesoria-madal';
     <div class="wrap">
       <div class="fig">FIG.C - CALCULADORA</div>
       <h1>¿Cuánto deberías cobrar <em>por hora?</em></h1>
-      <p class="dek">Parte de lo que quieres llevarte a casa, no de lo que cobra la competencia. Añade tus costes reales, tus impuestos y las horas que de verdad facturas, y obtén tu tarifa mínima.</p>
+      <p class="dek">Parte de lo que quieres llevarte a casa. Añade tus costes, tus impuestos y las horas que de verdad facturas, y verás tu tarifa mínima.</p>
       <p class="under mono">TODO SE CALCULA EN TU NAVEGADOR · NO GUARDAMOS NADA</p>
     </div>
   </header>
@@ -101,14 +101,14 @@ const BOOKING_URL = 'https://meetings-eu1.hubspot.com/asesoria-madal';
     <div class="wrap pp-explica">
       <div class="section-head">
         <div class="fig">CÓMO SE CALCULA</div>
-        <h2>Tres pasos, sin magia</h2>
+        <h2>De tu neto a tu tarifa</h2>
       </div>
       <ol>
-        <li><strong>Cuánto tienes que facturar.</strong> Tu neto deseado, dividido entre (1 − tu tipo de IRPF), más los gastos y la cuota de autónomos. Esos dos últimos restan antes de impuestos, por eso se suman aparte.</li>
-        <li><strong>Cuántas horas puedes vender.</strong> Horas semanales × semanas trabajadas × la parte que realmente facturas. Aquí está la mayor sorpresa: casi siempre son bastantes menos de las que crees.</li>
-        <li><strong>Tu tarifa mínima.</strong> Lo primero entre lo segundo. Por debajo de ese número, trabajas más para llevarte menos de lo que querías.</li>
+        <li>Primero, cuánto tienes que facturar: tu neto deseado dividido entre (1 − tu tipo de IRPF), más los gastos y la cuota de autónomos. Gastos y cuota restan antes de impuestos, por eso se suman aparte.</li>
+        <li>Después, cuántas horas puedes vender: horas a la semana × semanas trabajadas × la parte que facturas. Casi siempre salen menos de las que uno cree.</li>
+        <li>Tu tarifa mínima es lo primero entre lo segundo. Por debajo de ese número trabajas más para llevarte menos de lo que querías.</li>
       </ol>
-      <p>Es un <strong>suelo</strong>, no un precio. El precio final depende también de lo que vale tu trabajo para el cliente, y eso es justo lo que se mejora al ordenar tus costes y tu margen. ¿Quieres que lo revisemos con tus números reales? La primera llamada es gratuita.</p>
+      <p>Es un mínimo, no un precio: el precio final depende también de lo que vale tu trabajo para el cliente. Para ponerle precio a un encargo concreto, usa <a href="/pricing/calculadora-servicio">la calculadora por servicio</a>. Y si quieres revisarlo con tus números reales, la primera llamada es gratuita.</p>
       <div class="cta-row">
         <a class="btn btn-primary" href={BOOKING_URL}>Reservar llamada gratuita →</a>
         <a class="btn btn-ghost" href="/pricing/blog">Leer el blog de pricing</a>
@@ -125,8 +125,8 @@ const BOOKING_URL = 'https://meetings-eu1.hubspot.com/asesoria-madal';
     if (!raiz || raiz.dataset.listo) return;
     raiz.dataset.listo = '1';
     const form = raiz.querySelector('form') as HTMLFormElement;
-    const eur0 = new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 });
-    const eur2 = new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR', minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    const eur0 = new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0, useGrouping: 'always' });
+    const eur2 = new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR', minimumFractionDigits: 2, maximumFractionDigits: 2, useGrouping: 'always' });
     const num = new Intl.NumberFormat('es-ES', { maximumFractionDigits: 0 });
     const out = (k: string, v: string) => { const el = raiz.querySelector(`[data-r="${k}"]`); if (el) el.textContent = v; };
     const msg = raiz.querySelector('[data-r="actualMsg"]') as HTMLElement;

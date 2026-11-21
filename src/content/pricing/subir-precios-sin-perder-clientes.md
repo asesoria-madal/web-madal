@@ -7,24 +7,21 @@ seoDescription: "Cuándo y cómo subir tus precios como autónomo, y la cuenta q
 date: 2026-11-21
 ---
 
-Subir precios da más miedo que ponerlos por primera vez. Ya tienes clientes que te conocen, que están contentos y que podrían irse. Así que lo vas posponiendo, mientras tus costes suben cada año y tu margen se va estrechando sin que lo notes.
+Subir precios da más miedo que ponerlos por primera vez. Ya tienes clientes que te conocen, están contentos y podrían irse. Así que lo vas posponiendo, mientras tus costes suben cada año y tu margen se estrecha sin que lo notes.
 
 ## Cuándo toca subir
 
-No hace falta esperar a una crisis. Estas señales suelen indicar que es el momento:
+No hace falta esperar a una crisis. Suele ser buen momento cuando tu agenda está casi siempre llena y rechazas encargos, cuando llevas más de un año sin tocar tu tarifa (tus costes, tu cuota y tus gastos casi seguro han subido) o cuando nadie regatea. Si todos aceptan a la primera sin pestañear, puede que estés por debajo de lo que el mercado paga, y merece la pena comprobarlo.
 
-- **Estás casi siempre al límite de trabajo.** Si tu agenda está llena y rechazas encargos, tu precio probablemente está bajo.
-- **Llevas más de un año sin tocar tu tarifa.** Tus costes, tu cuota y tus gastos casi seguro han subido.
-- **Nadie regatea.** Si todos los clientes aceptan a la primera sin pestañear, puede que estés por debajo de lo que el mercado paga. Merece la pena comprobarlo.
-- **Tus clientes más grandes te dan más trabajo y menos margen.** Revisa la rentabilidad real de cada uno.
+Otra señal es que tus clientes más grandes te den más trabajo y menos margen. Revisa lo que te deja cada uno.
 
 ## La cuenta que quita el miedo
 
-Antes de subir, calcula cuántos clientes (o cuánto volumen) podrías perder y aun así ganar lo mismo. La fórmula:
+Antes de subir, calcula cuántos clientes podrías perder y aun así ganar lo mismo. La fórmula:
 
-**Pérdida de volumen admisible = subida / (margen + subida)**
+Pérdida de volumen admisible = subida / (margen + subida)
 
-Donde "margen" es la parte de cada euro que te queda después de los costes que dependen directamente de ese trabajo, y "subida" es el porcentaje que subes el precio. Ambos en tanto por uno.
+"Margen" es la parte de cada euro que te queda después de los costes que dependen directamente de ese trabajo, y "subida" es el porcentaje en que subes el precio, los dos en tanto por uno.
 
 | Tu margen sobre cada venta | Subes un | Puedes perder hasta |
 |---|---|---|
@@ -33,24 +30,20 @@ Donde "margen" es la parte de cada euro que te queda después de los costes que 
 | 50 % | 10 % | 16,7 % del volumen |
 | 50 % | 20 % | 28,6 % del volumen |
 
-Cuanto menor es tu margen, más protege una subida. Y si trabajas por tu cuenta, perder un cliente libera horas que puedes vender a otro o descansar. Una subida pequeña casi siempre sale a cuenta incluso si se va alguno.
+Cuanto menor es tu margen, más te protege una subida. Y si trabajas por tu cuenta, perder un cliente libera horas que puedes vender a otro o dedicar a descansar. Una subida pequeña casi siempre sale a cuenta aunque se vaya alguno.
 
-## Cómo hacerlo bien
+## Cómo hacerlo
 
-**1. Empieza por los clientes nuevos.** No hay precio anterior con el que comparar. Es la subida con menos riesgo, y te sirve para comprobar dónde está tu límite.
+Empieza por los clientes nuevos: no hay precio anterior con el que comparar, es la subida con menos riesgo y te sirve para ver dónde está tu límite.
 
-**2. Avisa con tiempo.** Entre uno y dos meses de antelación es lo habitual. Evita que se enteren al ver la factura.
+Con los actuales, avisa con tiempo. Entre uno y dos meses es lo habitual, para que nadie se entere al ver la factura. Y cuenta el valor antes que el coste: "mis costes han subido" interesa poco al cliente, mientras que los resultados que habéis conseguido y el servicio que mantienes sí le importan.
 
-**3. Cuenta el valor, no el coste.** "Mis costes han subido" interesa poco al cliente. "Estos son los resultados que hemos conseguido y el servicio que mantengo" interesa más.
+Si la subida es grande, mejor dos moderadas que una brusca. Y ofrece una salida: una opción más económica con menos alcance permite que quien no puede pagar más siga contigo sin que trabajes a pérdida.
 
-**4. Escalona si la subida es grande.** Mejor dos subidas moderadas que una brusca.
-
-**5. Ofrece una salida.** Una opción más económica con menos alcance permite que el cliente que no puede pagar más siga contigo sin que tú trabajes a pérdida.
-
-**6. Revisa cliente por cliente.** No todos merecen la misma subida. Los que te dan menos margen o más trabajo son los primeros candidatos.
+Revisa también cliente por cliente. No todos merecen la misma subida, y los primeros candidatos son los que te dejan menos margen o más trabajo.
 
 ## Si alguien se va
 
-Es parte del trato. A veces el cliente que se va por una subida del 10 % era el que más tiempo te costaba y menos te pagaba. Los números te dirán si compensó: compara tus ingresos netos antes y después, no solo el número de clientes.
+Pasa. A veces el cliente que se marcha por una subida del 10 % era el que más tiempo te costaba y menos te pagaba. Para saber si compensó, compara tus ingresos netos antes y después, no solo el número de clientes.
 
-Para saber a partir de qué precio empiezas a salir perdiendo, [calcula tu tarifa mínima](/pricing/calculadora-tarifa). Y si quieres que revisemos juntos qué clientes te dejan margen y cuáles no, [reserva una llamada gratuita](https://meetings-eu1.hubspot.com/asesoria-madal).
+Para saber desde qué precio empiezas a salir perdiendo, [calcula tu tarifa mínima](/pricing/calculadora-tarifa). Y si quieres revisar qué clientes te dejan margen y cuáles no, [reserva una llamada gratuita](https://meetings-eu1.hubspot.com/asesoria-madal).

@@ -1,0 +1,20 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import PricingCalculadoraServicio from '../../components/pricing/PricingCalculadoraServicio.astro';
+
+export const prerender = true;
+---
+
+<Layout
+  lang="es"
+  path="/pricing/calculadora-servicio"
+  active="none"
+  title="Calculadora: cuánto cobrar por un servicio · Madal Pricing"
+  description="Calcula el precio de un servicio concreto: horas de trabajo, tiempo invisible, costes directos y margen. Con el descuento máximo que puedes dar sin perder dinero."
+  showCtaFinal={false}
+  hideHeader={true}
+  localesAvailable={['es']}
+  breadcrumbs={[{ name: 'Madal Pricing', path: '/pricing' }, { name: 'Calculadora de precio por servicio', path: '/pricing/calculadora-servicio' }]}
+>
+  <PricingCalculadoraServicio />
+</Layout>

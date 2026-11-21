@@ -24,7 +24,7 @@ import '@fontsource/ibm-plex-mono/latin-600.css';
 interface Props {
   /** Sección activa del nav. En la landing los enlaces a anclas son locales
    * (#pilares) y en el resto apuntan a /pricing#pilares. */
-  current: 'landing' | 'blog' | 'calculadora';
+  current: 'landing' | 'blog' | 'calculadora' | 'servicio';
 }
 const { current } = Astro.props;
 const base = current === 'landing' ? '' : '/pricing';
@@ -35,10 +35,8 @@ const base = current === 'landing' ? '' : '/pricing';
     <div class="nav-inner">
       <a class="brand" href="/pricing" aria-label="Madal Pricing, inicio"><span class="dot"></span>MADAL<span style="color:var(--accent2)">·</span>PRICING <span class="sub">by Asesoría Madal</span></a>
       <div class="navlinks" id="navlinks">
-        <a href={`${base}#pilares`} data-nav="pilares">Pilares</a>
-        <a href={`${base}#proceso`} data-nav="proceso">Proceso</a>
-        <a href={`${base}#planes`} data-nav="planes">Planes</a>
-        <a href="/pricing/calculadora-tarifa" class={current === 'calculadora' ? 'active' : ''}>Calculadora</a>
+        <a href="/pricing/calculadora-tarifa" class={current === 'calculadora' ? 'active' : ''}>Tarifa por hora</a>
+        <a href="/pricing/calculadora-servicio" class={current === 'servicio' ? 'active' : ''}>Precio de un servicio</a>
         <a href="/pricing/blog" class={current === 'blog' ? 'active' : ''}>Blog</a>
       </div>
       <a class="line-switch" href="/" title="Ir a la gestoría">← Gestoría</a>
@@ -50,7 +48,7 @@ const base = current === 'landing' ? '' : '/pricing';
   <footer>
     <div class="foot-inner">
       <span>MADAL PRICING - UNA LÍNEA DE ASESORÍA MADAL · <a href="/">IR A LA GESTORÍA</a></span>
-      <span><a href={`${base}#pilares`}>PILARES</a> · <a href={`${base}#proceso`}>PROCESO</a> · <a href={`${base}#planes`}>PLANES</a> · <a href="/pricing/calculadora-tarifa">CALCULADORA</a> · <a href="/pricing/blog">BLOG</a></span>
+      <span><a href={`${base}#pilares`}>PILARES</a> · <a href={`${base}#proceso`}>PROCESO</a> · <a href={`${base}#planes`}>PLANES</a> · <a href="/pricing/calculadora-tarifa">TARIFA POR HORA</a> · <a href="/pricing/calculadora-servicio">PRECIO DE UN SERVICIO</a> · <a href="/pricing/blog">BLOG</a></span>
     </div>
   </footer>
 </div>

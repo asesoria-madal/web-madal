@@ -2027,10 +2027,3 @@ a.hr-eyebrow:hover { background: rgba(166, 227, 216, 0.28); }
 .article-tool:hover { box-shadow: 0 12px 22px rgba(14, 59, 55, 0.18); }
 .article-tool-eyebrow { font-size: 0.74rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--mint); }
 .article-tool strong { color: #ffffff; font-size: 1.1rem; }
-
-/* Enlace a la línea Madal Pricing en la cabecera (2026-11-21): píldora con borde ámbar
-   (mismo ámbar que usa la línea Pricing, #e0983f del modo oscuro) para que se lea como
-   una línea aparte y no como una sección más de la gestoría. */
-header.site nav.primary a.navlink.navlink-pricing { color: #f0b467; border: 1px solid #e0983f; border-radius: 999px; padding: 0.15rem 0.6rem; }
-header.site nav.primary a.navlink.navlink-pricing:hover { background: rgba(224, 152, 63, 0.16); color: #f0b467; }
-.mobile-navlink.mobile-navlink-pricing { color: #b9741a; }
