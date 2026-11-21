@@ -70,14 +70,17 @@ const textosCarpeta = { subir: t.doc.subir, foto: t.facturas.cameraSubmit, ver: 
     </form>
 
     <!-- Elegir contraseña: al llegar con el enlace de "crea tu contraseña" o "¿has olvidado…?". -->
-    <form id="portal-password-form" hidden class="portal-form-wrap">
+    <!-- El campo de correo (oculto) es para el gestor de contraseñas del navegador: sin él, Chrome guardaba la nueva
+         sin asociarla a la cuenta y al entrar rellenaba la antigua ("la contraseña no es correcta", 2026-11-21). -->
+    <form id="portal-password-form" hidden class="portal-form-wrap" action="#" method="post">
       <p>{t.newPasswordIntro}</p>
+      <input type="email" id="portal-password-user" name="username" autocomplete="username" readonly hidden />
       <div class="portal-login-campos">
         <label class="portal-campo">{t.newPassword}
-          <input type="password" id="portal-new-password" minlength="8" required autocomplete="new-password" />
+          <input type="password" id="portal-new-password" name="new-password" minlength="8" required autocomplete="new-password" />
         </label>
         <label class="portal-campo">{t.repeatPassword}
-          <input type="password" id="portal-new-password-2" minlength="8" required autocomplete="new-password" />
+          <input type="password" id="portal-new-password-2" name="new-password-2" minlength="8" required autocomplete="new-password" />
         </label>
         <button type="submit" class="btn btn-primary">{t.savePassword}</button>
       </div>
@@ -1204,6 +1207,7 @@ const textosCarpeta = { subir: t.doc.subir, foto: t.facturas.cameraSubmit, ver: 
       // Ha entrado con el enlace de "crea tu contraseña" o "¿has olvidado…?": primero la elige.
       if (pedirContrasena) {
         usuarioPintado = null;
+        (document.getElementById('portal-password-user') as HTMLInputElement).value = session.user.email || '';
         showOnly(passwordForm);
         newPass1.focus();
         return;
@@ -1381,7 +1385,13 @@ const textosCarpeta = { subir: t.doc.subir, foto: t.facturas.cameraSubmit, ver: 
         password: passwordInput.value,
       });
       if (error) {
-        avisoLogin(I18N.login.wrong, 'is-error');
+        const codigo = (error as { code?: string }).code || '';
+        console.error('signInWithPassword:', codigo, error.message);
+        const texto = codigo === 'invalid_credentials' ? I18N.login.wrong
+          : codigo === 'email_not_confirmed' ? I18N.login.notConfirmed
+          : /rate|too many|429/i.test(codigo + ' ' + error.message) ? I18N.login.tooMany
+          : I18N.login.otherError;
+        avisoLogin(texto, 'is-error');
         return;
       }
       loginMsg.hidden = true;
@@ -1432,6 +1442,7 @@ const textosCarpeta = { subir: t.doc.subir, foto: t.facturas.cameraSubmit, ver: 
         return aviso(I18N.login.passError, 'is-error');
       }
       pedirContrasena = false;
+      try { if ('PasswordCredential' in window) await navigator.credentials.store(new (window as any).PasswordCredential({ id: (document.getElementById('portal-password-user') as HTMLInputElement).value, password: newPass1.value })); } catch { /* el navegador no lo admite */ }
       newPass1.value = '';
       newPass2.value = '';
       passwordMsg.hidden = true;
