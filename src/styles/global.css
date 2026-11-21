@@ -1557,8 +1557,7 @@ body.portal-app .portal-box { margin-top: 0; }
 }
 
 .app-main { padding: 2.4rem 2.2rem 3rem; max-width: 1280px; }
-/* Los apartados de texto siguen a 720 px; los de tablas (previsión, informes) usan todo el ancho (2026-11-21). */
-.app-main > .app-panel:not(.app-panel-ancho) { max-width: 720px; }
+/* Todos los apartados del área de clientes usan el ancho completo (Edurne, 2026-11-21). */
 @media (max-width: 760px) { .app-main { padding: 1.8rem 1.4rem 3rem; } }
 .app-panel h2 { font-family: var(--font-display); font-size: 1.4rem; margin-bottom: 1.2rem; }
 
