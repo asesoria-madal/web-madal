@@ -1,9 +1,9 @@
 ---
 // Aviso discreto en la web de la gestoría: "ahora también ofrecemos Pricing" (2026-11-21).
 // Tarjeta pequeña abajo a la izquierda (el WhatsApp va abajo a la derecha), con el aspecto
-// oscuro de la línea Pricing para que se note que es otra línea. Sale una vez por sesión,
-// pasados unos segundos y solo cuando el banner de cookies ya no está a la vista; si se
-// cierra, no vuelve a salir en esa sesión. Solo en castellano (Pricing no tiene ca/en).
+// oscuro de la línea Pricing para que se note que es otra línea. Sale a los 3 segundos de
+// entrar en cada página, y solo cuando el banner de cookies ya no está a la vista; si se
+// cierra con la ✕, no vuelve a salir en esa sesión. Solo en castellano (Pricing no tiene ca/en).
 // El Layout decide en qué páginas se incluye (no en artículos, formularios ni portal).
 ---
 
@@ -39,8 +39,7 @@
 
 <script>
   const CLAVE = 'pricingPopCerrado';
-  const INICIO = 'pricingPopInicio';
-  const ESPERA_MS = 12000;
+    const ESPERA_MS = 3000;
   let temporizador: number | undefined;
 
   function initPricingPop() {
@@ -49,18 +48,12 @@
     if (!pop) return;
     window.clearTimeout(temporizador);
     try { if (sessionStorage.getItem(CLAVE) === '1') return; } catch { /* sin sessionStorage: se muestra */ }
-    let inicio = Date.now();
-    try {
-      const guardado = sessionStorage.getItem(INICIO);
-      if (guardado) inicio = Number(guardado); else sessionStorage.setItem(INICIO, String(inicio));
-    } catch { /* ignorar */ }
-
     const intentar = () => {
       const cookies = document.getElementById('cookieBanner');
       if (cookies && !cookies.hidden) { temporizador = window.setTimeout(intentar, 3000); return; }
       pop.hidden = false;
     };
-    temporizador = window.setTimeout(intentar, Math.max(0, ESPERA_MS - (Date.now() - inicio)));
+    temporizador = window.setTimeout(intentar, ESPERA_MS);
 
     cerrar?.addEventListener('click', () => {
       pop.hidden = true;
