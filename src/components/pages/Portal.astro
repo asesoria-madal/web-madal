@@ -239,6 +239,8 @@ const textosCarpeta = { subir: t.doc.subir, foto: t.facturas.cameraSubmit, ver: 
                Cegid y la guarda en prevision_fiscal; aquí solo se lee el trimestre en curso. -->
           <section class="app-panel" data-panel="prevision" hidden>
             <h2>{t.prevision.title}</h2>
+            <div class="pf-layout">
+            <div class="pf-main">
             <div class="mf-tabs" role="tablist">
               <button type="button" class="pf-tab is-active" data-pf-vista="actual" role="tab">{t.prevision.tabActual} <span id="pf-periodo" class="pf-periodo"></span></button>
               <button type="button" class="pf-tab" data-pf-vista="modelos" role="tab">{t.prevision.tabModelos}</button>
@@ -248,7 +250,6 @@ const textosCarpeta = { subir: t.doc.subir, foto: t.facturas.cameraSubmit, ver: 
               <p id="pf-estado" class="pf-estado"></p>
               <div id="pf-modelos" class="pf-modelos"></div>
               <p id="pf-total" class="pf-total" hidden></p>
-              <p class="pf-aviso">{t.prevision.aviso}</p>
             </div>
             <!-- Modelos presentados (2026-11-20): copia de las hojas de "Impuestos trimestrales" (tabla modelos_fiscales). -->
             <div id="pf-vista-modelos" hidden>
@@ -261,7 +262,12 @@ const textosCarpeta = { subir: t.doc.subir, foto: t.facturas.cameraSubmit, ver: 
                 </table>
               </div>
             </div>
-            <p>{t.prevision.otraInfoPre}<a href={`mailto:${EMAIL}`}>{EMAIL}</a>{t.prevision.otraInfoPost}</p>
+            </div>
+            <aside class="pf-lateral">
+              <p>{t.prevision.aviso}</p>
+              <p>{t.prevision.otraInfoPre}<a href={`mailto:${EMAIL}`}>{EMAIL}</a>{t.prevision.otraInfoPost}</p>
+            </aside>
+            </div>
           </section>
 
           <!-- Mis documentos (2026-11-12): cada carpeta es una tarjeta visible con su botón de
@@ -915,6 +921,12 @@ const textosCarpeta = { subir: t.doc.subir, foto: t.facturas.cameraSubmit, ver: 
       while (d.getDay() === 0 || d.getDay() === 6) d.setDate(d.getDate() + 1);
       return d.toLocaleDateString(LOCALE, { day: 'numeric', month: 'long', year: 'numeric' });
     }
+    // Domiciliación (Edurne, 2026-11-21): el día 20 del mes siguiente al trimestre en todos los modelos (4T: 20 de enero).
+    function pfDomiciliacion(anio: number, q: number) {
+      const d = q === 4 ? new Date(anio + 1, 0, 20) : new Date(anio, q * 3, 20);
+      while (d.getDay() === 0 || d.getDay() === 6) d.setDate(d.getDate() + 1);
+      return d.toLocaleDateString(LOCALE, { day: 'numeric', month: 'long', year: 'numeric' });
+    }
     async function renderPrevision(clienteId: string) {
       const P = I18N.prevision;
       const hoy = new Date(new Date().toLocaleString('en-US', { timeZone: 'Europe/Madrid' }));
@@ -945,9 +957,9 @@ const textosCarpeta = { subir: t.doc.subir, foto: t.facturas.cameraSubmit, ver: 
         const card = document.createElement('article');
         card.className = 'pf-tarjeta pf-' + m.resultado;
         const h = document.createElement('h3'); h.textContent = tpl(P.modeloTitulo, { m: m.modelo }) + ' · ' + (P.modelos[m.modelo] || ''); card.appendChild(h);
-        const num = document.createElement('p'); num.className = 'pf-importe'; num.textContent = eur(Math.abs(m.importe)); card.appendChild(num);
+        const num = document.createElement('p'); num.className = 'pf-importe'; num.textContent = (m.resultado === 'devolver' ? '-' : '') + eur(Math.abs(m.importe)); card.appendChild(num);
         const res = document.createElement('p'); res.className = 'pf-resultado'; res.textContent = P.resultados[m.resultado] || ''; card.appendChild(res);
-        const pl = document.createElement('p'); pl.className = 'pf-plazo'; pl.textContent = tpl(P.plazo, { fecha: pfPlazo(m.modelo, anio, q) }); card.appendChild(pl);
+        const pl = document.createElement('p'); pl.className = 'pf-plazo'; pl.textContent = m.resultado === 'pagar' ? tpl(P.domiciliacion, { fecha: pfDomiciliacion(anio, q) }) : tpl(P.plazo, { fecha: pfPlazo(m.modelo, anio, q) }); card.appendChild(pl);
         const lineas = (filas[m.modelo] || []).filter((k) => typeof m.detalle?.[k] === 'number' && !(['compensacion', 'dificil', 'nominas', 'pagosAnteriores'].includes(k) && !m.detalle[k]));
         if (m.modelo === '115' && m.detalle?.facturas) lineas.push('alquileres');
         if (lineas.length) {
@@ -1007,7 +1019,7 @@ const textosCarpeta = { subir: t.doc.subir, foto: t.facturas.cameraSubmit, ver: 
         const clave = est.startsWith('present') ? 'presentado' : est.startsWith('borrador') ? 'borrador' : est.startsWith('acept') ? 'aceptado' : est.startsWith('sin act') ? 'sinActividad' : 'preparacion';
         const conImporte = ['presentado', 'borrador', 'aceptado'].includes(clave) && typeof f.importe === 'number';
         const res = P.resultadosHoja[String(f.resultado || '').toLowerCase()] ?? '';
-        const ti = td(conImporte ? eur(Math.abs(f.importe)) : '·', 'num');
+        const ti = td(conImporte ? (String(f.resultado || '').toLowerCase() === 'a devolver' ? '-' : '') + eur(Math.abs(f.importe)) : '·', 'num');
         if (conImporte && res) { const s = document.createElement('div'); s.className = 'mf-sub'; s.textContent = res; ti.appendChild(s); }
         const te = td('');
         const pill = document.createElement('span'); pill.className = 'mf-pill pf-estado-' + clave;
