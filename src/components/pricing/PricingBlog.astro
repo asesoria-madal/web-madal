@@ -1,0 +1,54 @@
+---
+// Listado del blog de Madal Pricing (/pricing/blog). Solo español.
+import type { CollectionEntry } from 'astro:content';
+import PricingFrame from './PricingFrame.astro';
+import { fechaLarga } from '../../lib/pricingBlog';
+
+interface Props { posts: CollectionEntry<'pricing'>[]; }
+const { posts } = Astro.props;
+---
+
+<PricingFrame current="blog">
+  <header class="hero page-hero">
+    <div class="wrap">
+      <div class="fig">FIG.B - BLOG</div>
+      <h1>Menos tiempo <em>dudando</em> del precio.</h1>
+      <p class="dek">Artículos para autónomos que pasan más horas decidiendo cuánto cobrar que haciendo el trabajo por el que cobran. Con números, sin jerga y sin vender humo.</p>
+      <p class="under mono">PRECIOS · TARIFAS · MÁRGENES · PRESUPUESTOS</p>
+    </div>
+  </header>
+
+  <section>
+    <div class="wrap">
+      {posts.length === 0 ? (
+        <p class="empty">Estamos preparando los primeros artículos.</p>
+      ) : (
+        <div class="pp-grid">
+          {posts.map((p, i) => (
+            <a class="pp-card panel" href={`/pricing/blog/${p.data.slug}`}>
+              <span class="tl"></span><span class="tr"></span><span class="bl"></span><span class="br"></span>
+              <span class="pp-card-meta mono">{String(i + 1).padStart(2, '0')} · {fechaLarga(p.data.date).toUpperCase()}{p.data.draft ? ' · BORRADOR' : ''}</span>
+              <h2>{p.data.title}</h2>
+              <p>{p.data.description}</p>
+              <span class="pp-card-more mono">LEER →</span>
+            </a>
+          ))}
+        </div>
+      )}
+    </div>
+  </section>
+
+  <section class="cta-final">
+    <div class="wrap">
+      <div class="panel cta-panel">
+        <span class="tl"></span><span class="tr"></span><span class="bl"></span><span class="br"></span>
+        <div>
+          <div class="fig" style="margin-bottom:12px;">PRUÉBALO CON TUS NÚMEROS</div>
+          <h2>¿Cuánto deberías cobrar por hora?</h2>
+          <p>Una calculadora de dos minutos que parte de lo que quieres llevarte a casa, no de lo que cobra la competencia.</p>
+        </div>
+        <a class="btn btn-primary" href="/pricing/calculadora-tarifa" style="padding:14px 26px; font-size:14px;">Abrir la calculadora →</a>
+      </div>
+    </div>
+  </section>
+</PricingFrame>

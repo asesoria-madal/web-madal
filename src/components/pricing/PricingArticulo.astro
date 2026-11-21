@@ -1,0 +1,90 @@
+---
+// Artículo del blog de Madal Pricing (/pricing/blog/[slug]). Mismo marco oscuro
+// que la landing; cierre con la calculadora y la llamada gratuita, y 2 artículos más.
+import type { CollectionEntry } from 'astro:content';
+import { render } from 'astro:content';
+import PricingFrame from './PricingFrame.astro';
+import { getPricingPosts, fechaLarga } from '../../lib/pricingBlog';
+
+interface Props { entry: CollectionEntry<'pricing'>; }
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+
+const BOOKING_URL = 'https://meetings-eu1.hubspot.com/asesoria-madal';
+const url = new URL(`/pricing/blog/${entry.data.slug}`, Astro.site).toString();
+const otros = (await getPricingPosts()).filter((p) => p.id !== entry.id).slice(0, 2);
+
+const articleLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: entry.data.title,
+  description: entry.data.description,
+  image: [new URL('/brand/logo-largo-claro.png', Astro.site).toString()],
+  datePublished: entry.data.date.toISOString(),
+  dateModified: (entry.data.updatedDate ?? entry.data.date).toISOString(),
+  inLanguage: 'es',
+  author: { '@id': 'https://asesoriamadal.es/#organization' },
+  publisher: { '@id': 'https://asesoriamadal.es/#organization' },
+  mainEntityOfPage: url,
+};
+---
+
+<PricingFrame current="blog">
+  <article class="pp-article">
+    <div class="wrap pp-article-wrap">
+      <nav class="pp-crumb mono" aria-label="Migas de pan">
+        <a href="/pricing">MADAL PRICING</a> › <a href="/pricing/blog">BLOG</a>
+      </nav>
+      <h1>{entry.data.title}</h1>
+      <p class="pp-meta mono">
+        {fechaLarga(entry.data.date).toUpperCase()}
+        {entry.data.updatedDate && ` · ACTUALIZADO ${fechaLarga(entry.data.updatedDate).toUpperCase()}`}
+        {entry.data.draft && ' · BORRADOR (SOLO VISIBLE EN DESARROLLO)'}
+      </p>
+
+      <div class="pp-prose">
+        <Content />
+      </div>
+
+      {entry.data.sources && entry.data.sources.length > 0 && (
+        <div class="pp-sources">
+          <h2>Fuentes</h2>
+          <ul>
+            {entry.data.sources.map((s) => <li><a href={s.url} target="_blank" rel="noopener noreferrer">{s.label}</a></li>)}
+          </ul>
+        </div>
+      )}
+
+      <div class="panel cta-panel pp-cta">
+        <span class="tl"></span><span class="tr"></span><span class="bl"></span><span class="br"></span>
+        <div>
+          <div class="fig" style="margin-bottom:12px;">SIGUIENTE PASO</div>
+          <h2>Ponle cifras a tu tarifa.</h2>
+          <p>Calcula en dos minutos cuánto deberías cobrar por hora. Y si quieres revisarlo con tu balance real, la primera llamada es gratis.</p>
+        </div>
+        <div class="pp-cta-btns">
+          <a class="btn btn-primary" href="/pricing/calculadora-tarifa">Calculadora de tarifa →</a>
+          <a class="btn btn-ghost" href={BOOKING_URL}>Reservar llamada</a>
+        </div>
+      </div>
+
+      {otros.length > 0 && (
+        <div class="pp-more">
+          <h2>Sigue leyendo</h2>
+          <div class="pp-grid">
+            {otros.map((p) => (
+              <a class="pp-card panel" href={`/pricing/blog/${p.data.slug}`}>
+                <span class="tl"></span><span class="tr"></span><span class="bl"></span><span class="br"></span>
+                <span class="pp-card-meta mono">{fechaLarga(p.data.date).toUpperCase()}</span>
+                <h3>{p.data.title}</h3>
+                <span class="pp-card-more mono">LEER →</span>
+              </a>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  </article>
+</PricingFrame>
+
+<script type="application/ld+json" is:inline set:html={JSON.stringify(articleLd)} />

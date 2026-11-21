@@ -31,4 +31,24 @@ const blog = defineCollection({
   }),
 });
 
-export const collections = { blog };
+// Blog de la línea Madal Pricing (2026-11-21): colección aparte a propósito, para
+// que sus artículos no se mezclen con el blog de gestoría (/blog, relacionados,
+// buscador, all.json). Solo español de momento; viven en /pricing/blog.
+const pricing = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/pricing' }),
+  schema: z.object({
+    slug: z.string(),
+    title: z.string(),
+    description: z.string(),
+    seoTitle: z.string().optional(),
+    seoDescription: z.string().optional(),
+    date: z.coerce.date(),
+    updatedDate: z.coerce.date().optional(),
+    sources: z.array(z.object({ label: z.string(), url: z.string().url() })).optional(),
+    // Los artículos con dato fiscal se dejan en draft hasta pasarlos por el
+    // notebook "Blog y FAQs AM" (ver web/CLAUDE.md). En desarrollo se ven igualmente.
+    draft: z.boolean().default(false),
+  }),
+});
+
+export const collections = { blog, pricing };

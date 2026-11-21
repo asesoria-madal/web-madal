@@ -1,0 +1,311 @@
+  .madal-pricing {
+    --bg: #211d18;
+    --bg-raised: #2b241d;
+    --bg-panel: #2b241d;
+    --bg-panel-2: #362d22;
+    --ink: #f2e9dc;
+    --ink-soft: #b8a88f;
+    --ink-dim: #8a7a60;
+    --line: #4a3f30;
+    --line-bright: #5f4f38;
+    --accent: #4fa89e;
+    --accent-strong: #6fc4b9;
+    --accent-soft: rgba(79, 168, 158, 0.14);
+    --accent2: #e0983f;
+    --accent2-strong: #f0b467;
+    --accent2-soft: rgba(224, 152, 63, 0.14);
+    color-scheme: dark;
+    background:
+      radial-gradient(1100px 520px at 10% -12%, rgba(79, 168, 158, 0.16), transparent 60%),
+      radial-gradient(900px 460px at 102% 4%, rgba(224, 152, 63, 0.1), transparent 55%),
+      var(--bg);
+    color: var(--ink);
+    font-family: 'IBM Plex Sans', ui-sans-serif, system-ui, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    padding-bottom: 40px;
+  }
+  .madal-pricing * { box-sizing: border-box; }
+  .madal-pricing h1, .madal-pricing h2, .madal-pricing h3 { font-family: 'Unbounded', 'IBM Plex Sans', sans-serif; font-weight: 700; text-wrap: balance; margin: 0; letter-spacing: -0.01em; }
+  .madal-pricing .mono { font-family: 'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace; }
+  .madal-pricing a { color: inherit; }
+  .madal-pricing img { max-width: 100%; }
+  .madal-pricing button { font: inherit; color: inherit; }
+
+  .madal-pricing .wrap { max-width: 1120px; margin-inline: auto; padding-inline: 24px; }
+  .madal-pricing section { padding-block: 96px; border-bottom: 1px solid var(--line); }
+  .madal-pricing section:last-of-type { border-bottom: none; }
+  @media (max-width: 720px) { .madal-pricing section { padding-block: 64px; } }
+
+  .madal-pricing .fig {
+    font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500;
+    letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent-strong);
+    display: flex; align-items: center; gap: 10px; margin-bottom: 18px;
+  }
+  .madal-pricing .fig::before { content: ''; width: 22px; height: 1px; background: var(--accent-strong); }
+
+  .madal-pricing .panel {
+    position: relative; border: 1px solid var(--line-bright);
+    background: var(--bg-panel); padding: 26px 26px 24px;
+  }
+  .madal-pricing .panel .tl, .madal-pricing .panel .tr, .madal-pricing .panel .bl, .madal-pricing .panel .br {
+    content: ''; position: absolute; width: 12px; height: 12px;
+    border: 1.5px solid var(--accent-strong); opacity: 0.75;
+  }
+  .madal-pricing .panel .tl { top: -1px; left: -1px; border-right: none; border-bottom: none; }
+  .madal-pricing .panel .tr { top: -1px; right: -1px; border-left: none; border-bottom: none; }
+  .madal-pricing .panel .bl { bottom: -1px; left: -1px; border-right: none; border-top: none; }
+  .madal-pricing .panel .br { bottom: -1px; right: -1px; border-left: none; border-top: none; }
+
+  .madal-pricing .reveal { opacity: 1; transform: none; transition: opacity 0.6s ease, transform 0.6s ease; }
+  @media (prefers-reduced-motion: no-preference) {
+    .madal-pricing .reveal { opacity: 0; transform: translateY(18px); }
+    .madal-pricing .reveal.in { opacity: 1; transform: none; }
+  }
+
+  /* header.site va oculto en esta página (hideHeader en Layout), así que
+     este nav puede pegarse arriba del todo sin dejar hueco ni solaparse. */
+  .madal-pricing .nav {
+    position: sticky; top: 0; z-index: 30;
+    background: rgba(33, 29, 24, 0.88); backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line);
+  }
+  .madal-pricing .nav-inner {
+    max-width: 1120px; margin-inline: auto; padding: 16px 24px;
+    display: flex; align-items: center; justify-content: space-between; gap: 20px;
+  }
+  .madal-pricing .brand { display: flex; align-items: center; gap: 10px; font-family: 'Unbounded', sans-serif; font-weight: 700; font-size: 15px; letter-spacing: -0.01em; }
+  .madal-pricing .brand .dot { width: 8px; height: 8px; background: var(--accent); box-shadow: 0 0 10px var(--accent); flex-shrink: 0; border-radius: 50%; animation: madalPulse 2.4s ease-in-out infinite; }
+  @media (prefers-reduced-motion: reduce) { .madal-pricing .brand .dot { animation: none; } }
+  @keyframes madalPulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.45; } }
+  .madal-pricing .brand .sub { font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; font-weight: 500; color: var(--ink-dim); letter-spacing: 0.08em; text-transform: uppercase; margin-left: 2px; }
+  .madal-pricing .navlinks { display: flex; gap: 26px; font-size: 13.5px; color: var(--ink-soft); }
+  .madal-pricing .navlinks a { text-decoration: none; transition: color 0.15s; position: relative; padding-bottom: 3px; }
+  .madal-pricing .navlinks a::after { content: ''; position: absolute; left: 0; right: 100%; bottom: 0; height: 1px; background: var(--accent-strong); transition: right 0.25s ease; }
+  .madal-pricing .navlinks a:hover { color: var(--accent-strong); }
+  .madal-pricing .navlinks a.active { color: var(--ink); }
+  .madal-pricing .navlinks a.active::after { right: 0; }
+  /* En móvil el nav no se esconde (ahora hay blog y calculadora que alcanzar):
+     pasa a una segunda fila con desplazamiento horizontal. */
+  @media (max-width: 760px) {
+    .madal-pricing .nav-inner { flex-wrap: wrap; row-gap: 10px; padding-block: 12px; }
+    .madal-pricing .navlinks { order: 3; width: 100%; overflow-x: auto; gap: 20px; white-space: nowrap; padding-bottom: 2px; }
+  }
+  .madal-pricing a.brand { text-decoration: none; color: inherit; }
+  .madal-pricing .line-switch {
+    font-family: 'IBM Plex Mono', monospace; font-size: 11.5px; letter-spacing: 0.04em; text-decoration: none;
+    color: var(--ink-soft); border: 1px solid var(--line-bright); padding: 7px 12px; white-space: nowrap;
+    transition: color 0.15s, border-color 0.15s;
+  }
+  .madal-pricing .line-switch:hover { color: var(--accent-strong); border-color: var(--accent-strong); }
+
+  .madal-pricing .status-live { display: flex; align-items: center; gap: 6px; font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; color: var(--ink-dim); letter-spacing: 0.06em; }
+  .madal-pricing .status-live .sd { width: 6px; height: 6px; border-radius: 50%; background: var(--accent-strong); box-shadow: 0 0 8px var(--accent-strong); }
+  @media (max-width: 900px) { .madal-pricing .status-live { display: none; } }
+
+  .madal-pricing .btn {
+    font-family: 'IBM Plex Mono', monospace; font-size: 13px; font-weight: 600;
+    letter-spacing: 0.03em; padding: 11px 20px; border: 1px solid transparent;
+    cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 8px;
+    transition: transform 0.15s, box-shadow 0.15s, background 0.15s; background: none;
+  }
+  .madal-pricing .btn-primary { background: var(--accent); color: #0e211d; }
+  .madal-pricing .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 0 0 1px var(--accent), 0 8px 24px -8px var(--accent); }
+  .madal-pricing .btn-ghost { border-color: var(--line-bright); color: var(--ink); }
+  .madal-pricing .btn-ghost:hover { border-color: var(--accent-strong); color: var(--accent-strong); }
+
+  .madal-pricing .rail {
+    position: fixed; right: 22px; top: 50%; transform: translateY(-50%); z-index: 25;
+    display: flex; flex-direction: column; align-items: center; gap: 0;
+  }
+  .madal-pricing .rail-dot {
+    width: 9px; height: 9px; border-radius: 50%; border: 1.5px solid var(--line-bright);
+    background: var(--bg-panel); cursor: pointer; transition: border-color 0.2s, background 0.2s, transform 0.2s;
+    position: relative;
+  }
+  .madal-pricing .rail-dot .rail-label {
+    position: absolute; right: 20px; top: 50%; transform: translateY(-50%);
+    font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.06em; color: var(--ink-dim);
+    white-space: nowrap; opacity: 0; transition: opacity 0.2s; pointer-events: none;
+  }
+  .madal-pricing .rail-dot:hover .rail-label { opacity: 1; }
+  .madal-pricing .rail-line { width: 1.5px; height: 26px; background: var(--line-bright); }
+  .madal-pricing .rail-dot.active { background: var(--accent); border-color: var(--accent); transform: scale(1.3); box-shadow: 0 0 10px var(--accent-soft); }
+  .madal-pricing .rail-dot.active .rail-label { opacity: 1; color: var(--accent-strong); }
+  @media (max-width: 980px) { .madal-pricing .rail { display: none; } }
+
+  .madal-pricing .hero { padding-top: 76px; padding-bottom: 70px; border-bottom: 1px solid var(--line); }
+  .madal-pricing .hero-grid { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 56px; align-items: center; }
+  @media (max-width: 900px) { .madal-pricing .hero-grid { grid-template-columns: 1fr; gap: 48px; } }
+
+  .madal-pricing .hero h1 { font-size: clamp(2.4rem, 5.6vw, 3.8rem); line-height: 1.04; color: var(--ink); }
+  .madal-pricing .hero h1 em { font-style: normal; color: var(--accent-strong); }
+  .madal-pricing .hero .dek { margin-top: 20px; max-width: 46ch; font-size: 1.08rem; color: var(--ink-soft); }
+  .madal-pricing .hero .cta-row { display: flex; gap: 14px; margin-top: 34px; flex-wrap: wrap; }
+  .madal-pricing .hero .under { margin-top: 22px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--ink-dim); letter-spacing: 0.02em; }
+
+  .madal-pricing .diagram { position: relative; perspective: 900px; }
+  .madal-pricing .diagram-inner { transition: transform 0.15s ease-out; transform-style: preserve-3d; }
+  .madal-pricing .diagram svg { width: 100%; height: auto; display: block; }
+  .madal-pricing .diagram-caption {
+    display: flex; justify-content: space-between; margin-top: 10px;
+    font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; color: var(--ink-dim);
+    letter-spacing: 0.08em; text-transform: uppercase;
+  }
+  .madal-pricing .dim-line { stroke: var(--ink-dim); stroke-width: 1; }
+  .madal-pricing .stair-rect { stroke: var(--line-bright); stroke-width: 1; transition: fill 0.2s, stroke 0.2s; }
+  .madal-pricing .stair-rect.on { stroke: var(--accent); }
+  .madal-pricing .stair-rect.warm { stroke: var(--accent2); }
+  .madal-pricing .stair-hit { cursor: pointer; }
+  .madal-pricing .stair-hit:hover .stair-rect { stroke-width: 1.8; }
+  .madal-pricing .stair-hit:hover .stair-rect.on { fill: rgba(79, 168, 158, 0.18); }
+  .madal-pricing .stair-hit:hover .stair-rect.warm { fill: rgba(224, 152, 63, 0.18); }
+  .madal-pricing .diagram text { font-family: 'IBM Plex Mono', monospace; }
+  .madal-pricing .sweep { stroke: var(--accent-strong); stroke-width: 1.4; stroke-dasharray: 620; stroke-dashoffset: 620; animation: madalDraw 1.6s ease-out 0.2s forwards; }
+  @media (prefers-reduced-motion: reduce) { .madal-pricing .sweep { animation: none; stroke-dashoffset: 0; } }
+  @keyframes madalDraw { to { stroke-dashoffset: 0; } }
+
+  .madal-pricing .strip-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); }
+  .madal-pricing .strip-cell { background: var(--bg-panel); padding: 28px 26px; }
+  .madal-pricing .strip-cell .num { font-family: 'IBM Plex Mono', monospace; font-size: 2.1rem; font-weight: 600; color: var(--accent-strong); font-variant-numeric: tabular-nums; }
+  .madal-pricing .strip-cell .lbl { margin-top: 8px; font-size: 14px; color: var(--ink-soft); }
+  .madal-pricing .strip-cell .tiny { margin-top: 4px; font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; color: var(--ink-dim); letter-spacing: 0.06em; text-transform: uppercase; }
+  @media (max-width: 720px) { .madal-pricing .strip-grid { grid-template-columns: 1fr; } }
+
+  .madal-pricing .section-head { max-width: 62ch; margin-bottom: 48px; }
+  .madal-pricing .section-head h2 { font-size: clamp(1.7rem, 3.4vw, 2.4rem); }
+  .madal-pricing .section-head p { margin-top: 14px; color: var(--ink-soft); font-size: 1.02rem; }
+
+  .madal-pricing .compare { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--line); border: 1px solid var(--line); }
+  @media (max-width: 720px) { .madal-pricing .compare { grid-template-columns: 1fr; } }
+  .madal-pricing .compare-col { background: var(--bg-panel); padding: 28px 30px; }
+  .madal-pricing .compare-col h3 { font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 18px; color: var(--ink-dim); font-weight: 600; }
+  .madal-pricing .compare-col.us { background: var(--bg-panel-2); }
+  .madal-pricing .compare-col.us h3 { color: var(--accent-strong); }
+  .madal-pricing .compare-col ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 16px; }
+  .madal-pricing .compare-col li { font-size: 0.93rem; color: var(--ink-dim); display: flex; gap: 11px; line-height: 1.5; }
+  .madal-pricing .compare-col.us li { color: var(--ink); }
+  .madal-pricing .compare-col li .v { font-family: 'IBM Plex Mono', monospace; font-weight: 600; color: var(--ink-soft); flex-shrink: 0; }
+  .madal-pricing .compare-col.us li .v { color: var(--accent-strong); }
+  .madal-pricing .compare-col.market li::before { content: '–'; color: var(--ink-dim); flex-shrink: 0; }
+  .madal-pricing .compare-col.us li::before { content: '✓'; color: var(--accent-strong); flex-shrink: 0; }
+
+  .madal-pricing .connect { display: flex; flex-direction: column; gap: 1px; background: var(--line); border: 1px solid var(--line); }
+  .madal-pricing .connect-row { background: var(--bg-panel); padding: 20px 26px; display: grid; grid-template-columns: 1.1fr auto 1.3fr; gap: 18px; align-items: center; }
+  @media (max-width: 720px) { .madal-pricing .connect-row { grid-template-columns: 1fr; text-align: left; } .madal-pricing .connect-row .arrow { display: none; } }
+  .madal-pricing .connect-row .who { font-size: 0.98rem; color: var(--ink); }
+  .madal-pricing .connect-row .who .tag { display: block; font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; color: var(--accent-strong); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 5px; }
+  .madal-pricing .connect-row .arrow { color: var(--ink-dim); font-family: 'IBM Plex Mono', monospace; font-size: 16px; }
+  .madal-pricing .connect-row .what { font-size: 0.92rem; color: var(--ink-soft); }
+
+  .madal-pricing .group-tag {
+    display: flex; align-items: center; gap: 10px; margin: 0 0 22px;
+    font-family: 'IBM Plex Mono', monospace; font-size: 11.5px; letter-spacing: 0.1em; text-transform: uppercase;
+  }
+  .madal-pricing .group-tag.core { color: var(--accent-strong); }
+  .madal-pricing .group-tag.recurring { color: var(--accent2-strong); }
+  .madal-pricing .group-tag::after { content: ''; flex: 1; height: 1px; background: var(--line-bright); }
+
+  .madal-pricing .pillars { display: flex; flex-direction: column; gap: 1px; background: var(--line); border: 1px solid var(--line); margin-bottom: 40px; }
+  .madal-pricing .pillar {
+    background: var(--bg-panel); padding: 22px 24px; display: grid;
+    grid-template-columns: 88px 1fr auto; gap: 22px; align-items: start;
+    cursor: pointer; transition: background 0.2s;
+  }
+  .madal-pricing .pillar:hover { background: var(--bg-panel-2); }
+  .madal-pricing .pillar.open { background: var(--bg-panel-2); }
+  @media (max-width: 720px) { .madal-pricing .pillar { grid-template-columns: 52px 1fr; } .madal-pricing .pillar .facts-col { display: none; } }
+  .madal-pricing .pillar .idx { font-family: 'IBM Plex Mono', monospace; font-size: 2rem; font-weight: 600; color: var(--ink-dim); font-variant-numeric: tabular-nums; }
+  .madal-pricing .pillar.on .idx { color: var(--accent); }
+  .madal-pricing .pillar.warm .idx { color: var(--accent2); }
+  .madal-pricing .pillar-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+  .madal-pricing .pillar h3 { font-size: 1.08rem; font-family: 'IBM Plex Sans', sans-serif; font-weight: 600; color: var(--ink); }
+  .madal-pricing .pillar p.desc { margin: 6px 0 0; color: var(--ink-soft); font-size: 0.94rem; max-width: 56ch; }
+  .madal-pricing .chev { font-family: 'IBM Plex Mono', monospace; font-size: 16px; color: var(--ink-dim); transition: transform 0.25s, color 0.2s; flex-shrink: 0; }
+  .madal-pricing .pillar.open .chev { transform: rotate(45deg); color: var(--accent-strong); }
+  .madal-pricing .pillar-detail { max-height: 0; overflow: hidden; opacity: 0; transition: max-height 0.35s ease, opacity 0.3s ease, margin-top 0.35s ease; }
+  .madal-pricing .pillar.open .pillar-detail { max-height: 160px; opacity: 1; margin-top: 12px; }
+  .madal-pricing .pillar-detail p { margin: 0; padding: 12px 14px; border-left: 2px solid var(--accent); background: rgba(79, 168, 158, 0.06); font-size: 0.9rem; color: var(--ink-soft); }
+  .madal-pricing .pillar.warm .pillar-detail p { border-left-color: var(--accent2); background: rgba(224, 152, 63, 0.06); }
+  .madal-pricing .pillar .facts-col { text-align: right; font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--ink-dim); line-height: 1.7; }
+  .madal-pricing .pillar .facts-col strong { color: var(--ink-soft); font-weight: 500; }
+
+  .madal-pricing .process { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); }
+  @media (max-width: 1000px) { .madal-pricing .process { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 820px) { .madal-pricing .process { grid-template-columns: 1fr; } }
+  .madal-pricing .proc-step { background: var(--bg-panel); padding: 30px 26px; position: relative; }
+  .madal-pricing .proc-step .n { font-family: 'IBM Plex Mono', monospace; color: var(--accent-strong); font-size: 12px; letter-spacing: 0.1em; }
+  .madal-pricing .proc-step h3 { margin-top: 14px; font-size: 1.12rem; }
+  .madal-pricing .proc-step p { margin-top: 10px; color: var(--ink-soft); font-size: 0.93rem; }
+  .madal-pricing .proc-arrow {
+    display: none; position: absolute; right: -11px; top: 50%; transform: translateY(-50%);
+    color: var(--accent-strong); font-size: 18px; z-index: 2;
+  }
+  @media (min-width: 821px) { .madal-pricing .proc-step:not(:last-child) .proc-arrow { display: block; } }
+
+  .madal-pricing .sim { display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
+  @media (max-width: 820px) { .madal-pricing .sim { grid-template-columns: 1fr; } }
+  .madal-pricing .sim-controls { padding: 30px 32px; border-right: 1px solid var(--line); }
+  .madal-pricing .sim-controls .field { margin-bottom: 26px; }
+  .madal-pricing .sim-controls .field:last-child { margin-bottom: 0; }
+  .madal-pricing .sim-controls label { display: flex; justify-content: space-between; font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--ink-soft); letter-spacing: 0.03em; margin-bottom: 10px; }
+  .madal-pricing .sim-controls label .val { color: var(--accent-strong); font-weight: 600; }
+  .madal-pricing input[type='range'] {
+    width: 100%; -webkit-appearance: none; appearance: none; height: 3px; background: var(--line-bright); outline: none; cursor: pointer;
+  }
+  .madal-pricing input[type='range']::-webkit-slider-thumb {
+    -webkit-appearance: none; appearance: none; width: 16px; height: 16px; border-radius: 50%;
+    background: var(--accent); border: 2px solid var(--bg); box-shadow: 0 0 0 1px var(--accent);
+  }
+  .madal-pricing input[type='range']::-moz-range-thumb {
+    width: 16px; height: 16px; border-radius: 50%; background: var(--accent); border: 2px solid var(--bg); box-shadow: 0 0 0 1px var(--accent);
+  }
+  .madal-pricing .sim-result { padding: 30px 32px; display: flex; flex-direction: column; justify-content: center; gap: 18px; }
+  .madal-pricing .bar-row { display: flex; flex-direction: column; gap: 6px; }
+  .madal-pricing .bar-row .bl { display: flex; justify-content: space-between; font-family: 'IBM Plex Mono', monospace; font-size: 11.5px; color: var(--ink-soft); letter-spacing: 0.03em; }
+  .madal-pricing .bar-row .bl .v { color: var(--ink); font-weight: 600; font-variant-numeric: tabular-nums; }
+  .madal-pricing .bar-track { height: 10px; background: var(--bg); border: 1px solid var(--line-bright); position: relative; }
+  .madal-pricing .bar-fill { height: 100%; background: var(--ink-dim); transition: width 0.35s ease; }
+  .madal-pricing .bar-fill.hoy { background: var(--ink-dim); }
+  .madal-pricing .bar-fill.con { background: linear-gradient(90deg, var(--accent), var(--accent-strong)); }
+  .madal-pricing .sim-note { font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; color: var(--ink-dim); line-height: 1.6; letter-spacing: 0.01em; margin-top: 4px; }
+
+  .madal-pricing .plans { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  @media (max-width: 900px) { .madal-pricing .plans { grid-template-columns: 1fr; } }
+  .madal-pricing .plan { display: flex; flex-direction: column; padding: 28px 26px; transition: transform 0.2s, border-color 0.2s; }
+  .madal-pricing .plan:hover { transform: translateY(-4px); border-color: var(--accent-strong); }
+  .madal-pricing .plan.featured { border-color: var(--accent); background: linear-gradient(180deg, var(--accent-soft), var(--bg-panel) 45%); }
+  .madal-pricing .plan.premium { border-color: var(--accent2); background: linear-gradient(180deg, var(--accent2-soft), var(--bg-panel) 45%); }
+  .madal-pricing .plan .tag {
+    align-self: flex-start; font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; font-weight: 600;
+    letter-spacing: 0.08em; text-transform: uppercase; padding: 4px 9px; border: 1px solid var(--line-bright); color: var(--ink-soft);
+  }
+  .madal-pricing .plan.featured .tag { border-color: var(--accent); color: var(--accent-strong); }
+  .madal-pricing .plan.premium .tag { border-color: var(--accent2); color: var(--accent2-strong); }
+  .madal-pricing .plan.premium .btn-primary { background: var(--accent2); color: #2b1706; }
+  .madal-pricing .plan.premium .btn-primary:hover { box-shadow: 0 0 0 1px var(--accent2), 0 8px 24px -8px var(--accent2); }
+  .madal-pricing .plan h3 { margin-top: 16px; font-size: 1.24rem; }
+  .madal-pricing .plan .scope { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--ink-dim); margin-top: 6px; letter-spacing: 0.03em; }
+  .madal-pricing .plan ul { list-style: none; padding: 0; margin: 20px 0 0; display: flex; flex-direction: column; gap: 10px; flex: 1; }
+  .madal-pricing .plan li { font-size: 0.92rem; color: var(--ink-soft); display: flex; gap: 9px; }
+  .madal-pricing .plan li::before { content: '-'; color: var(--accent-strong); flex-shrink: 0; }
+  .madal-pricing .plan .price { margin-top: 22px; font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: var(--ink); border-top: 1px solid var(--line); padding-top: 16px; }
+  .madal-pricing .plan .price strong { display: block; font-size: 15px; margin-bottom: 2px; }
+  .madal-pricing .plan-addon { margin-top: 18px; padding: 12px 14px; border-left: 2px solid var(--accent2); background: rgba(224, 152, 63, 0.08); }
+  .madal-pricing .plan-addon .lbl { font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--accent2-strong); }
+  .madal-pricing .plan-addon p { margin: 6px 0 0; font-size: 0.86rem; color: var(--ink-soft); line-height: 1.5; }
+  .madal-pricing .plan .btn { margin-top: 16px; justify-content: center; }
+
+  .madal-pricing .cta-final { text-align: left; padding-top: 0; }
+  .madal-pricing .cta-panel { padding: 56px 40px; display: flex; justify-content: space-between; align-items: center; gap: 32px; flex-wrap: wrap; }
+  .madal-pricing .cta-panel h2 { font-size: clamp(1.6rem, 3.2vw, 2.1rem); max-width: 20ch; }
+  .madal-pricing .cta-panel p { margin-top: 10px; color: var(--ink-soft); max-width: 44ch; }
+
+  .madal-pricing footer { padding: 36px 24px 8px; }
+  .madal-pricing .foot-inner {
+    max-width: 1120px; margin-inline: auto; display: flex; justify-content: space-between;
+    flex-wrap: wrap; gap: 14px; font-family: 'IBM Plex Mono', monospace; font-size: 11.5px; color: var(--ink-dim);
+    letter-spacing: 0.03em;
+  }
+  .madal-pricing .foot-inner a { text-decoration: none; color: var(--ink-dim); }
+  .madal-pricing .foot-inner a:hover { color: var(--accent-strong); }

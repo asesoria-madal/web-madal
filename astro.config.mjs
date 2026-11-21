@@ -35,7 +35,8 @@ export default defineConfig({
       // deben competir con los artículos; aviso-legal/privacidad/cookies
       // llevan noindex a propósito (ver Layout), así que tampoco tiene
       // sentido listar ninguna de ellas en el sitemap. Lo mismo con los
-      // formularios y /pricing, que también llevan noindex.
+      // formularios, que también llevan noindex. /pricing (línea Madal Pricing)
+      // es pública e indexable desde 2026-11-21, con su blog y calculadora.
       filter: (page) =>
         !page.includes('/solicitud') &&
         !page.includes('/pagina/') &&
@@ -44,8 +45,7 @@ export default defineConfig({
         !page.includes('/cookies') &&
         !page.includes('/formulario-') &&
         // /portal: acceso de clientes, sin valor en buscadores (noindex desde 2026-11-14).
-        !/\/portal\/?$/.test(page) &&
-        !/\/pricing\/?$/.test(page),
+        !/\/portal\/?$/.test(page),
       // Sin esto el sitemap no llevaba <lastmod> en ninguna URL. Usamos la
       // fecha de este build: es un dato real (cuándo se generó este HTML
       // exacto), no inventado, aunque no distinga qué páginas cambiaron de

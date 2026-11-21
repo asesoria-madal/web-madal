@@ -1,0 +1,24 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import PricingBlog from '../../../components/pricing/PricingBlog.astro';
+import { getPricingPosts } from '../../../lib/pricingBlog';
+
+export const prerender = true;
+
+const posts = await getPricingPosts();
+---
+
+<Layout
+  lang="es"
+  path="/pricing/blog"
+  active="none"
+  title="Blog de precios para autónomos · Madal Pricing"
+  description="Cómo poner precio a tu trabajo siendo autónomo: tarifa por hora, presupuestos, subidas de precio y margen real, explicado con números."
+  noindex={posts.length === 0}
+  showCtaFinal={false}
+  hideHeader={true}
+  localesAvailable={['es']}
+  breadcrumbs={[{ name: 'Madal Pricing', path: '/pricing' }, { name: 'Blog', path: '/pricing/blog' }]}
+>
+  <PricingBlog posts={posts} />
+</Layout>

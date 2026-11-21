@@ -1,0 +1,56 @@
+---
+// Marco común de la línea "Madal Pricing" (asesoría de precios): tema oscuro
+// propio, nav propio y pie propio. Lo usan la landing (/pricing), el blog de
+// pricing (/pricing/blog) y la calculadora (/pricing/calculadora-tarifa), para
+// que las tres piezas se vean claramente como una línea separada de la
+// gestoría. Los colores son los corporativos reales de global.css en modo
+// oscuro (ver comentario en src/styles/madal-pricing.css y web/CLAUDE.md).
+//
+// Decisión (2026-11-21): la línea Pricing es solo en español de momento, así
+// que ninguna de sus páginas genera versiones /ca ni /en.
+import '../../styles/madal-pricing.css';
+import '../../styles/madal-pricing-piezas.css';
+// Fuentes alojadas en el propio sitio (sin pedirlas a Google, por privacidad): solo subconjunto latino.
+import '@fontsource/unbounded/latin-500.css';
+import '@fontsource/unbounded/latin-700.css';
+import '@fontsource/unbounded/latin-900.css';
+import '@fontsource/ibm-plex-sans/latin-400.css';
+import '@fontsource/ibm-plex-sans/latin-500.css';
+import '@fontsource/ibm-plex-sans/latin-600.css';
+import '@fontsource/ibm-plex-mono/latin-400.css';
+import '@fontsource/ibm-plex-mono/latin-500.css';
+import '@fontsource/ibm-plex-mono/latin-600.css';
+
+interface Props {
+  /** Sección activa del nav. En la landing los enlaces a anclas son locales
+   * (#pilares) y en el resto apuntan a /pricing#pilares. */
+  current: 'landing' | 'blog' | 'calculadora';
+}
+const { current } = Astro.props;
+const base = current === 'landing' ? '' : '/pricing';
+---
+
+<div class="madal-pricing">
+  <nav class="nav" aria-label="Madal Pricing">
+    <div class="nav-inner">
+      <a class="brand" href="/pricing" aria-label="Madal Pricing, inicio"><span class="dot"></span>MADAL<span style="color:var(--accent2)">·</span>PRICING <span class="sub">by Asesoría Madal</span></a>
+      <div class="navlinks" id="navlinks">
+        <a href={`${base}#pilares`} data-nav="pilares">Pilares</a>
+        <a href={`${base}#proceso`} data-nav="proceso">Proceso</a>
+        <a href={`${base}#planes`} data-nav="planes">Planes</a>
+        <a href="/pricing/calculadora-tarifa" class={current === 'calculadora' ? 'active' : ''}>Calculadora</a>
+        <a href="/pricing/blog" class={current === 'blog' ? 'active' : ''}>Blog</a>
+      </div>
+      <a class="line-switch" href="/" title="Ir a la gestoría">← Gestoría</a>
+    </div>
+  </nav>
+
+  <slot />
+
+  <footer>
+    <div class="foot-inner">
+      <span>MADAL PRICING - UNA LÍNEA DE ASESORÍA MADAL · <a href="/">IR A LA GESTORÍA</a></span>
+      <span><a href={`${base}#pilares`}>PILARES</a> · <a href={`${base}#proceso`}>PROCESO</a> · <a href={`${base}#planes`}>PLANES</a> · <a href="/pricing/calculadora-tarifa">CALCULADORA</a> · <a href="/pricing/blog">BLOG</a></span>
+    </div>
+  </footer>
+</div>

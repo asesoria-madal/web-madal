@@ -1,0 +1,34 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import PricingArticulo from '../../../components/pricing/PricingArticulo.astro';
+import { getCollection, type CollectionEntry } from 'astro:content';
+import { publicadoPricing } from '../../../lib/pricingBlog';
+import { pageTitle } from '../../../i18n/utils';
+
+export const prerender = true;
+
+export async function getStaticPaths() {
+  const entries = await getCollection('pricing', publicadoPricing);
+  return entries.map((entry) => ({ params: { slug: entry.data.slug }, props: { entry } }));
+}
+
+interface Props { entry: CollectionEntry<'pricing'>; }
+const { entry } = Astro.props;
+---
+
+<Layout
+  lang="es"
+  path={`/pricing/blog/${entry.data.slug}`}
+  active="none"
+  title={pageTitle(entry.data.seoTitle ?? entry.data.title, 'Madal Pricing')}
+  description={entry.data.seoDescription ?? entry.data.description}
+  ogType="article"
+  articlePublishedTime={entry.data.date.toISOString()}
+  articleModifiedTime={(entry.data.updatedDate ?? entry.data.date).toISOString()}
+  showCtaFinal={false}
+  hideHeader={true}
+  localesAvailable={['es']}
+  breadcrumbs={[{ name: 'Madal Pricing', path: '/pricing' }, { name: 'Blog', path: '/pricing/blog' }, { name: entry.data.title, path: `/pricing/blog/${entry.data.slug}` }]}
+>
+  <PricingArticulo entry={entry} />
+</Layout>

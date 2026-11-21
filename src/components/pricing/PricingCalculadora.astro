@@ -1,0 +1,184 @@
+---
+// Calculadora de tarifa mínima por hora para autónomos (2026-11-21), en la línea
+// Madal Pricing. Va a propósito dentro de /pricing y no en /herramientas: así la
+// línea de pricing tiene su propio gancho y la de gestoría no se mezcla; entre
+// ambas solo hay enlaces contextuales.
+//
+// Modelo (todo en el navegador, no se envía nada):
+//   facturación mensual necesaria F = neto deseado / (1 − tipo medio IRPF) + gastos + cuota de autónomos
+//   (la cuota y los gastos son deducibles; el IRPF se aplica sobre lo que queda).
+//   horas facturables al año = horas/semana × (52 − semanas sin facturar) × % facturable
+//   tarifa mínima por hora = F × 12 / horas facturables al año
+// Es una estimación: el IRPF real depende de tramos, mínimos personales y deducciones.
+import PricingFrame from './PricingFrame.astro';
+
+const BOOKING_URL = 'https://meetings-eu1.hubspot.com/asesoria-madal';
+---
+
+<PricingFrame current="calculadora">
+  <header class="hero page-hero">
+    <div class="wrap">
+      <div class="fig">FIG.C - CALCULADORA</div>
+      <h1>¿Cuánto deberías cobrar <em>por hora?</em></h1>
+      <p class="dek">Parte de lo que quieres llevarte a casa, no de lo que cobra la competencia. Añade tus costes reales, tus impuestos y las horas que de verdad facturas, y obtén tu tarifa mínima.</p>
+      <p class="under mono">TODO SE CALCULA EN TU NAVEGADOR · NO GUARDAMOS NADA</p>
+    </div>
+  </header>
+
+  <section>
+    <div class="wrap">
+      <div class="panel pp-calc" id="calc-tarifa">
+        <span class="tl"></span><span class="tr"></span><span class="bl"></span><span class="br"></span>
+
+        <form class="pp-form" novalidate>
+          <label class="pp-field">
+            <span>Neto que quieres llevarte al mes (€)</span>
+            <input type="number" name="neto" inputmode="decimal" min="0" step="50" value="2000" />
+            <small>Lo que te queda en el bolsillo después de impuestos y cuota.</small>
+          </label>
+          <label class="pp-field">
+            <span>Gastos profesionales al mes (€)</span>
+            <input type="number" name="gastos" inputmode="decimal" min="0" step="10" value="250" />
+            <small>Software, seguros, gestoría, formación, local… sin IVA.</small>
+          </label>
+          <label class="pp-field">
+            <span>Cuota de autónomos al mes (€)</span>
+            <input type="number" name="reta" inputmode="decimal" min="0" step="10" value="300" />
+            <small>Pon la tuya. <a href="/herramientas/cuota-autonomos">¿No la sabes? Calcula la cuota</a></small>
+          </label>
+          <label class="pp-field">
+            <span>Tipo medio de IRPF estimado</span>
+            <select name="irpf">
+              <option value="10">10 %</option>
+              <option value="15">15 %</option>
+              <option value="20" selected>20 %</option>
+              <option value="25">25 %</option>
+              <option value="30">30 %</option>
+            </select>
+            <small>Sobre el beneficio. Es una estimación; el real depende de tu caso.</small>
+          </label>
+          <label class="pp-field">
+            <span>Horas de trabajo a la semana</span>
+            <input type="number" name="horas" inputmode="decimal" min="1" max="80" step="1" value="40" />
+          </label>
+          <label class="pp-field">
+            <span>De ellas, ¿qué parte facturas de verdad? <b class="mono" data-r="pctTxt">60 %</b></span>
+            <input type="range" name="pct" min="20" max="95" step="5" value="60" />
+            <small>El resto es captar clientes, presupuestar, administración, formación. Casi nadie factura el 100 %.</small>
+          </label>
+          <label class="pp-field">
+            <span>Semanas al año sin facturar</span>
+            <input type="number" name="semanas" inputmode="decimal" min="0" max="40" step="1" value="6" />
+            <small>Vacaciones, festivos, bajas y semanas flojas.</small>
+          </label>
+          <label class="pp-field">
+            <span>Tu tarifa actual por hora, sin IVA (opcional)</span>
+            <input type="number" name="actual" inputmode="decimal" min="0" step="1" placeholder="Ej.: 25" />
+            <small>Para ver qué te queda hoy con lo que cobras.</small>
+          </label>
+        </form>
+
+        <div class="pp-result" aria-live="polite">
+          <div class="pp-big">
+            <span class="pp-big-lbl mono">TU TARIFA MÍNIMA</span>
+            <span class="pp-big-num mono" data-r="tarifa">–</span>
+            <span class="pp-big-sub mono">POR HORA · SIN IVA</span>
+          </div>
+          <dl>
+            <div><dt>Facturación mensual necesaria</dt><dd data-r="fact">–</dd></div>
+            <div><dt>Horas facturables al año</dt><dd data-r="horasAnio">–</dd></div>
+            <div><dt>Tarifa por día (8 h facturadas)</dt><dd data-r="dia">–</dd></div>
+            <div><dt>Esa tarifa con IVA 21 % (el IVA no es tuyo)</dt><dd data-r="conIva">–</dd></div>
+          </dl>
+          <p class="pp-actual" data-r="actualMsg" hidden></p>
+          <p class="pp-note mono">ESTIMACIÓN ORIENTATIVA. NO SUSTITUYE A UN CÁLCULO CON TU BALANCE REAL.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap pp-explica">
+      <div class="section-head">
+        <div class="fig">CÓMO SE CALCULA</div>
+        <h2>Tres pasos, sin magia</h2>
+      </div>
+      <ol>
+        <li><strong>Cuánto tienes que facturar.</strong> Tu neto deseado, dividido entre (1 − tu tipo de IRPF), más los gastos y la cuota de autónomos. Esos dos últimos restan antes de impuestos, por eso se suman aparte.</li>
+        <li><strong>Cuántas horas puedes vender.</strong> Horas semanales × semanas trabajadas × la parte que realmente facturas. Aquí está la mayor sorpresa: casi siempre son bastantes menos de las que crees.</li>
+        <li><strong>Tu tarifa mínima.</strong> Lo primero entre lo segundo. Por debajo de ese número, trabajas más para llevarte menos de lo que querías.</li>
+      </ol>
+      <p>Es un <strong>suelo</strong>, no un precio. El precio final depende también de lo que vale tu trabajo para el cliente, y eso es justo lo que se mejora al ordenar tus costes y tu margen. ¿Quieres que lo revisemos con tus números reales? La primera llamada es gratuita.</p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href={BOOKING_URL}>Reservar llamada gratuita →</a>
+        <a class="btn btn-ghost" href="/pricing/blog">Leer el blog de pricing</a>
+      </div>
+    </div>
+  </section>
+</PricingFrame>
+
+<script>
+  import { track } from '../../scripts/analytics';
+
+  function initCalcTarifa() {
+    const raiz = document.getElementById('calc-tarifa');
+    if (!raiz || raiz.dataset.listo) return;
+    raiz.dataset.listo = '1';
+    const form = raiz.querySelector('form') as HTMLFormElement;
+    const eur0 = new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 });
+    const eur2 = new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR', minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    const num = new Intl.NumberFormat('es-ES', { maximumFractionDigits: 0 });
+    const out = (k: string, v: string) => { const el = raiz.querySelector(`[data-r="${k}"]`); if (el) el.textContent = v; };
+    const msg = raiz.querySelector('[data-r="actualMsg"]') as HTMLElement;
+    let usado = false;
+
+    const calcular = () => {
+      const d = new FormData(form);
+      const n = (k: string) => Math.max(0, Number(d.get(k)) || 0);
+      const neto = n('neto');
+      const gastos = n('gastos');
+      const reta = n('reta');
+      const t = Math.min(0.6, n('irpf') / 100);
+      const horas = n('horas');
+      const pct = Math.min(1, n('pct') / 100);
+      const semanas = Math.min(52, n('semanas'));
+      const actual = n('actual');
+
+      out('pctTxt', Math.round(pct * 100) + ' %');
+
+      const fact = neto / (1 - t) + gastos + reta; // facturación mensual necesaria
+      const horasAnio = horas * (52 - semanas) * pct;
+      if (horasAnio <= 0) {
+        ['tarifa', 'fact', 'horasAnio', 'dia', 'conIva'].forEach((k) => out(k, '–'));
+        msg.hidden = true;
+        return;
+      }
+      const tarifa = (fact * 12) / horasAnio;
+      out('tarifa', eur2.format(tarifa));
+      out('fact', eur0.format(fact));
+      out('horasAnio', num.format(horasAnio) + ' h');
+      out('dia', eur0.format(tarifa * 8));
+      out('conIva', eur2.format(tarifa * 1.21));
+
+      if (actual > 0) {
+        const factActual = (actual * horasAnio) / 12;
+        const netoActual = Math.max(0, (factActual - gastos - reta) * (1 - t));
+        const dif = netoActual - neto;
+        msg.hidden = false;
+        msg.textContent = dif >= 0
+          ? `Con ${eur2.format(actual)}/h ya llegas a tu objetivo: te quedarían unos ${eur0.format(netoActual)} netos al mes.`
+          : `Con ${eur2.format(actual)}/h te quedarían unos ${eur0.format(netoActual)} netos al mes: ${eur0.format(-dif)} menos de lo que quieres.`;
+      } else {
+        msg.hidden = true;
+      }
+    };
+
+    form.addEventListener('submit', (e) => e.preventDefault());
+    form.addEventListener('input', () => {
+      calcular();
+      if (!usado) { usado = true; track('herramienta_uso', { herramienta: 'tarifa-pricing' }); }
+    });
+    calcular();
+  }
+  document.addEventListener('astro:page-load', initCalcTarifa);
+</script>
