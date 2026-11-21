@@ -1032,7 +1032,7 @@ const textosCarpeta = { subir: t.doc.subir, foto: t.facturas.cameraSubmit, ver: 
       const I = I18N.informes;
       infTipoPersona = tipo;
       const sel = document.getElementById('inf-tipo') as HTMLSelectElement;
-      const lista = tipo === 'sl' ? ['pyg', 'balance', 'sumas', 'mayor', 'diario'] : ['resumen', 'libro'];
+      const lista = tipo === 'sl' ? ['pyg', 'balance', 'sumas', 'mayor', 'diario', 'emitidas', 'recibidas'] : ['pyg', 'emitidas', 'recibidas'];
       sel.innerHTML = lista.map((k) => `<option value="${k}">${I.opciones[k]}</option>`).join('');
       (document.getElementById('inf-nota') as HTMLElement).hidden = tipo === 'sl';
       const hoy = new Date().toLocaleDateString('sv-SE', { timeZone: 'Europe/Madrid' });
