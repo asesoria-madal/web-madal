@@ -1655,3 +1655,27 @@ create policy "cliente ve el estado de sus altas" on altas_trabajadores for sele
 drop policy if exists "admin ve todas las altas" on altas_trabajadores;
 create policy "admin ve todas las altas" on altas_trabajadores for select
   using (auth.uid() in (select auth_user_id from portal_admins));
+
+-- 2026-11-22: formulario de baja de trabajador (/formulario-laboral-baja, es/ca/en).
+-- Lo rellena el cliente (desde el portal o por enlace); el endpoint api/baja-trabajador lo guarda con la
+-- service role. n8n («Baja de trabajador») crea la incidencia de cobro en la facturación de Cegid (concepto 19)
+-- y avisa al equipo. NO toca DiezNom: la baja en nómina y la oficial (Seguridad Social, Contrat@) las hace el equipo.
+alter table bajas_trabajadores
+  alter column cliente_id drop not null,          -- la ficha se busca por NIF; si no existe, n8n lo avisa
+  alter column trabajador_codigo drop not null,   -- solo viene si la baja se pide desde el portal
+  add column if not exists empresa_nombre text,
+  add column if not exists empresa_nif text,
+  add column if not exists empresa_email text,
+  add column if not exists comunicante_nombre text,
+  add column if not exists comunicante_cargo text,
+  add column if not exists comunicante_telefono text,
+  add column if not exists vacaciones_pendientes numeric,
+  add column if not exists situaciones text[],     -- baja_medica | embarazo | excedencia | reduccion_jornada | representante
+  add column if not exists detalle jsonb,          -- respuestas propias de cada causa (preaviso, hechos del despido, indemnización…)
+  add column if not exists privacy_accepted_at timestamptz,
+  add column if not exists facturada_at timestamptz,        -- incidencia de cobro creada en DiezFac
+  add column if not exists facturacion_error text,          -- vaciarlo para que n8n reintente
+  add column if not exists facturacion_incidencia integer;
+-- Ya no se pide la baja con un insert directo desde el navegador: todo pasa por el endpoint.
+drop policy if exists "cliente pide sus bajas" on bajas_trabajadores;
+revoke insert on bajas_trabajadores from authenticated;

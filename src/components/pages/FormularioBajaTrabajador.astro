@@ -1,0 +1,324 @@
+---
+// Formulario «baja de trabajador» (2026-11-22). Lo rellena NUESTRO cliente (la empresa que despide o ve marchar
+// a un trabajador), igual que FormularioAltaTrabajador.astro: una página larga por secciones, sin enlazar desde
+// el menú (noindex), mandada por enlace directo o desde el portal (apartado Laboral > «Pedir baja»), con
+// ?nif=<NIF de la empresa>&email=&nombre= para precargar la empresa.
+//
+// Los datos del trabajador (nombre, NIF y código de nómina) los deja el portal en sessionStorage
+// ('baja_trabajador') justo antes de abrir esta página, para no poner datos personales en la URL. Si no hay
+// nada, se rellenan a mano.
+//
+// Existe en es/ca/en (/formulario-laboral-baja, /ca/..., /en/...); los textos viven en i18n/formularioBaja.ts.
+// Lo que se envía al servidor es igual en los tres idiomas. No sube archivos: la carta, el acuerdo firmado o el
+// parte médico se piden por correo (como en el alta). Qué pasa después: api/baja-trabajador.ts guarda la fila en
+// bajas_trabajadores y el workflow «Baja de trabajador» crea el cobro en la facturación de Cegid y avisa al equipo.
+// No toca DiezNom: la baja en nómina y los trámites oficiales los hace el equipo.
+import { BAJA, type BajaLang } from '../../i18n/formularioBaja';
+
+interface Props { lang?: BajaLang; }
+const { lang = 'es' } = Astro.props;
+const t = BAJA[lang];
+const EMAIL_CONTACTO = 'contacto@asesoriamadal.es';
+---
+
+<div id="view-baja-form">
+  <div class="page view-intro">
+    <p class="eyebrow">{t.eyebrow}</p>
+    <h1 class="section-title">{t.title}</h1>
+    <p class="section-sub">{t.intro}</p>
+    <p class="field-hint">{t.plazoPre} <strong>{t.plazoStrong}</strong> {t.plazoPost}</p>
+    <p class="field-hint">{t.obligatorios}</p>
+  </div>
+
+  <form
+    id="bajaForm"
+    class="alta-form page view-block"
+    novalidate
+    data-campos={JSON.stringify(t.campos)}
+    data-msg-campo={t.msgCampo}
+  >
+    <fieldset class="alta-section">
+      <legend>{t.secEmpresa}</legend>
+      <label class="field">{t.empNombre} <input type="text" id="fEmpNombre" maxlength="150" required /></label>
+      <label class="field">{t.empNif} <input type="text" id="fEmpNif" maxlength="9" required /></label>
+      <label class="field">{t.empEmail} <input type="email" id="fEmpEmail" maxlength="254" required /></label>
+      <label class="field">{t.comNombre} <input type="text" id="fComNombre" maxlength="120" autocomplete="name" required /></label>
+      <label class="field">{t.comCargo} <span class="field-optional">{t.comCargoHint}</span>
+        <input type="text" id="fComCargo" maxlength="100" />
+      </label>
+      <label class="field">{t.comTelefono} <input type="tel" id="fComTelefono" maxlength="20" autocomplete="tel" required /></label>
+    </fieldset>
+
+    <fieldset class="alta-section">
+      <legend>{t.secTrabajador}</legend>
+      <label class="field">{t.trNombre} <input type="text" id="fTrNombre" maxlength="150" autocomplete="off" required /></label>
+      <label class="field">{t.trNif} <input type="text" id="fTrNif" maxlength="9" placeholder="12345678A" autocomplete="off" required /></label>
+      <input type="hidden" id="fTrCodigo" />
+    </fieldset>
+
+    <fieldset class="alta-section">
+      <legend>{t.secBaja}</legend>
+      <label class="field">{t.fechaBaja} <span class="field-optional">{t.fechaBajaHint}</span>
+        <input type="date" id="fFechaBaja" required />
+      </label>
+      <label class="field">{t.causa}
+        <select id="fCausa" required>
+          <option value="">{t.causaElige}</option>
+          {Object.entries(t.causas).map(([value, label]) => <option value={value}>{label}</option>)}
+        </select>
+      </label>
+
+      <p class="form-error" id="fAvisoDespido" hidden>{t.avisoDespido}</p>
+
+      <!-- Baja voluntaria -->
+      <div class="field-group" data-causa="voluntaria" hidden>
+        <label class="field">{t.fechaAviso} <input type="date" id="fFechaAviso" /></label>
+        <label class="checkbox-option"><input type="checkbox" id="fAvisoEscrito" /> {t.avisoEscrito}</label>
+        <div class="field-group">
+          <p class="field-group-label">{t.preaviso}</p>
+          <div class="radio-group" data-field="preavisoCumplido">
+            {Object.entries(t.preavisoOpts).map(([value, label]) => (
+              <label class="radio-option"><input type="radio" name="preavisoCumplido" value={value} /> {label}</label>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <!-- Fin de contrato temporal -->
+      <div class="field-group" data-causa="fin_contrato" hidden>
+        <label class="checkbox-option"><input type="checkbox" id="fFinComunicado" /> {t.finComunicado}</label>
+      </div>
+
+      <!-- Periodo de prueba no superado -->
+      <div class="field-group" data-causa="prueba_no_superada" hidden>
+        <label class="field">{t.pruebaFin} <input type="date" id="fPruebaFin" /></label>
+        <label class="checkbox-option"><input type="checkbox" id="fPruebaEscrito" /> {t.pruebaEscrito}</label>
+      </div>
+
+      <!-- Mutuo acuerdo -->
+      <div class="field-group" data-causa="mutuo_acuerdo" hidden>
+        <label class="field">{t.importePactado} <input type="number" id="fImportePactado" min="0" step="0.01" /></label>
+        <label class="checkbox-option"><input type="checkbox" id="fAcuerdoFirmado" /> {t.acuerdoFirmado}</label>
+      </div>
+
+      <!-- Despido disciplinario -->
+      <div class="field-group" data-causa="despido_disciplinario" hidden>
+        <label class="field">{t.hechos} <span class="field-optional">{t.hechosHint}</span>
+          <textarea id="fHechos" maxlength="2000" rows="5"></textarea>
+        </label>
+        <label class="field">{t.fechaHechos} <input type="date" id="fFechaHechos" /></label>
+        <label class="field">{t.fechaConocimiento} <input type="date" id="fFechaConocimiento" /></label>
+        <div class="field-group">
+          <p class="field-group-label">{t.carta}</p>
+          <div class="radio-group" data-field="carta">
+            {Object.entries(t.cartaOpts).map(([value, label]) => (
+              <label class="radio-option"><input type="radio" name="carta" value={value} /> {label}</label>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <!-- Despido objetivo -->
+      <div class="field-group" data-causa="despido_objetivo" hidden>
+        <label class="field">{t.causaObjetivo}
+          <select id="fCausaObjetivo">
+            <option value="">{t.causaElige}</option>
+            {Object.entries(t.causaObjetivoOpts).map(([value, label]) => <option value={value}>{label}</option>)}
+          </select>
+        </label>
+        <label class="field">{t.descripcionCausa} <span class="field-optional">{t.descripcionCausaHint}</span>
+          <textarea id="fDescripcionCausa" maxlength="2000" rows="5"></textarea>
+        </label>
+        <label class="checkbox-option"><input type="checkbox" id="fPreaviso15" /> {t.preaviso15}</label>
+        <label class="checkbox-option"><input type="checkbox" id="fIndemnizacion" /> {t.indemnizacion}</label>
+      </div>
+
+      <!-- Jubilación -->
+      <div class="field-group" data-causa="jubilacion" hidden>
+        <label class="field">{t.jubilacionTipo}
+          <select id="fJubilacionTipo">
+            <option value="">{t.causaElige}</option>
+            {Object.entries(t.jubilacionOpts).map(([value, label]) => <option value={value}>{label}</option>)}
+          </select>
+        </label>
+      </div>
+
+      <!-- Otra causa -->
+      <div class="field-group" data-causa="otra" hidden>
+        <label class="field">{t.causaOtra} <textarea id="fCausaOtra" maxlength="1000" rows="3"></textarea></label>
+      </div>
+    </fieldset>
+
+    <fieldset class="alta-section">
+      <legend>{t.secLiquidacion}</legend>
+      <label class="field">{t.vacaciones} <span class="field-optional">{t.vacacionesHint}</span>
+        <input type="number" id="fVacaciones" min="0" max="365" step="0.5" />
+      </label>
+      <div class="field-group">
+        <p class="field-group-label">{t.situaciones} <span class="field-optional">{t.situacionesHint}</span></p>
+        {Object.entries(t.situacionesOpts).map(([value, label]) => (
+          <label class="checkbox-option"><input type="checkbox" name="situaciones" value={value} /> {label}</label>
+        ))}
+      </div>
+      <label class="field">{t.observaciones} <span class="field-optional">{t.observacionesHint}</span>
+        <textarea id="fObservaciones" maxlength="1000" rows="3"></textarea>
+      </label>
+    </fieldset>
+
+    <fieldset class="alta-section">
+      <legend>{t.secDocs}</legend>
+      <p class="field-hint">{t.docsPre} <a href={`mailto:${EMAIL_CONTACTO}`}>{EMAIL_CONTACTO}</a>{t.docsPost}</p>
+      <ul class="plain-list">
+        {t.docs.map((d) => <li>{d}</li>)}
+      </ul>
+      <p class="field-hint">{t.autorizacion}</p>
+      <p class="field-hint">{t.cobro}</p>
+    </fieldset>
+
+    <label class="consent">
+      <input type="checkbox" id="fPrivacy" required />
+      <span>{t.privacyPre} <a href={t.privacidadHref} target="_blank" rel="noopener">{t.privacyLink}</a>{t.privacyPost}</span>
+    </label>
+
+    <p class="form-error" id="formError" hidden>{t.error}</p>
+
+    <button type="submit" class="btn btn-primary form-submit" id="formSubmit">{t.enviar}</button>
+  </form>
+
+  <div class="page view-block form-success" id="formSuccess" hidden>
+    <p class="eyebrow">{t.recibido}</p>
+    <h2 class="section-title">{t.gracias}</h2>
+    <p class="section-sub">{t.graciasSub}</p>
+    <p class="section-sub" id="formSuccessDespido" hidden>{t.graciasDespido}</p>
+  </div>
+</div>
+
+<script>
+  import { track } from '../../scripts/analytics';
+
+  (function () {
+    const form = document.getElementById('bajaForm') as HTMLFormElement | null;
+    if (!form) return;
+
+    const success = document.getElementById('formSuccess') as HTMLElement;
+    const successDespido = document.getElementById('formSuccessDespido') as HTMLElement;
+    const errorEl = document.getElementById('formError') as HTMLElement;
+    const submitBtn = document.getElementById('formSubmit') as HTMLButtonElement;
+
+    const $ = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;
+    const val = (id: string) => ($<HTMLInputElement>(id).value || '').trim();
+    const checked = (id: string) => $<HTMLInputElement>(id).checked;
+    const radioValue = (name: string) => form.querySelector<HTMLInputElement>(`[name="${name}"]:checked`)?.value;
+
+    // Empresa: el enlace del portal manda ?nif=&email=&nombre=. El NIF queda de solo lectura para que la baja
+    // no se pueda asignar a otra empresa por error.
+    const params = new URLSearchParams(window.location.search);
+    const nifParam = params.get('nif');
+    if (nifParam) { $<HTMLInputElement>('fEmpNif').value = nifParam; $<HTMLInputElement>('fEmpNif').readOnly = true; }
+    const emailParam = params.get('email');
+    if (emailParam) $<HTMLInputElement>('fEmpEmail').value = emailParam;
+    const nombreParam = params.get('nombre');
+    if (nombreParam) $<HTMLInputElement>('fEmpNombre').value = nombreParam;
+
+    // Trabajador: lo deja el portal en sessionStorage (así no viaja en la URL). Se borra al leerlo.
+    try {
+      const raw = sessionStorage.getItem('baja_trabajador');
+      if (raw) {
+        sessionStorage.removeItem('baja_trabajador');
+        const d = JSON.parse(raw) as { nombre?: string; nif?: string; codigo?: number };
+        if (d.nombre) $<HTMLInputElement>('fTrNombre').value = String(d.nombre);
+        if (d.nif) $<HTMLInputElement>('fTrNif').value = String(d.nif);
+        if (d.codigo != null) $<HTMLInputElement>('fTrCodigo').value = String(d.codigo);
+      }
+    } catch { /* sin datos previos: se rellena a mano */ }
+
+    // Aviso que nombra el campo que el servidor rechaza, en el idioma de la página.
+    const CAMPOS: Record<string, string> = JSON.parse(form.dataset.campos || '{}');
+    const MSG_CAMPO = form.dataset.msgCampo || '';
+    const MENSAJE_GENERICO = errorEl.textContent;
+    async function mostrarError(res: Response | null) {
+      let campo = '';
+      try { campo = (await res?.json())?.field ?? ''; } catch { /* sin detalle */ }
+      errorEl.textContent = campo && CAMPOS[campo] ? MSG_CAMPO.replace('{campo}', CAMPOS[campo]) : MENSAJE_GENERICO;
+      errorEl.hidden = false;
+    }
+
+    // Solo se ve el bloque del motivo elegido; los demás se vacían para que no viaje nada que ya no aplica.
+    const avisoDespido = $<HTMLElement>('fAvisoDespido');
+    const bloques = Array.from(form.querySelectorAll<HTMLElement>('[data-causa]'));
+    const actualizarCausa = () => {
+      const causa = val('fCausa');
+      for (const b of bloques) {
+        const visible = b.dataset.causa === causa;
+        b.hidden = !visible;
+        if (!visible) {
+          b.querySelectorAll<HTMLInputElement>('input, select, textarea').forEach((el) => {
+            if (el.type === 'checkbox' || el.type === 'radio') el.checked = false;
+            else el.value = '';
+          });
+        }
+      }
+      avisoDespido.hidden = !causa.startsWith('despido_');
+    };
+    $<HTMLSelectElement>('fCausa').addEventListener('change', actualizarCausa);
+    actualizarCausa();
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      errorEl.textContent = MENSAJE_GENERICO;
+      errorEl.hidden = true;
+
+      const causa = val('fCausa');
+      const body: Record<string, unknown> = {
+        empresaNombre: val('fEmpNombre'),
+        empresaNif: val('fEmpNif'),
+        empresaEmail: val('fEmpEmail'),
+        comunicanteNombre: val('fComNombre'),
+        comunicanteTelefono: val('fComTelefono'),
+        trabajadorNombre: val('fTrNombre'),
+        trabajadorNif: val('fTrNif'),
+        fechaBaja: val('fFechaBaja'),
+        causa,
+        privacyAccepted: checked('fPrivacy'),
+      };
+
+      // Opcionales y condicionales: solo viajan si tienen valor.
+      const texto: Record<string, string> = {
+        comunicanteCargo: 'fComCargo', observaciones: 'fObservaciones',
+        fechaAviso: 'fFechaAviso', pruebaFin: 'fPruebaFin', hechos: 'fHechos', fechaHechos: 'fFechaHechos',
+        fechaConocimiento: 'fFechaConocimiento', causaObjetivo: 'fCausaObjetivo', descripcionCausa: 'fDescripcionCausa',
+        jubilacionTipo: 'fJubilacionTipo', causaOtra: 'fCausaOtra',
+      };
+      for (const [clave, id] of Object.entries(texto)) { const v = val(id); if (v) body[clave] = v; }
+      if (val('fTrCodigo')) body.trabajadorCodigo = Number(val('fTrCodigo'));
+      if (val('fVacaciones')) body.vacacionesPendientes = Number(val('fVacaciones'));
+      if (val('fImportePactado')) body.importePactado = Number(val('fImportePactado'));
+      const preaviso = radioValue('preavisoCumplido'); if (preaviso) body.preavisoCumplido = preaviso;
+      const carta = radioValue('carta'); if (carta) body.carta = carta;
+      const bools: Record<string, string> = {
+        avisoEscrito: 'fAvisoEscrito', finComunicado: 'fFinComunicado', pruebaEscrito: 'fPruebaEscrito',
+        acuerdoFirmado: 'fAcuerdoFirmado', preaviso15: 'fPreaviso15', indemnizacion: 'fIndemnizacion',
+      };
+      for (const [clave, id] of Object.entries(bools)) if (checked(id)) body[clave] = true;
+      body.situaciones = Array.from(form.querySelectorAll<HTMLInputElement>('[name="situaciones"]:checked')).map((c) => c.value);
+
+      submitBtn.disabled = true;
+      try {
+        const res = await fetch('/api/baja-trabajador', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(body),
+        });
+        if (!res.ok) { await mostrarError(res); submitBtn.disabled = false; return; }
+        track('formulario_enviado', { tipo: 'baja_trabajador' });
+        form.hidden = true;
+        successDespido.hidden = !causa.startsWith('despido_');
+        success.hidden = false;
+        window.scrollTo({ top: 0 });
+      } catch {
+        errorEl.hidden = false;
+        submitBtn.disabled = false;
+      }
+    });
+  })();
+</script>

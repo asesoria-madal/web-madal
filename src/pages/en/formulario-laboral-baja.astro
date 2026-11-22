@@ -1,0 +1,12 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import FormularioBajaTrabajador from '../../components/pages/FormularioBajaTrabajador.astro';
+import { BAJA } from '../../i18n/formularioBaja';
+
+export const prerender = true;
+const t = BAJA.en;
+---
+
+<Layout lang="en" path="/en/formulario-laboral-baja" active="none" title={t.metaTitle} description={t.metaDesc} noindex showCtaFinal={false} minimalHeader localesAvailable={['es', 'ca', 'en']}>
+  <FormularioBajaTrabajador lang="en" />
+</Layout>

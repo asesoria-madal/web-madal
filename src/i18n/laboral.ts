@@ -29,8 +29,6 @@ export interface TextosLaboral {
     activo: string; deBaja: string; pedirBaja: string; cargando: string;
   };
   baja: {
-    title: string; intro: string; fecha: string; fechaAyuda: string; causa: string; observaciones: string; observacionesPh: string;
-    aviso: string; enviar: string; cancelar: string; enviada: string; error: string;
     pedidas: string; estado: { enviada: string; cargada: string; tramitada: string; revision: string };
   };
   // Altas
@@ -116,20 +114,8 @@ export const LABORAL: Record<'es' | 'ca' | 'en', TextosLaboral> = {
       activo: 'En activo', deBaja: 'De baja', pedirBaja: 'Pedir baja', cargando: 'Cargando…',
     },
     baja: {
-      title: 'Baja de {nombre}',
-      intro: 'Pídenos la baja de un trabajador que deja la empresa. Nosotros la ponemos en nómina, hacemos los trámites con la Seguridad Social y calculamos el finiquito.',
-      fecha: 'Último día de trabajo',
-      fechaAyuda: 'El último día que trabaja (o el último día de contrato).',
-      causa: 'Motivo',
-      observaciones: 'Observaciones',
-      observacionesPh: 'Cualquier cosa que debamos saber (vacaciones pendientes, acuerdo, carta de despido…). La carta o el documento firmado, súbelo en Mis documentos > Laboral.',
-      aviso: 'Una baja es una decisión importante: si es un despido, avísanos antes de enviarla para revisar la causa y la indemnización.',
-      enviar: 'Enviar la solicitud de baja',
-      cancelar: 'Cancelar',
-      enviada: 'Solicitud recibida. Nos ponemos con ella y te escribiremos si necesitamos algo.',
-      error: 'No hemos podido enviar la solicitud. Inténtalo de nuevo y, si sigue fallando, escríbenos.',
       pedidas: 'Bajas pedidas',
-      estado: { enviada: 'Recibida', cargada: 'En nómina, falta el trámite oficial', tramitada: 'Tramitada', revision: 'La estamos revisando' },
+      estado: { enviada: 'Recibida', cargada: 'Recibida, la estamos tramitando', tramitada: 'Tramitada', revision: 'La estamos revisando' }
     },
     alta: {
       title: 'Alta de un trabajador',
@@ -224,20 +210,8 @@ export const LABORAL: Record<'es' | 'ca' | 'en', TextosLaboral> = {
       activo: 'En actiu', deBaja: 'De baixa', pedirBaja: 'Demanar baixa', cargando: 'Carregant…',
     },
     baja: {
-      title: 'Baixa de {nombre}',
-      intro: "Demana'ns la baixa d'un treballador que deixa l'empresa. Nosaltres la posem a nòmina, fem els tràmits amb la Seguretat Social i calculem la liquidació.",
-      fecha: 'Últim dia de treball',
-      fechaAyuda: "L'últim dia que treballa (o l'últim dia de contracte).",
-      causa: 'Motiu',
-      observaciones: 'Observacions',
-      observacionesPh: "Qualsevol cosa que hàgim de saber (vacances pendents, acord, carta d'acomiadament…). La carta o el document signat, puja'l a Els meus documents > Laboral.",
-      aviso: "Una baixa és una decisió important: si és un acomiadament, avisa'ns abans d'enviar-la per revisar la causa i la indemnització.",
-      enviar: 'Enviar la sol·licitud de baixa',
-      cancelar: 'Cancel·lar',
-      enviada: "Sol·licitud rebuda. Ens hi posem i t'escriurem si necessitem alguna cosa.",
-      error: "No hem pogut enviar la sol·licitud. Torna-ho a provar i, si continua fallant, escriu-nos.",
       pedidas: 'Baixes demanades',
-      estado: { enviada: 'Rebuda', cargada: 'A nòmina, falta el tràmit oficial', tramitada: 'Tramitada', revision: "L'estem revisant" },
+      estado: { enviada: 'Rebuda', cargada: 'Rebuda, la estem tramitant', tramitada: 'Tramitada', revision: "L'estem revisant" }
     },
     alta: {
       title: "Alta d'un treballador",
@@ -332,20 +306,8 @@ export const LABORAL: Record<'es' | 'ca' | 'en', TextosLaboral> = {
       activo: 'Active', deBaja: 'Left', pedirBaja: 'Request leaver', cargando: 'Loading…',
     },
     baja: {
-      title: 'Leaver: {nombre}',
-      intro: 'Ask us to process an employee who is leaving. We register it in payroll, handle the Social Security paperwork and calculate the final settlement.',
-      fecha: 'Last working day',
-      fechaAyuda: 'The last day they work (or the last day of the contract).',
-      causa: 'Reason',
-      observaciones: 'Notes',
-      observacionesPh: 'Anything we should know (pending holidays, agreement, dismissal letter…). Upload the signed letter or document in My documents > Labour.',
-      aviso: 'A dismissal is an important decision: if it is one, tell us before sending this so we can review the cause and the severance.',
-      enviar: 'Send the leaver request',
-      cancelar: 'Cancel',
-      enviada: 'Request received. We will get on it and write to you if we need anything.',
-      error: 'We could not send the request. Please try again and, if it keeps failing, write to us.',
       pedidas: 'Leavers requested',
-      estado: { enviada: 'Received', cargada: 'In payroll, official filing pending', tramitada: 'Completed', revision: 'We are reviewing it' },
+      estado: { enviada: 'Received', cargada: 'Received, we are processing it', tramitada: 'Completed', revision: 'We are reviewing it' }
     },
     alta: {
       title: 'Hire an employee',
