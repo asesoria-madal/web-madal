@@ -130,10 +130,12 @@ async function pintar(): Promise<void> {
   pintarBajas();
 
   // --- Altas
+  // Sin trabajadores solo se enseña el alta: una explicación y el botón del formulario (sin tarjetas de incidencias ni de trabajadores).
+  $('lab-incidencias').hidden = sinTrabajadores;
+  $('lab-trabajadores').hidden = sinTrabajadores;
   $('lab-alta-vacio').hidden = !sinNada;
-  $('lab-alta-normal').hidden = sinNada;
-  const href = enlaceAlta();
-  for (const id of ['lab-alta-btn-vacio', 'lab-alta-btn']) ($(id) as HTMLAnchorElement).href = href;
+  $('lab-alta-normal').hidden = false;
+  ($('lab-alta-btn') as HTMLAnchorElement).href = enlaceAlta();
   $('lab-alta-btn').textContent = activos.length || E.altas.length ? t.alta.botonOtro : t.alta.boton;
   pintarAltas();
 
