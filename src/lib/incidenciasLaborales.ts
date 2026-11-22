@@ -110,13 +110,5 @@ export function plazoIncidencias(anio: number, mes: number): Date {
   return new Date(anio, mes, DIA_LIMITE_INCIDENCIAS, 23, 59, 59); // mes (1-12) como índice = mes siguiente
 }
 
-/** Causas de baja del trabajador (portal) y su causaDeBaja en DiezNom (UpdateDetalleContratacionEmpleado). */
-export const CAUSAS_BAJA: { clave: string; causaDiezNom: number; nombre: Record<IdiomaPortal, string> }[] = [
-  { clave: 'voluntaria', causaDiezNom: 1, nombre: n('Baja voluntaria (el trabajador se va)', 'Baixa voluntària (el treballador marxa)', 'Resignation') },
-  { clave: 'fin_contrato', causaDiezNom: 11, nombre: n('Fin de contrato temporal', 'Fi de contracte temporal', 'End of fixed-term contract') },
-  { clave: 'prueba_no_superada', causaDiezNom: 10, nombre: n('Periodo de prueba no superado', 'Període de prova no superat', 'Probation not passed') },
-  { clave: 'mutuo_acuerdo', causaDiezNom: 13, nombre: n('Mutuo acuerdo', 'Mutu acord', 'Mutual agreement') },
-  { clave: 'despido', causaDiezNom: 2, nombre: n('Despido', 'Acomiadament', 'Dismissal') },
-  { clave: 'fallecimiento', causaDiezNom: 3, nombre: n('Fallecimiento', 'Defunció', 'Death') },
-  { clave: 'otra', causaDiezNom: 16, nombre: n('Otra causa', 'Una altra causa', 'Other') },
-];
+// Las causas de baja ya no viven aquí: las pide el formulario /formulario-laboral-baja (i18n/formularioBaja.ts)
+// y las valida el endpoint api/baja-trabajador.

@@ -6,7 +6,7 @@
 // dar el error al momento; n8n ("Incidencias laborales a Cegid") vuelve a validarlo todo al cargar en DiezNom.
 import { LABORAL, MESES_LABORAL, type TextosLaboral } from '../i18n/laboral';
 import {
-  TIPOS_INCIDENCIA, TIPO_POR_CLAVE, tipoPorNombre, nombreTipo, plazoIncidencias, DIA_LIMITE_INCIDENCIAS, CAUSAS_BAJA,
+  TIPOS_INCIDENCIA, TIPO_POR_CLAVE, tipoPorNombre, nombreTipo, plazoIncidencias, DIA_LIMITE_INCIDENCIAS,
   type IdiomaPortal, type TipoIncidencia,
 } from '../lib/incidenciasLaborales';
 
@@ -77,7 +77,7 @@ async function cargarDatos(): Promise<void> {
     supabase.from('incidencias_cargas').select('id, anio, mes, estado, resumen, created_at, nombre_archivo').eq('cliente_id', cliente.id)
       .neq('estado', 'subiendo').order('created_at', { ascending: false }).limit(24),
     supabase.from('altas_trabajadores').select('id, nombre_completo, fecha_inicio, created_at, tramitado_at, cegid_enviado_at, cegid_error').ilike('empresa_nif', cliente.id).order('created_at', { ascending: false }).limit(20),
-    supabase.from('bajas_trabajadores').select('id, trabajador_nombre, fecha_baja, causa, created_at, tramitado_at, cegid_enviado_at, cegid_error').eq('cliente_id', cliente.id).order('created_at', { ascending: false }).limit(20),
+    supabase.from('bajas_trabajadores').select('id, trabajador_nombre, fecha_baja, causa, created_at, tramitado_at, notificado_at, facturacion_error').eq('cliente_id', cliente.id).order('created_at', { ascending: false }).limit(20),
   ]);
   E.empleados = emp.data ?? [];
   E.cargas = car.data ?? [];
@@ -209,9 +209,9 @@ function pintarTrabajadores() {
     tr.appendChild(crear('td', e.fecha_baja ? `${t.trab.deBaja} (${fechaCorta(e.fecha_baja)})` : t.trab.activo));
     const acc = crear('td');
     if (!e.fecha_baja && !E!.soloLectura) {
-      const b = crear('button', t.trab.pedirBaja, 'btn btn-outline lab-btn-peq');
-      b.type = 'button';
-      b.addEventListener('click', () => abrirBaja(e));
+      const b = crear('a', t.trab.pedirBaja, 'btn btn-outline lab-btn-peq') as HTMLAnchorElement;
+      b.href = enlaceBaja();
+      b.addEventListener('click', () => dejarTrabajadorParaLaBaja(e));
       acc.appendChild(b);
     }
     tr.appendChild(acc);
@@ -252,7 +252,9 @@ function pintarAltas() {
 
 function pintarBajas() {
   const { t } = E!;
-  pintarLista('lab-bajas', 'lab-bajas-lista', E!.bajas,
+  // Una baja ya no pasa por Cegid nóminas: «cargada» = el equipo ya la tiene (avisado), «revisión» = algo pendiente de mirar.
+  const filas = E!.bajas.map((f) => ({ ...f, cegid_enviado_at: f.notificado_at, cegid_error: f.facturacion_error }));
+  pintarLista('lab-bajas', 'lab-bajas-lista', filas,
     (f) => f.trabajador_nombre ?? '',
     (f) => (f.fecha_baja ? fechaCorta(f.fecha_baja) : ''),
     { recibida: t.baja.estado.enviada, cargada: t.baja.estado.cargada, tramitada: t.baja.estado.tramitada, revision: t.baja.estado.revision });
@@ -268,51 +270,21 @@ function enlaceAlta(): string {
 }
 
 // ---------------------------------------------------------------------------------------------------------------
-// Baja de un trabajador
+// Baja de un trabajador: se pide en el formulario /formulario-laboral-baja (todo lo que hace falta según el motivo).
+// El nombre, el NIF y el código del trabajador van en sessionStorage (no en la URL) y el formulario los recoge.
 // ---------------------------------------------------------------------------------------------------------------
-let bajaEmpleado: Fila | null = null;
-
-function abrirBaja(e: Fila) {
-  const { t } = E!;
-  bajaEmpleado = e;
-  const form = $('lab-baja-form') as HTMLFormElement;
-  $('lab-baja-titulo').textContent = tpl(t.baja.title, { nombre: e.nombre });
-  (form.elements.namedItem('fecha') as HTMLInputElement).value = '';
-  (form.elements.namedItem('observaciones') as HTMLTextAreaElement).value = '';
-  const sel = form.elements.namedItem('causa') as HTMLSelectElement;
-  sel.textContent = '';
-  for (const c of CAUSAS_BAJA) { const o = crear('option', c.nombre[E!.lang]); o.value = c.clave; sel.appendChild(o); }
-  const msg = $('lab-baja-msg'); msg.hidden = true;
-  form.hidden = false;
-  form.scrollIntoView({ behavior: 'smooth', block: 'center' });
+function enlaceBaja(): string {
+  const base = { es: '/formulario-laboral-baja', ca: '/ca/formulario-laboral-baja', en: '/en/formulario-laboral-baja' }[E!.lang];
+  if (ES_PRUEBA.test(E!.cliente.id)) return base;
+  const p = new URLSearchParams({ nif: E!.cliente.id, nombre: E!.cliente.nombre ?? '' });
+  if (E!.cliente.email) p.set('email', E!.cliente.email);
+  return `${base}?${p.toString()}`;
 }
 
-async function enviarBaja(ev: Event) {
-  ev.preventDefault();
-  if (!E || !bajaEmpleado || E.soloLectura) return;
-  const form = $('lab-baja-form') as HTMLFormElement;
-  const msg = $('lab-baja-msg');
-  const fecha = (form.elements.namedItem('fecha') as HTMLInputElement).value;
-  const causa = (form.elements.namedItem('causa') as HTMLSelectElement).value;
-  const obs = (form.elements.namedItem('observaciones') as HTMLTextAreaElement).value.trim();
-  if (!fecha) return;
-  const btn = form.querySelector('button[type=submit]') as HTMLButtonElement;
-  btn.disabled = true;
-  const { error } = await E.supabase.from('bajas_trabajadores').insert({
-    cliente_id: E.cliente.id, trabajador_codigo: bajaEmpleado.codigo_empleado, trabajador_nombre: bajaEmpleado.nombre,
-    trabajador_nif: bajaEmpleado.nif, fecha_baja: fecha, causa, observaciones: obs || null,
-  });
-  btn.disabled = false;
-  msg.hidden = false;
-  if (error) { msg.textContent = E.t.baja.error; msg.className = 'portal-msg is-error'; return; }
-  msg.textContent = E.t.baja.enviada;
-  msg.className = 'portal-msg is-ok';
-  form.hidden = true;
-  bajaEmpleado = null;
-  await cargarDatos();
-  await pintar();
-  $('lab-baja-msg-global').textContent = E.t.baja.enviada;
-  $('lab-baja-msg-global').hidden = false;
+function dejarTrabajadorParaLaBaja(e: Fila) {
+  try {
+    sessionStorage.setItem('baja_trabajador', JSON.stringify({ nombre: e.nombre, nif: e.nif ?? '', codigo: e.codigo_empleado }));
+  } catch { /* sin sessionStorage: el formulario se rellena a mano */ }
 }
 
 // ---------------------------------------------------------------------------------------------------------------
@@ -594,8 +566,6 @@ function engancharEventos() {
     if (f) void subirPlantilla(f);
   });
   $('lab-sin-inc').addEventListener('click', () => void sinIncidencias());
-  ($('lab-baja-form') as HTMLFormElement).addEventListener('submit', (ev) => void enviarBaja(ev));
-  $('lab-baja-cancelar').addEventListener('click', () => { ($('lab-baja-form') as HTMLFormElement).hidden = true; bajaEmpleado = null; });
 }
 
 export async function iniciarLaboral(supabase: any, cliente: { id: string; nombre: string; email?: string | null }, opciones: { lang: IdiomaPortal; soloLectura: boolean }) {
@@ -608,8 +578,6 @@ export async function iniciarLaboral(supabase: any, cliente: { id: string; nombr
     mes: cambioDeCliente || !E ? act : E.mes, enviando: false, sondeos: 0, temporizador: undefined,
   };
   engancharEventos();
-  ($('lab-baja-form') as HTMLFormElement).hidden = true;
-  $('lab-baja-msg-global').hidden = true;
   mostrarErrores([]);
   mensaje('', '');
   await cargarDatos();
