@@ -264,6 +264,11 @@ const textosCarpeta = { subir: t.doc.subir, foto: t.facturas.cameraSubmit, ver: 
             <div id="pf-vista-modelos" hidden>
               <p>{t.prevision.modelosIntro}</p>
               <p id="pf-modelos-vacio" class="pf-estado" hidden>{t.prevision.modelosVacio}</p>
+              <div class="mf-filtros" id="pf-filtros" hidden>
+                <label>{t.prevision.cols.anio}<select id="pf-f-anio"></select></label>
+                <label>{t.prevision.cols.modelo}<select id="pf-f-modelo"></select></label>
+                <label>{t.prevision.cols.estado}<select id="pf-f-estado"></select></label>
+              </div>
               <div class="mf-tabla-caja" id="pf-tabla-caja" hidden>
                 <table class="mf-tabla pf-tabla">
                   <thead><tr><th>{t.prevision.cols.anio}</th><th>{t.prevision.cols.periodo}</th><th>{t.prevision.cols.modelo}</th><th class="num">{t.prevision.cols.importe}</th><th>{t.prevision.cols.estado}</th><th>{t.prevision.cols.descargar}</th></tr></thead>
@@ -1023,17 +1028,39 @@ const textosCarpeta = { subir: t.doc.subir, foto: t.facturas.cameraSubmit, ver: 
         setTimeout(() => URL.revokeObjectURL(url), 60_000);
       } catch { alert(I18N.prevision.descargaError); }
     }
+    // Filtros (2026-11-21): año, modelo y estado, con las opciones de lo que tiene el cliente. Se filtra en el navegador.
+    let pfModelos: Record<string, any>[] = [];
+    const pfClaveEstado = (f: Record<string, any>) => { const e = String(f.estado || '').toLowerCase(); return e.startsWith('present') ? 'presentado' : e.startsWith('borrador') ? 'borrador' : e.startsWith('acept') ? 'aceptado' : e.startsWith('sin act') ? 'sinActividad' : 'preparacion'; };
+    for (const id of ['pf-f-anio', 'pf-f-modelo', 'pf-f-estado']) (document.getElementById(id) as HTMLSelectElement).addEventListener('change', () => pintarModelosPresentados());
     async function renderModelosPresentados(clienteId: string) {
       const P = I18N.prevision;
-      const tbody = document.getElementById('pf-filas') as HTMLElement;
-      tbody.innerHTML = '';
+      (document.getElementById('pf-filas') as HTMLElement).innerHTML = '';
       const { data } = await supabase!.from('modelos_fiscales')
         .select('id, modelo, periodo, anio, trimestre, estado, resultado, importe, importe_texto, presentado_el, justificante_drive_id')
         .eq('cliente_id', clienteId);
       if (clienteId !== currentClienteId) return;
       const filas = ((data || []) as Record<string, any>[]).sort((a, b) => (b.anio || 0) - (a.anio || 0) || String(b.periodo).localeCompare(String(a.periodo)) || String(a.modelo).localeCompare(String(b.modelo)));
+      pfModelos = filas;
       (document.getElementById('pf-modelos-vacio') as HTMLElement).hidden = filas.length > 0;
       (document.getElementById('pf-tabla-caja') as HTMLElement).hidden = filas.length === 0;
+      (document.getElementById('pf-filtros') as HTMLElement).hidden = filas.length === 0;
+      const opciones = (id: string, valores: [string, string][]) => {
+        const sel = document.getElementById(id) as HTMLSelectElement;
+        sel.innerHTML = `<option value="">${I18N.misFacturas.todos}</option>` + valores.map(([v, t]) => `<option value="${v}">${t}</option>`).join('');
+      };
+      opciones('pf-f-anio', [...new Set(filas.map((f) => String(f.anio ?? '')).filter(Boolean))].sort().reverse().map((a) => [a, a]));
+      opciones('pf-f-modelo', [...new Set(filas.map((f) => String(f.modelo)))].sort().map((m) => [m, m + (P.nombresModelo[m] ? ' · ' + P.nombresModelo[m] : '')]));
+      opciones('pf-f-estado', [...new Set(filas.map(pfClaveEstado))].map((k) => [k, P.estados[k]]));
+      pintarModelosPresentados();
+    }
+    function pintarModelosPresentados() {
+      const P = I18N.prevision;
+      const tbody = document.getElementById('pf-filas') as HTMLElement;
+      tbody.innerHTML = '';
+      const fa = (document.getElementById('pf-f-anio') as HTMLSelectElement).value;
+      const fm = (document.getElementById('pf-f-modelo') as HTMLSelectElement).value;
+      const fe = (document.getElementById('pf-f-estado') as HTMLSelectElement).value;
+      const filas = pfModelos.filter((f) => (!fa || String(f.anio) === fa) && (!fm || String(f.modelo) === fm) && (!fe || pfClaveEstado(f) === fe));
       const eur = (n: number) => n.toLocaleString(LOCALE, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' €';
       for (const f of filas) {
         const tr = document.createElement('tr');
