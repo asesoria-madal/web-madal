@@ -17,7 +17,7 @@ import { WHATSAPP_NUMBER, CONTACT_EMAIL } from '../../lib/contact';
 import CarpetaDocumentos from '../CarpetaDocumentos.astro';
 import PortalLaboral from '../PortalLaboral.astro';
 import { LABORAL } from '../../i18n/laboral';
-import { guiaApoderamientoAeat, guiaApoderamientoSs, guiaExportarCertificado } from '../../lib/guias';
+import { guiaAreaClientes, guiaApoderamientoAeat, guiaApoderamientoSs, guiaExportarCertificado } from '../../lib/guias';
 
 interface Props { lang: Locale; }
 const { lang } = Astro.props;
@@ -354,7 +354,7 @@ const textosCarpeta = { subir: t.doc.subir, foto: t.facturas.cameraSubmit, ver: 
               <p class="field-group-label">{t.doc.guiaGroup}</p>
               <ul class="doc-list">
                 <li>
-                  <a href="https://suslwmgqdzingeqhfrpw.supabase.co/storage/v1/object/public/docs-publicos/Guia_Area_Clientes.pdf" target="_blank" rel="noopener">
+                  <a href={guiaAreaClientes(lang)} target="_blank" rel="noopener">
                     {t.doc.guiaLink}
                   </a>
                 </li>

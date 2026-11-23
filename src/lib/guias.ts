@@ -6,6 +6,8 @@ import type { Locale } from '../i18n/ui';
 const DOCS = 'https://suslwmgqdzingeqhfrpw.supabase.co/storage/v1/object/public/docs-publicos/';
 const SUFIJO: Record<Locale, string> = { es: 'ES', ca: 'CA', en: 'EN' };
 
+// Guía del área de clientes (2026-11-23). Guia_Area_Clientes.pdf, sin sufijo, es copia de la ES para enlaces antiguos.
+export const guiaAreaClientes = (lang: Locale) => `${DOCS}Guia_Area_Clientes_${SUFIJO[lang]}.pdf`;
 export const guiaApoderamientoAeat = (lang: Locale) => `${DOCS}Apoderamiento_AEAT_${SUFIJO[lang]}.pdf`;
 export const guiaApoderamientoSs = (lang: Locale) => `${DOCS}Apoderamiento_Seguridad_Social_${SUFIJO[lang]}.pdf`;
 
