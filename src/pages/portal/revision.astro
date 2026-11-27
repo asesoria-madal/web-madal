@@ -42,6 +42,23 @@ export const prerender = true;
         </label>
       </div>
 
+      <fieldset class="rev-intervalo">
+        <legend>Antes de mandar a Cegid</legend>
+        <div class="rev-intervalo-campos">
+          <label>Fechas de factura del<input id="i-desde" type="date"></label>
+          <label>al<input id="i-hasta" type="date"></label>
+          <label>Si la fecha es anterior
+            <select id="i-accion">
+              <option value="no">No contabilizarla</option>
+              <option value="cambiar">Contabilizarla con la fecha de inicio</option>
+            </select>
+          </label>
+          <button type="button" id="rev-lote" class="rev-btn-sec">Contabilizar las verdes de la lista</button>
+        </div>
+        <p class="rev-sub">Si dejáis las fechas vacías, no se comprueba nada. Las posteriores a la fecha final no se contabilizan nunca: irán en el periodo siguiente.</p>
+        <p id="rev-lote-msg" class="rev-msg" hidden></p>
+      </fieldset>
+
       <div class="rev-tabla-caja">
         <table class="rev-tabla">
           <thead><tr><th></th><th>Referencia</th><th>Cliente</th><th>Tipo</th><th>Proveedor / cliente</th><th>Fecha</th><th class="num">Total</th><th>Situación</th></tr></thead>
@@ -89,6 +106,7 @@ export const prerender = true;
           </fieldset>
 
           <div id="rev-decision" class="rev-decision">
+            <label id="l-dup-ok" class="rev-check" hidden><input id="f-dup-ok" type="checkbox"> No es duplicada: contabilizarla aunque coincida con otra</label>
             <div class="rev-botones">
               <button type="button" id="rev-contabilizar" class="rev-btn">Contabilizar en Cegid</button>
               <button type="button" id="rev-guardar" class="rev-btn-sec">Guardar sin decidir</button>
@@ -128,6 +146,11 @@ export const prerender = true;
   .rev-filtros { display: flex; flex-wrap: wrap; gap: 1rem; margin: 1.2rem 0 0.8rem; }
   .rev label { display: flex; flex-direction: column; gap: 0.25rem; font-size: 0.8rem; font-weight: 600; color: var(--ink-soft); }
   .rev input, .rev select { font: inherit; font-size: 0.95rem; font-weight: 400; padding: 0.5rem 0.6rem; border: 1px solid var(--line); border-radius: 8px; background: var(--paper); color: var(--ink); min-height: 40px; }
+  .rev-intervalo { border: 1px solid var(--line); border-radius: 10px; padding: 0.6rem 1rem 0.8rem; margin: 0 0 0.8rem; }
+  .rev-intervalo legend { font-size: 0.8rem; font-weight: 600; color: var(--ink-soft); padding: 0 0.3rem; }
+  .rev-intervalo-campos { display: flex; flex-wrap: wrap; gap: 0.8rem; align-items: flex-end; }
+  .rev .rev-check { flex-direction: row; align-items: center; gap: 0.5rem; font-size: 0.9rem; font-weight: 600; color: #8a5a00; }
+  .rev .rev-check input { min-height: 0; width: 18px; height: 18px; }
   .rev-tabla-caja { overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; max-height: 360px; overflow-y: auto; }
   .rev-tabla { width: 100%; border-collapse: collapse; font-size: 0.9rem; min-width: 900px; }
   .rev-tabla th { position: sticky; top: 0; background: var(--paper); text-align: left; font-size: 0.75rem; color: var(--ink-soft); padding: 0.55rem 0.6rem; border-bottom: 1px solid var(--line); }
@@ -183,6 +206,7 @@ export const prerender = true;
     tipo?: string; emisor?: { nif?: string | null; nombre?: string | null; intracomunitario?: boolean }; receptor?: { nif?: string | null; nombre?: string | null; intracomunitario?: boolean };
     numero?: string | null; fecha?: string | null; fecha_contable?: string | null; nota_fecha?: string; aviso?: string; lineas?: Linea[];
     base?: number | null; cuota_iva?: number | null; retencion?: { pct: number; cuota: number } | null; total?: number | null; sin_iva?: string; vies?: { valido: boolean; nombre?: string | null };
+    duplicada_ok?: boolean;
   };
   type Fila = {
     factura_id: number; estado: string; motivos: string[]; datos: Datos; datos_revisados: Datos | null; grupo: string | null; decision: string | null;
@@ -230,16 +254,20 @@ export const prerender = true;
     return { texto: 'Pendiente de decidir', clave: 'pendientes' };
   }
 
-  function pintarLista() {
+  function filasVisibles() {
     const filtro = ($('rev-filtro') as HTMLSelectElement).value;
     const cli = ($('rev-cliente') as HTMLSelectElement).value;
-    const visibles = filas.filter((f) => {
+    return filas.filter((f) => {
       if (cli && f.facturas_subidas?.cliente_id !== cli) return false;
       const s = situacion(f).clave;
       if (filtro === 'todas') return true;
       if (['verde', 'naranja', 'roja'].includes(filtro)) return s === 'pendientes' && f.estado === filtro;
       return s === filtro;
     });
+  }
+
+  function pintarLista() {
+    const visibles = filasVisibles();
     const tbody = $('rev-filas');
     tbody.innerHTML = '';
     for (const f of visibles) {
@@ -305,6 +333,7 @@ export const prerender = true;
       cuota_iva: lineas.length ? Math.round(lineas.reduce((s, l) => s + (l.cuota || 0), 0) * 100) / 100 : null,
       retencion: retCuota ? { pct: retPct || 0, cuota: Math.abs(retCuota) } : null, total: num(($('f-total') as HTMLInputElement).value),
       sin_iva: ($('f-sin-iva') as HTMLSelectElement).value || undefined,
+      duplicada_ok: ($('f-dup-ok') as HTMLInputElement).checked || undefined,
     };
     // Si se movió de trimestre, conserva la nota del mes; si ya no se mueve, la quita.
     if (fecha && fechaCont && fecha < fechaCont) d.nota_fecha = '(' + new Date(fecha).toLocaleDateString('es-ES', { month: 'long' }) + ')'; else delete d.nota_fecha;
@@ -380,7 +409,11 @@ export const prerender = true;
     if (f.contabilizado_at) avisos.push(`<div class="rev-aviso info">Contabilizada en Cegid el ${fechaEs(f.contabilizado_at)}${f.cegid ? ` (empresa ${f.cegid.empresa}, registro ${f.cegid.registro})` : ''}. Para cambiarla, hazlo en Cegid.</div>`);
     if (f.decision === 'no_contabilizar') avisos.push(`<div class="rev-aviso info">Marcada como no contabilizada: ${esc(MOTIVOS[f.motivo_no || ''] || '')}${f.motivo_detalle ? '. ' + esc(f.motivo_detalle) : ''}. El cliente lo ve en su área. Puedes cambiar la decisión.</div>`);
     if (f.contabilizado_at && f.cegid && f.cegid.pdf === false && cli?.tipo_persona === 'sl') avisos.push(`<div class="rev-aviso naranja">El PDF no se ha adjuntado en Cegid${f.cegid.errorPdf ? ' (' + esc(String(f.cegid.errorPdf)) + ')' : ''}. Adjúntalo a mano si hace falta.</div>`);
+    const dups = f.contabilizado_at ? [] : duplicadas(f, d);
+    if (dups.length) avisos.push(`<div class="rev-aviso ${dups.some((x) => x.segura) ? 'roja' : 'naranja'}"><strong>${dups.some((x) => x.segura) ? 'Duplicada' : 'Posible duplicada'}</strong> (mismo número de factura${dups.some((x) => x.segura) ? ', NIF e importe' : ''}): ${dups.map((x) => esc(x.texto)).join('; ')}.</div>`);
     $('rev-avisos').innerHTML = avisos.join('');
+    $('l-dup-ok').hidden = !(dups.length || /duplicada/i.test(f.error_cegid || '') || d.duplicada_ok);
+    ($('f-dup-ok') as HTMLInputElement).checked = !!d.duplicada_ok;
 
     ($('f-tipo') as HTMLSelectElement).value = d.tipo === 'emitida' ? 'emitida' : 'recibida';
     const t = tercero(d);
@@ -414,18 +447,115 @@ export const prerender = true;
 
   function mensaje(texto: string, ok: boolean) { const p = $('rev-msg'); p.hidden = false; p.textContent = texto; p.className = 'rev-msg ' + (ok ? 'ok' : 'mal'); }
 
+  // ---------- Antes de mandar a Cegid (Edurne, 2026-11-27) ----------
+  // Intervalo de fechas, elegido arriba y recordado en este navegador. Fecha de factura:
+  //  - anterior al inicio: no se contabiliza o se contabiliza con la fecha de inicio (el mes real va al concepto, y
+  //    "Contabilizar en Cegid" pone también esa fecha como fecha de factura, porque Cegid decide el trimestre por ella);
+  //  - posterior al final: no se contabiliza nunca (no se puede llevar una factura a un periodo anterior a su fecha);
+  //  - dentro: se contabiliza con su fecha, aunque la lectura la hubiera movido al trimestre abierto.
+  const CLAVE_INTERVALO = 'rev-intervalo';
+  const intervalo = () => ({ desde: ($('i-desde') as HTMLInputElement).value, hasta: ($('i-hasta') as HTMLInputElement).value, accion: ($('i-accion') as HTMLSelectElement).value });
+  function guardarIntervalo() { try { localStorage.setItem(CLAVE_INTERVALO, JSON.stringify(intervalo())); } catch { /* sin almacenamiento: se olvida al recargar */ } }
+  function cargarIntervalo() {
+    try {
+      const v = JSON.parse(localStorage.getItem(CLAVE_INTERVALO) || 'null');
+      if (v) { ($('i-desde') as HTMLInputElement).value = v.desde || ''; ($('i-hasta') as HTMLInputElement).value = v.hasta || ''; ($('i-accion') as HTMLSelectElement).value = v.accion === 'cambiar' ? 'cambiar' : 'no'; }
+    } catch { /* nada guardado */ }
+  }
+  function aplicarIntervalo(d: Datos): { d: Datos; error?: string } {
+    const { desde, hasta, accion } = intervalo();
+    if (!d.fecha || (!desde && !hasta)) return { d };
+    const fecha = d.fecha.slice(0, 10);
+    if (hasta && fecha > hasta) return { d, error: `La fecha de la factura (${fechaEs(fecha)}) es posterior al ${fechaEs(hasta)}: no se contabiliza ahora, irá en el periodo siguiente.` };
+    if (desde && fecha < desde) {
+      if (accion !== 'cambiar') return { d, error: `La fecha de la factura (${fechaEs(fecha)}) es anterior al ${fechaEs(desde)}: no se contabiliza. Si tiene que entrar, elegid arriba «Contabilizarla con la fecha de inicio».` };
+      const mes = new Date(fecha + 'T12:00:00').toLocaleDateString('es-ES', fecha.slice(0, 4) === desde.slice(0, 4) ? { month: 'long' } : { month: 'long', year: 'numeric' });
+      return { d: { ...d, fecha_contable: desde, nota_fecha: '(' + mes + ')' } };
+    }
+    const cont = (d.fecha_contable || fecha).slice(0, 10);
+    if ((desde && cont < desde) || (hasta && cont > hasta)) { const r = { ...d, fecha_contable: fecha }; delete r.nota_fecha; return { d: r }; }
+    return { d };
+  }
+
+  // Duplicadas (Edurne, 2026-11-27): mismo número de factura e importe, sin mirar la fecha. Mismo NIF = segura;
+  // otro NIF, o mismo NIF con otro importe, = dudosa. Aquí se mira lo contabilizado o en cola de esta pantalla del mismo
+  // cliente; "Contabilizar en Cegid" lo vuelve a mirar contra todo lo que hay en Cegid (este año y el anterior),
+  // con la misma normalización del número: mayúsculas, por bloques de letras y de cifras, sin signos y sin ceros a la
+  // izquierda en cada bloque (F-0012 = F12 = f 12; 2026/0012 = 2026-12).
+  const normNum = (s?: string | null) => (String(s || '').toUpperCase().match(/[A-Z]+|\d+/g) || []).map((t) => t.replace(/^0+(?=\d)/, '')).join('·');
+  const normNif = (s?: string | null) => String(s || '').toUpperCase().replace(/[\s-]/g, '');
+  function duplicadas(f: Fila, d: Datos): { segura: boolean; texto: string }[] {
+    const n = normNum(d.numero);
+    if (!n) return [];
+    const tipo = d.tipo === 'emitida' ? 'emitida' : 'recibida';
+    const nif = normNif(tercero(d).nif);
+    const out: { segura: boolean; texto: string }[] = [];
+    for (const o of filas) {
+      if (o.factura_id === f.factura_id || o.facturas_subidas?.cliente_id !== f.facturas_subidas?.cliente_id) continue;
+      if (!o.contabilizado_at && o.decision !== 'contabilizar') continue;
+      const od = datosDe(o);
+      if ((od.tipo === 'emitida' ? 'emitida' : 'recibida') !== tipo || normNum(od.numero) !== n) continue;
+      const mismoNif = !!nif && normNif(tercero(od).nif) === nif;
+      const mismoImporte = typeof od.total === 'number' && typeof d.total === 'number' && Math.abs(Math.abs(od.total) - Math.abs(d.total)) <= 0.01;
+      if (!mismoNif && !mismoImporte) continue;
+      out.push({ segura: mismoNif && mismoImporte, texto: `${o.facturas_subidas?.referencia || ''} (${tercero(od).nombre || tercero(od).nif || 'sin nombre'}, ${fechaEs(od.fecha)}, ${eur(od.total)}${mismoNif ? '' : ', otro NIF'}${mismoImporte ? '' : ', otro importe'}, ${o.contabilizado_at ? 'contabilizada' : 'en cola para Cegid'})` });
+    }
+    return out;
+  }
+
+  // Todo lo que se mira antes de mandar una factura a Cegid. Devuelve los datos que se guardan (con la fecha del
+  // intervalo ya aplicada) o el motivo por el que no se manda.
+  function paraContabilizar(f: Fila, d0: Datos, grupo: string | null): { d: Datos; error?: string } {
+    const t = tercero(d0);
+    const faltan = [!grupo && (esSociedad(f) ? 'la cuenta' : 'el grupo'), !t.nif && 'el NIF', !d0.numero && 'el número', !d0.fecha && 'la fecha', !d0.lineas?.length && 'la base', (d0.total === null || d0.total === undefined) && 'el total'].filter(Boolean);
+    if (faltan.length) return { d: d0, error: 'Para contabilizar falta: ' + faltan.join(', ') + '.' };
+    const bloqueos = revisarIva(d0, { tipoPersona: f.facturas_subidas?.clientes?.tipo_persona, grupo: grupo || '' }).bloqueos;
+    if (bloqueos.length) return { d: d0, error: 'No se puede contabilizar así: ' + bloqueos.join(' ') + ' Corrígela o márcala como «No contabilizar».' };
+    const r = aplicarIntervalo(d0);
+    if (r.error) return r;
+    const dups = duplicadas(f, r.d);
+    if (dups.length && !r.d.duplicada_ok) return { d: r.d, error: `${dups.some((x) => x.segura) ? 'Duplicada' : 'Posible duplicada'}: ${dups.map((x) => x.texto).join('; ')}. Si es la misma, márcala como «No contabilizar» (duplicada); si no, marca «No es duplicada» y vuelve a pulsar.` };
+    return r;
+  }
+
+  function mensajeLote(html: string, ok: boolean) { const p = $('rev-lote-msg'); p.hidden = false; p.innerHTML = html; p.className = 'rev-msg ' + (ok ? 'ok' : 'mal'); }
+
+  // Manda a Cegid de una vez las verdes pendientes que se ven en la lista, con las mismas comprobaciones que una a una.
+  // Solo las que ya tienen grupo o cuenta (guardado, o el último usado con ese NIF); en emitidas, el de siempre.
+  async function contabilizarLote() {
+    const verdes = filasVisibles().filter((f) => situacion(f).clave === 'pendientes' && f.estado === 'verde');
+    if (!verdes.length) return mensajeLote('No hay facturas verdes pendientes de decidir en la lista.', false);
+    const { desde, hasta } = intervalo();
+    if (!confirm(`Se van a mandar a Cegid ${verdes.length} facturas verdes ${desde || hasta ? `con fechas del ${fechaEs(desde)} al ${fechaEs(hasta)}` : 'sin comprobar fechas (no hay intervalo)'}. Las que no pasen las comprobaciones se quedan pendientes. ¿Seguimos?`)) return;
+    let ok = 0;
+    const fallos: string[] = [];
+    for (const f of verdes) {
+      const d = datosDe(f);
+      const t = tercero(d);
+      const grupo = f.grupo || (t.nif ? grupoPorNif.get(claveNif(f, String(t.nif))) : '') || (d.tipo === 'emitida' ? (esSociedad(f) ? '705' : '01') : '') || null;
+      const r = paraContabilizar(f, d, grupo);
+      if (r.error) { fallos.push(`${f.facturas_subidas?.referencia}: ${r.error}`); continue; }
+      const cambios = { datos_revisados: r.d, grupo, revisado_at: new Date().toISOString(), revisado_por: emailAdmin, decision: 'contabilizar', motivo_no: null, motivo_detalle: null, error_cegid: null };
+      const { error } = await supabase!.from('facturas_lectura').update(cambios).eq('factura_id', f.factura_id);
+      if (error) { fallos.push(`${f.facturas_subidas?.referencia}: no se ha podido guardar (${error.message})`); continue; }
+      Object.assign(f, cambios);
+      ok++;
+    }
+    mensajeLote(`${ok} mandadas a Cegid; entrarán en unos minutos.${fallos.length ? ` ${fallos.length} se quedan pendientes:<ul>${fallos.map((x) => `<li>${esc(x)}</li>`).join('')}</ul>` : ''}`, !fallos.length);
+    pintarLista();
+    if (actual) void abrir(actual);
+  }
+
   async function guardar(decision: 'contabilizar' | 'no_contabilizar' | null) {
     if (!actual) return;
-    const d = leerFormulario();
+    let d = leerFormulario();
     const grupo = ($('f-grupo') as HTMLSelectElement).value || null;
     const cambios: Record<string, unknown> = { datos_revisados: d, grupo, revisado_at: new Date().toISOString(), revisado_por: emailAdmin };
     if (decision === 'contabilizar') {
-      const t = tercero(d);
-      const faltan = [!grupo && (esSociedad(actual) ? 'la cuenta' : 'el grupo'), !t.nif && 'el NIF', !d.numero && 'el número', !d.fecha && 'la fecha', !d.lineas?.length && 'la base', (d.total === null || d.total === undefined) && 'el total'].filter(Boolean);
-      if (faltan.length) return mensaje('Para contabilizar falta: ' + faltan.join(', ') + '.', false);
-      const bloqueos = fiscal(d).bloqueos;
-      if (bloqueos.length) return mensaje('No se puede contabilizar así: ' + bloqueos.join(' ') + ' Corrígela o márcala como «No contabilizar».', false);
-      Object.assign(cambios, { decision, motivo_no: null, motivo_detalle: null, error_cegid: null });
+      const r = paraContabilizar(actual, d, grupo);
+      if (r.error) return mensaje(r.error, false);
+      d = r.d;
+      Object.assign(cambios, { datos_revisados: d, decision, motivo_no: null, motivo_detalle: null, error_cegid: null });
     } else if (decision === 'no_contabilizar') {
       const motivo = ($('f-motivo') as HTMLSelectElement).value;
       if (!motivo) return mensaje('Elige el motivo para no contabilizarla.', false);
@@ -473,6 +603,9 @@ export const prerender = true;
     $('rev-contabilizar').addEventListener('click', () => void guardar('contabilizar'));
     $('rev-no-contabilizar').addEventListener('click', () => void guardar('no_contabilizar'));
     $('rev-guardar').addEventListener('click', () => void guardar(null));
+    cargarIntervalo();
+    for (const id of ['i-desde', 'i-hasta', 'i-accion']) $(id).addEventListener('change', guardarIntervalo);
+    $('rev-lote').addEventListener('click', () => void contabilizarLote());
     await cargar();
   }
   void iniciar();
