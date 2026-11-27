@@ -1698,3 +1698,28 @@ create table if not exists obligaciones_censales (
 );
 alter table obligaciones_censales enable row level security;
 grant all on obligaciones_censales to service_role;
+
+-- 2026-11-27 (ya ejecutado por n8n). Envíos de borradores al cliente (2026-11-27, Edurne). Una fila por envío: la crea n8n "Enviar borradores" (botón de la
+-- Revisión de impuestos) con los modelos del trimestre leídos de los PDF de borrador, y manda al cliente un correo con un
+-- enlace a /borradores?t=<token>. El cliente responde allí (api/borrador): por modelo, domiciliar, aplazar (meses), de
+-- acuerdo o «veo algo mal», con un comentario. n8n "Respuestas de borradores" pasa la respuesta a la hoja de la campaña
+-- y avisa a contacto@ (procesado_at). Solo vale el envío más reciente de cada cliente y trimestre.
+-- modelos: [{ modelo, importe, resultado: ingresar|devolver|compensar|cero, aplazable, archivo }]
+-- respuesta: { modelos: [{ modelo, opcion: domiciliar|aplazar|conforme|mal, meses, comentario }], comentario }
+create table if not exists borradores_envios (
+  id uuid primary key default gen_random_uuid(),
+  token text not null unique,
+  cliente_id text not null references clientes(id) on delete cascade,
+  anio int not null,
+  trimestre int not null,
+  idioma text not null default 'es',
+  modelos jsonb not null default '[]',
+  enviado_at timestamptz not null default now(),
+  enviado_por text,
+  respuesta jsonb,
+  respondido_at timestamptz,
+  procesado_at timestamptz
+);
+create index if not exists borradores_envios_cliente on borradores_envios (cliente_id, anio, trimestre, enviado_at desc);
+alter table borradores_envios enable row level security;
+grant all on borradores_envios to service_role;

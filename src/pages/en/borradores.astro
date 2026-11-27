@@ -1,0 +1,12 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Borradores from '../../components/pages/Borradores.astro';
+import { BORRADORES } from '../../i18n/borradores';
+
+export const prerender = true;
+const t = BORRADORES.en;
+---
+
+<Layout lang="en" path="/en/borradores" active="none" title={t.metaTitle} description={t.metaDesc} noindex showCtaFinal={false} minimalHeader localesAvailable={['es', 'ca', 'en']}>
+  <Borradores lang="en" />
+</Layout>

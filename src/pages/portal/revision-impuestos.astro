@@ -46,6 +46,14 @@ export const prerender = true;
         </div>
         <div id="ri-chips" class="ri-chips"></div>
         <div id="ri-secciones"></div>
+        <div id="ri-envio" class="ri-envio" hidden>
+          <div>
+            <h3>Enviar los borradores al cliente</h3>
+            <p class="ri-sub" id="ri-envio-texto"></p>
+          </div>
+          <button type="button" id="ri-enviar" class="ri-btn">Enviar borradores al cliente</button>
+          <p id="ri-envio-msg" class="ri-msg" hidden></p>
+        </div>
       </section>
     </div>
   </div>
@@ -94,6 +102,11 @@ export const prerender = true;
   .ri-filas { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.4rem; }
   .ri-filas li { display: flex; gap: 0.6rem; align-items: baseline; font-size: 0.9rem; line-height: 1.45; }
   .ri-filas .ri-chip { font-size: 0.72rem; padding: 0.12rem 0.5rem; flex: 0 0 auto; }
+  .ri-envio { display: flex; flex-wrap: wrap; gap: 0.8rem 1.2rem; align-items: center; justify-content: space-between; margin-top: 1.4rem; padding: 1rem 1.1rem; border: 1px solid var(--accent); border-radius: 10px; }
+  .ri-envio[hidden] { display: none; }
+  .ri-envio h3 { margin: 0; }
+  .ri-envio .ri-msg { flex-basis: 100%; margin: 0; }
+  .ri-msg.ok { color: #1f6b4a; }
   @media (max-width: 640px) { .ri-sec > summary { flex-wrap: wrap; } .ri-sec-res { margin-left: 0; text-align: left; width: 100%; } }
 </style>
 
@@ -138,6 +151,36 @@ export const prerender = true;
           ${s.filas.length ? `<ul class="ri-filas">${s.filas.map((f) => `<li>${chip(f.estado)}<span>${esc(f.texto)}</span></li>`).join('')}</ul>` : ''}
         </div>
       </details>`).join('') : '<p class="ri-sub">Todo está bien. Marca «Ver también lo que está bien» para ver el detalle.</p>';
+    // Envío de los borradores al cliente: solo si hay borradores de este trimestre en su carpeta.
+    const b = r.secciones.find((s) => s.id === 'borradores');
+    const hay = !!b && !/^No hay borradores/.test(b.resumen);
+    $('ri-envio').hidden = !hay;
+    $('ri-envio-msg').hidden = true;
+    if (hay) $('ri-envio-texto').textContent = `Le llega un correo en su idioma con los PDF adjuntos y un enlace para decirnos cómo paga cada modelo. La hoja de la campaña queda en «Borrador enviado».${b!.estado === 'revisar' ? ' Ojo: los borradores no cuadran con la contabilidad.' : ''}`;
+  }
+
+  const URL_ENVIAR = 'https://n8n.asesoriamadal.es/webhook/enviar-borradores';
+  async function enviarBorradores() {
+    const r = ultimo; if (!r) return;
+    const b = r.secciones.find((s) => s.id === 'borradores');
+    const msg = $('ri-envio-msg');
+    const pregunta = `Se va a enviar a ${r.cliente.nombre} el correo con los borradores del ${r.resumen.trimestre}T de ${r.resumen.anio}.` +
+      (b && b.estado === 'revisar' ? '\n\nATENCIÓN: la revisión dice que los borradores no cuadran con la contabilidad.' : '') + '\n\n¿Lo enviamos?';
+    if (!confirm(pregunta)) return;
+    const boton = $('ri-enviar') as HTMLButtonElement;
+    boton.disabled = true;
+    msg.hidden = false; msg.className = 'ri-msg info'; msg.textContent = 'Enviando…';
+    try {
+      const { data: { session } } = await supabase!.auth.getSession();
+      const resp = await fetch(`${URL_ENVIAR}?cliente=${encodeURIComponent(r.cliente.id)}&anio=${r.resumen.anio}&trimestre=${r.resumen.trimestre}`, { headers: { Authorization: `Bearer ${session?.access_token}` } });
+      const x = await resp.json().catch(() => ({ ok: false, error: 'Respuesta no válida de n8n.' })) as { ok: boolean; error?: string; email?: string; modelos?: { modelo: string; importe: number; resultado: string }[]; avisos?: string[] };
+      if (!resp.ok || !x.ok) { msg.className = 'ri-msg mal'; msg.textContent = x.error || 'No se ha podido enviar.'; return; }
+      const RES: Record<string, string> = { ingresar: 'a pagar', devolver: 'a devolver', compensar: 'a compensar', cero: 'a cero' };
+      msg.className = 'ri-msg ok';
+      msg.textContent = `Enviado a ${x.email}: ${(x.modelos || []).map((m) => `${m.modelo} ${RES[m.resultado] || m.resultado}${m.resultado === 'cero' ? '' : ' ' + eur(m.importe)}`).join(', ')}.` + ((x.avisos || []).length ? ' Avisos: ' + x.avisos!.join(' ') : '');
+    } catch {
+      msg.className = 'ri-msg mal'; msg.textContent = 'No se ha podido conectar con n8n. Vuelve a probar.';
+    } finally { boton.disabled = false; }
   }
 
   // Excel: CSV con punto y coma y BOM, que Excel abre directamente con acentos y euros.
@@ -207,6 +250,7 @@ export const prerender = true;
     $('ri-form').addEventListener('submit', (e) => void revisar(e));
     $('ri-ver-ok').addEventListener('change', pintar);
     $('ri-excel').addEventListener('click', descargarExcel);
+    $('ri-enviar').addEventListener('click', () => void enviarBorradores());
   }
   void iniciar();
 </script>
