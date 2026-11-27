@@ -24,6 +24,9 @@ const nav = [
   { key: 'herramientas', href: localizedPath('/herramientas', lang), label: HERRAMIENTAS[lang].nav },
 ];
 const equipoHref = localizedPath('/equipo', lang);
+// El portal no arranca si se llega con la navegación sin recarga de ClientRouter (se queda en «Cargando…»):
+// los enlaces que llevan a él fuerzan la carga completa (2026-11-27).
+const recargar = /^\/portal(\/|$)/.test(path) ? true : undefined;
 const serviciosHref = localizedPath('/servicios', lang);
 
 // Menú desplegable de "Nuestros servicios" (se abre al pasar por encima,
@@ -85,7 +88,7 @@ const localeCode: Record<Locale, string> = { es: 'ES', ca: 'CA', en: 'EN' };
         <summary aria-label={`${localeCode[lang]} · ${localeNames[lang]}`}><span class="flag-badge" aria-hidden="true">{localeCode[lang]}</span></summary>
         <div class="lang-menu">
           {locales.map((l) => (
-            <a href={localizedPath(path, l)} class={l === lang ? 'active' : ''}>
+            <a href={localizedPath(path, l)} data-astro-reload={recargar} class={l === lang ? 'active' : ''}>
               <span class="flag-badge" aria-hidden="true">{localeCode[l]}</span>
               {localeNames[l]}
             </a>
@@ -94,7 +97,7 @@ const localeCode: Record<Locale, string> = { es: 'ES', ca: 'CA', en: 'EN' };
       </details>
       {!minimal && (
         <>
-          <a href={localizedPath('/portal', lang)} class="portal-link" aria-label={t.header.portal}>
+          <a href={localizedPath('/portal', lang)} data-astro-reload class="portal-link" aria-label={t.header.portal}>
             <svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="10" cy="6.5" r="3.3"/><path d="M3.8 17c1-3.6 4-5.6 6.2-5.6s5.2 2 6.2 5.6"/></svg>
             <span class="portal-link-label">{t.header.portal}</span>
           </a>
@@ -139,7 +142,7 @@ const localeCode: Record<Locale, string> = { es: 'ES', ca: 'CA', en: 'EN' };
       <div class="mobile-menu-foot">
         <div class="mobile-lang-links">
           {locales.map((l) => (
-            <a href={localizedPath(path, l)} class={`mobile-lang-link${l === lang ? ' active' : ''}`} aria-label={`${localeCode[l]} · ${localeNames[l]}`}>
+            <a href={localizedPath(path, l)} data-astro-reload={recargar} class={`mobile-lang-link${l === lang ? ' active' : ''}`} aria-label={`${localeCode[l]} · ${localeNames[l]}`}>
               <span class="flag-badge" aria-hidden="true">{localeCode[l]}</span>
             </a>
           ))}

@@ -22,7 +22,7 @@
       ]
     },
     {
-      "source": "/((?!portal$)(?!portal/revision$).*)",
+      "source": "/((?!(?:ca/|en/)?portal$)(?!portal/revision$)(?!portal/revision-impuestos$).*)",
       "headers": [
         {
           "key": "Content-Security-Policy",
@@ -31,7 +31,7 @@
       ]
     },
     {
-      "source": "/portal(/revision)?",
+      "source": "/((?:ca/|en/)?portal|portal/revision|portal/revision-impuestos)",
       "headers": [
         {
           "key": "Content-Security-Policy-Report-Only",

@@ -124,9 +124,9 @@ const textosCarpeta = { subir: t.doc.subir, foto: t.facturas.cameraSubmit, ver: 
             </div>
             <span class="app-saludo">{t.greeting} <span id="portal-nombre"></span></span>
             <div class="app-lang" aria-label={t.langLabel}>
-              <a href="/portal" class={lang === 'es' ? 'active' : ''} hreflang="es">ES</a>
-              <a href="/ca/portal" class={lang === 'ca' ? 'active' : ''} hreflang="ca">CA</a>
-              <a href="/en/portal" class={lang === 'en' ? 'active' : ''} hreflang="en">EN</a>
+              <a href="/portal" data-astro-reload class={lang === 'es' ? 'active' : ''} hreflang="es">ES</a>
+              <a href="/ca/portal" data-astro-reload class={lang === 'ca' ? 'active' : ''} hreflang="ca">CA</a>
+              <a href="/en/portal" data-astro-reload class={lang === 'en' ? 'active' : ''} hreflang="en">EN</a>
             </div>
             <button type="button" id="portal-logout-2" class="portal-logout">{t.logout}</button>
           </div>
