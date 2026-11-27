@@ -1523,6 +1523,12 @@ body.portal-app .portal-box { margin-top: 0; }
 }
 .app-nav-link:hover { background: var(--paper-strong); color: var(--ink); }
 .app-nav-link.active { background: var(--accent-tint); color: var(--accent); }
+/* Accesos del equipo en el panel lateral (solo administradores, 2026-11-27). */
+.app-nav-equipo { border-top: 1px solid var(--line); padding-top: 0.9rem; gap: 0.2rem; }
+.app-nav-equipo[hidden] { display: none; }
+.app-nav-equipo-titulo { margin: 0 0 0.2rem; padding: 0 0.8rem; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-soft); }
+.app-nav-equipo-link { display: flex; align-items: center; font-size: 0.92rem; font-weight: 600; color: var(--accent); text-decoration: none; border-radius: 8px; padding: 0.6rem 0.8rem; }
+.app-nav-equipo-link:hover { background: var(--accent-tint); }
 .app-sidebar-foot { margin-top: auto; display: flex; flex-direction: column; gap: 0.6rem; font-size: 0.88rem; color: var(--ink-soft); }
 
 .duda-rapida { border-top: 1px solid var(--line); padding-top: 0.8rem; display: flex; flex-direction: column; gap: 0.4rem; }
@@ -1553,6 +1559,9 @@ body.portal-app .portal-box { margin-top: 0; }
   .app-nav { grid-column: 1 / -1; grid-row: 3; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 0.4rem; }
   .app-nav-link { justify-content: center; text-align: center; padding: 0.6rem 0.5rem; font-size: 0.85rem; line-height: 1.25; overflow-wrap: anywhere; border: 1px solid var(--line); background: var(--paper); }
   .app-nav-link.active { border-color: var(--accent); }
+  .app-nav-equipo { grid-column: 1 / -1; grid-row: 5; padding-top: 0.6rem; }
+  .app-nav-equipo-titulo { grid-column: 1 / -1; padding: 0; }
+  .app-nav-equipo-link { justify-content: center; text-align: center; padding: 0.55rem 0.5rem; font-size: 0.85rem; border: 1px solid var(--line); background: var(--paper); }
   .duda-rapida { grid-column: 1 / -1; grid-row: 4; flex-direction: row; flex-wrap: wrap; align-items: center; gap: 0.3rem 0.9rem; padding-top: 0.7rem; font-size: 0.85rem; }
 }
 

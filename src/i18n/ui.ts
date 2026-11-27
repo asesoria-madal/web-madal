@@ -557,6 +557,8 @@ export const ui = {
         selectLabel: 'Cliente:',
         noClientes: 'No hay clientes dados de alta todavía.',
         readonlyNote: 'Solo lectura: no puedes subir facturas ni editar datos desde aquí.',
+        // Accesos del panel lateral a las pantallas del equipo (solo en español, 2026-11-27).
+        equipo: { titulo: 'Equipo', contabilizar: 'Contabilizar facturas', impuestos: 'Revisión de impuestos' },
         // Panel solo para el equipo: queda en español en los tres idiomas.
         alta: {
           open: '+ Alta de cliente',
@@ -1278,6 +1280,8 @@ export const ui = {
         selectLabel: 'Cliente:',
         noClientes: 'No hay clientes dados de alta todavía.',
         readonlyNote: 'Solo lectura: no puedes subir facturas ni editar datos desde aquí.',
+        // Accesos del panel lateral a las pantallas del equipo (solo en español, 2026-11-27).
+        equipo: { titulo: 'Equipo', contabilizar: 'Contabilizar facturas', impuestos: 'Revisión de impuestos' },
         // Panel solo para el equipo: queda en español en los tres idiomas.
         alta: {
           open: '+ Alta de cliente',
@@ -2001,6 +2005,8 @@ export const ui = {
         selectLabel: 'Cliente:',
         noClientes: 'No hay clientes dados de alta todavía.',
         readonlyNote: 'Solo lectura: no puedes subir facturas ni editar datos desde aquí.',
+        // Accesos del panel lateral a las pantallas del equipo (solo en español, 2026-11-27).
+        equipo: { titulo: 'Equipo', contabilizar: 'Contabilizar facturas', impuestos: 'Revisión de impuestos' },
         // Panel solo para el equipo: queda en español en los tres idiomas.
         alta: {
           open: '+ Alta de cliente',

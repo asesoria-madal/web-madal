@@ -107,6 +107,13 @@ const textosCarpeta = { subir: t.doc.subir, foto: t.facturas.cameraSubmit, ver: 
             <button type="button" class="app-nav-link" data-panel="documentacion">{t.nav.documentacion}</button>
             <button type="button" class="app-nav-link" data-panel="inicio" hidden>{t.nav.inicio}</button>
           </nav>
+          <!-- Solo administradores (Edurne, 2026-11-27): accesos a las pantallas del equipo. Con carga completa, porque
+               esas páginas no arrancan con la navegación sin recarga de ClientRouter. -->
+          <nav id="app-nav-equipo" class="app-nav app-nav-equipo" aria-label={t.admin.equipo.titulo} hidden>
+            <p class="app-nav-equipo-titulo">{t.admin.equipo.titulo}</p>
+            <a class="app-nav-equipo-link" href="/portal/revision" data-astro-reload>{t.admin.equipo.contabilizar}</a>
+            <a class="app-nav-equipo-link" href="/portal/revision-impuestos" data-astro-reload>{t.admin.equipo.impuestos}</a>
+          </nav>
           <div class="app-sidebar-foot">
             <div id="duda-rapida" class="duda-rapida">
               <p class="duda-rapida-label">{t.dudaRapida.label}</p>
@@ -586,6 +593,7 @@ const textosCarpeta = { subir: t.doc.subir, foto: t.facturas.cameraSubmit, ver: 
   const logoutBtn2 = document.getElementById('portal-logout-2') as HTMLButtonElement;
 
   const adminBar = document.getElementById('portal-admin-bar') as HTMLElement;
+  const navEquipo = document.getElementById('app-nav-equipo') as HTMLElement;
   const adminClienteSelect = document.getElementById('portal-admin-cliente-select') as HTMLSelectElement;
   const adminClienteNombre = document.getElementById('portal-admin-cliente-nombre') as HTMLElement;
 
@@ -1218,6 +1226,7 @@ const textosCarpeta = { subir: t.doc.subir, foto: t.facturas.cameraSubmit, ver: 
       };
 
       adminBar.hidden = false;
+      navEquipo.hidden = false;
       // El admin puede subir documentos en nombre del cliente seleccionado (2026-11-12): se
       // guardan en su cuenta. Necesita las políticas "admin …" de schema.sql.
       docAdminNota.hidden = false;
@@ -1283,6 +1292,7 @@ const textosCarpeta = { subir: t.doc.subir, foto: t.facturas.cameraSubmit, ver: 
       }
 
       adminBar.hidden = true;
+      navEquipo.hidden = true;
       docAdminNota.hidden = true;
       aplicarCliente(cliente as ClienteRow);
       showOnly(dashEl);
