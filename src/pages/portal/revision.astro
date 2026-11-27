@@ -11,7 +11,7 @@ export const prerender = true;
 <Layout noindex lang="es" path="/portal/revision" active="none" title="Revisión de facturas · Asesoría Madal" description="Revisión interna de facturas." showCtaFinal={false} hideWhatsapp>
   <div class="rev">
     <div id="rev-cargando"><p>Cargando…</p></div>
-    <div id="rev-sin-sesion" hidden><p>Entra primero en el <a href="/portal">área de clientes</a> con tu cuenta de administrador y vuelve aquí.</p></div>
+    <div id="rev-sin-sesion" hidden><p>Entra primero en el <a href="/portal" data-astro-reload>área de clientes</a> con tu cuenta de administrador y vuelve aquí.</p></div>
     <div id="rev-no-admin" hidden><p>Esta pantalla es solo para el equipo de Asesoría Madal.</p></div>
 
     <div id="rev-app" hidden>
@@ -20,7 +20,7 @@ export const prerender = true;
           <h1>Revisión de facturas</h1>
           <p id="rev-resumen" class="rev-sub"></p>
         </div>
-        <a href="/portal" class="rev-link">Volver al área de clientes</a>
+        <span class="rev-link"><a href="/portal/revision-impuestos" data-astro-reload>Revisión de impuestos</a> · <a href="/portal" data-astro-reload>Volver al área de clientes</a></span>
       </div>
 
       <div class="rev-filtros">

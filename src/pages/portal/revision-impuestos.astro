@@ -1,0 +1,212 @@
+---
+// Revisión de impuestos (2026-11-27, Edurne). Solo para administradores del portal (portal_admins).
+// El equipo elige cliente, año y trimestre y pulsa "Revisar": n8n "Revisión de impuestos" (webhook revision-impuestos)
+// lee la contabilidad de Cegid y devuelve las comprobaciones (duplicadas, IVA contra 472/477, saldo del trimestre
+// anterior, operaciones sin IVA, retenciones, alquileres, numeración, fechas). Solo lee: no cambia nada en Cegid.
+// El cálculo está en n8n-workflows/workflows/revision-impuestos-calculo.js. Solo en castellano: es una pantalla interna.
+import Layout from '../../layouts/Layout.astro';
+export const prerender = true;
+---
+
+<Layout noindex lang="es" path="/portal/revision-impuestos" active="none" title="Revisión de impuestos · Asesoría Madal" description="Revisión interna de impuestos." showCtaFinal={false} hideWhatsapp>
+  <div class="ri">
+    <div id="ri-cargando"><p>Cargando…</p></div>
+    <div id="ri-sin-sesion" hidden><p>Entra primero en el <a href="/portal" data-astro-reload>área de clientes</a> con tu cuenta de administrador y vuelve aquí.</p></div>
+    <div id="ri-no-admin" hidden><p>Esta pantalla es solo para el equipo de Asesoría Madal.</p></div>
+
+    <div id="ri-app" hidden>
+      <div class="ri-cabecera">
+        <div>
+          <h1>Revisión de impuestos</h1>
+          <p class="ri-sub">Comprueba la contabilidad de Cegid de un cliente antes de sacar los borradores. Solo lee: no cambia nada.</p>
+        </div>
+        <div class="ri-links"><a href="/portal/revision" data-astro-reload>Revisión de facturas</a> · <a href="/portal" data-astro-reload>Área de clientes</a></div>
+      </div>
+
+      <form id="ri-form" class="ri-form" novalidate>
+        <label class="ancho">Cliente<select id="ri-cliente" required></select></label>
+        <label>Año<input id="ri-anio" type="number" min="2020" max="2100" required></label>
+        <label>Trimestre
+          <select id="ri-trimestre"><option value="1">1T</option><option value="2">2T</option><option value="3">3T</option><option value="4">4T</option></select>
+        </label>
+        <button type="submit" id="ri-revisar" class="ri-btn">Revisar</button>
+      </form>
+      <p id="ri-msg" class="ri-msg" hidden></p>
+
+      <section id="ri-resultado" hidden>
+        <div class="ri-resumen">
+          <div>
+            <h2 id="ri-titulo"></h2>
+            <p id="ri-datos" class="ri-sub"></p>
+          </div>
+          <div class="ri-acciones">
+            <label class="ri-check"><input type="checkbox" id="ri-ver-ok"> Ver también lo que está bien</label>
+            <button type="button" id="ri-excel" class="ri-btn-sec">Descargar Excel</button>
+          </div>
+        </div>
+        <div id="ri-chips" class="ri-chips"></div>
+        <div id="ri-secciones"></div>
+      </section>
+    </div>
+  </div>
+</Layout>
+
+<style>
+  .ri { max-width: 1200px; margin: 0 auto; padding: 1.5rem 1rem 4rem; }
+  .ri h1 { font-family: var(--font-display); font-size: 1.9rem; margin: 0; color: var(--ink); }
+  .ri h2 { font-family: var(--font-display); font-size: 1.35rem; margin: 0; color: var(--ink); }
+  .ri h3 { font-size: 1.02rem; margin: 0; color: var(--ink); }
+  .ri-sub { color: var(--ink-soft); font-size: 0.92rem; margin: 0.3rem 0 0; }
+  .ri-cabecera { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 1rem; }
+  .ri-links { font-size: 0.92rem; color: var(--ink-soft); }
+  .ri-links a { color: var(--accent); }
+  .ri label { display: flex; flex-direction: column; gap: 0.25rem; font-size: 0.8rem; font-weight: 600; color: var(--ink-soft); }
+  .ri input, .ri select { font: inherit; font-size: 0.95rem; font-weight: 400; padding: 0.5rem 0.6rem; border: 1px solid var(--line); border-radius: 8px; background: var(--paper); color: var(--ink); min-height: 40px; }
+  .ri-form { display: flex; flex-wrap: wrap; gap: 0.8rem; align-items: flex-end; margin: 1.2rem 0 0.6rem; padding: 0.9rem 1rem; border: 1px solid var(--line); border-radius: 10px; }
+  .ri-form .ancho { flex: 1 1 280px; min-width: 0; }
+  .ri-form input[type='number'] { width: 7rem; }
+  .ri-btn, .ri-btn-sec { font: inherit; font-weight: 600; font-size: 0.95rem; padding: 0.6rem 1.1rem; border-radius: 10px; min-height: 42px; cursor: pointer; }
+  .ri-btn { background: var(--accent); color: #fff; border: 0; }
+  .ri-btn-sec { background: transparent; color: var(--accent); border: 1px solid var(--accent); }
+  .ri-btn:disabled { opacity: 0.5; cursor: default; }
+  .ri-msg { font-size: 0.92rem; margin: 0.4rem 0; }
+  .ri-msg.mal { color: #9a3412; } .ri-msg.info { color: var(--ink-soft); }
+  .ri-resumen { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 1rem; margin-top: 1.4rem; }
+  .ri-acciones { display: flex; flex-wrap: wrap; gap: 0.8rem; align-items: center; }
+  .ri .ri-check { flex-direction: row; align-items: center; gap: 0.45rem; font-size: 0.9rem; font-weight: 500; color: var(--ink); }
+  .ri .ri-check input { min-height: 0; width: 18px; height: 18px; }
+  .ri-chips { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0.9rem 0 0.4rem; }
+  .ri-chip { font-size: 0.85rem; font-weight: 600; padding: 0.3rem 0.75rem; border-radius: 999px; }
+  .e-revisar { background: #fdecea; color: #7f1d1d; } .e-aviso { background: #fff4e0; color: #6b3a00; } .e-ok { background: #e3efed; color: #174744; } .e-info { background: #eef0f2; color: #2b3036; }
+  .ri-sec { border: 1px solid var(--line); border-radius: 10px; margin-top: 0.8rem; background: var(--paper); }
+  .ri-sec > summary { list-style: none; cursor: pointer; display: flex; gap: 0.8rem; align-items: center; padding: 0.8rem 1rem; }
+  .ri-sec > summary::-webkit-details-marker { display: none; }
+  .ri-sec > summary .ri-chip { flex: 0 0 auto; min-width: 5.5rem; text-align: center; }
+  .ri-sec-res { margin-left: auto; color: var(--ink-soft); font-size: 0.88rem; text-align: right; }
+  .ri-sec-cuerpo { padding: 0 1rem 1rem; }
+  .ri-explica { color: var(--ink-soft); font-size: 0.88rem; margin: 0 0 0.6rem; }
+  .ri-tabla-caja { overflow-x: auto; }
+  .ri-tabla { border-collapse: collapse; font-size: 0.88rem; margin: 0.2rem 0 0.8rem; min-width: 480px; }
+  .ri-tabla th, .ri-tabla td { padding: 0.35rem 0.7rem; border-bottom: 1px solid var(--line); text-align: left; }
+  .ri-tabla th { font-size: 0.75rem; color: var(--ink-soft); }
+  .ri-tabla .num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .ri-tabla .mal { color: #9a3412; font-weight: 600; }
+  .ri-filas { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.4rem; }
+  .ri-filas li { display: flex; gap: 0.6rem; align-items: baseline; font-size: 0.9rem; line-height: 1.45; }
+  .ri-filas .ri-chip { font-size: 0.72rem; padding: 0.12rem 0.5rem; flex: 0 0 auto; }
+  @media (max-width: 640px) { .ri-sec > summary { flex-wrap: wrap; } .ri-sec-res { margin-left: 0; text-align: left; width: 100%; } }
+</style>
+
+<script>
+  import { getSupabaseBrowser } from '../../lib/supabaseClient';
+
+  type Fila = { estado: string; texto: string; factura?: { libro: string; registro: string; numero: string; fecha: string; tercero: string; nif: string; total: number } };
+  type Tabla = { concepto: string; libro: number | null; cuenta: number; diferencia: number; ok: boolean };
+  type Seccion = { id: string; titulo: string; explicacion: string; estado: string; resumen: string; filas: Fila[]; tabla?: Tabla[] };
+  type Resultado = { error?: string; cliente: { id: string; nombre: string; tipo: string; empresa: number }; secciones: Seccion[];
+    resumen: { anio: number; trimestre: number; facturas: number; emitidas: number; recibidas: number; revisar: number; avisos: number; ok: number }; incompleto?: boolean; generado: string };
+
+  const URL_REVISION = 'https://n8n.asesoriamadal.es/webhook/revision-impuestos';
+  const ETIQUETA: Record<string, string> = { revisar: 'Revisar', aviso: 'Aviso', ok: 'Bien', info: 'Info' };
+  const $ = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;
+  const supabase = getSupabaseBrowser();
+  let ultimo: Resultado | null = null;
+
+  const esc = (s: unknown) => String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  const eur = (n: number | null | undefined) => (n === null || n === undefined) ? '' : n.toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' €';
+  const chip = (e: string) => `<span class="ri-chip e-${esc(e)}">${esc(ETIQUETA[e] || e)}</span>`;
+  function mensaje(t: string, clase: 'mal' | 'info') { const p = $('ri-msg'); p.hidden = !t; p.textContent = t; p.className = 'ri-msg ' + clase; }
+
+  function pintar() {
+    const r = ultimo; if (!r) return;
+    const verOk = ($('ri-ver-ok') as HTMLInputElement).checked;
+    $('ri-resultado').hidden = false;
+    $('ri-titulo').textContent = `${r.cliente.nombre} · ${r.resumen.trimestre}T ${r.resumen.anio}`;
+    $('ri-datos').textContent = `${r.cliente.tipo === 'sl' ? 'Sociedad' : 'Autónomo'} · empresa ${r.cliente.empresa} de Cegid · ${r.resumen.emitidas} emitidas y ${r.resumen.recibidas} recibidas en el trimestre · leído el ${new Date(r.generado).toLocaleString('es-ES')}`;
+    $('ri-chips').innerHTML = [r.resumen.revisar && `<span class="ri-chip e-revisar">${r.resumen.revisar} para revisar</span>`, r.resumen.avisos && `<span class="ri-chip e-aviso">${r.resumen.avisos} con avisos</span>`, `<span class="ri-chip e-ok">${r.resumen.ok} bien</span>`,
+      r.incompleto && `<span class="ri-chip e-aviso">Cegid no ha devuelto todas las facturas: puede faltar algo</span>`].filter(Boolean).join('');
+    const orden = ['revisar', 'aviso', 'info', 'ok'];
+    const secs = [...r.secciones].sort((a, b) => orden.indexOf(a.estado) - orden.indexOf(b.estado)).filter((s) => verOk || s.estado !== 'ok');
+    $('ri-secciones').innerHTML = secs.length ? secs.map((s) => `
+      <details class="ri-sec" ${s.estado === 'revisar' || s.estado === 'aviso' ? 'open' : ''}>
+        <summary>${chip(s.estado)}<h3>${esc(s.titulo)}</h3><span class="ri-sec-res">${esc(s.resumen)}</span></summary>
+        <div class="ri-sec-cuerpo">
+          <p class="ri-explica">${esc(s.explicacion)}</p>
+          ${s.tabla && s.tabla.length ? `<div class="ri-tabla-caja"><table class="ri-tabla"><thead><tr><th>Concepto</th><th class="num">Libro</th><th class="num">Contabilidad</th><th class="num">Diferencia</th></tr></thead><tbody>
+            ${s.tabla.map((t) => `<tr><td>${esc(t.concepto)}</td><td class="num">${eur(t.libro)}</td><td class="num">${eur(t.cuenta)}</td><td class="num ${t.ok ? '' : 'mal'}">${t.ok ? 'Cuadra' : eur(t.diferencia)}</td></tr>`).join('')}
+          </tbody></table></div>` : ''}
+          ${s.filas.length ? `<ul class="ri-filas">${s.filas.map((f) => `<li>${chip(f.estado)}<span>${esc(f.texto)}</span></li>`).join('')}</ul>` : ''}
+        </div>
+      </details>`).join('') : '<p class="ri-sub">Todo está bien. Marca «Ver también lo que está bien» para ver el detalle.</p>';
+  }
+
+  // Excel: CSV con punto y coma y BOM, que Excel abre directamente con acentos y euros.
+  function descargarExcel() {
+    const r = ultimo; if (!r) return;
+    const c = (v: unknown) => { const s = String(v ?? ''); return /[;"\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s; };
+    const num = (n: number | null | undefined) => (n === null || n === undefined) ? '' : String(n).replace('.', ',');
+    const lineas = [['Sección', 'Estado', 'Detalle', 'Libro', 'Registro', 'Nº factura', 'Fecha', 'Proveedor / cliente', 'NIF', 'Total'].join(';')];
+    for (const s of r.secciones) {
+      if (!s.filas.length && !s.tabla?.length) lineas.push([s.titulo, ETIQUETA[s.estado], s.resumen].map(c).join(';'));
+      for (const t of s.tabla || []) lineas.push([s.titulo, t.ok ? 'Bien' : 'Revisar', `${t.concepto}: libro ${eur(t.libro)}, contabilidad ${eur(t.cuenta)}`].map(c).join(';'));
+      for (const f of s.filas) { const x = f.factura; lineas.push([s.titulo, ETIQUETA[f.estado], f.texto, x?.libro, x?.registro, x?.numero, x?.fecha, x?.tercero, x?.nif].map(c).concat(x ? num(x.total) : '').join(';')); }
+    }
+    const blob = new Blob(['﻿' + lineas.join('\r\n')], { type: 'text/csv;charset=utf-8' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = `revision-impuestos-${r.cliente.id}-${r.resumen.anio}-${r.resumen.trimestre}T.csv`;
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+  }
+
+  async function revisar(e: Event) {
+    e.preventDefault();
+    const cliente = ($('ri-cliente') as HTMLSelectElement).value, anio = ($('ri-anio') as HTMLInputElement).value, trimestre = ($('ri-trimestre') as HTMLSelectElement).value;
+    if (!cliente) return mensaje('Elige el cliente.', 'mal');
+    const boton = $('ri-revisar') as HTMLButtonElement;
+    boton.disabled = true;
+    mensaje('Leyendo la contabilidad de Cegid… puede tardar hasta un minuto.', 'info');
+    try {
+      const { data: { session } } = await supabase!.auth.getSession();
+      const resp = await fetch(`${URL_REVISION}?cliente=${encodeURIComponent(cliente)}&anio=${encodeURIComponent(anio)}&trimestre=${encodeURIComponent(trimestre)}`, { headers: { Authorization: `Bearer ${session?.access_token}` } });
+      const r = (await resp.json().catch(() => ({ error: 'Respuesta no válida de n8n.' }))) as Resultado;
+      if (!resp.ok || r.error) { mensaje(r.error || 'No se ha podido revisar.', 'mal'); return; }
+      ultimo = r;
+      mensaje('', 'info');
+      pintar();
+      try { localStorage.setItem('ri-ultimo', JSON.stringify({ cliente, anio, trimestre })); } catch { /* sin almacenamiento */ }
+    } catch {
+      mensaje('No se ha podido conectar con n8n. Vuelve a probar.', 'mal');
+    } finally { boton.disabled = false; }
+  }
+
+  async function iniciar() {
+    if (!supabase) { $('ri-cargando').hidden = true; $('ri-sin-sesion').hidden = false; return; }
+    const { data: { session } } = await supabase.auth.getSession();
+    $('ri-cargando').hidden = true;
+    if (!session) { $('ri-sin-sesion').hidden = false; return; }
+    const { data: admin } = await supabase.from('portal_admins').select('auth_user_id').maybeSingle();
+    if (!admin) { $('ri-no-admin').hidden = false; return; }
+    $('ri-app').hidden = false;
+    const { data: clientes, error } = await supabase.from('clientes').select('id, nombre, tipo_persona, cegid_empresa_codigo').not('cegid_empresa_codigo', 'is', null).order('nombre');
+    const sel = $('ri-cliente') as HTMLSelectElement;
+    const conCegid = (clientes || []).filter((c) => /^\d+$/.test(String(c.cegid_empresa_codigo || '')));
+    sel.innerHTML = '<option value="">Elige el cliente</option>' + conCegid.map((c) => `<option value="${esc(c.id)}">${esc(c.nombre)} (${c.tipo_persona === 'sl' ? 'SL' : 'autónomo'}, empresa ${esc(c.cegid_empresa_codigo)})</option>`).join('');
+    if (error) mensaje('No se han podido cargar los clientes: ' + error.message, 'mal');
+    else if (!conCegid.length) mensaje('Ningún cliente tiene todavía empresa de Cegid.', 'info');
+    // Por defecto, el último trimestre terminado; o lo último que se revisó en este navegador.
+    const hoy = new Date();
+    let q = Math.floor(hoy.getMonth() / 3), y = hoy.getFullYear();
+    if (q === 0) { q = 4; y--; }
+    ($('ri-anio') as HTMLInputElement).value = String(y);
+    ($('ri-trimestre') as HTMLSelectElement).value = String(q);
+    try {
+      const u = JSON.parse(localStorage.getItem('ri-ultimo') || 'null');
+      if (u) { if (conCegid.some((c) => c.id === u.cliente)) sel.value = u.cliente; ($('ri-anio') as HTMLInputElement).value = u.anio; ($('ri-trimestre') as HTMLSelectElement).value = u.trimestre; }
+    } catch { /* nada guardado */ }
+    $('ri-form').addEventListener('submit', (e) => void revisar(e));
+    $('ri-ver-ok').addEventListener('change', pintar);
+    $('ri-excel').addEventListener('click', descargarExcel);
+  }
+  void iniciar();
+</script>
