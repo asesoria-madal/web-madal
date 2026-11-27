@@ -1679,3 +1679,22 @@ alter table bajas_trabajadores
 -- Ya no se pide la baja con un insert directo desde el navegador: todo pasa por el endpoint.
 drop policy if exists "cliente pide sus bajas" on bajas_trabajadores;
 revoke insert on bajas_trabajadores from authenticated;
+
+-- 2026-11-27 (ya ejecutado por n8n). Obligaciones del certificado de situación censal de cada cliente (2026-11-27, Edurne). Lo escribe n8n
+-- "Certificados censales" al leer el PDF que el equipo guarda en 3-impuestos de su carpeta. Una fila por cliente:
+-- la del último certificado. modelos = modelos que salen de sus obligaciones periódicas (303, 390, 111, 190...);
+-- datos = todo lo leído (obligaciones con su texto, regímenes de IVA, ROI, método de IRPF, actividades, no reconocidas);
+-- avisos = cosas que mirar. Solo la usa n8n (service role); sin políticas para el navegador.
+create table if not exists obligaciones_censales (
+  cliente_id text primary key references clientes(id) on delete cascade,
+  drive_file_id text not null,
+  nombre_archivo text,
+  modificado_drive timestamptz,
+  fecha_certificado date,
+  modelos text[] not null default '{}',
+  datos jsonb not null default '{}',
+  avisos jsonb not null default '[]',
+  leido_at timestamptz not null default now()
+);
+alter table obligaciones_censales enable row level security;
+grant all on obligaciones_censales to service_role;

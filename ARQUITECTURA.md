@@ -120,6 +120,11 @@ No es una ficha de cliente: es solo el registro de qué avisos ya se mandaron pa
 
 - El apartado "Informes" del portal pide a n8n (`Informes del portal`, `GET /webhook/informes-portal?informe=&desde=&hasta=&cuenta=&cliente=` con la sesión de Supabase) un informe calculado en el momento con los datos de Cegid: sociedades, pérdidas y ganancias, balance, sumas y saldos, mayor y diario; autónomos, resumen y libro de ingresos y gastos. No se guarda nada en Supabase ni en las ejecuciones de n8n. `cliente` solo vale para administradores.
 
+### `obligaciones_censales` (2026-11-27)
+
+- Una fila por cliente (`cliente_id` → `clientes.id`): lo leído de su último certificado de situación censal. `modelos` (text[]): los modelos que salen de sus obligaciones periódicas (303 y 390, 111 y 190, 115 y 180, 123, 130 o 131, 202, 200, 349, 347); `datos` (jsonb): obligaciones con su texto y periodicidad, no reconocidas, regímenes de IVA, ROI, método de IRPF, actividades, NIF del certificado, propuestas de quitar y modelos añadidos; `avisos` (jsonb); `fecha_certificado`, `drive_file_id`, `modificado_drive`, `leido_at`.
+- La escribe n8n (`Certificados censales`, cada hora de 7:40 a 21:40) al encontrar un PDF con «censal» en el nombre en la carpeta del cliente. Si el certificado es de ese NIF y se ha entendido entero, añade a `clientes.modelos` los que faltaban (nunca quita). La lee `Revisión de impuestos`. Solo service role (RLS sin políticas).
+
 ### `modelos_fiscales` (2026-11-20)
 
 - Una fila por cliente, modelo y periodo (`periodo` como en la hoja: `1T 2026`, `Anual 2025`…), con `estado`, `resultado`, `forma_pago`, `importe` (y `importe_texto`), `presentado_el`, `justificante_drive_id` y la `hoja` de origen.
