@@ -11,7 +11,7 @@ export const prerender = true;
 <Layout noindex lang="es" path="/portal/revision-impuestos" active="none" title="Revisión de impuestos · Asesoría Madal" description="Revisión interna de impuestos." showCtaFinal={false} hideWhatsapp>
   <div class="ri">
     <div id="ri-cargando"><p>Cargando…</p></div>
-    <div id="ri-sin-sesion" hidden><p>Entra primero en el <a href="/portal">área de clientes</a> con tu cuenta de administrador y vuelve aquí.</p></div>
+    <div id="ri-sin-sesion" hidden><p>Entra primero en el <a href="/portal" data-astro-reload>área de clientes</a> con tu cuenta de administrador y vuelve aquí.</p></div>
     <div id="ri-no-admin" hidden><p>Esta pantalla es solo para el equipo de Asesoría Madal.</p></div>
 
     <div id="ri-app" hidden>
@@ -20,7 +20,7 @@ export const prerender = true;
           <h1>Revisión de impuestos</h1>
           <p class="ri-sub">Comprueba la contabilidad de Cegid de un cliente antes de sacar los borradores. Solo lee: no cambia nada.</p>
         </div>
-        <div class="ri-links"><a href="/portal/revision">Revisión de facturas</a> · <a href="/portal">Área de clientes</a></div>
+        <div class="ri-links"><a href="/portal/revision" data-astro-reload>Revisión de facturas</a> · <a href="/portal" data-astro-reload>Área de clientes</a></div>
       </div>
 
       <form id="ri-form" class="ri-form" novalidate>
