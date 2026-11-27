@@ -120,6 +120,11 @@ No es una ficha de cliente: es solo el registro de qué avisos ya se mandaron pa
 
 - El apartado "Informes" del portal pide a n8n (`Informes del portal`, `GET /webhook/informes-portal?informe=&desde=&hasta=&cuenta=&cliente=` con la sesión de Supabase) un informe calculado en el momento con los datos de Cegid: sociedades, pérdidas y ganancias, balance, sumas y saldos, mayor y diario; autónomos, resumen y libro de ingresos y gastos. No se guarda nada en Supabase ni en las ejecuciones de n8n. `cliente` solo vale para administradores.
 
+### `borradores_envios` (2026-11-27)
+
+- Una fila por envío de borradores a un cliente: `token` (64 hex, único), `cliente_id`, `anio`, `trimestre`, `idioma`, `modelos` (jsonb: `[{ modelo, importe, resultado: ingresar|devolver|compensar|cero, aplazable, archivo }]`), `enviado_at`, `enviado_por`, `respuesta` (jsonb: `{ modelos: [{ modelo, opcion: domiciliar|aplazar|conforme|mal, meses, comentario }], comentario }`), `respondido_at`, `procesado_at`.
+- La crea n8n `Enviar borradores` (botón de `/portal/revision-impuestos`). El cliente responde en `/borradores?t=…` (es/ca/en) por el endpoint `api/borrador` (GET y POST con la service role; solo vale el envío más reciente de ese cliente y trimestre). n8n `Respuestas de borradores` lo pasa a la hoja de la campaña y marca `procesado_at`. Solo service role (RLS sin políticas).
+
 ### `obligaciones_censales` (2026-11-27)
 
 - Una fila por cliente (`cliente_id` → `clientes.id`): lo leído de su último certificado de situación censal. `modelos` (text[]): los modelos que salen de sus obligaciones periódicas (303 y 390, 111 y 190, 115 y 180, 123, 130 o 131, 202, 200, 349, 347); `datos` (jsonb): obligaciones con su texto y periodicidad, no reconocidas, regímenes de IVA, ROI, método de IRPF, actividades, NIF del certificado, propuestas de quitar y modelos añadidos; `avisos` (jsonb); `fecha_certificado`, `drive_file_id`, `modificado_drive`, `leido_at`.

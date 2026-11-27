@@ -1,0 +1,173 @@
+---
+// Respuesta del cliente a los borradores de impuestos del trimestre (2026-11-27, Edurne). Se abre desde el correo que
+// manda n8n («Enviar borradores», botón de la Revisión de impuestos) con /borradores?t=<token> (es/ca/en). Sin menú
+// (noindex). Los modelos y sus importes salen de api/borrador (tabla borradores_envios): solo los de ese cliente y
+// trimestre. Por modelo: a pagar → domiciliar, aplazar (meses; no en 111/115/123/202) o «veo algo mal»; a devolver,
+// a compensar o a cero → «de acuerdo» o «veo algo mal». Lo que se envía es igual en los tres idiomas. Después,
+// n8n «Respuestas de borradores» lo pasa a la hoja de la campaña y avisa a contacto@. Textos en i18n/borradores.ts.
+import { BORRADORES, type BorradoresLang } from '../../i18n/borradores';
+
+interface Props { lang?: BorradoresLang; }
+const { lang = 'es' } = Astro.props;
+const t = BORRADORES[lang];
+---
+
+<div id="view-borradores" data-lang={lang}>
+  <div class="page view-intro">
+    <p class="eyebrow">{t.eyebrow}</p>
+    <h1 class="section-title" id="bTitulo">{t.cargando}</h1>
+    <p class="section-sub" id="bIntro" hidden>{t.intro}</p>
+    <p class="field-hint" id="bLimite" hidden></p>
+    <p class="field-hint" id="bYa" hidden></p>
+    <p class="form-error" id="bAviso" hidden></p>
+  </div>
+
+  <form id="bForm" class="alta-form page view-block" novalidate hidden>
+    <div id="bModelos"></div>
+
+    <fieldset class="alta-section b-consejos" id="bConsejos" hidden>
+      <legend>{t.consejosTitulo}</legend>
+      <ul>{t.consejos.map((c) => <li>{c}</li>)}</ul>
+    </fieldset>
+
+    <label class="field">{t.comentarioGeneral} <span class="field-optional">{t.opcional}</span>
+      <textarea id="bComentario" rows="3" maxlength="1000"></textarea>
+    </label>
+
+    <p class="form-error" id="bError" hidden></p>
+    <button type="submit" class="btn btn-primary form-submit" id="bEnviar">{t.enviar}</button>
+  </form>
+
+  <div class="page view-block form-success" id="bGracias" hidden>
+    <h2 class="section-title">{t.graciasTitulo}</h2>
+    <p class="section-sub">{t.graciasSub}</p>
+  </div>
+</div>
+
+<style is:global>
+  .b-modelo { border: 1px solid var(--line); border-radius: 12px; padding: 1rem 1.1rem; margin: 0 0 1rem; background: var(--paper); }
+  .b-modelo h2 { font-family: var(--font-display); font-size: 1.15rem; margin: 0; color: var(--ink); }
+  .b-importe { font-size: 1.05rem; font-weight: 600; margin: 0.35rem 0 0.7rem; color: var(--ink); }
+  .b-importe.pagar { color: var(--accent); }
+  .b-nota { font-size: 0.88rem; color: var(--ink-soft); margin: 0.3rem 0 0.5rem; }
+  .b-modelo .radio-group { display: flex; flex-direction: column; gap: 0.45rem; }
+  .b-meses, .b-comentario { margin: 0.5rem 0 0 1.8rem; }
+  .b-meses[hidden], .b-comentario[hidden] { display: none; }
+  .b-meses select { max-width: 12rem; }
+  .b-consejos ul { margin: 0.3rem 0 0; padding-left: 1.1rem; font-size: 0.92rem; color: var(--ink-soft); display: flex; flex-direction: column; gap: 0.45rem; }
+</style>
+
+<script>
+  import { BORRADORES, NO_APLAZABLES, type BorradoresLang } from '../../i18n/borradores';
+
+  type Modelo = { modelo: string; importe: number; resultado: 'ingresar' | 'devolver' | 'compensar' | 'cero'; aplazable?: boolean };
+  type Envio = { anio: number; trimestre: number; tipo: string; idioma: string; enviado_at: string; modelos: Modelo[]; vigente: boolean;
+    respondido_at: string | null; respuesta: { modelos: { modelo: string; opcion: string; meses?: number; comentario?: string }[]; comentario?: string } | null };
+
+  const raiz = document.getElementById('view-borradores')!;
+  const lang = (raiz.dataset.lang || 'es') as BorradoresLang;
+  const t = BORRADORES[lang];
+  const $ = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;
+  const token = new URLSearchParams(location.search).get('t') || '';
+  const locale = lang === 'en' ? 'en-GB' : lang === 'ca' ? 'ca-ES' : 'es-ES';
+  const eur = (n: number) => Math.abs(n).toLocaleString(locale, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' €';
+  const fecha = (d: Date) => d.toLocaleDateString(locale, { day: 'numeric', month: 'long' });
+  const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  const aviso = (txt: string) => { const p = $('bAviso'); p.textContent = txt; p.hidden = false; $('bTitulo').textContent = t.eyebrow; };
+  let envio: Envio | null = null;
+
+  // Plazo de respuesta (Edurne, 2026-11-07): el día 15 del mes en que vencen; si el borrador se envió el 14 o más
+  // tarde, 2 días desde el envío.
+  function limite(e: Envio) {
+    const mes = e.trimestre === 4 ? 0 : e.trimestre * 3;
+    const anio = e.trimestre === 4 ? e.anio + 1 : e.anio;
+    const quince = new Date(anio, mes, 15);
+    const enviado = new Date(e.enviado_at);
+    const dosDias = new Date(enviado.getTime() + 2 * 86400000);
+    return enviado.getDate() >= 14 && enviado.getMonth() === mes ? dosDias : quince;
+  }
+
+  function pintar(e: Envio) {
+    $('bTitulo').textContent = t.titulo(e.trimestre, e.anio);
+    $('bIntro').hidden = false;
+    const l = $('bLimite'); l.textContent = t.limite(fecha(limite(e))); l.hidden = false;
+    const maxMeses = e.tipo === 'sl' ? 12 : 24;
+    const previa = new Map((e.respuesta?.modelos || []).map((m) => [m.modelo, m]));
+    $('bModelos').innerHTML = e.modelos.map((m) => {
+      const nombre = t.nombres[m.modelo] || 'Modelo ' + m.modelo;
+      const res = m.resultado === 'ingresar' ? t.resultado.ingresar(eur(m.importe)) : m.resultado === 'devolver' ? t.resultado.devolver(eur(m.importe))
+        : m.resultado === 'compensar' ? t.resultado.compensar(eur(m.importe)) : t.resultado.cero();
+      const aplazable = m.aplazable !== false && !NO_APLAZABLES.includes(m.modelo);
+      const ops = m.resultado === 'ingresar' ? ['domiciliar', ...(aplazable ? ['aplazar'] : []), 'mal'] : ['conforme', 'mal'];
+      const p = previa.get(m.modelo);
+      const radio = (op: string) => `<label class="radio-option"><input type="radio" name="op-${m.modelo}" value="${op}" ${p?.opcion === op ? 'checked' : ''}> ${esc(t.opciones[op as keyof typeof t.opciones])}</label>`;
+      const meses = Array.from({ length: maxMeses }, (_, i) => i + 1).map((n) => `<option value="${n}" ${p?.meses === n ? 'selected' : ''}>${n === 1 ? t.mesesUno : t.mesesVarios(n)}</option>`).join('');
+      return `<section class="b-modelo" data-modelo="${esc(m.modelo)}" data-nombre="${esc(nombre)}">
+        <h2>${esc(nombre)}</h2>
+        <p class="b-importe ${m.resultado === 'ingresar' ? 'pagar' : ''}">${esc(res)}</p>
+        ${m.resultado === 'devolver' ? `<p class="b-nota">${esc(t.devolverNota)}</p>` : ''}
+        ${m.resultado === 'ingresar' && !aplazable ? `<p class="b-nota">${esc(t.noAplazable)}</p>` : ''}
+        <div class="radio-group">
+          ${ops.map((op) => radio(op) + (op === 'aplazar' ? `<label class="field b-meses" hidden>${esc(t.meses)} <select name="meses-${m.modelo}"><option value=""></option>${meses}</select></label>` : '')).join('')}
+        </div>
+        <label class="field b-comentario" hidden>${esc(t.comentarioModelo)} <textarea name="com-${m.modelo}" rows="2" maxlength="1000">${esc(p?.comentario || '')}</textarea></label>
+      </section>`;
+    }).join('');
+    $('bConsejos').hidden = !e.modelos.some((m) => m.resultado === 'ingresar');
+    ($('bComentario') as HTMLTextAreaElement).value = e.respuesta?.comentario || '';
+    if (e.respondido_at) { const y = $('bYa'); y.textContent = t.yaRespondido(fecha(new Date(e.respondido_at))); y.hidden = false; }
+    for (const s of document.querySelectorAll<HTMLElement>('.b-modelo')) {
+      const sync = () => {
+        const op = s.querySelector<HTMLInputElement>('input[type=radio]:checked')?.value;
+        const mesesEl = s.querySelector<HTMLElement>('.b-meses'); if (mesesEl) mesesEl.hidden = op !== 'aplazar';
+        s.querySelector<HTMLElement>('.b-comentario')!.hidden = op !== 'mal';
+      };
+      s.addEventListener('change', sync);
+      sync();
+    }
+    $('bForm').hidden = false;
+  }
+
+  async function cargar() {
+    if (!token) return aviso(t.noValido);
+    const r = await fetch('/api/borrador?t=' + encodeURIComponent(token)).catch(() => null);
+    if (!r || !r.ok) return aviso(t.noValido);
+    envio = await r.json() as Envio;
+    if (!envio.vigente) return aviso(t.caducado);
+    pintar(envio);
+  }
+
+  $('bForm').addEventListener('submit', async (ev) => {
+    ev.preventDefault();
+    const err = $('bError'); err.hidden = true;
+    const modelos = [];
+    for (const s of document.querySelectorAll<HTMLElement>('.b-modelo')) {
+      const modelo = s.dataset.modelo!, nombre = s.dataset.nombre!;
+      const opcion = s.querySelector<HTMLInputElement>('input[type=radio]:checked')?.value;
+      if (!opcion) { err.textContent = t.faltaOpcion(nombre); err.hidden = false; s.scrollIntoView({ behavior: 'smooth' }); return; }
+      const item: { modelo: string; opcion: string; meses?: number; comentario?: string } = { modelo, opcion };
+      if (opcion === 'aplazar') {
+        const meses = Number(s.querySelector<HTMLSelectElement>('select')?.value);
+        if (!meses) { err.textContent = t.faltaMeses(nombre); err.hidden = false; return; }
+        item.meses = meses;
+      }
+      if (opcion === 'mal') {
+        const c = s.querySelector<HTMLTextAreaElement>('textarea')!.value.trim();
+        if (!c) { err.textContent = t.faltaComentario(nombre); err.hidden = false; return; }
+        item.comentario = c;
+      }
+      modelos.push(item);
+    }
+    const boton = $('bEnviar') as HTMLButtonElement;
+    boton.disabled = true; boton.textContent = t.enviando;
+    const r = await fetch('/api/borrador', { method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ t: token, modelos, comentario: ($('bComentario') as HTMLTextAreaElement).value.trim() || undefined }) }).catch(() => null);
+    boton.disabled = false; boton.textContent = t.enviar;
+    if (!r || !r.ok) { err.textContent = t.error; err.hidden = false; return; }
+    $('bForm').hidden = true; $('bLimite').hidden = true; $('bYa').hidden = true; $('bIntro').hidden = true;
+    $('bGracias').hidden = false;
+    $('bGracias').scrollIntoView({ behavior: 'smooth' });
+  });
+
+  void cargar();
+</script>
