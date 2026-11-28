@@ -114,8 +114,8 @@ export const prerender = true;
   import { getSupabaseBrowser } from '../../lib/supabaseClient';
 
   type Fila = { estado: string; texto: string; factura?: { libro: string; registro: string; numero: string; fecha: string; tercero: string; nif: string; total: number } };
-  type Tabla = { concepto: string; libro: number | null; cuenta: number; diferencia: number; ok: boolean };
-  type Seccion = { id: string; titulo: string; explicacion: string; estado: string; resumen: string; filas: Fila[]; tabla?: Tabla[] };
+  type Tabla = { concepto: string; libro: number | null; cuenta: number | null; diferencia: number; ok: boolean };
+  type Seccion = { id: string; titulo: string; explicacion: string; estado: string; resumen: string; filas: Fila[]; tabla?: Tabla[]; columnas?: { libro?: string | null; cuenta?: string | null; diferencia?: string | null } };
   type Resultado = { error?: string; cliente: { id: string; nombre: string; tipo: string; empresa: number }; secciones: Seccion[];
     resumen: { anio: number; trimestre: number; facturas: number; emitidas: number; recibidas: number; revisar: number; avisos: number; ok: number }; incompleto?: boolean; generado: string };
 
@@ -145,9 +145,12 @@ export const prerender = true;
         <summary>${chip(s.estado)}<h3>${esc(s.titulo)}</h3><span class="ri-sec-res">${esc(s.resumen)}</span></summary>
         <div class="ri-sec-cuerpo">
           <p class="ri-explica">${esc(s.explicacion)}</p>
-          ${s.tabla && s.tabla.length ? `<div class="ri-tabla-caja"><table class="ri-tabla"><thead><tr><th>Concepto</th><th class="num">Libro</th><th class="num">Contabilidad</th><th class="num">Diferencia</th></tr></thead><tbody>
-            ${s.tabla.map((t) => `<tr><td>${esc(t.concepto)}</td><td class="num">${eur(t.libro)}</td><td class="num">${eur(t.cuenta)}</td><td class="num ${t.ok ? '' : 'mal'}">${t.ok ? 'Cuadra' : eur(t.diferencia)}</td></tr>`).join('')}
-          </tbody></table></div>` : ''}
+          ${s.tabla && s.tabla.length ? (() => {
+            // Títulos de columna propios de la sección (null = columna oculta); si no, los de los cuadres.
+            const col = { libro: 'Libro', cuenta: 'Contabilidad', diferencia: 'Diferencia', ...(s.columnas || {}) };
+            return `<div class="ri-tabla-caja"><table class="ri-tabla"><thead><tr><th>Concepto</th>${col.libro !== null ? `<th class="num">${esc(col.libro)}</th>` : ''}${col.cuenta !== null ? `<th class="num">${esc(col.cuenta)}</th>` : ''}${col.diferencia !== null ? `<th class="num">${esc(col.diferencia)}</th>` : ''}</tr></thead><tbody>
+            ${s.tabla.map((t) => `<tr><td>${esc(t.concepto)}</td>${col.libro !== null ? `<td class="num">${eur(t.libro)}</td>` : ''}${col.cuenta !== null ? `<td class="num">${eur(t.cuenta)}</td>` : ''}${col.diferencia !== null ? `<td class="num ${t.ok ? '' : 'mal'}">${t.ok ? 'Cuadra' : eur(t.diferencia)}</td>` : ''}</tr>`).join('')}
+          </tbody></table></div>`; })() : ''}
           ${s.filas.length ? `<ul class="ri-filas">${s.filas.map((f) => `<li>${chip(f.estado)}<span>${esc(f.texto)}</span></li>`).join('')}</ul>` : ''}
         </div>
       </details>`).join('') : '<p class="ri-sub">Todo está bien. Marca «Ver también lo que está bien» para ver el detalle.</p>';
